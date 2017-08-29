@@ -5,9 +5,9 @@ angular.module('owsWalletApp.directives')
       return {
         require: 'ngModel',
         link: function(scope, elem, attrs, ctrl) {
-          var bitcore = networkService.bwcFor('livenet/btc').getBitcore(); // TODO: Support more than /btc
-          var URI = bitcore.URI;
-          var Address = bitcore.Address;
+          var coreLib = networkService.walletClientFor('livenet/btc').getCoreLib(); // TODO: Support more than /btc
+          var URI = coreLib.URI;
+          var Address = coreLib.Address;
           var validator = function(value) {
 
             // Regular url
@@ -93,7 +93,7 @@ angular.module('owsWalletApp.directives')
       };
     }
   ])
-  .directive('walletSecret', function(bitcore) {
+  .directive('walletSecret', function(coreLib) {
     return {
       require: 'ngModel',
       link: function(scope, elem, attrs, ctrl) {

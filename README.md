@@ -230,8 +230,6 @@ Depending on the key `derivationStrategy`, addresses are derived using
 |  All  | Multisig  |  BIP44 |  P2SH   |
 |  All  | Multisig Hardware wallets  |  BIP44 (root m/48') |  P2SH   |
 
-Using a tool like [Bitcore PlayGround](http://bitcore.io/playground) all wallet addresses can be generated. (TIP: Use the `Address` section for P2PKH address type wallets and `Multisig Address` for P2SH address type wallets). For multisig addresses, the required number of signatures (key `m` on the export) is also needed to recreate the addresses.
-
 The wallet uses the root `m/48'` for hardware multisignature wallets. This was coordinated with Ledger and Trezor teams. While the derivation path format is still similar to BIP44, the root was in order to indicate that these wallets are not discoverable by scanning addresses for funds. Address generation for multisignature wallets requires the other copayers extended public keys.
 
 

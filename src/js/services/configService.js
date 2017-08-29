@@ -31,7 +31,8 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       totalCopayers: 3,
       spendUnconfirmed: false,
       reconnectDelay: 5000,
-      idleDurationMin: 4
+      idleDurationMin: 4,
+      settings: {}
     },
 
     currencyNetworks: networkService.defaultConfig(),
@@ -119,7 +120,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         configCache = lodash.clone(defaultConfig);
       };
 
-      configCache.bwsFor = configCache.bwsFor || {};
+      configCache.walletServiceFor = configCache.walletServiceFor || {};
       configCache.colorFor = configCache.colorFor || {};
       configCache.aliasFor = configCache.aliasFor || {};
       configCache.emailFor = configCache.emailFor || {};

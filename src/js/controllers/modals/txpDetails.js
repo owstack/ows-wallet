@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcess, platformInfo, $ionicScrollDelegate, txFormatService, bwcError, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService) {
+angular.module('owsWalletApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcess, platformInfo, $ionicScrollDelegate, txFormatService, walletClientError, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService) {
   var isGlidera = $scope.isGlidera;
   var GLIDERA_LOCK_TIME = 6 * 60 * 60;
   var now = Math.floor(Date.now() / 1000);
@@ -131,7 +131,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   var setError = function(err, prefix) {
     $scope.sendStatus = '';
     $scope.loading = false;
-    popupService.showAlert(gettextCatalog.getString('Error'), bwcError.msg(err, prefix));
+    popupService.showAlert(gettextCatalog.getString('Error'), walletClientError.msg(err, prefix));
   };
 
   $scope.sign = function(onSendStatusChange) {
@@ -226,7 +226,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
     });
   };
 
-  var bwsEvent = $rootScope.$on('bwsEvent', function(e, walletId, type, n) {
+  var walletServiceEvent = $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
     lodash.each([
         'TxProposalRejectedBy',
         'TxProposalAcceptedBy',
@@ -277,7 +277,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   };
 
   $scope.close = function() {
-    bwsEvent();
+    walletServiceEvent();
     $scope.loading = null;
     $scope.txpDetailsModal.hide();
   };

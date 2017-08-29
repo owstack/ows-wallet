@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('amazonCardDetailsController', function($scope, $log, $timeout, $ionicScrollDelegate, bwcError, amazonService, lodash, ongoingProcess, popupService, externalLinkService) {
+angular.module('owsWalletApp.controllers').controller('amazonCardDetailsController', function($scope, $log, $timeout, $ionicScrollDelegate, walletClientError, amazonService, lodash, ongoingProcess, popupService, externalLinkService) {
 
   $scope.cancelGiftCard = function() {
     ongoingProcess.set('cancelingGiftCard', true);
     amazonService.cancelGiftCard($scope.card, function(err, data) {
       ongoingProcess.set('cancelingGiftCard', false);
       if (err) {
-        popupService.showAlert('Error canceling gift card', bwcError.msg(err));
+        popupService.showAlert('Error canceling gift card', walletClientError.msg(err));
         return;
       }
       $scope.card.cardStatus = data.cardStatus;
@@ -52,7 +52,7 @@ angular.module('owsWalletApp.controllers').controller('amazonCardDetailsControll
           $log.debug("creating gift card");
           amazonService.createGiftCard(dataFromStorage, function(err, giftCard) {
             if (err) {
-              popupService.showAlert('Error', bwcError.msg(err));
+              popupService.showAlert('Error', walletClientError.msg(err));
               return;
             }
             if (!lodash.isEmpty(giftCard)) {

@@ -1,16 +1,16 @@
-var btcWalletClientModule = angular.module('btcWalletClientModule', []);
-var Client = require('../node_modules/btccore-wallet-client');
+var bccWalletClientModule = angular.module('bccWalletClientModule', []);
+var Client = require('../node_modules/bcccore-wallet-client');
 
-btcWalletClientModule.constant('MODULE_VERSION', '1.0.0');
+bccWalletClientModule.constant('MODULE_VERSION', '1.0.0');
 
-btcWalletClientModule.provider("btcWalletClient", function() {
+bccWalletClientModule.provider("bccWalletClient", function() {
   var provider = {};
 
   provider.$get = function() {
     var service = {};
 
     service.getCoreLib = function() {
-      return Client.Btccore;
+      return Client.Bcccore;
     };
 
     service.getErrors = function() {
@@ -33,7 +33,7 @@ btcWalletClientModule.provider("btcWalletClient", function() {
       opts = opts || {};
 
       var walletClient = new Client({
-        baseUrl: opts.walletServiceUrl || 'https://btcws.openwalletstack.com/btcws/api',
+        baseUrl: opts.walletServiceUrl || 'https://bccws.openwalletstack.com/bccws/api',
         verbose: opts.verbose,
         timeout: 100000,
         transports: ['polling'],

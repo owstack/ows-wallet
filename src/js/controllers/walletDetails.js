@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('walletDetailsController', function($scope, $rootScope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, configService, platformInfo, walletService, txpModalService, externalLinkService, popupService, addressbookService, storageService, $ionicScrollDelegate, $window, bwcError, gettextCatalog, timeService, feeService, appConfigService, networkService) {
+angular.module('owsWalletApp.controllers').controller('walletDetailsController', function($scope, $rootScope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, configService, platformInfo, walletService, txpModalService, externalLinkService, popupService, addressbookService, storageService, $ionicScrollDelegate, $window, walletClientError, gettextCatalog, timeService, feeService, appConfigService, networkService) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;
@@ -79,7 +79,7 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
         if (err === 'WALLET_NOT_REGISTERED') {
           $scope.walletNotRegistered = true;
         } else {
-          $scope.updateStatusError = bwcError.msg(err, gettextCatalog.getString('Could not update wallet'));
+          $scope.updateStatusError = walletClientError.msg(err, gettextCatalog.getString('Could not update wallet'));
         }
         $scope.status = null;
       } else {
@@ -368,7 +368,7 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
     });
 
     listeners = [
-      $rootScope.$on('bwsEvent', function(e, walletId) {
+      $rootScope.$on('walletServiceEvent', function(e, walletId) {
         if (walletId == $scope.wallet.id && e.type != 'NewAddress')
           $scope.updateAll();
       }),

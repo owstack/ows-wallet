@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('addressesController', function($scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, configService, popupService, gettextCatalog, ongoingProcess, lodash, profileService, walletService, bwcError, platformInfo, appConfigService, txFormatService, feeService) {
+angular.module('owsWalletApp.controllers').controller('addressesController', function($scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, configService, popupService, gettextCatalog, ongoingProcess, lodash, profileService, walletService, walletClientError, platformInfo, appConfigService, txFormatService, feeService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;
@@ -26,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
     walletService.getMainAddresses($scope.wallet, {}, function(err, addresses) {
       if (err) {
         $scope.loading = false;
-        return popupService.showAlert(bwcError.msg(err, gettextCatalog.getString('Could not update wallet')));
+        return popupService.showAlert(walletClientError.msg(err, gettextCatalog.getString('Could not update wallet')));
       }
 
       var allAddresses = addresses;
@@ -34,7 +34,7 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
       walletService.getBalance($scope.wallet, {}, function(err, resp) {
         if (err) {
           $scope.loading = false;
-          return popupService.showAlert(bwcError.msg(err, gettextCatalog.getString('Could not update wallet')));
+          return popupService.showAlert(walletClientError.msg(err, gettextCatalog.getString('Could not update wallet')));
         }
 
         withBalance = resp.byAddress;

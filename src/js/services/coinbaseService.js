@@ -783,7 +783,7 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
   setCredentials();
   register();
 
-  $rootScope.$on('bwsEvent', function(e, walletId, type, n) {
+  $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
     if (type == 'NewBlock' && n && n.data && networkService.isLivenet(n.data.network)) {
       root.isActive(function(err, isActive) {
         // Update Coinbase

@@ -16,8 +16,8 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
         }
         lodash.forEach(Object.keys(ab), function(addr) {
           // Assign network URI to each entry.
-          // Okay to use /btc bitcore here since all legacy addresses are bitcoin addresses.
-          ab[addr].networkURI = networkService.bwcFor('livenet/btc').getBitcore().Address(addr).network.name + '/btc';
+          // Okay to use /btc coreLib here since all legacy addresses are bitcoin addresses.
+          ab[addr].networkURI = networkService.walletClientFor('livenet/btc').getCoreLib().Address(addr).network.name + '/btc';
         });
         storageService.setAddressbook(JSON.stringify(ab), function(err, ab) {
           if (err) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('tabHomeController',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicModal, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcess, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfo, storageService, txpModalService, appConfigService, startupService, addressbookService, feedbackService, bwcError, nextStepsService, buyAndSellService, homeIntegrationsService, bitpayCardService, pushNotificationsService, timeService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicModal, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcess, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfo, storageService, txpModalService, appConfigService, startupService, addressbookService, feedbackService, walletClientError, nextStepsService, buyAndSellService, homeIntegrationsService, bitpayCardService, pushNotificationsService, timeService) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -89,7 +89,7 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       });
 
       listeners = [
-        $rootScope.$on('bwsEvent', function(e, walletId, type, n) {
+        $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
           var wallet = profileService.getWallet(walletId);
           updateWallet(wallet);
           if ($scope.recentTransactionsEnabled) getNotifications();
@@ -217,7 +217,7 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
         walletService.getStatus(wallet, {}, function(err, status) {
           if (err) {
 
-            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered') : bwcError.msg(err);
+            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered') : walletClientError.msg(err);
 
             $log.error(err);
           } else {

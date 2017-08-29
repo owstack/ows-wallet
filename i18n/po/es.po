@@ -212,7 +212,7 @@ msgstr "Amazon.com no está disponible en este momento. Inténtalo de nuevo más
 msgid "Amount"
 msgstr "Importe"
 
-#: src/js/services/bwcError.js:110
+#: src/js/services/walletClientError.js:110
 msgid "Amount below minimum allowed"
 msgstr "Cantidad por debajo del mínimo permitido"
 
@@ -572,7 +572,7 @@ msgstr "Conectando a Coinbase..."
 msgid "Connecting to Glidera..."
 msgstr "Conectando a Glidera..."
 
-#: src/js/services/bwcError.js:53
+#: src/js/services/walletClientError.js:53
 msgid "Connection reset by peer"
 msgstr "Conexión re establecida"
 
@@ -588,15 +588,15 @@ msgstr "Continuar"
 msgid "Contribute Translations"
 msgstr "Contribuir"
 
-#: src/js/services/bwcError.js:62
+#: src/js/services/walletClientError.js:62
 msgid "Copayer already in this wallet"
 msgstr "Ya se encuentra en esta billetera"
 
-#: src/js/services/bwcError.js:77
+#: src/js/services/walletClientError.js:77
 msgid "Copayer already voted on this spend proposal"
 msgstr "Ya votaste en esta propuesta de gasto"
 
-#: src/js/services/bwcError.js:107
+#: src/js/services/walletClientError.js:107
 msgid "Copayer data mismatch"
 msgstr "Discrepancia en los datos del Copayer"
 
@@ -650,7 +650,7 @@ msgstr "No se puede agregar mensajes a una billetera importada sin la clave cifr
 msgid "Could not broadcast payment"
 msgstr "No se pudo enviar el pago"
 
-#: src/js/services/bwcError.js:41
+#: src/js/services/walletClientError.js:41
 msgid "Could not build transaction"
 msgstr "No se pudo construir la transacción"
 
@@ -911,7 +911,7 @@ msgstr "Correo electrónico"
 msgid "Email Address"
 msgstr "Dirección de correo electrónico"
 
-#: src/js/services/bwcError.js:122
+#: src/js/services/walletClientError.js:122
 msgid "Empty addresses limit reached. New addresses cannot be generated."
 msgstr "Se ha alcanzado el límite de direcciones vacías. No se pueden generar nuevas direcciones."
 
@@ -1084,7 +1084,7 @@ msgstr "Error al buscar fondos:"
 msgid "Error updating Debit Cards"
 msgstr "Error al actualizar las tarjetas de débito"
 
-#: src/js/services/bwcError.js:143
+#: src/js/services/walletClientError.js:143
 msgid "Exceeded daily limit of $500 per user"
 msgstr "Se excedió el limite de $500 por usuario"
 
@@ -1215,7 +1215,7 @@ msgstr "Billetera Física"
 msgid "From the destination device, go to Add wallet &gt; Import wallet and scan this QR code"
 msgstr "Desde el dispositivo de destino, ir a Agregar billetera &gt; Importar y escanear este código QR"
 
-#: src/js/services/bwcError.js:74
+#: src/js/services/walletClientError.js:74
 msgid "Funds are locked by pending spend proposals"
 msgstr "Los fondos están bloqueados por propuestas de gastos pendientes"
 
@@ -1492,19 +1492,19 @@ msgstr "PIN Incorrecto. Inténtelo de nuevo."
 msgid "Incorrect code format"
 msgstr "Formato de código incorrecto"
 
-#: src/js/services/bwcError.js:113
+#: src/js/services/walletClientError.js:113
 msgid "Incorrect network address"
 msgstr "Dirección de red incorrecta"
 
 #: src/js/controllers/confirm.js:112
 #: src/js/controllers/confirm.js:275
-#: src/js/services/bwcError.js:44
+#: src/js/services/walletClientError.js:44
 msgid "Insufficient funds"
 msgstr "Fondos insuficientes"
 
 #: src/js/controllers/topup.js:164
 #: src/js/controllers/topup.js:176
-#: src/js/services/bwcError.js:71
+#: src/js/services/walletClientError.js:71
 msgid "Insufficient funds for fee"
 msgstr "Fondos insuficientes para el pago de la comisión"
 
@@ -1524,7 +1524,7 @@ msgstr "URL incorrecta"
 msgid "Invalid account number"
 msgstr "Número de cuenta inválido"
 
-#: src/js/services/bwcError.js:119
+#: src/js/services/walletClientError.js:119
 msgid "Invalid address"
 msgstr "Dirección inválida"
 
@@ -1588,7 +1588,7 @@ msgstr "Uniéndose a la billetera..."
 msgid "Just scan the code to pay."
 msgstr "Sólo escanea y paga."
 
-#: src/js/services/bwcError.js:116
+#: src/js/services/walletClientError.js:116
 msgid "Key already associated with an existing wallet"
 msgstr "La clave ya esta asociada a un monedero existente"
 
@@ -1630,11 +1630,11 @@ msgstr "Bloquear por PIN"
 msgid "Locked"
 msgstr "Bloqueado"
 
-#: src/js/services/bwcError.js:86
+#: src/js/services/walletClientError.js:86
 msgid "Locktime in effect. Please wait to create a new spend proposal"
 msgstr "Bloqueo temporal. Por favor espera para crear una nueva propuesta de gasto"
 
-#: src/js/services/bwcError.js:89
+#: src/js/services/walletClientError.js:89
 msgid "Locktime in effect. Please wait to remove this spend proposal"
 msgstr "Bloqueo temporal. Por favor espera para eliminar esta propuesta de gasto"
 
@@ -1696,11 +1696,11 @@ msgstr "Mensaje del comerciante"
 msgid "Miner Fee"
 msgstr "Comisión de minado"
 
-#: src/js/services/bwcError.js:134
+#: src/js/services/walletClientError.js:134
 msgid "Missing parameter"
 msgstr "Faltan parámetros"
 
-#: src/js/services/bwcError.js:32
+#: src/js/services/walletClientError.js:32
 msgid "Missing private keys to sign"
 msgstr "Faltan las claves privadas para firmar"
 
@@ -1739,7 +1739,7 @@ msgstr "Nombre"
 msgid "Network Cost"
 msgstr "Costo de la red"
 
-#: src/js/services/bwcError.js:47
+#: src/js/services/walletClientError.js:47
 msgid "Network error"
 msgstr "Error de red"
 
@@ -1828,7 +1828,7 @@ msgstr "No hay billeteras disponibles para recibir fondos"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/js/services/bwcError.js:80
+#: src/js/services/walletClientError.js:80
 msgid "Not authorized"
 msgstr "No autorizado"
 
@@ -2095,7 +2095,7 @@ msgstr "Ingresá tu PIN"
 msgid "Please tap each word in the correct order."
 msgstr "Escoje las palabras en el orden correcto."
 
-#: src/js/services/bwcError.js:101
+#: src/js/services/walletClientError.js:101
 msgid "Please upgrade Owlto perform this action"
 msgstr "Por favor actualiza Owlpara realizar esta acción"
 
@@ -2135,7 +2135,7 @@ msgstr "Clave privada"
 msgid "Private key encrypted. Enter password"
 msgstr "La clave privada está encriptada. Escriba la contraseña"
 
-#: src/js/services/bwcError.js:35
+#: src/js/services/walletClientError.js:35
 msgid "Private key is encrypted, cannot sign"
 msgstr "La clave privada está encriptada, no puedes firmar"
 
@@ -2497,7 +2497,7 @@ msgstr "Enviado"
 msgid "Sent Funds"
 msgstr "Fondos enviados"
 
-#: src/js/services/bwcError.js:38
+#: src/js/services/walletClientError.js:38
 msgid "Server response could not be verified"
 msgstr "La respuesta del servidor no se ha podido verificar"
 
@@ -2575,7 +2575,7 @@ msgstr "Mostrar dirección bitcoin"
 msgid "Show more"
 msgstr "Ver más"
 
-#: src/js/services/bwcError.js:104
+#: src/js/services/walletClientError.js:104
 msgid "Signatures rejected by server"
 msgstr "Firmas rechazadas por el servidor"
 
@@ -2611,15 +2611,15 @@ msgstr "Deslizar para comprar"
 msgid "Specify Recovery Phrase..."
 msgstr "Especificar la frase de recuperación..."
 
-#: src/js/services/bwcError.js:92
+#: src/js/services/walletClientError.js:92
 msgid "Spend proposal is not accepted"
 msgstr "La propuesta de gasto no se ha aceptado"
 
-#: src/js/services/bwcError.js:95
+#: src/js/services/walletClientError.js:95
 msgid "Spend proposal not found"
 msgstr "La propuesta de gasto no se ha encontrado"
 
-#: src/js/services/bwcError.js:137
+#: src/js/services/walletClientError.js:137
 msgid "Spending Password needed"
 msgstr "Se necesita la contraseña para pagos"
 
@@ -2769,7 +2769,7 @@ msgstr "El pago fue eliminado por el creador"
 msgid "The recovery phrase could require a password to be imported"
 msgstr "La frase de recuperación podría requerir una contraseña para ser importada"
 
-#: src/js/services/bwcError.js:56
+#: src/js/services/walletClientError.js:56
 msgid "The request could not be understood by the server"
 msgstr "La solicitud no pudo ser comprendida por el servidor"
 
@@ -2777,7 +2777,7 @@ msgstr "La solicitud no pudo ser comprendida por el servidor"
 msgid "The restore process will stop when 20 addresses are generated in a row which contain no funds. To safely generate more addresses, make a payment to one of the unused addresses which has already been generated."
 msgstr "El proceso generación de nuevas direcciones se detendrá cuando se generen 20 direcciones de manera consecutiva. Luego deberás recibir un pago en una de las direcciones sin uso para obtener una nueva."
 
-#: src/js/services/bwcError.js:98
+#: src/js/services/walletClientError.js:98
 msgid "The spend proposal is not pending"
 msgstr "La propuesta de gasto no esta pendiente"
 
@@ -2914,7 +2914,7 @@ msgstr "Transacción creada"
 msgid "Transaction History"
 msgstr "Historial de Transacciones"
 
-#: src/js/services/bwcError.js:83
+#: src/js/services/walletClientError.js:83
 msgid "Transaction already broadcasted"
 msgstr "La transacción ya fue enviada"
 
@@ -3141,7 +3141,7 @@ msgstr "Red de la billetera"
 msgid "Wallet Recovery Phrase"
 msgstr "Frase de recuperación de la billetera"
 
-#: src/js/services/bwcError.js:26
+#: src/js/services/walletClientError.js:26
 msgid "Wallet Recovery Phrase is invalid"
 msgstr "La frase de recuperación no es válida"
 
@@ -3159,7 +3159,7 @@ msgstr "Preferencias de la billetera"
 msgid "Wallet Type"
 msgstr "Tipo de billetera"
 
-#: src/js/services/bwcError.js:59
+#: src/js/services/walletClientError.js:59
 msgid "Wallet already exists"
 msgstr "La billetera ya existe"
 
@@ -3175,15 +3175,15 @@ msgstr "Billetera Creada"
 msgid "Wallet incomplete and broken"
 msgstr "Billetera incompleta y rota"
 
-#: src/js/services/bwcError.js:65
+#: src/js/services/walletClientError.js:65
 msgid "Wallet is full"
 msgstr "La billetera está completa"
 
-#: src/js/services/bwcError.js:125
+#: src/js/services/walletClientError.js:125
 msgid "Wallet is locked"
 msgstr "Billetera bloqueada"
 
-#: src/js/services/bwcError.js:128
+#: src/js/services/walletClientError.js:128
 msgid "Wallet is not complete"
 msgstr "La billetera no esta completa"
 
@@ -3192,7 +3192,7 @@ msgstr "La billetera no esta completa"
 msgid "Wallet name"
 msgstr "Nombre de la billetera"
 
-#: src/js/services/bwcError.js:131
+#: src/js/services/walletClientError.js:131
 msgid "Wallet needs backup"
 msgstr "La billetera requiere copia de seguridad"
 
@@ -3201,7 +3201,7 @@ msgstr "La billetera requiere copia de seguridad"
 msgid "Wallet not backed up"
 msgstr "Billetera sin copia de seguridad"
 
-#: src/js/services/bwcError.js:68
+#: src/js/services/walletClientError.js:68
 msgid "Wallet not found"
 msgstr "Billetera no encontrada"
 
@@ -3209,7 +3209,7 @@ msgstr "Billetera no encontrada"
 msgid "Wallet not registered"
 msgstr "Billetera no registrada"
 
-#: src/js/services/bwcError.js:29
+#: src/js/services/walletClientError.js:29
 msgid "Wallet not registered at the wallet service. Recreate it from \"Create Wallet\" using \"Advanced Options\" to set your recovery phrase"
 msgstr "La billetera no esta registrado en Wallet Service. Para volver a crear, utilice \"Crear billetera\", \"Opciones avanzadas\" e ingrese la frase de recuperación"
 
@@ -3217,7 +3217,7 @@ msgstr "La billetera no esta registrado en Wallet Service. Para volver a crear, 
 msgid "Wallet recovery phrase not available."
 msgstr "Frase de recuperación de la billetera no disponible."
 
-#: src/js/services/bwcError.js:50
+#: src/js/services/walletClientError.js:50
 msgid "Wallet service not found"
 msgstr "Wallet Service no encontrado"
 
@@ -3298,7 +3298,7 @@ msgstr "¿Quieres recibir notificaciones push sobre sus transacciones?"
 msgid "Wrong number of recovery words:"
 msgstr "Número incorrecto de palabras:"
 
-#: src/js/services/bwcError.js:140
+#: src/js/services/walletClientError.js:140
 msgid "Wrong spending password"
 msgstr "Contraseña para pagos incorrecta"
 

@@ -17,9 +17,9 @@ angular.module('owsWalletApp.controllers').controller('importController',
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
       $scope.networkOptions = networkService.getNetworks();
-      $scope.formData.bwsurl = configNetwork[$scope.formData.network.getURI()].bws.url;
+      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
 
-      errors = networkService.bwcFor($scope.formData.network).getErrors();
+      errors = networkService.walletClientFor($scope.formData.network).getErrors();
 
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
       $scope.formData.account = 1;
@@ -68,8 +68,8 @@ angular.module('owsWalletApp.controllers').controller('importController',
 
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
-      $scope.formData.bwsurl = configNetwork[$scope.formData.network.getURI()].bws.url;
-      errors = networkService.bwcFor($scope.formData.network).getErrors();
+      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
+      errors = networkService.walletClientFor($scope.formData.network).getErrors();
     };
 
     $scope.processWalletInfo = function(code) {
@@ -106,7 +106,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
     var _importBlob = function(str, opts) {
       var str2, err;
       try {
-        str2 = networkService.bwcFor(opts.networkURI).getSJCL().decrypt($scope.formData.password, str);
+        str2 = networkService.walletClientFor(opts.networkURI).getSJCL().decrypt($scope.formData.password, str);
       } catch (e) {
         err = gettextCatalog.getString('Could not decrypt file, check your password');
         $log.warn(e);
@@ -210,7 +210,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
       reader.onloadend = function(evt) {
         if (evt.target.readyState == FileReader.DONE) { // DONE == 2
           var opts = {};
-          opts.bwsurl = $scope.formData.bwsurl;
+          opts.walletServiceUrl = $scope.formData.walletServiceUrl;
           _importBlob(evt.target.result, opts);
         }
       }
@@ -235,7 +235,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
         reader.readAsBinaryString(backupFile);
       } else {
         var opts = {};
-        opts.bwsurl = $scope.formData.bwsurl;
+        opts.walletServiceUrl = $scope.formData.walletServiceUrl;
         _importBlob(backupText, opts);
       }
     };
@@ -248,8 +248,8 @@ angular.module('owsWalletApp.controllers').controller('importController',
 
       var opts = {};
 
-      if ($scope.formData.bwsurl)
-        opts.bwsurl = $scope.formData.bwsurl;
+      if ($scope.formData.walletServiceUrl)
+        opts.walletServiceUrl = $scope.formData.walletServiceUrl;
 
       var pathData = derivationPathHelper.parse($scope.formData.derivationPath, $scope.formData.network);
       if (!pathData) {
@@ -303,7 +303,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
         }
 
         lopts.externalSource = walletService.externalSource.trezor.id;
-        lopts.bwsurl = $scope.formData.bwsurl;
+        lopts.walletServiceUrl = $scope.formData.walletServiceUrl;
         lopts.account = account;
         ongoingProcess.set('importingWallet', true);
         $log.debug('Import opts', lopts);
@@ -360,7 +360,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
         }
 
         lopts.externalSource = lopts.externalSource = walletService.externalSource.ledger.id;
-        lopts.bwsurl = $scope.formData.bwsurl;
+        lopts.walletServiceUrl = $scope.formData.walletServiceUrl;
         lopts.account = account;
         ongoingProcess.set('importingWallet', true);
         $log.debug('Import opts', lopts);

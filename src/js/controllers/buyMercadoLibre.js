@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('buyMercadoLibreController', function($scope, $log, $state, $timeout, $filter, $ionicHistory, $ionicConfig, lodash, mercadoLibreService, popupService, profileService, ongoingProcess, configService, walletService, payproService, bwcError, externalLinkService, platformInfo, txFormatService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.controllers').controller('buyMercadoLibreController', function($scope, $log, $state, $timeout, $filter, $ionicHistory, $ionicConfig, lodash, mercadoLibreService, popupService, profileService, ongoingProcess, configService, walletService, payproService, walletClientError, externalLinkService, platformInfo, txFormatService, gettextCatalog, networkService) {
 
   var amount;
   var currency;
@@ -167,7 +167,7 @@ angular.module('owsWalletApp.controllers').controller('buyMercadoLibreController
       if (err) {
         return cb({
           title: gettextCatalog.getString('Could not create transaction'),
-          message: bwcError.msg(err)
+          message: walletClientError.msg(err)
         });
       }
       return cb(null, ctxp);

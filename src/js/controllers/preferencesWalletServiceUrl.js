@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('preferencesBwsUrlController',
+angular.module('owsWalletApp.controllers').controller('preferencesWalletServiceUrlController',
   function($scope, $log, $stateParams, configService, applicationService, profileService, storageService, appConfigService, networkService) {
     $scope.success = null;
 
@@ -11,40 +11,40 @@ angular.module('owsWalletApp.controllers').controller('preferencesBwsUrlControll
     var defaults = configService.getDefaults();
     var config = configService.getSync();
     $scope.appName = appConfigService.nameCase;
-    $scope.bwsurl = {
-      value: (config.bwsFor && config.bwsFor[walletId]) || defaults.currencyNetworks[wallet.network].bws.url
+    $scope.walletServiceUrl = {
+      value: (config.walletServiceFor && config.walletServiceFor[walletId]) || defaults.currencyNetworks[wallet.network].walletService.url
     };
 
     $scope.resetDefaultUrl = function() {
-      $scope.bwsurl.value = defaults.currencyNetworks[wallet.network].bws.url;
+      $scope.walletServiceUrl.value = defaults.currencyNetworks[wallet.network].walletService.url;
     };
 
     $scope.save = function() {
-      var bwsEnvs = networkService.getNetworkByURI(wallet.network).bws;
-      var bws;
-      switch ($scope.bwsurl.value) {
+      var walletServiceEnvs = networkService.getNetworkByURI(wallet.network).walletService;
+      var walletService;
+      switch ($scope.walletServiceUrl.value) {
         case 'prod':
         case 'production':
-          bws = bwsEnvs.production.url;
+          walletService = walletServiceEnvs.production.url;
           break;
         case 'sta':
         case 'staging':
-          bws = bwsEnvs.staging.url;
+          walletService = walletServiceEnvs.staging.url;
           break;
         case 'loc':
         case 'local':
-          bws = bwsEnvs.local.url;
+          walletService = walletServiceEnvs.local.url;
           break;
       };
-      if (bws) {
-        $log.info('Using BWS URL Alias to ' + bws);
-        $scope.bwsurl.value = bws;
+      if (walletService) {
+        $log.info('Using Wallet Service URL Alias to ' + walletService);
+        $scope.walletServiceUrl.value = walletService;
       }
 
       var opts = {
-        bwsFor: {}
+        walletServiceFor: {}
       };
-      opts.bwsFor[walletId] = $scope.bwsurl.value;
+      opts.walletServiceFor[walletId] = $scope.walletServiceUrl.value;
 
       configService.set(opts, function(err) {
         if (err) $log.debug(err);

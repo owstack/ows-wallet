@@ -114,7 +114,7 @@ angular.module('owsWalletApp.services')
       var isMultisig = txp.requiredSignatures > 1;
       var basePath = hwWallet.getAddressPath(root.description.id, isMultisig, account, txp.network);
 
-      var rawTx = networkService.bwcFor(txp.network).Client.getRawTx(txp);
+      var rawTx = networkService.walletClientFor(txp.network).Client.getRawTx(txp);
 
       var keypaths = lodash.map(lodash.pluck(txp.inputs, 'path'), function(path) {
         return path.replace('m', basePath);

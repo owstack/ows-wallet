@@ -4,7 +4,7 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
   var root = {};
 
   root.formatAmount = function(networkURI, atomics, fullPrecision) {
-    var utils = networkService.bwcFor(networkURI).getUtils();
+    var utils = networkService.walletClientFor(networkURI).getUtils();
 
     var config = configService.getSync().currencyNetworks[networkURI];
     if (config.unitCode == config.atomicUnitCode) return atomics;

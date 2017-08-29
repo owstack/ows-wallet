@@ -1,9 +1,9 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('bwcError', function bwcErrorService($log, gettextCatalog) {
+  .factory('walletClientError', function walletClientErrorService($log, gettextCatalog) {
     var root = {};
 
-    // This service applies to all network BWCs.
+    // This service applies to all network Wallet Clients.
 
     root.msg = function(err, prefix) {
       if (!err)
@@ -15,7 +15,7 @@ angular.module('owsWalletApp.services')
         if (err.name == 'Error')
           name = err.message
         else
-          name = err.name.replace(/^bwc.Error/g, '');
+          name = err.name.replace(/^[a-z].*wc.Error/g, '');
       } else
         name = err;
 

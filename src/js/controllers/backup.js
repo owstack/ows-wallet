@@ -117,10 +117,10 @@ angular.module('owsWalletApp.controllers').controller('backupController',
       $timeout(function() {
         if ($scope.mnemonicHasPassphrase) {
           var opts = {
-            bwsurl: configNetwork[$scope.wallet.network].bws.url
+            walletServiceUrl: configNetwork[$scope.wallet.network].walletService.url
           };
 
-          var walletClient = networkService.bwcFor($scope.wallet.network).getClient(null, opts);
+          var walletClient = networkService.walletClientFor($scope.wallet.network).getClient(null, opts);
           var separator = $scope.useIdeograms ? '\u3000' : ' ';
           var customSentence = customWordList.join(separator);
           var passphrase = $scope.data.passphrase || '';

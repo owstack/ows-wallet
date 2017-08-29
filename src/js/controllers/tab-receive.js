@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabReceiveController', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, storageService, platformInfo, walletService, profileService, configService, lodash, gettextCatalog, popupService, bwcError) {
+angular.module('owsWalletApp.controllers').controller('tabReceiveController', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, storageService, platformInfo, walletService, profileService, configService, lodash, gettextCatalog, popupService, walletClientError) {
 
   var listeners = [];
   $scope.isCordova = platformInfo.isCordova;
@@ -103,7 +103,7 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
     $scope.showShareButton = platformInfo.isCordova ? (platformInfo.isIOS ? 'iOS' : 'Android') : null;
 
     listeners = [
-      $rootScope.$on('bwsEvent', function(e, walletId, type, n) {
+      $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
         // Update current address
         if ($scope.wallet && walletId == $scope.wallet.id && type == 'NewIncomingTx') $scope.setAddress(true);
       })

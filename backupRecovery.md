@@ -14,8 +14,8 @@ This is a multisignature HD Wallet. This app holds the extended private keys for
 
 ### Backup recovery cases
  * Case 1: Lost of device holding the wallet
- * Case 2: Change to a new Bitcore Wallet Service (BWS)
- * Case 3: Lost device + new Bitcore Wallet Service
+ * Case 2: Change to a new Wallet Service
+ * Case 3: Lost device + new Wallet Service
 
 ### Wallet Recovery Scope
  * Basic Recovery: Wallet access is restored. It is possible to see wallet balance and past transactions. It is possible to send and receive payments.
@@ -30,7 +30,7 @@ This is a multisignature HD Wallet. This app holds the extended private keys for
     - Wallet access should be restored.
 
   Case 2: Basic recovery is possible using the device where the wallet is installed, pointing to the new server (Recreate wallet feature).
-    - Point to the new server (Settings -> Bitcore Wallet Service).
+    - Point to the new server (Settings -> Wallet Service).
     - If the wallet is not registered at the new Wallet service, a 'Recreate' button will appear at wallet's home. Click it to recreate the wallet.
     - Wallet should be recreated and access to funds should be restored.
     - If the wallet existed, it may be necessary to rescan Wallet's addresses for funds (from Settings -> Advanced -> Scan Addresses for Funds)

@@ -4,7 +4,7 @@ angular.module('owsWalletApp.services')
   .factory('trezor', function($log, $timeout, lodash, hwWallet, platformInfo, networkService) {
     var root = {};
 
-    var bitcoreBtc = networkService.bwcFor('livenet/btc').getBitcore();
+    var coreLib = networkService.walletClientFor('livenet/btc').getCoreLib();
 
     var SETTLE_TIME = 3000;
     root.callbacks = {};
@@ -75,7 +75,7 @@ angular.module('owsWalletApp.services')
       path = path.join('/');
 
       var keys = lodash.map(xPubKeys, function(x) {
-        var pub = bitcoreBtc.HDPublicKey(x).derive(path).publicKey;
+        var pub = coreLib.HDPublicKey(x).derive(path).publicKey;
         return {
           xpub: x,
           pub: pub.toString('hex'),

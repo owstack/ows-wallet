@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('topUpController', function($scope, $log, $state, $timeout, $ionicHistory, $ionicConfig, lodash, popupService, profileService, ongoingProcess, walletService, configService, platformInfo, bitpayService, bitpayCardService, payproService, bwcError, txFormatService, sendMaxService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.controllers').controller('topUpController', function($scope, $log, $state, $timeout, $ionicHistory, $ionicConfig, lodash, popupService, profileService, ongoingProcess, walletService, configService, platformInfo, bitpayService, bitpayCardService, payproService, walletClientError, txFormatService, sendMaxService, gettextCatalog, networkService) {
 
   $scope.isCordova = platformInfo.isCordova;
   var cardId;
@@ -144,7 +144,7 @@ angular.module('owsWalletApp.controllers').controller('topUpController', functio
       if (err) {
         return cb({
           title: gettextCatalog.getString('Could not create transaction'),
-          message: bwcError.msg(err)
+          message: walletClientError.msg(err)
         });
       }
       return cb(null, ctxp);

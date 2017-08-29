@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('walletsController', function($scope, $timeout, bwcError, profileService, networkService) {
+angular.module('owsWalletApp.controllers').controller('walletsController', function($scope, $timeout, walletClientError, profileService, networkService) {
 
   $scope.selectWallet = function(walletId) {
 
@@ -9,7 +9,7 @@ angular.module('owsWalletApp.controllers').controller('walletsController', funct
 
     profileService.isReady(client, function(err) {
       if (err) {
-        $scope.errorSelectedWallet[walletId] = bwcError.msg(err);
+        $scope.errorSelectedWallet[walletId] = walletClientError.msg(err);
         $timeout(function() {
           $scope.$apply();
         });

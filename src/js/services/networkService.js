@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, bwcService /*, bwcCashService */) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, btcWalletClient, bccWalletClient) {
   var root = {};
 
   // Define all supported networks
@@ -14,18 +14,18 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       net: 'livenet',
       label: gettextCatalog.getString('Bitcoin'),
       legacyName: 'livenet', // Used to update legacy wallets
-      bwc: {
-        service: bwcService
+      walletClient: {
+        service: btcWalletClient
       },
-      bws: {
+      walletService: {
         production: {
-          url: 'https://bws.bitpay.com/bws/api/'
+          url: 'https://btcws.openwalletstack.com/btcws/api/'
         },
         staging: {
-          url: 'https://bws-staging.b-pay.net/bws/api/'
+          url: 'https://btcws.openwalletstack.com/btcws/api/'
         },
         local: {
-          url: 'http://localhost:3232/bws/api/'
+          url: 'http://localhost:3232/btcws/api/'
         }
       },
       bex: {
@@ -85,18 +85,18 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       net: 'testnet',
       label: gettextCatalog.getString('Bitcoin Testnet'),
       legacyName: 'testnet', // Used to update legacy wallets
-      bwc: {
-        service: bwcService
+      walletClient: {
+        service: btcWalletClient
       },
-      bws: {
+      walletService: {
         production: {
-          url: 'https://bws.bitpay.com/bws/api/'
+          url: 'https://btcws.openwalletstack.com/btcws/api/'
         },
         staging: {
-          url: 'https://bws-staging.b-pay.net/bws/api/'
+          url: 'https://btcws.openwalletstack.com/btcws/api/'
         },
         local: {
-          url: 'http://localhost:3232/bws/api/'
+          url: 'http://localhost:3232/btcws/api/'
         }
       },
       bex: {
@@ -155,18 +155,18 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       currency: 'bch',
       net: 'livenet',
       label: gettextCatalog.getString('Bitcoin Cash'),
-      bwc: {
-        service: bwcService // TODO: bwcCashService
+      walletClient: {
+        service: bccWalletClient
       },
-      bws: {
+      walletService: {
         production: {
-          url: 'https://bws.bitpay.com/bws/api/'
+          url: 'https://bccws.openwalletstack.com/bccws/api/'
         },
         staging: {
-          url: 'https://bws-staging.b-pay.net/bws/api/'
+          url: 'https://bccws.openwalletstack.com/bccws/api/'
         },
         local: {
-          url: 'http://localhost:3232/bws/api/'
+          url: 'http://localhost:3232/bccws/api/'
         }
       },
       bex: {
@@ -227,7 +227,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
     for (var i = 0; i < networks.length; i++) {
       currencyNetworks[networks[i].getURI()] = {
-        bws:                networks[i].bws.production,
+        walletService:      networks[i].walletService.production,
         unitName:           networks[i].units[0].shortName,
         unitToAtomicUnit:   networks[i].units[0].value,
         unitDecimals:       networks[i].units[0].decimals,
@@ -243,13 +243,13 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
   // Network service routing
 
-  root.bwcFor = function(networkOrURI) {
+  root.walletClientFor = function(networkOrURI) {
     // Accepts network object or a network URI
     var network = networkOrURI;
     if (lodash.isString(networkOrURI)) {
       network = root.getNetworkByURI(networkOrURI);
     }
-    return network.bwc.service;
+    return network.walletClient.service;
   };
 
   // Network queries

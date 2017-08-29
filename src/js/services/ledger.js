@@ -70,7 +70,7 @@ angular.module('owsWalletApp.services')
       root.callbacks["sign_p2sh"] = callback;
       var redeemScripts = [];
       var paths = [];
-      var tx = networkService.bwcFor(txp.network).getUtils().buildTx(txp);
+      var tx = networkService.walletClientFor(txp.network).getUtils().buildTx(txp);
 
       for (var i = 0; i < tx.inputs.length; i++) {
         redeemScripts.push(new ByteString(tx.inputs[i].redeemScript.toBuffer().toString('hex'), GP.HEX).toString());

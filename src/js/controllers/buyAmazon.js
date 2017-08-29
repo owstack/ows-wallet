@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('buyAmazonController', function($scope, $log, $state, $timeout, $filter, $ionicHistory, $ionicConfig, lodash, amazonService, popupService, profileService, ongoingProcess, configService, walletService, payproService, bwcError, externalLinkService, platformInfo, gettextCatalog, txFormatService, networkService) {
+angular.module('owsWalletApp.controllers').controller('buyAmazonController', function($scope, $log, $state, $timeout, $filter, $ionicHistory, $ionicConfig, lodash, amazonService, popupService, profileService, ongoingProcess, configService, walletService, payproService, walletClientError, externalLinkService, platformInfo, gettextCatalog, txFormatService, networkService) {
 
   var amount;
   var currency;
@@ -167,7 +167,7 @@ angular.module('owsWalletApp.controllers').controller('buyAmazonController', fun
       if (err) {
         return cb({
           title: gettextCatalog.getString('Could not create transaction'),
-          message: bwcError.msg(err)
+          message: walletClientError.msg(err)
         });
       }
       return cb(null, ctxp);

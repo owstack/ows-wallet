@@ -4,7 +4,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
   var root = {};
 
-  var bitcoreBtc = networkService.bwcFor('livenet/btc').getBitcore();
+  var coreLib = networkService.walletClientFor('livenet/btc').getCoreLib();
 
   root.showMenu = function(data) {
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);
@@ -41,7 +41,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
     function checkPrivateKey(privateKey) {
       try {
-          bitcoreBtc.PrivateKey(privateKey, 'livenet/btc'); // Need to support more than livenet/btc
+          coreLib.PrivateKey(privateKey, 'livenet/btc'); // Need to support more than livenet/btc
       } catch (err) {
         return false;
       }
@@ -85,8 +85,8 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
     data = sanitizeUri(data);
 
     // BIP21
-    if (bitcoreBtc.URI.isValid(data)) {
-      var parsed = bitcoreBtc.URI(data);
+    if (coreLib.URI.isValid(data)) {
+      var parsed = coreLib.URI(data);
 
       var addr = parsed.address ? parsed.address.toString() : '';
       var message = parsed.message;
@@ -120,10 +120,10 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
         return true;
       });
       // Plain Address
-    } else if (bitcoreBtc.Address.isValid(data, 'livenet/btc') || bitcoreBtc.Address.isValid(data, 'testnet/btc')) {
+    } else if (coreLib.Address.isValid(data, 'livenet/btc') || coreLib.Address.isValid(data, 'testnet/btc')) {
       if ($state.includes('tabs.scan')) {
         root.showMenu({
-          networkURI: (bitcoreBtc.Address.isValid(data, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
+          networkURI: (coreLib.Address.isValid(data, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
           data: data,
           type: 'bitcoinAddress'
         });
@@ -251,7 +251,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
     });
     $timeout(function() {
       $state.transitionTo('tabs.send.amount', {
-        networkURI: (bitcoreBtc.Address.isValid(toAddress, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
+        networkURI: (coreLib.Address.isValid(toAddress, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
         toAddress: toAddress
       });
     }, 100);

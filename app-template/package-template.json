@@ -55,6 +55,7 @@
     "bezier-easing": "^2.0.3",
     "bhttp": "1.2.1",
     "bitauth": "^0.2.1",
+    "bcccore-wallet-client": "git://github.com/owstack/bcccore-wallet-client.git",
     "btccore-wallet-client": "git://github.com/owstack/btccore-wallet-client.git",
     "bower": "^1.7.9",
     "cordova-android": "5.1.1",

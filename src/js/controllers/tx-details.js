@@ -24,7 +24,7 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
     updateTx();
 
     listeners = [
-      $rootScope.$on('bwsEvent', function(e, walletId, type, n) {
+      $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
         if (type == 'NewBlock' && n && n.data && networkService.isLivenet(n.data.network)) {
           updateTxDebounced({
             hideLoading: true

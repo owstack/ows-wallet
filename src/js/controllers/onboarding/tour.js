@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.controllers').controller('tourController',
-  function($scope, $state, $log, $timeout, $filter, ongoingProcess, profileService, rateService, popupService, gettextCatalog, networkService) {
+  function($scope, $state, $log, $timeout, $filter, ongoingProcess, profileService, rateService, popupService, gettextCatalog, appConfigService, networkService) {
 
     $scope.data = {
       index: 0
@@ -25,7 +25,10 @@ angular.module('owsWalletApp.controllers').controller('tourController',
 
     $scope.$on("$ionicView.enter", function(event, data) {
 
-      // Support only livenet/btc
+      // Support only livenet/btc for tour
+      $scope.appName = appConfigService.nameCase;
+      $scope.availableNetworks = networkService.getLiveNetworks();
+      $scope.network = networkService.getNetworkByURI('livenet/btc');
       $scope.standardUnit = networkService.getStandardUnit('livenet/btc');
 
       rateService.whenAvailable(function() {
@@ -86,7 +89,7 @@ angular.module('owsWalletApp.controllers').controller('tourController',
     }
 
     $scope.slideNext = function() {
-      if ($scope.data.index != 2) $scope.slider.slideNext();
+      if ($scope.data.index != 3) $scope.slider.slideNext();
       else $state.go('onboarding.welcome');
     }
   });

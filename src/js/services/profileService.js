@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $filter, $log, $state, lodash, storageService, configService, gettextCatalog, bwcError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService) {
+  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $filter, $log, $state, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService) {
 
 
     var isChromeApp = platformInfo.isChromeApp;
@@ -30,7 +30,7 @@ angular.module('owsWalletApp.services')
     root.updateWalletSettings = function(wallet) {
       var defaults = configService.getDefaults();
       configService.whenAvailable(function(config) {
-        wallet.usingCustomBWS = config.bwsFor && config.bwsFor[wallet.id] && (config.bwsFor[wallet.id] != defaults.currencyNetworks[defaults.currencyNetworks.default].bws.url);
+        wallet.usingCustomWalletService = config.walletServiceFor && config.walletServiceFor[wallet.id] && (config.walletServiceFor[wallet.id] != defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url);
         wallet.name = (config.aliasFor && config.aliasFor[wallet.id]) || wallet.credentials.walletName;
         wallet.color = (config.colorFor && config.colorFor[wallet.id]);
         wallet.email = config.emailFor && config.emailFor[wallet.id];
@@ -103,16 +103,16 @@ angular.module('owsWalletApp.services')
       wallet.removeAllListeners();
 
       wallet.on('report', function(n) {
-        $log.info('BWC Report:' + n);
+        $log.info('Wallet Client Report:' + n);
       });
 
       wallet.on('notification', function(n) {
 
-        $log.debug('BWC Notification:', n);
+        $log.debug('Wallet Client Notification:', n);
 
         if (n.type == "NewBlock" && networkService.isTestnet(n.data.network)) {
-          throttledBwsEvent(n, wallet);
-        } else newBwsEvent(n, wallet);
+          throttledWalletServiceEvent(n, wallet);
+        } else newWalletServiceEvent(n, wallet);
       });
 
       wallet.on('walletCompleted', function() {
@@ -147,11 +147,11 @@ angular.module('owsWalletApp.services')
       return true;
     };
 
-    var throttledBwsEvent = lodash.throttle(function(n, wallet) {
-      newBwsEvent(n, wallet);
+    var throttledWalletServiceEvent = lodash.throttle(function(n, wallet) {
+      newWalletServiceEvent(n, wallet);
     }, 10000);
 
-    var newBwsEvent = function(n, wallet) {
+    var newWalletServiceEvent = function(n, wallet) {
       if (wallet.cachedStatus)
         wallet.cachedStatus.isValid = false;
 
@@ -164,7 +164,7 @@ angular.module('owsWalletApp.services')
       if (wallet.cachedTxps)
         wallet.cachedTxps.isValid = false;
 
-      $rootScope.$emit('bwsEvent', wallet.id, n.type, n);
+      $rootScope.$emit('walletServiceEvent', wallet.id, n.type, n);
     };
 
     var validationLock = false;
@@ -210,10 +210,10 @@ angular.module('owsWalletApp.services')
       return root.profile.isChecked(platformInfo.ua, walletId) || isIOS || isWindowsPhoneApp;
     }
 
-    var getBWSURL = function(credentials) {
+    var getWalletServiceUrl = function(credentials) {
       var config = configService.getSync();
       var defaults = configService.getDefaults();
-      return ((config.bwsFor && config.bwsFor[credentials.walletId]) || defaults.currencyNetworks[credentials.network].bws.url);
+      return ((config.walletServiceFor && config.walletServiceFor[credentials.walletId]) || defaults.currencyNetworks[credentials.network].walletService.url);
     };
 
     // Used when reading wallets from the profile
@@ -222,8 +222,8 @@ angular.module('owsWalletApp.services')
         return cb('bindWallet should receive credentials JSON');
 
       // Create the client
-      var client = networkService.bwcFor(credentials.network).getClient(JSON.stringify(credentials), {
-        bwsurl: getBWSURL(credentials)
+      var client = networkService.walletClientFor(credentials.network).getClient(JSON.stringify(credentials), {
+        walletServiceUrl: getWalletServiceUrl(credentials)
       });
 
       var skipKeyValidation = shouldSkipValidation(credentials.walletId);
@@ -329,7 +329,7 @@ angular.module('owsWalletApp.services')
     var seedWallet = function(opts, cb) {
       var config = configService.getSync();
       opts = opts || {};
-      var walletClient = networkService.bwcFor(opts.network.getURI()).getClient(null, opts);
+      var walletClient = networkService.walletClientFor(opts.network.getURI()).getClient(null, opts);
 
       if (opts.mnemonic) {
         try {
@@ -390,7 +390,7 @@ angular.module('owsWalletApp.services')
       return cb(null, walletClient);
     };
 
-    // Creates a wallet on BWC/BWS
+    // Creates a wallet on the walletService
     var doCreateWallet = function(opts, cb) {
       $log.debug('Creating Wallet:', opts);
       $timeout(function() {
@@ -405,7 +405,7 @@ angular.module('owsWalletApp.services')
             singleAddress: opts.singleAddress,
             walletPrivKey: opts.walletPrivKey,
           }, function(err, secret) {
-            if (err) return bwcError.cb(err, gettextCatalog.getString('Error creating wallet'), cb);
+            if (err) return walletClientError.cb(err, gettextCatalog.getString('Error creating wallet'), cb);
             return cb(null, walletClient, secret);
           });
         });
@@ -418,7 +418,7 @@ angular.module('owsWalletApp.services')
         if (err) return cb(err);
 
         addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl
+          walletServiceUrl: opts.walletServiceUrl
         }, cb);
       });
     };
@@ -427,12 +427,12 @@ angular.module('owsWalletApp.services')
     root.joinWallet = function(opts, cb) {
       var config = configService.getSync();
       opts = opts || {};
-      opts.bwsurl = config.currencyNetworks[opts.networkURI].bws.url;
-      var walletClient = networkService.bwcFor(opts.networkURI).getClient(null, opts);
+      opts.walletServiceUrl = config.currencyNetworks[opts.networkURI].walletService.url;
+      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
       $log.debug('Joining Wallet:', opts);
 
       try {
-        var walletData = networkService.bwcFor(opts.networkURI).parseSecret(opts.secret);
+        var walletData = networkService.walletClientFor(opts.networkURI).parseSecret(opts.secret);
 
         // check if exist
         if (lodash.find(root.profile.credentials, {
@@ -451,9 +451,9 @@ angular.module('owsWalletApp.services')
         if (err) return cb(err);
 
         walletClient.joinWallet(opts.secret, opts.myName || 'me', {}, function(err) {
-          if (err) return bwcError.cb(err, gettextCatalog.getString('Could not join wallet'), cb);
+          if (err) return walletClientError.cb(err, gettextCatalog.getString('Could not join wallet'), cb);
           addAndBindWalletClient(walletClient, {
-            bwsurl: opts.bwsurl
+            walletServiceUrl: opts.walletServiceUrl
           }, cb);
         });
       });
@@ -521,24 +521,24 @@ angular.module('owsWalletApp.services')
 
       root.bindWalletClient(client);
 
-      var saveBwsUrl = function(cb) {
+      var saveWalletServiceUrl = function(cb) {
         var defaults = configService.getDefaults();
-        var bwsFor = {};
-        bwsFor[walletId] = opts.bwsurl || defaults.currencyNetworks[defaults.currencyNetworks.default].bws.url;
+        var walletServiceFor = {};
+        walletServiceFor[walletId] = opts.walletServiceUrl || defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url;
 
         // Dont save the default
-        if (bwsFor[walletId] == defaults.currencyNetworks[defaults.currencyNetworks.default].bws.url)
+        if (walletServiceFor[walletId] == defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url)
           return cb();
 
         configService.set({
-          bwsFor: bwsFor,
+          walletServiceFor: walletServiceFor,
         }, function(err) {
           if (err) $log.warn(err);
           return cb();
         });
       };
 
-      saveBwsUrl(function() {
+      saveWalletServiceUrl(function() {
         storageService.storeProfile(root.profile, function(err) {
           return cb(err, client);
         });
@@ -557,8 +557,8 @@ angular.module('owsWalletApp.services')
     };
 
     root.importWallet = function(str, opts, cb) {
-      // opts.bwsurl should be set by according to network.
-      var walletClient = networkService.bwcFor(opts.networkURI).getClient(null, opts);
+      // opts.walletServiceUrl should be set by according to network.
+      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
       $log.debug('Importing Wallet:', opts);
 
@@ -590,7 +590,7 @@ angular.module('owsWalletApp.services')
       var addressBook = str.addressBook || {};
 
       addAndBindWalletClient(walletClient, {
-        bwsurl: opts.bwsurl
+        walletServiceUrl: opts.walletServiceUrl
       }, function(err, walletId) {
         if (err) return cb(err);
         root.setMetaData(walletClient, addressBook, function(error) {
@@ -601,22 +601,22 @@ angular.module('owsWalletApp.services')
     };
 
     root.importExtendedPrivateKey = function(xPrivKey, opts, cb) {
-      // opts.bwsurl should be set by according to network.
-      var walletClient = networkService.bwcFor(opts.networkURI).getClient(null, opts);
+      // opts.walletServiceUrl should be set by according to network.
+      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
       $log.debug('Importing Wallet xPrivKey');
 
       walletClient.importFromExtendedPrivateKey(xPrivKey, opts, function(err) {
         if (err) {
-          var errors = networkService.bwcFor(opts.networkURI).getErrors();
+          var errors = networkService.walletClientFor(opts.networkURI).getErrors();
           if (err instanceof errors.NOT_AUTHORIZED)
             return cb(err);
 
-          return bwcError.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientError.cb(err, gettextCatalog.getString('Could not import'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl
+          walletServiceUrl: opts.walletServiceUrl
         }, cb);
       });
     };
@@ -630,8 +630,8 @@ angular.module('owsWalletApp.services')
     };
 
     root.importMnemonic = function(words, opts, cb) {
-      // opts.bwsurl should be set by according to network.
-      var walletClient = networkService.bwcFor(opts.networkURI).getClient(null, opts);
+      // opts.walletServiceUrl should be set by according to network.
+      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
       $log.debug('Importing Wallet Mnemonic');
 
@@ -644,22 +644,22 @@ angular.module('owsWalletApp.services')
         account: opts.account || 0,
       }, function(err) {
         if (err) {
-          var errors = networkService.bwcFor(opts.networkURI).getErrors();
+          var errors = networkService.walletClientFor(opts.networkURI).getErrors();
           if (err instanceof errors.NOT_AUTHORIZED)
             return cb(err);
 
-          return bwcError.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientError.cb(err, gettextCatalog.getString('Could not import'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl
+          walletServiceUrl: opts.walletServiceUrl
         }, cb);
       });
     };
 
     root.importExtendedPublicKey = function(opts, cb) {
-      // opts.bwsurl should be set by according to network.
-      var walletClient = networkService.bwcFor(opts.networkURI).getClient(null, opts);
+      // opts.walletServiceUrl should be set by according to network.
+      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
       $log.debug('Importing Wallet XPubKey');
 
       walletClient.importFromExtendedPublicKey(opts.extendedPublicKey, opts.externalSource, opts.entropySource, {
@@ -667,17 +667,17 @@ angular.module('owsWalletApp.services')
         derivationStrategy: opts.derivationStrategy || 'BIP44',
       }, function(err) {
         if (err) {
-          var errors = networkService.bwcFor(opts.networkURI).getErrors();
+          var errors = networkService.walletClientFor(opts.networkURI).getErrors();
 
           // in HW wallets, req key is always the same. They can't addAccess.
           if (err instanceof errors.NOT_AUTHORIZED)
             err.name = 'WALLET_DOES_NOT_EXIST';
 
-          return bwcError.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientError.cb(err, gettextCatalog.getString('Could not import'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl
+          walletServiceUrl: opts.walletServiceUrl
         }, cb);
       });
     };
@@ -705,7 +705,7 @@ angular.module('owsWalletApp.services')
       var opts = {};
       opts.m = 1;
       opts.n = 1;
-      opts.networkURI = 'livenet/btc';
+      opts.network = networkService.getNetworkByURI('livenet/btc');
       root.createWallet(opts, cb);
     };
 
@@ -918,9 +918,9 @@ angular.module('owsWalletApp.services')
         });
 
         lodash.each(finale, function(x) {
-          var u = networkService.bwcFor(x.wallet.network).getUtils();
+          var u = networkService.walletClientFor(x.wallet.network).getUtils();
           if (x.data && x.data.message && x.wallet && x.wallet.credentials.sharedEncryptingKey) {
-            // TODO TODO TODO => BWC
+            // TODO TODO TODO => Wallet Client
             x.message = u.decryptMessage(x.data.message, x.wallet.credentials.sharedEncryptingKey);
           }
         });

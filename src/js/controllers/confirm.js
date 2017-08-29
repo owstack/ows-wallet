@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('confirmController', function($rootScope, $scope, $interval, $filter, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, profileService, txFormatService, ongoingProcess, $ionicModal, popupService, $ionicHistory, $ionicConfig, payproService, feeService, bwcError, txConfirmNotification) {
+angular.module('owsWalletApp.controllers').controller('confirmController', function($rootScope, $scope, $interval, $filter, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, profileService, txFormatService, ongoingProcess, $ionicModal, popupService, $ionicHistory, $ionicConfig, payproService, feeService, walletClientError, txConfirmNotification) {
 
   var countDown = null;
   var CONFIRM_LIMIT_USD = 20;
@@ -40,7 +40,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
   function exitWithError(err) {
     $log.info('Error setting wallet selector:' + err);
-    popupService.showAlert(gettextCatalog.getString(), bwcError.msg(err), function() {
+    popupService.showAlert(gettextCatalog.getString(), walletClientError.msg(err), function() {
       $ionicHistory.nextViewOptions({
         disableAnimate: true,
         historyRoot: true
@@ -436,7 +436,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
     $timeout(function() {
       $scope.$apply();
     });
-    popupService.showAlert(gettextCatalog.getString('Error at confirm'), bwcError.msg(msg));
+    popupService.showAlert(gettextCatalog.getString('Error at confirm'), walletClientError.msg(msg));
   };
 
   $scope.openPPModal = function() {

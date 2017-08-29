@@ -68,7 +68,7 @@ angular.module('owsWalletApp.services')
           return cb('Could not decrypt storage: could not get device ID');
 
         try {
-          text = networkService.bwcFor('livenet/btc').getSJCL().decrypt(uuid, text); // Support only livenet/btc
+          text = networkService.walletClientFor('livenet/btc').getSJCL().decrypt(uuid, text); // Support only livenet/btc
 
           $log.info('Migrating to unencrypted profile');
           return storage.set('profile', text, function(err) {

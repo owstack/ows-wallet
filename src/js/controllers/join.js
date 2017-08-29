@@ -11,7 +11,7 @@ angular.module('owsWalletApp.controllers').controller('joinController',
 
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
-      $scope.formData.bwsurl = configNetwork[$scope.formData.network.getURI()].bws.url;
+      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
 
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
       $scope.formData.account = 1;
@@ -109,7 +109,7 @@ angular.module('owsWalletApp.controllers').controller('joinController',
       var opts = {
         secret: $scope.formData.secret,
         myName: $scope.formData.myName,
-        bwsurl: $scope.formData.bwsurl
+        walletServiceUrl: $scope.formData.walletServiceUrl
       }
 
       var setSeed = $scope.formData.seedSource.id == 'set';

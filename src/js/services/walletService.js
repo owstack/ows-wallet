@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezor, ledger, intelTEE, storageService, configService, rateService, uxLanguage, $filter, gettextCatalog, bwcError, $ionicPopup, fingerprintService, ongoingProcess, gettext, $rootScope, txFormatService, $ionicModal, $state, popupService, networkService) {
+angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezor, ledger, intelTEE, storageService, configService, rateService, uxLanguage, $filter, gettextCatalog, walletClientError, $ionicPopup, fingerprintService, ongoingProcess, gettext, $rootScope, txFormatService, $ionicModal, $state, popupService, networkService) {
 
   // Ratio low amount warning (fee/amount) in incoming TX 
   var LOW_AMOUNT_RATIO = 0.15; 
@@ -170,7 +170,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         twoStep: true
       }, function(err, ret) {
         if (err) {
-          var errors = networkService.bwcFor(wallet.network).getErrors();
+          var errors = networkService.walletClientFor(wallet.network).getErrors();
           if (err instanceof errors.NOT_AUTHORIZED) {
             return cb('WALLET_NOT_REGISTERED');
           }
@@ -444,8 +444,8 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       function getNewTxs(newTxs, skip, next) {
         getTxsFromServer(wallet, skip, endingTxid, requestLimit, function(err, res, shouldContinue) {
           if (err) {
-            $log.warn(bwcError.msg(err, 'Server Error')); //TODO
-            var errors = networkService.bwcFor(wallet.network).getErrors();
+            $log.warn(walletClientError.msg(err, 'Server Error')); //TODO
+            var errors = networkService.walletClientFor(wallet.network).getErrors();
             if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
               $log.info('Retrying history download in 5 secs...');
               return $timeout(function() {
@@ -778,7 +778,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       wallet.savePreferences(prefs, function(err) {
 
         if (err) {
-          popupService.showAlert(bwcError.msg(err, gettextCatalog.getString('Could not save preferences on the server')));
+          popupService.showAlert(walletClientError.msg(err, gettextCatalog.getString('Could not save preferences on the server')));
           return next(err);
         }
 
@@ -859,7 +859,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     wallet.createAddress({}, function(err, addr) {
       if (err) {
         var prefix = gettextCatalog.getString('Could not create address');
-        var errors = networkService.bwcFor(wallet.network).getErrors();
+        var errors = networkService.walletClientFor(wallet.network).getErrors();
         if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
           $log.warn(err);
           return $timeout(function() {
@@ -876,7 +876,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
             return cb(null, addr[0].address);
           });
         }
-        return bwcError.cb(err, prefix, cb);
+        return walletClientError.cb(err, prefix, cb);
       }
       return cb(null, addr.address);
     });
@@ -1091,7 +1091,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     root.publishTx(wallet, txp, function(err, publishedTxp) {
       root.invalidateCache(wallet);
       ongoingProcess.set('sendingTx', false, customStatusHandler);
-      if (err) return cb(bwcError.msg(err));
+      if (err) return cb(walletClientError.msg(err));
       $rootScope.$emit('Local/TxAction', wallet.id);
       return cb();
     });
@@ -1122,13 +1122,13 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     }
 
     root.prepare(wallet, function(err, password) {
-      if (err) return cb(bwcError.msg(err));
+      if (err) return cb(walletClientError.msg(err));
 
       ongoingProcess.set('sendingTx', true, customStatusHandler);
 
       publishFn(wallet, txp, function(err, publishedTxp) {
         ongoingProcess.set('sendingTx', false, customStatusHandler);
-        if (err) return cb(bwcError.msg(err));
+        if (err) return cb(walletClientError.msg(err));
 
         ongoingProcess.set('signingTx', true, customStatusHandler);
         root.signTx(wallet, publishedTxp, password, function(err, signedTxp) {
@@ -1150,7 +1150,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
             ongoingProcess.set('broadcastingTx', true, customStatusHandler);
             root.broadcastTx(wallet, signedTxp, function(err, broadcastedTxp) {
               ongoingProcess.set('broadcastingTx', false, customStatusHandler);
-              if (err) return cb(bwcError.msg(err));
+              if (err) return cb(walletClientError.msg(err));
 
               $rootScope.$emit('Local/TxAction', wallet.id);
               return cb(null, broadcastedTxp);

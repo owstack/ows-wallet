@@ -63,7 +63,7 @@ angular.module('owsWalletApp.services')
         var b = wallet.export(opts);
         if (opts.addressBook) b = root.addMetadata(b, opts);
 
-        var e = networkService.bwcFor(wallet.network).getSJCL().encrypt(password, b, {
+        var e = networkService.walletClientFor(wallet.network).getSJCL().encrypt(password, b, {
           iter: 10000
         });
         return e;

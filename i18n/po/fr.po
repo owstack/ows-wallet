@@ -212,7 +212,7 @@ msgstr "Amazon.com n’est pas disponible pour le moment. Veuillez réessayer pl
 msgid "Amount"
 msgstr "Montant"
 
-#: src/js/services/bwcError.js:110
+#: src/js/services/walletClientError.js:110
 msgid "Amount below minimum allowed"
 msgstr "Montant en dessous du minimum autorisé"
 
@@ -572,7 +572,7 @@ msgstr "Connexion à Coinbase..."
 msgid "Connecting to Glidera..."
 msgstr "Connexion à Glidera..."
 
-#: src/js/services/bwcError.js:53
+#: src/js/services/walletClientError.js:53
 msgid "Connection reset by peer"
 msgstr "Connexion réinitialisée par un pair"
 
@@ -588,15 +588,15 @@ msgstr "Continuer"
 msgid "Contribute Translations"
 msgstr "Contribuer aux traductions"
 
-#: src/js/services/bwcError.js:62
+#: src/js/services/walletClientError.js:62
 msgid "Copayer already in this wallet"
 msgstr "Copayer déjà dans ce portefeuille"
 
-#: src/js/services/bwcError.js:77
+#: src/js/services/walletClientError.js:77
 msgid "Copayer already voted on this spend proposal"
 msgstr "Le Copayer a déjà voté pour cette proposition de dépense"
 
-#: src/js/services/bwcError.js:107
+#: src/js/services/walletClientError.js:107
 msgid "Copayer data mismatch"
 msgstr "Les données Copayer ne correspondent pas"
 
@@ -650,7 +650,7 @@ msgstr "Could not add message to imported wallet without shared encrypting key"
 msgid "Could not broadcast payment"
 msgstr "Impossible de diffuser le paiement"
 
-#: src/js/services/bwcError.js:41
+#: src/js/services/walletClientError.js:41
 msgid "Could not build transaction"
 msgstr "Impossible de créer la transaction"
 
@@ -911,7 +911,7 @@ msgstr "E-mail"
 msgid "Email Address"
 msgstr "Adresse e-mail"
 
-#: src/js/services/bwcError.js:122
+#: src/js/services/walletClientError.js:122
 msgid "Empty addresses limit reached. New addresses cannot be generated."
 msgstr "La limite d'adresses vides a été atteinte. Les nouvelles adresses ne peuvent plus être générées."
 
@@ -1084,7 +1084,7 @@ msgstr "Erreur de balayage de portefeuille :"
 msgid "Error updating Debit Cards"
 msgstr "Erreur de mise à jour des cartes de débit"
 
-#: src/js/services/bwcError.js:143
+#: src/js/services/walletClientError.js:143
 msgid "Exceeded daily limit of $500 per user"
 msgstr "La limite quotidienne de 500$ par utilisateur a été dépassée"
 
@@ -1215,7 +1215,7 @@ msgstr "Depuis un portefeuille matériel"
 msgid "From the destination device, go to Add wallet &gt; Import wallet and scan this QR code"
 msgstr "Depuis l'appareil de destination, allez sur « Ajouter un portefeuille » &gt; « Importer » et numérisez ce code QR"
 
-#: src/js/services/bwcError.js:74
+#: src/js/services/walletClientError.js:74
 msgid "Funds are locked by pending spend proposals"
 msgstr "Les fonds sont verrouillés par des propositions de dépenses en attente"
 
@@ -1492,19 +1492,19 @@ msgstr "PIN incorrect, veuillez réessayer."
 msgid "Incorrect code format"
 msgstr "Format du code incorrect"
 
-#: src/js/services/bwcError.js:113
+#: src/js/services/walletClientError.js:113
 msgid "Incorrect network address"
 msgstr "Adresse réseau invalide"
 
 #: src/js/controllers/confirm.js:112
 #: src/js/controllers/confirm.js:275
-#: src/js/services/bwcError.js:44
+#: src/js/services/walletClientError.js:44
 msgid "Insufficient funds"
 msgstr "Fonds insuffisants"
 
 #: src/js/controllers/topup.js:164
 #: src/js/controllers/topup.js:176
-#: src/js/services/bwcError.js:71
+#: src/js/services/walletClientError.js:71
 msgid "Insufficient funds for fee"
 msgstr "Fonds insuffisants pour les frais"
 
@@ -1524,7 +1524,7 @@ msgstr "URL invalide"
 msgid "Invalid account number"
 msgstr "Numéro de compte invalide"
 
-#: src/js/services/bwcError.js:119
+#: src/js/services/walletClientError.js:119
 msgid "Invalid address"
 msgstr "Adresse invalide"
 
@@ -1588,7 +1588,7 @@ msgstr "Connexion au portefeuille..."
 msgid "Just scan the code to pay."
 msgstr "Numérisez juste le code pour payer."
 
-#: src/js/services/bwcError.js:116
+#: src/js/services/walletClientError.js:116
 msgid "Key already associated with an existing wallet"
 msgstr "La clé est déjà associée avec un portefeuille existant"
 
@@ -1630,11 +1630,11 @@ msgstr "Verrouiller par un code PIN"
 msgid "Locked"
 msgstr "Verrouillé"
 
-#: src/js/services/bwcError.js:86
+#: src/js/services/walletClientError.js:86
 msgid "Locktime in effect. Please wait to create a new spend proposal"
 msgstr "Locktime effectif. Veuillez patienter pour créer une nouvelle proposition de dépense"
 
-#: src/js/services/bwcError.js:89
+#: src/js/services/walletClientError.js:89
 msgid "Locktime in effect. Please wait to remove this spend proposal"
 msgstr "Locktime effectif. Veuillez patienter pour supprimer cette proposition de dépense"
 
@@ -1696,11 +1696,11 @@ msgstr "Message marchand"
 msgid "Miner Fee"
 msgstr "Frais de mineur"
 
-#: src/js/services/bwcError.js:134
+#: src/js/services/walletClientError.js:134
 msgid "Missing parameter"
 msgstr "Paramètre manquant"
 
-#: src/js/services/bwcError.js:32
+#: src/js/services/walletClientError.js:32
 msgid "Missing private keys to sign"
 msgstr "Clés privées manquantes pour signer"
 
@@ -1739,7 +1739,7 @@ msgstr "Nom"
 msgid "Network Cost"
 msgstr "Coût de réseau"
 
-#: src/js/services/bwcError.js:47
+#: src/js/services/walletClientError.js:47
 msgid "Network error"
 msgstr "Erreur réseau"
 
@@ -1828,7 +1828,7 @@ msgstr "Aucun portefeuille disponible pour recevoir des fonds"
 msgid "Normal"
 msgstr "Normaux"
 
-#: src/js/services/bwcError.js:80
+#: src/js/services/walletClientError.js:80
 msgid "Not authorized"
 msgstr "Non autorisé"
 
@@ -2095,7 +2095,7 @@ msgstr "Veuillez saisir votre PIN"
 msgid "Please tap each word in the correct order."
 msgstr "Veuillez sélectionner chaque mot dans le bon ordre."
 
-#: src/js/services/bwcError.js:101
+#: src/js/services/walletClientError.js:101
 msgid "Please upgrade Owlto perform this action"
 msgstr "Veuillez mettre à jour Owlpour effectuer cette action"
 
@@ -2135,7 +2135,7 @@ msgstr "Clé privée"
 msgid "Private key encrypted. Enter password"
 msgstr "Clé privée chiffrée. Saisissez le mot de passe"
 
-#: src/js/services/bwcError.js:35
+#: src/js/services/walletClientError.js:35
 msgid "Private key is encrypted, cannot sign"
 msgstr "La clé privée est chiffrée, impossible de signer"
 
@@ -2497,7 +2497,7 @@ msgstr "Envoyés"
 msgid "Sent Funds"
 msgstr "Fonds envoyés"
 
-#: src/js/services/bwcError.js:38
+#: src/js/services/walletClientError.js:38
 msgid "Server response could not be verified"
 msgstr "La réponse du serveur n'a pas pu être vérifiée"
 
@@ -2575,7 +2575,7 @@ msgstr "Afficher vos adresses bitcoin"
 msgid "Show more"
 msgstr "En afficher plus"
 
-#: src/js/services/bwcError.js:104
+#: src/js/services/walletClientError.js:104
 msgid "Signatures rejected by server"
 msgstr "Signatures rejetées par le serveur"
 
@@ -2611,15 +2611,15 @@ msgstr "Faites glisser pour acheter"
 msgid "Specify Recovery Phrase..."
 msgstr "Spécifier la phrase de récupération..."
 
-#: src/js/services/bwcError.js:92
+#: src/js/services/walletClientError.js:92
 msgid "Spend proposal is not accepted"
 msgstr "La proposition de dépense n'est pas acceptée"
 
-#: src/js/services/bwcError.js:95
+#: src/js/services/walletClientError.js:95
 msgid "Spend proposal not found"
 msgstr "Propostion de dépense introuvable"
 
-#: src/js/services/bwcError.js:137
+#: src/js/services/walletClientError.js:137
 msgid "Spending Password needed"
 msgstr "Code de dépenses requis"
 
@@ -2769,7 +2769,7 @@ msgstr "Le paiement a été supprimé par le créateur"
 msgid "The recovery phrase could require a password to be imported"
 msgstr "La phrase de récupération pourrait demander un mot de passe pour être importée"
 
-#: src/js/services/bwcError.js:56
+#: src/js/services/walletClientError.js:56
 msgid "The request could not be understood by the server"
 msgstr "La demande n'a pas été comprise par le serveur"
 
@@ -2777,7 +2777,7 @@ msgstr "La demande n'a pas été comprise par le serveur"
 msgid "The restore process will stop when 20 addresses are generated in a row which contain no funds. To safely generate more addresses, make a payment to one of the unused addresses which has already been generated."
 msgstr "Le processus de restauration s’arrête lorsque 20 adresses sont générées consécutivement sans qu'elles ne contiennent de fonds. Pour générer plus d'adresses en toute sécurité, effectuez un paiement à l’une des adresses inutilisées qui a déjà été générée."
 
-#: src/js/services/bwcError.js:98
+#: src/js/services/walletClientError.js:98
 msgid "The spend proposal is not pending"
 msgstr "La proposition de dépense n'est pas en attente"
 
@@ -2914,7 +2914,7 @@ msgstr "Transaction créée"
 msgid "Transaction History"
 msgstr "Historique des transactions"
 
-#: src/js/services/bwcError.js:83
+#: src/js/services/walletClientError.js:83
 msgid "Transaction already broadcasted"
 msgstr "Transaction déjà diffusée"
 
@@ -3141,7 +3141,7 @@ msgstr "Réseau du portefeuille"
 msgid "Wallet Recovery Phrase"
 msgstr "Phrase de récupération"
 
-#: src/js/services/bwcError.js:26
+#: src/js/services/walletClientError.js:26
 msgid "Wallet Recovery Phrase is invalid"
 msgstr "La phrase de récupération du portefeuille est invalide"
 
@@ -3159,7 +3159,7 @@ msgstr "Paramètres du portefeuille"
 msgid "Wallet Type"
 msgstr "Type de portefeuille"
 
-#: src/js/services/bwcError.js:59
+#: src/js/services/walletClientError.js:59
 msgid "Wallet already exists"
 msgstr "Le portefeuille existe déjà"
 
@@ -3175,15 +3175,15 @@ msgstr "Portefeuille créé"
 msgid "Wallet incomplete and broken"
 msgstr "Portefeuille incomplet et cassé "
 
-#: src/js/services/bwcError.js:65
+#: src/js/services/walletClientError.js:65
 msgid "Wallet is full"
 msgstr "Le portefeuille est plein"
 
-#: src/js/services/bwcError.js:125
+#: src/js/services/walletClientError.js:125
 msgid "Wallet is locked"
 msgstr "Le portefeuille est verrouillé"
 
-#: src/js/services/bwcError.js:128
+#: src/js/services/walletClientError.js:128
 msgid "Wallet is not complete"
 msgstr "Le portefeuille n'est pas complet"
 
@@ -3192,7 +3192,7 @@ msgstr "Le portefeuille n'est pas complet"
 msgid "Wallet name"
 msgstr "Nom du portefeuille"
 
-#: src/js/services/bwcError.js:131
+#: src/js/services/walletClientError.js:131
 msgid "Wallet needs backup"
 msgstr "Le portefeuille a besoin d'une sauvegarde"
 
@@ -3201,7 +3201,7 @@ msgstr "Le portefeuille a besoin d'une sauvegarde"
 msgid "Wallet not backed up"
 msgstr "Le portefeuille n'est pas sauvegardé"
 
-#: src/js/services/bwcError.js:68
+#: src/js/services/walletClientError.js:68
 msgid "Wallet not found"
 msgstr "Portefeuille introuvable"
 
@@ -3209,7 +3209,7 @@ msgstr "Portefeuille introuvable"
 msgid "Wallet not registered"
 msgstr "Portefeuille non enregistré"
 
-#: src/js/services/bwcError.js:29
+#: src/js/services/walletClientError.js:29
 msgid "Wallet not registered at the wallet service. Recreate it from \"Create Wallet\" using \"Advanced Options\" to set your recovery phrase"
 msgstr "Le portefeuille n'est pas enregistré au Wallet Service. Vous pouvez le recréer depuis « Créer » en utilisant les « Options avancées » pour configurer votre phrase de récupération"
 
@@ -3217,7 +3217,7 @@ msgstr "Le portefeuille n'est pas enregistré au Wallet Service. Vous pouvez le 
 msgid "Wallet recovery phrase not available."
 msgstr "La phrase de récupération du portefeuille est indisponible."
 
-#: src/js/services/bwcError.js:50
+#: src/js/services/walletClientError.js:50
 msgid "Wallet service not found"
 msgstr "Wallet Service introuvable"
 
@@ -3298,7 +3298,7 @@ msgstr "Souhaitez-vous recevoir des notifications relatives aux paiements ?"
 msgid "Wrong number of recovery words:"
 msgstr "Nombre incorrect de mots de récupération :"
 
-#: src/js/services/bwcError.js:140
+#: src/js/services/walletClientError.js:140
 msgid "Wrong spending password"
 msgstr "Code de dépenses incorrect"
 

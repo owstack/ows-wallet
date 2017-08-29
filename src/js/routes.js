@@ -570,12 +570,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.preferencesBwsUrl', {
-        url: '/preferencesBwsUrl',
+      .state('tabs.preferences.preferencesWalletServiceUrl', {
+        url: '/preferencesWalletServiceUrl',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesBwsUrlController',
-            templateUrl: 'views/preferencesBwsUrl.html'
+            controller: 'preferencesWalletServiceUrlController',
+            templateUrl: 'views/preferencesWalletServiceUrl.html'
           }
         }
       })

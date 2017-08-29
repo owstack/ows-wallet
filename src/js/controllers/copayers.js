@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('copayersController',
-  function($scope, $log, $timeout, $stateParams, $state, $rootScope, $ionicHistory, appConfigService, lodash, profileService, walletService, popupService, bwcError, platformInfo, gettextCatalog, ongoingProcess, pushNotificationsService) {
+  function($scope, $log, $timeout, $stateParams, $state, $rootScope, $ionicHistory, appConfigService, lodash, profileService, walletService, popupService, walletClientError, platformInfo, gettextCatalog, ongoingProcess, pushNotificationsService) {
 
     var listener;
     var appName = appConfigService.userVisibleName;
@@ -13,7 +13,7 @@ angular.module('owsWalletApp.controllers').controller('copayersController',
       updateWallet();
       $scope.shareIcon = platformInfo.isIOS ? 'iOS' : 'Android';
     
-      listener = $rootScope.$on('bwsEvent', function(e, walletId, type, n) {
+      listener = $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
         if ($scope.wallet && walletId == $scope.wallet.id && type == ('NewCopayer' || 'WalletComplete'))
           updateWalletDebounced();
       });
@@ -27,7 +27,7 @@ angular.module('owsWalletApp.controllers').controller('copayersController',
       $log.debug('Updating wallet:' + $scope.wallet.name)
       walletService.getStatus($scope.wallet, {}, function(err, status) {
         if (err) {
-          return popupService.showAlert(bwcError.msg(err, gettextCatalog.getString('Could not update wallet')));
+          return popupService.showAlert(walletClientError.msg(err, gettextCatalog.getString('Could not update wallet')));
         }
         $scope.wallet.status = status;
         $scope.copayers = $scope.wallet.status.wallet.copayers;

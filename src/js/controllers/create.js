@@ -31,7 +31,7 @@ angular.module('owsWalletApp.controllers').controller('createController',
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
       $scope.networkOptions = networkService.getNetworks();
-      $scope.formData.bwsurl = configNetwork[$scope.formData.network.getURI()].bws.url;
+      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
 
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
       $scope.setTotalCopayers(tc);
@@ -41,7 +41,7 @@ angular.module('owsWalletApp.controllers').controller('createController',
 
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
-      $scope.formData.bwsurl = configNetwork[$scope.formData.network.getURI()].bws.url;
+      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
     };
 
     $scope.showAdvChange = function() {
@@ -151,7 +151,7 @@ angular.module('owsWalletApp.controllers').controller('createController',
         n: $scope.formData.totalCopayers,
         myName: $scope.formData.totalCopayers > 1 ? $scope.formData.myName : null,
         network: $scope.formData.network,
-        bwsurl: $scope.formData.bwsurl,
+        walletServiceUrl: $scope.formData.walletServiceUrl,
         singleAddress: $scope.formData.singleAddressEnabled,
         walletPrivKey: $scope.formData._walletPrivKey, // Only for testing
       };
