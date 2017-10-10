@@ -4,7 +4,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
   var root = {};
 
-  var coreLib = networkService.walletClientFor('livenet/btc').getCoreLib();
+  var coreLib = networkService.walletClientFor('livenet/btc').getLib();
 
   root.showMenu = function(data) {
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);

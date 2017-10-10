@@ -120,12 +120,12 @@ angular.module('owsWalletApp.controllers').controller('bitpayCardController', fu
   };
 
   this.viewOnBlockchain = function(transactionId) {
-    var bex = networkService.getNetworkByURI('livenet/btc').bex.production; // Support only livenet/btc
-    var url = bex.urlTx + transactionId;
+    var explorer = networkService.getNetworkByURI('livenet/btc').explorer.production; // Support only livenet/btc
+    var url = explorer.urlTx + transactionId;
     var optIn = true;
     var title = null;
-    var message = gettextCatalog.getString('View Transaction on ' + bex.label);
-    var okText = gettextCatalog.getString('Open ' + bex.label);
+    var message = gettextCatalog.getString('View Transaction on ' + explorer.label);
+    var okText = gettextCatalog.getString('Open ' + explorer.label);
     var cancelText = gettextCatalog.getString('Go Back');
     externalLinkService.open(url, optIn, title, message, okText, cancelText);
   };

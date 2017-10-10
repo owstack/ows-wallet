@@ -83,7 +83,7 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
   var _openWallet = function(walletIdHashed) {
     var wallets = profileService.getWallets();
     var wallet = lodash.find(wallets, function(w) {
-      var sjcl = networkService.walletClientFor(w.network).getSJCL();
+      var sjcl = networkService.walletClientFor(w.networkURI).getSJCL();
       return (lodash.isEqual(walletIdHashed, sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(w.id))));
     });
 

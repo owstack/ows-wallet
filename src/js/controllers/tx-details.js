@@ -168,12 +168,12 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
 
   $scope.viewOnBlockchain = function() {
     var btx = $scope.btx;
-    var bex = networkService.getNetworkByURI($scope.wallet.network).bex.production;
-    var url = bex.urlTx + btx.txid;
+    var explorer = networkService.getNetworkByURI($scope.wallet.network).explorer.production;
+    var url = explorer.urlTx + btx.txid;
     var optIn = true;
     var title = null;
-    var message = gettextCatalog.getString('View Transaction on ' + bex.label);
-    var okText = gettextCatalog.getString('Open ' + bex.label);
+    var message = gettextCatalog.getString('View Transaction on ' + explorer.label);
+    var okText = gettextCatalog.getString('Open ' + explorer.label);
     var cancelText = gettextCatalog.getString('Go Back');
     externalLinkService.open(url, optIn, title, message, okText, cancelText);
   };

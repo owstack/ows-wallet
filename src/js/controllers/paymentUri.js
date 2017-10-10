@@ -10,7 +10,7 @@ angular.module('owsWalletApp.controllers').controller('paymentUriController',
       var query = [];
       this.paymentURI = $stateParams.url;
 
-      var URI = networkService.walletClientFor('livenet/btc').getCoreLib().URI; // Support only livenet/btc
+      var URI = networkService.walletClientFor('livenet/btc').getLib().URI; // Support only livenet/btc
       var isUriValid = URI.isValid(this.paymentURI);
       if (!URI.isValid(this.paymentURI)) {
         this.error = true;

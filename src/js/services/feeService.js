@@ -25,6 +25,7 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
   root.getFeeRate = function(feeLevel, walletOrNetwork, cb) {
     var network = walletOrNetwork;
     if (typeof walletOrNetwork == 'object') {
+      // Is wallet object
       network = walletOrNetwork.network;
     }
 
@@ -55,8 +56,10 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
   root.getCurrentFeeRate = function(walletOrNetwork, cb) {
     if (typeof walletOrNetwork == 'object') {
+      // Is wallet object
       network = walletOrNetwork.network;
     } else {
+      // Is networkURI string
       network = walletOrNetwork;
     }
     return root.getFeeRate(root.getCurrentFeeLevel(network), walletOrNetwork, cb);
@@ -64,13 +67,18 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
   root.getFeeLevels = function(walletOrNetwork, cb) {
     var network;
+    var networkURI;
     var walletServiceUrl;
 
     if (typeof walletOrNetwork == 'object') {
+      // Is wallet object
       network = walletOrNetwork.network;
+      networkURI = walletOrNetwork.networkURI;
       walletServiceUrl = walletOrNetwork.baseUrl;
     } else {
-      network = walletOrNetwork;
+      // Is networkURI string
+      network = networkService.parseNet(walletOrNetwork);
+      networkURI = walletOrNetwork;
       walletServiceUrl = configService.getSync().currencyNetworks[network].walletService.url;
     }
 
@@ -82,7 +90,7 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
       walletServiceUrl: walletServiceUrl
     };
 
-    var walletClient = networkService.walletClientFor(network).getClient(null, opts);
+    var walletClient = networkService.walletClientFor(networkURI).getClient(null, opts);
 
     walletClient.getFeeLevels(network, function(err, levels) {
       if (err) {
