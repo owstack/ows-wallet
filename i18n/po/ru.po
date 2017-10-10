@@ -2840,8 +2840,8 @@ msgstr ""
 
 #: www/views/walletDetails.html:115
 #: www/views/walletDetails.html:35
-msgid "This wallet is not registered at the given Bitcore Wallet Service (BWS). You can recreate it from the local information."
-msgstr "Это кошелёк не зарегистрирован на данном сервере Bitcore. Вы можете воссоздать его из локальной информации."
+msgid "This wallet is not registered at the given Wallet Service. You can recreate it from the local information."
+msgstr "Это кошелёк не зарегистрирован на данном сервере. Вы можете воссоздать его из локальной информации."
 
 #: www/views/modals/txp-details.html:138
 #: www/views/tx-details.html:121

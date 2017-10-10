@@ -2840,8 +2840,8 @@ msgstr "Potwierdzenie transakcja może trwać długo lub zostać przerwane z pow
 
 #: www/views/walletDetails.html:115
 #: www/views/walletDetails.html:35
-msgid "This wallet is not registered at the given Bitcore Wallet Service (BWS). You can recreate it from the local information."
-msgstr "Ten portfel nie jest zarejestrowany na Bitcore Wallet Service (BWS). Możesz go odtworzyć z lokalnego nośnika."
+msgid "This wallet is not registered at the given Wallet Service. You can recreate it from the local information."
+msgstr "Ten portfel nie jest zarejestrowany na Wallet Service. Możesz go odtworzyć z lokalnego nośnika."
 
 #: www/views/modals/txp-details.html:138
 #: www/views/tx-details.html:121

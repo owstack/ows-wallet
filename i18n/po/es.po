@@ -2840,8 +2840,8 @@ msgstr "Esta transacción podría tardar mucho tiempo en confirmar o podría cae
 
 #: www/views/walletDetails.html:115
 #: www/views/walletDetails.html:35
-msgid "This wallet is not registered at the given Bitcore Wallet Service (BWS). You can recreate it from the local information."
-msgstr "Esta billetera no está registrada en el servidor de Bitcore Wallet Service (BWS). Debes re-crearla con la información local disponible."
+msgid "This wallet is not registered at the given Wallet Service. You can recreate it from the local information."
+msgstr "Esta billetera no está registrada en el servidor de Wallet Service. Debes re-crearla con la información local disponible."
 
 #: www/views/modals/txp-details.html:138
 #: www/views/tx-details.html:121

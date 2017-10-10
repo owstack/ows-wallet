@@ -2831,7 +2831,7 @@ msgstr ""
 
 #: www/views/walletDetails.html:115
 #: www/views/walletDetails.html:35
-msgid "This wallet is not registered at the given Bitcore Wallet Service (BWS). You can recreate it from the local information."
+msgid "This wallet is not registered at the given Wallet Service. You can recreate it from the local information."
 msgstr ""
 
 #: www/views/modals/txp-details.html:138
