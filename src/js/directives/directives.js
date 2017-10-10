@@ -5,7 +5,7 @@ angular.module('owsWalletApp.directives')
       return {
         require: 'ngModel',
         link: function(scope, elem, attrs, ctrl) {
-          var coreLib = networkService.walletClientFor('livenet/btc').getCoreLib(); // TODO: Support more than /btc
+          var coreLib = networkService.walletClientFor('livenet/btc').getLib(); // TODO: Support more than /btc
           var URI = coreLib.URI;
           var Address = coreLib.Address;
           var validator = function(value) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, btcWalletClient, bccWalletClient) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* network clients >> */ bchWalletClient, btcWalletClient) {
   var root = {};
 
   var ENVIRONMENT = 'local'; // 'production'; // TODO: read from launch config?
@@ -15,7 +15,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       currency: 'btc',
       net: 'livenet',
       label: gettextCatalog.getString('Bitcoin'),
-      legacyName: 'livenet', // Used to update legacy wallets
+      legacyName: 'livenet', // Used to update legacy wallets // TODO: remove this
       walletClient: {
         service: btcWalletClient
       },
@@ -30,11 +30,11 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
           url: 'http://localhost:3232/btcws/api/'
         }
       },
-      bex: {
+      explorer: {
         production: {
-          label: gettextCatalog.getString('Insight'),
-          url: 'https://insight.bitpay.com/',
-          urlTx: 'https://insight.bitpay.com/tx/'
+          label: gettextCatalog.getString('Explorer'),
+          url: 'https://insight.bitpay.com/', // 'https://explorer.openwalletstack.com/',
+          urlTx: 'https://insight.bitpay.com/tx/' // 'https://explorer.openwalletstack.com/tx',
         }
       },
       units: [{
@@ -101,11 +101,11 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
           url: 'http://localhost:3232/btcws/api/'
         }
       },
-      bex: {
+      explorer: {
         production: {
-          label: gettextCatalog.getString('Insight'),
-          url: 'https://test-insight.bitpay.com/',
-          urlTx: 'https://test-insight.bitpay.com/tx/'
+          label: gettextCatalog.getString('Explorer'),
+          url: 'https://test-insight.bitpay.com/', // 'https://btc-explorer.openwalletstack.com/',
+          urlTx: 'https://test-insight.bitpay.com/tx/' // 'https://btc-explorer.openwalletstack.com/',
         }
       },
       units: [{
@@ -158,24 +158,24 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       net: 'livenet',
       label: gettextCatalog.getString('Bitcoin Cash'),
       walletClient: {
-        service: bccWalletClient
+        service: bchWalletClient
       },
       walletService: {
         production: {
-          url: 'https://bccws.openwalletstack.com/bccws/api/'
+          url: 'https://bchws.openwalletstack.com/bchws/api/'
         },
         staging: {
-          url: 'https://bccws.openwalletstack.com/bccws/api/'
+          url: 'https://bchws.openwalletstack.com/bchws/api/'
         },
         local: {
-          url: 'http://localhost:3232/bccws/api/'
+          url: 'http://localhost:3232/bchws/api/'
         }
       },
-      bex: {
+      explorer: {
         production: {
-          label: gettextCatalog.getString('Cash Explorer'),
-          url: 'https://cashexplorer.bitcoin.com/',
-          urlTx: 'https://cashexplorer.bitcoin.com/tx/'
+          label: gettextCatalog.getString('Explorer'),
+          url: 'https://cashexplorer.bitcoin.com/', // 'https://bch-explorer.openwalletstack.com/',
+          urlTx: 'https://cashexplorer.bitcoin.com/tx/' // 'https://bch-explorer.openwalletstack.com/'
         }
       },
       units: [{

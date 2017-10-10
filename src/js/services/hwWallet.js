@@ -64,7 +64,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.pubKeyToEntropySource = function(xPubKey, networkURI) {
-      var coreLib = networkService.walletClientFor(networkURI).getCoreLib();
+      var coreLib = networkService.walletClientFor(networkURI).getLib();
       var x = coreLib.HDPublicKey(xPubKey);
       return x.publicKey.toString();
     };

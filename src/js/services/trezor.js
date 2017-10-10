@@ -4,7 +4,7 @@ angular.module('owsWalletApp.services')
   .factory('trezor', function($log, $timeout, lodash, hwWallet, platformInfo, networkService) {
     var root = {};
 
-    var coreLib = networkService.walletClientFor('livenet/btc').getCoreLib();
+    var coreLib = networkService.walletClientFor('livenet/btc').getLib();
 
     var SETTLE_TIME = 3000;
     root.callbacks = {};

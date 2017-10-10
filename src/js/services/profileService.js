@@ -71,6 +71,11 @@ angular.module('owsWalletApp.services')
         return cb(hideBalance);
       });
     };
+
+    function _getNetworkURI(credentials) {
+      return credentials.network + '/' + credentials.currency;
+    };
+
     // Adds a wallet client to profileService
     root.bindWalletClient = function(wallet, opts) {
       var opts = opts || {};
@@ -85,6 +90,8 @@ angular.module('owsWalletApp.services')
       wallet.started = true;
       wallet.doNotVerifyPayPro = isChromeApp;
       wallet.network = wallet.credentials.network;
+      wallet.currency = wallet.credentials.currency;
+      wallet.networkURI = _getNetworkURI(wallet.credentials);
       wallet.copayerId = wallet.credentials.copayerId;
       wallet.m = wallet.credentials.m;
       wallet.n = wallet.credentials.n;
@@ -213,7 +220,8 @@ angular.module('owsWalletApp.services')
     var getWalletServiceUrl = function(credentials) {
       var config = configService.getSync();
       var defaults = configService.getDefaults();
-      return ((config.walletServiceFor && config.walletServiceFor[credentials.walletId]) || defaults.currencyNetworks[credentials.network].walletService.url);
+      var networkURI = _getNetworkURI(credentials);
+      return ((config.walletServiceFor && config.walletServiceFor[credentials.walletId]) || defaults.currencyNetworks[networkURI].walletService.url);
     };
 
     // Used when reading wallets from the profile
@@ -222,7 +230,8 @@ angular.module('owsWalletApp.services')
         return cb('bindWallet should receive credentials JSON');
 
       // Create the client
-      var client = networkService.walletClientFor(credentials.network).getClient(JSON.stringify(credentials), {
+      var networkURI = _getNetworkURI(credentials);
+      var client = networkService.walletClientFor(networkURI).getClient(JSON.stringify(credentials), {
         walletServiceUrl: getWalletServiceUrl(credentials)
       });
 
@@ -241,16 +250,6 @@ angular.module('owsWalletApp.services')
         $log.debug('Preferences read');
         if (err) return cb(err);
 
-        function tryMigrateCredentials(credentials, cb) {
-          // Legacy network name
-          var networkURI = networkService.getUpdatedNetworkURI(credentials.network);
-          if (credentials.network != networkURI) {
-            credentials.network = networkURI;
-            return root.updateCredentials(credentials, cb(credentials));
-          }
-          return cb(credentials);
-        };
-
         function bindWallets(cb) {
           var l = root.profile.credentials.length;
           var i = 0,
@@ -259,15 +258,13 @@ angular.module('owsWalletApp.services')
           if (!l) return cb();
 
           lodash.each(root.profile.credentials, function(credentials) {
-            tryMigrateCredentials(credentials, function(credentials) {
-              root.bindWallet(credentials, function(err, bound) {
-                i++;
-                totalBound += bound;
-                if (i == l) {
-                  $log.info('Bound ' + totalBound + ' out of ' + l + ' wallets');
-                  return cb();
-                }
-              });
+            root.bindWallet(credentials, function(err, bound) {
+              i++;
+              totalBound += bound;
+              if (i == l) {
+                $log.info('Bound ' + totalBound + ' out of ' + l + ' wallets');
+                return cb();
+              }
             });
           });
         }
@@ -335,7 +332,7 @@ angular.module('owsWalletApp.services')
         try {
           opts.mnemonic = root._normalizeMnemonic(opts.mnemonic);
           walletClient.seedFromMnemonic(opts.mnemonic, {
-            network: opts.network.getURI(),
+            network: opts.network.net,
             passphrase: opts.passphrase,
             account: opts.account || 0,
             derivationStrategy: opts.derivationStrategy || 'BIP44',
@@ -367,7 +364,7 @@ angular.module('owsWalletApp.services')
         var lang = uxLanguage.getCurrentLanguage();
         try {
           walletClient.seedFromRandomWithMnemonic({
-            network: opts.network.getURI(),
+            network: opts.network.net,
             passphrase: opts.passphrase,
             language: lang,
             account: 0,
@@ -377,7 +374,7 @@ angular.module('owsWalletApp.services')
           if (e.message.indexOf('language') > 0) {
             $log.info('Using default language for recovery phrase');
             walletClient.seedFromRandomWithMnemonic({
-              network: opts.network.getURI(),
+              network: opts.network.net,
               passphrase: opts.passphrase,
               account: 0,
             });
@@ -401,7 +398,7 @@ angular.module('owsWalletApp.services')
           var myName = opts.myName || gettextCatalog.getString('me');
 
           walletClient.createWallet(name, myName, opts.m, opts.n, {
-            network: opts.network.getURI(),
+            network: opts.network.net,
             singleAddress: opts.singleAddress,
             walletPrivKey: opts.walletPrivKey,
           }, function(err, secret) {
@@ -918,7 +915,7 @@ angular.module('owsWalletApp.services')
         });
 
         lodash.each(finale, function(x) {
-          var u = networkService.walletClientFor(x.wallet.network).getUtils();
+          var u = networkService.walletClientFor(x.wallet.networkURI).getUtils();
           if (x.data && x.data.message && x.wallet && x.wallet.credentials.sharedEncryptingKey) {
             // TODO TODO TODO => Wallet Client
             x.message = u.decryptMessage(x.data.message, x.wallet.credentials.sharedEncryptingKey);

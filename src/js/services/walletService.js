@@ -170,7 +170,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         twoStep: true
       }, function(err, ret) {
         if (err) {
-          var errors = networkService.walletClientFor(wallet.network).getErrors();
+          var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
           if (err instanceof errors.NOT_AUTHORIZED) {
             return cb('WALLET_NOT_REGISTERED');
           }
@@ -185,7 +185,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       if (!balance) return;
 
       var configWallet = configService.getSync().wallet;
-      var configNetwork = configService.getSync().currencyNetworks[wallet.network];
+      var configNetwork = configService.getSync().currencyNetworks[wallet.networkURI];
 
       var cache = wallet.cachedStatus;
 
@@ -216,11 +216,11 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       cache.unitName = configNetwork.unitName;
 
       //STR
-      cache.totalBalanceStr = txFormatService.formatAmount(wallet.network, cache.totalBalanceAtomic) + ' ' + cache.unitName;
-      cache.lockedBalanceStr = txFormatService.formatAmount(wallet.network, cache.lockedBalanceAtomic) + ' ' + cache.unitName;
-      cache.availableBalanceStr = txFormatService.formatAmount(wallet.network, cache.availableBalanceAtomic) + ' ' + cache.unitName;
-      cache.spendableBalanceStr = txFormatService.formatAmount(wallet.network, cache.spendableAmount) + ' ' + cache.unitName;
-      cache.pendingBalanceStr = txFormatService.formatAmount(wallet.network, cache.pendingAmount) + ' ' + cache.unitName;
+      cache.totalBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.totalBalanceAtomic) + ' ' + cache.unitName;
+      cache.lockedBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.lockedBalanceAtomic) + ' ' + cache.unitName;
+      cache.availableBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.availableBalanceAtomic) + ' ' + cache.unitName;
+      cache.spendableBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.spendableAmount) + ' ' + cache.unitName;
+      cache.pendingBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.pendingAmount) + ' ' + cache.unitName;
 
       cache.alternativeName = configNetwork.alternativeName;
       cache.alternativeIsoCode = configNetwork.alternativeIsoCode;
@@ -238,11 +238,11 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
       rateService.whenAvailable(function() {
 
-        var totalBalanceAlternative = rateService.toFiat(wallet.network, cache.totalBalanceAtomic, cache.alternativeIsoCode);
-        var pendingBalanceAlternative = rateService.toFiat(wallet.network, cache.pendingAmount, cache.alternativeIsoCode);
-        var lockedBalanceAlternative = rateService.toFiat(wallet.network, cache.lockedBalanceAtomic, cache.alternativeIsoCode);
-        var spendableBalanceAlternative = rateService.toFiat(wallet.network, cache.spendableAmount, cache.alternativeIsoCode);
-        var alternativeConversionRate = rateService.toFiat(wallet.network, configNetwork.unitToAtomicUnit, cache.alternativeIsoCode);
+        var totalBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.totalBalanceAtomic, cache.alternativeIsoCode);
+        var pendingBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.pendingAmount, cache.alternativeIsoCode);
+        var lockedBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.lockedBalanceAtomic, cache.alternativeIsoCode);
+        var spendableBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.spendableAmount, cache.alternativeIsoCode);
+        var alternativeConversionRate = rateService.toFiat(wallet.networkURI, configNetwork.unitToAtomicUnit, cache.alternativeIsoCode);
 
         cache.totalBalanceAlternative = $filter('formatFiatAmount')(totalBalanceAlternative);
         cache.pendingBalanceAlternative = $filter('formatFiatAmount')(pendingBalanceAlternative);
@@ -400,7 +400,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     var requestLimit = FIRST_LIMIT;
     var walletId = wallet.credentials.walletId;
     var configWallet = configService.getSync().wallet;
-    var configNetwork = configService.getSync().currencyNetworks[wallet.network];
+    var configNetwork = configService.getSync().currencyNetworks[wallet.networkURI];
 
     var opts = opts || {};
     var progressFn = opts.progressFn || function() {};
@@ -445,7 +445,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         getTxsFromServer(wallet, skip, endingTxid, requestLimit, function(err, res, shouldContinue) {
           if (err) {
             $log.warn(walletClientError.msg(err, 'Server Error')); //TODO
-            var errors = networkService.walletClientFor(wallet.network).getErrors();
+            var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
             if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
               $log.info('Retrying history download in 5 secs...');
               return $timeout(function() {
@@ -770,7 +770,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       var wallet = clients.shift();
       if (!wallet) return next();
 
-      var configNetwork = configService.getSync().currencyNetworks[wallet.network];
+      var configNetwork = configService.getSync().currencyNetworks[wallet.networkURI];
       prefs.unit = configNetwork.unitCode;
 
       $log.debug('Saving remote preferences', wallet.credentials.walletName, prefs);
@@ -859,7 +859,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     wallet.createAddress({}, function(err, addr) {
       if (err) {
         var prefix = gettextCatalog.getString('Could not create address');
-        var errors = networkService.walletClientFor(wallet.network).getErrors();
+        var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
         if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
           $log.warn(err);
           return $timeout(function() {
@@ -926,7 +926,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   // Approx utxo amount, from which the uxto is economically redeemable  
   root.getMinFee = function(wallet, feeLevels, nbOutputs) {
-    var atomicUnit = networkService.getAtomicUnit(wallet.network);
+    var atomicUnit = networkService.getAtomicUnit(wallet.networkURI);
     var lowLevelRate = (lodash.find(feeLevels, {
       level: 'normal',
     }).feePerKb / 1000).toFixed(atomicUnit.decimals);

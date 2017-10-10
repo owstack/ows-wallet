@@ -13,7 +13,7 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
 
       function checkPrivateKey(privateKey) {
         try {
-          networkService.walletClientFor('livenet/btc').getCoreLib().PrivateKey(privateKey, 'livenet/btc'); // TODO: support other than livenet/btc
+          networkService.walletClientFor('livenet/btc').getLib().PrivateKey(privateKey, 'livenet/btc'); // TODO: support other than livenet/btc
         } catch (err) {
           return false;
         }
