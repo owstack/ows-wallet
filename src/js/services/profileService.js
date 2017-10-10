@@ -329,7 +329,7 @@ angular.module('owsWalletApp.services')
     var seedWallet = function(opts, cb) {
       var config = configService.getSync();
       opts = opts || {};
-      var walletClient = networkService.walletClientFor(opts.network.getURI()).getClient(null, opts);
+      var walletClient = networkService.walletClientFor(opts.network).getClient(null, opts);
 
       if (opts.mnemonic) {
         try {

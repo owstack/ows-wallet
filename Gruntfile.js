@@ -138,8 +138,8 @@ module.exports = function(grunt) {
           'bower_components/angular-mocks/angular-mocks.js',
           'bower_components/ngtouch/src/ngTouch.js',
           'angular-bitauth/angular-bitauth.js',
-          'angular-bcccore-wallet-client/angular-bcccore-wallet-client.js',
-          'angular-btccore-wallet-client/angular-btccore-wallet-client.js'
+          'angular-bch-wallet-client/angular-bch-wallet-client.js',
+          'angular-btc-wallet-client/angular-btc-wallet-client.js'
         ],
         dest: 'www/lib/angular-components.js'
       },
@@ -255,8 +255,8 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         files: {
-          'angular-bcccore-wallet-client/angular-bcccore-wallet-client.js': ['angular-bcccore-wallet-client/index.js'],
-          'angular-btccore-wallet-client/angular-btccore-wallet-client.js': ['angular-btccore-wallet-client/index.js'],
+          'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
+          'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
           'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js']
         },
       }

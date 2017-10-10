@@ -42,8 +42,8 @@ build/Release
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
 bower_components
-angular-bcccore-wallet-client/angular-bcccore-wallet-client.js
-angular-btccore-wallet-client/angular-btccore-wallet-client.js
+angular-bch-wallet-client/angular-bch-wallet-client.js
+angular-btc-wallet-client/angular-btc-wallet-client.js
 angular-bitauth/angular-bitauth.js
 
 # Users Environment Variables

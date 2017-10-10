@@ -3,6 +3,8 @@
 angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, btcWalletClient, bccWalletClient) {
   var root = {};
 
+  var ENVIRONMENT = 'local'; // 'production'; // TODO: read from launch config?
+
   // Define all supported networks
   //
   var networks = [
@@ -220,6 +222,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     }
   ];
 
+  // Set up configuration of all available networks
   root.defaultConfig = function() {
     var currencyNetworks = {
       default: 'livenet/btc'
@@ -227,7 +230,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
     for (var i = 0; i < networks.length; i++) {
       currencyNetworks[networks[i].getURI()] = {
-        walletService:      networks[i].walletService.production,
+        walletService:      networks[i].walletService[ENVIRONMENT],
         unitName:           networks[i].units[0].shortName,
         unitToAtomicUnit:   networks[i].units[0].value,
         unitDecimals:       networks[i].units[0].decimals,
@@ -241,7 +244,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return currencyNetworks;
   };
 
-  // Network service routing
+  // Wallet Client accessor
 
   root.walletClientFor = function(networkOrURI) {
     // Accepts network object or a network URI

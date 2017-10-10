@@ -2846,8 +2846,8 @@ msgstr "この取引は承認されるまで非常に時間のかかる可能性
 
 #: www/views/walletDetails.html:115
 #: www/views/walletDetails.html:35
-msgid "This wallet is not registered at the given Bitcore Wallet Service (BWS). You can recreate it from the local information."
-msgstr "現在設定中のBitcore Wallet Service (BWS) サーバーにて、このウォレットの登録がありません。再登録を行うこともできます。"
+msgid "This wallet is not registered at the given Wallet Service. You can recreate it from the local information."
+msgstr "現在設定中のWallet Service サーバーにて、このウォレットの登録がありません。再登録を行うこともできます。"
 
 #: www/views/modals/txp-details.html:138
 #: www/views/tx-details.html:121

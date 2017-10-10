@@ -2840,8 +2840,8 @@ msgstr "这笔交易可能需要很长的时间来确认或可能受到由发件
 
 #: www/views/walletDetails.html:115
 #: www/views/walletDetails.html:35
-msgid "This wallet is not registered at the given Bitcore Wallet Service (BWS). You can recreate it from the local information."
-msgstr "此钱包不在给定的 Bitcore Wallet Service (BWS) 注册。你可以从本地信息重新创建它。"
+msgid "This wallet is not registered at the given Wallet Service. You can recreate it from the local information."
+msgstr "此钱包不在给定的 Wallet Service 注册。你可以从本地信息重新创建它。"
 
 #: www/views/modals/txp-details.html:138
 #: www/views/tx-details.html:121

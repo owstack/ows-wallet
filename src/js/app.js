@@ -11,7 +11,7 @@ var modules = [
   'ngLodash',
   'ngCsv',
   'angular-md5',
-  'bccWalletClientModule',
+  'bchWalletClientModule',
   'btcWalletClientModule',
   'bitauthModule',
   'owsWalletApp.filters',

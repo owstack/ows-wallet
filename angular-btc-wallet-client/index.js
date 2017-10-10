@@ -1,16 +1,16 @@
-var bccWalletClientModule = angular.module('bccWalletClientModule', []);
-var Client = require('../node_modules/bcccore-wallet-client');
+var btcWalletClientModule = angular.module('btcWalletClientModule', []);
+var Client = require('../node_modules/btc-wallet-client');
 
-bccWalletClientModule.constant('MODULE_VERSION', '1.0.0');
+btcWalletClientModule.constant('MODULE_VERSION', '1.0.0');
 
-bccWalletClientModule.provider("bccWalletClient", function() {
+btcWalletClientModule.provider("btcWalletClient", function() {
   var provider = {};
 
   provider.$get = function() {
     var service = {};
 
-    service.getCoreLib = function() {
-      return Client.Bcccore;
+    service.getLib = function() {
+      return Client.btcLib;
     };
 
     service.getErrors = function() {
@@ -32,8 +32,12 @@ bccWalletClientModule.provider("bccWalletClient", function() {
     service.getClient = function(walletData, opts) {
       opts = opts || {};
 
+      if (!opts.walletServiceUrl) {
+        throw new Error('btcWalletClient: you must specify a walletServiceUrl');
+      }
+
       var walletClient = new Client({
-        baseUrl: opts.walletServiceUrl || 'https://bccws.openwalletstack.com/bccws/api',
+        baseUrl: opts.walletServiceUrl,
         verbose: opts.verbose,
         timeout: 100000,
         transports: ['polling'],
