@@ -1,6 +1,8 @@
 OWS Wallet
 =======
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/owstack/ows-wallet.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://secure.travis-ci.org/owstack/ows-wallet.svg)](http://travis-ci.org/owstack/ows-wallet)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/ows-wallet/localized.png)](https://crowdin.com/project/ows-wallet)
 
