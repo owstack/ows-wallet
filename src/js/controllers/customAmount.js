@@ -29,7 +29,7 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
       $scope.address = addr;
     
       var parsedAmount = txFormatService.parseAmount(
-        $scope.wallet.network,
+        $scope.wallet.networkURI,
         data.stateParams.amount, 
         data.stateParams.currency);
 
@@ -37,20 +37,20 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
       var currency = parsedAmount.currency;
       $scope.amountAtomicStr = parsedAmount.amountAtomicStr;
 
-      var standardUnit = networkService.getStandardUnit($scope.wallet.network);
+      var standardUnit = networkService.getStandardUnit($scope.wallet.networkURI);
 
       if (currency != standardUnit.shortName) {
         // Convert to standard units
-        var config = configService.getSync().currencyNetworks[$scope.wallet.network];
+        var config = configService.getSync().currencyNetworks[$scope.wallet.networkURI];
 
-        var amountAtomic = txFormatService.atomicToUnit($scope.wallet.network, parsedAmount.amountAtomic);
-        var stanardParsedAmount = txFormatService.parseAmount($scope.wallet.network, amountAtomic, config.unitName);
+        var amountAtomic = txFormatService.atomicToUnit($scope.wallet.networkURI, parsedAmount.amountAtomic);
+        var stanardParsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amountAtomic, config.unitName);
         
         $scope.amountStandard = standardParsedAmount.amount;
         $scope.altAmountStr = standardParsedAmount.amountAtomicStr;
       } else {
         $scope.amountStandard = amount;
-        $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.network, parsedAmount.amountAtomic);
+        $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.networkURI, parsedAmount.amountAtomic);
       }
     });
   });

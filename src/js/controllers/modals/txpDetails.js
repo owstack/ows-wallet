@@ -215,7 +215,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
         copayerId: $scope.wallet.credentials.copayerId
       });
 
-      $scope.tx = txFormatService.processTx(tx, $scope.wallet.network);
+      $scope.tx = txFormatService.processTx(tx, $scope.wallet.networkURI);
 
       if (!action && tx.status == 'pending')
         $scope.tx.pendingForUs = true;

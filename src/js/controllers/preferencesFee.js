@@ -33,7 +33,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
       return;
     }
 
-    $scope.network = networkService.getNetworkByURI($scope.networkURI);
+    $scope.networkURI = networkService.getNetworkByURI($scope.networkURI);
     $scope.feeOpts = feeService.getFeeOpts($scope.network.getURI());
     $scope.currentFeeLevel = $scope.feeLevel || feeService.getCurrentFeeLevel($scope.networkURI);
     $scope.loadingFee = true;

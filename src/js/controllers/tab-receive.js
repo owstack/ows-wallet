@@ -8,7 +8,7 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
 
   $scope.requestSpecificAmount = function() {
     $state.go('tabs.paymentRequest.amount', {
-      networkURI: $scope.wallet.network,
+      networkURI: $scope.wallet.networkURI,
       id: $scope.wallet.credentials.walletId
     });
   };

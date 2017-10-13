@@ -22,16 +22,16 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
     return configService.getSync().currencyNetworks[networkURI].feeLevel;
   };
 
-  root.getFeeRate = function(feeLevel, walletOrNetwork, cb) {
-    var network = walletOrNetwork;
-    if (typeof walletOrNetwork == 'object') {
+  root.getFeeRate = function(feeLevel, walletOrNetworkURI, cb) {
+    var networkURI = walletOrNetworkURI;
+    if (typeof walletOrNetworkURI == 'object') {
       // Is wallet object
-      network = walletOrNetwork.network;
+      networkURI = walletOrNetworkURI.networkURI;
     }
 
     if (feeLevel == 'custom') return cb();
 
-    root.getFeeLevels(walletOrNetwork, function(err, levels, fromCache) {
+    root.getFeeLevels(walletOrNetworkURI, function(err, levels, fromCache) {
       if (err) return cb(err);
 
       var feeLevelRate = lodash.find(levels, {
@@ -48,37 +48,39 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
       var feeRate = feeLevelRate.feePerKb;
 
-      if (!fromCache) $log.debug('Dynamic fee: ' + feeLevel + '/' + network + ' ' + (feeLevelRate.feePerKb / 1000).toFixed() + ' ' + networkService.getAtomicUnit(network).shortname + ' / byte');
+      if (!fromCache) {
+        $log.debug('Dynamic fee: ' + feeLevel + '/' + networkURI + ' ' + (feeLevelRate.feePerKb / 1000).toFixed() + ' ' + networkService.getAtomicUnit(networkURI).shortName + '/byte');
+      }
 
       return cb(null, feeRate);
     });
   };
 
-  root.getCurrentFeeRate = function(walletOrNetwork, cb) {
-    if (typeof walletOrNetwork == 'object') {
+  root.getCurrentFeeRate = function(walletOrNetworkURI, cb) {
+    if (typeof walletOrNetworkURI == 'object') {
       // Is wallet object
-      network = walletOrNetwork.network;
+      network = walletOrNetworkURI.network;
     } else {
       // Is networkURI string
-      network = walletOrNetwork;
+      network = walletOrNetworkURI;
     }
-    return root.getFeeRate(root.getCurrentFeeLevel(network), walletOrNetwork, cb);
+    return root.getFeeRate(root.getCurrentFeeLevel(network), walletOrNetworkURI, cb);
   };
 
-  root.getFeeLevels = function(walletOrNetwork, cb) {
+  root.getFeeLevels = function(walletOrNetworkURI, cb) {
     var network;
     var networkURI;
     var walletServiceUrl;
 
-    if (typeof walletOrNetwork == 'object') {
+    if (typeof walletOrNetworkURI == 'object') {
       // Is wallet object
-      network = walletOrNetwork.network;
-      networkURI = walletOrNetwork.networkURI;
-      walletServiceUrl = walletOrNetwork.baseUrl;
+      network = walletOrNetworkURI.network;
+      networkURI = walletOrNetworkURI.networkURI;
+      walletServiceUrl = walletOrNetworkURI.baseUrl;
     } else {
       // Is networkURI string
-      network = networkService.parseNet(walletOrNetwork);
-      networkURI = walletOrNetwork;
+      network = networkService.parseNet(walletOrNetworkURI);
+      networkURI = walletOrNetworkURI;
       walletServiceUrl = configService.getSync().currencyNetworks[network].walletService.url;
     }
 

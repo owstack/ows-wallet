@@ -3,12 +3,12 @@
 angular.module('owsWalletApp.services').factory('bitpayService', function($log, $http, appIdentityService, bitauthService) {
   var root = {};
 
-  var NETWORK = 'livenet/btc';
-  var BITPAY_API_URL = NETWORK == 'livenet/btc' ? 'https://bitpay.com' : 'https://test.bitpay.com';
+  var NETWORK_URI = 'livenet/btc';
+  var BITPAY_API_URL = (NETWORK_URI == 'livenet/btc' ? 'https://bitpay.com' : 'https://test.bitpay.com');
 
   root.getEnvironment = function() {
     return {
-      network: NETWORK
+      networkURI: NETWORK_URI
     };
   };
 
@@ -21,7 +21,7 @@ angular.module('owsWalletApp.services').factory('bitpayService', function($log, 
   };
 
   root.post = function(endpoint, json, successCallback, errorCallback) {
-    appIdentityService.getIdentity(root.getEnvironment().network, function(err, appIdentity) {
+    appIdentityService.getIdentity(root.getEnvironment().networkURI, function(err, appIdentity) {
       if (err) {
         return errorCallback(err);
       }
@@ -34,7 +34,7 @@ angular.module('owsWalletApp.services').factory('bitpayService', function($log, 
   };
 
   root.postAuth = function(json, successCallback, errorCallback) {
-    appIdentityService.getIdentity(root.getEnvironment().network, function(err, appIdentity) {
+    appIdentityService.getIdentity(root.getEnvironment().networkURI, function(err, appIdentity) {
       if (err) {
         return errorCallback(err);
       }

@@ -106,7 +106,8 @@ angular.module('owsWalletApp.controllers').controller('importController',
     var _importBlob = function(str, opts) {
       var str2, err;
       try {
-        str2 = networkService.walletClientFor(opts.networkURI).getSJCL().decrypt($scope.formData.password, str);
+        var obj = JSON.parse(str);
+        str2 = networkService.walletClientFor(obj.networkURI).getSJCL().decrypt($scope.formData.password, str);
       } catch (e) {
         err = gettextCatalog.getString('Could not decrypt file, check your password');
         $log.warn(e);
@@ -210,6 +211,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
       reader.onloadend = function(evt) {
         if (evt.target.readyState == FileReader.DONE) { // DONE == 2
           var opts = {};
+          opts.networkURI = $scope.formData.network.getURI();
           opts.walletServiceUrl = $scope.formData.walletServiceUrl;
           _importBlob(evt.target.result, opts);
         }
@@ -235,6 +237,7 @@ angular.module('owsWalletApp.controllers').controller('importController',
         reader.readAsBinaryString(backupFile);
       } else {
         var opts = {};
+        opts.networkURI = $scope.formData.network.getURI();
         opts.walletServiceUrl = $scope.formData.walletServiceUrl;
         _importBlob(backupText, opts);
       }

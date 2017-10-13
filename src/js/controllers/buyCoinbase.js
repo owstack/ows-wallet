@@ -70,10 +70,10 @@ angular.module('owsWalletApp.controllers').controller('buyCoinbaseController', f
         return;
       }
 
-      $scope.network = coinbaseService.getNetwork();
+      $scope.networkURI = coinbaseService.getNetwork();
       $scope.wallets = profileService.getWallets({
         onlyComplete: true,
-        network: $scope.network
+        network: $scope.networkURI
       });
 
       if (lodash.isEmpty($scope.wallets)) {

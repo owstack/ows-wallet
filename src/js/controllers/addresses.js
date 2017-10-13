@@ -50,7 +50,7 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
         $scope.latestWithBalance = lodash.slice(withBalance, 0, BALANCE_ADDRESS_LIMIT);
 
         lodash.each(withBalance, function(a) {
-          a.balanceStr = txFormatService.formatAmount($scope.wallet.network, a.amount);
+          a.balanceStr = txFormatService.formatAmount($scope.wallet.networkURI, a.amount);
         });
 
         $scope.viewAll = {
@@ -81,9 +81,9 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
           $scope.lowWarning = resp.warning;
           $scope.lowUtxosNb = resp.lowUtxos.length;
           $scope.allUtxosNb = resp.allUtxos.length;
-          $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.network, lodash.sum(resp.lowUtxos || 0, 'satoshis'));
-          $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.network, allSum);
-          $scope.minFee = txFormatService.formatAmountStr($scope.wallet.network, resp.minFee || 0);
+          $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, lodash.sum(resp.lowUtxos || 0, 'satoshis'));
+          $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, allSum);
+          $scope.minFee = txFormatService.formatAmountStr($scope.wallet.networkURI, resp.minFee || 0);
           $scope.minFeePer = per.toFixed(2) + '%';
 
 

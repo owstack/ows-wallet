@@ -300,10 +300,10 @@ angular.module('owsWalletApp.controllers').controller('buyAmazonController', fun
       return;
     }
 
-    $scope.network = amazonService.getNetwork();
+    $scope.networkURI = amazonService.getNetwork();
     $scope.wallets = profileService.getWallets({
       onlyComplete: true,
-      network: $scope.network,
+      network: $scope.networkURI,
       hasFunds: true
     });
     if (lodash.isEmpty($scope.wallets)) {

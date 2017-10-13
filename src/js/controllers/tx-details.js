@@ -102,8 +102,8 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
         return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not available at this time'));
       }
 
-      $scope.btx = txFormatService.processTx(tx, $scope.wallet.network);
-      txFormatService.formatAlternativeStr($scope.wallet.network, tx.fees, function(v) {
+      $scope.btx = txFormatService.processTx(tx, $scope.wallet.networkURI);
+      txFormatService.formatAlternativeStr($scope.wallet.networkURI, tx.fees, function(v) {
         $scope.btx.feeFiatStr = v;
         $scope.btx.feeRateStr = ($scope.btx.fees / ($scope.btx.amount + $scope.btx.fees) * 100).toFixed(2) + '%';
       });
@@ -168,7 +168,7 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
 
   $scope.viewOnBlockchain = function() {
     var btx = $scope.btx;
-    var explorer = networkService.getNetworkByURI($scope.wallet.network).explorer.production;
+    var explorer = networkService.getNetworkByURI($scope.wallet.networkURI).explorer.production;
     var url = explorer.urlTx + btx.txid;
     var optIn = true;
     var title = null;

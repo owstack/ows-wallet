@@ -38,7 +38,7 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
      * Development: 'testnet/btc'
      * Production: 'livenet/btc'
      */
-    credentials.NETWORK = 'livenet/btc';
+    credentials.NETWORK_URI = 'livenet/btc';
 
     // Coinbase permissions
     credentials.SCOPE = '' +
@@ -63,7 +63,7 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
       credentials.REDIRECT_URI = coinbase.redirect_uri.desktop;
     }
 
-    if (networkService.isTestnet(credentials.NETWORK)) {
+    if (networkService.isTestnet(credentials.NETWORK_URI)) {
       credentials.HOST = coinbase.sandbox.host;
       credentials.API = coinbase.sandbox.api;
       credentials.CLIENT_ID = coinbase.sandbox.client_id;
@@ -78,8 +78,8 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
 
   var _afterTokenReceived = function(data, cb) {
     if (data && data.access_token && data.refresh_token) {
-      storageService.setCoinbaseToken(credentials.NETWORK, data.access_token, function() {
-        storageService.setCoinbaseRefreshToken(credentials.NETWORK, data.refresh_token, function() {
+      storageService.setCoinbaseToken(credentials.NETWORK_URI, data.access_token, function() {
+        storageService.setCoinbaseRefreshToken(credentials.NETWORK_URI, data.refresh_token, function() {
           buyAndSellService.updateLink('coinbase', true);
           return cb(null, data.access_token);
         });
@@ -90,11 +90,11 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
   };
 
   root.getNetwork = function() {
-    return credentials.NETWORK;
+    return credentials.NETWORK_URI;
   };
 
   root.getStoredToken = function(cb) {
-    storageService.getCoinbaseToken(credentials.NETWORK, function(err, accessToken) {
+    storageService.getCoinbaseToken(credentials.NETWORK_URI, function(err, accessToken) {
       if (err || !accessToken) return cb();
       return cb(accessToken);
     });
@@ -230,7 +230,7 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
     if (lodash.isEmpty(credentials.CLIENT_ID))
       return cb();
 
-    storageService.getCoinbaseToken(credentials.NETWORK, function(err, accessToken) {
+    storageService.getCoinbaseToken(credentials.NETWORK_URI, function(err, accessToken) {
       return cb(err, !!accessToken);
     });
   }
@@ -241,14 +241,14 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
     }
     $log.debug('Trying to initialise Coinbase...');
 
-    storageService.getCoinbaseToken(credentials.NETWORK, function(err, accessToken) {
+    storageService.getCoinbaseToken(credentials.NETWORK_URI, function(err, accessToken) {
       if (err || !accessToken) return cb();
       else {
         _getMainAccountId(accessToken, function(err, accountId) {
           if (err) {
             if (err.errors && err.errors[0] && err.errors[0].id == 'expired_token') {
               $log.debug('Refresh token');
-              storageService.getCoinbaseRefreshToken(credentials.NETWORK, function(err, refreshToken) {
+              storageService.getCoinbaseRefreshToken(credentials.NETWORK_URI, function(err, refreshToken) {
                 if (err) return cb(err);
                 _refreshToken(refreshToken, function(err, newToken) {
                   if (err) return cb(err);
@@ -547,14 +547,14 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
       }
       tx = JSON.stringify(tx);
 
-      storageService.setCoinbaseTxs(credentials.NETWORK, tx, function(err) {
+      storageService.setCoinbaseTxs(credentials.NETWORK_URI, tx, function(err) {
         return cb(err);
       });
     });
   };
 
   root.getPendingTransactions = function(coinbasePendingTransactions) {
-    storageService.getCoinbaseTxs(credentials.NETWORK, function(err, txs) {
+    storageService.getCoinbaseTxs(credentials.NETWORK_URI, function(err, txs) {
       txs = txs ? JSON.parse(txs) : {};
       coinbasePendingTransactions.data = lodash.isEmpty(txs) ? null : txs;
 
@@ -754,10 +754,10 @@ angular.module('owsWalletApp.services').factory('coinbaseService', function($htt
   };
 
   root.logout = function(cb) {
-    storageService.removeCoinbaseToken(credentials.NETWORK, function() {
+    storageService.removeCoinbaseToken(credentials.NETWORK_URI, function() {
       buyAndSellService.updateLink('coinbase', false);
-      storageService.removeCoinbaseRefreshToken(credentials.NETWORK, function() {
-        storageService.removeCoinbaseTxs(credentials.NETWORK, function() {
+      storageService.removeCoinbaseRefreshToken(credentials.NETWORK_URI, function() {
+        storageService.removeCoinbaseTxs(credentials.NETWORK_URI, function() {
           return cb();
         });
       });

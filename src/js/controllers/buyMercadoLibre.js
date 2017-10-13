@@ -292,10 +292,10 @@ angular.module('owsWalletApp.controllers').controller('buyMercadoLibreController
       return;
     }
 
-    $scope.network = mercadoLibreService.getNetwork();
+    $scope.networkURI = mercadoLibreService.getNetwork();
     $scope.wallets = profileService.getWallets({
       onlyComplete: true,
-      network: $scope.network
+      networkURI: $scope.networkURI
     });
     if (lodash.isEmpty($scope.wallets)) {
       showErrorAndBack(null, gettextCatalog.getString('No wallets available'));

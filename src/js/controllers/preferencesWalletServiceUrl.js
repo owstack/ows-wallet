@@ -12,15 +12,15 @@ angular.module('owsWalletApp.controllers').controller('preferencesWalletServiceU
     var config = configService.getSync();
     $scope.appName = appConfigService.nameCase;
     $scope.walletServiceUrl = {
-      value: (config.walletServiceFor && config.walletServiceFor[walletId]) || defaults.currencyNetworks[wallet.network].walletService.url
+      value: (config.walletServiceFor && config.walletServiceFor[walletId]) || defaults.currencyNetworks[wallet.networkURI].walletService.url
     };
 
     $scope.resetDefaultUrl = function() {
-      $scope.walletServiceUrl.value = defaults.currencyNetworks[wallet.network].walletService.url;
+      $scope.walletServiceUrl.value = defaults.currencyNetworks[wallet.networkURI].walletService.url;
     };
 
     $scope.save = function() {
-      var walletServiceEnvs = networkService.getNetworkByURI(wallet.network).walletService;
+      var walletServiceEnvs = networkService.getNetworkByURI(wallet.networkURI).walletService;
       var walletService;
       switch ($scope.walletServiceUrl.value) {
         case 'prod':

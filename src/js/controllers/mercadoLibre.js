@@ -18,7 +18,7 @@ angular.module('owsWalletApp.controllers').controller('mercadoLibreController',
     };
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.network = mercadoLibreService.getNetwork();
+      $scope.networkURI = mercadoLibreService.getNetwork();
       init();
     });
 
