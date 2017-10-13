@@ -6,7 +6,7 @@ angular.module('owsWalletApp.controllers').controller('bitpayCardController', fu
   $scope.dateRange = {
     value: 'last30Days'
   };
-  $scope.network = bitpayService.getEnvironment().network;
+  $scope.networkURI = bitpayService.getEnvironment().networkURI;
 
   var setDateRange = function(preset) {
     var startDate, endDate;

@@ -48,7 +48,7 @@ angular.module('owsWalletApp.services')
     function _requiresBackup(wallet) {
       if (wallet.isPrivKeyExternal()) return false;
       if (!wallet.credentials.mnemonic) return false;
-      if (networkService.isTestnet(wallet.network)) return false;
+      if (networkService.isTestnet(wallet.networkURI)) return false;
 
       return true;
     };
@@ -306,6 +306,7 @@ angular.module('owsWalletApp.services')
           $rootScope.$emit('Local/DeviceError', err);
           return cb(err);
         }
+/*
         if (!profile) {
           // Migration??
           storageService.tryToMigrate(function(err, migratedProfile) {
@@ -317,9 +318,10 @@ angular.module('owsWalletApp.services')
             return root.bindProfile(profile, cb);
           })
         } else {
+*/
           $log.debug('Profile read');
           return root.bindProfile(profile, cb);
-        }
+//        }
       });
     };
 
@@ -484,7 +486,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.setMetaData = function(walletClient, addressBook, cb) {
-      storageService.getAddressbook(walletClient.credentials.network, function(err, localAddressBook) {
+      storageService.getAddressbook(function(err, localAddressBook) {
         var localAddressBook1 = {};
         try {
           localAddressBook1 = JSON.parse(localAddressBook);
@@ -492,7 +494,7 @@ angular.module('owsWalletApp.services')
           $log.warn(ex);
         }
         var mergeAddressBook = lodash.merge(addressBook, localAddressBook1);
-        storageService.setAddressbook(walletClient.credentials.network, JSON.stringify(addressBook), function(err) {
+        storageService.setAddressbook(JSON.stringify(addressBook), function(err) {
           if (err) return cb(err);
           return cb(null);
         });
@@ -768,9 +770,9 @@ angular.module('owsWalletApp.services')
 
       var ret = lodash.values(root.wallet);
 
-      if (opts.network) {
-        ret = lodash.filter(ret, function(x) {
-          return (x.credentials.network == opts.network);
+      if (opts.networkURI) {
+        ret = lodash.filter(ret, function(w) {
+          return (w.networkURI == opts.networkURI);
         });
       }
 
@@ -807,15 +809,14 @@ angular.module('owsWalletApp.services')
       } else {}
 
       // Add cached balance async
-      lodash.each(ret, function(x) {
-        root.addLastKnownBalance(x, function() {});
+      lodash.each(ret, function(w) {
+        root.addLastKnownBalance(w, function() {});
       });
 
 
       return lodash.sortBy(ret, [
-
-        function(x) {
-          return x.isComplete();
+        function(w) {
+          return w.isComplete();
         }, 'createdOn'
       ]);
     };
@@ -958,7 +959,7 @@ angular.module('owsWalletApp.services')
             notifications = lodash.sortBy(notifications, 'createdOn');
             notifications = lodash.compact(lodash.flatten(notifications)).slice(0, MAX);
             var total = notifications.length;
-            return cb(null, process(notifications, wallet.network), total);
+            return cb(null, process(notifications, wallet.networkURI), total);
           };
         });
       });

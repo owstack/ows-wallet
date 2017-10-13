@@ -4,7 +4,8 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
   var root = {};
 
-  var coreLib = networkService.walletClientFor('livenet/btc').getLib();
+  var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
+  var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
   root.showMenu = function(data) {
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);
@@ -41,14 +42,14 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
     function checkPrivateKey(privateKey) {
       try {
-          coreLib.PrivateKey(privateKey, 'livenet/btc'); // Need to support more than livenet/btc
+          btcLib.PrivateKey(privateKey, 'livenet'); // TODO: support more than btc
       } catch (err) {
         return false;
       }
       return true;
     }
 
-    function goSend(addr, amount, message) {
+    function goSend(addr, amount, message, networkURI) {
       $state.go('tabs.send', {}, {
         'reload': true,
         'notify': $state.current.name == 'tabs.send' ? false : true
@@ -59,18 +60,20 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
           $state.transitionTo('tabs.send.confirm', {
             toAmount: amount,
             toAddress: addr,
-            description: message
+            description: message,
+            networkURI: networkURI
           });
         } else {
           $state.transitionTo('tabs.send.amount', {
-            toAddress: addr
+            toAddress: addr,
+            networkURI: networkURI
           });
         }
       }, 100);
     }
     // data extensions for Payment Protocol with non-backwards-compatible request
-    if ((/^bitcoin:\?r=[\w+]/).exec(data)) {
-      data = decodeURIComponent(data.replace('bitcoin:?r=', ''));
+    if ((/^bitcoin(cash)?:\?r=[\w+]/).exec(data)) {
+      data = decodeURIComponent(data.replace(/bitcoin(cash)?:\?r=/, ''));
       $state.go('tabs.send', {}, {
         'reload': true,
         'notify': $state.current.name == 'tabs.send' ? false : true
@@ -84,11 +87,35 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
     data = sanitizeUri(data);
 
-    // BIP21
-    if (coreLib.URI.isValid(data)) {
-      var parsed = coreLib.URI(data);
+    // BIP21 - bitcoin URL
+    if (btcLib.URI.isValid(data)) {
+      var parsed = btcLib.URI(data);
 
       var addr = parsed.address ? parsed.address.toString() : '';
+      var message = parsed.message;
+      var addrNetwork = parsed.network;
+
+      var amount = parsed.amount ? parsed.amount : '';
+
+      if (parsed.r) {
+        payproService.getPayProDetails(parsed.r, function(err, details) {
+          if (err) {
+            if (addr && amount) goSend(addr, amount, message);
+            else popupService.showAlert(gettextCatalog.getString('Error'), err);
+          } else handlePayPro(details);
+        });
+      } else {
+        var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+        goSend(addr, amount, message, networkURI);
+      }
+      return true;
+
+    // BIP21 - bitcoincash URL
+    } else if (bchLib.URI.isValid(data)) {
+      var parsed = bchLib.URI(data);
+
+      var addr = parsed.address ? parsed.address.toString() : '';
+      var addrNetwork = parsed.network;
       var message = parsed.message;
 
       var amount = parsed.amount ? parsed.amount : '';
@@ -101,11 +128,12 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
           } else handlePayPro(details);
         });
       } else {
-        goSend(addr, amount, message);
+        var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+        goSend(addr, amount, message, networkURI);
       }
       return true;
 
-      // Plain URL
+    // Plain URL
     } else if (/^https?:\/\//.test(data)) {
 
       payproService.getPayProDetails(data, function(err, details) {
@@ -119,17 +147,33 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
         handlePayPro(details);
         return true;
       });
-      // Plain Address
-    } else if (coreLib.Address.isValid(data, 'livenet/btc') || coreLib.Address.isValid(data, 'testnet/btc')) {
+    // Plain bitcoin address
+    } else if (btcLib.Address.isValid(data, 'livenet') || btcLib.Address.isValid(data, 'testnet')) {
+      var addrNetwork = btcLib.Address(data).network;
+      var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
       if ($state.includes('tabs.scan')) {
         root.showMenu({
-          networkURI: (coreLib.Address.isValid(data, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
+          networkURI: networkURI,
           data: data,
           type: 'bitcoinAddress'
         });
       } else {
-        goToAmountPage(data);
+        goToAmountPage(data, networkURI);
       }
+    // Plain bitcoincash address
+    } else if (bchLib.Address.isValid(data, 'livenet') || bchLib.Address.isValid(data, 'testnet')) {
+      var addrNetwork = btcLib.Address(data).network;
+      var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+      if ($state.includes('tabs.scan')) {
+        root.showMenu({
+          networkURI: networkURI,
+          data: data,
+          type: 'bitcoinAddress'
+        });
+      } else {
+        goToAmountPage(data, networkURI);
+      }
+    // Glidera
     } else if (data && data.indexOf(appConfigService.name + '://glidera') === 0) {
       var code = getParameterByName('code', data);
       $ionicHistory.nextViewOptions({
@@ -148,6 +192,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       });
       return true;
 
+    // Coinbase
     } else if (data && data.indexOf(appConfigService.name + '://coinbase') === 0) {
       var code = getParameterByName('code', data);
       $ionicHistory.nextViewOptions({
@@ -166,7 +211,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       });
       return true;
 
-      // BitPayCard Authentication
+    // BitPayCard Authentication
     } else if (data && data.indexOf(appConfigService.name + '://') === 0) {
 
       // Disable BitPay Card
@@ -195,7 +240,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       });
       return true;
 
-      // Join
+    // Join
     } else if (data && data.match(/^owl:[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
       $state.go('tabs.home', {}, {
         'reload': true,
@@ -207,7 +252,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       });
       return true;
 
-      // Old join
+    // Old join
     } else if (data && data.match(/^[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
       $state.go('tabs.home', {}, {
         'reload': true,
@@ -218,11 +263,15 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
         });
       });
       return true;
+
+    // Private key
     } else if (data && (data.substring(0, 2) == '6P' || checkPrivateKey(data))) {
       root.showMenu({
         data: data,
         type: 'privateKey'
       });
+
+    //
     } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
       $state.go('tabs.home').then(function() {
         $state.transitionTo('tabs.add.import', {
@@ -231,6 +280,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       });
       return true;
 
+    // Text
     } else {
       if ($state.includes('tabs.scan')) {
         root.showMenu({
@@ -244,14 +294,14 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
   };
 
-  function goToAmountPage(toAddress) {
+  function goToAmountPage(toAddress, networkURI) {
     $state.go('tabs.send', {}, {
       'reload': true,
       'notify': $state.current.name == 'tabs.send' ? false : true
     });
     $timeout(function() {
       $state.transitionTo('tabs.send.amount', {
-        networkURI: (coreLib.Address.isValid(toAddress, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
+        networkURI: (btcLib.Address.isValid(toAddress, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
         toAddress: toAddress
       });
     }, 100);

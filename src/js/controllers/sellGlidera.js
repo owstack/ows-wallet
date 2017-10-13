@@ -64,11 +64,11 @@ angular.module('owsWalletApp.controllers').controller('sellGlideraController', f
     currency = parsedAmount.currency;
     $scope.amountAtomicStr = parsedAmount.amountAtomicStr;
 
-    $scope.network = glideraService.getNetwork();
+    $scope.networkURI = glideraService.getNetwork();
     $scope.wallets = profileService.getWallets({
       m: 1, // Only 1-signature wallet
       onlyComplete: true,
-      network: $scope.network,
+      networkURI: $scope.networkURI,
       hasFunds: true,
       minAmount: parsedAmount.amountAtomic
     });

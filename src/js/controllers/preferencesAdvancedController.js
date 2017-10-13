@@ -2,7 +2,7 @@
 
 angular.module('owsWalletApp.controllers').controller('preferencesAdvancedController', function($scope, $timeout, $state, $stateParams, profileService) {
   var wallet = profileService.getWallet($stateParams.walletId);
-  $scope.network = wallet.network;
+  $scope.networkURI = wallet.networkURI;
   $scope.wallet = wallet;
 
   $scope.goToAddresses = function() {

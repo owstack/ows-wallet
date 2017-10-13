@@ -260,7 +260,7 @@ angular.module('owsWalletApp.controllers').controller('topUpController', functio
 
       $scope.wallets = profileService.getWallets({
         onlyComplete: true,
-        network: bitpayService.getEnvironment().network,
+        networkURI: bitpayService.getEnvironment().networkURI,
         hasFunds: true
       });
 

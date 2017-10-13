@@ -3,6 +3,7 @@
 angular.module('owsWalletApp.services').factory('addressbookService', function(storageService, lodash, $log, networkService) {
   var root = {};
 
+/*
   ///////////////////////////////////////////////////////////////////////////
   // TODO: remove in future release
   // Migrate addressbook format
@@ -80,7 +81,7 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
   tryToMigrate();
   //
   ///////////////////////////////////////////////////////////////////////////
-
+*/
   root.get = function(addr, cb) {
     storageService.getAddressbook(function(err, ab) {
       if (err) return cb(err);

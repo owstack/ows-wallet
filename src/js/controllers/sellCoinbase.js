@@ -144,11 +144,11 @@ angular.module('owsWalletApp.controllers').controller('sellCoinbaseController', 
     $scope.priceSensitivity = coinbaseService.priceSensitivity;
     $scope.selectedPriceSensitivity = { data: coinbaseService.selectedPriceSensitivity };
     
-    $scope.network = coinbaseService.getNetwork();
+    $scope.networkURI = coinbaseService.getNetwork();
     $scope.wallets = profileService.getWallets({
       m: 1, // Only 1-signature wallet
       onlyComplete: true,
-      network: $scope.network,
+      networkURI: $scope.networkURI,
       hasFunds: true,
       minAmount: parsedAmount.amountAtomic
     });

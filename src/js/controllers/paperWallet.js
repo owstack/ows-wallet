@@ -119,7 +119,7 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
 
       $scope.wallets = profileService.getWallets({
         onlyComplete: true,
-        network: 'livenet/btc', // TODO: support other than livenet/btc
+        networkURI: 'livenet/btc', // TODO: support other than livenet/btc
       });
       $scope.singleWallet = $scope.wallets.length == 1;
 

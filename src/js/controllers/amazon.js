@@ -18,7 +18,7 @@ angular.module('owsWalletApp.controllers').controller('amazonController',
     };
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.network = amazonService.getNetwork();
+      $scope.networkURI = amazonService.getNetwork();
       initAmazon();
     });
 

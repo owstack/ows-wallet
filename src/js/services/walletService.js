@@ -128,7 +128,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
       lodash.each(txps, function(tx) {
 
-        tx = txFormatService.processTx(tx, wallet.network);
+        tx = txFormatService.processTx(tx, wallet.networkURI);
 
         // no future transactions...
         if (tx.createdOn > now)
@@ -365,7 +365,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     wallet.hasUnsafeConfirmed = false;
 
     lodash.each(txs, function(tx) {
-      tx = txFormatService.processTx(tx, wallet.network);
+      tx = txFormatService.processTx(tx, wallet.networkURI);
 
       // no future transactions...
       if (tx.time > now)
@@ -1191,7 +1191,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       }
     }
 
-    return cb(null, info.type + '|' + info.data + '|' + wallet.network.toLowerCase() + '|' + derivationPath + '|' + (wallet.credentials.mnemonicHasPassphrase));
+    return cb(null, info.type + '|' + info.data + '|' + wallet.networkURI.toLowerCase() + '|' + derivationPath + '|' + (wallet.credentials.mnemonicHasPassphrase));
   };
 
   root.setTouchId = function(wallet, enabled, cb) {

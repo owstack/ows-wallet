@@ -100,7 +100,7 @@ angular.module('owsWalletApp.controllers').controller('backupController',
     };
 
     $scope.copyRecoveryPhrase = function() {
-      if (networkService.isLivenet($scope.wallet.network)) return null;
+      if (networkService.isLivenet($scope.wallet.networkURI)) return null;
       else if (!$scope.wallet.credentials.mnemonic) return null;
       else return $scope.wallet.credentials.mnemonic;
     };
@@ -117,10 +117,10 @@ angular.module('owsWalletApp.controllers').controller('backupController',
       $timeout(function() {
         if ($scope.mnemonicHasPassphrase) {
           var opts = {
-            walletServiceUrl: configNetwork[$scope.wallet.network].walletService.url
+            walletServiceUrl: configNetwork[$scope.wallet.networkURI].walletService.url
           };
 
-          var walletClient = networkService.walletClientFor($scope.wallet.network).getClient(null, opts);
+          var walletClient = networkService.walletClientFor($scope.wallet.networkURI).getClient(null, opts);
           var separator = $scope.useIdeograms ? '\u3000' : ' ';
           var customSentence = customWordList.join(separator);
           var passphrase = $scope.data.passphrase || '';

@@ -15,14 +15,14 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
   };
 
   var getMinRecommended = function() {
-    var value = lodash.find($scope.feeLevels[$scope.network], {
+    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
       level: 'superEconomy'
     });
     return parseInt((value.feePerKb / 1000).toFixed());
   };
 
   var getMaxRecommended = function() {
-    var value = lodash.find($scope.feeLevels[$scope.network], {
+    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
       level: 'urgent'
     });
     return parseInt((value.feePerKb / 1000).toFixed());
@@ -58,7 +58,7 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
   };
 
   $scope.updateFeeRate = function() {
-    var value = lodash.find($scope.feeLevels[$scope.network], {
+    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
       level: $scope.feeLevel
     });
 
@@ -94,21 +94,21 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
   );
 
   // From parent controller
-  // $scope.network
+  // $scope.networkURI
   // $scope.feeLevel
   //
   // IF usingCustomFee
   // $scope.customFeePerKB
   // $scope.feePerAtomicByte
 
-  $scope.atomicUnit = networkService.getAtomicUnit($scope.network);
+  $scope.atomicUnit = networkService.getAtomicUnit($scope.networkURI);
 
   if (lodash.isEmpty($scope.feeLevel)) showErrorAndClose(null, gettextCatalog.getString('Fee level is not defined') );
   $scope.selectedFee = { value: $scope.feeLevel };
 
-  $scope.feeOpts = feeService.getFeeOpts($scope.network);
+  $scope.feeOpts = feeService.getFeeOpts($scope.networkURI);
   $scope.loadingFee = true;
-  feeService.getFeeLevels($scope.network, function(err, levels) {
+  feeService.getFeeLevels($scope.networkURI, function(err, levels) {
     $scope.loadingFee = false;
     if (err || lodash.isEmpty(levels)) {
       showErrorAndClose(null, err);

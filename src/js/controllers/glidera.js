@@ -85,7 +85,7 @@ angular.module('owsWalletApp.controllers').controller('glideraController',
     }
 
     $scope.openLoginWindow = function() {
-      var glideraUrl = (networkService.isTestnet($scope.network)) ? 'https://sandbox.glidera.io/login' : 'https://glidera.io/login';
+      var glideraUrl = (networkService.isTestnet($scope.networkURI)) ? 'https://sandbox.glidera.io/login' : 'https://glidera.io/login';
       $scope.openExternalLink(glideraUrl);
     }
 
@@ -104,7 +104,7 @@ angular.module('owsWalletApp.controllers').controller('glideraController',
     }
 
     $scope.$on("$ionicView.afterEnter", function(event, data) {
-      $scope.network = glideraService.getNetwork();
+      $scope.networkURI = glideraService.getNetwork();
       $scope.currency = glideraService.getCurrency();
       $scope.showOauthForm = false;
       $scope.account = {};

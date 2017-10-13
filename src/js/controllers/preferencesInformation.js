@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('preferencesInformation',
-  function($scope, $log, $ionicHistory, platformInfo, lodash, profileService, configService, $stateParams, $state, walletService, netorkHelper) {
+  function($scope, $log, $ionicHistory, platformInfo, lodash, profileService, configService, $stateParams, $state, walletService, networkService) {
     var wallet = profileService.getWallet($stateParams.walletId);
     $scope.wallet = wallet;
 
@@ -34,11 +34,10 @@ angular.module('owsWalletApp.controllers').controller('preferencesInformation',
       var c = wallet.credentials;
       var basePath = c.getBaseAddressDerivationPath();
 
-      $scope.standardUnit = netorkHelper.getStandardUnit('livenet/btc');
       $scope.wallet = wallet;
       $scope.walletName = c.walletName;
       $scope.walletId = c.walletId;
-      $scope.network = c.network;
+      $scope.networkLabel = networkService.getNetworkLabelByURI(wallet.networkURI);
       $scope.addressType = c.addressType || 'P2SH';
       $scope.derivationStrategy = c.derivationStrategy || 'BIP45';
       $scope.basePath = basePath;
@@ -46,6 +45,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesInformation',
       $scope.N = c.n;
       $scope.pubKeys = lodash.pluck(c.publicKeyRing, 'xPubKey');
       $scope.externalSource = null;
+      $scope.standardUnit = networkService.getStandardUnit(wallet.networkURI);
 
       if (wallet.isPrivKeyExternal()) {
         $scope.externalSource = lodash.find(walletService.externalSource, function(source) {

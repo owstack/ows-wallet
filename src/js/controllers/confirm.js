@@ -68,7 +68,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
       $scope.wallets = profileService.getWallets({
         onlyComplete: true,
-        network: networkURI
+        networkURI: networkURI
       });
 
       if (!$scope.wallets || !$scope.wallets.length) {
@@ -230,10 +230,10 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       if (!tx.toAmount) return;
 
       // Amount
-      tx.amountStr = txFormatService.formatAmountStr(wallet.network, tx.toAmount);
+      tx.amountStr = txFormatService.formatAmountStr(wallet.networkURI, tx.toAmount);
       tx.amountValueStr = tx.amountStr.split(' ')[0];
       tx.amountAtomicStr = tx.amountStr.split(' ')[1];
-      txFormatService.formatAlternativeStr(wallet.network, tx.toAmount, function(v) {
+      txFormatService.formatAlternativeStr(wallet.networkURI, tx.toAmount, function(v) {
         tx.alternativeAmountStr = v;
       });
     }
@@ -248,7 +248,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       if (err) return cb(err);
 
       if (!usingCustomFee) tx.feeRate = feeRate;
-      tx.feeLevelName = feeService.getFeeOpts(wallet.network, tx.feeLevel);
+      tx.feeLevelName = feeService.getFeeOpts(wallet.networkURI, tx.feeLevel);
 
       if (!wallet)
         return cb();
@@ -272,7 +272,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
           tx.sendMaxInfo = sendMaxInfo;
           tx.toAmount = tx.sendMaxInfo.amount;
           updateAmount();
-          showSendMaxWarning(sendMaxInfo, wallet.network);
+          showSendMaxWarning(sendMaxInfo, wallet.networkURI);
         }
 
         // txp already generated for this wallet?
@@ -284,8 +284,8 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
         getTxp(lodash.clone(tx), wallet, opts.dryRun, function(err, txp) {
           if (err) return cb(err);
 
-          txp.feeStr = txFormatService.formatAmountStr(wallet.network, txp.fee);
-          txFormatService.formatAlternativeStr(wallet.network, txp.fee, function(v) {
+          txp.feeStr = txFormatService.formatAmountStr(wallet.networkURI, txp.fee);
+          txFormatService.formatAlternativeStr(wallet.networkURI, txp.fee, function(v) {
             txp.alternativeFeeStr = v;
           });
 
@@ -347,7 +347,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       return warningMsg.join('\n');
     };
 
-    var msg = gettextCatalog.getString("{{fee}} will be deducted for bitcoin networking fees.", {
+    var msg = gettextCatalog.getString("{{fee}} will be deducted for networking fees.", {
       fee: txFormatService.formatAmountStr(networkURI, sendMaxInfo.fee)
     });
     var warningMsg = verifyExcludedUtxos();
@@ -457,7 +457,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
     if (!tx || !wallet) return;
 
     if ($scope.paymentExpired) {
-      popupService.showAlert(null, gettextCatalog.getString('This bitcoin payment request has expired.'));
+      popupService.showAlert(null, gettextCatalog.getString('This payment request has expired.'));
       $scope.sendStatus = '';
       $timeout(function() {
         $scope.$apply();
@@ -475,7 +475,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
         if (walletService.isEncrypted(wallet))
           return cb();
 
-        var amountUsd = parseFloat(txFormatService.formatToUSD(wallet.network, txp.amount));
+        var amountUsd = parseFloat(txFormatService.formatToUSD(wallet.networkURI, txp.amount));
         if (amountUsd <= CONFIRM_LIMIT_USD)
           return cb();
 

@@ -88,7 +88,7 @@ angular.module('owsWalletApp.controllers').controller('exportController',
     $scope.noSignEnabledChange = function() {
       if (!$scope.formData.supported) return;
 
-      walletService.getEncodedWalletInfo(wallet, function(err, code) {
+      walletService.getEncodedWalletInfo(wallet, null, function(err, code) {
         if (err) {
           $log.error(err);
           $scope.formData.supported = false;
@@ -134,7 +134,7 @@ angular.module('owsWalletApp.controllers').controller('exportController',
     };
 
     $scope.getAddressbook = function(cb) {
-      storageService.getAddressbook(wallet.network, function(err, addressBook) {
+      storageService.getAddressbook(function(err, addressBook) {
         if (err) return cb(err);
 
         var localAddressBook = [];

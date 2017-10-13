@@ -43,8 +43,8 @@ angular.module('owsWalletApp.controllers').controller('preferencesHistory',
         }
         $log.debug('Wallet Transaction History Length:', txs.length);
 
-        var standardUnit = networkService.getStandardUnit($scope.wallet.network);
-        var atomicToStandard = networkService.getASUnitRatio($scope.wallet.network);
+        var standardUnit = networkService.getStandardUnit($scope.wallet.networkURI);
+        var atomicToStandard = networkService.getASUnitRatio($scope.wallet.networkURI);
 
         var data = txs;
         $scope.csvContent = [];

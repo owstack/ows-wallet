@@ -60,10 +60,10 @@ angular.module('owsWalletApp.controllers').controller('buyGlideraController', fu
     currency = parsedAmount.currency;
     $scope.amountAtomicStr = parsedAmount.amountAtomicStr;
 
-    $scope.network = glideraService.getNetwork();
+    $scope.networkURI = glideraService.getNetwork();
     $scope.wallets = profileService.getWallets({
       onlyComplete: true,
-      network: $scope.network
+      networkURI: $scope.networkURI
     });
 
     if (lodash.isEmpty($scope.wallets)) {
