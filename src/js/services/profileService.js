@@ -110,12 +110,11 @@ angular.module('owsWalletApp.services')
       wallet.removeAllListeners();
 
       wallet.on('report', function(n) {
-        $log.info('Wallet Client Report:' + n);
+        $log.info('Wallet Client Report (' + wallet.networkURI + '):' + n);
       });
 
       wallet.on('notification', function(n) {
-
-        $log.debug('Wallet Client Notification:', n);
+        $log.debug('Wallet Client Notification (' + wallet.networkURI + '):', n);
 
         if (n.type == "NewBlock" && networkService.isTestnet(n.data.network)) {
           throttledWalletServiceEvent(n, wallet);
@@ -123,7 +122,7 @@ angular.module('owsWalletApp.services')
       });
 
       wallet.on('walletCompleted', function() {
-        $log.debug('Wallet completed');
+        $log.debug('Wallet completed (' + wallet.networkURI + ')');
 
         root.updateCredentials(JSON.parse(wallet.export()), function() {
           $rootScope.$emit('Local/WalletCompleted', walletId);
@@ -306,29 +305,19 @@ angular.module('owsWalletApp.services')
           $rootScope.$emit('Local/DeviceError', err);
           return cb(err);
         }
-/*
         if (!profile) {
-          // Migration??
-          storageService.tryToMigrate(function(err, migratedProfile) {
-            if (err) return cb(err);
-            if (!migratedProfile)
-              return cb(new Error('NOPROFILE: No profile'));
-
-            profile = migratedProfile;
-            return root.bindProfile(profile, cb);
-          })
+          return cb(new Error('NOPROFILE: No profile'));
         } else {
-*/
           $log.debug('Profile read');
           return root.bindProfile(profile, cb);
-//        }
+        }
       });
     };
 
     var seedWallet = function(opts, cb) {
       var config = configService.getSync();
       opts = opts || {};
-      var walletClient = networkService.walletClientFor(opts.network).getClient(null, opts);
+      var walletClient = networkService.walletClientFor(opts.network.getURI()).getClient(null, opts);
 
       if (opts.mnemonic) {
         try {
@@ -701,10 +690,15 @@ angular.module('owsWalletApp.services')
     };
 
     root.createDefaultWallet = function(cb) {
+      var config = configService.getSync();
+      var defaultNetwork = config.currencyNetworks.default;
+
       var opts = {};
       opts.m = 1;
       opts.n = 1;
-      opts.network = networkService.getNetworkByURI('livenet/btc');
+      opts.network = networkService.getNetworkByURI(defaultNetwork);
+      opts.walletServiceUrl = config.currencyNetworks[defaultNetwork].walletService.url;
+
       root.createWallet(opts, cb);
     };
 
