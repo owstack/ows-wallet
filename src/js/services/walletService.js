@@ -423,8 +423,8 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
       $log.debug('Fixing Tx Cache Unit to:' + name)
       lodash.each(txs, function(tx) {
-        tx.amountStr = txFormatService.formatAmount(tx.network, tx.amount) + name;
-        tx.feeStr = txFormatService.formatAmount(tx.network, tx.fees) + name;
+        tx.amountStr = txFormatService.formatAmount(wallet.networkURI, tx.amount) + name;
+        tx.feeStr = txFormatService.formatAmount(wallet.networkURI, tx.fees) + name;
       });
     };
 

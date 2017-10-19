@@ -170,14 +170,14 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
           url: 'https://bchws.openwalletstack.com/bchws/api'
         },
         local: {
-          url: 'http://localhost:3232/bchws/api'
+          url: 'http://localhost:4232/bchws/api'
         }
       },
       explorer: {
         production: {
           label: gettextCatalog.getString('Explorer'),
-          url: 'https://cashexplorer.bitcoin.com', // 'https://bch-explorer.openwalletstack.com',
-          urlTx: 'https://cashexplorer.bitcoin.com/tx/' // 'https://bch-explorer.openwalletstack.com/tx/'
+          url: 'https://bch-insight.bitpay.com', // 'https://bch-explorer.openwalletstack.com',
+          urlTx: 'https://bch-insight.bitpay.com/tx/' // 'https://bch-explorer.openwalletstack.com/tx/'
         }
       },
       protocol: 'bitcoincash',
