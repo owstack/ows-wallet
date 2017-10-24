@@ -3364,12 +3364,12 @@ msgid "Your Gift Cards"
 msgstr "Vos cartes-cadeaux"
 
 #: www/views/includes/confirmBackupPopup.html:6
-msgid "Your bitcoin wallet is backed up!"
-msgstr "Votre portefeuille bitcoin est sauvegardé !"
+msgid "Your wallet is backed up!"
+msgstr "Votre portefeuille est sauvegardé !"
 
 #: www/views/tab-home.html:36
-msgid "Your bitcoin wallet is ready!"
-msgstr "Votre portefeuille bitcoin est prêt !"
+msgid "Your wallet is ready!"
+msgstr "Votre portefeuille est prêt !"
 
 #: www/views/modals/chooseFeeLevel.html:61
 msgid "Your fee is lower than recommended."

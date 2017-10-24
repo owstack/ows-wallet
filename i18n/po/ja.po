@@ -3370,11 +3370,11 @@ msgid "Your Gift Cards"
 msgstr "ギフトカード"
 
 #: www/views/includes/confirmBackupPopup.html:6
-msgid "Your bitcoin wallet is backed up!"
+msgid "Your wallet is backed up!"
 msgstr "ビットコインウォレットがバックアップされました!"
 
 #: www/views/tab-home.html:36
-msgid "Your bitcoin wallet is ready!"
+msgid "Your wallet is ready!"
 msgstr "ビットコインウォレットが完成しました!"
 
 #: www/views/modals/chooseFeeLevel.html:61

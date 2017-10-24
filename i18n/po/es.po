@@ -3364,12 +3364,12 @@ msgid "Your Gift Cards"
 msgstr "Tus Tarjetas de Regalo"
 
 #: www/views/includes/confirmBackupPopup.html:6
-msgid "Your bitcoin wallet is backed up!"
-msgstr "¡Su billetera bitcoin está resguardada!"
+msgid "Your wallet is backed up!"
+msgstr "¡Su billetera está resguardada!"
 
 #: www/views/tab-home.html:36
-msgid "Your bitcoin wallet is ready!"
-msgstr "¡Su billetera bitcoin está lista!"
+msgid "Your wallet is ready!"
+msgstr "¡Su billetera está lista!"
 
 #: www/views/modals/chooseFeeLevel.html:61
 msgid "Your fee is lower than recommended."
