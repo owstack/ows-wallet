@@ -1,11 +1,10 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabSettingsController', function($rootScope, $timeout, $scope, appConfigService, $ionicModal, $log, lodash, uxLanguage, platformInfo, profileService, feeService, configService, externalLinkService, bitpayAccountService, bitpayCardService, storageService, glideraService, gettextCatalog, buyAndSellService) {
+angular.module('owsWalletApp.controllers').controller('tabSettingsController', function($rootScope, $timeout, $scope, appConfigService, $ionicModal, $log, lodash, uxLanguage, platformInfo, profileService, feeService, configService, externalLinkService, storageService, gettextCatalog) {
 
   var updateConfig = function() {
     $scope.currentLanguageName = uxLanguage.getCurrentLanguageName();
     $scope.wallets = profileService.getWallets();
-    $scope.buyAndSellServices = buyAndSellService.getLinked();
 
     configService.whenAvailable(function(config) {
       $scope.unitName = config.wallet.settings.unitName;
@@ -13,26 +12,6 @@ angular.module('owsWalletApp.controllers').controller('tabSettingsController', f
         name: config.wallet.settings.alternativeName,
         isoCode: config.wallet.settings.alternativeIsoCode
       };
-
-      // TODO move this to a generic service
-      bitpayAccountService.getAccounts(function(err, data) {
-        if (err) $log.error(err);
-        $scope.bitpayAccounts = !lodash.isEmpty(data);
-
-        $timeout(function() {
-          $rootScope.$apply();
-        }, 10);
-      });
-
-      // TODO move this to a generic service
-      bitpayCardService.getCards(function(err, cards) {
-        if (err) $log.error(err);
-        $scope.bitpayCards = cards && cards.length > 0;
-
-        $timeout(function() {
-          $rootScope.$apply();
-        }, 10);
-      });
     });
   };
 

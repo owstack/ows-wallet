@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('amountController', function($scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcess, popupService, walletClientError, payproService, profileService, amazonService, nodeWebkitService, networkService) {
+angular.module('owsWalletApp.controllers').controller('amountController', function($scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcess, popupService, walletClientError, payproService, profileService, nodeWebkitService, networkService) {
   var _id;
   var atomicUnitToUnit;
   var atomicUnitDecimals;
@@ -17,13 +17,12 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     // Go to...
-    _id = data.stateParams.id; // Optional (BitPay Card ID or Wallet ID)
+    _id = data.stateParams.id; // Optional wallet ID
     $scope.nextStep = data.stateParams.nextStep;
     $scope.currency = data.stateParams.currency;
     $scope.forceCurrency = data.stateParams.forceCurrency;
 
-    $scope.showMenu = $ionicHistory.backView() && ($ionicHistory.backView().stateName == 'tabs.send' ||
-      $ionicHistory.backView().stateName == 'tabs.bitpayCard');
+    $scope.showMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == 'tabs.send';
     $scope.recipientType = data.stateParams.recipientType || null;
     $scope.networkURI = data.stateParams.networkURI || configService.getSync().currencyNetworks.default;
     $scope.toAddress = data.stateParams.toAddress;

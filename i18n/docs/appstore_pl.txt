@@ -1,4 +1,4 @@
-Bezpieczne bitcoiny na twoich własnych warunkach, z elektronicznym portfelem open source z multipodpisami od BitPay. 
+Bezpieczne bitcoiny na twoich własnych warunkach, z elektronicznym portfelem open source z multipodpisami. 
 Użytkownicy Owl mogą posiadać fundusze indywidualnie lub bezpiecznie dzielić je z innymi użytkownikami w portfelach z multipodpisami, które uniemożliwiają nieautoryzowane płatności wymagając wielu potwierdzeń. Oto kilka sposobów, jak portfele Owl mogą być używane w połączeniu z innymi użytkownikami:
 
 Oszczędzanie na wakacje lub wspólne zakupy z przyjaciółmi 

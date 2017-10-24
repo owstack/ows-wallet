@@ -26,7 +26,7 @@ angular.module('owsWalletApp.services').factory('fingerprintService', function($
   var requestFinger = function(cb) {
     try {
       FingerprintAuth.show({
-          clientId: 'Owl',
+          clientId: 'OwsWallet',
           clientSecret: 'hVu1NvCZOyUuGgr46bFL',
         },
         function(result) {

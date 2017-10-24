@@ -24,7 +24,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       var value = match[0].replace(',', '.');
       var newUri = data.replace(regex, value);
 
-      // mobile devices, uris like owl://glidera
+      // mobile devices, uris like owswallet://blah
       newUri.replace('://', ':');
 
       return newUri;
@@ -173,75 +173,8 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       } else {
         goToAmountPage(data, networkURI);
       }
-    // Glidera
-    } else if (data && data.indexOf(appConfigService.name + '://glidera') === 0) {
-      var code = getParameterByName('code', data);
-      $ionicHistory.nextViewOptions({
-        disableAnimate: true
-      });
-      $state.go('tabs.home', {}, {
-        'reload': true,
-        'notify': $state.current.name == 'tabs.home' ? false : true
-      }).then(function() {
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true
-        });
-        $state.transitionTo('tabs.buyandsell.glidera', {
-          code: code
-        });
-      });
-      return true;
-
-    // Coinbase
-    } else if (data && data.indexOf(appConfigService.name + '://coinbase') === 0) {
-      var code = getParameterByName('code', data);
-      $ionicHistory.nextViewOptions({
-        disableAnimate: true
-      });
-      $state.go('tabs.home', {}, {
-        'reload': true,
-        'notify': $state.current.name == 'tabs.home' ? false : true
-      }).then(function() {
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true
-        });
-        $state.transitionTo('tabs.buyandsell.coinbase', {
-          code: code
-        });
-      });
-      return true;
-
-    // BitPayCard Authentication
-    } else if (data && data.indexOf(appConfigService.name + '://') === 0) {
-
-      // Disable BitPay Card
-      if (!appConfigService._enabledExtensions.debitcard) return false;
-
-      var secret = getParameterByName('secret', data);
-      var email = getParameterByName('email', data);
-      var otp = getParameterByName('otp', data);
-      var reason = getParameterByName('r', data);
-
-      $state.go('tabs.home', {}, {
-        'reload': true,
-        'notify': $state.current.name == 'tabs.home' ? false : true
-      }).then(function() {
-        switch (reason) {
-          default:
-            case '0':
-            /* For BitPay card binding */
-            $state.transitionTo('tabs.bitpayCardIntro', {
-              secret: secret,
-              email: email,
-              otp: otp
-            });
-          break;
-        }
-      });
-      return true;
-
     // Join
-    } else if (data && data.match(/^owl:[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
+    } else if (data && data.match(/^owswallet:[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
       $state.go('tabs.home', {}, {
         'reload': true,
         'notify': $state.current.name == 'tabs.home' ? false : true

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('joinController',
-  function($scope, $rootScope, $timeout, $state, $ionicHistory, $ionicScrollDelegate, profileService, configService, storageService, applicationService, gettextCatalog, lodash, ledger, trezor, intelTEE, derivationPathHelper, ongoingProcess, walletService, $log, $stateParams, popupService, appConfigService, networkService) {
+  function($scope, $rootScope, $timeout, $state, $ionicHistory, $ionicScrollDelegate, profileService, configService, storageService, applicationService, gettextCatalog, lodash, ledger, trezor, derivationPathHelper, ongoingProcess, walletService, $log, $stateParams, popupService, appConfigService, networkService) {
 
     var configNetwork = configService.getSync().currencyNetworks;
 
@@ -61,7 +61,7 @@ angular.module('owsWalletApp.controllers').controller('joinController',
 
     if ($stateParams.url) {
       var data = $stateParams.url;
-      data = data.replace('owl:', '');
+      data = data.replace('owswallet:', '');
       $scope.onQrCodeScannedJoin(data);
     }
 
@@ -92,13 +92,6 @@ angular.module('owsWalletApp.controllers').controller('joinController',
           $scope.seedOptions.push({
             id: walletService.externalSource.trezor.id,
             label: walletService.externalSource.trezor.longName
-          });
-        }
-
-        if (walletService.externalSource.intelTEE.supported) {
-          $scope.seedOptions.push({
-            id: walletService.externalSource.intelTEE.id,
-            label: walletService.externalSource.intelTEE.longName
           });
         }
       }
@@ -142,14 +135,14 @@ angular.module('owsWalletApp.controllers').controller('joinController',
         return;
       }
 
-      if ($scope.formData.seedSource.id == walletService.externalSource.ledger.id || $scope.formData.seedSource.id == walletService.externalSource.trezor.id || $scope.formData.seedSource.id == walletService.externalSource.intelTEE.id) {
+      if ($scope.formData.seedSource.id == walletService.externalSource.ledger.id || $scope.formData.seedSource.id == walletService.externalSource.trezor.id) {
         var account = $scope.formData.account;
         if (!account || account < 1) {
           popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number'));
           return;
         }
 
-        if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id || $scope.formData.seedSource.id == walletService.externalSource.intelTEE.id)
+        if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id)
           account = account - 1;
 
         opts.account = account;
@@ -164,15 +157,11 @@ angular.module('owsWalletApp.controllers').controller('joinController',
           case walletService.externalSource.trezor.id:
             src = trezor;
             break;
-          case walletService.externalSource.intelTEE.id:
-            src = intelTEE;
-            break;
           default:
             popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id');
             return;
         }
 
-        // TODO: cannot currently join an intelTEE testnet/btc wallet (need to detect from the secret)
         src.getInfoForNewWallet(true, account, 'livenet/btc', function(err, lopts) {
           ongoingProcess.set('connecting' + $scope.formData.seedSource.id, false);
           if (err) {

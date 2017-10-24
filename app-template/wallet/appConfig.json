@@ -1,16 +1,16 @@
 {
-  "packageName": "owl",
+  "packageName": "wallet",
   "packageDescription": "OWS Wallet",
-  "packageNameId": "com.openwalletstack.owl",
+  "packageNameId": "com.openwalletstack.wallet",
   "statusBarColor": "#192c3a",
-  "userVisibleName": "Owl",
+  "userVisibleName": "Wallet",
   "purposeLine": "OWS Wallet",
-  "bundleName": "owl",
-  "appUri": "owl",
-  "name": "owl",
-  "nameNoSpace": "owl",
-  "nameCase": "Owl",
-  "nameCaseNoSpace": "Owl",
+  "bundleName": "wallet",
+  "appUri": "wallet",
+  "name": "wallet",
+  "nameNoSpace": "wallet",
+  "nameCase": "Wallet",
+  "nameCaseNoSpace": "Wallet",
   "gitHubRepoName": "ows-wallet",
   "gitHubRepoUrl": "git://github.com/owstack/ows-wallet.git",
   "gitHubRepoBugs": "https://github.com/owstack/ows-wallet/issues",
@@ -27,8 +27,5 @@
   "androidVersion": "373000",
   "_extraCSS": null,
   "_enabledExtensions": {
-    "coinbase": true,
-    "glidera": true,
-    "amazon": true
   }
 }

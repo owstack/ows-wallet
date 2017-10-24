@@ -10,8 +10,6 @@ angular.module('owsWalletApp.services').factory('ongoingProcess', function($log,
   var processNames = {
     'broadcastingTx': gettext('Broadcasting transaction'),
     'calculatingFee': gettext('Calculating fee'),
-    'connectingCoinbase': gettext('Connecting to Coinbase...'),
-    'connectingGlidera': gettext('Connecting to Glidera...'),
     'connectingledger': gettext('Waiting for Ledger...'),
     'connectingtrezor': gettext('Waiting for Trezor...'),
     'creatingTx': gettext('Creating transaction'),
@@ -36,16 +34,7 @@ angular.module('owsWalletApp.services').factory('ongoingProcess', function($log,
     'sendingFeedback': gettext('Sending feedback...'),
     'generatingNewAddress': gettext('Generating new address...'),
     'sendingByEmail': gettext('Preparing addresses...'),
-    'sending2faCode': gettext('Sending 2FA code...'),
-    'buyingBitcoin': gettext('Buying Bitcoin...'),
-    'sellingBitcoin': gettext('Selling Bitcoin...'),
-    'fetchingBitPayAccount': gettext('Fetching BitPay Account...'),
-    'updatingGiftCards': 'Updating Gift Cards...',
-    'updatingGiftCard': 'Updating Gift Card...',
-    'cancelingGiftCard': 'Canceling Gift Card...',
-    'creatingGiftCard': 'Creating Gift Card...',
-    'buyingGiftCard': 'Buying Gift Card...',
-    'topup': gettext('Top up in progress...')
+    'sending2faCode': gettext('Sending 2FA code...')
   };
 
   root.clear = function() {

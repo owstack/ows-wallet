@@ -23,28 +23,6 @@ angular.module('owsWalletApp.services').factory('platformInfo', function($window
     }
   };
 
-  var getVersionIntelTee = function() {
-    var v = '';
-    var isWindows = navigator.platform.indexOf('Win') > -1;
-
-    if (!isNodeWebkit() || !isWindows) {
-      return v;
-    }
-
-    try {
-      var IntelWallet = require('intelWalletCon');
-      if (IntelWallet.getVersion) {
-        v = IntelWallet.getVersion();
-      } else {
-        v = 'Alpha';
-      }
-      if (v.length > 0) {
-        $log.info('Intel TEE library ' + v);
-      }
-    } catch (e) {}
-    return v;
-  };
-
   // Detect mobile devices
   var ret = {
     isAndroid: ionic.Platform.isAndroid(),
@@ -62,9 +40,6 @@ angular.module('owsWalletApp.services').factory('platformInfo', function($window
 
   ret.supportsLedger = ret.isChromeApp;
   ret.supportsTrezor = ret.isChromeApp || ret.isDevel;
-
-  ret.versionIntelTEE = getVersionIntelTee();
-  ret.supportsIntelTEE = ret.versionIntelTEE.length > 0;
 
   return ret;
 });

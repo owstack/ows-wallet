@@ -1,4 +1,4 @@
-Armazene bitcoin com seus próprios termos com uma carteira de multi-assinaturas, open source, do BitPay. 
+Armazene bitcoin com seus próprios termos com uma carteira de multi-assinaturas, open source. 
 Usuários Owl podem manter fundos individualmente ou compartilhar finanças seguramente com outros usuários por meio de carteiras multi-assinadas, que previnem pagamentos não autorizados por meio de múltiplas aprovações. Algumas formas que a Owl pode ser usada com outros:
 
 Para economizar para férias ou juntar compras com amigos 

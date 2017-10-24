@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezor, ledger, intelTEE, storageService, configService, rateService, uxLanguage, $filter, gettextCatalog, walletClientError, $ionicPopup, fingerprintService, ongoingProcess, gettext, $rootScope, txFormatService, $ionicModal, $state, popupService, networkService) {
+angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezor, ledger, storageService, configService, rateService, uxLanguage, $filter, gettextCatalog, walletClientError, $ionicPopup, fingerprintService, ongoingProcess, gettext, $rootScope, txFormatService, $ionicModal, $state, popupService, networkService) {
 
   // Ratio low amount warning (fee/amount) in incoming TX 
   var LOW_AMOUNT_RATIO = 0.15; 
@@ -12,8 +12,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.externalSource = {
     ledger: ledger.description,
-    trezor: trezor.description,
-    intelTEE: intelTEE.description
+    trezor: trezor.description
   }
 
   root.WALLET_STATUS_MAX_TRIES = 7;
@@ -49,23 +48,8 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     });
   };
 
-  var _signWithIntelTEE = function(wallet, txp, cb) {
-    $log.info('Requesting Intel TEE to sign the transaction');
-
-    intelTEE.signTx(wallet.credentials.hwInfo.id, txp, function(err, result) {
-      if (err) return cb(err);
-
-      $log.debug('Intel TEE response', result);
-      txp.signatures = result.Signatures;
-      return wallet.signTxProposal(txp, cb);
-    });
-  };
-
   root.showMneumonicFromHardware = function(wallet, cb) {
     switch (wallet.getPrivKeyExternalSourceName()) {
-      case root.externalSource.intelTEE.id:
-        return intelTEE.showMneumonic(wallet.credentials.hwInfo.id, cb);
-        break;
       default:
         cb('Error: unrecognized external source');
         break;
@@ -74,12 +58,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.showReceiveAddressFromHardware = function(wallet, address, cb) {
     switch (wallet.getPrivKeyExternalSourceName()) {
-      case root.externalSource.intelTEE.id:
-        root.getAddressObj(wallet, address, function(err, addrObj) {
-          if (err) return cb(err);
-          return intelTEE.showReceiveAddress(wallet.credentials.hwInfo.id, addrObj, cb);
-        });
-        break;
       default:
         cb('Error: unrecognized external source');
         break;
@@ -696,8 +674,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
           return _signWithLedger(wallet, txp, cb);
         case root.externalSource.trezor.id:
           return _signWithTrezor(wallet, txp, cb);
-        case root.externalSource.intelTEE.id:
-          return _signWithIntelTEE(wallet, txp, cb);
         default:
           var msg = 'Unsupported External Key:' + wallet.getPrivKeyExternalSourceName();
           $log.error(msg);
