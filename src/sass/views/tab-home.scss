@@ -3,24 +3,6 @@
   .icon-create-wallet {
     background-color: #4A90E2; // default wallet color
   }
-  .icon-buy-bitcoin {
-    background-image: $v-bitcoin-icon;
-    background-color: $v-bitcoin-orange;
-  }
-  .icon-bitpay-card {
-    background-image: url("../img/icon-card.svg");
-    background-color: #1e3186;
-  }
-  .icon-gift {
-    background-image: url("../img/icon-gift.svg");
-  }
-  .icon-amazon {
-    background-image: url("../img/icon-amazon.svg");
-  }
-  .icon-ml {
-    background-image: url("../img/mercado-libre/icon-ml.svg");
-    height: 27px;
-  }
   .bg {
     &.wallet {
       padding: .25rem

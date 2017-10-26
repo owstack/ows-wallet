@@ -84,7 +84,7 @@ angular.module('owsWalletApp.services').factory('openURLService', function($root
       if (navigator.registerProtocolHandler) {
         $log.debug('Registering Browser handlers base:' + base);
         navigator.registerProtocolHandler('bitcoin', url, 'OWS Wallet Bitcoin Handler');
-        navigator.registerProtocolHandler('web+owl', url, 'OWS Wallet Handler');
+        navigator.registerProtocolHandler('web+owswallet', url, 'OWS Wallet Handler');
       }
     }
   };

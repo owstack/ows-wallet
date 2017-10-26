@@ -29,9 +29,6 @@ angular.module('owsWalletApp.services')
           path = root.UNISIG_ROOTPATH;
         }
       }
-      if (device == 'intelTEE') {
-        path = root.M + path;
-      }
       return path;
     };
 
@@ -54,10 +51,6 @@ angular.module('owsWalletApp.services')
       // Old ledger wallet compat
       if (device == 'ledger' && account == 0) {
         return path + "0'/";
-      }
-
-      if (device == 'intelTEE') {
-        path = root.M + path;
       }
 
       return path + account + "'";

@@ -1,15 +1,5 @@
 'use strict';
 
-//var util = require('util');
-//var _ = require('lodash');
-//var log = require('../util/log');
-//var preconditions = require('preconditions').singleton();
-//var request = require('request');
-
-/*
-  This class lets interfaces with BitPay's exchange rate API.
-*/
-
 var RateService = function(opts) {
   var self = this;
 
@@ -46,7 +36,6 @@ RateService.prototype._fetchCurrencies = function() {
   var rateServiceUrl = 'https://bitpay.com/api/rates';
 
   var retrieve = function() {
-    //log.info('Fetching exchange rates');
     self.httprequest.get(rateServiceUrl).success(function(res) {
       self.lodash.each(res, function(currency) {
         self._rates[currency.code] = currency.rate;
@@ -62,7 +51,6 @@ RateService.prototype._fetchCurrencies = function() {
       });
       setTimeout(retrieve, updateFrequencySeconds * 1000);
     }).error(function(err) {
-      //log.debug('Error fetching exchange rates', err);
       setTimeout(function() {
         backoffSeconds *= 1.5;
         retrieve();
@@ -132,10 +120,6 @@ RateService.prototype.listAlternatives = function(sort) {
 };
 
 angular.module('owsWalletApp.services').factory('rateService', function($http, lodash, networkService) {
-  // var cfg = _.extend(config.rates, {
-  //   httprequest: $http
-  // });
-
   var cfg = {
     httprequest: $http,
     lodash: lodash,

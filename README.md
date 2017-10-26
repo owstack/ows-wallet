@@ -25,8 +25,7 @@ For a list of frequently asked questions please visit the [Wallet FAQ](https://g
 - Push notifications (only available for ios and android versions)
 - Customizable wallet naming and background colors
 - Multiple languages supported
-- Available for [iOS](https://itunes.apple.com/us/app/owl/id951330296), [Android](https://play.google.com/store/apps/details?id=com.openwalletstack.owl&hl=en), [Windows Phone](https://www.microsoft.com/en-us/store/p/owl-secure-bitcoin-wallet/9nm8z2b0387b),
- [Chrome App](https://chrome.google.com/webstore/detail/owl/cnidaodnidkbaplmghlelgikaiejfhja?hl=en), [Linux](https://github.com/owstack/ows-wallet/releases/latest), [Windows](https://github.com/owstack/ows-wallet/releases/latest) and [OS X](https://github.com/owstack/ows-wallet/releases/latest) devices
+- Available for iOS, Android, Windows Phone, Chrome App, Linux, Windows, and OSX devices
 
 ## Bitcoin Features
 
@@ -52,7 +51,7 @@ cd ows-wallet
 Ensure you have [Node](https://nodejs.org/) installed, then install and start the wallet:
 
 ```sh
-npm run apply:owl
+npm run apply:wallet
 npm start
 ```
 
@@ -75,7 +74,7 @@ Follow the [Cordova Android Platform Guide](https://cordova.apache.org/docs/en/l
 When your developement enviroment is ready, run the `start:android` npm package script.
 
 ```sh
-npm run apply:owl
+npm run apply:wallet
 npm run start:android
 ```
 
@@ -86,7 +85,7 @@ Follow the [Cordova iOS Platform Guide](https://cordova.apache.org/docs/en/lates
 When your developement enviroment is ready, run the `start:ios` npm package script.
 
 ```sh
-npm run apply:owl
+npm run apply:wallet
 npm run start:ios
 ```
 
@@ -107,7 +106,7 @@ and then enable this one:
 - Run:
 ```sh
 npm run clean-all
-npm run apply:owl
+npm run apply:wallet
 npm run start:windows
 ```
 - Then open the project file with VS inside cordova/platform/windows/
@@ -119,7 +118,7 @@ The desktop version currently uses NW.js, an app runtime based on Chromium. To g
 When NW.js is installed, run the `start:desktop` npm package script.
 
 ```sh
-npm run apply:owl
+npm run apply:wallet
 npm run start:desktop
 ```
 
@@ -133,7 +132,7 @@ The `final` commands build the production version of the app, and bundle it with
 
 ```sh
 npm run clean-all
-npm run apply:owl
+npm run apply:wallet
 npm run final:android
 ```
 
@@ -141,7 +140,7 @@ npm run final:android
 
 ```sh
 npm run clean-all
-npm run apply:owl
+npm run apply:wallet
 npm run final:ios
 ```
 
@@ -159,7 +158,7 @@ and then enable this one:
 - Run:
 ```sh
 npm run clean-all
-npm run apply:owl
+npm run apply:wallet
 npm run final:windows
 ```
 - Then open the project file with VS inside cordova/platform/windows/
@@ -168,7 +167,7 @@ npm run final:windows
 
 ```sh
 npm run clean-all
-npm run apply:owl
+npm run apply:wallet
 npm run final:desktop
 ```
 
@@ -177,7 +176,7 @@ npm run final:desktop
 > cd chrome-app/
 
 ```sh
-npm run apply:owl
+npm run apply:wallet
 grunt
 make
 ```
@@ -191,7 +190,7 @@ On success, the Chrome extension will be located at: `browser-extensions/chrome/
 To enable external services, set the `WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION` environment variable to the location of your configuration before running the `apply` task.
 
 ```sh
-WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION="~/.ows-wallet/externalServices.json" npm run apply:owl
+WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION="~/.ows-wallet/externalServices.json" npm run apply:wallet
 ```
 
 ## About OWS Wallet

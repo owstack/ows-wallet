@@ -286,7 +286,6 @@ angular.module('owsWalletApp.controllers').controller('importController',
 
       if ($scope.fromHardwareWallet.value) {
         $log.debug('Importing seed from hardware wallet');
-        $log.warn('This wont work for Intel TEE wallets');
 
         var id = $scope.formData.seedSourceAll.id;
         var isMultisig = opts.derivationStrategy =='BIP48';

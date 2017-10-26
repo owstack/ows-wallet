@@ -74,12 +74,7 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
   };
 
   $scope.shouldShowReceiveAddressFromHardware = function() {
-    var wallet = $scope.wallet;
-    if (wallet.isPrivKeyExternal() && wallet.credentials.hwInfo) {
-      return (wallet.credentials.hwInfo.name == walletService.externalSource.intelTEE.id);
-    } else {
-      return false;
-    }
+    return false;
   };
 
   $scope.showReceiveAddressFromHardware = function() {

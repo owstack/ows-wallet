@@ -7,7 +7,6 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   var currentContactsPage;
   $scope.isChromeApp = platformInfo.isChromeApp;
 
-
   var hasWallets = function() {
     $scope.wallets = profileService.getWallets({
       onlyComplete: true
@@ -15,11 +14,8 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
     $scope.hasWallets = lodash.isEmpty($scope.wallets) ? false : true;
   };
 
-  // THIS is ONLY to show the 'buy bitcoins' message
-  // does not has any other function.
-
+  // This is only to show the starter message, it does not have any other function
   var updateHasFunds = function() {
-
     if ($rootScope.everHasFunds) {
       $scope.hasFunds = true;
       return;
@@ -29,14 +25,11 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
     var index = 0;
     lodash.each($scope.wallets, function(w) {
       walletService.getStatus(w, {}, function(err, status) {
-
         ++index;
         if (err && !status) {
           $log.error(err);
-          // error updating the wallet. Probably a network error, do not show
-          // the 'buy bitcoins' message.
-
-          $scope.hasFunds = true;
+          // Error updating the wallet. Probably a network error, do not show starter message
+          $scope.hasFunds = false;
         } else if (status.availableBalanceAtomic > 0) {
           $scope.hasFunds = true;
           $rootScope.everHasFunds = true;
@@ -198,12 +191,6 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   $scope.createWallet = function() {
     $state.go('tabs.home').then(function() {
       $state.go('tabs.add.create-personal');
-    });
-  };
-
-  $scope.buyBitcoin = function() {
-    $state.go('tabs.home').then(function() {
-      $state.go('tabs.buyandsell');
     });
   };
 

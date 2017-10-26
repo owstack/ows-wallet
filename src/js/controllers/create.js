@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('createController',
-  function($scope, $rootScope, $timeout, $log, lodash, $state, $ionicScrollDelegate, $ionicHistory, profileService, configService, gettextCatalog, ledger, trezor, intelTEE, derivationPathHelper, ongoingProcess, walletService, storageService, popupService, appConfigService, pushNotificationsService, networkService) {
+  function($scope, $rootScope, $timeout, $log, lodash, $state, $ionicScrollDelegate, $ionicHistory, profileService, configService, gettextCatalog, ledger, trezor, derivationPathHelper, ongoingProcess, walletService, storageService, popupService, appConfigService, pushNotificationsService, networkService) {
 
     /* For compressed keys, m*73 + n*34 <= 496 */
     var COPAYER_PAIR_LIMITS = {
@@ -111,14 +111,6 @@ angular.module('owsWalletApp.controllers').controller('createController',
         });
       }
 
-      if (walletService.externalSource.intelTEE.supported) {
-        seedOptions.push({
-          id: walletService.externalSource.intelTEE.id,
-          label: walletService.externalSource.intelTEE.longName,
-          supportsTestnet: walletService.externalSource.intelTEE.supportsTestnet
-        });
-      }
-
       $scope.seedOptions = seedOptions;
     };
 
@@ -184,14 +176,14 @@ angular.module('owsWalletApp.controllers').controller('createController',
         popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the wallet recovery phrase'));
         return;
       }
-      if ($scope.formData.seedSource.id == walletService.externalSource.ledger.id || $scope.formData.seedSource.id == walletService.externalSource.trezor.id || $scope.formData.seedSource.id == walletService.externalSource.intelTEE.id) {
+      if ($scope.formData.seedSource.id == walletService.externalSource.ledger.id || $scope.formData.seedSource.id == walletService.externalSource.trezor.id) {
         var account = $scope.formData.account;
         if (!account || account < 1) {
           popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number'));
           return;
         }
 
-        if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id || $scope.formData.seedSource.id == walletService.externalSource.intelTEE.id)
+        if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id)
           account = account - 1;
 
         opts.account = account;
@@ -204,9 +196,6 @@ angular.module('owsWalletApp.controllers').controller('createController',
             break;
           case walletService.externalSource.trezor.id:
             src = trezor;
-            break;
-          case walletService.externalSource.intelTEE.id:
-            src = intelTEE;
             break;
           default:
             popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id');

@@ -1,4 +1,4 @@
-Metti al sicuro i tuoi bitcoins, alle tue condizioni, con un portafoglio open source e multifirma realizzato da BitPay. 
+Metti al sicuro i tuoi bitcoins, alle tue condizioni, con un portafoglio open source e multifirma realizzato. 
 Gli utenti Owl possono gestire i propri fondi individualmente, o condividerli in maniera sicura con altri utenti grazie ai portafogli multifirma, che prevengono pagamenti non autorizzati richiedendo più approvazioni. Ecco alcuni modi per utilizzare Owl con altre persone:
 
 Per rismarmiare soldi per le vacanze o per acquisti congiunti con gli amici 

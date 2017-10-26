@@ -1,14 +1,14 @@
 
 {
   "name": "distribution-not-selected",
-  "description": "Choose a distribution by running 'npm run apply:owl'.",
+  "description": "Choose a distribution by running 'npm run apply:wallet'.",
   "primary-package-json": "See the tempate in app-template/package.json",
   "pre-commit": "unstage-package",
   "changes": "changes to this file can be commited with the --no-verify option",
   "scripts": {
-    "postinstall": "npm run apply:owl && echo && echo \"Repo configured for standard OWL distribution.\" && echo",
-    "start": "echo && echo \"Choose a distribution by running 'npm run apply:owl'.\" && echo",
-    "apply:owl": "npm i fs-extra@0.30 && cd app-template && node apply.js owl && cd .. && npm i",
+    "postinstall": "npm run apply:wallet && echo && echo \"Repo configured for standard OWS wallet distribution.\" && echo",
+    "start": "echo && echo \"Choose a distribution by running 'npm run apply:wallet'.\" && echo",
+    "apply:wallet": "npm i fs-extra@0.30 && cd app-template && node apply.js wallet && cd .. && npm i",
     "unstage-package": "git reset package.json",
     "clean-all": "git clean -dfx"
   },

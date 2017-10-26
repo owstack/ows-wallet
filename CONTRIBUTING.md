@@ -90,9 +90,7 @@ provide the following information:
  any errors reported there (errors are shown in red)
  - If possible, please provide a screenshot of the error / issue.
  
-If you need to provide personal / sensitive data to solve the issue (like the Wallet Id), do not use Github Issues. 
-We will provide a better channel (like an BitPay email address) so you can send the information. If possible, please
-encrypt your emails using GnuPG.
+If you need to provide personal / sensitive data to solve the issue (like the Wallet Id), do not use Github Issues.
 
 To open an issue go to [Github Issues](https://github.com/owstack/ows-wallet/issues).
 

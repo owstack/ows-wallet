@@ -240,78 +240,6 @@ angular.module('owsWalletApp.services')
       storage.get('remotePrefStored', cb);
     };
 
-    root.setGlideraToken = function(networkURI, token, cb) {
-      storage.set('glideraToken-' + networkURI, token, cb);
-    };
-
-    root.getGlideraToken = function(networkURI, cb) {
-      storage.get('glideraToken-' + networkURI, cb);
-    };
-
-    root.removeGlideraToken = function(networkURI, cb) {
-      storage.remove('glideraToken-' + networkURI, cb);
-    };
-
-    root.setGlideraPermissions = function(networkURI, p, cb) {
-      storage.set('glideraPermissions-' + networkURI, p, cb);
-    };
-
-    root.getGlideraPermissions = function(networkURI, cb) {
-      storage.get('glideraPermissions-' + networkURI, cb);
-    };
-
-    root.removeGlideraPermissions = function(networkURI, cb) {
-      storage.remove('glideraPermissions-' + networkURI, cb);
-    };
-
-    root.setGlideraStatus = function(networkURI, status, cb) {
-      storage.set('glideraStatus-' + networkURI, status, cb);
-    };
-
-    root.getGlideraStatus = function(networkURI, cb) {
-      storage.get('glideraStatus-' + networkURI, cb);
-    };
-
-    root.removeGlideraStatus = function(networkURI, cb) {
-      storage.remove('glideraStatus-' + networkURI, cb);
-    };
-
-    root.setGlideraTxs = function(networkURI, txs, cb) {
-      storage.set('glideraTxs-' + networkURI, txs, cb);
-    };
-
-    root.getGlideraTxs = function(networkURI, cb) {
-      storage.get('glideraTxs-' + networkURI, cb);
-    };
-
-    root.removeGlideraTxs = function(networkURI, cb) {
-      storage.remove('glideraTxs-' + networkURI, cb);
-    };
-
-    root.setCoinbaseRefreshToken = function(networkURI, token, cb) {
-      storage.set('coinbaseRefreshToken-' + networkURI, token, cb);
-    };
-
-    root.getCoinbaseRefreshToken = function(networkURI, cb) {
-      storage.get('coinbaseRefreshToken-' + networkURI, cb);
-    };
-
-    root.removeCoinbaseRefreshToken = function(networkURI, cb) {
-      storage.remove('coinbaseRefreshToken-' + networkURI, cb);
-    };
-
-    root.setCoinbaseToken = function(networkURI, token, cb) {
-      storage.set('coinbaseToken-' + networkURI, token, cb);
-    };
-
-    root.getCoinbaseToken = function(networkURI, cb) {
-      storage.get('coinbaseToken-' + networkURI, cb);
-    };
-
-    root.removeCoinbaseToken = function(networkURI, cb) {
-      storage.remove('coinbaseToken-' + networkURI, cb);
-    };
-
     root.setAddressbook = function(addressbook, cb) {
       storage.set('addressbook', addressbook, cb);
     };
@@ -361,18 +289,6 @@ angular.module('owsWalletApp.services')
       storage.remove('txsHistory-' + walletId, cb);
     }
 
-    root.setCoinbaseTxs = function(networkURI, ctx, cb) {
-      storage.set('coinbaseTxs-' + networkURI, ctx, cb);
-    };
-
-    root.getCoinbaseTxs = function(networkURI, cb) {
-      storage.get('coinbaseTxs-' + networkURI, cb);
-    };
-
-    root.removeCoinbaseTxs = function(networkURI, cb) {
-      storage.remove('coinbaseTxs-' + networkURI, cb);
-    };
-
     root.setBalanceCache = function(cardId, data, cb) {
       storage.set('balanceCache-' + cardId, data, cb);
     };
@@ -383,153 +299,6 @@ angular.module('owsWalletApp.services')
 
     root.removeBalanceCache = function(cardId, cb) {
       storage.remove('balanceCache-' + cardId, cb);
-    };
-
-    // cards: [
-    //   eid: card id
-    //   id: card id
-    //   lastFourDigits: card number
-    //   token: card token
-    // ]
-    root.setBitpayDebitCards = function(networkURI, email, cards, cb) {
-      root.getBitpayAccounts(networkURI, function(err, allAccounts) {
-        if (err) return cb(err);
-
-        if (!allAccounts[email]) {
-          return cb('Cannot set cards for unknown account ' + email);
-        }
-
-        allAccounts[email].cards = cards;
-        storage.set('bitpayAccounts-' + networkURI, allAccounts, cb);
-      });
-    };
-
-    // cb(err, cards)
-    // cards: [
-    //   eid: card id
-    //   id: card id
-    //   lastFourDigits: card number
-    //   token: card token
-    //   email: account email
-    // ]
-    root.getBitpayDebitCards = function(networkURI, cb) {
-      root.getBitpayAccounts(networkURI, function(err, allAccounts) {
-        if (err) return cb(err);
-
-        var allCards = [];
-
-        lodash.each(allAccounts, function(account, email) {
-
-          if (account.cards) {
-            // Add account's email to each card
-            var cards = lodash.clone(account.cards);
-            lodash.each(cards, function(x) {
-              x.email = email;
-            });
-
-            allCards = allCards.concat(cards);
-          }
-        });
-
-        return cb(null, allCards);
-      });
-    };
-
-    root.removeBitpayDebitCard = function(networkURI, cardEid, cb) {
-      root.getBitpayAccounts(networkURI, function(err, allAccounts) {
-
-        lodash.each(allAccounts, function(account) {
-          account.cards = lodash.reject(account.cards, {
-            'eid': cardEid
-          });
-        });
-
-        storage.set('bitpayAccounts-' + networkURI, allAccounts, cb);
-      });
-    };
-
-    // cb(err, accounts)
-    // accounts: {
-    //   email_1: {
-    //     token: account token
-    //     cards: {
-    //       <card-data>
-    //     }
-    //   }
-    //   ...
-    //   email_n: {
-    //    token: account token
-    //    cards: {
-    //       <card-data>
-    //     }
-    //   }
-    // }
-    //
-    root.getBitpayAccounts = function(networkURI, cb) {
-      storage.get('bitpayAccounts-' + networkURI, function(err, allAccountsStr) {
-        if (err) return cb(err);
-
-        if (!allAccountsStr)
-          return cb(null, {});
-
-        var allAccounts = {};
-        try {
-          allAccounts = JSON.parse(allAccountsStr);
-        } catch (e) {
-          $log.error('Bad storage value for bitpayAccounts' + allAccountsStr)
-          return cb(null, {});
-        };
-
-        return cb(err, allAccounts);
-      });
-    };
-
-    // data: {
-    //   email: account email
-    //   token: account token
-    //   familyName: account family (last) name
-    //   givenName: account given (first) name
-    // }
-    root.setBitpayAccount = function(networkURI, data, cb) {
-      if (!lodash.isObject(data) || !data.email || !data.token)
-        return cb('No account to set');
-
-      root.getBitpayAccounts(networkURI, function(err, allAccounts) {
-        if (err) return cb(err);
-
-        allAccounts = allAccounts || {};
-        var account = allAccounts[data.email] || {};
-        account.token = data.token;
-        account.familyName = data.familyName;
-        account.givenName = data.givenName;
-
-        allAccounts[data.email] = account;
-
-        $log.info('Storing BitPay accounts with new account:' + data.email);
-        storage.set('bitpayAccounts-' + networkURI, allAccounts, cb);
-      });
-    };
-
-    // account: {
-    //   email: account email
-    //   apiContext: the context needed for making future api calls
-    //   cards: an array of cards
-    // }
-    root.removeBitpayAccount = function(networkURI, account, cb) {
-      if (lodash.isString(account)) {
-        account = JSON.parse(account);
-      }
-      account = account || {};
-      if (lodash.isEmpty(account)) return cb('No account to remove');
-      storage.get('bitpayAccounts-' + networkURI, function(err, bitpayAccounts) {
-        if (err) cb(err);
-        if (lodash.isString(bitpayAccounts)) {
-          bitpayAccounts = JSON.parse(bitpayAccounts);
-        }
-        bitpayAccounts = bitpayAccounts || {};
-        delete bitpayAccounts[account.email];
-        storage.set('bitpayAccounts-' + networkURI, JSON.stringify(bitpayAccounts), cb);
-      });
     };
 
     root.setAppIdentity = function(networkURI, data, cb) {
@@ -559,18 +328,6 @@ angular.module('owsWalletApp.services')
       });
     };
 
-    root.setAmazonGiftCards = function(networkURI, gcs, cb) {
-      storage.set('amazonGiftCards-' + networkURI, gcs, cb);
-    };
-
-    root.getAmazonGiftCards = function(networkURI, cb) {
-      storage.get('amazonGiftCards-' + networkURI, cb);
-    };
-
-    root.removeAmazonGiftCards = function(networkURI, cb) {
-      storage.remove('amazonGiftCards-' + networkURI, cb);
-    };
-
     root.setTxConfirmNotification = function(txid, val, cb) {
       storage.set('txConfirmNotif-' + txid, val, cb);
     };
@@ -581,18 +338,6 @@ angular.module('owsWalletApp.services')
 
     root.removeTxConfirmNotification = function(txid, cb) {
       storage.remove('txConfirmNotif-' + txid, cb);
-    };
-
-    root.setMercadoLibreGiftCards = function(networkURI, gcs, cb) {
-      storage.set('mercadoLibreGiftCards-' + networkURI, gcs, cb);
-    };
-
-    root.getMercadoLibreGiftCards = function(networkURI, cb) {
-      storage.get('mercadoLibreGiftCards-' + networkURI, cb);
-    };
-
-    root.removeMercadoLibreGiftCards = function(networkURI, cb) {
-      storage.remove('MercadoLibreGiftCards-' + networkURI, cb);
     };
 
     return root;

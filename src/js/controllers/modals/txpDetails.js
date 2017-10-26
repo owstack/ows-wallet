@@ -1,8 +1,6 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcess, platformInfo, $ionicScrollDelegate, txFormatService, walletClientError, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService) {
-  var isGlidera = $scope.isGlidera;
-  var GLIDERA_LOCK_TIME = 6 * 60 * 60;
   var now = Math.floor(Date.now() / 1000);
   var countDown;
 
@@ -119,14 +117,6 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   $scope.$on('accepted', function(event) {
     $scope.sign();
   });
-
-  // ToDo: use tx.customData instead of tx.message
-  if ($scope.tx.message === 'Glidera transaction' && isGlidera) {
-    $scope.tx.isGlidera = true;
-    if ($scope.tx.canBeRemoved) {
-      $scope.tx.canBeRemoved = (Date.now() / 1000 - ($scope.tx.ts || $scope.tx.createdOn)) > GLIDERA_LOCK_TIME;
-    }
-  }
 
   var setError = function(err, prefix) {
     $scope.sendStatus = '';

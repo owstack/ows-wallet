@@ -112,9 +112,6 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         if (!configCache.pushNotifications) {
           configCache.pushNotifications = defaultConfig.pushNotifications;
         }
-        if (!configCache.bitpayAccount) {
-          configCache.bitpayAccount = defaultConfig.bitpayAccount;
-        }
 
       } else {
         configCache = lodash.clone(defaultConfig);

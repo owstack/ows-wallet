@@ -1,4 +1,4 @@
-Sécurisez vos bitcoins selon vos conditions avec un portefeuille open source et multi-signatures par BitPay. 
+Sécurisez vos bitcoins selon vos conditions avec un portefeuille open source et multi-signatures. 
 Les utilisateurs de Owl peuvent détenir leurs fonds de manière individuelle, ou partager leurs finances de manière sécurisée avec les autres utilisateurs en utilisant des portefeuilles multi-signatures, ce qui empêche les paiements non autorisés en exigeant des approbations multiples. Voici quelques exemples d'utilisation que vous pouvez avoir avec Owl et avec d'autres utilisateurs :
 
 • Économiser pour des vacances ou partager des frais avec des amis. 
