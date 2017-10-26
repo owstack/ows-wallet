@@ -1,11 +1,11 @@
 Sécurisez vos bitcoins selon vos conditions avec un portefeuille open source et multi-signatures. 
-Les utilisateurs de Owl peuvent détenir leurs fonds de manière individuelle, ou partager leurs finances de manière sécurisée avec les autres utilisateurs en utilisant des portefeuilles multi-signatures, ce qui empêche les paiements non autorisés en exigeant des approbations multiples. Voici quelques exemples d'utilisation que vous pouvez avoir avec Owl et avec d'autres utilisateurs :
+Les utilisateurs de OWS Wallet peuvent détenir leurs fonds de manière individuelle, ou partager leurs finances de manière sécurisée avec les autres utilisateurs en utilisant des portefeuilles multi-signatures, ce qui empêche les paiements non autorisés en exigeant des approbations multiples. Voici quelques exemples d'utilisation que vous pouvez avoir avec OWS Wallet et avec d'autres utilisateurs :
 
 • Économiser pour des vacances ou partager des frais avec des amis. 
 • Suivre des dépenses et remboursements familiaux.
 • Gérer des fonds et des dépenses pour une entreprise, un club ou une organisation.
 
-Nous avons développé les fonctionnalités suivantes dans cette version de Owl pour un portefeuille bitcoin qui ne fait pas de compromis sur la sécurité ou sur l'accessibilité :
+Nous avons développé les fonctionnalités suivantes dans cette version de OWS Wallet pour un portefeuille bitcoin qui ne fait pas de compromis sur la sécurité ou sur l'accessibilité :
 
 • Création et gestion de portefeuilles multiples. 
 • Sécurité de multi-signatures intuitive pour les portefeuilles personnels ou partagés.
@@ -20,4 +20,4 @@ Nous avons développé les fonctionnalités suivantes dans cette version de Owl 
 • Nom de portefeuille et couleurs de fond personnalisables.
 • 9 langues prises en charge (EN, CS, FR, DE, IT, ES, JA, PL, RU)
 
-Owl est un logiciel gratuit et open source qui tourne sur des serveurs non-propriétaires, il n'y a donc pas besoin de compter sur une entreprise pour un support continuel. N'importe qui peut examiner ou contribuer au code source de Owl sur GitHub (https://github.com/owstack/ows-wallet). 
+OWS Wallet est un logiciel gratuit et open source qui tourne sur des serveurs non-propriétaires, il n'y a donc pas besoin de compter sur une entreprise pour un support continuel. N'importe qui peut examiner ou contribuer au code source de OWS Wallet sur GitHub (https://github.com/owstack/ows-wallet). 

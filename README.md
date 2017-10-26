@@ -6,8 +6,8 @@ OWS Wallet
 
 This is a secure wallet platform for both desktop and mobile devices. The wallet uses the following wallet services for peer synchronization and network interfacing.
 
-* [Bcccore Wallet Service](https://github.com/owstack/bcccore-wallet-service) (BCC)
-* [Btccore Wallet Service](https://github.com/owstack/btccore-wallet-service) (BTC)
+* [BCH Wallet Service](https://github.com/owstack/bcc-wallet-service) (BCH)
+* [BTC Wallet Service](https://github.com/owstack/btc-wallet-service) (BTC)
 
 Binary versions of this wallet are available for download at [OpenWalletStack.com](https://openwalletstack.com/#download). Binaries are signed with the key `wallet@openwalletstack.com` – See the section [`How to Verify Wallet Signatures`](https://github.com/owstack/ows-wallet#how-to-verify-wallet-signatures) for details.
 
@@ -37,6 +37,14 @@ For a list of frequently asked questions please visit the [Wallet FAQ](https://g
 - Paper wallet sweep support (BIP38)
 - Hardware wallet support (Trezor and Ledger) (only in Chrome App version)
 
+## Bitcoin Cash Features
+
+- [BIP32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) Hierarchical deterministic (HD) address generation and wallet backups
+- Payment protocol (BIP70-BIP73) support: easily-identifiable payment requests and verifiable, secure bitcoin payments
+- Unit denomination in BCH or bits
+- Mnemonic (BIP39) support for wallet backups
+- Paper wallet sweep support (BIP38)
+
 ## Testing in a Browser
 
 > **Note:** This method should only be used for development purposes. When running in a normal browser environment, browser extensions and other malicious code might have access to internal data and private keys. For production use, see the latest official [releases](https://github.com/owstack/ows-wallet/releases/).
@@ -51,7 +59,7 @@ cd ows-wallet
 Ensure you have [Node](https://nodejs.org/) installed, then install and start the wallet:
 
 ```sh
-npm run apply:wallet
+npm run apply:ows-wallet
 npm start
 ```
 
@@ -74,7 +82,7 @@ Follow the [Cordova Android Platform Guide](https://cordova.apache.org/docs/en/l
 When your developement enviroment is ready, run the `start:android` npm package script.
 
 ```sh
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run start:android
 ```
 
@@ -85,7 +93,7 @@ Follow the [Cordova iOS Platform Guide](https://cordova.apache.org/docs/en/lates
 When your developement enviroment is ready, run the `start:ios` npm package script.
 
 ```sh
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run start:ios
 ```
 
@@ -106,7 +114,7 @@ and then enable this one:
 - Run:
 ```sh
 npm run clean-all
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run start:windows
 ```
 - Then open the project file with VS inside cordova/platform/windows/
@@ -118,7 +126,7 @@ The desktop version currently uses NW.js, an app runtime based on Chromium. To g
 When NW.js is installed, run the `start:desktop` npm package script.
 
 ```sh
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run start:desktop
 ```
 
@@ -132,7 +140,7 @@ The `final` commands build the production version of the app, and bundle it with
 
 ```sh
 npm run clean-all
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run final:android
 ```
 
@@ -140,7 +148,7 @@ npm run final:android
 
 ```sh
 npm run clean-all
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run final:ios
 ```
 
@@ -158,7 +166,7 @@ and then enable this one:
 - Run:
 ```sh
 npm run clean-all
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run final:windows
 ```
 - Then open the project file with VS inside cordova/platform/windows/
@@ -167,7 +175,7 @@ npm run final:windows
 
 ```sh
 npm run clean-all
-npm run apply:wallet
+npm run apply:ows-wallet
 npm run final:desktop
 ```
 
@@ -176,7 +184,7 @@ npm run final:desktop
 > cd chrome-app/
 
 ```sh
-npm run apply:wallet
+npm run apply:ows-wallet
 grunt
 make
 ```
@@ -190,7 +198,7 @@ On success, the Chrome extension will be located at: `browser-extensions/chrome/
 To enable external services, set the `WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION` environment variable to the location of your configuration before running the `apply` task.
 
 ```sh
-WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION="~/.ows-wallet/externalServices.json" npm run apply:wallet
+WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION="~/.ows-wallet/externalServices.json" npm run apply:ows-wallet
 ```
 
 ## About OWS Wallet
@@ -233,9 +241,11 @@ The wallet uses the root `m/48'` for hardware multisignature wallets. This was c
 
 ## Wallet Services
 
-The wallet depends on wallet services for blockchain information, networking and copayer synchronization.  A wallet service instance can be setup and operational within minutes or you can use a public instance like `https://bws.openwalletstack.com`.  Switching between wallet service instances is very simple and can be done with a click from within the wallet.  The wallet service also allows the wallet to interoperate with other wallets like [Bttcore Wallet CLI](https://github.com/owstack/btccore-wallet).
+The wallet depends on wallet services for blockchain information, networking and copayer synchronization.  A wallet service instance can be setup and operational within minutes or you can use a public instance like `https://bws.openwalletstack.com`.  Switching between wallet service instances is very simple and can be done with a click from within the wallet.  The wallet service also allows the wallet to interoperate with other wallets like [BTC Wallet CLI](https://github.com/owstack/btc-wallet).
 
 ## Hardware Wallet Support
+
+Note: Hardward wallet support only available for bitcoin (BTC) wallets.
 
 The wallet supports Ledger and Trezor hardware wallets. Hardware wallet support is only available through the Chrome App. Ledger support is only available on multisig wallets.
 
@@ -262,7 +272,6 @@ Every time you need to sign a transaction, the device will be needed to perform 
 
 Finally, in case you lose the device and you have the 24 word seed for the device, you can recover access to your funds using the wallet, see: https://github.com/owstack/ows-wallet/blob/master/backupRecovery.md#hardware-wallets
 
-
 ## Translations
 The app uses standard gettext PO files for translations and [Crowdin](https://crowdin.com/project/ows-wallet) as the front-end tool for translators.  To join our team of translators, please create an account at [Crowdin](https://crowdin.com) and translate the documentation and application text into your native language.
 
@@ -276,14 +285,7 @@ node crowdin_download.js
 This will download all partial and complete language translations while also cleaning out any untranslated ones.
 
 **Translation Credits:**
-- Japanese: @dabura667
-- French: @kirvx
-- Portuguese: @pmichelazzo
-- Spanish: @cmgustavo
-- German: @saschad
-- Russian: @vadim0
-
-*Gracias totales!*
+- TBD
 
 ## Release Schedules
 The wallet uses the `MAJOR.MINOR.BATCH` convention for versioning.  Any release that adds features should modify the MINOR or MAJOR number.
@@ -330,7 +332,6 @@ Save that text to /tmp/key, and then import it as follows:
 gpg --import /tmp/key
 ```
 
-
 ## Contributing to this project
 
 Anyone and everyone is welcome to contribute. Please take a moment to
@@ -343,7 +344,6 @@ review the [guidelines for contributing](CONTRIBUTING.md).
 ## Support
 
  Please see [Support requests](CONTRIBUTING.md#support)
-
 
 ## License
 

@@ -2096,8 +2096,8 @@ msgid "Please tap each word in the correct order."
 msgstr "Bitte tippen Sie jedes Wort in der richtigen Reihenfolge."
 
 #: src/js/services/walletClientError.js:101
-msgid "Please upgrade Owlto perform this action"
-msgstr "Bitte Owlaktualisieren, um diese Aktion auszuführen"
+msgid "Please upgrade OWS Wallet to perform this action"
+msgstr "Bitte OWS Wallet aktualisieren, um diese Aktion auszuführen"
 
 #: src/js/controllers/import.js:222
 msgid "Please, select your backup file"

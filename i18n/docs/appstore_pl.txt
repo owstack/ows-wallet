@@ -1,11 +1,11 @@
 Bezpieczne bitcoiny na twoich własnych warunkach, z elektronicznym portfelem open source z multipodpisami. 
-Użytkownicy Owl mogą posiadać fundusze indywidualnie lub bezpiecznie dzielić je z innymi użytkownikami w portfelach z multipodpisami, które uniemożliwiają nieautoryzowane płatności wymagając wielu potwierdzeń. Oto kilka sposobów, jak portfele Owl mogą być używane w połączeniu z innymi użytkownikami:
+Użytkownicy OWS Wallet mogą posiadać fundusze indywidualnie lub bezpiecznie dzielić je z innymi użytkownikami w portfelach z multipodpisami, które uniemożliwiają nieautoryzowane płatności wymagając wielu potwierdzeń. Oto kilka sposobów, jak portfele OWS Wallet mogą być używane w połączeniu z innymi użytkownikami:
 
 Oszczędzanie na wakacje lub wspólne zakupy z przyjaciółmi 
 Monitorowanie wydatków i dochodów rodzinnych
 Zarządzanie wydatkami firm, klubów lub organizacji
 
-Stworzyliśmy następujące funkcje portfela bitcoin w tej wersji Owl, które nie zagrażają bezpieczeństwu lub dostępności:
+Stworzyliśmy następujące funkcje portfela bitcoin w tej wersji OWS Wallet, które nie zagrażają bezpieczeństwu lub dostępności:
 
 Tworzenie i zarządzanie wieloma portfelami w aplikacji 
 Intuicyjne bezpieczeństwo dzięki multipodpisom dla portfeli prywatnych i współdzielonych
@@ -20,4 +20,4 @@ Powiadomienia o płatnościach i transferach za pośrednictwem poczty elektronic
 Konfigurowanie nazwy i koloru tła portfela
 9 obsługiwanych języków (EN, CS, FR, DE, IT, ES, JA, PL, RU)
 
-Owl jest bezpłatnym oprogramowaniem open source, które działa na niezastrzeżonych serwerach, nie jest zatem konieczne, aby opierać się na konkretnej firmie w celu jego dalszego wsparcia. Każdy ma możliwość sprawdzenia kodu źródłowego i zgłoszenia propozycji zmian w Owl na GitHub (https://github.com/owstack/ows-wallet). 
+OWS Wallet jest bezpłatnym oprogramowaniem open source, które działa na niezastrzeżonych serwerach, nie jest zatem konieczne, aby opierać się na konkretnej firmie w celu jego dalszego wsparcia. Każdy ma możliwość sprawdzenia kodu źródłowego i zgłoszenia propozycji zmian w OWS Wallet na GitHub (https://github.com/owstack/ows-wallet). 
