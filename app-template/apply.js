@@ -79,7 +79,7 @@ fs.writeFileSync('../appConfig.json', configBlob, 'utf8');
 var externalServices;
 try {
   var confName = configDir.toUpperCase();
-  var externalServicesConf = confName + '_EXTERNAL_SERVICES_CONFIG_LOCATION';
+  var externalServicesConf = confName.replace(/\W+/g, '_') + '_EXTERNAL_SERVICES_CONFIG_LOCATION';
   console.log('Looking for ' + externalServicesConf + '...');
   if (typeof process.env[externalServicesConf] !== 'undefined') {
     var location = process.env[externalServicesConf]
