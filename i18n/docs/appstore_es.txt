@@ -1,11 +1,11 @@
 Asegura tus bitcoin con tus propias reglas con el monedero de código abierto, multifirma. 
-Los usuario de Owl pueden mantener sus fondos individuales o compartir sus finanzas de forma segura con otros usuarios utilizando monederos multifirmas, que previenen de pagos sin autorización al requerir múltiples aprobaciones. Estas son algunas formas en que puede ser utilizado Owl con otros usuarios:
+Los usuario de OWS Wallet pueden mantener sus fondos individuales o compartir sus finanzas de forma segura con otros usuarios utilizando monederos multifirmas, que previenen de pagos sin autorización al requerir múltiples aprobaciones. Estas son algunas formas en que puede ser utilizado OWS Wallet con otros usuarios:
 
 Ahorrar para vacaciones o compras conjuntas con amigos 
 Controlar los gastos familiares
 Manejar los fondos y gastos de negocios, clubes y organizaciones.
 
-Construimos las siguientes características en esta versión de Owl que no compromete la seguridad ni la accesibilidad:
+Construimos las siguientes características en esta versión de OWS Wallet que no compromete la seguridad ni la accesibilidad:
 
 Creación y manejo de múltiples monederos dentro de la misma aplicación 
 Seguridad multifirma intuitiva para monederos personales y compartidos
@@ -20,4 +20,4 @@ Notificaciones por email de pagos y transferencias
 Monederos con nombres y colores de fondo personalizables
 Soporte en 9 idiomas (EN, CS, FR, DE, IT, ES, JA, PL, RU)
 
-Owl es un software gratuito y de código abierto que funciona en servidores no-propietarios, por lo que no es necesario confiar en una empresa para soporte continuo. Cualquier persona puede revisar y contribuir al código fuente de Owl en GitHub (https://github.com/owstack/ows-wallet). 
+OWS Wallet es un software gratuito y de código abierto que funciona en servidores no-propietarios, por lo que no es necesario confiar en una empresa para soporte continuo. Cualquier persona puede revisar y contribuir al código fuente de OWS Wallet en GitHub (https://github.com/owstack/ows-wallet). 
