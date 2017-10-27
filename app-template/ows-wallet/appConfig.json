@@ -1,5 +1,5 @@
 {
-  "packageName": "owswallet",
+  "packageName": "@owstack/ows-wallet",
   "packageDescription": "OWS Wallet",
   "packageNameId": "com.openwalletstack.wallet",
   "statusBarColor": "#192c3a",
