@@ -1,5 +1,5 @@
 var btcWalletClientModule = angular.module('btcWalletClientModule', []);
-var Client = require('../node_modules/btc-wallet-client');
+var Client = require('../node_modules/@owstack/btc-wallet-client');
 
 btcWalletClientModule.constant('MODULE_VERSION', '1.0.0');
 

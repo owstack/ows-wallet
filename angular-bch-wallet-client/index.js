@@ -1,5 +1,5 @@
 var bchWalletClientModule = angular.module('bchWalletClientModule', []);
-var Client = require('../node_modules/bch-wallet-client');
+var Client = require('../node_modules/@owstack/bch-wallet-client');
 
 bchWalletClientModule.constant('MODULE_VERSION', '1.0.0');
 
