@@ -259,6 +259,9 @@ module.exports = function(grunt) {
           'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
           'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js']
         },
+        options: {
+          exclude: ['www/index.html']
+        }
       }
     }
   });
