@@ -31,7 +31,7 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
     if (feeLevel == 'custom') return cb();
 
-    root.getFeeLevels(walletOrNetworkURI, function(err, levels, fromCache) {
+    root.getFeeLevels(networkURI, function(err, levels, fromCache) {
       if (err) return cb(err);
 
       var feeLevelRate = lodash.find(levels, {
@@ -81,7 +81,7 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
       // Is networkURI string
       network = networkService.parseNet(walletOrNetworkURI);
       networkURI = walletOrNetworkURI;
-      walletServiceUrl = configService.getSync().currencyNetworks[network].walletService.url;
+      walletServiceUrl = configService.getSync().currencyNetworks[networkURI].walletService.url;
     }
 
     if (cache.updateTs > Date.now() - CACHE_TIME_TS * 1000) {

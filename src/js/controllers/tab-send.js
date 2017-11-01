@@ -67,6 +67,7 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
       var walletList = [];
       lodash.each(walletsToTransfer, function(v) {
         walletList.push({
+          networkURI: v.networkURI,
           color: v.color,
           name: v.name,
           recipientType: 'wallet',
@@ -89,9 +90,10 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
       var completeContacts = [];
       lodash.each(ab, function(v, k) {
         completeContacts.push({
-          name: lodash.isObject(v) ? v.name : v,
+          name: v.name,
           address: k,
-          email: lodash.isObject(v) ? v.email : null,
+          networkURI: v.networkURI,
+          email: v.email,
           recipientType: 'contact',
           getAddress: function(cb) {
             return cb(null, k);

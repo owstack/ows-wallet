@@ -132,7 +132,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       txp: {},
     };
 
-
     // Other Scope vars
     $scope.isCordova = isCordova;
     $scope.isWindowsPhoneApp = isWindowsPhoneApp;
@@ -219,6 +218,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   };
 
   function updateTx(tx, wallet, opts, cb) {
+    var networkURI = (lodash.isObject(wallet) ? wallet.networkURI : tx.networkURI);
 
     if (opts.clearCache) {
       tx.txp = {};
@@ -230,10 +230,10 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       if (!tx.toAmount) return;
 
       // Amount
-      tx.amountStr = txFormatService.formatAmountStr(wallet.networkURI, tx.toAmount);
+      tx.amountStr = txFormatService.formatAmountStr(networkURI, tx.toAmount);
       tx.amountValueStr = tx.amountStr.split(' ')[0];
       tx.amountAtomicStr = tx.amountStr.split(' ')[1];
-      txFormatService.formatAlternativeStr(wallet.networkURI, tx.toAmount, function(v) {
+      txFormatService.formatAlternativeStr(networkURI, tx.toAmount, function(v) {
         tx.alternativeAmountStr = v;
       });
     }
@@ -248,7 +248,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       if (err) return cb(err);
 
       if (!usingCustomFee) tx.feeRate = feeRate;
-      tx.feeLevelName = feeService.getFeeOpts(wallet.networkURI, tx.feeLevel);
+      tx.feeLevelName = feeService.getFeeOpts(networkURI, tx.feeLevel);
 
       if (!wallet)
         return cb();
@@ -272,7 +272,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
           tx.sendMaxInfo = sendMaxInfo;
           tx.toAmount = tx.sendMaxInfo.amount;
           updateAmount();
-          showSendMaxWarning(sendMaxInfo, wallet.networkURI);
+          showSendMaxWarning(sendMaxInfo, networkURI);
         }
 
         // txp already generated for this wallet?
@@ -284,8 +284,8 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
         getTxp(lodash.clone(tx), wallet, opts.dryRun, function(err, txp) {
           if (err) return cb(err);
 
-          txp.feeStr = txFormatService.formatAmountStr(wallet.networkURI, txp.fee);
-          txFormatService.formatAlternativeStr(wallet.networkURI, txp.fee, function(v) {
+          txp.feeStr = txFormatService.formatAmountStr(networkURI, txp.fee);
+          txFormatService.formatAlternativeStr(networkURI, txp.fee, function(v) {
             txp.alternativeFeeStr = v;
           });
 
