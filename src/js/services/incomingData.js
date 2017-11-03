@@ -4,15 +4,15 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
   var root = {};
 
-  var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
-  var btcLib = networkService.walletClientFor('livenet/btc').getLib();
-
   root.showMenu = function(data) {
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);
   };
 
   root.redir = function(data) {
     $log.debug('Processing incoming data: ' + data);
+
+    var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
+    var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
     function sanitizeUri(data) {
       // Fixes when a region uses comma to separate decimals

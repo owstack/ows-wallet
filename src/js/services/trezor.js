@@ -4,8 +4,6 @@ angular.module('owsWalletApp.services')
   .factory('trezor', function($log, $timeout, lodash, hwWallet, platformInfo, networkService) {
     var root = {};
 
-    var coreLib = networkService.walletClientFor('livenet/btc').getLib();
-
     var SETTLE_TIME = 3000;
     root.callbacks = {};
 
@@ -69,13 +67,15 @@ angular.module('owsWalletApp.services')
     };
 
     root._orderPubKeys = function(xPub, np) {
+      var btcLib = networkService.walletClientFor('livenet/btc').getLib();
+
       var xPubKeys = lodash.clone(xPub);
       var path = lodash.clone(np);
       path.unshift('m');
       path = path.join('/');
 
       var keys = lodash.map(xPubKeys, function(x) {
-        var pub = coreLib.HDPublicKey(x).derive(path).publicKey;
+        var pub = btcLib.HDPublicKey(x).derive(path).publicKey;
         return {
           xpub: x,
           pub: pub.toString('hex'),
