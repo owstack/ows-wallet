@@ -252,12 +252,12 @@ angular.module('owsWalletApp.services')
       storage.remove('addressbook', cb);
     };
 
-    root.setLastCurrencyUsed = function(lastCurrencyUsed, cb) {
-      storage.set('lastCurrencyUsed', lastCurrencyUsed, cb)
+    root.setLastCurrencyUsed = function(lastCurrencyUsed, networkURI, cb) {
+      storage.set('lastCurrencyUsed-' + networkURI, lastCurrencyUsed, cb)
     };
 
-    root.getLastCurrencyUsed = function(cb) {
-      storage.get('lastCurrencyUsed', cb)
+    root.getLastCurrencyUsed = function(networkURI, cb) {
+      storage.get('lastCurrencyUsed-' + networkURI, cb)
     };
 
     root.checkQuota = function() {

@@ -30,6 +30,16 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
           url: 'http://localhost:3232/btcws/api'
         }
       },
+      rateService: {
+        default: 'bitpay',
+        bitpay: {
+          url: 'https://bitpay.com/api/rates',
+          resultSet: '',
+          getCode: function(key, val) { return lodash.get(val, 'code') },
+          getName: function(key, val) { return lodash.get(val, 'name') },
+          getRate: function(key, val) { return lodash.get(val, 'rate') }
+        }
+      },
       explorer: {
         production: {
           label: gettextCatalog.getString('Explorer'),
@@ -102,6 +112,16 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
           url: 'http://localhost:3232/btcws/api'
         }
       },
+      rateService: {
+        default: 'bitpay',
+        bitpay: {
+          url: 'https://bitpay.com/api/rates',
+          resultSet: '',
+          getCode: function(key, val) { return lodash.get(val, 'code') },
+          getName: function(key, val) { return lodash.get(val, 'name') },
+          getRate: function(key, val) { return lodash.get(val, 'rate') }
+        }
+      },
       explorer: {
         production: {
           label: gettextCatalog.getString('Explorer'),
@@ -171,6 +191,20 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
         },
         local: {
           url: 'http://localhost:4232/bchws/api'
+        }
+      },
+      rateService: {
+        default: 'kraken',
+        kraken: {
+          url: 'https://api.kraken.com/0/public/Ticker?pair=BCHUSD,BCHEUR',
+          resultSet: 'result',
+          getName: function(key, val) { return this.nameMap[key] },
+          getRate: function(key, val) { return lodash.get(val, 'c[0]') },
+          getCode: function(key, val) { return key.substr(3,3) },
+          nameMap: {
+            'BCHUSD': 'US Dollar',
+            'BCHEUR': 'Eurozone Euro'
+          }
         }
       },
       explorer: {

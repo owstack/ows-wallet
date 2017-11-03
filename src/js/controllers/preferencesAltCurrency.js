@@ -29,7 +29,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesAltCurrencyCon
         var idx = lodash.indexBy(unusedCurrencyList, 'isoCode');
         var idx2 = lodash.indexBy($scope.lastUsedAltCurrencyList, 'isoCode');
 
-        completeAlternativeList = lodash.reject(rateService.listAlternatives(true), function(c) {
+        completeAlternativeList = lodash.reject(rateService.listAlternatives($scope.networkURI, true), function(c) {
           return idx[c.isoCode] || idx2[c.isoCode];
         });
 
@@ -85,7 +85,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesAltCurrencyCon
       $scope.lastUsedAltCurrencyList.unshift(newAltCurrency);
       $scope.lastUsedAltCurrencyList = lodash.uniq($scope.lastUsedAltCurrencyList, 'isoCode');
       $scope.lastUsedAltCurrencyList = $scope.lastUsedAltCurrencyList.slice(0, 3);
-      storageService.setLastCurrencyUsed(JSON.stringify($scope.lastUsedAltCurrencyList), function() {});
+      storageService.setLastCurrencyUsed(JSON.stringify($scope.lastUsedAltCurrencyList), $scope.networkURI, function() {});
     };
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
@@ -97,7 +97,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesAltCurrencyCon
       var network = networkService.getNetworkByURI($scope.networkURI);
       $scope.currentCurrency = config.currencyNetworks[network.getURI()].alternativeIsoCode;
 
-      storageService.getLastCurrencyUsed(function(err, lastUsedAltCurrency) {
+      storageService.getLastCurrencyUsed($scope.networkURI, function(err, lastUsedAltCurrency) {
         $scope.lastUsedAltCurrencyList = lastUsedAltCurrency ? JSON.parse(lastUsedAltCurrency) : [];
         init();
       });
