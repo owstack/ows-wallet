@@ -4,16 +4,27 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   var root = {};
 
   var ENVIRONMENT = 'local'; // 'production'; // TODO: read from launch config?
-
+  var defaultNetwork; // An index
   var networks = [];
-  networks.push(bchLivenet.definition);
-  networks.push(btcLivenet.definition);
-  networks.push(btcTestnet.definition);
+
+  var addNetwork = function(network, opts) {
+    opts = opts || {};
+    networks.push(network.definition);
+
+    if (opts.default) {
+      defaultNetwork = networks.length - 1;
+    }
+  };
+
+  // Add networks to the service
+  addNetwork(bchLivenet);
+  addNetwork(btcLivenet, { default: true });
+  addNetwork(btcTestnet);
 
   // Set up a default persistent user configuration of all available networks
   root.defaultConfig = function() {
     var currencyNetworks = {
-      default: btcNetwork.definition.getURI()
+      default: networks[defaultNetwork].getURI()
     };
 
     for (var i = 0; i < networks.length; i++) {

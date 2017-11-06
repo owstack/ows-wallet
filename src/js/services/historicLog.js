@@ -17,6 +17,11 @@ angular.module('owsWalletApp.services')
       weight[levels[i].level] = levels[i].weight;
     }
 
+    var sanitize = function(msg) {
+      msg = msg.replace('/xpriv.*/', 'xpriv[Hidden]');
+      return msg;
+    };
+
     root.getLevels = function() {
       return levels;
     };
@@ -37,7 +42,7 @@ angular.module('owsWalletApp.services')
       logs.push({
         timestamp: new Date().toISOString(),
         level: level,
-        msg: msg,
+        msg: sanitize(msg)
       });
     };
 

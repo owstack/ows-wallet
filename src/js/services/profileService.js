@@ -380,7 +380,12 @@ angular.module('owsWalletApp.services')
 
     // Creates a wallet on the walletService
     var doCreateWallet = function(opts, cb) {
-      $log.debug('Creating Wallet:', opts);
+      var showOpts = lodash.clone(opts);
+      if (showOpts.extendedPrivateKey) showOpts.extendedPrivateKey = '[hidden]';
+      if (showOpts.mnemonic) showOpts.mnemonic = '[hidden]';
+
+      $log.debug('Creating Wallet:', showOpts);
+      
       $timeout(function() {
         seedWallet(opts, function(err, walletClient) {
           if (err) return cb(err);

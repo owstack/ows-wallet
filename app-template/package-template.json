@@ -57,9 +57,10 @@
     "bezier-easing": "^2.0.3",
     "bhttp": "1.2.1",
     "bitauth": "^0.2.1",
-    "bower": "^1.7.9",
-    "cordova-android": "5.1.1",
-    "cordova-custom-config": "^3.0.5",
+    "bower": "^1.8.2",
+    "cordova-ios": "4.5.2",
+    "cordova-android": "6.3.0",
+    "cordova-custom-config": "^4.0.2",
     "cordova-plugin-qrscanner": "^2.5.0",
     "coveralls": "^2.11.9",
     "express": "^4.11.2",
@@ -81,7 +82,7 @@
   },
   "scripts": {
     "postinstall":            "bower install",
-    "start":                  "npm run build:www && ionic serve --nolivereload --nogulp -s --address 0.0.0.0",
+    "start":                  "npm run build:www && ionic serve --no-livereload --nogulp -s --address 0.0.0.0",
     "start:ios":              "npm run build:www && npm run build:ios && npm run open:ios",
     "start:android":          "npm run build:www && npm run build:android && npm run run:android",
     "start:windows":          "npm run build:www && npm run build:windows",
@@ -115,9 +116,9 @@
     "clean-all":              "git clean -dfx"
   },
   "devDependencies": {
-    "cordova": "^6.3.1",
+    "cordova": "^7.1.0",
     "grunt": "^1.0.1",
-    "ionic": "^3.6.0",
+    "ionic": "^3.14.0",
     "trash-cli": "^1.4.0",
     "lodash": "^4.17.4",
     "pre-commit": "^1.1.3"
