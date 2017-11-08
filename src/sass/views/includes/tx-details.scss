@@ -1,10 +1,10 @@
 #tx-details {
   .action-created.action-accepted {
-    color: green;
+    color: $v-success-color;
   }
 
   .action-rejected {
-    color: red;
+    color: $v-error-color;
   }
 }
 
