@@ -30,7 +30,10 @@ angular.module('owsWalletApp.controllers').controller('createController',
 
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
-      $scope.networkOptions = networkService.getNetworks();
+      $scope.availableNetworks = networkService.getLiveNetworks();
+      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency);
+      $scope.formData.testnetSelected = false;
+
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
 
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
@@ -42,6 +45,8 @@ angular.module('owsWalletApp.controllers').controller('createController',
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
+      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency);
+      $scope.formData.testnetSelected = $scope.formData.testnetSelected && $scope.formData.testnetSupported;
     };
 
     $scope.showAdvChange = function() {
@@ -114,19 +119,8 @@ angular.module('owsWalletApp.controllers').controller('createController',
       $scope.seedOptions = seedOptions;
     };
 
-    $scope.updateNetworkSelect = function() {
-      var networkOptions = networkService.getNetworks();
-      var setSeed = $scope.formData.seedSource.id == 'set';
-      if (setSeed) {
-        // Testnet not supported
-        networkOptions = networkService.getLiveNetworks();
-
-        if (networkService.isTestnet($scope.formData.network.getURI())) {
-          $scope.formData.network = networkOptions[0];
-        }
-      }
-
-      $scope.networkOptions = networkOptions;
+    $scope.onSeedChange = function() {
+      $scope.formData.testnetSupported = !($scope.formData.seedSource.id == 'set');
     };
 
     $scope.setTotalCopayers = function(tc) {
@@ -136,13 +130,17 @@ angular.module('owsWalletApp.controllers').controller('createController',
     };
 
     $scope.create = function() {
+      var network = $scope.formData.network;
+      if ($scope.formData.testnetSelected) {
+        network = networkService.getTestnetForCurrency($scope.formData.network.currency);
+      }
 
       var opts = {
         name: $scope.formData.walletName,
         m: $scope.formData.requiredCopayers,
         n: $scope.formData.totalCopayers,
         myName: $scope.formData.totalCopayers > 1 ? $scope.formData.myName : null,
-        network: $scope.formData.network,
+        network: network,
         walletServiceUrl: $scope.formData.walletServiceUrl,
         singleAddress: $scope.formData.singleAddressEnabled,
         walletPrivKey: $scope.formData._walletPrivKey, // Only for testing

@@ -7,8 +7,9 @@ angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, g
     currency: 'btc',
     net: 'livenet',
     label: 'Bitcoin',
-    legacyName: 'livenet', // Used to update legacy wallets // TODO: remove this
     getURI: function() { return this.net + '/' + this.currency },
+    getLongLabel: function() { return this.label + ' (' + this.currency.toUpperCase() + ')' },
+    getNetLabel: function() { return this.label + ' (' + this.net + ')' },
     protocol: 'bitcoin',
     walletClient: {
       service: btcWalletClient

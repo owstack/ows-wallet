@@ -57,19 +57,21 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   // Network queries
 
   root.getNetworks = function() {
-    return networks;
+    return lodash.sortBy(networks, 'label');
   };
 
   root.getLiveNetworks = function() {
-    return lodash.filter(networks, function(n) {
+    var n = lodash.filter(networks, function(n) {
       return root.isLivenet(n.net);
     });
+    return lodash.sortBy(n, 'label');
   };
 
   root.getTestNetworks = function() {
-    return lodash.filter(networks, function(n) {
+    var n = lodash.filter(networks, function(n) {
       return root.isTestnet(n.net);
     });
+    return lodash.sortBy(n, 'label');
   };
 
   root.getLivenetForCurrency = function(currency) {
@@ -90,16 +92,13 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     });
   };
 
+  root.hasTestnet = function(currency) {
+    return (root.getTestnetForCurrency(currency) != undefined);
+  };
+
   // @param addrNetwork - an address network object
   root.getURIForAddrNetwork = function(addrNetwork) {
     return (addrNetwork.name + '/' + addrNetwork.chainSymbol).toLowerCase();
-  };
-
-  root.getNetworkLabelByURI = function(networkURI) {
-    var n = lodash.find(networks, function(n) {
-      return n.getURI() == networkURI;
-    });
-    return (n ? n.label + ' (' + n.net + ')' : 'Unknown');
   };
 
   root.getAtomicUnit = function(networkURI) {
@@ -128,19 +127,6 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     var aUnit = root.getAtomicUnit(networkURI);
     var sUnit = root.getStandardUnit(networkURI);
     return aUnit.value / sUnit.value;
-  };
-
-  // Update the specified legacy network name to use the newest format.
-  root.getUpdatedNetworkURI = function(networkURI) {
-    var network = lodash.find(networks, function(n) {
-      return n.legacyName == networkURI;
-    });
-
-    if (network) {
-      return network.getURI();
-    } else {
-      return networkURI;
-    }
   };
 
   // Parsers

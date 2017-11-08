@@ -37,7 +37,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesInformation',
       $scope.wallet = wallet;
       $scope.walletName = c.walletName;
       $scope.walletId = c.walletId;
-      $scope.networkLabel = networkService.getNetworkLabelByURI(wallet.networkURI);
+      $scope.networkLabel = networkService.getNetworkByURI(wallet.networkURI).getNetLabel();
       $scope.addressType = c.addressType || 'P2SH';
       $scope.derivationStrategy = c.derivationStrategy || 'BIP45';
       $scope.basePath = basePath;

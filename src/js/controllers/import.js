@@ -16,7 +16,10 @@ angular.module('owsWalletApp.controllers').controller('importController',
 
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
-      $scope.networkOptions = networkService.getNetworks();
+      $scope.availableNetworks = networkService.getLiveNetworks();
+      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency);
+      $scope.formData.testnetSelected = false;
+
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
 
       errors = networkService.walletClientFor($scope.formData.network).getErrors();
@@ -69,6 +72,9 @@ angular.module('owsWalletApp.controllers').controller('importController',
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
+      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency);
+      $scope.formData.testnetSelected = $scope.formData.testnetSelected && $scope.formData.testnetSupported;
+
       errors = networkService.walletClientFor($scope.formData.network).getErrors();
     };
 
@@ -249,12 +255,17 @@ angular.module('owsWalletApp.controllers').controller('importController',
         return;
       }
 
+      var network = $scope.formData.network;
+      if ($scope.formData.testnetSelected) {
+        network = networkService.getTestnetForCurrency($scope.formData.network.currency);
+      }
+
       var opts = {};
 
       if ($scope.formData.walletServiceUrl)
         opts.walletServiceUrl = $scope.formData.walletServiceUrl;
 
-      var pathData = derivationPathHelper.parse($scope.formData.derivationPath, $scope.formData.network);
+      var pathData = derivationPathHelper.parse($scope.formData.derivationPath, network);
       if (!pathData) {
         popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path'));
         return;

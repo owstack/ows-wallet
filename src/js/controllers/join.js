@@ -11,9 +11,11 @@ angular.module('owsWalletApp.controllers').controller('joinController',
 
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
+      $scope.availableNetworks = networkService.getLiveNetworks();
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
 
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
+
       $scope.formData.account = 1;
       $scope.formData.secret = null;
       resetPasswordFields();
@@ -65,6 +67,11 @@ angular.module('owsWalletApp.controllers').controller('joinController',
       $scope.onQrCodeScannedJoin(data);
     }
 
+    $scope.onNetworkChange = function() {
+      $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
+      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
+    };
+
     function updateSeedSourceSelect() {
       $scope.seedOptions = [{
         id: 'new',
@@ -73,27 +80,21 @@ angular.module('owsWalletApp.controllers').controller('joinController',
         id: 'set',
         label: gettextCatalog.getString('Specify Recovery Phrase...'),
       }];
+
       $scope.formData.seedSource = $scope.seedOptions[0];
-      /*
 
-      Disable Hardware Wallets
+      if (walletService.externalSource.ledger.supported) {
+        $scope.seedOptions.push({
+          id: walletService.externalSource.ledger.id,
+          label: walletService.externalSource.ledger.longName
+        });
+      }
 
-      */
-
-      if (appConfigService.name == 'owsWallet') {
-        if (walletService.externalSource.ledger.supported) {
-          $scope.seedOptions.push({
-            id: walletService.externalSource.ledger.id,
-            label: walletService.externalSource.ledger.longName
-          });
-        }
-
-        if (walletService.externalSource.trezor.supported) {
-          $scope.seedOptions.push({
-            id: walletService.externalSource.trezor.id,
-            label: walletService.externalSource.trezor.longName
-          });
-        }
+      if (walletService.externalSource.trezor.supported) {
+        $scope.seedOptions.push({
+          id: walletService.externalSource.trezor.id,
+          label: walletService.externalSource.trezor.longName
+        });
       }
     };
 
@@ -115,7 +116,7 @@ angular.module('owsWalletApp.controllers').controller('joinController',
         }
         opts.passphrase = $scope.formData.passphrase;
 
-        var pathData = derivationPathHelper.parse($scope.formData.derivationPath);
+        var pathData = derivationPathHelper.parse($scope.formData.derivationPath, $scope.formData.network);
         if (!pathData) {
           popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path'));
           return;

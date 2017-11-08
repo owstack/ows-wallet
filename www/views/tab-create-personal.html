@@ -19,6 +19,14 @@
           required>
         </label>
 
+        <label class="item item-input item-select">
+          <div class="input-label" translate>
+            Currency
+          </div>
+          <select class="m10t" ng-model="formData.network" ng-options="network as network.getLongLabel() for network in availableNetworks"
+            ng-change="onNetworkChange(); resizeView();"></select>
+        </label>
+
         <div class="item item-divider"></div>
 
         <a class="item" ng-click="showAdvChange()">
@@ -37,7 +45,7 @@
               Wallet Key
             </div>
             <select class="m10t" ng-model="formData.seedSource" ng-options="seed as seed.label for seed in seedOptions"
-              ng-change="resizeView(); updateNetworkSelect();"></select>
+              ng-change=" onSeedChange(); resizeView();"></select>
           </label>
 
           <label class="item item-input item-stacked-label" ng-show="formData.seedSource.id == 'trezor' || formData.seedSource.id == 'ledger'">
@@ -113,13 +121,10 @@
             ng-model="formData.derivationPath">
           </label>
 
-          <label class="item item-input item-select">
-            <div class="input-label" translate>
-              Network
-            </div>
-            <select class="m10t" ng-model="formData.network" ng-options="network as network.label for network in networkOptions"
-              ng-change="resizeView(); onNetworkChange();"></select>
-          </label>
+          <ion-toggle ng-show="formData.testnetSupported"
+            ng-model="formData.testnetSelected" toggle-class="toggle-positive">
+            <span translate>Testnet</span>
+          </ion-toggle>
 
           <ion-toggle ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
             <span translate>Single Address Wallet</span>

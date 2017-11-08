@@ -8,6 +8,8 @@ angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, g
     net: 'livenet',
     label: 'Bitcoin Cash',
     getURI: function() { return this.net + '/' + this.currency },
+    getLongLabel: function() { return this.label + ' (' + this.currency.toUpperCase() + ')' },
+    getNetLabel: function() { return this.label + ' (' + this.net + ')' },
     protocol: 'bitcoincash',
     walletClient: {
       service: bchWalletClient

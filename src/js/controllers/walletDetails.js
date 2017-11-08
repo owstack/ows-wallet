@@ -51,6 +51,10 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
     return networkService.isLivenet(networkURI);
   };
 
+  $scope.isTestnet = function(networkURI) {
+    return networkService.isTestnet(networkURI);
+  };
+
   var analyzeUtxosDone;
 
   var analyzeUtxos = function() {

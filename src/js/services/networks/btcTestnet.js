@@ -6,9 +6,10 @@ angular.module('owsWalletApp.services').factory('btcTestnet', function(lodash, g
   root.definition = {
     currency: 'btc',
     net: 'testnet',
-    label: 'Bitcoin',
-    legacyName: 'testnet', // Used to update legacy wallets
+    label: 'Bitcoin Testnet',
     getURI: function() { return this.net + '/' + this.currency },
+    getLongLabel: function() { return this.label + ' (' + this.currency.toUpperCase() + ')' },
+    getNetLabel: function() { return this.label + ' (' + this.net + ')' },
     protocol: 'bitcoin',
     walletClient: {
       service: btcWalletClient
