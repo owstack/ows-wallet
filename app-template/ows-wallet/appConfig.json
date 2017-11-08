@@ -1,4 +1,5 @@
 {
+  "appTemplateName": "ows-wallet",
   "packageName": "@owstack/ows-wallet",
   "packageDescription": "OWS Wallet",
   "packageNameId": "com.openwalletstack.wallet",

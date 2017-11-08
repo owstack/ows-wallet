@@ -18,9 +18,9 @@ fi
 # set up your app name, architecture, and background image file name
 APP_NAME="*USERVISIBLENAME*"
 rm dmg-background.tiff
-ln -s ../resources/*PACKAGENAME*/mac/dmg-background.tiff dmg-background.tiff
+ln -s ../resources/*APPTEMPLATENAME*/mac/dmg-background.tiff dmg-background.tiff
 rm volume-icon.icns
-ln -s ../resources/*PACKAGENAME*/mac/volume-icon.icns volume-icon.icns
+ln -s ../resources/*APPTEMPLATENAME*/mac/volume-icon.icns volume-icon.icns
 DMG_VOLUME_ICON="volume-icon.icns"
 DMG_BACKGROUND_IMG="dmg-background.tiff"
 
