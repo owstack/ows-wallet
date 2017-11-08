@@ -42,29 +42,36 @@ function iconset {
   rm -r $1/mac/$2.iconset
 }
 
+# check args
 if [ $# -eq 0 ]; then
     echo "App template name not specified"
     exit
 fi
 
-if [ ! -d "../$1" ]; then
-    echo "App template directory not found: ../$1"
+# setup locations
+ROOT_PATH="../.."
+TEMPLATE_PATH="$ROOT_PATH/app-template/$1"
+RESOURCES_ROOT="$ROOT_PATH/resources"
+RESOURCES_PATH="$RESOURCES_ROOT/$1"
+
+if [ ! -d "$TEMPLATE_PATH" ]; then
+    echo "App template directory not found: $TEMPLATE_PATH"
   exit
 fi
 
 echo "Processing resources for $1"
 
 # export all slices marked for export to the proper directory
-echo "Exporting all assets from ../$1/src.sketch"
+echo "Exporting all assets from $TEMPLATE_PATH/resources.sketch"
 
-# Remove existing resources
-rm -fr ../../resources/$1
+# remove existing resources
+rm -fr $RESOURCES_PATH
 
 # sketchtool is installed by install.sh
-sketchtool export layers ../$1/resources.sketch --output=../$1/resources
+sketchtool export layers $TEMPLATE_PATH/resources.sketch --output=$TEMPLATE_PATH/resources
 
-postprocess ../$1/resources
+postprocess $TEMPLATE_PATH/resources
 
-echo "Publishing resources to resources/$1"
-mkdir -p ../../resources
-mv ../$1/resources ../../resources/$1
+echo "Publishing resources to $RESOURCES_PATH"
+mkdir -p $RESOURCES_ROOT
+mv $TEMPLATE_PATH/resources $RESOURCES_PATH

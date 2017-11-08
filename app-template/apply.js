@@ -31,7 +31,7 @@ console.log('Applying ' + config.nameCase + ' template');
 
 console.log('Creating resources for ' + config.nameCase);
 var execSync = require('child_process').execSync;
-execSync('sh ./generate.sh ' + configDir, { cwd: './resources', stdio: [0,1,2] });
+execSync('sh ./generate.sh ' + configDir, { cwd: '../util/resources', stdio: [0,1,2] });
 console.log('Done creating resources');
 
 /////////////////
