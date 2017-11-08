@@ -50,7 +50,6 @@ angular-bitauth/angular-bitauth.js
 .lock-wscript
 
 # OSX
-
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -70,7 +69,6 @@ Temporary Items
 .apdisk
 
 # VIM ignore
-
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
 *.un~
@@ -92,7 +90,7 @@ www/lib/*
 www/js/*
 www/fonts
 
-## templates
+# templates
 /config.xml
 /ionic.config.json
 /appConfig.json
@@ -103,7 +101,10 @@ chrome-app/manifest.json
 www/img/app
 www/index.html
 
-## Firebase
+# Generated resources
+resources/*
+
+# Firebase
 /GoogleService-Info.plist
 /google-services.json
 

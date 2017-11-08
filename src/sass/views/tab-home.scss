@@ -87,9 +87,10 @@
   }
   .tab-home {
     &__logo {
-      height: 18px;
+      height: 80%;
       position: relative;
-      top: 3px;
+      top: 50%;
+      transform: translateY(-50%);
     }
     &__wallet {
       &__multisig-number {

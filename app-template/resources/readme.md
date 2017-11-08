@@ -1,6 +1,6 @@
 # Project Resources
 
-This directory contains a `src.sketch` file from which all other assets are exported or derived.
+Each app-template directory contains a `resources.sketch` file from which all other assets are exported or derived.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ sh install.sh
 
 ## Generate assets
 
-To make an update, first make the change in `src.sketch`, then run:
+To make an update, first make the change in `resources.sketch`, then run:
 
 ```sh
 sh generate.sh
@@ -26,4 +26,4 @@ sh generate.sh
 
 ## Commit the changes
 
-Be sure to commit the modified `src.sketch`, as well as any modified exported assets.
+Be sure to commit the modified `resources.sketch`, as well as any modified exported assets.
