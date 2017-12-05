@@ -1,6 +1,6 @@
 #tab-receive {
   .button-share {
-    color: #fff;
+    color: $v-white-color;
     box-shadow: none;
     border-color: transparent;
     background: transparent;
@@ -28,7 +28,7 @@
     color: $v-text-accent-color;
   }
   .address {
-    background: #fff;
+    background: $v-white-color;
     overflow: auto;
     height: 100%;
     &-info {
@@ -53,12 +53,12 @@
       .title {
         padding-top: 10%;
         font-size: 25px;
-        color: #444;
+        color: $v-dark-gray;
         text-align: center;
       }
       .subtitle {
         padding: 20px;
-        color: #444;
+        color: $v-dark-gray;
         margin-top: 10%;
         text-align: center;
       }
@@ -70,7 +70,7 @@
     width: 100%;
     cursor: pointer;
     background-color: orange;
-    color: #fff;
+    color: $v-white-color;
     text-align: center;
     padding: 5px 0;
     i {
@@ -82,9 +82,17 @@
     bottom: 0;
     width: 100%;
   }
+  .bg {
+    &.wallet {
+      background-image: url('../img/icon-wallet.svg');
+      background-size: 60%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }  
+  }
   .list {
     .item {
-      color: #444;
+      color: $v-dark-gray;
       border-top: none;
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
@@ -101,13 +109,13 @@
         position: absolute;
         width: 80%;
         height: 1px;
-        background: rgba(221, 221, 221, 0.3);
+        background: $v-mid-gray;
         top: 0;
         right: 0;
         content: '';
       }
       &.item-divider {
-        color: rgba(74, 74, 74, .8);
+        color: $v-dark-gray;
       }
       &.item-heading {
         &:before {
@@ -121,7 +129,7 @@
         }
       }
       .item-note {
-        color: rgb(58, 58, 58);
+        color: $v-dark-gray;
       }
     }
   }

@@ -17,19 +17,19 @@
     <div ng-if="!customAmount && !nextStep">
       <div class="item item-no-bottom-border recipient-label" translate>Recipient</div>
 
-      <div class="item item-text-wrap item-icon-left bitcoin-address">
+      <div class="item item-text-wrap item-icon-left crypto-address">
         <i class="icon big-icon-svg" ng-if="recipientType == 'wallet'">
-          <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}" class="bg"/>
+          <div class="bg wallet" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
         </i>
         <span ng-if="recipientType == 'contact'">
           <i class="icon big-icon-svg" ng-if="isChromeApp">
-            <img src="img/contact-placeholder.svg" class="bg"/>
+            <img src="img/icon-contact-placeholder.svg" class="bg"/>
           </i>
           <gravatar ng-if="!isChromeApp" class="send-gravatar" name="{{toName}}" height="30" width="30" email="{{toEmail}}"></gravatar>
         </span>
         <span ng-if="!recipientType">
           <i class="icon big-icon-svg">
-            <img src="img/contact-placeholder.svg" class="bg"/>
+            <img src="img/icon-contact-placeholder.svg" class="bg"/>
           </i>
         </span>
         <span class="m10l">{{toName || toAddress}}</span>

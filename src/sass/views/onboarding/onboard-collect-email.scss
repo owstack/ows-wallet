@@ -1,7 +1,7 @@
 $relish-success: 1.3s;
 
 #onboarding-collect-email {
-  background: rgb(17, 209, 166);
+  background: $v-success-bg-color;
 
   #success-container {
     top: 41vh;
@@ -26,7 +26,7 @@ $relish-success: 1.3s;
     left:0;
     width:100%;
     height: 100%;
-    background: rgba(0,0,0,.4);
+    background: $v-black-transparent-mid;
     z-index: 4;
     animation-name: emailCollectOpacity;
     animation-iteration-count: 1;
@@ -55,13 +55,13 @@ $relish-success: 1.3s;
   }
   #email-label {
     border-radius: $v-visible-radius;
-    background: rgba(200, 200, 200, 0.20);
+    background: $v-subtle-gray;
     height: 3rem;
     margin-top:0;
   }
   #collect-email {
     opacity: 1;
-    background: #fff;
+    background: $v-white-color;
     animation-name: topBottom;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;

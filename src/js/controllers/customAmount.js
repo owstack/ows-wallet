@@ -8,6 +8,10 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
     });
   };
 
+  var setProtocol = function() {
+    $scope.protocol = networkService.getNetworkByURI($scope.wallet.networkURI).protocol;
+  }
+
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     var walletId = data.stateParams.id;
 
@@ -19,6 +23,8 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
     $scope.showShareButton = platformInfo.isCordova ? (platformInfo.isIOS ? 'iOS' : 'Android') : null;
 
     $scope.wallet = profileService.getWallet(walletId);
+
+    setProtocol();
 
     walletService.getAddress($scope.wallet, false, function(err, addr) {
       if (!addr) {
@@ -64,12 +70,12 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
 
   $scope.shareAddress = function() {
     if (!platformInfo.isCordova) return;
-    var data = 'bitcoin:' + $scope.address + '?amount=' + $scope.amountStandard; // TODO - protocol
+    var data = $scope.protocol + $scope.address + '?amount=' + $scope.amountStandard;
     window.plugins.socialsharing.share(data, null, null, null);
   }
 
   $scope.copyToClipboard = function() {
-    return 'bitcoin:' + $scope.address + '?amount=' + $scope.amountStandard; // TODO - protocol
+    return $scope.protocol + $scope.address + '?amount=' + $scope.amountStandard;
   };
 
 });

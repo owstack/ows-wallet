@@ -29,7 +29,7 @@ angular.module('owsWalletApp.services').factory('derivationPathHelper', function
       case "45'":
         return {
           derivationStrategy: 'BIP45',
-          networkURI: networkService.getURI(networkService.getLivenetForCurrency(network.currency)),
+          networkURI: networkService.getLivenetForCurrency(network.currency).getURI(),
           account: 0,
         }
         break;
@@ -42,10 +42,10 @@ angular.module('owsWalletApp.services').factory('derivationPathHelper', function
 
     switch (arr[2]) {
       case "0'":
-          ret.networkURI = networkService.getURI(networkService.getLivenetForCurrency(network.currency));
+          ret.networkURI = networkService.getLivenetForCurrency(network.currency).getURI();
         break;
       case "1'":
-          ret.networkURI = networkService.getURI(networkService.getTestnetForCurrency(network.currency));
+          ret.networkURI = networkService.getTestnetForCurrency(network.currency).getURI();
         break;
       default:
         return false;

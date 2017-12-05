@@ -15,7 +15,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesNetworksContro
 
       var network = networkService.getNetworkByURI($scope.networkURI);
 
-      $scope.title = network.label;
+      $scope.title = network.getFriendlyNetLabel();
       $scope.feeOpts = feeService.getFeeOpts($scope.networkURI);
       $scope.currentFeeLevel = feeService.getCurrentFeeLevel($scope.networkURI);
 

@@ -5,7 +5,7 @@ angular.module('owsWalletApp.controllers').controller('collectEmailController', 
   var wallet, walletId;
   $scope.data = {};
   // Get more info: https://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
-  var URL = "https://script.google.com/macros/s/AKfycbwQXvUw6-Ix0cRLMi7hBB8dlgNTCTgwfNIQRds6RypPV7dO8evW/exec";
+  var URL = "  https://script.google.com/macros/s/AKfycby3hCPtYxHrsXfR-rIhnJAWmQ4tRkIufrZjaOs_fk-xsNibaJn7/exec";
 
   var _post = function(dataSrc) {
     return {

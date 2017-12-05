@@ -21,7 +21,7 @@
   .qr-scan-icon {
     cursor: pointer;
     cursor: hand;
-    border-left: 1px solid rgb(228, 228, 228);
+    border-left: 1px solid $v-subtle-gray;
     padding-left: 10px;
   }
   .qr-icon {
@@ -40,16 +40,16 @@
   .send-header-wrapper {
     padding: 10px;
     background-color: white;
-    box-shadow: 0px 5px 10px 0px #cccccc;
+    box-shadow: 0px 5px 10px 0px $v-light-gray;
   }
   .search-wrapper {
-    background-color: #f2f2f2;
+    background-color: $v-subtle-gray;
     border-radius: 3px;
     border: none;
     .svg#Bitcoin_Symbol {
       width: 14px;
       .st0 {
-        fill: #cccccc;
+        fill: $v-light-gray;
       }
     }
     &.focus {
@@ -75,11 +75,11 @@
     padding-left: 24px;
   }
   .separator-left {
-    border-left: 1px solid #d9d9df;
+    border-left: 1px solid $v-subtle-gray;
     padding-left: 10px;
     height: 70%;
   }
-  .bitcoin-address {
+  .crypto-address {
     border-top: none;
     padding-bottom: .5rem;
     @media(max-width: 480px) {
@@ -97,7 +97,7 @@
     text-align: center;
     padding: 20px;
     font-size: 16px;
-    color: #387ef5;
+    color: $v-accent-color;
     font-weight: bold;
   }
   .sendTip {
@@ -105,9 +105,6 @@
     & > .item-heading {
       margin-top: 10px;
       background: 0 none;
-    }
-    img {
-      content: $v-tab-send-selected-icon;
     }
     .item {
       border-style: none;
@@ -134,7 +131,7 @@
   }
   .list {
     .item {
-      color: #444;
+      color: $v-dark-gray;
       border-top: none;
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
@@ -144,6 +141,12 @@
         width:30px;
         height:30px;
         box-shadow: none;
+        &.wallet {
+          background-image: url('../img/icon-wallet.svg');
+          background-size: 60%;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
        }
       }
       &:before {
@@ -151,13 +154,13 @@
         position: absolute;
         width: 80%;
         height: 1px;
-        background: rgba(221, 221, 221, 0.3);
+        background: $v-mid-gray;
         top: 0;
         right: 0;
         content: '';
       }
       &.item-divider {
-        color: rgba(74, 74, 74, .8);
+        color: $v-dark-gray;
       }
       &.item-heading {
         &:before {
@@ -171,7 +174,7 @@
         }
       }
       .item-note {
-        color: rgb(58, 58, 58);
+        color: $v-dark-gray;
       }
     }
   }

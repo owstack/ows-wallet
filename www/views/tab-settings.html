@@ -8,7 +8,7 @@
       <div class="item item-divider"></div>
       <a class="item item-icon-left item-icon-right" ui-sref="tabs.addressbook">
         <i class="icon big-icon-svg">
-          <img src="img/icon-address-book.svg" class="bg"/>
+          <img src="img/icon-contacts.svg" class="bg"/>
         </i>
         <span>{{'Address Book' | translate}}</span>
         <i class="icon bp-arrow-right"></i>
@@ -79,7 +79,7 @@
            ui-sref="tabs.preferences({'walletId': item.id})"
            ng-repeat="item in wallets track by $index">
          <i class="icon big-icon-svg circle">
-          <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}" class="bg"/>
+          <div class="bg wallet" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
         </i>
         <span>
           {{item.name || item.id}}

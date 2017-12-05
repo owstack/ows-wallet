@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="33px" height="33px" viewBox="0 0 33 33" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-    <title>Group 2</title>
-    <desc>Created with Sketch.</desc>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-confirming</title>
+    <desc>Created with sketchtool.</desc>
     <defs></defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Icons/Transaction/Processing" transform="translate(-8.000000, -8.000000)">
-            <g id="Icons/Send">
-                <g id="Group-2" transform="translate(8.000000, 8.000000)">
-                    <path d="M16.5,33 C25.6126984,33 33,25.6126984 33,16.5 C33,7.38730163 25.6126984,0 16.5,0 C7.38730163,0 0,7.38730163 0,16.5 C0,25.6126984 7.38730163,33 16.5,33 Z" id="Oval-204" fill="#F2F2F2" opacity="0.8"></path>
-                    <g id="Group" transform="translate(8.000000, 7.500000)" stroke="#BDBDBD">
-                        <path d="M0,9 C0,4.05 3.80952381,0 8.46560847,0 C11.7671958,0 14.6455026,1.98 16,4.95" id="Shape"></path>
-                        <path d="M17,9 C17,13.95 13.1904762,18 8.53439153,18 C5.23280423,18 2.35449735,16.02 1,13.05" id="Shape"></path>
-                        <polyline id="Shape" points="17 0 16.2941176 5 11 4.3220339"></polyline>
-                        <polyline id="Shape" points="0 18 0.705882353 13 6 13.6779661"></polyline>
-                    </g>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-confirming">
+            <g id="icon-confirming">
+                <path d="M50,100 C77.6142376,100 100,77.6142376 100,50 C100,22.3857625 77.6142376,0 50,0 C22.3857625,0 0,22.3857625 0,50 C0,77.6142376 22.3857625,100 50,100 Z" id="Oval-204" fill="#F2F2F2" fill-rule="nonzero" opacity="0.8"></path>
+                <g id="Group" transform="translate(24.242424, 22.727273)" stroke="#BDBDBD" stroke-width="5">
+                    <path d="M0,27.2727273 C0,12.2727273 11.5440115,0 25.653359,0 C35.6581691,0 44.3803109,6 48.4848485,15" id="Shape"></path>
+                    <path d="M51.5151515,27.2727273 C51.5151515,42.2727273 39.97114,54.5454545 25.8617925,54.5454545 C15.8569825,54.5454545 7.13484045,48.5454545 3.03030303,39.5454545" id="Shape"></path>
+                    <polyline id="Shape" points="51.5151515 0 49.3761139 15.1515152 33.3333333 13.0970724"></polyline>
+                    <polyline id="Shape" points="0 54.5454545 2.13903743 39.3939394 18.1818182 41.4483821"></polyline>
                 </g>
             </g>
         </g>
+        <g id="Text" transform="translate(-150.000000, -1417.000000)"></g>
     </g>
 </svg>

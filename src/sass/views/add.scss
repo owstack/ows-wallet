@@ -20,6 +20,24 @@
     height: 50px;
     width: 50px;
     padding:4px;
+    &.wallet {
+      background-image: url('../img/icon-wallet.svg');
+      background-size: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    &.wallet-add {
+      background-image: url('../img/icon-add.svg');
+      background-size: 45%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    &.wallet-import {
+      background-image: url('../img/icon-import.svg');
+      background-size: 35%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
     &.join{
       padding:10px;
     }

@@ -21,7 +21,7 @@
     }
     &.invalid {
       padding-top: 3px;
-      color: #DF2121;
+      color: $v-error-color;
     }
   }
 }

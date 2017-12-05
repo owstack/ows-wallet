@@ -57,21 +57,21 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   // Network queries
 
   root.getNetworks = function() {
-    return lodash.sortBy(networks, 'label');
+    return lodash.sortBy(networks, 'name');
   };
 
   root.getLiveNetworks = function() {
     var n = lodash.filter(networks, function(n) {
       return root.isLivenet(n.net);
     });
-    return lodash.sortBy(n, 'label');
+    return lodash.sortBy(n, 'name');
   };
 
   root.getTestNetworks = function() {
     var n = lodash.filter(networks, function(n) {
       return root.isTestnet(n.net);
     });
-    return lodash.sortBy(n, 'label');
+    return lodash.sortBy(n, 'name');
   };
 
   root.getLivenetForCurrency = function(currency) {

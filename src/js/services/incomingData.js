@@ -11,6 +11,9 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
   root.redir = function(data) {
     $log.debug('Processing incoming data: ' + data);
 
+    var joinMatch = '/^' + appConfigService.appUri + ':[0-9A-HJ-NP-Za-km-z]{70,80}$/';
+    var joinMatchRE = new RegExp(joinMatch);
+
     var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
     var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
@@ -154,27 +157,29 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       if ($state.includes('tabs.scan')) {
         root.showMenu({
           networkURI: networkURI,
+          currency: networkService.getNetworkByURI(networkURI).currency,
           data: data,
-          type: 'bitcoinAddress'
+          type: 'cryptoAddress'
         });
       } else {
         goToAmountPage(data, networkURI);
       }
     // Plain bitcoincash address
     } else if (bchLib.Address.isValid(data, 'livenet') || bchLib.Address.isValid(data, 'testnet')) {
-      var addrNetwork = btcLib.Address(data).network;
+      var addrNetwork = bchLib.Address(data).network;
       var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
       if ($state.includes('tabs.scan')) {
         root.showMenu({
           networkURI: networkURI,
+          currency: networkService.getNetworkByURI(networkURI).currency,
           data: data,
-          type: 'bitcoinAddress'
+          type: 'cryptoAddress'
         });
       } else {
         goToAmountPage(data, networkURI);
       }
     // Join
-    } else if (data && data.match(/^owswallet:[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
+    } else if (data && data.match(joinMatchRE)) {
       $state.go('tabs.home', {}, {
         'reload': true,
         'notify': $state.current.name == 'tabs.home' ? false : true

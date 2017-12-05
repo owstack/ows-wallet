@@ -1,5 +1,5 @@
 #tab-scan {
-  color: #fff;
+  color: $v-white-color;
   text-align: center;
   background: transparent none;
   .bar-header {
@@ -48,7 +48,7 @@
       border-radius: 50%;
       width: 4em;
       height: 4em;
-      background-color: rgba(13, 13, 13, 0.79);
+      background-color: $v-dark-gray;
       background-repeat: no-repeat;
       background-clip: padding-box;
       background-size: 100%;
@@ -57,10 +57,10 @@
       cursor: pointer;
       // hover for desktop only
       body:not(.platform-cordova) &:hover {
-        background-color: rgba(31, 40, 78, 0.79);
+        background-color: $v-accent-comp-color;
       }
       &.active, &:active {
-        background-color: rgba(100, 124, 232, 0.79);
+        background-color: $v-accent-color;
       }
     }
     .icon-flash {

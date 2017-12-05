@@ -5,8 +5,8 @@
     color: $v-mid-gray;
     padding-top: 1.3rem;
     .spinner svg {
-      stroke: #111;
-      fill: #111;
+      stroke: $v-dark-gray;
+      fill: $v-dark-gray;
     }
   }
   .addr {
@@ -27,11 +27,11 @@
     }
     &-balance {
       margin-top: 4px;
-      color: #5DD263;
+      color: $v-success-color;
     }
     &-path {
       margin-top: 4px;
-      color: #B8B8B8;
+      color: $v-light-gray;
     }
   }
 
@@ -79,17 +79,17 @@
     }
     .box-error {
       padding: 25px;
-      background-color: #E65555;
-      color: #F4F4F4;
+      background-color: $v-error-color;
+      color: $v-subtle-gray;
       h5 {
         margin: 5px;
-        color: #F4F4F4;
+        color: $v-subtle-gray;
         text-align: center;
         font-weight: bold;
       }
       a {
         font-weight: bold;
-        color: #F4F4F4;
+        color: $v-subtle-gray;
         cursor: pointer;
         cursor: hand;
       }
@@ -98,4 +98,12 @@
       color: $v-light-gray;
     }
   }
+  .bg {
+    &.wallet {
+      background-image: url('../img/icon-wallet.svg');
+      background-size: 60%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }  
 }

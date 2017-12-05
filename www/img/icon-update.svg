@@ -1,14 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 46.1 46.1" style="enable-background:new 0 0 46.1 46.1;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#647CE8;}
-	.st1{fill:none;stroke:#FFFEFE;}
-</style>
-<path id="Oval-87" class="st0" d="M23.1,46.1c12.7,0,23-10.3,23-23s-10.3-23-23-23s-23,10.3-23,23S10.4,46.1,23.1,46.1z"/>
-<path id="Shape" class="st1" d="M33.6,17.6h-14c-3.3,0-6,2.7-6,6v1"/>
-<path id="Shape_1_" class="st1" d="M13.6,29.6h14c3.3,0,6-2.7,6-6v-1"/>
-<polyline id="Shape_2_" class="st1" points="29.6,21.6 33.6,17.6 29.6,13.6 "/>
-<polyline id="Shape_3_" class="st1" points="17.6,25.6 13.6,29.6 17.6,33.6 "/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="99px" height="99px" viewBox="0 0 99 99" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-update</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-update">
+            <g id="icon-update">
+                <path d="M49.1489362,98.0851064 C76.1702128,98.0851064 98.0851064,76.1702128 98.0851064,49.1489362 C98.0851064,22.1276596 76.1702128,0.212765957 49.1489362,0.212765957 C22.1276596,0.212765957 0.212765957,22.1276596 0.212765957,49.1489362 C0.212765957,76.1702128 22.1276596,98.0851064 49.1489362,98.0851064 Z" id="Oval-87" fill="#00AFFF" fill-rule="nonzero"></path>
+                <path d="M71.4893617,37.4468085 L41.7021277,37.4468085 C34.6808511,37.4468085 28.9361702,43.1914894 28.9361702,50.212766 L28.9361702,52.3404255" id="Shape" stroke="#FFFEFE" stroke-width="5"></path>
+                <path d="M28.9361702,62.9787234 L58.7234043,62.9787234 C65.7446809,62.9787234 71.4893617,57.2340426 71.4893617,50.212766 L71.4893617,48.0851064" id="Shape_1_" stroke="#FFFEFE" stroke-width="5"></path>
+                <polyline id="Shape_2_" stroke="#FFFEFE" stroke-width="5" points="62.9787234 45.9574468 71.4893617 37.4468085 62.9787234 28.9361702"></polyline>
+                <polyline id="Shape_3_" stroke="#FFFEFE" stroke-width="5" points="37.4468085 54.4680851 28.9361702 62.9787234 37.4468085 71.4893617"></polyline>
+            </g>
+        </g>
+    </g>
 </svg>

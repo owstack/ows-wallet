@@ -1,18 +1,21 @@
 #tab-home {
   .icon-create-wallet {
-    background-color: #4A90E2; // default wallet color
+    background-color: $v-accent-color;
   }
   .bg {
     &.wallet {
-      padding: .25rem
+      background-image: url('../img/icon-wallet.svg');
+      background-size: 60%;
+      background-position: center;
+      background-repeat: no-repeat;
     }
   }
   .card {
     .item {
-      color: #444;
+      color: $v-dark-gray;
       border-top:none;
       padding-bottom: 1rem;
-      padding-top:1rem;
+      padding-top: 1rem;
       &.item-extra-padding {
         padding-top: 1.5rem;
         padding-bottom: 1.5rem;
@@ -27,7 +30,7 @@
         position: absolute;
         width: 75%;
         height: 1px;
-        background: rgba(221, 221, 221, 0.3);
+        background: $v-subtle-gray;
         top:0;
         right:0;
         content:'';
@@ -44,7 +47,7 @@
     padding-bottom: 0;
 
     .wallet-details__tx-icon {
-      background: #fff;
+      background: $v-white-color;
       border-radius: 50px;
     }
   }
@@ -82,7 +85,7 @@
     }
   }
   .icon.close-home-tip {
-    color: #666;
+    color: $v-mid-gray;
     font-size: 38px;
   }
   .tab-home {
@@ -114,7 +117,7 @@
     }
     .title {
       font-weight: 700;
-      color: #444;
+      color: $v-dark-gray;
     }
     .button {
       width: 100%;

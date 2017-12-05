@@ -14,7 +14,7 @@
   <ion-content scroll="false" id="add-address" ng-show="isEmptyList">
     <div class="zero-state">
       <i class="icon zero-state-icon">
-        <img class="svg" src="img/address-book-add.svg"/>
+        <img src="img/icon-add.svg"/>
       </i>
       <div class="zero-state-heading" translate>No contacts yet</div>
       <div class="zero-state-description" translate>Get started by adding your first one.</div>
@@ -37,12 +37,12 @@
       <ion-item ng-repeat="addrEntry in addressbook"
                 class="item-icon-right item-avatar"
                 ui-sref="tabs.addressbook.view({networkURI:addrEntry.networkURI, address:addrEntry.address, email: addrEntry.email, name: addrEntry.name})">
-        <img src="img/contact-placeholder.svg" class="bg"/ ng-if="isChromeApp">
+        <img src="img/icon-contact-placeholder.svg" class="bg"/ ng-if="isChromeApp">
         <gravatar name="{{addrEntry.name}}" width="50" email="{{addrEntry.email}}" ng-if="!isChromeApp"></gravatar>
         <h2>{{addrEntry.name}}</h2>
         <div class="ellipsis">
           <i class="icon-inline">
-            <img ng-src="img/currency-network-icons/{{currencyFor(addrEntry.networkURI)}}.svg"/>
+            <img ng-src="img/currency-icons/icon-{{currencyFor(addrEntry.networkURI)}}.svg"/>
           </i>
           <span>{{addrEntry.address}}</span>
         </div>

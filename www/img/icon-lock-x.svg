@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="19px" height="20px" viewBox="0 0 19 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-    <title>Group</title>
-    <desc>Created with Sketch.</desc>
+<svg width="91px" height="102px" viewBox="0 0 91 102" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-lock-x</title>
+    <desc>Created with sketchtool.</desc>
     <defs></defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Addresss-(Unsecure-URL)" transform="translate(-9.000000, -9.000000)" stroke-width="2">
-            <g id="Items/Bitcoin-Address">
-                <g id="Items/Bitcoin-Address-Copy">
-                    <g id="ui-24px-outline-1_lock" transform="translate(10.955302, 10.000000)">
-                        <g id="Group">
-                            <path d="M6.5,0 L6.5,0 C4.225,0 2.4375,1.8 2.4375,4.09090909 L2.4375,6.54545455 L10.5625,6.54545455 L10.5625,4.09090909 C10.5625,1.8 8.775,0 6.5,0 L6.5,0 Z" id="Shape" stroke="#CACACA" fill="#EEEEEE" opacity="0.800000012"></path>
-                            <rect id="Rectangle-path" stroke="#CACACA" fill="#EEEEEE" opacity="0.800000012" x="0" y="6.54545455" width="13" height="11.4545455"></rect>
-                            <g id="ui-24px-outline-2_small-remove" transform="translate(8.000000, 7.000000)" stroke="#E14F61">
-                                <g id="Group">
-                                    <path d="M8,0 L0,8" id="Shape"></path>
-                                    <path d="M8,8 L0,0" id="Shape"></path>
-                                </g>
-                            </g>
-                        </g>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-lock-x">
+            <g id="icon-lock-x" transform="translate(1.000000, 1.000000)">
+                <path d="M36.4183444,0 L36.4183444,0 C23.7794556,0 13.8489,10 13.8489,22.7272727 L13.8489,36.3636364 L58.9877889,36.3636364 L58.9877889,22.7272727 C58.9877889,10 49.0572333,0 36.4183444,0 L36.4183444,0 Z" id="Shape" stroke="#CACACA" fill="#EEEEEE" fill-rule="nonzero" opacity="0.800000012"></path>
+                <rect id="Rectangle-path" stroke="#CACACA" fill="#EEEEEE" fill-rule="nonzero" opacity="0.800000012" x="0.307233333" y="36.3636364" width="72.2222222" height="63.6363639"></rect>
+                <g id="ui-24px-outline-2_small-remove" transform="translate(44.751678, 38.888889)" stroke="#E14F61">
+                    <g id="Group">
+                        <path d="M44.4444444,0 L0,44.4444444" id="Shape"></path>
+                        <path d="M44.4444444,44.4444444 L0,0" id="Shape"></path>
                     </g>
                 </g>
             </g>
         </g>
+        <g id="Text" transform="translate(-3025.000000, -256.000000)"></g>
     </g>
 </svg>

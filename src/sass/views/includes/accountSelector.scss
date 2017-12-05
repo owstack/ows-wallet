@@ -1,6 +1,6 @@
 account-selector {
 
-  $border-color: #EFEFEF;
+  $border-color: $v-subtle-gray;
   text-align: left;
 
   .bp-action-sheet__sheet {
@@ -64,7 +64,7 @@ account-selector {
       }
 
       .account-email {
-        color: #3A3A3A;
+        color: $v-dark-gray;
         font-family: "Roboto-Light";
       }
 

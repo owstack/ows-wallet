@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabReceiveController', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, storageService, platformInfo, walletService, profileService, configService, lodash, gettextCatalog, popupService, walletClientError) {
+angular.module('owsWalletApp.controllers').controller('tabReceiveController', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, storageService, platformInfo, walletService, profileService, configService, lodash, gettextCatalog, popupService, walletClientError, networkService) {
 
   var listeners = [];
   $scope.isCordova = platformInfo.isCordova;
@@ -120,9 +120,14 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
     return wallet;
   }
 
+  var setProtocol = function() {
+    $scope.protocol = networkService.getNetworkByURI($scope.wallet.networkURI).protocol;
+  }
+
   $scope.onWalletSelect = function(wallet) {
     $scope.wallet = wallet;
     $scope.setAddress();
+    setProtocol();
   };
 
   $scope.showWalletSelector = function() {
@@ -133,7 +138,7 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
 
   $scope.shareAddress = function() {
     if (!$scope.isCordova) return;
-    window.plugins.socialsharing.share('bitcoin:' + $scope.addr, null, null, null);
+    window.plugins.socialsharing.share($scope.protocol + $scope.addr, null, null, null);
   };
 
   $scope.createWallet = function() {

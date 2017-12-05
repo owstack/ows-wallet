@@ -1,9 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" id="Wallet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 40 40" style="enable-background:new 0 0 40 40;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:none;stroke:#FFFFFF;}
-</style>
-<path id="Icon" class="st0" d="M6.5,26.9c0,1.6,1.3,2.9,3.1,2.9h20.8c1.7,0,3.1-1.2,3.1-2.9V13.3H6.5V26.9L6.5,26.9z M26.7,13.3
-	v-3.1H6.5v3.1H26.7z M28.5,24.3c0.9,0,1.7-0.7,1.7-1.6c0-0.9-0.7-1.6-1.7-1.6s-1.7,0.7-1.7,1.6C26.7,23.6,27.5,24.3,28.5,24.3z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="98px" height="72px" viewBox="0 0 98 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-wallet</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-wallet" stroke-width="5" stroke="#FFFFFF">
+            <g id="icon-wallet">
+                <path d="M0.785750008,60.3583503 C0.785750008,66.0727503 5.42870003,70.7157003 11.8574001,70.7157003 L86.1446004,70.7157003 C92.2161504,70.7157003 97.2162504,66.4299003 97.2162504,60.3583503 L97.2162504,11.7859501 L0.785750008,11.7859501 L0.785750008,60.3583503 L0.785750008,60.3583503 Z M72.9300503,11.7859501 L72.9300503,0.714300003 L0.785750008,0.714300003 L0.785750008,11.7859501 L72.9300503,11.7859501 Z M79.3587503,51.0724502 C82.5731004,51.0724502 85.4303004,48.5724002 85.4303004,45.3580502 C85.4303004,42.1437002 82.9302504,39.6436502 79.3587503,39.6436502 C75.7872503,39.6436502 73.2872003,42.1437002 73.2872003,45.3580502 C72.9300503,48.5724002 75.7872503,51.0724502 79.3587503,51.0724502 Z" id="Icon"></path>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-287.000000, -837.000000)"></g>
+    </g>
 </svg>

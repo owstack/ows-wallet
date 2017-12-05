@@ -3,35 +3,45 @@
     background-repeat: no-repeat;
     background-position: center;
     margin: 6px 0 2px;
-    &.ico-home {
+    &.icon-home {
       background-image: $v-tab-home-icon;
+      background-size: contain;
     }
-    &.ico-home-selected {
+    &.icon-home-selected {
       background-image: $v-tab-home-selected-icon;
+      background-size: contain;
     }
-    &.ico-receive {
+    &.icon-receive {
       background-image: $v-tab-receive-icon;
+      background-size: contain;
     }
-    &.ico-receive-selected {
+    &.icon-receive-selected {
       background-image: $v-tab-receive-selected-icon;
+      background-size: contain;
     }
-    &.ico-settings {
+    &.icon-settings {
       background-image: $v-tab-settings-icon;
+      background-size: contain;
     }
-    &.ico-settings-selected {
+    &.icon-settings-selected {
       background-image: $v-tab-settings-selected-icon;
+      background-size: contain;
     }
-    &.ico-scan {
+    &.icon-scan {
       background-image: $v-tab-scan-icon;
+      background-size: contain;
     }
-    &.ico-scan-selected {
+    &.icon-scan-selected {
       background-image: $v-tab-scan-selected-icon;
+      background-size: contain;
     }
-    &.ico-send {
+    &.icon-send {
       background-image: $v-tab-send-icon;
+      background-size: contain;
     }
-    &.ico-send-selected {
+    &.icon-send-selected {
       background-image: $v-tab-send-selected-icon;
+      background-size: contain;
     }
   }
 }

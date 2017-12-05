@@ -36,6 +36,9 @@
 
 .big-icon-svg {
   padding: 0 7px;
+  > .center {
+    margin: 0 auto;
+  }
   > .bg {
     border-radius: $v-icon-border-radius;
     width: 40px;
@@ -46,6 +49,13 @@
     background-size: 103%;
     &.success{
       background: $v-success-color;
+      > i {
+        font-size: 24px;
+        color: $v-white-color;
+        position: relative;
+        top: 8px;
+        left: 1px;
+      }
     }
   }
 }
@@ -54,7 +64,7 @@
 .wallet-item {
   padding: 1rem 0 2rem 0;
   .name {
-    color: #445;
+    color: $v-dark-gray;
     text-align:center;
   }
   .big-icon-svg {
@@ -66,7 +76,7 @@
         height: 70px;
         padding:.1rem;
         margin: 0.2rem;
-        box-shadow: 0px 1px 5px rgba($v-mid-gray, .1);
+        box-shadow: 0px 1px 5px $v-white-transparent-light;
         display:flex;
         margin:auto;
       }
@@ -77,7 +87,7 @@
     position: absolute;
     width: 100%;
     height: 1px;
-    background: rgba(221, 221, 221, 0.3);
+    background: $v-mid-gray;
     top: 0;
     right: 0;
     content: '';

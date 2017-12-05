@@ -13,9 +13,9 @@
       <a class="item item-icon-left item-icon-right" ng-repeat="network in availableNetworks"
         ui-sref="tabs.network-settings({'networkURI': network.getURI()})">
         <i class="icon big-icon-svg">
-          <img ng-src="img/currency-network-icons/{{network.currency}}.svg" class="bg"/>
+          <img ng-src="img/currency-icons/icon-{{network.currency}}.svg" class="bg"/>
         </i>
-        <span>{{network.label}}</span>
+        <span>{{network.getFriendlyNetLabel()}}</span>
         <i class="icon bp-arrow-right"></i>
       </a>
     </div>

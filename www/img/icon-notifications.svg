@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="21px" viewBox="0 0 20 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: sketchtool 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-    <title>A3CC6A90-742E-4634-91DC-28F2146B6659</title>
+<svg width="88px" height="93px" viewBox="0 0 88 93" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-notifications</title>
     <desc>Created with sketchtool.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Icons" transform="translate(-542.000000, -768.000000)" stroke="#9b9bab">
-            <g id="icons/list-items/sync" transform="translate(543.000000, 769.000000)">
-                <g id="Group" transform="translate(0.392391, 0.413043)">
-                    <path d="M6.28767826,13.3123913 C6.33555,14.6357826 7.36361522,15.6956522 8.6326087,15.6956522 C9.90160217,15.6956522 10.927313,14.6357826 10.9759696,13.3123913" id="Shape"></path>
-                    <path d="M17.2652174,15.6956522 C17.2652174,14.1566522 16.4561065,11.1521739 14.126087,9.91304348 L14.126087,5.7826087 C14.126087,2.58895652 11.6665783,0 8.6326087,0 C5.59863913,0 3.13913043,2.58895652 3.13913043,5.7826087 L3.13913043,9.91304348 C0.784782609,11.1777826 0,14.1566522 0,15.6956522" id="Shape"></path>
-                    <ellipse id="Oval" cx="8.6326087" cy="15.6956522" rx="8.6326087" ry="2.47826087"></ellipse>
-                </g>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-notifications" stroke="#9B9BAB" stroke-width="3">
+            <g id="icon-notifications" transform="translate(0.000000, 1.000000)">
+                <path d="M32.4003463,66.6271715 C32.639705,73.244128 37.7800311,78.543476 44.1249985,78.543476 C50.4699659,78.543476 55.59852,73.244128 55.841803,66.6271715" id="Shape"></path>
+                <path d="M87.288042,78.543476 C87.288042,70.848476 83.2424875,55.8260845 71.59239,49.6304324 L71.59239,28.9782585 C71.59239,13.0099976 59.2948465,0.065215 44.1249985,0.065215 C28.9551506,0.065215 16.6576071,13.0099976 16.6576071,28.9782585 L16.6576071,49.6304324 C4.88586804,55.954128 0.961955,70.848476 0.961955,78.543476" id="Shape"></path>
+                <ellipse id="Oval" cx="44.1249985" cy="78.543476" rx="43.1630435" ry="12.3913044"></ellipse>
             </g>
         </g>
+        <g id="Text" transform="translate(-1239.000000, -548.000000)"></g>
     </g>
 </svg>

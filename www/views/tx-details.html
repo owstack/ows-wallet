@@ -40,7 +40,7 @@
         <div class="item" ng-if="btx.action === 'sent'">
           <span class="label" translate>To</span>
           <span class="payment-proposal-to">
-            <img ng-if="!cardId" src="img/icon-bitcoin-small.svg">
+            <img ng-if="!cardId" src="img/currency-icons/icon-{{wallet.currency}}.svg">
             <img ng-if="cardId" src="img/icon-card.svg" width="34">
             <div copy-to-clipboard="btx.addressTo" class="ellipsis">
               <contact ng-if="!toName" address="{{btx.addressTo}}" class="ellipsis" style="display: block;"></contact>
@@ -53,7 +53,7 @@
           <span class="label" ng-if="btx.action !== 'sent'" translate>To</span>
           <div class="wallet">
             <i class="icon big-icon-svg">
-              <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}" class="bg"/>
+              <div class="bg wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>
@@ -85,11 +85,11 @@
           </span>
         </div>
         <div class="item low-fees" ng-if="btx.action == 'received' && btx.lowFees">
-          <i class="icon"><img src="img/icon-warning.png" width="20px"></i>
+          <i class="icon"><img src="img/icon-warning.svg" width="20px"></i>
           <span translate>This transaction could take a long time to confirm or could be dropped due to the low fees set by the sender</span>
         </div>
         <div class="item low-fees" ng-if="btx.lowAmount">
-          <i class="icon"><img src="img/icon-warning.png" width="20px"></i>
+          <i class="icon"><img src="img/icon-warning.svg" width="20px"></i>
           <span translate>
 This transaction amount is too small compared to current network fees. Spending these funds will need a network fee cost comparable to the funds itself. </span>
         </div>

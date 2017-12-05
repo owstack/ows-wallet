@@ -1,16 +1,17 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, gettextCatalog, btcWalletClient) {
+angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, gettextCatalog, networkHelpers, btcWalletClient) {
   var root = {};
 
   root.definition = {
     currency: 'btc',
     net: 'livenet',
-    label: 'Bitcoin',
-    getURI: function() { return this.net + '/' + this.currency },
-    getLongLabel: function() { return this.label + ' (' + this.currency.toUpperCase() + ')' },
-    getNetLabel: function() { return this.label + ' (' + this.net + ')' },
-    protocol: 'bitcoin',
+    name: 'Bitcoin',
+    protocol: 'bitcoin:',
+    getURI: function() { return networkHelpers.getURI(this) },
+    getCurrencyLabel: function() { return networkHelpers.getCurrencyLabel(this) },
+    getNetLabel: function() { return networkHelpers.getNetLabel(this) },
+    getFriendlyNetLabel: function() { return networkHelpers.getFriendlyNetLabel(this) },
     walletClient: {
       service: btcWalletClient
     },

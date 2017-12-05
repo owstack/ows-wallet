@@ -1,49 +1,67 @@
 'use strict';
 angular.module('owsWalletApp.directives')
   .directive('validAddress', ['$rootScope', 'networkService',
-    function($rootScope, networkService) {
+    function($rootScope, lodash, networkService) {
       return {
         require: 'ngModel',
         link: function(scope, elem, attrs, ctrl) {
-          var coreLib = networkService.walletClientFor('livenet/btc').getLib(); // TODO: Support more than /btc
-          var URI = coreLib.URI;
-          var Address = coreLib.Address;
           var validator = function(value) {
-
-            // Regular url
-            if (/^https?:\/\//.test(value)) {
-              ctrl.$setValidity('validAddress', true);
-              return value;
-            }
-
-            // Bip21 uri
-            if (/^bitcoin:/.test(value)) {
-              var uri, isAddressValidLivenet, isAddressValidTestnet;
-              var isUriValid = URI.isValid(value);
-              if (isUriValid) {
-                uri = new URI(value);
-                // Must be valid on the btc blockchain.
-                isAddressValidLivenet = Address.isValid(uri.address.toString(), 'livenet/btc')
-                isAddressValidTestnet = Address.isValid(uri.address.toString(), 'testnet/btc')
-              }
-              ctrl.$setValidity('validAddress', isUriValid && (isAddressValidLivenet || isAddressValidTestnet));
-              return value;
-            }
 
             if (typeof value == 'undefined') {
               ctrl.$pristine = true;
               return;
             }
 
-            // Regular Address
-            // Detecting which blockchain is not important here.
-            // Is a valid address if it's valid on any blockchain we support.
-            var regularAddressLivenet = Address.isValid(value, 'livenet');
-            var regularAddressTestnet = Address.isValid(value, 'testnet');
-            ctrl.$setValidity('validAddress', (regularAddressLivenet || regularAddressTestnet));
+            // Check regular url
+            if (/^https?:\/\//.test(value)) {
+              ctrl.$setValidity('validAddress', true);
+              return value;
+            }
+
+            // Check BIP21 uri and regular address
+            lodash.forEach(networkService.getNetworks(), function(n) {
+              var netLib = networkService.walletClientFor(n.getURI()).getLib();
+              var URI = netLib.URI;
+              var Address = netLib.Address;
+
+              var hasProtocol = value.includes(':');
+              if (hasProtocol) {
+
+                // Check BIP21 uri
+                if (value.startsWith(n.protocol)) {
+                  var uri;
+                  var isAddressValid;
+                  var isUriValid = URI.isValid(value);
+
+                  if (isUriValid) {
+                    uri = new URI(value);
+                    isAddressValid = Address.isValid(uri.address.toString(), 'livenet');
+
+                    if (networkService.hasTestnet(n.currency)) {
+                      isAddressValid = isAddressValid || Address.isValid(uri.address.toString(), 'testnet');
+                    }
+                  }
+                  ctrl.$setValidity('validAddress', isUriValid && isAddressValid);
+                  return false; // break loop
+                }
+
+              } else {
+
+                // Check regular address
+                var isAddressValid = Address.isValid(value, 'livenet');
+                if (networkService.hasTestnet(n.currency)) {
+                  isAddressValid = isAddressValid || Address.isValid(value, 'testnet');
+                }
+
+                ctrl.$setValidity('validAddress', isAddressValid);
+                if (isAddressValid) {
+                  return false; // break loop
+                }
+              }
+            });
+
             return value;
           };
-
 
           ctrl.$parsers.unshift(validator);
           ctrl.$formatters.unshift(validator);
@@ -65,8 +83,6 @@ angular.module('owsWalletApp.directives')
             if (typeof value == 'undefined' || value == 0) {
               ctrl.$pristine = true;
             }
-
-
 
             if (typeof vNum == "number" && vNum > 0) {
               if (vNum > Number.MAX_SAFE_INTEGER) {
@@ -93,7 +109,7 @@ angular.module('owsWalletApp.directives')
       };
     }
   ])
-  .directive('walletSecret', function(coreLib) {
+  .directive('walletSecret', function() {
     return {
       require: 'ngModel',
       link: function(scope, elem, attrs, ctrl) {

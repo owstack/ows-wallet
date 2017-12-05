@@ -1,8 +1,15 @@
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 26 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
-    <use id="_Image2_" xlink:href="#_Image1" x="0" y="0" width="26px" height="19px"/>
-    <defs>
-        <image id="_Image1" width="26px" height="19px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAATCAYAAACORR0GAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAB80lEQVQ4jbVVy2oUURA9p6p7ooJGhBF3foJbl+4EP8O1S1cDZplVIH7BQMAvCFmJoPj4GGViRCTO9K2Hi7Ghp+0eM6AFBbfPuVWnquiuJv5iHtEAgLtfDvGqemMwzv2y5YQMbhVxL5kQEjF2h6RmpvexyAwAyExRkSLbREjqwcuTPVWtVbV+cXwyaYq9XzXlQ+vLVfOuc/60bMrHVVPeHhyf1JVqRTISGG7I3UtExOxoPmmxzDyNiDBzH3OPyO4zAJi7tePfFIlofotc74mfeUSOTQAAiln8XK7etOfZ0XxvUKgp5ZtHZER8HuhyJyEzd3c/+0PIIxqPSI/4MpTE3c+iN5q+x7rIMHPvdyQAUIpdAKjN/LWK3N1WNYU+5t07IrLxAlTF7KuI3EbmYm9SP94mAgAqMhnjilmoSBHywj2mXU5I3kKmqep0LMEulpnfSd7r49Wuicx9McaRJIB9c19k5ubodhFJAJl5Z4xXEURmPXRn547qqhrdJsUshDyvq2rafrCtjQb9a/tvQokk1tMGANDcjUCqar01MPPUI56Q1KsIEUgREXM3knFlodZmR/MKY9u4U9fh86cGrJcqyWBErP8bgHWqqfpYlxvChywifhDcp9C13Lz/6tHDB8+QkNYzgUygi3W5IXzICV4TIQmc/wJoYcHsq22dEQAAAABJRU5ErkJggg=="/>
-    </defs>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="74px" viewBox="0 0 100 74" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-ledger-white</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-ledger-white">
+            <g id="icon-ledger-white">
+                <image id="_Image1" x="0" y="0" width="100.004213" height="73.0800018" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAATCAYAAACORR0GAAAABGdBTUEAA1teXP8meAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAhdJREFUOBG1VU1LHEEQ7Y+ZXQ0YRVC8+RO8eswt4M/w7DEnIR49CesvEBb8BeJJBINJfkzCrkoIujvdM+17Y3qpGXvUhTjQ2zWvXtXrrq7p1eqVp6yqgpSyLO9TVGvthxROfvQZrSudIkUMZBeCAk9VEWvPWmsbQiglTqwKoY6Bz1hjnJEEaVOEAQfHwz5WlnN8HQx7hfPX08J9j2MyLb4J++ekcD/wfnUwGOaZtRlyVEGp9IYoUuHZPzrpRXGs7IyY92XZNVDmIH2MJT2WP+aqZ4L/RBalA+LnTCSxtu28rx4m00vitLHQflKocO6OySD0q51kXiHujDHPhLgTimD8bovwnUFYQKM0sky06Wc1aLd3VDeDc/4WuXIQLtAh6ymhiGmjy64hOcaYRgNkUL4BuKJCGPV7+edI7pqxkFmDtDncRd3KWt9if2vSj29Ef4SIR/s2HJI0j43u/IOcG+2YrA289o7yj7o4EGC5lsmBYLN0XUEpnL2NBKspHzGUTeFGyFOcuXeUZ1nnbcIzwlmMwVlj58kFdQZJ0v+w300oqPqMZjeJxg49Ti3w0nxp5aj7Gb7IHZy3fYkXfcyJz8bU+fk38VahmAD3F8+10VHRJ+Zw+GXX830mxCuDAPZYO2gjS90kEiPOh74U/uRt/iL1X630Mm8S65Y2Tz9tb+1BycSBPzu0MYIEFu0uPPrlDJEF3ET8uMaPaGHB7C/OuqMAAAAASUVORK5CYII="></image>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-1.000000, -1137.000000)"></g>
+    </g>
 </svg>

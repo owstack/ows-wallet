@@ -44,7 +44,7 @@
           <div class="input-label" translate>
             Currency
           </div>
-          <select class="m10t" ng-model="formData.network" ng-options="network as network.getLongLabel() for network in availableNetworks"
+          <select class="m10t" ng-model="formData.network" ng-options="network as network.getCurrencyLabel() for network in availableNetworks"
             ng-change=" onNetworkChange(); resizeView();"></select>
         </label>
 

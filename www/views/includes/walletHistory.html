@@ -23,11 +23,11 @@
         <div ng-if="btx.note.body" class="wallet-details__tx-message ellipsis">{{btx.note.body}}</div>
         <div ng-if="!btx.note.body" class="wallet-details__tx-message ellipsis" translate>Received</div>
         <div class="low-fees" ng-if="btx.lowFees">
-          <i class="icon"><img src="img/icon-warning.png" width="20px"></i>
+          <i class="icon"><img src="img/icon-warning.svg" width="20px"></i>
           <span class="comment" translate>Low fees</span>
         </div>
         <div class="low-fees" ng-if="btx.lowAmount">
-          <i class="icon"><img src="img/icon-warning.png" width="20px"></i>
+          <i class="icon"><img src="img/icon-warning.svg" width="20px"></i>
           <span class="comment" translate>Amount too low to spend</span>
         </div>
  
@@ -50,7 +50,7 @@
     </div>
 
     <div class="wallet-details__tx-title" ng-if="isUnconfirmed(btx)">
-      <div class="ellipsis" style="color: #B4B4B4;">
+      <div class="ellipsis">
         <span ng-if="btx.action == 'sent' || btx.action == 'moved'">
           {{addressbook[btx.addressTo].name || addressbook[btx.addressTo] || 'Sending'|translate}}
         </span>

@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-    <title>arrows-24px-outline-4_launch-47</title>
-    <desc>Created with Sketch.</desc>
+<svg width="102px" height="102px" viewBox="0 0 102 102" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-link-external</title>
+    <desc>Created with sketchtool.</desc>
     <defs></defs>
-    <g id="Scan" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="2.2---Scan-URL" transform="translate(-24.000000, -564.000000)" stroke="#8F8F90">
-            <g id="Group-2" transform="translate(0.000000, 448.000000)">
-                <g id="Group-3" transform="translate(0.000000, 98.000000)">
-                    <g id="arrows-24px-outline-4_launch-47" transform="translate(25.000000, 19.000000)">
-                        <g id="Group">
-                            <path d="M8,8 L16,0" id="Shape"></path>
-                            <polyline id="Shape" points="10.1818182 0 16 0 16 5.81818182"></polyline>
-                            <polyline id="Shape" points="5.81818182 2.90909091 0 2.90909091 0 16 13.0909091 16 13.0909091 10.1818182"></polyline>
-                        </g>
-                    </g>
-                </g>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-link-external" stroke="#9B9BAB" stroke-width="5">
+            <g id="icon-link-external" transform="translate(1.000000, 1.000000)">
+                <path d="M50,50 L100,0" id="Shape"></path>
+                <polyline id="Shape" points="63.6363638 0 100 0 100 36.3636364"></polyline>
+                <polyline id="Shape" points="36.3636364 18.1818182 0 18.1818182 0 100 81.8181819 100 81.8181819 63.6363637"></polyline>
             </g>
         </g>
     </g>

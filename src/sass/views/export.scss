@@ -1,6 +1,6 @@
 #export {
   .list {
-    background-color: #fff;
+    background-color: $v-white-color;
   }
   .top-tabs.row {
     padding: 0;
@@ -19,12 +19,20 @@
     &.incorrect {
       padding-left: 3px;
       border: 1px solid;
-      color: #C90505;
+      color: $v-error-color;
     }
     &.correct {
       padding-left: 3px;
       border: 1px solid;
-      color: #00901B;
+      color: $v-success-color;
     }
   }
+  .bg {
+    &.wallet {
+      background-image: url('../img/icon-wallet.svg');
+      background-size: 60%;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }  
 }

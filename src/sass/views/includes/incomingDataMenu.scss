@@ -15,7 +15,7 @@ incoming-data-menu {
       border-top: 1px solid #f7f4f4;
       font-size: 14px;
       padding: 1rem 1.25rem;
-      color: #4A4A4A;
+      color: $v-dark-gray;
       display: flex;
       align-items: center;
 
@@ -39,21 +39,21 @@ incoming-data-menu {
     }
 
     &__cancel {
-      background: #EDEDED;
+      background: $v-subtle-gray;
       font-size: 18px;
       height: 66px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #3A3A3A;
+      color: $v-dark-gray;
       border-top: 1px solid #e4e4e4;
 
       &:active {
-        background: #dadada;
+        background: $v-subtle-gray;
       }
     }
     &__url {
-      background: rgba(203, 203, 203, .13);
+      background: $v-dark-gray;
       padding: .5rem;
       padding-left: 0;
       border-radius: 4px;
@@ -68,9 +68,9 @@ incoming-data-menu {
       }
 
       &__text {
-        color: #4A4A4A;
+        color: $v-dark-gray;
         font-size: 14px;
-        border-left: 1px solid #E4E4E4;
+        border-left: 1px solid $v-subtle-gray;
         padding-left: .7rem;//1rem;
         text-overflow: ellipsis;
         overflow: hidden;

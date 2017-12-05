@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('confirmController', function($rootScope, $scope, $interval, $filter, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, profileService, txFormatService, ongoingProcess, $ionicModal, popupService, $ionicHistory, $ionicConfig, payproService, feeService, walletClientError, txConfirmNotification) {
+angular.module('owsWalletApp.controllers').controller('confirmController', function($rootScope, $scope, $interval, $filter, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, profileService, txFormatService, ongoingProcess, $ionicModal, popupService, $ionicHistory, $ionicConfig, payproService, feeService, walletClientError, txConfirmNotification, networkService) {
 
   var countDown = null;
   var CONFIRM_LIMIT_USD = 20;
@@ -125,6 +125,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
       // Vanity tx info (not in the real tx)
       networkURI: data.stateParams.networkURI,
+      currency: networkService.getNetworkByURI(data.stateParams.networkURI).currency,
       recipientType: data.stateParams.recipientType || null,
       toName: data.stateParams.toName,
       toEmail: data.stateParams.toEmail,

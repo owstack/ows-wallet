@@ -2,11 +2,11 @@
   & > ion-content {
     background: $v-onboarding-welcome-bg;
     background-position: top center;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
   }
   #qrcode {
-    content: url("../img/onboarding-welcome-qrcode.png");
+    content: url("../img/onboarding-welcome-qrcode.svg");
     position: absolute;
     top: 5%;
     right: 5%;

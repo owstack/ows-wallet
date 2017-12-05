@@ -12,27 +12,19 @@ function postprocess {
   echo "Removing raw background pngs..."
   rm $1/mac/dmg-background.png $1/mac/dmg-background@2x.png
 
-  echo "Postprocessing assets for Windows..."
+  echo "Postprocessing brand assets..."
 
-  echo "Combining windows/ico pngs into a single ICO file..."
+  echo "Combining img/brand/icon ico pngs into a single ICO file..."
   # convert ships with imagemagick
-  convert $1/windows/ico/ico_16x16.png $1/windows/ico/ico_24x24.png $1/windows/ico/ico_32x32.png $1/windows/ico/ico_48x48.png $1/windows/ico/ico_64x64.png $1/windows/ico/ico_128x128.png $1/windows/ico/ico_256x256.png $1/windows/icon.ico
-  echo "Removing raw windows/ico pngs..."
-  rm -r $1/windows/ico/* && rmdir $1/windows/ico
-
-  echo "Postprocessing app assets..."
-
-  echo "Combining ../img/icon ico pngs into a single ICO file..."
-  # convert ships with imagemagick
-  convert $1/../img/ico/ico_16x16.png $1/../img/ico/ico_24x24.png $1/../img/ico/ico_32x32.png $1/../img/ico/ico_48x48.png $1/../img/ico/ico_64x64.png $1/../img/ico/ico_128x128.png $1/../img/ico/ico_256x256.png $1/../img/icon.ico
+  convert $1/img/brand/ico/ico_16x16.png $1/img/brand/ico/ico_24x24.png $1/img/brand/ico/ico_32x32.png $1/img/brand/ico/ico_48x48.png $1/img/brand/ico/ico_64x64.png $1/img/brand/ico/ico_128x128.png $1/img/brand/ico/ico_256x256.png $1/img/brand/icon.ico
   echo "Removing raw img/ico/ico pngs..."
-  rm -r $1/../img/ico/* && rmdir $1/../img/ico
+  rm -r $1/img/brand/ico/* && rmdir $1/img/brand/ico
 
-  echo "Combining img/favicon ico pngs into a single ICO file..."
+  echo "Combining img/brand/favicon ico pngs into a single ICO file..."
   # convert ships with imagemagick
-  convert $1/../img/favicon/ico_16x16.png $1/../img/favicon/ico_32x32.png $1/../img/favicon/ico_48x48.png $1/../img/favicon/ico_64x64.png $1/../img/favicon.ico
-  echo "Removing raw ../img/icon/ico pngs..."
-  rm -r $1/../img/favicon/* && rmdir $1/../img/favicon
+  convert $1/img/brand/favicon/ico_16x16.png $1/img/brand/favicon/ico_32x32.png $1/img/brand/favicon/ico_48x48.png $1/img/brand/favicon/ico_64x64.png $1/img/brand/favicon.ico
+  echo "Removing raw img/brand/icon/ico pngs..."
+  rm -r $1/img/brand/favicon/* && rmdir $1/img/brand/favicon
 }
 
 function iconset {

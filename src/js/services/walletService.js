@@ -142,7 +142,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       wallet.pendingTxps = txps;
     };
 
-
     function get(cb) {
       wallet.getStatus({
         twoStep: true
@@ -372,6 +371,8 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     return ret;
   };
 
+  var updateInProgress = {};
+  var progressFn = {};
   var updateLocalTxHistory = function(wallet, opts, cb) {
     var FIRST_LIMIT = 5;
     var LIMIT = 50;
@@ -381,7 +382,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     var configNetwork = configService.getSync().currencyNetworks[wallet.networkURI];
 
     var opts = opts || {};
-    var progressFn = opts.progressFn || function() {};
+    progressFn[walletId] = opts.progressFn || function() {};
     var foundLimitTx = false;
 
 
@@ -406,8 +407,25 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       });
     };
 
+    if (updateInProgress[wallet.id]) {
+      $log.warn('History update already in progress for: '+ wallet.credentials.walletName);
+      if (opts.progressFn) {
+        $log.debug('Rewriting progressFn');
+        progressFn[walletId] = opts.progressFn;
+      }
+      updateInProgress[wallet.id].push(cb);
+      return; // no callback call yet.
+    }
+
+    updateInProgress[walletId] = [cb];
+
     getSavedTxs(walletId, function(err, txsFromLocal) {
-      if (err) return cb(err);
+      if (err)  {
+        lodash.each(updateInProgress[wallet.id], function(x) { 
+          x.apply(self,err);
+        });
+        updateInProgress[wallet.id] = false;
+      }
 
       fixTxsUnit(txsFromLocal);
 
@@ -416,7 +434,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       var endingTs = confirmedTxs[0] ? confirmedTxs[0].time : null;
 
       // First update
-      progressFn(txsFromLocal, 0);
+      progressFn[walletId](txsFromLocal, 0);
       wallet.completeHistory = txsFromLocal;
 
       function getNewTxs(newTxs, skip, next) {
@@ -435,7 +453,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
           newTxs = newTxs.concat(processNewTxs(wallet, lodash.compact(res)));
 
-          progressFn(newTxs.concat(txsFromLocal), newTxs.length);
+          progressFn[walletId](newTxs.concat(txsFromLocal), newTxs.length);
 
           skip = skip + requestLimit;
 
@@ -468,7 +486,12 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       };
 
       getNewTxs([], 0, function(err, txs) {
-        if (err) return cb(err);
+        if (err)  {
+          lodash.each(updateInProgress[wallet.id], function(x) { 
+            x.apply(self,err);
+          });
+          updateInProgress[wallet.id] = false;
+        }
 
         var newHistory = lodash.uniq(lodash.compact(txs.concat(confirmedTxs)), function(x) {
           return x.txid;
@@ -514,6 +537,8 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
           // <HACK>
           if (foundLimitTx) {
             $log.debug('Tx history read until limitTx: ' + opts.limitTx);
+            // in this case, only the orig cb is called.
+            updateInProgress[wallet.id] = false;
             return cb(null, newHistory);
           }
           // </HACK>
@@ -533,8 +558,10 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
           return storageService.setTxHistory(historyToSave, walletId, function() {
             $log.debug('Tx History saved.');
-
-            return cb();
+            lodash.each(updateInProgress[wallet.id], function(x) { 
+              x.apply(self);
+            });
+            updateInProgress[wallet.id] = false;
           });
         });
       });
@@ -587,7 +614,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     }
   };
 
-
   root.clearTxHistory = function(wallet, cb) {
     root.invalidateCache(wallet);
 
@@ -599,8 +625,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       return cb();
     });
   };
-
-
 
   root.getTxHistory = function(wallet, opts, cb) {
     opts = opts || {};
@@ -615,7 +639,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     if (isHistoryCached() && !opts.force) return cb(null, wallet.completeHistory);
 
-    $log.debug('Updating Transaction History');
+    $log.debug('Updating Transaction History: ' + wallet.credentials.walletName);
 
     updateLocalTxHistory(wallet, opts, function(err, txs) {
       if (err) return cb(err);

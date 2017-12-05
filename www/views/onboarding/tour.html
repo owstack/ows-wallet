@@ -6,18 +6,20 @@
         <i class="icon ion-ios-arrow-thin-left"></i>
       </button>
     </ion-nav-buttons>
+    <!--
     <ion-nav-buttons side="secondary">
       <button class="button back-button button-clear" ng-show="data.index == 0" ng-click="createDefaultWallet()">
         {{'Skip' | translate}}
       </button>
     </ion-nav-buttons>
+    -->
   </ion-nav-bar>
   <ion-slides class="slides" options="options" slider="data.slider">
     <ion-slide-page>
       <ion-content id="onboard-tour-secure" scroll="false">
-        <div class="onboarding-topic" translate>{{appName}} manages all kinds of digital money.</div>
+        <div class="onboarding-topic" translate>{{appName}} manages all kinds of cryptocurrencies.</div>
         <div class="onboarding-description">
-          <span ng-repeat="network in availableNetworks">{{network.label}}{{$last ? '.' : ', '}}</span>
+          <span ng-repeat="network in availableNetworks">{{network.name}}{{$last ? '.' : ', '}}</span>
         </div>
         <div class="onboarding-illustration-secure"></div>
         <div class="cta-buttons">
@@ -30,8 +32,8 @@
     </ion-slide-page>
     <ion-slide-page>
       <ion-content id="onboard-tour-secure" scroll="false">
-        <div class="onboarding-topic" translate>{{network.label}} is secure,<br/>digital money.</div>
-        <div class="onboarding-description" translate>You can spend {{network.label | lowercase}} at millions of websites and stores worldwide.</div>
+        <div class="onboarding-topic" translate>{{network.name}} is a secure,<br/>cryptocurrency.</div>
+        <div class="onboarding-description" translate>You can spend {{network.name | lowercase}} at millions of websites and stores worldwide.</div>
         <div class="onboarding-illustration-secure"></div>
         <div class="cta-buttons">
           <div class="onboarding-tldr" translate>Just scan the code to pay.</div>
@@ -43,7 +45,7 @@
     </ion-slide-page>
     <ion-slide-page>
       <ion-content id="onboard-tour-currency" scroll="false">
-        <div class="onboarding-topic" translate>{{network.label}} is a currency.</div>
+        <div class="onboarding-topic" translate>{{network.name}} is a currency.</div>
         <div class="onboarding-description" translate>You can trade it for other currencies like US Dollars, Euros, or Pounds.</div>
         <div class="onboarding-illustration-currency">
           <div id="onboarding-illustration-currency-exchange-rate">1 {{standardUnit.shortName}} = {{localCurrencySymbol}}{{localCurrencyPerStandardUnit}}</div>
@@ -58,13 +60,13 @@
     </ion-slide-page>
     <ion-slide-page>
       <ion-content id="onboard-tour-control" scroll="false">
-        <div class="onboarding-topic" translate>You control your {{network.label | lowercase}}.</div>
-        <div class="onboarding-description" translate>This app stores your {{network.label | lowercase}} with cutting-edge security.</div>
+        <div class="onboarding-topic" translate>You control your {{network.name | lowercase}}.</div>
+        <div class="onboarding-description" translate>This app stores your {{network.name | lowercase}} with cutting-edge security.</div>
         <div class="onboarding-illustration-control"></div>
         <div class="cta-buttons">
-          <div class="onboarding-tldr" translate>You are the only one that can access your digital money.</div>
+          <div class="onboarding-tldr" translate>You are the only one that can access your cryptocurrency.</div>
           <button class="button button-standard button-primary" ng-click="createDefaultWallet()" translate>
-            Create {{network.label | lowercase}} wallet
+            Create {{network.name | lowercase}} wallet
           </button>
         </div>
       </ion-content>

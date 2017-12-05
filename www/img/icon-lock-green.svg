@@ -1,11 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" id="lock" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" viewBox="0 0 15 20" style="enable-background:new 0 0 15 20;" xml:space="preserve">
-<style type="text/css">
-	.st0{fill:#12E5B6;}
-</style>
-<path class="st0" d="M12.2,6.7V5.4c0-2.7-2-4.7-4.7-4.7s-4.7,2-4.7,4.7v1.4H0.5v12.5h13.9V6.7H12.2z M4.6,5.4c0-1.6,1.3-2.9,2.9-2.9
-	s2.9,1.3,2.9,2.9v1.4H4.6V5.4z M12.6,17.4H2.4V8.6h0.4h9.4h0.5V17.4z"/>
-<path class="st0" d="M7.5,9.8c-1.3,0-2.4,1.1-2.4,2.4c0,1,0.7,1.9,1.5,2.2v0.7h1.9v-0.7c0.9-0.4,1.5-1.2,1.5-2.2
-	C9.9,10.9,8.8,9.8,7.5,9.8z M7.5,11.7c0.3,0,0.6,0.3,0.6,0.6c0,0.4-0.3,0.6-0.6,0.6s-0.6-0.3-0.6-0.6C6.9,12,7.2,11.7,7.5,11.7z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="70px" height="94px" viewBox="0 0 70 94" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-lock-green</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-lock-green" fill-rule="nonzero" fill="#0EC286">
+            <g id="icon-lock-green">
+                <path d="M59,30.5 L59,24 C59,10.5 49,0.5 35.5,0.5 C22,0.5 12,10.5 12,24 L12,31 L0.5,31 L0.5,93.5 L70,93.5 L70,30.5 L59,30.5 Z M21,24 C21,16 27.5,9.5 35.5,9.5 C43.5,9.5 50,16 50,24 L50,31 L21,31 L21,24 Z M61,84 L10,84 L10,40 L12,40 L59,40 L61.5,40 L61.5,84 L61,84 Z" id="Shape"></path>
+                <path d="M35.5,46 C29,46 23.5,51.5 23.5,58 C23.5,63 27,67.5 31,69 L31,72.5 L40.5,72.5 L40.5,69 C45,67 48,63 48,58 C47.5,51.5 42,46 35.5,46 Z M35.5,55.5 C37,55.5 38.5,57 38.5,58.5 C38.5,60.5 37,61.5 35.5,61.5 C34,61.5 32.5,60 32.5,58.5 C32.5,57 34,55.5 35.5,55.5 Z" id="Shape"></path>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-2910.000000, -256.000000)"></g>
+    </g>
 </svg>

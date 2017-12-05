@@ -24,12 +24,12 @@
     </a>
   </div>
 
-  <div ng-if="type === 'bitcoinAddress'">
+  <div ng-if="type === 'cryptoAddress'">
     <div class="incoming-data-menu__item head">
-      <div class="incoming-data-menu__header" translate>Bitcoin Address</div>
+      <div class="incoming-data-menu__header" translate>Address</div>
       <div class="incoming-data-menu__url">
         <div class="incoming-data-menu__url__icon">
-          <img src="img/icon-bitcoin-small.svg">
+          <img ng-src="img/currency-icons/icon-{{currency}}.svg">
         </div>
         <div class="incoming-data-menu__url__text">
           {{data}}

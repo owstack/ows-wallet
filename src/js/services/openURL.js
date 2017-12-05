@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('openURLService', function($rootScope, $ionicHistory, $document, $log, $state, platformInfo, lodash, profileService, incomingData, appConfigService) {
+angular.module('owsWalletApp.services').factory('openURLService', function($rootScope, $ionicHistory, $document, $log, $state, platformInfo, lodash, profileService, incomingData, appConfigService, networkService) {
   var root = {};
 
   var handleOpenURL = function(args) {
@@ -55,14 +55,18 @@ angular.module('owsWalletApp.services').factory('openURLService', function($root
     } else if (platformInfo.isNW) {
       var gui = require('nw.gui');
 
-      // This event is sent to an existent instance of OWS wallet (only for standalone apps)
+      // This event is sent to an existing instance of OWS wallet (only for standalone apps)
       gui.App.on('open', function(pathData) {
-        if (pathData.indexOf('bitcoin:') != -1) {
-          $log.debug('Bitcoin URL found');
-          handleOpenURL({
-            url: pathData.substring(pathData.indexOf('bitcoin:'))
-          });
-        } else if (pathData.indexOf(appConfigService.name + '://') != -1) {
+        lodash.forEach(networkService.getNetworks(), function(n) {
+          if (pathData.includes(n.protocol)) {
+            $log.debug(n.name + ' URL found');
+            handleOpenURL({
+              url: pathData.substring(pathData.indexOf(n.protocol))
+            });
+          }
+        });
+
+        if (pathData.indexOf(appConfigService.name + '://') != -1) {
           $log.debug(appConfigService.name + ' URL found');
           handleOpenURL({
             url: pathData.substring(pathData.indexOf(appConfigService.name + '://'))
@@ -83,8 +87,14 @@ angular.module('owsWalletApp.services').factory('openURLService', function($root
 
       if (navigator.registerProtocolHandler) {
         $log.debug('Registering Browser handlers base:' + base);
-        navigator.registerProtocolHandler('bitcoin', url, 'OWS Wallet Bitcoin Handler');
-        navigator.registerProtocolHandler('web+owswallet', url, 'OWS Wallet Handler');
+        // See permitted schemes at https://developer.mozilla.org/en-US/docs/Web/API/Navigator/registerProtocolHandler
+        lodash.forEach(networkService.getLiveNetworks(), function(n) {
+          var protocol = n.protocol.replace(':', '');
+          var prefix = (protocol != 'bitcoin' ? 'web+' : '');
+          navigator.registerProtocolHandler(prefix + protocol, url, 'OWS Wallet ' + protocol + ' handler');
+        });
+
+        navigator.registerProtocolHandler('web+owswallet', url, 'OWS Wallet handler');
       }
     }
   };

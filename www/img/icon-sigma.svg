@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 13.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg version="1.0" id="svg602" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="400px" height="500px" viewBox="0 0 400 500" enable-background="new 0 0 400 500" xml:space="preserve">
-<g id="XMLID_1_">
-	<g>
-		<path fill="#9B9BAB" d="M383,353l12,3c-8.49,45.05-18.39,92.31-22,138L3.77,495.91l0.55-14.26l190.41-226.54L6.41,20.35L6,5h356
-			l10,121h-13c-0.99-12.58-3.73-25.02-7.67-37C328.26,18.92,245.31,33,187,33l-90.96,0.36l156.25,195.32L79,438h170
-			c30.3,0,64.83,2.32,91-16.04C363.87,405.21,371.82,378.23,383,353z"/>
-	</g>
-	<g>
-	</g>
-</g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="100px" viewBox="0 0 80 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-sigma</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-sigma" fill-rule="nonzero" fill="#9B9BAB">
+            <g id="icon-sigma">
+                <path d="M77.3930754,70.8757637 L79.8370672,71.4867617 C78.107943,80.6619145 76.0916497,90.287169 75.3564155,99.592668 L0.156822811,99.9816701 L0.268839104,97.0773931 L39.0488798,50.9389002 L0.694501018,3.12627291 L0.610997963,0 L73.1160896,0 L75.1527495,24.6435845 L72.5050916,24.6435845 C72.3034623,22.0814664 71.7454175,19.5478615 70.9429735,17.107943 C66.2443992,2.83503055 49.3503055,5.70264766 37.4745418,5.70264766 L18.9490835,5.77596741 L50.7718941,45.5560081 L15.4786151,88.1873727 L50.101833,88.1873727 C56.2729124,88.1873727 63.305499,88.6598778 68.6354379,84.9205703 C73.496945,81.509165 75.1160896,76.0142566 77.3930754,70.8757637 Z" id="Shape"></path>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-3191.000000, -837.000000)"></g>
+    </g>
 </svg>

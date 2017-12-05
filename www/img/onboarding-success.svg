@@ -1,17 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <svg width="158px" height="157px" viewBox="0 0 158 157" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>Group 3</title>
-    <desc>Created with Sketch.</desc>
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/onboarding-success</title>
+    <desc>Created with sketchtool.</desc>
     <defs></defs>
     <g id="Onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="0.2.4---Wallet-Created" transform="translate(-109.000000, -169.000000)">
-            <g id="Overlay/Success" transform="translate(-1.000000, 0.000000)">
-                <g id="Group-3" transform="translate(111.592000, 170.431784)">
-                    <g id="ios-checkmark-outline" transform="translate(49.261333, 54.161919)"></g>
-                    <polyline id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square" points="49.764 82.7473763 67.3573333 100.801349 114.608 54.6634183"></polyline>
-                    <path d="M77.4106667,154.461769 C120.163397,154.461769 154.821333,119.884324 154.821333,77.2308846 C154.821333,34.5774448 120.163397,0 77.4106667,0 C34.657936,0 0,34.5774448 0,77.2308846 C0,119.884324 34.657936,154.461769 77.4106667,154.461769 Z" id="Oval-1" stroke="#FFFFFF" stroke-width="2"></path>
-                </g>
+        <g id="img/onboarding-success" stroke="#FFFFFF">
+            <g id="onboarding-success" transform="translate(1.000000, 1.000000)">
+                <polyline id="Line" stroke-width="3" stroke-linecap="square" points="50.356 83.1791603 67.9493333 101.233133 115.2 55.0952023"></polyline>
+                <path d="M78.0026667,154.893553 C120.755397,154.893553 155.413333,120.316108 155.413333,77.6626686 C155.413333,35.0092288 120.755397,0.431784 78.0026667,0.431784 C35.249936,0.431784 0.592,35.0092288 0.592,77.6626686 C0.592,120.316108 35.249936,154.893553 78.0026667,154.893553 Z" id="Oval-1" stroke-width="2"></path>
             </g>
         </g>
     </g>

@@ -9,15 +9,15 @@
     }
 
     &--available {
-      color: #09C286;;
+      color: $v-success-color;
     }
 
     &--confirming {
-      color: #FF9900;
+      color: $v-warning-color;
     }
 
     &--locked {
-      color: #FF9900;
+      color: $v-warning-color;
     }
 
     &--alternative {
@@ -41,20 +41,20 @@
   }
 
   &__list {
-    background: #f5f5f5;
+    background: $v-subtle-gray;
   }
 
   .item {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: $v-white-color;
     padding-left: 1rem;
   }
 
   &__item {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: $v-white-color;
     padding: 0;
     margin: 0;
     border: 0;
@@ -67,7 +67,7 @@
     flex-grow: 1;
     padding: 0.6rem 0;
     padding-right: 1rem;
-    border-bottom: 1px solid rgb(245, 245, 245);
+    border-bottom: 1px solid $v-subtle-gray;
     overflow: hidden;
 
     &.no-border {
@@ -98,7 +98,7 @@
   .bar-header {
     border: 0;
     .title, .button {
-      color: #fff;
+      color: $v-white-color;
     }
     .button {
       background-color: transparent;
@@ -106,7 +106,7 @@
   }
 
   ion-content {
-    background: #F5F5F5;
+    background: $v-subtle-gray;
   }
 
 }

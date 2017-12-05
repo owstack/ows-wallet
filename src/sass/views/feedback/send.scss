@@ -1,10 +1,10 @@
 #send-feedback {
-  background-color: #ffffff;
+  background-color: $v-white-color;
   .row {
     border: none;
   }
   .skip {
-    color: rgba(255, 255, 255, 0.3);
+    color: $v-black-transparent-light;
   }
   .feedback-heading {
     padding-top: 20px

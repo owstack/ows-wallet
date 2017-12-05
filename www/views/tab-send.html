@@ -8,10 +8,10 @@
       <div class="send-header-wrapper">
         <div class="item item-heading send-heading"><span translate>Recipient</span></div>
         <div class="item input search-wrapper" ng-class="{'focus': searchFocus}">
-          <i class="icon icon-svg abs-v-center"><img class="svg" src="img/icon-bitcoin-symbol.svg"></i>
+          <i class="icon abs-v-center ion-ios-search"></i>
           <div class="item-icon-right">
             <input type="text" class="search-input" placeholder="{{'Search or enter recipient address' | translate}}" ng-model="formData.search" ng-change="findContact(formData.search)" ng-model-onblur ng-focus="searchInFocus()" ng-blur="searchBlurred()">
-            <i class="icon icon-svg qr abs-v-center separator-left" on-tap="openScanner()"><img src="img/scan-ico.svg"></i>
+            <i class="icon icon-svg qr abs-v-center separator-left" on-tap="openScanner()"><img src="img/icon-scan.svg"></i>
           </div>
         </div>
       </div>
@@ -22,15 +22,15 @@
         <div class="item item-icon-right item-heading"></div>
         <div>
           <i class="icon zero-state-icon">
-            <img src="img/tab-icons/ico-send-selected.svg"/>
+            <img src="img/icon-send-alt.svg"/>
           </i>
         </div>
         <div class="title" translate>
           Start sending
         </div>
         <div class="subtitle">
-          <span ng-show="hasWallets" translate>To get started, share your address. You can receive digital money from any wallet or service.</span>
-          <span ng-show="!hasWallets" translate>To get started, you'll need to add a wallet and get some digital money.</span>
+          <span ng-show="hasWallets" translate>To get started, share your address. You can receive cryptocurrency from any wallet or service.</span>
+          <span ng-show="!hasWallets" translate>To get started, you'll need to add a wallet and get some cryptocurrency.</span>
           <div class="padding">
             <button class="button button-standard button-primary" ng-click="createWallet()" ng-show="!hasWallets" translate>Add wallet</button>
             <button class="button button-standard button-secondary" ui-sref="tabs.receive" ng-show="hasWallets" translate>Show receive address</button>
@@ -49,7 +49,7 @@
       <div class="list">
         <a class="item item-icon-left item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
           <i class="icon big-icon-svg">
-            <img src="img/contact-placeholder.svg" class="bg" ng-if="isChromeApp">
+            <img src="img/icon-contact-placeholder.svg" class="bg" ng-if="isChromeApp">
             <gravatar class="send-gravatar" name="{{item.name}}" width="30" email="{{item.email}}" ng-if="!isChromeApp"></gravatar>
           </i>
           {{item.name}}
@@ -68,7 +68,7 @@
       <div class="list">
         <a class="item item-icon-left item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
           <i class="icon big-icon-svg" ng-if="item.recipientType == 'wallet'">
-            <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}" class="bg"/>
+            <div class="bg wallet" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
           </i>
           {{item.name}}
           <i class="icon bp-arrow-right"></i>

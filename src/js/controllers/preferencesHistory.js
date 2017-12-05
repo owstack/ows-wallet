@@ -90,7 +90,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesHistory',
             var _fee = (it.fees * atomicToStandard).toFixed(standardUnit.decimals)
             $scope.csvContent.push({
               'Date': formatDate(it.time * 1000),
-              'Destination': 'Bitcoin Network Fees',
+              'Destination': 'Network Fees',
               'Description': '',
               'Amount': '-' + _fee,
               'Currency': standardUnit.shortName,

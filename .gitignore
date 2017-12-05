@@ -85,7 +85,9 @@ src/sass/*.css
 src/sass/app
 
 # www
+# All img's generated from resources.sketch
 www/css/*
+www/img/*
 www/lib/*
 www/js/*
 www/fonts
@@ -98,7 +100,6 @@ externalServices.json
 src/js/appConfig.js
 src/js/externalServices.js
 chrome-app/manifest.json
-www/img/app
 www/index.html
 
 # Generated resources

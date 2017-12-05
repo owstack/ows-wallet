@@ -6,7 +6,7 @@
   background: -o-linear-gradient(top, $v-primary-color 0%, $v-secondary-color 100%);
   background: -ms-linear-gradient(top, $v-primary-color 0%, $v-secondary-color 100%);
   background: linear-gradient(to bottom, $v-primary-color 0%, $v-secondary-color 100%);
-  color: #fff;
+  color: $v-white-color;
   height: 100%;
   .scroll-content {
     display: table !important;

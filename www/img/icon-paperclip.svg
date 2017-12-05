@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-    <title>Shape</title>
-    <desc>Created with Sketch.</desc>
+<svg width="100px" height="102px" viewBox="0 0 100 102" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-paperclip</title>
+    <desc>Created with sketchtool.</desc>
     <defs></defs>
-    <g id="Scan" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="2.2---Scan-Address" transform="translate(-20.000000, -565.000000)" stroke="#8F8F90">
-            <g id="Group-2" transform="translate(0.000000, 336.000000)">
-                <g id="ui-24px-outline-1_attach-87" transform="translate(21.000000, 230.000000)">
-                    <g id="Group">
-                        <path d="M17.6885043,8.49938195 L9.8566131,16.3312732 C7.631644,18.5562423 3.89369592,18.5562423 1.66872682,16.3312732 L1.66872682,16.3312732 C-0.556242274,14.1063041 -0.556242274,10.368356 1.66872682,8.1433869 L8.61063041,1.20148331 C10.2126082,-0.400494438 12.7045735,-0.400494438 14.3065513,1.20148331 L14.3065513,1.20148331 C15.908529,2.80346106 15.908529,5.29542645 14.3065513,6.8974042 L7.8986403,13.2163164 C7.00865266,14.1063041 5.58467244,14.1063041 4.78368356,13.2163164 L4.78368356,13.2163164 C3.89369592,12.3263288 3.89369592,10.9023486 4.78368356,10.1013597 L10.1236094,4.76143387" id="Shape"></path>
-                    </g>
-                </g>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-paperclip" stroke="#9B9BAB" stroke-width="5">
+            <g id="icon-paperclip" transform="translate(1.000000, 1.000000)">
+                <path d="M98.2694683,47.2187886 L54.7589617,90.7292956 C42.3980222,103.090235 21.631644,103.090235 9.27070456,90.7292956 L9.27070456,90.7292956 C-3.09023486,78.3683561 -3.09023486,57.6019778 9.27070456,45.2410383 L47.8368356,6.67490728 C56.7367122,-2.2249691 70.5809639,-2.2249691 79.4808406,6.67490728 L79.4808406,6.67490728 C88.3807167,15.5747837 88.3807167,29.4190358 79.4808406,38.3189122 L43.881335,73.42398 C38.9369592,78.3683561 31.025958,78.3683561 26.5760198,73.42398 L26.5760198,73.42398 C21.631644,68.4796044 21.631644,60.5686033 26.5760198,56.118665 L56.2422744,26.4524104" id="Shape"></path>
             </g>
         </g>
+        <g id="Text" transform="translate(-3161.000000, -256.000000)"></g>
     </g>
 </svg>

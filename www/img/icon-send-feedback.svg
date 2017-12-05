@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="19px" viewBox="0 0 20 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: sketchtool 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
-    <title>8A36B580-8A7A-4989-BE8C-FD9BAD98D91C</title>
+<svg width="88px" height="80px" viewBox="0 0 88 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-send-feedback</title>
     <desc>Created with sketchtool.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Icons" transform="translate(-666.000000, -770.000000)" stroke="#9b9bab">
-            <g id="icons/list-items/sync" transform="translate(666.769231, 770.000000)">
-                <g id="Group" transform="translate(0.368286, 0.383523)">
-                    <g id="holidays-24px-outline_message" transform="translate(0.298380, 0.949811)">
-                        <g id="Group">
-                            <polyline id="Shape" points="3.27272727 4.1727276 0 6.54545455 0 16.3636364 18 16.3636364 18 6.54545455 14.7272727 4.1727276"></polyline>
-                            <path d="M0,6.54545455 L18,16.3636364" id="Shape"></path>
-                            <path d="M18,6.54545455 L9,11.4545455" id="Shape"></path>
-                            <path d="M10.5104891,0 C9.88111833,0 9.31468492,0.314685327 9,0.818181818 C8.68531426,0.314685327 8.11888085,0 7.4895102,0 C6.48251722,0 5.72727273,0.818181818 5.72727273,1.82517439 C5.72727273,3.58741227 9,6.29370614 9,6.29370614 C9,6.29370614 12.2727273,3.58741227 12.2727273,1.82517439 C12.2727273,0.818181818 11.517482,0 10.5104891,0 L10.5104891,0 Z" id="Shape"></path>
-                        </g>
-                    </g>
-                </g>
+    <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-send-feedback" stroke-width="3" stroke="#9B9BAB">
+            <g id="icon-send-feedback" transform="translate(0.000000, 1.000000)">
+                <polyline id="Shape" points="16.4229653 20.2204459 0.837892915 31.5196218 0.837892915 78.274839 86.5557908 78.274839 86.5557908 31.5196218 70.9707184 20.2204459"></polyline>
+                <path d="M0.837892915,31.5196218 L86.5557908,78.274839" id="Shape"></path>
+                <path d="M86.5557908,31.5196218 L43.6968419,54.8972305" id="Shape"></path>
+                <path d="M50.8899502,0.349477095 C47.8928203,0.349477095 45.1954046,1.8480418 43.6968419,4.24574518 C42.1982752,1.8480418 39.5008596,0.349477095 36.5037302,0.349477095 C31.7083234,0.349477095 28.1117695,4.24574518 28.1117695,9.04114999 C28.1117695,17.4331126 43.6968419,30.3207693 43.6968419,30.3207693 C43.6968419,30.3207693 59.2819144,17.4331126 59.2819144,9.04114999 C59.2819144,4.24574518 55.6853566,0.349477095 50.8899502,0.349477095 L50.8899502,0.349477095 Z" id="Shape"></path>
             </g>
         </g>
+        <g id="Text" transform="translate(-1372.000000, -548.000000)"></g>
     </g>
 </svg>

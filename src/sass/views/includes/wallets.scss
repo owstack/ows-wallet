@@ -39,7 +39,15 @@
           }
         }
         .big-icon-svg{
-          & > .bg{padding:.3rem;width: 40px;height:40px;}
+          & > .bg{
+            padding:.3rem;width: 40px;height:40px;
+            &.wallet {
+              background-image: url('../img/icon-wallet.svg');
+              background-size: 60%;
+              background-position: center;
+              background-repeat: no-repeat;
+            }
+          }
         }
       }
     }

@@ -1,5 +1,5 @@
 .popup-modal {
-  background: #fff;
+  background: $v-white-color;
   top: 50%;
   left:50%;
   position: absolute;
@@ -71,7 +71,7 @@
 }
 
 .modal-backdrop.active {
-   background: rgba(0, 0, 0, .8);
+   background: $v-black-transparent-dark;
  }
 
 @import "backup-needed-modal";

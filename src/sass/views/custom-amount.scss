@@ -1,9 +1,9 @@
 #custom-amount {
   $item-lateral-padding: 20px;
   $item-vertical-padding: 10px;
-  $item-label-color: #6C6C6E;
+  $item-label-color: $v-mid-gray;
   .button-share {
-    color: #fff;
+    color: $v-white-color;
     box-shadow: none;
     border-color: transparent;
     background: transparent;
@@ -13,7 +13,7 @@
     }
   }
   .address {
-    background: #fff;
+    background: $v-white-color;
     overflow: auto;
     height: 100%; 
     .qr-code {
@@ -39,7 +39,7 @@
         padding: .5rem;
       }
       .item {
-        color: #4A4A4A;
+        color: $v-dark-gray;
         padding-top: $item-vertical-padding;
         padding-bottom: $item-vertical-padding;
         padding-left: $item-lateral-padding;
@@ -68,6 +68,10 @@
           padding: 1px;
           box-shadow: none;
           vertical-align: text-bottom;
+          background-image: url('../img/icon-wallet.svg');
+          background-size: 60%;
+          background-position: center;
+          background-repeat: no-repeat;
         }
         .single-line {
           display: flex;

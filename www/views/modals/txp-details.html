@@ -49,7 +49,7 @@
         <div class="item">
           <span class="label" translate>To</span>
           <span class="payment-proposal-to" copy-to-clipboard="tx.toAddress">
-            <img src="img/icon-bitcoin-small.svg">
+            <img ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
             <contact ng-if="!tx.hasMultiplesOutputs" class="ellipsis" address="{{tx.toAddress}}"></contact>
             <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span>
           </span>
@@ -71,7 +71,7 @@
           <span class="label" translate>From</span>
           <div class="wallet">
             <i class="icon big-icon-svg">
-              <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}" class="bg"/>
+              <div class="bg wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>

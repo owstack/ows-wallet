@@ -58,7 +58,7 @@ slide-to-accept-success {
       }
 
       &__header {
-        color: #FFFFFF;
+        color: $v-white-color;
         font-size: 26px;
         -webkit-transform: translateY(5rem);
         transform: translateY(5rem);
@@ -94,12 +94,12 @@ slide-to-accept-success {
 
       &__btn {
         display: block;
-        color: #FFFFFF;
+        color: $v-white-color;
         font-size: 18px;
         font-weight: 600;
         letter-spacing: 2.86px;
         padding: 1rem 0 1.1rem;
-        border-top: 1px solid rgba(255, 255, 255, .45);
+        border-top: 1px solid $v-white-transparent-mid;
         cursor: pointer;
       }
     }

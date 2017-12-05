@@ -8,17 +8,23 @@
       border-top: 0;
   }
   @media(max-width: 480px) {
-    .bitcoin-address {
+    .crypto-address {
       .icon {
         left: 8px;
         font-size: 24px;
       }
       .big-icon-svg {
         left:5px;
-        & > .bg{
+        & > .bg {
           width:30px;
           height:30px;
           box-shadow: none;
+          &.wallet {
+            background-image: url('../img/icon-wallet.svg');
+            background-size: 60%;
+            background-position: center;
+            background-repeat: no-repeat;
+          }
         }
       }
       font-size: 13px;
@@ -26,7 +32,7 @@
     }
   }
   @media(max-width: 320px) {
-    .bitcoin-address {
+    .crypto-address {
       & > span:last-child {
         margin-left: -2px;
       }
@@ -42,7 +48,7 @@
     top: 95px;
     bottom: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: $v-white-color;
     padding: 0 16px;
 
     .amount-bar {
@@ -98,7 +104,7 @@
     top: 0;
     bottom: 0;
     width: 100%;
-    background-color: #fff;
+    background-color: $v-white-color;
     padding: 0 16px;
 
     .amount-bar {
@@ -226,13 +232,13 @@
 
     .operator-send {
       font-weight: bolder;
-      color: #fff;
+      color: $v-white-color;
       background-color: $positive;
       font-size: 36px;
       cursor: pointer;
 
       &:active {
-        background-color: #eaeaea;
+        background-color: $v-subtle-gray;
       }
     }
 

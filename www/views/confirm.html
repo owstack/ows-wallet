@@ -30,7 +30,7 @@
         <div class="item">
           <span class="label" translate>To</span>
           <span class="payment-proposal-to" ng-if="!recipientType">
-            <img src="img/icon-bitcoin-small.svg">
+            <img src="img/currency-icons/icon-{{tx.currency}}.svg">
 
             <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
               <contact ng-if="!tx.toName" address="{{tx.toAddress}}"></contact>
@@ -48,7 +48,7 @@
           </span>
           <div class="wallet" ng-if="recipientType == 'wallet'">
             <i class="icon big-icon-svg">
-              <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}" class="bg"/>
+              <div class="bg wallet" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}" class="bg"></div>
             </i>
             <div copy-to-clipboard="tx.toAddress" class="ellipsis">
               <contact ng-if="!tx.toName" address="{{tx.toAddress}}"></contact>
@@ -65,13 +65,13 @@
           <span class="label" translate>From</span>
           <div class="wallet" ng-if="wallet">
             <i class="icon big-icon-svg">
-              <img src="img/icon-wallet.svg" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}" class="bg"/>
+              <div class="bg wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>
           <div class="wallet" ng-if="!wallet">
             <i class="icon big-icon-svg">
-              <img src="img/icon-wallet.svg" ng-style="{'background-color': 'grey'}" class="bg"/>
+              <div class="bg wallet" ng-style="{'background-color': 'grey'}"></div>
             </i>
             <div>...</div>
           </div>

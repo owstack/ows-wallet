@@ -9,7 +9,7 @@
   <ion-content scroll="false">
     <div class="gravatar-content">
       <i class="icon big-icon-svg" ng-if="isChromeApp">
-        <img src="img/contact-placeholder.svg" class="bg"/>
+        <img src="img/icon-contact-placeholder.svg" class="bg"/>
       </i>
       <gravatar name="{{addressbookEntry.name}}" width="80" email="{{addressbookEntry.email}}" ng-if="!isChromeApp"></gravatar>
     </div>
@@ -26,7 +26,7 @@
         <span class="address-book-field-label" translate>Address</span>
         <div class="ellipsis">
           <i class="icon-inline">
-            <img ng-src="img/currency-network-icons/{{currencyFor(addressbookEntry.networkURI)}}.svg"/>
+            <img ng-src="img/currency-icons/icon-{{currencyFor(addressbookEntry.networkURI)}}.svg"/>
           </i>
           <span>{{addressbookEntry.address}}</span>
         </div>
