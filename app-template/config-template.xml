@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.openwalletstack.*BUNDLENAME*"
+<widget id="*BUNDLEID*"
   version="*VERSION*"
   android-versionCode="*ANDROIDVERSION*"
   ios-CFBundleVersion="*VERSION*">
@@ -7,7 +7,7 @@
     <description>
       *PURPOSELINE*
     </description>
-    <author email="support@openwalletstack.com" href="*URL*">
+    <author email="*SUPPORTEMAIL*" href="*URL*">
         Open Wallet Stack
     </author>
     <content src="index.html" />
@@ -16,14 +16,10 @@
     <preference name="iosPersistentFileLocation" value="Library" />
     <preference name="DisallowOverscroll" value="true"/>
     <preference name="HideKeyboardFormAccessoryBar" value="true"/>
-    <!-- #355 -->
-    <preference name="WindowsStoreIdentityName" value="*WINDOWSSTOREIDENTITYNAME*"/>
-    <preference name="WindowsStoreDisplayName" value="*WINDOWSSTOREDISPLAYNAME*"/>
 
     <!-- <preference name="KeyboardDisplayRequiresUserAction" value="false" /> -->
     <preference name="StatusBarBackgroundColor" value="*STATUSBARCOLOR*" />
     <preference name="BackupWebStorage" value="none"/>
-    <preference name="windows-target-version" value="10.0"/>
     <preference name="Orientation" value="default" />
     <preference name="cordova-custom-config-stoponerror" value="true" />
 
@@ -70,13 +66,9 @@
     <plugin name="cordova-custom-config" spec="4.0.2" />
     <plugin name="cordova-plugin-fcm" spec="https://github.com/cmgustavo/cordova-plugin-fcm.git" />
 
-    <!--  Delete cordova-plugin-qrscanner plugin and enable phonegap-plugin-barcodescanner to build cordova windows-->
-    <!-- <plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/phonegap/phonegap-plugin-barcodescanner.git" /> -->
-
     <!-- Supported Platforms -->
     <engine name="ios" spec="4.2.1" />
     <engine name="android" spec="6.2.3" />
-    <engine name="windows" spec="5.0.0" />
 
     <!-- Platform Specific Settings -->
     <platform name="ios">
