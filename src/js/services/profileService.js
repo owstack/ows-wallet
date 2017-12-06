@@ -515,10 +515,10 @@ angular.module('owsWalletApp.services')
       var saveWalletServiceUrl = function(cb) {
         var defaults = configService.getDefaults();
         var walletServiceFor = {};
-        walletServiceFor[walletId] = opts.walletServiceUrl || defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url;
+        walletServiceFor[walletId] = opts.walletServiceUrl || defaults.currencyNetworks[client.networkURI].walletService.url;
 
         // Dont save the default
-        if (walletServiceFor[walletId] == defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url)
+        if (walletServiceFor[walletId] == defaults.currencyNetworks[client.networkURI].walletService.url)
           return cb();
 
         configService.set({
