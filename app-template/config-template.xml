@@ -5,10 +5,10 @@
   ios-CFBundleVersion="*VERSION*">
     <name>*USERVISIBLENAME*</name>
     <description>
-      *PURPOSELINE*
+      *DESCRIPTION*
     </description>
     <author email="*SUPPORTEMAIL*" href="*URL*">
-        Open Wallet Stack
+        *AUTHOR*
     </author>
     <content src="index.html" />
     <access origin="*" />

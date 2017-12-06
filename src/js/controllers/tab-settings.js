@@ -17,7 +17,7 @@ angular.module('owsWalletApp.controllers').controller('tabSettingsController', f
 
   $scope.openExternalLink = function() {
     var appName = appConfigService.name;
-    var url = appName == 'https://github.com/owstack/ows-wallet/issues';
+    var url = appConfigService.gitHubRepoBugs;
     var optIn = true;
     var title = null;
     var message = gettextCatalog.getString('Help and support information is available at the website.');

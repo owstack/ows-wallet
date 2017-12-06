@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, gettextCatalog, networkHelpers, bchWalletClient) {
+angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, gettextCatalog, appConfigService, networkHelpers, bchWalletClient) {
   var root = {};
 
   root.definition = {
@@ -17,13 +17,13 @@ angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, g
     },
     walletService: {
       production: {
-        url: 'https://bchws.openwalletstack.com/bchws/api'
+        url: appConfigService.bch.walletService.production.url
       },
       staging: {
-        url: 'https://bchws.openwalletstack.com/bchws/api'
+        url: appConfigService.bch.walletService.staging.url
       },
       local: {
-        url: 'http://localhost:4232/bchws/api'
+        url: appConfigService.bch.walletService.local.url
       }
     },
     rateService: {
@@ -43,8 +43,8 @@ angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, g
     explorer: {
       production: {
         label: gettextCatalog.getString('Explorer'),
-        url: 'https://bch-insight.bitpay.com', // 'https://bch-explorer.openwalletstack.com',
-        urlTx: 'https://bch-insight.bitpay.com/tx/' // 'https://bch-explorer.openwalletstack.com/tx/'
+        url: appConfigService.bch.explorer.production.url,
+        urlTx: appConfigService.bch.explorer.production.url + '/tx'
       }
     },
     units: [{

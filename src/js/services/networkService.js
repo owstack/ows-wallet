@@ -1,35 +1,36 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, btcLivenet, btcTestnet) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, appConfigService, /* networks >> */ bchLivenet, btcLivenet, btcTestnet) {
   var root = {};
 
-  var ENVIRONMENT = 'local'; // 'production'; // TODO: read from launch config?
-  var defaultNetwork; // An index
+  var defaultNetwork;
   var networks = [];
+
+  var init = function() {
+    // Add networks to the service
+    addNetwork(bchLivenet);
+    addNetwork(btcLivenet, { default: true });
+    addNetwork(btcTestnet);
+  };
 
   var addNetwork = function(network, opts) {
     opts = opts || {};
     networks.push(network.definition);
 
     if (opts.default) {
-      defaultNetwork = networks.length - 1;
+      defaultNetwork = networks[networks.length-1];
     }
   };
-
-  // Add networks to the service
-  addNetwork(bchLivenet);
-  addNetwork(btcLivenet, { default: true });
-  addNetwork(btcTestnet);
 
   // Set up a default persistent user configuration of all available networks
   root.defaultConfig = function() {
     var currencyNetworks = {
-      default: networks[defaultNetwork].getURI()
+      default: defaultNetwork.getURI()
     };
 
     for (var i = 0; i < networks.length; i++) {
       currencyNetworks[networks[i].getURI()] = {
-        walletService:      networks[i].walletService[ENVIRONMENT],
+        walletService:      networks[i].walletService.production,
         unitName:           networks[i].units[0].shortName,
         unitToAtomicUnit:   networks[i].units[0].value,
         unitDecimals:       networks[i].units[0].decimals,
@@ -146,6 +147,8 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   root.isTestnet = function(networkURI) {
     return root.parseNet(networkURI) == 'testnet';
   };
+
+  init();
 
   return root;
 });

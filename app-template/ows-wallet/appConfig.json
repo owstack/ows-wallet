@@ -1,31 +1,65 @@
 {
   "appTemplateName": "ows-wallet",
-  "packageName": "@owstack/ows-wallet",
-  "packageDescription": "OWS Wallet",
-  "packageNameId": "org.openwalletstack.wallet",
-  "statusBarColor": "#000000",
-  "userVisibleName": "OWS Wallet",
-  "purposeLine": "OWS Wallet",
-  "bundleId": "org.openwalletstack.wallet",
-  "appUri": "owswallet",
+  "version": "0.0.3",
+  "androidVersion": "1",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
   "nameCaseNoSpace": "OWSWallet",
-  "gitHubRepoName": "ows-wallet",
-  "gitHubRepoUrl": "git://github.com/owstack/ows-wallet.git",
-  "gitHubRepoBugs": "https://github.com/owstack/ows-wallet/issues",
+  "userVisibleName": "OWS Wallet",
+  "description": "A secure cryptocurrency wallet",
   "author": "Open Wallet Stack",
-  "disclaimerUrl": "https://openwalletstack.org/disclaimer",
-  "url": "https://openwalletstack.org",
+  "url": "http://openwalletstack.org",
+  "downloadUrl": "http://openwalletstack.org/#download",
+  "appleStoreUrl": "https://itunes.apple.com/us/app/ows-wallet/id951330296?mt=8&ign-mpt=uo%3D4",
+  "googleStoreUrl": "https://play.google.com/store/apps/details?id=com.openwalletstack.ows-wallet",
   "supportEmail": "support@openwalletstack.org",
-  "appDescription": "OWS Wallet",
+  "disclaimerUrl": "https://openwalletstack.org/disclaimer",
+  "gitHubRepoUrl": "https://github.com/owstack/ows-wallet",
+  "gitHubRepoGitUrl": "git://github.com/owstack/ows-wallet.git",
+  "gitHubRepoBugs": "https://github.com/owstack/ows-wallet/issues",
+  "gitHubRepoApiLatestReleases": "https://api.github.com/repos/owstack/ows-wallet/releases/latest",
+  "bundleId": "org.openwalletstack.wallet",
+  "packageName": "@owstack/ows-wallet",
+  "packageNameId": "org.openwalletstack.wallet",
   "windowsAppId": "804636ee-b017-4cad-8719-e58ac97ffa5c",
   "pushSenderId": "1036948132229",
-  "description": "A Secure Wallet",
-  "version": "0.0.3",
-  "androidVersion": "373000",
-  "_extraCSS": null,
-  "_enabledExtensions": {
+  "appUri": "owswallet",
+  "statusBarColor": "#000000",
+  "bch": {
+    "explorer": {
+      "production": {
+        "url": "http://owstack.org:3001/explorer"
+      }
+    },
+    "walletService": {
+      "production": {
+        "url": "http://bch.owstack.org:3232/bchws/api"
+      },
+      "staging": {
+        "url": "http://bch.owstack.org:3232/bchws/api"
+      },
+      "local": {
+        "url": "http://localhost:4232/bchws/api"
+      }
+    }
+  },
+  "btc": {
+    "explorer": {
+      "production": {
+        "url": "http://owstack.org:3001/explorer"
+      }
+    },
+    "walletService": {
+      "production": {
+        "url": "http://btc.owstack.org:3232/btcws/api"
+      },
+      "staging": {
+        "url": "http://btc.owstack.org:3232/btcws/api"
+      },
+      "local": {
+        "url": "http://localhost:3232/btcws/api"
+      }
+    }
   }
 }

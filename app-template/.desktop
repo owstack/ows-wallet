@@ -2,7 +2,7 @@
 Type=Application
 Version=*VERSION*
 Name=*USERVISIBLENAME*
-Comment=*PURPOSELINE*
+Comment=*DESCRIPTION*
 Exec=*PACKAGENAME*
 Icon=icon-256.png
 Terminal=false

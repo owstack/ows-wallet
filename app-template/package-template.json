@@ -15,7 +15,7 @@
   "main": "www/index.html",
   "title": "*USERVISIBLENAME*",
   "window": {
-    "title": "*USERVISIBLENAME* - *PURPOSELINE*",
+    "title": "*USERVISIBLENAME*",
     "icon": "www/img/brand/icon.png",
     "toolbar": false,
     "show": true,
@@ -40,7 +40,7 @@
   "homepage": "*URL*",
   "license": "MIT",
   "repository": {
-    "url": "*GITHUBREPOURL*",
+    "url": "*GITHUBREPOGITURL*",
     "type": "git"
   },
   "bugs": {
@@ -51,8 +51,8 @@
    "npm": "3"
   },
   "dependencies": {
-    "@owstack/bch-wallet-client": "^0.0.3",
-    "@owstack/btc-wallet-client": "^0.0.3",
+    "@owstack/bch-wallet-client": "^0.0.6",
+    "@owstack/btc-wallet-client": "^0.0.6",
     "adm-zip": "^0.4.7",
     "angular": "1.4.6",
     "angular-mocks": "1.4.10",

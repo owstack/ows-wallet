@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('configService', function(storageService, lodash, $log, $timeout, $rootScope, networkService) {
+angular.module('owsWalletApp.services').factory('configService', function(storageService, lodash, $log, $timeout, $rootScope, networkService, appConfigService) {
   var root = {};
 
   var defaultConfig = {
@@ -12,15 +12,14 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
 
     download: {
       owsWallet: {
-        url: 'https://openwalletstack.com/#download'
+        url: appConfigService.downloadUrl
       }
     },
 
     rateApp: {
       owsWallet: {
-        ios: 'http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=951330296&pageNumber=0&sortOrdering=2&type=Purple+Software&mt=8',
-        android: 'https://play.google.com/store/apps/details?id=com.openwalletstack.ows-wallet',
-        wp: ''
+        ios: appConfigService.appleStoreUrl,
+        android: appConfigService.googleStoreUrl
       }
     },
     // wallet default config
@@ -51,7 +50,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     },
 
     release: {
-      url: 'https://api.github.com/repos/owstack/ows-wallet/releases/latest'
+      url: appConfigService.gitHubRepoApiLatestReleases
     },
 
     pushNotificationsEnabled: true,

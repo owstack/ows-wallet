@@ -130,7 +130,7 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
     };
 
     $scope.openExternalLink = function() {
-      var url = 'https://github.com/owstack/ows-wallet/releases/latest';
+      var url = appConfigService.gitHubRepoUrl + '/releases/latest';
       var optIn = true;
       var title = gettextCatalog.getString('Update Available');
       var message = gettextCatalog.getString('An update to this app is available. For your security, please update to the latest version.');

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, gettextCatalog, networkHelpers, btcWalletClient) {
+angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, gettextCatalog, appConfigService, networkHelpers, btcWalletClient) {
   var root = {};
 
   root.definition = {
@@ -17,13 +17,13 @@ angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, g
     },
     walletService: {
       production: {
-        url: 'https://btcws.openwalletstack.com/btcws/api'
+        url: appConfigService.btc.walletService.production.url
       },
       staging: {
-        url: 'https://btcws.openwalletstack.com/btcws/api'
+        url: appConfigService.btc.walletService.staging.url
       },
       local: {
-        url: 'http://localhost:3232/btcws/api'
+        url: appConfigService.btc.walletService.local.url
       }
     },
     rateService: {
@@ -39,8 +39,8 @@ angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, g
     explorer: {
       production: {
         label: gettextCatalog.getString('Explorer'),
-        url: 'https://insight.bitpay.com', // 'https://explorer.openwalletstack.com',
-        urlTx: 'https://insight.bitpay.com/tx/' // 'https://explorer.openwalletstack.com/tx/',
+        url: appConfigService.btc.explorer.production.url,
+        urlTx: appConfigService.btc.explorer.production.url + '/tx'
       }
     },
     units: [{
