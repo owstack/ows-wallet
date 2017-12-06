@@ -7,7 +7,7 @@ angular.module('owsWalletApp.services')
 
     // File storage is not supported for writing according to
     // https://github.com/apache/cordova-plugin-file/#supported-platforms
-    var shouldUseFileStorage = platformInfo.isCordova && !platformInfo.isWP;
+    var shouldUseFileStorage = platformInfo.isCordova;
 
     if (shouldUseFileStorage) {
       $log.debug('Using: FileStorage');

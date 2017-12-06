@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('addressbookListController', function($scope, $log, $timeout, addressbookService, lodash, popupService, gettextCatalog, platformInfo, networkService) {
+angular.module('owsWalletApp.controllers').controller('addressbookListController', function($scope, $log, $timeout, addressbookService, lodash, popupService, gettextCatalog, networkService) {
 
   var contacts;
 
@@ -48,7 +48,6 @@ angular.module('owsWalletApp.controllers').controller('addressbookListController
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.isChromeApp = platformInfo.isChromeApp;
     $scope.showAddIcon = false;
     $scope.addrSearch = { value: null };
     initAddressbook();

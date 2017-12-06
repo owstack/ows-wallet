@@ -5,7 +5,6 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   var originalList;
   var CONTACTS_SHOW_LIMIT;
   var currentContactsPage;
-  $scope.isChromeApp = platformInfo.isChromeApp;
 
   var hasWallets = function() {
     $scope.wallets = profileService.getWallets({
@@ -116,20 +115,7 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   };
 
   $scope.openScanner = function() {
-    var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
-
-    if (!isWindowsPhoneApp) {
-      $state.go('tabs.scan');
-      return;
-    }
-
-    scannerService.useOldScanner(function(err, contents) {
-      if (err) {
-        popupService.showAlert(gettextCatalog.getString('Error'), err);
-        return;
-      }
-      incomingData.redir(contents);
-    });
+    $state.go('tabs.scan');
   };
 
   $scope.showMore = function() {

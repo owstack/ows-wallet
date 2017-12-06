@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabsController', function($rootScope, $log, $scope, $state, $stateParams, $timeout, platformInfo, incomingData, lodash, popupService, gettextCatalog, scannerService) {
+angular.module('owsWalletApp.controllers').controller('tabsController', function($rootScope, $log, $scope, $state, $stateParams, $timeout, incomingData, lodash, popupService, gettextCatalog, scannerService) {
 
   $scope.onScan = function(data) {
     if (!incomingData.redir(data)) {
@@ -23,22 +23,7 @@ angular.module('owsWalletApp.controllers').controller('tabsController', function
   };
 
   $scope.chooseScanner = function() {
-
-    var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
-
-    if (!isWindowsPhoneApp) {
-      $state.go('tabs.scan');
-      return;
-    }
-
-    scannerService.useOldScanner(function(err, contents) {
-      if (err) {
-        popupService.showAlert(gettextCatalog.getString('Error'), err);
-        return;
-      }
-      incomingData.redir(contents);
-    });
-
+    $state.go('tabs.scan');
   };
 
 });

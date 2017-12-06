@@ -5,7 +5,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesNotificationsC
     var config = configService.getSync();
     $scope.appName = appConfigService.nameCase;
     $scope.PNEnabledByUser = true;
-    $scope.usePushNotifications = platformInfo.isCordova && !platformInfo.isWP;
+    $scope.usePushNotifications = platformInfo.isCordova;
     $scope.isIOSApp = platformInfo.isIOS && platformInfo.isCordova;
 
     $scope.pushNotifications = {

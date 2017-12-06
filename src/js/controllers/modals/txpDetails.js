@@ -7,7 +7,6 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   $scope.init = function() {
     $scope.loading = null;
     $scope.isCordova = platformInfo.isCordova;
-    $scope.isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
     $scope.copayers = $scope.wallet.status.wallet.copayers;
     $scope.copayerId = $scope.wallet.credentials.copayerId;
     $scope.isShared = $scope.wallet.credentials.n > 1;
@@ -29,7 +28,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   };
 
   function applyButtonText() {
-    $scope.buttonText = $scope.isCordova && !$scope.isWindowsPhoneApp ? gettextCatalog.getString('Slide') + ' ' : gettextCatalog.getString('Click') + ' ';
+    $scope.buttonText = $scope.isCordova ? gettextCatalog.getString('Slide') + ' ' : gettextCatalog.getString('Click') + ' ';
 
     var lastSigner = lodash.filter($scope.tx.actions, {
       type: 'accept'
@@ -78,7 +77,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   };
 
   function checkPaypro() {
-    if ($scope.tx.payProUrl && !platformInfo.isChromeApp) {
+    if ($scope.tx.payProUrl) {
       $scope.wallet.fetchPayPro({
         payProUrl: $scope.tx.payProUrl,
       }, function(err, paypro) {

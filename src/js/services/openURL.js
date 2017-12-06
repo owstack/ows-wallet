@@ -44,15 +44,7 @@ angular.module('owsWalletApp.services').factory('openURLService', function($root
     document.addEventListener('handleopenurl', handleOpenURL, false);
     document.addEventListener('resume', handleResume, false);
 
-    if (platformInfo.isChromeApp) {
-      $log.debug('Registering Chrome message listener');
-      chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-          if (request.url) {
-            handleOpenURL(request.url);
-          }
-        });
-    } else if (platformInfo.isNW) {
+    if (platformInfo.isNW) {
       var gui = require('nw.gui');
 
       // This event is sent to an existing instance of OWS wallet (only for standalone apps)

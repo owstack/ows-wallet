@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('slideToAcceptSuccess', function($timeout, platformInfo) {
+  .directive('slideToAcceptSuccess', function($timeout) {
     return {
       restrict: 'E',
       templateUrl: 'views/includes/slideToAcceptSuccess.html',
@@ -12,9 +12,6 @@ angular.module('owsWalletApp.directives')
         hideOnConfirm: '=slideSuccessHideOnConfirm'
       },
       link: function(scope, element, attrs) {
-
-        scope.isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
-
         var elm = element[0];
         elm.style.display = 'none';
         scope.$watch('isShown', function() {

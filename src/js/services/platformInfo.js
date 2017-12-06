@@ -27,19 +27,17 @@ angular.module('owsWalletApp.services').factory('platformInfo', function($window
   var ret = {
     isAndroid: ionic.Platform.isAndroid(),
     isIOS: ionic.Platform.isIOS(),
-    isWP: ionic.Platform.isWindowsPhone() || ionic.Platform.platform() == 'edge',
     isSafari: Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0,
     ua: ua,
     isCordova: !!$window.cordova,
     isNW: isNodeWebkit(),
   };
 
-  ret.isMobile = ret.isAndroid || ret.isIOS || ret.isWP;
-  ret.isChromeApp = $window.chrome && chrome.runtime && chrome.runtime.id && !ret.isNW;
-  ret.isDevel = !ret.isMobile && !ret.isChromeApp && !ret.isNW;
+  ret.isMobile = ret.isAndroid || ret.isIOS;
+  ret.isDevel = !ret.isMobile && !ret.isNW;
 
-  ret.supportsLedger = ret.isChromeApp;
-  ret.supportsTrezor = ret.isChromeApp || ret.isDevel;
+  ret.supportsLedger = false;
+  ret.supportsTrezor = ret.isDevel;
 
   return ret;
 });

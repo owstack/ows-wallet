@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.services').factory('payproService',
-  function(profileService, platformInfo, gettextCatalog, ongoingProcess, $log) {
+  function(profileService, gettextCatalog, ongoingProcess, $log) {
 
     var ret = {};
 
@@ -13,10 +13,6 @@ angular.module('owsWalletApp.services').factory('payproService',
       })[0];
 
       if (!wallet) return cb();
-
-      if (platformInfo.isChromeApp) {
-        return cb(gettextCatalog.getString('Payment Protocol not supported on Chrome App'));
-      }
 
       $log.debug('Fetch PayPro Request...', uri);
 

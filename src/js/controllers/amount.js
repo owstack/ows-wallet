@@ -9,7 +9,6 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
   var SMALL_FONT_SIZE_LIMIT = 10;
   var LENGTH_EXPRESSION_LIMIT = 19;
   var isNW = platformInfo.isNW;
-  $scope.isChromeApp = platformInfo.isChromeApp;
 
   $scope.$on('$ionicView.leave', function() {
     angular.element($window).off('keydown');

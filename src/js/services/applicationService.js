@@ -5,7 +5,6 @@ angular.module('owsWalletApp.services')
 
     root.isPinModalOpen = false;
 
-    var isChromeApp = platformInfo.isChromeApp;
     var isNW = platformInfo.isNW;
 
     root.restart = function() {
@@ -18,9 +17,7 @@ angular.module('owsWalletApp.services')
 
       } else {
         // Go home reloading the application
-        if (isChromeApp) {
-          chrome.runtime.reload();
-        } else if (isNW) {
+        if (isNW) {
           $ionicHistory.removeBackView();
           $state.go('tabs.home');
           $timeout(function() {

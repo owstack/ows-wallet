@@ -37,8 +37,7 @@
       <ion-item ng-repeat="addrEntry in addressbook"
                 class="item-icon-right item-avatar"
                 ui-sref="tabs.addressbook.view({networkURI:addrEntry.networkURI, address:addrEntry.address, email: addrEntry.email, name: addrEntry.name})">
-        <img src="img/icon-contact-placeholder.svg" class="bg"/ ng-if="isChromeApp">
-        <gravatar name="{{addrEntry.name}}" width="50" email="{{addrEntry.email}}" ng-if="!isChromeApp"></gravatar>
+        <gravatar name="{{addrEntry.name}}" width="50" email="{{addrEntry.email}}"></gravatar>
         <h2>{{addrEntry.name}}</h2>
         <div class="ellipsis">
           <i class="icon-inline">

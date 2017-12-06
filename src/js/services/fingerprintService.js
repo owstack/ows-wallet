@@ -5,7 +5,7 @@ angular.module('owsWalletApp.services').factory('fingerprintService', function($
 
   var _isAvailable = false;
 
-  if (platformInfo.isCordova && !platformInfo.isWP) {
+  if (platformInfo.isCordova) {
     window.plugins.touchid = window.plugins.touchid || {};
     window.plugins.touchid.isAvailable(
       function(msg) {

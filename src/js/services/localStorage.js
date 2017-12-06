@@ -3,21 +3,14 @@
 angular.module('owsWalletApp.services')
   .factory('localStorageService', function(platformInfo, $timeout, $log, lodash) {
     var isNW = platformInfo.isNW;
-    var isChromeApp = platformInfo.isChromeApp;
     var root = {};
     var ls = ((typeof window.localStorage !== "undefined") ? window.localStorage : null);
-
-    if (isChromeApp && !isNW && !ls) {
-      $log.info('Using CHROME storage');
-      ls = chrome.storage.local;
-    }
-
 
     if (!ls)
       throw new Error('localstorage not available');
 
     root.get = function(k, cb) {
-      if (isChromeApp || isNW) {
+      if (isNW) {
         chrome.storage.local.get(k,
           function(data) {
             //TODO check for errors
@@ -51,7 +44,7 @@ angular.module('owsWalletApp.services')
         v = v.toString();
       }
 
-      if (isChromeApp || isNW) {
+      if (isNW) {
         var obj = {};
 
         obj[k] = v;
@@ -64,7 +57,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.remove = function(k, cb) {
-      if (isChromeApp || isNW) {
+      if (isNW) {
         chrome.storage.local.remove(k, cb);
       } else {
         ls.removeItem(k);

@@ -1,9 +1,7 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('configService', function(storageService, lodash, $log, $timeout, $rootScope, platformInfo, networkService) {
+angular.module('owsWalletApp.services').factory('configService', function(storageService, lodash, $log, $timeout, $rootScope, networkService) {
   var root = {};
-
-  var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
 
   var defaultConfig = {
     // wallet limits
@@ -49,7 +47,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     },
 
     hideNextSteps: {
-      enabled: isWindowsPhoneApp ? true : false,
+      enabled: false,
     },
 
     release: {

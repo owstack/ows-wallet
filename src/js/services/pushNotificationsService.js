@@ -3,7 +3,7 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
   var root = {};
   var isIOS = platformInfo.isIOS;
   var isAndroid = platformInfo.isAndroid;
-  var usePushNotifications = platformInfo.isCordova && !platformInfo.isWP;
+  var usePushNotifications = platformInfo.isCordova;
 
   var _token = null;
 

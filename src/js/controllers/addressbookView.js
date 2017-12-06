@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('addressbookViewController', function($scope, $state, $timeout, $stateParams, lodash, addressbookService, popupService, $ionicHistory, platformInfo, gettextCatalog, networkService) {
-  $scope.isChromeApp = platformInfo.isChromeApp;
+angular.module('owsWalletApp.controllers').controller('addressbookViewController', function($scope, $state, $timeout, $stateParams, lodash, addressbookService, popupService, $ionicHistory, gettextCatalog, networkService) {
   $scope.addressbookEntry = {};
   $scope.addressbookEntry.name = $stateParams.name;
   $scope.addressbookEntry.email = $stateParams.email;

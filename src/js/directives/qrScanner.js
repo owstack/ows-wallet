@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('qrScanner', function($state, $rootScope, $log, $ionicHistory, platformInfo, scannerService, popupService) {
+  .directive('qrScanner', function($state, $rootScope, $log, $ionicHistory, scannerService, popupService) {
 
     return {
       restrict: 'E',
@@ -13,22 +13,7 @@ angular.module('owsWalletApp.directives')
       link: function(scope, el, attrs) {
 
         scope.chooseScanner = function() {
-          var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
-
-          if (!isWindowsPhoneApp) {
-            scope.openScanner();
-            return;
-          }
-
-          scannerService.useOldScanner(function(err, contents) {
-            if (err) {
-              popupService.showAlert(gettextCatalog.getString('Error'), err);
-              return;
-            }
-            scope.onScan({
-              data: contents
-            });
-          });
+          scope.openScanner();
         };
 
         scope.openScanner = function() {

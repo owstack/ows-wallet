@@ -3,13 +3,11 @@ angular.module('owsWalletApp.services')
   .factory('profileService', function profileServiceFactory($rootScope, $timeout, $filter, $log, $state, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService) {
 
 
-    var isChromeApp = platformInfo.isChromeApp;
     var isCordova = platformInfo.isCordova;
-    var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
     var isIOS = platformInfo.isIOS;
 
     var root = {};
-    var usePushNotifications = isCordova && !isWindowsPhoneApp;
+    var usePushNotifications = isCordova;
 
     var UPDATE_PERIOD = 15;
 
@@ -88,7 +86,7 @@ angular.module('owsWalletApp.services')
       // INIT WALLET VIEWMODEL
       wallet.id = walletId;
       wallet.started = true;
-      wallet.doNotVerifyPayPro = isChromeApp;
+      wallet.doNotVerifyPayPro = false;
       wallet.network = wallet.credentials.network;
       wallet.currency = wallet.credentials.currency;
       wallet.networkURI = _getNetworkURI(wallet.credentials);
@@ -213,7 +211,7 @@ angular.module('owsWalletApp.services')
     };
 
     var shouldSkipValidation = function(walletId) {
-      return root.profile.isChecked(platformInfo.ua, walletId) || isIOS || isWindowsPhoneApp;
+      return root.profile.isChecked(platformInfo.ua, walletId) || isIOS;
     }
 
     var getWalletServiceUrl = function(credentials) {

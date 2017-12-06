@@ -8,10 +8,7 @@
   </ion-nav-bar>
   <ion-content scroll="false">
     <div class="gravatar-content">
-      <i class="icon big-icon-svg" ng-if="isChromeApp">
-        <img src="img/icon-contact-placeholder.svg" class="bg"/>
-      </i>
-      <gravatar name="{{addressbookEntry.name}}" width="80" email="{{addressbookEntry.email}}" ng-if="!isChromeApp"></gravatar>
+      <gravatar name="{{addressbookEntry.name}}" width="80" email="{{addressbookEntry.email}}"></gravatar>
     </div>
     <div class="list">
       <div class="item item-text-wrap">

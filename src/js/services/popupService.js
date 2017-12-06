@@ -3,7 +3,6 @@
 angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, platformInfo, gettextCatalog) {
 
   var isCordova = platformInfo.isCordova;
-  var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
 
   /*************** Ionic ****************/
 
@@ -128,7 +127,7 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
 
     opts = opts ||  {};
 
-    if (isCordova && !isWindowsPhoneApp && !opts.forceHTMLPrompt)
+    if (isCordova && !opts.forceHTMLPrompt)
       _cordovaPrompt(title, message, opts, cb);
     else
       _ionicPrompt(title, message, opts, cb);

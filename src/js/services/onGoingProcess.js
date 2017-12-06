@@ -3,7 +3,6 @@
 angular.module('owsWalletApp.services').factory('ongoingProcess', function($log, $timeout, $filter, lodash, $ionicLoading, gettext, platformInfo) {
   var root = {};
   var isCordova = platformInfo.isCordova;
-  var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
 
   var ongoingProcess = {};
 
@@ -39,7 +38,7 @@ angular.module('owsWalletApp.services').factory('ongoingProcess', function($log,
 
   root.clear = function() {
     ongoingProcess = {};
-    if (isCordova && !isWindowsPhoneApp) {
+    if (isCordova) {
       window.plugins.spinnerDialog.hide();
     } else {
       $ionicLoading.hide();
@@ -69,19 +68,17 @@ angular.module('owsWalletApp.services').factory('ongoingProcess', function($log,
     if (customHandler) {
       customHandler(processName, showName, isOn);
     } else if (root.onGoingProcessName) {
-      if (isCordova && !isWindowsPhoneApp) {
+      if (isCordova) {
         window.plugins.spinnerDialog.show(null, showName, root.clear);
       } else {
 
-        var tmpl;
-        if (isWindowsPhoneApp) tmpl = '<div>' + showName + '</div>';
-        else tmpl = '<div class="item-icon-left">' + showName + '<ion-spinner class="spinner-stable" icon="lines"></ion-spinner></div>';
+        var tmpl = '<div class="item-icon-left">' + showName + '<ion-spinner class="spinner-stable" icon="lines"></ion-spinner></div>';
         $ionicLoading.show({
           template: tmpl
         });
       }
     } else {
-      if (isCordova && !isWindowsPhoneApp) {
+      if (isCordova) {
         window.plugins.spinnerDialog.hide();
       } else {
         $ionicLoading.hide();

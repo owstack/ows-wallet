@@ -10,9 +10,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   var config = configService.getSync();
 
   // Platform info
-  var isChromeApp = platformInfo.isChromeApp;
   var isCordova = platformInfo.isCordova;
-  var isWindowsPhoneApp = platformInfo.isCordova && platformInfo.isWP;
 
   //custom fee flag
   var usingCustomFee = null;
@@ -135,7 +133,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
     // Other Scope vars
     $scope.isCordova = isCordova;
-    $scope.isWindowsPhoneApp = isWindowsPhoneApp;
     $scope.showAddress = false;
 
     updateTx(tx, null, {}, function() {
@@ -314,7 +311,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   }
 
   function setButtonText(isMultisig, isPayPro) {
-    $scope.buttonText = gettextCatalog.getString(isCordova && !isWindowsPhoneApp ? 'Slide' : 'Click') + ' ';
+    $scope.buttonText = gettextCatalog.getString(isCordova ? 'Slide' : 'Click') + ' ';
 
     if (isPayPro) {
       $scope.buttonText += gettextCatalog.getString('to pay');

@@ -94,10 +94,6 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       }
     ]);
 
-    // whitelist 'chrome-extension:' for chromeApp to work with image URLs processed by Angular
-    // link: http://stackoverflow.com/questions/15606751/angular-changes-urls-to-unsafe-in-extension-page?lq=1
-    $compileProvider.imgSrcSanitizationWhitelist(/^\s*((https?|ftp|file|blob|chrome-extension):|data:image\/)/);
-
     $stateProvider
 
       /*
@@ -918,7 +914,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       if (screen.width < 768 && platformInfo.isCordova)
         screen.lockOrientation('portrait');
 
-      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard && !platformInfo.isWP) {
+      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
         cordova.plugins.Keyboard.disableScroll(true);
       }

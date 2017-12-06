@@ -55,7 +55,7 @@
               <span ng-if="tx.toName" class="wallet-name">{{tx.toName}}</span>
             </div>
           </div>
-          <div ng-if="recipientType == 'contact' && !isChromeApp" class="gravatar-contact toggle" ng-click="toggleAddress()">
+          <div ng-if="recipientType == 'contact'" class="gravatar-contact toggle" ng-click="toggleAddress()">
             <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{toEmail}}"></gravatar>
             <span ng-if="tx.toName && !showAddress">{{tx.toName}}</span>
             <span ng-if="tx.toName && showAddress">{{tx.toAddress}}</span>
@@ -107,13 +107,13 @@
   </ion-content>
   <click-to-accept
     ng-click="approve(tx, wallet, statusChangeHandler)"
-    ng-if="(!isCordova || isWindowsPhoneApp) && wallet"
+    ng-if="!isCordova && wallet"
     click-send-status="sendStatus"
     is-disabled="!wallet">
     {{buttonText}}
   </click-to-accept>
   <slide-to-accept
-    ng-if="isCordova && !isWindowsPhoneApp && wallet"
+    ng-if="isCordova && wallet"
     slide-on-confirm="approve(tx, wallet, statusChangeHandler)"
     slide-send-status="sendStatus"
     is-disabled="!wallet">

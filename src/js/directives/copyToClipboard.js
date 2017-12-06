@@ -9,7 +9,6 @@ angular.module('owsWalletApp.directives')
       },
       link: function(scope, elem, attrs, ctrl) {
         var isCordova = platformInfo.isCordova;
-        var isChromeApp = platformInfo.isChromeApp;
         var isNW = platformInfo.isNW;
         elem.bind('mouseover', function() {
           elem.css('cursor', 'pointer');
