@@ -1,15 +1,10 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  /**
-   * Replaces img tag with its svg content to allow for CSS styling of the svg.
-   */
   .directive('noLowFee', function($log, $ionicHistory, configService, popupService) {
     return {
       restrict: 'A',
       link: function(scope, elem, attrs, ctrl) {
-
-
         elem.bind('click', function() {
           configService.whenAvailable(function(config) {
             if (config.wallet.settings.feeLevel && config.wallet.settings.feeLevel.match(/conomy/)) {

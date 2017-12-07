@@ -311,7 +311,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   }
 
   function setButtonText(isMultisig, isPayPro) {
-    $scope.buttonText = gettextCatalog.getString(isCordova ? 'Slide' : 'Click') + ' ';
+    $scope.buttonText = isCordova ? gettextCatalog.getString('slide') + ' ' : gettextCatalog.getString('Click') + ' ';
 
     if (isPayPro) {
       $scope.buttonText += gettextCatalog.getString('to pay');

@@ -44,7 +44,7 @@
     <div class="list card" ng-hide="!txps[0]">
       <a class="item item-icon-right item-heading" ui-sref="tabs.proposals">
         {{'Payment Proposals'|translate}}
-        <i class="icon bp-arrow-right"></i>
+        <i class="icon arrow-right"></i>
         <span class="badge badge-assertive m5t m10r" ng-show="txpsN>3"> {{txpsN}}</span>
       </a>
 
@@ -56,7 +56,7 @@
     <div class="list card" ng-if="notifications[0] && recentTransactionsEnabled">
       <a class="item item-icon-right item-heading" ui-sref="tabs.activity">
         <span translate>Recent Transactions</span>
-        <i class="icon bp-arrow-right"></i>
+        <i class="icon arrow-right"></i>
         <span class="badge badge-assertive m5t m10r" ng-show="notificationsN>3"> {{notificationsN}}</span>
       </a>
       <a class="item item-sub activity" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
@@ -75,7 +75,7 @@
            <div class="bg wallet icon-create-wallet"></div>
          </i>
           <span translate>Add wallet</span>
-          <i class="icon bp-arrow-right"></i>
+          <i class="icon arrow-right"></i>
         </a>
         <a ng-repeat="wallet in wallets track by $index"
            class="item item-sub item-icon-left item-big-icon-left item-icon-right wallet"
@@ -102,7 +102,7 @@
           </span>
           &nbsp;
           </p>
-          <i class="icon bp-arrow-right"></i>
+          <i class="icon arrow-right"></i>
         </a>
       </div>
     </div>

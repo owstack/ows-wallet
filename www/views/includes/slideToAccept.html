@@ -7,10 +7,13 @@
   ng-mouseup="onTouchend($event)">
   <div class="slide__slider" ng-style="sliderStyle">
     <div class="slide__slider__tip"></div>
+    <i class="ion-chevron-right"></i>
   </div>
-  <div class="slide__bitcoin" ng-style="bitcoinStyle">
-    <img src="img/icon-bitcoin-white.svg">
+  <!--
+  <div class="slide__tip-icon" ng-style="tipIconStyle">
+    <i class="ion-chevron-right"></i>
   </div>
+  -->
   <div class="slide__button-text" ng-style="textStyle">
     <ng-transclude class="justify"></ng-transclude>
   </div>

@@ -25,7 +25,7 @@ angular.module('owsWalletApp.directives')
         var elm = element[0];
         var isSliding = false;
         var curSliderPct = getKnobWidthPercentage();
-        var curBitcoinPct = 0;
+        var curTipIconPct = 0;
         var curTextPct = 0;
         var currentEaseStartTime;
         var bezier = $window.BezierEasing(0.175, 0.885, 0.320, 1.275);
@@ -88,7 +88,7 @@ angular.module('owsWalletApp.directives')
           scope.isSlidFully = false;
           isSliding = false;
           setNewSliderStyle(getKnobWidthPercentage());
-          setNewBitcoinStyle(0);
+          setNewTipIconStyle(0);
           setNewTextStyle(0);
         }
 
@@ -102,16 +102,20 @@ angular.module('owsWalletApp.directives')
           curSliderPct = pct;
         }
 
-        function setNewBitcoinStyle(pct) {
+        function setNewTipIconStyle(pct) {
+          /*
           var translatePct = -2.25 * pct;
-          scope.bitcoinStyle = getTransformStyle(translatePct);
-          curBitcoinPct = pct;
+          scope.tipIconStyle = getTransformStyle(translatePct);
+          curTipIconPct = pct;
+          */
         }
 
         function setNewTextStyle(pct) {
+          /*
           var translatePct = -0.1 * pct;
           scope.textStyle = getTransformStyle(translatePct);
           curTextPct = pct;
+          */
         }
 
         function getTransformStyle(translatePct) {
@@ -127,7 +131,7 @@ angular.module('owsWalletApp.directives')
 
         function setSliderPosition(pct) {
           setNewSliderStyle(pct);
-          setNewBitcoinStyle(pct);
+          setNewTipIconStyle(pct);
           setNewTextStyle(pct);
         }
 
@@ -136,8 +140,8 @@ angular.module('owsWalletApp.directives')
           easePosition(curSliderPct, pct, duration, JIGGLE_EASING, function(pct) {
             setNewSliderStyle(pct);
           });
-          easePosition(curBitcoinPct, pct, duration, JIGGLE_EASING, function(pct) {
-            setNewBitcoinStyle(pct);
+          easePosition(curTipIconPct, pct, duration, JIGGLE_EASING, function(pct) {
+            setNewTipIconStyle(pct);
           });
           easePosition(curTextPct, pct, duration, JIGGLE_EASING, function(pct) {
             setNewTextStyle(pct);
@@ -150,8 +154,8 @@ angular.module('owsWalletApp.directives')
           var p1 = easePosition(curSliderPct, pct, duration, JIGGLE_EASING, function(pct) {
             setNewSliderStyle(pct);
           });
-          var p2 = easePosition(curBitcoinPct, pct, duration, JIGGLE_EASING, function(pct) {
-            setNewBitcoinStyle(pct);
+          var p2 = easePosition(curTipIconPct, pct, duration, JIGGLE_EASING, function(pct) {
+            setNewTipIconStyle(pct);
           });
 
           $q.all([p1, p2]).then(function() {
@@ -164,8 +168,8 @@ angular.module('owsWalletApp.directives')
           easePosition(curSliderPct, getKnobWidthPercentage(), duration, easeInOutBack, function(pct) {
             setNewSliderStyle(pct);
           });
-          easePosition(curBitcoinPct, 0, duration, easeInOutBack, function(pct) {
-            setNewBitcoinStyle(pct);
+          easePosition(curTipIconPct, 0, duration, easeInOutBack, function(pct) {
+            setNewTipIconStyle(pct);
           });
           easePosition(curTextPct, 0, duration, easeInOutBack, function(pct) {
             setNewTextStyle(pct);

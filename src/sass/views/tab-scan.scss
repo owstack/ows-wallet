@@ -43,6 +43,7 @@
       max-width: 400px;
       margin-bottom: 8em;
       max-height: 50%;
+      transform: scale(2);
     }
     .icon-flash, .icon-camera-toggle {
       border-radius: 50%;
@@ -57,7 +58,7 @@
       cursor: pointer;
       // hover for desktop only
       body:not(.platform-cordova) &:hover {
-        background-color: $v-accent-comp-color;
+        background-color: $v-accent-complement-color;
       }
       &.active, &:active {
         background-color: $v-accent-color;
@@ -65,9 +66,13 @@
     }
     .icon-flash {
       background-image: url("../img/icon-flash.svg");
+      background-size: 17px;
+      background-position: center;
     }
     .icon-camera-toggle {
       background-image: url("../img/icon-camera-toggle.svg");
+      background-size: 34px;
+      background-position: center;
     }
   }
 }

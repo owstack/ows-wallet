@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.directives')
-  .directive('validAddress', ['$rootScope', 'networkService',
+  .directive('validAddress', ['$rootScope', 'lodash', 'networkService',
     function($rootScope, lodash, networkService) {
       return {
         require: 'ngModel',
@@ -69,7 +69,7 @@ angular.module('owsWalletApp.directives')
       };
     }
   ])
-  .directive('validAmount', ['configService',
+  .directive('validAmount', ['configService', 'networkService',
     function(configService, networkService) {
 
       return {

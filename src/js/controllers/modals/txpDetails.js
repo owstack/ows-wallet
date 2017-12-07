@@ -28,7 +28,7 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   };
 
   function applyButtonText() {
-    $scope.buttonText = $scope.isCordova ? gettextCatalog.getString('Slide') + ' ' : gettextCatalog.getString('Click') + ' ';
+    $scope.buttonText = $scope.isCordova ? gettextCatalog.getString('slide') + ' ' : gettextCatalog.getString('Click') + ' ';
 
     var lastSigner = lodash.filter($scope.tx.actions, {
       type: 'accept'

@@ -15,33 +15,8 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
 
   // This is only to show the starter message, it does not have any other function
   var updateHasFunds = function() {
-    if ($rootScope.everHasFunds) {
-      $scope.hasFunds = true;
-      return;
-    }
-
-    $scope.hasFunds = false;
-    var index = 0;
-    lodash.each($scope.wallets, function(w) {
-      walletService.getStatus(w, {}, function(err, status) {
-        ++index;
-        if (err && !status) {
-          $log.error(err);
-          // Error updating the wallet. Probably a network error, do not show starter message
-          $scope.hasFunds = false;
-        } else if (status.availableBalanceAtomic > 0) {
-          $scope.hasFunds = true;
-          $rootScope.everHasFunds = true;
-        }
-
-        if (index == $scope.wallets.length) {
-          $scope.checkingBalance = false;
-          $timeout(function() {
-            $scope.$apply();
-          });
-        }
-      });
-    });
+    $scope.hasFunds = profileService.hasFunds();
+    $scope.checkingBalance = false;
   };
 
   var updateWalletsList = function() {

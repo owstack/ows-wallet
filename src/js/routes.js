@@ -307,7 +307,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/addressbook/add/:fromSendTab/:addressbookEntry',
         views: {
           'tab-send@tabs': {
-            templateUrl: 'views/addressbook.add.html',
+            templateUrl: 'views/addressbookAdd.html',
             controller: 'addressbookAddController'
           }
         }
@@ -623,17 +623,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/add',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook.add.html',
+            templateUrl: 'views/addressbookAdd.html',
             controller: 'addressbookAddController'
           }
         }
       })
-      .state('tabs.addressbook.view', {
+      .state('tabs.addressbook.entry', {
         url: '/view/:networkURI/:address/:email/:name',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook.view.html',
-            controller: 'addressbookViewController'
+            templateUrl: 'views/addressbookEntry.html',
+            controller: 'addressbookEntryController'
           }
         }
       })

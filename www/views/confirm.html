@@ -75,7 +75,7 @@
             </i>
             <div>...</div>
           </div>
-          <i class="icon bp-arrow-right"></i>
+          <i class="icon arrow-right"></i>
         </a>
         <div class="item item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
           <span class="label">{{'Fee:' | translate}} {{tx.feeLevelName | translate}}</span>
@@ -90,14 +90,14 @@
           </span>
           </span>
 
-          <i class="icon bp-arrow-right"></i>
+          <i class="icon arrow-right"></i>
         </div>
         <a class="item item-icon-right" ng-if="wallet" ng-click="showDescriptionPopup(tx)">
           <span class="label" translate>Add Memo</span>
           <span class="item-note m10l">
             {{tx.description}}
           </span>
-          <i class="icon bp-arrow-right"></i>
+          <i class="icon arrow-right"></i>
         </a>
         <div class="text-center" ng-show="noWalletMessage">
           <span class="badge badge-energized">{{noWalletMessage}}</span>

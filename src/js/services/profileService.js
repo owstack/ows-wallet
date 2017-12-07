@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $filter, $log, $state, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService) {
+  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService, walletService) {
 
 
     var isCordova = platformInfo.isCordova;
@@ -453,7 +453,6 @@ angular.module('owsWalletApp.services')
     root.getWallet = function(walletId) {
       return root.wallet[walletId];
     };
-
 
     root.deleteWalletClient = function(client, cb) {
       var walletId = client.credentials.walletId;
@@ -962,7 +961,6 @@ angular.module('owsWalletApp.services')
       });
     };
 
-
     root.getTxps = function(opts, cb) {
       var MAX = 100;
       opts = opts || {};
@@ -980,6 +978,25 @@ angular.module('owsWalletApp.services')
       txps = lodash.sortBy(txps, 'pendingForUs', 'createdOn');
       txps = lodash.compact(lodash.flatten(txps)).slice(0, opts.limit || MAX);
       return cb(null, txps, n);
+    };
+
+    // Check to see if at least one wallet has funds.
+    root.hasFunds = function() {
+      var hasFunds = false;
+      var index = 0;
+      lodash.each(Object.keys(root.wallet), function(walletId) {
+        walletService.getStatus(root.wallet[walletId], {}, function(err, status) {
+          ++index;
+          if (err && !status) {
+            $log.error(err);
+            // Error updating the wallet. Probably a network error, do not show starter message
+            hasFunds = false;
+          } else if (status.availableBalanceAtomic > 0) {
+            hasFunds = true;
+          }
+        });
+      });
+      return hasFunds;
     };
 
     return root;

@@ -29,7 +29,7 @@ $v-subtle-gray:                                      darken(#ffffff, 5%) !defaul
 $v-primary-color:                                    #000000 !default;
 $v-secondary-color:                                  #313131 !default;
 $v-accent-color:                                     #00afff !default;
-$v-accent-comp-color:                                #004466 !default;
+$v-accent-complement-color:                          #004466 !default;
 
 $v-text-primary-color:                               #000000 !default;
 $v-text-secondary-color:                             #ffffff !default;
@@ -112,8 +112,9 @@ $v-button-secondary-outline-active-color:            $v-white-color !default;
 
 /* Slide */
 $v-slide-bg-color:                                   $v-accent-color !default;
-$v-slider-bg-color:                                  $v-accent-comp-color !default;
+$v-slide-tip-bg-color:                               $v-accent-complement-color !default;
 $v-slide-text-color:                                 $v-white-color !default;
+$v-slide-shadow:                                     2px 0 3px $v-black-transparent-light !default;
 
 /* Onboarding */
 $v-onboarding-pane-bg:                               $v-primary-color !default;

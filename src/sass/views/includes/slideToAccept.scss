@@ -1,7 +1,7 @@
 slide-to-accept {
   position: fixed;
   bottom: 0;
-  height: 92px;
+  height: 72px;
   width: 100%;
   background: $v-slide-bg-color;
 
@@ -23,7 +23,7 @@ slide-to-accept {
       @include center-vertically;
       height: 100%;
       width: 100%;
-      background: $v-slider-bg-color;
+      background: $v-slide-tip-bg-color;
       -webkit-transform: translateX(0);
       transform: translateX(0);
       margin-left: -100%;
@@ -34,7 +34,7 @@ slide-to-accept {
         content: '';
         width: 10000px;
         left: -10000px + 1;
-        background: $v-slider-bg-color;
+        background: $v-slide-tip-bg-color;
       }
 
       &::after {
@@ -42,23 +42,32 @@ slide-to-accept {
         content: '';
         width: 15px;
         right: -10px;
-        background: $v-slider-bg-color;
+        background: $v-slide-tip-bg-color;
+      }
+
+      > i {
+        color: $v-subtle-gray;
+        font-size: 28px;
+        margin-left: auto;
+        position: relative;
+        left: 42px;
+        z-index: 1;
       }
 
       &__tip {
         @include center-vertically;
-        width: 124px;
-        height: 116px;
-        background: $v-slider-bg-color;
-        right: -71px;
-        border-radius: 50%;
+        width: 70px;
+        height: 72px;
+        background: $v-slide-tip-bg-color;
+        right: -70px;
+        border-radius: 0 15px 15px 0;
         top: 50%;
-        -webkit-transform: translateY(-47%);
-        transform: translateY(-47%);
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        box-shadow: $v-slide-shadow;
       }
-
     }
-    &__bitcoin {
+    &__tip-icon {
       @include center-vertically;
       left: 20px;
       z-index: 3;
@@ -66,6 +75,7 @@ slide-to-accept {
       > img {
         -webkit-transform: rotateZ(-5deg);
         transform: rotateZ(-5deg);
+        height: 40px;
       }
     }
     &__button-text {
@@ -76,10 +86,9 @@ slide-to-accept {
       left: 0;
       width: 100%;
       color: $v-slide-text-color;
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: .03rem;
+      font-size: 20px;
       z-index: 1;
+      margin-left: 25px;
 
       .justify {
         width: 50%;
@@ -107,6 +116,7 @@ slide-to-accept {
       }
 
       > img {
+        height: 20px;
         margin-right: 10px;
         animation-name: spin;
         animation-duration: 500ms;
@@ -116,8 +126,14 @@ slide-to-accept {
     }
 
     &__arrow {
+      display: none !important;
       @include center-vertically;
       right: 20px;
+
+      > i {
+        font-size: 32px;
+        color: $v-white-color;
+      }
     }
   }
 

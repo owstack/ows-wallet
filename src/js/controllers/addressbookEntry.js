@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('addressbookViewController', function($scope, $state, $timeout, $stateParams, lodash, addressbookService, popupService, $ionicHistory, gettextCatalog, networkService) {
+angular.module('owsWalletApp.controllers').controller('addressbookEntryController', function($scope, $state, $timeout, $stateParams, lodash, addressbookService, popupService, $ionicHistory, gettextCatalog, networkService, profileService) {
   $scope.addressbookEntry = {};
   $scope.addressbookEntry.name = $stateParams.name;
   $scope.addressbookEntry.email = $stateParams.email;
@@ -10,14 +10,16 @@ angular.module('owsWalletApp.controllers').controller('addressbookViewController
   $scope.sendTo = function() {
     $ionicHistory.removeBackView();
     $state.go('tabs.send');
-    $timeout(function() {
-      $state.transitionTo('tabs.send.amount', {
-        networkURI: $scope.addressbookEntry.networkURI,
-        toAddress: $scope.addressbookEntry.address,
-        toName: $scope.addressbookEntry.name,
-        toEmail: $scope.addressbookEntry.email
-      });
-    }, 100);
+    if (profileService.hasFunds()) {
+      $timeout(function() {
+        $state.transitionTo('tabs.send.amount', {
+          networkURI: $scope.addressbookEntry.networkURI,
+          toAddress: $scope.addressbookEntry.address,
+          toName: $scope.addressbookEntry.name,
+          toEmail: $scope.addressbookEntry.email
+        });
+      }, 100);      
+    }
   };
 
   $scope.remove = function(addr) {
