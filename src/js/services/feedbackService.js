@@ -1,7 +1,6 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('feedbackService', function($http, $log, $httpParamSerializer, configService) {
+angular.module('owsWalletApp.services').factory('feedbackService', function($http, $log, $httpParamSerializer, configService, appConfigService) {
   var root = {};
-  var URL = "https://script.google.com/macros/s/AKfycbybtvNSQKUfgzgXcj3jYLlvCKrcBoktjiJ1V8_cwd2yVkpUBGe3/exec";
 
   root.send = function(dataSrc, cb) {
     $http(_post(dataSrc)).then(function() {
@@ -13,10 +12,11 @@ angular.module('owsWalletApp.services').factory('feedbackService', function($htt
     });
   };
 
+  // Get more info: https://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
   var _post = function(dataSrc) {
     return {
       method: 'POST',
-      url: URL,
+      url: appConfigService.gappFeedbackUrl,
       headers: {
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
@@ -25,7 +25,6 @@ angular.module('owsWalletApp.services').factory('feedbackService', function($htt
   };
 
   root.isVersionUpdated = function(currentVersion, savedVersion) {
-
     if (!verifyTagFormat(currentVersion))
       return 'Cannot verify the format of version tag: ' + currentVersion;
     if (!verifyTagFormat(savedVersion))
@@ -51,7 +50,6 @@ angular.module('owsWalletApp.services').factory('feedbackService', function($htt
         patch: +formattedNumber[2]
       };
     };
-
   };
 
   return root;

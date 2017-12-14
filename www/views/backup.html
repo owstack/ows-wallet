@@ -1,5 +1,5 @@
-<ion-view id="wallet-backup-phrase" hide-tabs>
-  <ion-nav-bar class="bar-royal">
+<ion-view id="backup-phrase" class="backup" hide-tabs>
+  <ion-nav-bar>
     <ion-nav-title>
       {{viewTitle}}
     </ion-nav-title>
@@ -14,6 +14,29 @@
     <!--
       ## STEP 1
     -->
+    <div id="backup-phrase-step-1" class="ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
+<!--
+      <img ng-src="img/backup/phrase-{{wallet.currency}}.svg" />
+-->
+      <div class="backup-phrase" copy-to-clipboard="copyRecoveryPhrase()">
+        <div class="backup-phrase-content">
+          <span class="backup-phrase-content-word-readonly" ng-repeat="word in mnemonicWords track by $index"><span style="white-space:nowrap">{{word}}</span><span ng-show="useIdeograms">&#x3000;</span> </span>
+        </div>
+      </div>
+      <div class="backup-text">
+        <div class="backup-topic" translate>Carefully write down this phrase</div>
+        <div class="backup-description" translate>
+          <div class="password-required" ng-show="mnemonicHasPassphrase" translate>
+            This recovery phrase was created with a password. To recover this wallet both the recovery phrase and password are needed.<br><br>
+          </div>
+          The order of these words is important. We will confirm your backup on the next screen.
+        </div>
+      </div>
+      <div class="cta-buttons">
+        <button ng-show="!deleted" ng-disabled="credentialsEncrypted || error" class="button button-standard button-primary" ng-click="goToStep(2);" translate>I've written it down</button>
+      </div>
+    </div>
+<!--
     <div id="wallet-backup-phrase-step-1" class="ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
       <div class="initial-prompt" translate>Please carefully write down this phrase.</div>
       <div class="backup-phrase" copy-to-clipboard="copyRecoveryPhrase()">
@@ -29,9 +52,43 @@
         <button ng-show="!deleted" ng-disabled="credentialsEncrypted || error" class="button button-standard button-primary" ng-click="goToStep(2);" translate>I've written it down</button>
       </div>
     </div>
+-->
     <!--
       ## STEP 2
     -->
+    <div id="backup-phrase-step-2" class="ng-hide" ng-show="step == 2">
+<!--
+      <img ng-src="img/backup/phrase-{{wallet.currency}}.svg" />
+-->
+      <div class="backup-phrase">
+        <div class="backup-phrase-content">
+          <span ng-repeat="cword in customWords track by $index" ng-show="customWords[$index]">
+          <button class="button select-word" ng-click="removeButton($index, cword)">{{cword.word}}</button>
+          </span>
+        </div>
+      </div>
+      <div class="backup-text">
+        <div class="backup-topic" translate>Let's verify your backup</div>
+        <div class="backup-description" ng-show="!selectComplete" translate>Tap each word in the correct order.</div>
+        <div class="backup-description" ng-show="selectComplete" translate>Is this correct?</div>
+      </div>
+      <div id="select-phrase">
+        <div id="select-phrase-content">
+          <span ng-show="!selectComplete" ng-repeat="shuffledWord in shuffledMnemonicWords track by $index">
+            <button class="button select-word" ng-click="addButton($index, shuffledWord)"
+            ng-disabled="shuffledWord.selected">{{shuffledWord.word}}
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="cta-buttons" ng-show="selectComplete">
+        <button class="button button-standard button-primary" ng-click="goToStep(3);" translate>Confirm</button>
+        <button class="button button-standard button-secondary button-clear" ng-click="setFlow(2);" translate>Clear</button>
+      </div>
+    </div>
+
+
+<!--
     <div id="wallet-backup-phrase-step-2" class="ng-hide" ng-show="step == 2">
       <div class="confirmation-prompt" translate>Let's verify your backup phrase.</div>
       <div class="backup-phrase">
@@ -55,6 +112,7 @@
         </div>
       </div>
     </div>
+-->
     <!--
       ## STEP 3
     -->

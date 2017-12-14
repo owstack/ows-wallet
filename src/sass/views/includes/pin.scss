@@ -67,7 +67,7 @@
   }
   @mixin circle {
     border-radius: 50%;
-    box-shadow: 0 0 3px 0px #5b5b5b;
+    box-shadow: 0 0 3px 0px $v-dark-gray; 
     transition: background-color .2s ease-in-out;
     padding: 7%;
     margin: 5%;

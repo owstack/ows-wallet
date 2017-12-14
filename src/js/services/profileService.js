@@ -691,15 +691,15 @@ angular.module('owsWalletApp.services')
       });
     };
 
-    root.createDefaultWallet = function(cb) {
+    root.createDefaultWallet = function(networkURI, cb) {
       var config = configService.getSync();
-      var defaultNetwork = config.currencyNetworks.default;
+      networkURI = networkURI || config.currencyNetworks.default;
 
       var opts = {};
       opts.m = 1;
       opts.n = 1;
-      opts.network = networkService.getNetworkByURI(defaultNetwork);
-      opts.walletServiceUrl = config.currencyNetworks[defaultNetwork].walletService.url;
+      opts.network = networkService.getNetworkByURI(networkURI);
+      opts.walletServiceUrl = config.currencyNetworks[networkURI].walletService.url;
 
       root.createWallet(opts, cb);
     };

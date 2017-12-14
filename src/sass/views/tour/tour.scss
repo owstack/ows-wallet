@@ -1,0 +1,78 @@
+#tour {
+  background: $v-tour-bg;
+  color: $v-tour-color;
+  height: 100%;
+  text-align: center;
+
+  .bar.bar-header {
+    background: none;
+    border: 0 none transparent;
+    color: $v-tour-bar-header-color;
+    button {
+      color: $v-tour-bar-header-button-color;
+    }
+  }
+
+  .back-button .icon:before {
+    color: $v-tour-button-back-color;
+  }
+
+  img {
+    max-height: 45%;
+    width: 100%;
+
+    @media(max-height: 480px) {
+      top: 40%;
+    }
+  }
+
+  .tour-text {
+    margin: auto;
+    width: 100%;
+
+    @media(max-height: 480px) {
+    top: 45%;
+    }
+
+    > .tour-topic {
+      font-size: 18px;
+      font-weight: bold;
+      margin: auto;
+      margin-bottom: 20px;
+      max-width: 300px;
+  
+      @media(max-height: 480px) {
+        max-width: 100%;
+        margin-bottom: 0;
+      }
+    }
+
+    > .tour-description {
+      font-family: Roboto-Light;
+      font-size: 14px;
+      line-height: 1.1rem;
+      color: white;
+      margin: auto;
+      width: 100%;
+      max-width: 300px;
+
+      @media(max-height: 480px) {
+        max-width: 100%;
+      }
+    }
+  }
+
+  .cta-buttons {
+    @extend %cta-buttons;
+    padding-bottom: calc(2vh + 57px + 16px);
+  }
+
+  .swiper-pagination {
+    &-bullet {
+      background: $v-tour-swiper-pagination-bg;
+      &-active {
+        background: $v-tour-swiper-pagination-bg;
+      }
+    }
+  }
+}

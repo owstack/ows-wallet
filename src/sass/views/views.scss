@@ -15,9 +15,10 @@
 @import "advancedSettings";
 @import "address-book";
 @import "addresses";
-@import "wallet-backup-phrase";
 @import "zero-state";
+@import "backup/backup";
 @import "onboarding/onboarding";
+@import "tour/tour";
 @import "feedback/rateCard";
 @import "feedback/send";
 @import "feedback/complete";

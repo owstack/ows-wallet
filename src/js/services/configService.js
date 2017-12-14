@@ -17,7 +17,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     },
 
     rateApp: {
-      owsWallet: {
+      wallet: {
         ios: appConfigService.appleStoreUrl,
         android: appConfigService.googleStoreUrl
       }

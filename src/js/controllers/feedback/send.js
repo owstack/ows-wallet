@@ -7,12 +7,13 @@ angular.module('owsWalletApp.controllers').controller('sendController', function
     var config = configService.getSync();
 
     var dataSrc = {
-      "Email": lodash.values(config.emailFor)[0] || ' ',
-      "Feedback": goHome ? ' ' : feedback,
-      "Score": $stateParams.score || ' ',
+      "App": appConfigService.nameCase,
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
-      "DeviceVersion": ionic.Platform.version()
+      "DeviceVersion": ionic.Platform.version(),
+      "Email": lodash.values(config.emailFor)[0] || ' ',
+      "Feedback": goHome ? ' ' : feedback,
+      "Score": $stateParams.score || ' '
     };
 
     if (!goHome) ongoingProcess.set('sendingFeedback', true);

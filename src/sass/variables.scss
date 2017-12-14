@@ -66,17 +66,10 @@ $v-hovering-box-shadow:                              0px 6px 12px 0px $v-black-t
 $v-subtle-radius:                                    3px !default;
 $v-visible-radius:                                   6px !default;
 $v-unmistakable-radius:                              12px !default;
-$v-scanner-background-color:                         $v-primary-color !default;
+$v-scanner-bg-color:                                 $v-primary-color !default;
 $v-scanner-guide-color:                              $v-accent-color !default;
 $v-top-tabs-color:                                   $v-accent-color !default;
 
-$v-wallet-backup-bg:                                 $v-white-color !default;
-$v-wallet-backup-phrase-bg:                          $v-subtle-gray !default;
-$v-wallet-backup-phrase-color:                       $v-dark-gray !default;
-$v-wallet-backup-select-phrase-color:                $v-subtle-gray;
-$v-wallet-backup-select-word-bg:                     $v-white-color !default;
-$v-wallet-backup-select-word-color:                  $v-dark-gray !default;
-$v-wallet-backup-select-word-disabled-color:         $v-light-gray !default;
 $v-tou-bg:                                           $v-white-color !default;
 $v-tou-color:                                        $v-dark-gray !default;
 $v-icon-color:                                       $v-accent-color !default;
@@ -118,22 +111,14 @@ $v-slide-shadow:                                     2px 0 3px $v-black-transpar
 
 /* Onboarding */
 $v-onboarding-pane-bg:                               $v-primary-color !default;
-$v-onboarding-background:                            $v-black-color !default;
-$v-onboarding-welcome-bg:                            url(../img/onboarding-welcome-bg.png) !default;
+$v-onboarding-bg:                                    radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
 $v-onboarding-color:                                 $v-white-color !default;
 $v-onboarding-bar-header-color:                      $v-white-color !default;
 $v-onboarding-bar-header-button-color:               $v-white-color !default;
-$v-onboarding-tour-swiper-pagination-bg:             $v-accent-color !default;
+$v-onboarding-button-back-color:                     $v-white-color !default;
 $v-onboarding-backup-alert-icon-color:               $v-accent-color !default;
 $v-onboarding-checkbox-off-border:                   $v-accent-color !default;
 $v-onboarding-checkbox-on-border:                    $v-success-color !default;
-
-$v-onboarding-tour-phone-bg:                         url(../img/onboarding-tour-phone.svg) !default;
-$v-onboarding-tour-currency-bg:                      url(../img/onboarding-tour-currency-bg.svg) !default;
-$v-onboarding-tour-control-bg:                       url(../img/onboarding-tour-control.svg) !default;
-$v-onboarding-backup-warning-bg:                     url(../img/backup-warning.svg) !default;
-
-$v-onboarding-button-back-color:                     $v-white-color !default;
 
 $v-onboarding-button-secondary-bg:                   $v-white-transparent-subtle !default;
 $v-onboarding-button-secondary-color:                $v-accent-color !default;
@@ -142,11 +127,58 @@ $v-onboarding-button-secondary-active-bg:            $v-white-transparent-light 
 $v-onboarding-button-secondary-active-border:        transparent !default;
 $v-onboarding-button-secondary-clear-bg:             transparent !default;
 $v-onboarding-button-secondary-clear-color:          $v-accent-color !default;
-$v-onboarding-button-secondary-outline-border:       $v-accent-color !default;
-$v-onboarding-button-secondary-outline-bg:           transparent !default;
-$v-onboarding-button-secondary-outline-color:        $v-accent-color !default;
-$v-onboarding-button-secondary-outline-active-bg:    $v-accent-color !default;
-$v-onboarding-button-secondary-outline-active-color: $v-accent-color !default;
+$Xv-onboarding-button-secondary-outline-border:       $v-accent-color !default;
+$Xv-onboarding-button-secondary-outline-bg:           transparent !default;
+$Xv-onboarding-button-secondary-outline-color:        $v-accent-color !default;
+$Xv-onboarding-button-secondary-outline-active-bg:    $v-accent-color !default;
+$Xv-onboarding-button-secondary-outline-active-color: $v-accent-color !default;
+
+/* Tour */
+$v-tour-bg:                                          radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
+$v-tour-color:                                       $v-white-color !default;
+$v-tour-bar-header-color:                            $v-white-color !default;
+$v-tour-bar-header-button-color:                     $v-white-color !default;
+$v-tour-button-back-color:                           $v-white-color !default;
+$v-tour-swiper-pagination-bg:                        $v-accent-color !default;
+
+$v-tour-button-secondary-bg:                         $v-white-transparent-subtle !default;
+$v-tour-button-secondary-color:                      $v-white-color !default;
+$v-tour-button-secondary-border:                     transparent !default;
+$v-tour-button-secondary-active-bg:                  $v-white-transparent-light !default;
+$v-tour-button-secondary-active-border:              transparent !default;
+$v-tour-button-secondary-clear-bg:                   transparent !default;
+$v-tour-button-secondary-clear-color:                $v-accent-color !default;
+$Xv-tour-button-secondary-outline-border:             $v-accent-color !default;
+$Xv-tour-button-secondary-outline-bg:                 transparent !default;
+$Xv-tour-button-secondary-outline-color:              $v-accent-color !default;
+$Xv-tour-button-secondary-outline-active-bg:          $v-accent-color !default;
+$Xv-tour-button-secondary-outline-active-color:       $v-accent-color !default;
+
+/* Backup */
+$v-backup-bg:                                        radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
+$v-backup-color:                                     $v-white-color !default;
+$v-backup-bar-header-color:                          $v-white-color !default;
+$v-backup-bar-header-button-color:                   $v-white-color !default;
+$v-backup-button-back-color:                         $v-white-color !default;
+$v-backup-phrase-bg:                                 none !default;
+$v-backup-phrase-border:                             1px solid $v-accent-complement-color !default;
+$v-backup-phrase-color:                              $v-white-color !default;
+$v-backup-select-word-button-bg:                     $v-accent-color !default;
+$v-backup-select-word-button-color:                  $v-white-color !default;
+$v-backup-select-word-button-disabled-color:         $v-light-gray !default;
+
+$v-backup-button-secondary-bg:                       $v-white-transparent-subtle !default;
+$v-backup-button-secondary-color:                    $v-accent-color !default;
+$v-backup-button-secondary-border:                   transparent !default;
+$v-backup-button-secondary-active-bg:                $v-white-transparent-light !default;
+$v-backup-button-secondary-active-border:            transparent !default;
+$v-backup-button-secondary-clear-bg:                 transparent !default;
+$v-backup-button-secondary-clear-color:              $v-accent-color !default;
+$Xv-backup-button-secondary-outline-border:           $v-accent-color !default;
+$Xv-backup-button-secondary-outline-bg:               transparent !default;
+$Xv-backup-button-secondary-outline-color:            $v-accent-color !default;
+$Xv-backup-button-secondary-outline-active-bg:        $v-accent-color !default;
+$Xv-backup-button-secondary-outline-active-color:     $v-accent-color !default;
 
 /* Main tabs */
 $v-tab-home-icon:                                    url('../img/tab-icons/icon-home.svg') !default;

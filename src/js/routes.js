@@ -764,12 +764,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         abstract: true,
         template: '<ion-nav-view name="onboarding"></ion-nav-view>'
       })
-      .state('onboarding.welcome', {
-        url: '/welcome',
+      .state('onboarding.start', {
+        url: '/start',
         views: {
           'onboarding': {
-            templateUrl: 'views/onboarding/welcome.html',
-            controller: 'welcomeController'
+            templateUrl: 'views/onboarding/start.html',
+            controller: 'startController'
           }
         }
       })
@@ -777,8 +777,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/tour',
         views: {
           'onboarding': {
-            templateUrl: 'views/onboarding/tour.html',
+            templateUrl: 'views/tour/tour.html',
             controller: 'tourController'
+          }
+        }
+      })
+      .state('onboarding.createFirstWallet', {
+        url: '/createFirstWallet',
+        views: {
+          'onboarding': {
+            templateUrl: 'views/onboarding/createFirstWallet.html',
+            controller: 'createFirstWalletController'
           }
         }
       })
@@ -935,14 +944,14 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         var fromTabs = matchHome | matchReceive | matchScan | matchSend | matchSettings;
 
         //onboarding with no back views
-        var matchWelcome = $ionicHistory.currentStateName() == 'onboarding.welcome' ? true : false;
+        var matchStart = $ionicHistory.currentStateName() == 'onboarding.start' ? true : false;
         var matchCollectEmail = $ionicHistory.currentStateName() == 'onboarding.collectEmail' ? true : false;
         var matchBackupRequest = $ionicHistory.currentStateName() == 'onboarding.backupRequest' ? true : false;
         var backedUp = $ionicHistory.backView().stateName == 'onboarding.backup' ? true : false;
         var noBackView = $ionicHistory.backView().stateName == 'starting' ? true : false;
         var matchDisclaimer = $ionicHistory.currentStateName() == 'onboarding.disclaimer' && (backedUp || noBackView) ? true : false;
 
-        var fromOnboarding = matchCollectEmail | matchBackupRequest | matchWelcome | matchDisclaimer;
+        var fromOnboarding = matchCollectEmail | matchBackupRequest | matchStart | matchDisclaimer;
 
         //views with disable backbutton
         var matchComplete = $ionicHistory.currentStateName() == 'tabs.rate.complete' ? true : false;
@@ -987,11 +996,11 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         if (err) {
           if (err.message && err.message.match('NOPROFILE')) {
             $log.debug('No profile... redirecting');
-            $state.go('onboarding.welcome');
+            $state.go('onboarding.start');
           } else if (err.message && err.message.match('NONAGREEDDISCLAIMER')) {
             if (lodash.isEmpty(profileService.getWallets())) {
               $log.debug('No wallets and no disclaimer... redirecting');
-              $state.go('onboarding.welcome');
+              $state.go('onboarding.start');
             } else {
               $log.debug('Display disclaimer... redirecting');
               $state.go('onboarding.disclaimer', {

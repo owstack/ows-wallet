@@ -10,12 +10,13 @@ angular.module('owsWalletApp.controllers').controller('rateAppController', funct
 
   $scope.skip = function() {
     var dataSrc = {
-      "Email": lodash.values(config.emailFor)[0] || ' ',
-      "Feedback": ' ',
-      "Score": $stateParams.score,
+      "App": appConfigService.nameCase,
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
-      "DeviceVersion": ionic.Platform.version()
+      "DeviceVersion": ionic.Platform.version(),
+      "Email": lodash.values(config.emailFor)[0] || ' ',
+      "Feedback": ' ',
+      "Score": $stateParams.score
     };
     feedbackService.send(dataSrc, function(err) {
       if (err) {
@@ -38,10 +39,11 @@ angular.module('owsWalletApp.controllers').controller('rateAppController', funct
   $scope.goAppStore = function() {
     var defaults = configService.getDefaults();
     var url;
-    if (isAndroid)
-      url = $scope.appName == defaults.rateApp.owsWallet.android;
-    if (isIOS)
-      url = $scope.appName == defaults.rateApp.owsWallet.ios;
+    if (isAndroid) {
+      url = $scope.appName == defaults.rateApp.wallet.android;
+    } else if (isIOS) {
+      url = $scope.appName == defaults.rateApp.wallet.ios;
+    }
 
     externalLinkService.open(url);
     $state.go('tabs.rate.complete', {

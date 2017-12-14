@@ -1,8 +1,8 @@
-<ion-view id="onboard-welcome" class="onboarding">
-  <ion-content ng-controller="welcomeController" ng-init="createProfile()" scroll="false">
-    <div id="logo-tagline">
-        <img src='img/brand/logo.svg' id="logo" />
-        <p id="lead" translate>Take control of your money,<br />be your own bank.</p>
+<ion-view id="onboard-start" class="onboarding">
+  <ion-content ng-controller="startController" ng-init="createProfile()" scroll="false">
+    <img src='img/onboarding/start.svg' />
+    <div class="onboard-text">
+      <div class="onboard-topic light" translate>Take control of your money.<br />Be your own bank.</div>
     </div>
     <div id="cta-buttons">
         <button class="button button-standard button-primary" id="get-started" href ui-sref="onboarding.tour" translate-context="button" translate>Get started</button>

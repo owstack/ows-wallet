@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('welcomeController', function($scope, $state, $timeout, $ionicConfig, $log, profileService, startupService, storageService) {
+angular.module('owsWalletApp.controllers').controller('startController', function($scope, $state, $timeout, $ionicConfig, $log, profileService, startupService, storageService) {
 
   $scope.$on("$ionicView.afterEnter", function() {
     startupService.ready();

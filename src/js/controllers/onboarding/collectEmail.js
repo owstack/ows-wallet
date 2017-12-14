@@ -1,16 +1,17 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('collectEmailController', function($scope, $state, $log, $timeout, $http, $httpParamSerializer, $ionicConfig, profileService, configService, walletService, appConfigService, emailService) {
+angular.module('owsWalletApp.controllers').controller('collectEmailController', function($scope, $state, $log, $timeout, $window, $http, $httpParamSerializer, $ionicConfig, profileService, configService, walletService, appConfigService, emailService) {
 
-  var wallet, walletId;
+  var wallet;
+  var walletId;
   $scope.data = {};
-  // Get more info: https://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
-  var URL = "  https://script.google.com/macros/s/AKfycby3hCPtYxHrsXfR-rIhnJAWmQ4tRkIufrZjaOs_fk-xsNibaJn7/exec";
+  $scope.author = appConfigService.author;
 
+  // Get more info: https://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
   var _post = function(dataSrc) {
     return {
       method: 'POST',
-      url: URL,
+      url: appConfigService.gappEmailCollectionUrl,
       headers: {
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
@@ -29,15 +30,17 @@ angular.module('owsWalletApp.controllers').controller('collectEmailController', 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     walletId = data.stateParams.walletId;
     wallet = profileService.getWallet(walletId);
-    $scope.data.accept = true;
+    $scope.data.news = true;
   });
 
   var collectEmail = function() {
     var dataSrc = {
       "App": appConfigService.nameCase,
-      "Email": $scope.data.email,
+      "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
-      "DeviceVersion": ionic.Platform.version()
+      "DeviceVersion": ionic.Platform.version(),
+      "Email": $scope.data.email,
+      "News": $scope.data.news ? 'yes' : 'no'
     };
 
     $http(_post(dataSrc)).then(function() {
@@ -57,7 +60,7 @@ angular.module('owsWalletApp.controllers').controller('collectEmailController', 
         email: enabled ? $scope.data.email : null
       });
           
-      if ($scope.data.accept) collectEmail();
+      collectEmail();
 
       $timeout(function() {
         $scope.goNextView();

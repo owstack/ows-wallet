@@ -12,14 +12,25 @@ $relish-success: 1.3s;
     animation-duration: .5s;
     animation-delay: $relish-success;
     animation-fill-mode: forwards;
+
+    >i {
+      font-size: 64px;
+    }
+
+    .success-text {
+      margin-top: 15px;
+
+      >.success-title {
+        font-size: 28px;
+      }
+
+      >.success-message {
+        font-size: 16px;
+        margin-top: 10px;
+      }
+    }
   }
-  #success-image {
-    width: 13vh;
-    margin: 0 auto 2vh;
-  }
-  #success-message {
-    font-size: 3vh;
-  }
+
   .collect-overlay {
     position: absolute;
     top:0;
@@ -35,30 +46,36 @@ $relish-success: 1.3s;
     animation-delay: $relish-success;
     animation-fill-mode: forwards;
     opacity: 0;
+
     button {
       position: absolute;
       right: 0;
     }
   }
+
   .heading {
     color: $v-dark-gray;
-    font-size: 1.2rem;
+    font-size: 18px;
     font-weight: bold;
     margin: 2rem 0 1rem;
   }
+
   .prompt {
     margin: 1rem 1.5rem;
     color: $v-mid-gray;
   }
+
   #email-form {
     margin: 0 1.5rem 1rem;
   }
+
   #email-label {
     border-radius: $v-visible-radius;
     background: $v-subtle-gray;
     height: 3rem;
     margin-top:0;
   }
+
   #collect-email {
     opacity: 1;
     background: $v-white-color;
@@ -74,6 +91,7 @@ $relish-success: 1.3s;
     margin-top: 0;
     width: 100%;
   }
+
   #collect-email-inner {
     max-width: 400px;
     margin: 0 auto;
@@ -81,30 +99,33 @@ $relish-success: 1.3s;
 
   #collect-email-confirm {
     p.confirm {
-      margin: 2rem 0;
-      color: $v-mid-gray;
+      margin: 2rem 0 1rem;
+      color: $v-dark-gray;
+      font-size: 18px;
+      font-weight: bold;
     }
     p.user-email {
       color: $v-dark-gray;
       margin-bottom: 2rem;
     }
-    .row, .col {
-      padding: 0;
-    }
-    .button {
-      padding: 0.5rem;
-      margin-bottom: 0;
-    }
+  }
+
+  #cta-buttons {
+    @extend %cta-buttons;
+    position: initial;
+    padding-bottom: 2vh;
   }
 
   #news-updates {
     padding-top: 0;
   }
+
   .item {
     border: none;
     label {
       background: none;
     }
+
     .checkbox input:before,
     .checkbox .checkbox-icon:before {
       border-radius: 50% !important;
@@ -115,12 +136,14 @@ $relish-success: 1.3s;
       right: 2px;
       bottom: 2px;
     }
+
     .checkbox input:checked:after,
     input:checked + .checkbox-icon:after {
       border-color: $v-onboarding-checkbox-on-border;
       top: 8px;
       left: 6px;
     }
+
     .item-content {
       color: $v-mid-gray;
       text-align: left;
@@ -128,17 +151,21 @@ $relish-success: 1.3s;
       white-space: initial;
     }
   }
+
   .item-checkbox {
     padding: 1rem 0;
     margin: 1rem 0;
   }
+
   .item-checkbox .checkbox {
     margin-left: 15px;
   }
+
   .checkbox input:before,
   .checkbox .checkbox-icon:before{
     border-color: $v-onboarding-checkbox-on-border;
   }
+
   .checkbox input:checked:before,
   .checkbox input:checked + .checkbox-icon:before {
     border-color: $v-onboarding-checkbox-on-border;

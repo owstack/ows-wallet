@@ -6,8 +6,14 @@
   display: block;
 }
 
+.button {
+  color: $v-dark-gray;
+}
+
 .button,
-.onboarding .button {
+.backup .button,
+.onboarding .button,
+.tour .button {
   &.button-primary {
     @include button-style($v-button-primary-bg, $v-button-primary-border, $v-button-primary-active-bg, $v-button-primary-active-border, $v-button-primary-color);
     @include button-clear($v-button-primary-bg);
@@ -25,11 +31,28 @@
     }
   }
 }
+
+.backup .button {
+  &.button-secondary {
+    @include button-style($v-backup-button-secondary-bg, $v-backup-button-secondary-border, $v-backup-button-secondary-active-bg, $v-backup-button-secondary-active-border, $v-backup-button-secondary-color);
+    @include button-clear($v-backup-button-secondary-color);
+    @include button-outline($v-backup-button-secondary-color);
+  }
+}
+
 .onboarding .button {
   &.button-secondary {
     @include button-style($v-onboarding-button-secondary-bg, $v-onboarding-button-secondary-border, $v-onboarding-button-secondary-active-bg, $v-onboarding-button-secondary-active-border, $v-onboarding-button-secondary-color);
     @include button-clear($v-onboarding-button-secondary-color);
     @include button-outline($v-onboarding-button-secondary-color);
+  }
+}
+
+.tour .button {
+  &.button-secondary {
+    @include button-style($v-tour-button-secondary-bg, $v-tour-button-secondary-border, $v-tour-button-secondary-active-bg, $v-tour-button-secondary-active-border, $v-tour-button-secondary-color);
+    @include button-clear($v-tour-button-secondary-color);
+    @include button-outline($v-tour-button-secondary-color);
   }
 }
 

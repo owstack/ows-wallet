@@ -18,7 +18,7 @@ angular.module('owsWalletApp.controllers').controller('addressbookEntryControlle
           toName: $scope.addressbookEntry.name,
           toEmail: $scope.addressbookEntry.email
         });
-      }, 100);      
+      }, 100);
     }
   };
 

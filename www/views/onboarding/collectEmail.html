@@ -1,8 +1,11 @@
 <ion-view id="onboarding-collect-email" class="onboarding">
-  <ion-content>
+  <ion-content scroll="false">
     <div id="success-container">
-      <img src="img/onboarding-success.svg" id="success-image" />
-      <div id="success-message" translate>Wallet Created</div>
+      <i class="ion-checkmark-circled"></i>
+      <div class="success-text">
+        <div class="success-title" translate>Success</div>
+        <div class="success-message" translate>Your wallet was created successfully.</div>
+      </div>
     </div>
     <div id="collect-email">
       <div id="collect-email-inner" ng-if="!confirmation">
@@ -12,26 +15,18 @@
           <label class="item item-input" id="email-label">
             <input type="email" name="email" ng-model="data.email" placeholder="{{'Enter your email'|translate}}" required></input>
           </label>
-          <ion-checkbox ng-model="data.accept"><span translate>Get news and updates from Open Wallet Stack</span></ion-checkbox>
+          <ion-checkbox ng-model="data.news"><span translate>Get news and updates from {{author}}</span></ion-checkbox>
           <button class="button button-standard button-primary" ng-disabled="emailForm.$invalid">
-            Continue &rarr;
+            Continue
           </button>
         </form>
       </div>
       <div id="collect-email-confirm" ng-if="confirmation">
-        <p translate class="confirm">Is this email address correct?</p>
+        <p translate class="confirm">Confirm email address</p>
         <p class="user-email">{{data.email}}</p>
-        <div class="row">
-          <div class="col col-50">
-            <button class="button button-block button-stable" ng-click="cancel()">
-              {{'Edit' | translate}}
-            </button>
-          </div>
-          <div class="col col-50">
-            <button class="button button-block button-stable" ng-disabled="disableButton" ng-click="save()">
-              {{'Confirm' | translate}}
-            </button>
-          </div>
+        <div id="cta-buttons">
+          <button class="button button-standard button-primary" ng-click="save()" ng-disabled="disableButton" translate-context="button" translate>Confirm</button>
+          <button class="button button-standard button-secondary button-clear" ng-click="cancel()" translate>Edit</button>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@
   }
   &-has-problems,
   &-loading-camera {
-    background-color: $v-scanner-background-color;
+    background-color: $v-scanner-bg-color;
   }
   &-loading-camera {
     height: 100%;
@@ -78,5 +78,5 @@
 }
 
 #cordova-plugin-qrscanner-still, #cordova-plugin-qrscanner-video-preview {
-  background-color: $v-scanner-background-color !important;
+  background-color: $v-scanner-bg-color !important;
 }
