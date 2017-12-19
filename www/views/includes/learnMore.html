@@ -1,0 +1,11 @@
+<ion-modal-view id="help" class="settings">
+  <ion-header-bar align-title="center" class="bar-royal">
+    <h1 class="title">{{'Help Topics' | translate}}</h1>
+    <button class="button button-back button-clear" ng-click="closeLearnMoreModal()" translate>
+      Close
+    </button>
+  </ion-header-bar>
+  <ion-content>
+    <div ng-include="'views/includes/helpTopics.html'"></div>
+  </ion-content>
+</ion-modal-view>

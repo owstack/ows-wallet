@@ -1,0 +1,65 @@
+#help {
+	background: $v-white-color;
+  padding: 10px;
+
+	.list .item:before {
+		background: none;
+	}
+
+	.help-title {
+	  font-size: 16px;
+    color: $v-dark-gray;
+		padding: 10px;
+    background: $v-white-color;
+    border: none;
+
+    i {
+	    color: $v-dark-gray;
+	    font-size: 20px;
+	    position: relative;
+	    top: 2px;
+	    opacity: 1;
+    }
+	}
+
+	.help-content {
+	  font-size: 14px;
+    color: $v-mid-gray;
+		padding: 5px 15px 15px 15px;
+    border: none;
+	}
+
+	.help-title-subtopic {
+	  font-size: 14px;
+    color: $v-accent-color;
+    padding: 5px 0;
+    background: $v-white-color;
+    border: none;
+	}
+
+	.help-content-subtopic {
+	  font-size: 14px;
+		padding: 0 15px;
+    color: $v-mid-gray;
+    padding: 0 0 10px 0;
+    background: $v-white-color;
+    border: none;
+	}
+
+	.list .item.item-accordion {
+	  line-height: 22px;
+	  opacity: 1;
+	  transition: 0.1s all linear;
+	}
+
+	.list .item.item-accordion.ng-hide {
+	  line-height: 0px;
+	  opacity: 0;
+	}
+
+	.list .item.item-accordion.ng-hide-add,
+	.list .item.item-accordion.ng-hide-remove {
+	  display: block !important;
+	}
+
+}

@@ -753,6 +753,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
+
       /*
        *
        * Onboarding
@@ -765,7 +766,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         template: '<ion-nav-view name="onboarding"></ion-nav-view>'
       })
       .state('onboarding.start', {
-        url: '/start',
+        url: '/onboarding/start',
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/start.html',
@@ -774,16 +775,19 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.tour', {
-        url: '/tour',
+        url: '/onboarding/tour',
         views: {
           'onboarding': {
-            templateUrl: 'views/tour/tour.html',
+            templateUrl: 'views/help/tour.html',
             controller: 'tourController'
           }
+        },
+        params: {
+          fromOnboarding: true
         }
       })
       .state('onboarding.createFirstWallet', {
-        url: '/createFirstWallet',
+        url: '/onboarding/createFirstWallet',
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/createFirstWallet.html',
@@ -792,7 +796,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.collectEmail', {
-        url: '/collectEmail/:walletId',
+        url: '/onboarding/collectEmail/:walletId',
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/collectEmail.html',
@@ -801,7 +805,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.backupRequest', {
-        url: '/backupRequest/:walletId',
+        url: '/onboarding/backupRequest/:walletId',
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/backupRequest.html',
@@ -810,7 +814,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.backupWarning', {
-        url: '/backupWarning/:from/:walletId',
+        url: '/onboarding/backupWarning/:from/:walletId',
         views: {
           'onboarding': {
             templateUrl: 'views/backupWarning.html',
@@ -819,7 +823,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.backup', {
-        url: '/backup/:walletId',
+        url: '/onboarding/backup/:walletId',
         views: {
           'onboarding': {
             templateUrl: 'views/backup.html',
@@ -828,7 +832,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.disclaimer', {
-        url: '/disclaimer/:walletId/:backedUp/:resume',
+        url: '/onboarding/disclaimer/:walletId/:backedUp/:resume',
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/disclaimer.html',
@@ -837,7 +841,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.terms', {
-        url: '/terms',
+        url: '/onboarding/terms',
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/terms.html',
@@ -846,7 +850,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('onboarding.import', {
-        url: '/import',
+        url: '/onboarding/import',
         views: {
           'onboarding': {
             templateUrl: 'views/import.html',
@@ -856,7 +860,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         params: {
           code: null,
           fromOnboarding: null
-        },
+        }
       })
 
       /*
@@ -875,7 +879,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.shareApp', {
-        url: '/shareApp/:score/:skipped/:fromSettings',
+        url: '/feedback/shareApp/:score/:skipped/:fromSettings',
         views: {
           'tab-settings@tabs': {
             controller: 'completeController',
@@ -884,11 +888,11 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.rate', {
-        url: '/rate',
+        url: '/feedback/rate',
         abstract: true
       })
       .state('tabs.rate.send', {
-        url: '/send/:score',
+        url: '/feedback/send/:score',
         views: {
           'tab-home@tabs': {
             templateUrl: 'views/feedback/send.html',
@@ -897,7 +901,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.rate.complete', {
-        url: '/complete/:score/:skipped',
+        url: '/feedback/complete/:score/:skipped',
         views: {
           'tab-home@tabs': {
             controller: 'completeController',
@@ -906,14 +910,47 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.rate.rateApp', {
-        url: '/rateApp/:score',
+        url: '/feedback/rateApp/:score',
         views: {
           'tab-home@tabs': {
             controller: 'rateAppController',
             templateUrl: 'views/feedback/rateApp.html'
           }
         }
+      })
+
+      /*
+       *
+       * Help
+       *
+       */
+
+      .state('help', {
+        url: '/help',
+        cache: false,
+        views: {
+          'tab-settings@tabs': {
+            templateUrl: 'views/help/getHelp.html',
+            controller: 'getHelpController'
+          }
+        },
+        params: {
+          fromOnboarding: false
+        }
+      })
+      .state('help.tour', {
+        url: '/tour',
+        views: {
+          'tab-settings@tabs': {
+            templateUrl: 'views/help/tour.html',
+            controller: 'tourController'
+          }
+        },
+        params: {
+          fromOnboarding: false
+        }
       });
+
   })
   .run(function($rootScope, $state, $location, $log, $timeout, startupService, ionicToast, fingerprintService, $ionicHistory, $ionicPlatform, $window, appConfigService, lodash, platformInfo, profileService, uxLanguage, gettextCatalog, openURLService, storageService, scannerService, configService, emailService, applicationService) {
 

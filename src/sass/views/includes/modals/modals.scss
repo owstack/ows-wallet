@@ -84,7 +84,7 @@
   }
   
   &-content-warning {
-    .button {
+    .button:not(.button-secondary) {
       color: $v-warning-color !important;
     }
   }

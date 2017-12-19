@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabSettingsController', function($rootScope, $timeout, $scope, appConfigService, $ionicModal, $log, lodash, uxLanguage, platformInfo, profileService, feeService, configService, externalLinkService, storageService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('tabSettingsController', function($rootScope, $timeout, $scope, appConfigService, $log, lodash, uxLanguage, platformInfo, profileService, feeService, configService, storageService, gettextCatalog) {
 
   var updateConfig = function() {
     $scope.currentLanguageName = uxLanguage.getCurrentLanguageName();
@@ -13,17 +13,6 @@ angular.module('owsWalletApp.controllers').controller('tabSettingsController', f
         isoCode: config.wallet.settings.alternativeIsoCode
       };
     });
-  };
-
-  $scope.openExternalLink = function() {
-    var appName = appConfigService.name;
-    var url = appConfigService.gitHubRepoBugs;
-    var optIn = true;
-    var title = null;
-    var message = gettextCatalog.getString('Help and support information is available at the website.');
-    var okText = gettextCatalog.getString('Open');
-    var cancelText = gettextCatalog.getString('Go Back');
-    externalLinkService.open(url, optIn, title, message, okText, cancelText);
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {

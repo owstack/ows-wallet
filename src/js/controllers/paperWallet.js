@@ -1,5 +1,5 @@
 angular.module('owsWalletApp.controllers').controller('paperWalletController',
-  function($scope, $timeout, $log, $ionicModal, $ionicHistory, feeService, popupService, gettextCatalog, platformInfo, configService, profileService, $state, ongoingProcess, txFormatService, $stateParams, walletService, networkService) {
+  function($scope, $timeout, $log, $ionicHistory, feeService, popupService, gettextCatalog, platformInfo, configService, profileService, $state, ongoingProcess, txFormatService, $stateParams, walletService, networkService) {
 
     function _scanFunds(cb) {
       function getPrivateKey(scannedKey, isPkEncrypted, passphrase, cb) {

@@ -1,4 +1,7 @@
 .settings {
+  &.bg-white {
+    background: $v-white-color;
+  }
   .warning {
     color: $v-warning-color;
   }
@@ -143,8 +146,8 @@
   }  
 }
 
-#tab-settings,
-#settings-networks {
+#settings-networks,
+#tab-settings {
   .list {
     .item {
       .big-icon-svg {

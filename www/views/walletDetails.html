@@ -153,15 +153,15 @@
       </div>
     </div> <!-- oh -->
 
-    <a class="wallet-not-backed-up-warning" ng-if="wallet.needsBackup" ui-sref="tabs.wallet.backupWarning({from: 'tabs.wallet'})" translate>
-      Wallet not backed up
+    <a class="wallet-warning" ng-if="wallet.needsBackup" ui-sref="tabs.wallet.backupWarning({from: 'tabs.wallet'})">
+      <i class="icon ion-alert-circled"></i>
+      <span translate>Wallet not backed up</span>
+      <i class="icon arrow-right"></i>
     </a>
 
-
-    <a class="wallet-not-backed-up-warning" ng-if="lowUtxosWarning" ui-sref="tabs.wallet.addresses({walletId:wallet.id,from: 'tabs.wallet'})" translate>
+    <a class="wallet-warning" ng-if="lowUtxosWarning" ui-sref="tabs.wallet.addresses({walletId:wallet.id,from: 'tabs.wallet'})" translate>
       Spending this balance will need significant network fees
     </a>
-
 
     <div class="p60b" ng-if="wallet &&  wallet.isComplete() && !walletNotRegistered">
       <div class="oh pr m20t" ng-show="wallet.incorrectDerivation">
@@ -189,19 +189,18 @@
 
       <!-- Transactions -->
 
-      <div class="oh pr m20t text-gray size-12 text-center"
+      <div class="oh pr m20t text-gray size-16 text-center"
         ng-show="!txHistory[0] && !updatingTxHistory && !updateTxHistoryError && !updateStatusError" translate>
         No transactions yet
       </div>
 
 
-      <div class="oh pr m20t text-gray size-12 text-center"
+      <div class="oh pr m20t text-gray size-16 text-center"
         ng-show="!txHistory[0] && !updatingTxHistory && updateTxHistoryError" translate>
         Could not update transaction history
       </div>
 
-
-      <div ng-show="updatingTxHistory && updatingTxHistoryProgress>5" class="updating">
+      <div ng-show="updatingTxHistory && updatingTxHistoryProgress > 5" class="updating">
         <div  class="row" >
             <ion-spinner class="spinner-dark" icon="crescent"></ion-spinner>
         </div>

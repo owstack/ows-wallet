@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('searchController', function($scope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicScrollDelegate, walletClientError, profileService, lodash, configService, gettext, gettextCatalog, platformInfo, walletService) {
+angular.module('owsWalletApp.controllers').controller('searchController', function($scope, $interval, $timeout, $filter, $log, $ionicPopover, $state, $stateParams, $ionicScrollDelegate, walletClientError, profileService, lodash, configService, gettext, gettextCatalog, platformInfo, walletService) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;

@@ -1,0 +1,34 @@
+<ion-view class="tour" id="tour" hide-tabs>
+  <ion-nav-bar>
+    <ion-nav-title></ion-nav-title>
+    <ion-nav-buttons side="primary">
+      <button class="button back-button button-clear" ng-click="goBack()">
+        <i class="icon ion-ios-arrow-thin-left"></i>
+      </button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="secondary">
+      <button class="button back-button button-clear" ui-sref="onboarding.createFirstWallet" ng-show="fromOnboarding && slide.index == 0">
+        {{'Skip' | translate}}
+      </button>
+      <button class="button back-button button-clear" ng-click="learnMore()" ng-show="!fromOnboarding">
+        {{'Learn more' | translate}}
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-slides class="slides" options="slide.options" slider="slider">
+    <ion-slide-page ng-repeat="topic in tourTopics">
+      <ion-content scroll="false">
+        <img ng-src="{{topic.image}}" />
+        <div class="tour-text">
+          <div class="tour-topic">{{topic.title}}</div>
+          <div class="tour-description">{{topic.description}}</div>
+        </div>
+        <div class="cta-buttons">
+          <button class="button button-standard button-secondary" ng-click="slideNext()" translate>
+            {{topic.acknowledgement}}
+          </button>
+        </div>
+      </ion-content>
+    </ion-slide-page>
+  </ion-slides>
+</ion-view>

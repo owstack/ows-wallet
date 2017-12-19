@@ -72,9 +72,9 @@
     </article>
 
     <div class="backup" ng-if="wallets[0] && wallet && wallet.isComplete() && wallet.needsBackup" ng-click="openBackupNeededModal()">
-      <i class="icon ion-alert"></i>
+      <i class="icon ion-alert-circled"></i>
       <span translate>Wallet not backed up</span>
-      <i class="icon ion-ios-arrow-thin-right"></i>
+      <i class="icon arrow-right"></i>
     </div>
 
     <div class="wallet-selector" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">

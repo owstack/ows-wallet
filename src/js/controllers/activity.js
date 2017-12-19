@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('activityController',
-  function($timeout, $scope, $log, $ionicModal, lodash, txpModalService, profileService, walletService, ongoingProcess, popupService, gettextCatalog, $state) {
+  function($timeout, $scope, $log, lodash, txpModalService, profileService, walletService, ongoingProcess, popupService, gettextCatalog, $state) {
     $scope.openTxpModal = txpModalService.open;
     $scope.fetchingNotifications = true;
 
