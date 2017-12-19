@@ -28,13 +28,14 @@ incoming-data-menu {
         border: 0;
       }
 
-      > img {
+      img {
         margin-left: .2rem;
         position: absolute;
+        height: 22px;
       }
 
       &__text {
-        padding-left: 2.7rem;
+        padding-left: 2.2rem;
       }
     }
 
@@ -53,7 +54,7 @@ incoming-data-menu {
       }
     }
     &__url {
-      background: $v-dark-gray;
+      background: $v-subtle-gray;
       padding: .5rem;
       padding-left: 0;
       border-radius: 4px;
@@ -65,16 +66,24 @@ incoming-data-menu {
         padding: 0 9px 0 10px;
         display: flex;
         align-items: center;
+
+        img {
+          height: 22px;
+        }
       }
 
       &__text {
         color: $v-dark-gray;
         font-size: 14px;
         border-left: 1px solid $v-subtle-gray;
-        padding-left: .7rem;//1rem;
+        padding-left: 1.2rem;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
+
+        &.no-border {
+          border: 0;
+        }
       }
     }
   }
