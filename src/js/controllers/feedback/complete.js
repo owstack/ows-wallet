@@ -1,13 +1,12 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('completeController', function($scope, $stateParams, $timeout, $log, $ionicHistory, $state, $ionicNavBarDelegate, $ionicConfig, platformInfo, configService, storageService, lodash, appConfigService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('completeController', function($scope, $stateParams, $timeout, $log, $ionicHistory, $state, $ionicNavBarDelegate, $ionicConfig, platformInfo, storageService, lodash, appConfigService, gettextCatalog) {
   $scope.isCordova = platformInfo.isCordova;
   $scope.title = gettextCatalog.getString("Share {{appName}}", {
     appName: appConfigService.nameCase
   });
 
-  var defaults = configService.getDefaults();
-  var downloadUrl = appConfigService.name == defaults.download.owsWallet.url;
+  var downloadUrl =  appConfigService.downloadUrl;
 
   function quickFeedback(cb) {
     window.plugins.spinnerDialog.show();
@@ -97,6 +96,7 @@ angular.module('owsWalletApp.controllers').controller('completeController', func
             $scope.facebook = false;
           });
         });
+
         window.plugins.socialsharing.canShareVia('com.apple.social.twitter', 'msg', null, null, null, function(e) {
           $scope.shareTwitterVia = 'com.apple.social.twitter';
           $scope.twitter = true;
@@ -109,6 +109,7 @@ angular.module('owsWalletApp.controllers').controller('completeController', func
             $scope.twitter = false;
           });
         });
+
         window.plugins.socialsharing.canShareVia('com.google.android.apps.plus', 'msg', null, null, null, function(e) {
           $scope.shareGooglePlusVia = 'com.google.android.apps.plus';
           $scope.googleplus = true;
@@ -116,12 +117,14 @@ angular.module('owsWalletApp.controllers').controller('completeController', func
           $log.debug('googlePlus error: ' + e);
           $scope.googleplus = false;
         });
+
         window.plugins.socialsharing.canShareViaEmail(function(e) {
           $scope.email = true;
         }, function(e) {
           $log.debug('email error: ' + e);
           $scope.email = false;
         });
+
         window.plugins.socialsharing.canShareVia('whatsapp', 'msg', null, null, null, function(e) {
           $scope.whatsapp = true;
         }, function(e) {
@@ -137,7 +140,10 @@ angular.module('owsWalletApp.controllers').controller('completeController', func
       disableAnimate: false,
       historyRoot: true
     });
-    if ($scope.score == 5) $ionicHistory.goBack(-3);
-    else $ionicHistory.goBack(-2);
+    if ($scope.score == 5) {
+      $ionicHistory.goBack(-3);
+    } else {
+      $ionicHistory.goBack(-2);
+    }
   };
 });

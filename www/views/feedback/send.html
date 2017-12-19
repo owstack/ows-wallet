@@ -2,7 +2,7 @@
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>{{'Give Feedback' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
-      <button ng-show="score" class="button no-border ng-hide" ng-click="sendFeedback(null, true)" translate>
+      <button ng-show="score" class="button button-clear ng-hide" ng-click="sendFeedback(null, true)" translate>
         Cancel
       </button>
       <button ng-show="!score || fromSettings" class="button back-button button-clear ng-hide" ng-click="goBack()">
@@ -10,7 +10,7 @@
       </button>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
-      <button ng-show="isCordova" ng-disabled="!feedback.value" class="button no-border" type="submit" ng-click="sendFeedback(feedback.value)" translate>
+      <button ng-show="isCordova" ng-disabled="!feedback.value" class="button button-clear" type="submit" ng-click="sendFeedback(feedback.value)" translate>
         Send
       </button>
     </ion-nav-buttons>

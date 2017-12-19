@@ -10,18 +10,6 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       mPlusN: 100,
     },
 
-    download: {
-      owsWallet: {
-        url: appConfigService.downloadUrl
-      }
-    },
-
-    rateApp: {
-      wallet: {
-        ios: appConfigService.appleStoreUrl,
-        android: appConfigService.googleStoreUrl
-      }
-    },
     // wallet default config
     wallet: {
       requiredCopayers: 2,
