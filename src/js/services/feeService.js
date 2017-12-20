@@ -5,9 +5,13 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
   var CACHE_TIME_TS = 60; // 1 min
 
-  var cache = {
-    updateTs: 0,
-  };
+  // Build a fee cache for each network
+  var cache = {};
+  lodash.forEach(networkService.getNetworks(), function(n) {
+    var networkURI = n.getURI();
+    cache[networkURI] = {};
+    cache[networkURI].updateTs = 0;
+  });
 
   root.getFeeOpts = function(networkURI, opt) {
     var options = networkService.getNetworkByURI(networkURI).feePolicy.options;
@@ -32,18 +36,28 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
     if (feeLevel == 'custom') return cb();
 
     root.getFeeLevels(networkURI, function(err, levels, fromCache) {
-      if (err) return cb(err);
+      if (err) {
+        err = {
+          message: gettextCatalog.getString("Could not get dynamic fee for level: {{feeLevel}}.", {
+            feeLevel: feeLevel
+          })
+        };
+      }
 
       var feeLevelRate = lodash.find(levels, {
         level: feeLevel
       });
 
       if (!feeLevelRate || !feeLevelRate.feePerKb) {
-        return cb({
-          message: gettextCatalog.getString("Could not get dynamic fee for level: {{feeLevel}}", {
+        return cb(err);
+      }
+
+      if (err && fromCache) {
+        err = {
+          message: gettextCatalog.getString("Could not get dynamic fee for level: {{feeLevel}}, using cached fee values.", {
             feeLevel: feeLevel
           })
-        });
+        };
       }
 
       var feeRate = feeLevelRate.feePerKb;
@@ -52,7 +66,7 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
         $log.debug('Dynamic fee: ' + feeLevel + '/' + networkURI + ' ' + (feeLevelRate.feePerKb / 1000).toFixed() + ' ' + networkService.getAtomicUnit(networkURI).shortName + '/byte');
       }
 
-      return cb(null, feeRate);
+      return cb(err, feeRate);
     });
   };
 
@@ -84,8 +98,8 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
       walletServiceUrl = configService.getSync().currencyNetworks[networkURI].walletService.url;
     }
 
-    if (cache.updateTs > Date.now() - CACHE_TIME_TS * 1000) {
-      return cb(null, cache.data, true);
+    if (cache[networkURI].updateTs > Date.now() - CACHE_TIME_TS * 1000) {
+      return cb(null, cache[networkURI].data, true);
     }
 
     var opts = {
@@ -96,13 +110,16 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
     walletClient.getFeeLevels(network, function(err, levels) {
       if (err) {
-        return cb(gettextCatalog.getString('Could not get dynamic fee'));
+        if (cache[networkURI] && cache[networkURI].data) {
+          return cb(gettextCatalog.getString('Could not refresh dynamic fee information. Showing cached fee values.'), cache[networkURI].data, true);
+        }
+        return cb(gettextCatalog.getString('Could not get dynamic fee information.'));
       }
 
-      cache.updateTs = Date.now();
-      cache.data = levels;
+      cache[networkURI].updateTs = Date.now();
+      cache[networkURI].data = levels;
 
-      return cb(null, cache.data);
+      return cb(null, cache[networkURI].data);
     });
   };
 

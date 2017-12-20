@@ -33,17 +33,23 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
       return;
     }
 
-    $scope.networkURI = networkService.getNetworkByURI($scope.networkURI);
-    $scope.feeOpts = feeService.getFeeOpts($scope.network.getURI());
+    $scope.network = networkService.getNetworkByURI($scope.networkURI);
+    $scope.feeOpts = feeService.getFeeOpts($scope.networkURI);
     $scope.currentFeeLevel = $scope.feeLevel || feeService.getCurrentFeeLevel($scope.networkURI);
     $scope.loadingFee = true;
     feeService.getFeeLevels($scope.networkURI, function(err, levels) {
       $scope.loadingFee = false;
-      if (err) {
+      delete $scope.feeWarning;
+
+      if (err && !levels) {
         //Error is already formatted
         popupService.showAlert(err);
         return;
+      } else if (err && levels) {
+        //Error is already formatted
+        $scope.feeWarning = err;
       }
+
       $scope.feeLevels = levels;
       updateCurrentValues();
       $timeout(function() {
@@ -55,19 +61,20 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
   var updateCurrentValues = function() {
     if (lodash.isEmpty($scope.feeLevels) || lodash.isEmpty($scope.currentFeeLevel)) return;
 
-    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
+    var value = lodash.find($scope.feeLevels, {
       level: $scope.currentFeeLevel
     });
 
     if (lodash.isEmpty(value)) {
-      $scope.feePerSmallestUnitByte = $scope.currentFeeLevel == 'custom' ? $scope.feePerSmallestUnitByte : null;
+      $scope.feePerAtomicUnitByte = $scope.currentFeeLevel == 'custom' ? $scope.feePerAtomicUnitByte : null;
       $scope.avgConfirmationTime = null;
       setMinWarning();
       setMaxWarning();
       return;
     }
 
-    $scope.feePerSmallestUnitByte = (value.feePerKb / 1000).toFixed();
+    $scope.atomicUnitCode = networkService.getAtomicUnit($scope.networkURI).shortName;
+    $scope.feePerAtomicUnitByte = (value.feePerKb / 1000).toFixed();
     $scope.avgConfirmationTime = value.nbBlocks * 10;
     $scope.invalidCustomFeeEntered = false;
     setMinWarning();
@@ -86,8 +93,8 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
     var atomicName = networkService.getAtomicUnit($scope.networkURI).shortName;
     popupService.showPrompt(gettextCatalog.getString('Custom Fee'), gettextCatalog.getString('Set your own fee in ' + atomicName + '/byte'), null, function(text) {
       if (!text || !parseInt(text) || parseInt(text) <= 0) return;
-      $scope.feePerSmallestUnitByte = parseInt(text);
-      $scope.customFeePerKB = ($scope.feePerSmallestUnitByte * 1000).toFixed();
+      $scope.feePerAtomicUnitByte = parseInt(text);
+      $scope.customFeePerKB = ($scope.feePerAtomicUnitByte * 1000).toFixed();
       setMaxWarning();
       setMinWarning();
       $timeout(function() {
@@ -97,19 +104,19 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
   };
 
   $scope.getMinimumRecommeded = function() {
-    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
+    var value = lodash.find($scope.feeLevels, {
       level: 'superEconomy'
     });
     return parseInt((value.feePerKb / 1000).toFixed());
   };
 
   var setMinWarning = function() {
-    if (parseInt($scope.feePerSmallestUnitByte) < $scope.getMinimumRecommeded()) $scope.showMinWarning = true;
+    if (parseInt($scope.feePerAtomicUnitByte) < $scope.getMinimumRecommeded()) $scope.showMinWarning = true;
     else $scope.showMinWarning = false;
   };
 
   var setMaxWarning = function() {
-    if (parseInt($scope.feePerSmallestUnitByte) > 1000) {
+    if (parseInt($scope.feePerAtomicUnitByte) > 1000) {
       $scope.showMaxWarning = true;
       $scope.invalidCustomFeeEntered = true;
     } else {

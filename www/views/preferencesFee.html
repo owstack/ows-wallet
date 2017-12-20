@@ -18,10 +18,13 @@
         </div>
         <div>
           <span translate>Current fee rate for this policy</span>:
-          <span class="fee-rate" ng-if="feePerSmallestUnitByte">{{feePerSmallestUnitByte}} {{network.units.smallestUnitCode}}/byte</span>
+          <span class="fee-rate" ng-if="feePerAtomicUnitByte">{{feePerAtomicUnitByte}} {{atomicUnitCode}}/byte</span>
           <span ng-if="loadingFee">...</span>
         </div>
       </div>
+    </div>
+    <div class="fee-warning" ng-if="feeWarning">
+      <i class="icon ion-alert-circled"></i>{{feeWarning}}
     </div>
     <div class="fee-policies">
       <ion-radio ng-repeat="(fee, level) in feeOpts" ng-if="fee != 'custom'" ng-value="fee" ng-model="currentFeeLevel" ng-click="save(fee)">

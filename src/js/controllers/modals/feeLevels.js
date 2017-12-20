@@ -15,14 +15,14 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
   };
 
   var getMinRecommended = function() {
-    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
+    var value = lodash.find($scope.feeLevels, {
       level: 'superEconomy'
     });
     return parseInt((value.feePerKb / 1000).toFixed());
   };
 
   var getMaxRecommended = function() {
-    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
+    var value = lodash.find($scope.feeLevels, {
       level: 'urgent'
     });
     return parseInt((value.feePerKb / 1000).toFixed());
@@ -58,7 +58,7 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
   };
 
   $scope.updateFeeRate = function() {
-    var value = lodash.find($scope.feeLevels[$scope.networkURI], {
+    var value = lodash.find($scope.feeLevels, {
       level: $scope.feeLevel
     });
 

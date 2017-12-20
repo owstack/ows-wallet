@@ -7,19 +7,22 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-
     <div class="settings-list list" ng-if="!networkURI">
       <div class="item item-divider"></div>      
-      <a class="item item-icon-left item-icon-right" ng-repeat="network in availableNetworks"
+      <a class="item has-setting-value item-icon-left item-icon-right" ng-repeat="network in availableNetworks"
         ui-sref="tabs.network-settings({'networkURI': network.getURI()})">
         <i class="icon big-icon-svg">
           <img ng-src="img/currency-icons/icon-{{network.currency}}.svg" class="bg"/>
         </i>
-        <span>{{network.getFriendlyNetLabel()}}</span>
+        <span class="setting-title">{{network.getFriendlyNetLabel()}}</span>
+        <span class="setting-value">
+          {{networkSettings[network.getURI()].unitName}}, 
+          {{networkSettings[network.getURI()].selectedAlternative.name}}, 
+          {{networkSettings[network.getURI()].currentFeeLevel}}
+        </span>
         <i class="icon arrow-right"></i>
       </a>
     </div>
-
     <div class="settings-list list" ng-if="networkURI">
       <div class="item item-divider"></div>
       <a class="item has-setting-value item-icon-left item-icon-right" ui-sref="tabs.unit({'networkURI': networkURI})">
@@ -28,17 +31,18 @@
         </i>
         <span class="setting-title">{{'Unit' | translate}}</span>
         <span class="setting-value">
-          {{unitName}}
+          {{networkSettings[networkURI].unitName}}
         </span>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item has-setting-value item-icon-left item-icon-right" ui-sref="tabs.altCurrency({'networkURI': networkURI})">
+      <a class="item has-setting-value item-icon-left item-icon-right" ng-show="networkSettings[networkURI].isLivenet"
+        ui-sref="tabs.altCurrency({'networkURI': networkURI})">
         <i class="icon big-icon-svg">
           <img src="img/icon-alternative-currency.svg" class="bg"/>
         </i>
         <span class="setting-title">{{'Alternative Currency' | translate}}</span>
         <span class="setting-value">
-          {{selectedAlternative.name}}
+          {{networkSettings[networkURI].selectedAlternative.name}}
         </span>
         <i class="icon arrow-right"></i>
       </a>
@@ -48,11 +52,10 @@
         </i>
         <span class="setting-title">{{'Network Fee Policy' | translate}}</span>
         <span class="setting-value">
-          {{feeOpts[currentFeeLevel]|translate}}
+          {{networkSettings[networkURI].currentFeeLevel}}
         </span>
         <i class="icon arrow-right"></i>
       </a>
     </div>
-
   </ion-content>
 </ion-view>
