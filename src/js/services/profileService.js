@@ -417,13 +417,13 @@ angular.module('owsWalletApp.services')
     // joins and stores a wallet
     root.joinWallet = function(opts, cb) {
       var config = configService.getSync();
-      opts = opts || {};
-      opts.walletServiceUrl = config.currencyNetworks[opts.networkURI].walletService.url;
-      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
+//      opts = opts || {};
+//      opts.walletServiceUrl = config.currencyNetworks[opts.network.getURI()].walletService.url;
+      var walletClient = networkService.walletClientFor(opts.network.getURI()).getClient(null, opts);
       $log.debug('Joining Wallet:', opts);
 
       try {
-        var walletData = networkService.walletClientFor(opts.networkURI).parseSecret(opts.secret);
+        var walletData = networkService.walletClientFor(opts.network.getURI()).parseSecret(opts.secret);
 
         // check if exist
         if (lodash.find(root.profile.credentials, {
@@ -435,7 +435,7 @@ angular.module('owsWalletApp.services')
         $log.debug(ex);
         return cb(gettextCatalog.getString('Bad wallet invitation'));
       }
-      opts.networkURI = walletData.network;
+//      opts.networkURI = network.getURI();
       $log.debug('Joining Wallet:', opts);
 
       seedWallet(opts, function(err, walletClient) {
@@ -448,6 +448,27 @@ angular.module('owsWalletApp.services')
           }, cb);
         });
       });
+    };
+
+    root.getNetworkFromJoinSecret = function(secret, cb) {
+      var network;
+
+      // Find the network for the specified secret.
+      lodash.forEach(networkService.getNetworks(), function(n) {
+        try {
+          // Parsing without exception provides a network match.
+          var walletData = networkService.walletClientFor(n.getURI()).parseSecret(secret);
+          network = networkService.getNetworkForCurrencyNet(walletData.currency, walletData.network);
+          return false;
+        } catch (ex) {
+          // Not a match keep trying.
+        };
+      });
+
+      if (!network) {
+        return cb(gettextCatalog.getString('Bad wallet invitation'));
+      }
+      return cb(null, network);
     };
 
     root.getWallet = function(walletId) {

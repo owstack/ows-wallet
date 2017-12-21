@@ -554,7 +554,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   $scope.chooseFeeLevel = function(tx, wallet) {
 
     var scope = $rootScope.$new(true);
-    scope.network = tx.network;
+    scope.networkURI = tx.networkURI;
     scope.feeLevel = tx.feeLevel;
     scope.noSave = true;
 

@@ -87,6 +87,12 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     });
   };
 
+  root.getNetworkForCurrencyNet = function(currency, net) {
+    return lodash.find(networks, function(n) {
+      return (n.currency == currency) && (n.net == net);
+    });
+  };
+
   root.getNetworkByURI = function(networkURI) {
     return lodash.find(networks, function(n) {
       return n.getURI() == networkURI;

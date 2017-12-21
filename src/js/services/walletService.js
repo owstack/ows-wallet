@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezor, ledger, storageService, configService, rateService, uxLanguage, $filter, gettextCatalog, walletClientError, $ionicPopup, fingerprintService, ongoingProcess, gettext, $rootScope, txFormatService, $state, popupService, networkService) {
+angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezor, ledger, storageService, configService, rateService, uxLanguage, $filter, gettextCatalog, walletClientError, $ionicPopup, fingerprintService, ongoingProcess, gettext, $rootScope, txFormatService, $state, popupService, networkService, feeService) {
 
   // Ratio low amount warning (fee/amount) in incoming TX 
   var LOW_AMOUNT_RATIO = 0.15; 
@@ -387,7 +387,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
 
     if (opts.feeLevels) {
-      opts.lowAmount = root.getLowAmount(wallet, opts.feeLevels);
+      opts.lowAmount = root.getLowAmount(wallet);
     }
 
     var fixTxsUnit = function(txs) {
@@ -637,7 +637,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       return wallet.completeHistory && wallet.completeHistory.isValid;
     };
 
-    if (isHistoryCached() && !opts.force) return cb(null, wallet.completeHistory);
+    if (isHistoryCached() && !opts.force) {
+      return cb(null, wallet.completeHistory);
+    }
 
     $log.debug('Updating Transaction History: ' + wallet.credentials.walletName);
 
@@ -897,7 +899,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     });
   };
 
-
   function getEstimatedSizeForSingleInput(wallet) {
     switch (wallet.credentials.addressType) {
       case 'P2PKH':
@@ -907,7 +908,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         return wallet.m * 72 + wallet.n * 36 + 44;
     }
   };
-
 
   root.getEstimatedTxSize = function(wallet, nbOutputs) {
     // Note: found empirically based on all multisig P2SH inputs and within m & n allowed limits.
@@ -923,11 +923,11 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     return parseInt((size * (1 + safetyMargin)).toFixed(0));
   };
 
-
   // Approx utxo amount, from which the uxto is economically redeemable  
-  root.getMinFee = function(wallet, feeLevels, nbOutputs) {
+  root.getMinFee = function(wallet, nbOutputs) {
+    var levels = feeService.cachedFeeLevels;
     var atomicUnit = networkService.getAtomicUnit(wallet.networkURI);
-    var lowLevelRate = (lodash.find(feeLevels, {
+    var lowLevelRate = (lodash.find(levels[wallet.networkURI].data, {
       level: 'normal',
     }).feePerKb / 1000).toFixed(atomicUnit.decimals);
 
@@ -935,26 +935,23 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     return size * lowLevelRate;
   };
 
-
   // Approx utxo amount, from which the uxto is economically redeemable  
-  root.getLowAmount = function(wallet, feeLevels, nbOutputs) {
-    var minFee = root.getMinFee(wallet,feeLevels, nbOutputs);
-    return parseInt( minFee / LOW_AMOUNT_RATIO);
+  root.getLowAmount = function(wallet, nbOutputs) {
+    var minFee = root.getMinFee(wallet, nbOutputs);
+    return parseInt(minFee / LOW_AMOUNT_RATIO);
   };
 
-
-
-  root.getLowUtxos = function(wallet, levels, cb) {
+  root.getLowUtxos = function(wallet, cb) {
 
     wallet.getUtxos({}, function(err, resp) {
       if (err || !resp || !resp.length) return cb('');
 
-      var minFee = root.getMinFee(wallet, levels, resp.length);
+      var minFee = root.getMinFee(wallet, resp.length);
 
       var balance = lodash.sum(resp, 'satoshis');
 
       // for 2 outputs
-      var lowAmount = root.getLowAmount(wallet, levels);
+      var lowAmount = root.getLowAmount(wallet);
       var lowUtxos = lodash.filter(resp, function(x) {
         return x.satoshis < lowAmount;
       });

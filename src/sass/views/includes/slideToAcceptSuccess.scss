@@ -36,8 +36,9 @@ slide-to-accept-success {
       z-index: 1;
       margin-top: -20vh;
 
-      > img {
-        margin-bottom: 1.8rem;
+      > .icon {
+        font-size: 64px;
+        color: $v-white-color;
         -webkit-transform: translateY(5rem);
         transform: translateY(5rem);
         opacity: 0;
@@ -53,7 +54,8 @@ slide-to-accept-success {
 
       &__header {
         color: $v-white-color;
-        font-size: 26px;
+        font-size: 28px;
+        margin-top: 15px;
         -webkit-transform: translateY(5rem);
         transform: translateY(5rem);
         opacity: 0;

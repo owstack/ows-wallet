@@ -4,14 +4,9 @@
     </ion-nav-back-button>
     <ion-nav-title>{{'Join Shared Wallet' | translate}}</ion-nav-title>
   </ion-nav-bar>
-
-
   <ion-content>
-
     <form name="setupForm" ng-submit="join()" novalidate>
-
       <div class="list settings-list settings-input-group">
-
         <label class="item item-input item-stacked-label no-border">
           <span class="input-label" translate>Your nickname</span>
           <input type="text"
@@ -20,7 +15,6 @@
           ng-model="formData.myName"
           required>
         </label>
-
         <div>
           <label class="item item-input item-stacked-label no-border">
             <span class="input-label" translate>Wallet Invitation</span>
@@ -33,20 +27,13 @@
                    placeholder="{{'Paste invitation here'|translate}}"
                    name="secret"
                    ng-model="formData.secret"
+                   ng-change="onSecretChange()"
                    wallet-secret required>
           </label>
           <div class="qr-scan-icon">
             <qr-scanner class="qr-icon size-24" on-scan="onQrCodeScannedJoin(data)"></qr-scanner>
           </div>
         </div>
-
-        <label class="item item-input item-select">
-          <div class="input-label" translate>
-            Currency
-          </div>
-          <select class="m10t" ng-model="formData.network" ng-options="network as network.getCurrencyLabel() for network in availableNetworks"
-            ng-change=" onNetworkChange(); resizeView();"></select>
-        </label>
 
         <div class="item item-divider"></div>
 

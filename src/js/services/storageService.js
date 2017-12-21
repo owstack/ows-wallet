@@ -289,16 +289,16 @@ angular.module('owsWalletApp.services')
       storage.remove('txsHistory-' + walletId, cb);
     }
 
-    root.setBalanceCache = function(cardId, data, cb) {
-      storage.set('balanceCache-' + cardId, data, cb);
+    root.setBalanceCache = function(walletId, data, cb) {
+      storage.set('balanceCache-' + walletId, data, cb);
     };
 
-    root.getBalanceCache = function(cardId, cb) {
-      storage.get('balanceCache-' + cardId, cb);
+    root.getBalanceCache = function(walletId, cb) {
+      storage.get('balanceCache-' + walletId, cb);
     };
 
-    root.removeBalanceCache = function(cardId, cb) {
-      storage.remove('balanceCache-' + cardId, cb);
+    root.removeBalanceCache = function(walletId, cb) {
+      storage.remove('balanceCache-' + walletId, cb);
     };
 
     root.setAppIdentity = function(networkURI, data, cb) {

@@ -30,7 +30,7 @@
         <div class="item">
           <span class="label" translate>To</span>
           <span class="payment-proposal-to" ng-if="!recipientType">
-            <img src="img/currency-icons/icon-{{tx.currency}}.svg">
+            <img ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
 
             <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
               <contact ng-if="!tx.toName" address="{{tx.toAddress}}"></contact>

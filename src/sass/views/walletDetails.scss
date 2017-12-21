@@ -88,6 +88,27 @@
     padding: 1rem;
     background: $v-subtle-gray;
   }
+
+  &__no-transaction {
+    color: $v-mid-gray;
+    font-size: 12.5px;
+    text-align: center;
+    padding-top: 2rem;
+  }
+
+  &__no-update-history {
+    color: $v-error-color;
+    font-size: 12.5px;
+    text-align: center;
+    padding-top: 2rem;
+  }
+
+  &__updating-history {
+    color: $v-mid-gray;
+    font-size: 12.5px;
+    text-align: center;
+    padding-top: 1rem;
+  }
 }
 
 #walletDetails {
@@ -99,11 +120,11 @@
   }
 
   .ionic-refresher-content {
-    color: white !important;
+    color: $v-white-color !important;
 
     .spinner svg {
-      stroke: white;
-      fill: white;
+      stroke: $v-white-color;
+      fill: $v-white-color;
     }
   }
 
@@ -177,13 +198,9 @@
     align-items: center;
     justify-content: center;
 
-    &.collapsible {
-      margin-bottom: 10px;
-    }
-
     &__balance {
-      -webkit-transform: scale3d(1, 1, 1) translateY(45px);
-      transform: scale3d(1, 1, 1) translateY(45px);
+      -webkit-transform: scale3d(1, 1, 1) translateY(49px);
+      transform: scale3d(1, 1, 1) translateY(49px);
     }
 
     &__updating {
@@ -198,8 +215,21 @@
     &__button-balance {
       background-color: transparent;
       border: 1px solid $v-white-transparent-mid;
+      margin-top: 10px;
+      i.icon {
+        margin-right: 7px;
+        vertical-align: middle;
+      }
     }
 
+    &__error {
+      font-size: 14px;
+      padding: 35px 20px;
+    }
+
+  }
+  .no-alternative {
+    padding-top: 45px;
   }
   .item.item-footer {
     font-weight: lighter;
@@ -237,13 +267,24 @@
   font-size: 20px;
   color: $v-white-color;
   width:95%;
+
+  .actions{
+    float: right;
+    a {
+      color: $v-white-color;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 5px;
+      line-height: 16px;
+    }
+  }
 }
 
 .wallet-warning {
   background: $v-warning-color;
   min-height: 32px;
   text-align: center;
-  color: white;
+  color: $v-white-color;
   font-size: 14px;
   display: block;
   text-decoration: none;
@@ -275,5 +316,5 @@ a.item {
 
 .updatingHistory {
   color: $v-dark-gray;
-  font-size:0.9em;
+  font-size: 0.9em;
 }

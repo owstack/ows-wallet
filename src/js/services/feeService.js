@@ -4,21 +4,29 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
   var root = {};
 
   var CACHE_TIME_TS = 60; // 1 min
+  root.cachedFeeLevels = {};
 
-  // Build a fee cache for each network
-  var cache = {};
-  lodash.forEach(networkService.getNetworks(), function(n) {
-    var networkURI = n.getURI();
-    cache[networkURI] = {};
-    cache[networkURI].updateTs = 0;
-  });
+  var init = function() {
+    configService.whenAvailable(function() {
+      // Build a fee cache for each network
+      lodash.forEach(networkService.getNetworks(), function(n) {
+        var networkURI = n.getURI();
+        root.cachedFeeLevels[networkURI] = {};
+        root.cachedFeeLevels[networkURI].updateTs = 0;
+
+        root.getFeeLevels(networkURI, function() {});
+      });
+    });
+  };
 
   root.getFeeOpts = function(networkURI, opt) {
     var options = networkService.getNetworkByURI(networkURI).feePolicy.options;
-    if (!opt) {
+    if (typeof opt == 'string') {
+      return options[opt];
+    } else if (typeof opt == 'undefined') {
       return options;
     } else {
-      return options[opt];
+      return;
     }
   };
 
@@ -98,8 +106,8 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
       walletServiceUrl = configService.getSync().currencyNetworks[networkURI].walletService.url;
     }
 
-    if (cache[networkURI].updateTs > Date.now() - CACHE_TIME_TS * 1000) {
-      return cb(null, cache[networkURI].data, true);
+    if (root.cachedFeeLevels[networkURI].updateTs > Date.now() - CACHE_TIME_TS * 1000) {
+      return cb(null, root.cachedFeeLevels[networkURI].data, true);
     }
 
     var opts = {
@@ -110,19 +118,20 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
 
     walletClient.getFeeLevels(network, function(err, levels) {
       if (err) {
-        if (cache[networkURI] && cache[networkURI].data) {
-          return cb(gettextCatalog.getString('Could not refresh dynamic fee information. Showing cached fee values.'), cache[networkURI].data, true);
+        if (root.cachedFeeLevels[networkURI] && root.cachedFeeLevels[networkURI].data) {
+          return cb(gettextCatalog.getString('Could not refresh dynamic fee information. Showing cached fee values.'), root.cachedFeeLevels[networkURI].data, true);
         }
         return cb(gettextCatalog.getString('Could not get dynamic fee information.'));
       }
 
-      cache[networkURI].updateTs = Date.now();
-      cache[networkURI].data = levels;
+      root.cachedFeeLevels[networkURI].updateTs = Date.now();
+      root.cachedFeeLevels[networkURI].data = levels;
 
-      return cb(null, cache[networkURI].data);
+      return cb(null, root.cachedFeeLevels[networkURI].data);
     });
   };
 
+  init();
 
   return root;
 });

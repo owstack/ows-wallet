@@ -20,11 +20,11 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
   };
 
   function displayFeeValues() {
-    txFormatService.formatAlternativeStr($scope.tx.network, $scope.tx.fee, function(v) {
+    txFormatService.formatAlternativeStr($scope.wallet.networkURI, $scope.tx.fee, function(v) {
       $scope.tx.feeFiatStr = v;
     });
     $scope.tx.feeRateStr = ($scope.tx.fee / ($scope.tx.amount + $scope.tx.fee) * 100).toFixed(2) + '%';
-    $scope.tx.feeLevelStr = feeService.getFeeOpts($scope.tx.network, $scope.tx.feeLevel);
+    $scope.tx.feeLevelStr = feeService.getFeeOpts($scope.wallet.networkURI, $scope.tx.feeLevel);
   };
 
   function applyButtonText() {
