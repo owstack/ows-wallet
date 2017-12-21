@@ -7,7 +7,8 @@
 
   <ion-content>
     <div class="settings-list list">
-      <ion-toggle class="has-comment" ng-model="spendUnconfirmed.value" toggle-class="toggle-balanced" ng-change="spendUnconfirmedChange()">
+      <div class="item item-divider"></div>
+      <ion-toggle class="has-comment" ng-model="spendUnconfirmed.value" toggle-class="toggle-positive" ng-change="spendUnconfirmedChange()">
         <span class="toggle-label" translate>Use Unconfirmed Funds</span>
       </ion-toggle>
       <div class="comment" translate>
@@ -16,7 +17,7 @@
 
       <div class="item item-divider"></div>
 
-      <ion-toggle class="has-comment" ng-model="recentTransactionsEnabled.value" toggle-class="toggle-balanced" ng-change="recentTransactionsChange()">
+      <ion-toggle class="has-comment" ng-model="recentTransactionsEnabled.value" toggle-class="toggle-positive" ng-change="recentTransactionsChange()">
         <span class="toggle-label" translate>Recent Transaction Card</span>
       </ion-toggle>
       <div class="comment" translate>
@@ -25,7 +26,7 @@
 <!-- TODO: remove for now, no next step items - use plugins?
       <div class="item item-divider"></div>
 
-      <ion-toggle ng-model="hideNextSteps.value" toggle-class="toggle-balanced" ng-change="nextStepsChange()">
+      <ion-toggle ng-model="hideNextSteps.value" toggle-class="toggle-positive" ng-change="nextStepsChange()">
         <span class="toggle-label" translate>Hide Next Steps Card</span>
       </ion-toggle>
     </div>

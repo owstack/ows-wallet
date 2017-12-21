@@ -1,13 +1,11 @@
 <ion-modal-view id="pin">
-  <div class="content">
+<div class="content">
     <div class="block-text row">
-      <div class="message" translate>Verify your identity</div>
+      <div class="message" translate="">Verify your identity</div>
     </div>
-    <div class="app-icon">
-      <i class="icon big-icon-svg">
-        <div class="bg"></div>
-      </i>
+    <div class="block-image">
+      <img src="img/icon-touch-id.svg">
     </div>
-    <button style="margin-top: 15%" class="button button-standard button-primary" ng-click="checkFingerprint()" translate>Scan again</button>
+    <button style="position: absolute;top: 50%;left: 50%;transform: translateX(-50%);" class="button button-standard button-primary" ng-click="checkFingerprint()" translate="">Scan again</button>
   </div>
 </ion-modal-view>

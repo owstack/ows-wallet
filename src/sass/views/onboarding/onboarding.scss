@@ -31,7 +31,7 @@
       max-width: 300px;
 
       &.light {
-        font-family: 'Roboto-Light';
+        font-family: $v-font-family-light;
         font-weight: normal;
       }
 
@@ -42,7 +42,7 @@
     }
 
     > .onboard-description {
-      font-family: Roboto-Light;
+      font-family: $v-font-family-light;
       font-size: 14px;
       line-height: 1.1rem;
       color: white;

@@ -11,11 +11,8 @@
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
-
   <ion-content>
-
     <form name="addressbookForm" no-validate>
-
       <div class="list add-address-list add-address-input-group">
         <label class="item item-input item-stacked-label no-border">
           <span class="input-label" translate>Name</span>
@@ -55,11 +52,9 @@
             Network
           </div>
           <select class="m10t" ng-model="addressbookEntry.network"
-            ng-options="network as network.name for network in networkOptions" required></select>
+            ng-options="network as network.getFriendlyNetLabel() for network in availableNetworks" required></select>
         </label>
-
       </div>
-
       <div class="padding">
         <button type="submit"
                 class="button button-standard button-primary"
@@ -68,7 +63,6 @@
           Save
         </button>
       </div>
-
     </form>
   </ion-content>
 </ion-view>

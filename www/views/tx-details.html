@@ -112,7 +112,7 @@ This transaction amount is too small compared to current network fees. Spending 
           <ion-toggle ng-show="!btx.confirmations || btx.confirmations == 0"
                       class="toggle-unconfirmed"
                       ng-model="txNotification.value"
-                      toggle-class="toggle-balanced"
+                      toggle-class="toggle-positive"
                       ng-change="txConfirmNotificationChange()">
             <span class="toggle-label" translate>Notify me if confirmed</span>
           </ion-toggle>

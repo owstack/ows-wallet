@@ -4,38 +4,33 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-
   <ion-content>
     <div class="list">
+      <div class="item item-divider"></div>
       <div ng-if="PNEnabledByUser">
-        <ion-toggle ng-model="pushNotifications.value" toggle-class="toggle-balanced" ng-change="pushNotificationsChange()" ng-if="usePushNotifications">
+        <ion-toggle ng-model="pushNotifications.value" toggle-class="toggle-positive" ng-change="pushNotificationsChange()" ng-if="usePushNotifications">
           <span class="toggle-label" translate>Enable push notifications</span>
         </ion-toggle>
       </div>
-
       <div ng-if="!PNEnabledByUser && isIOSApp">
         <div class="padding text-light" translate>
           Push notifications for {{appName}} are currently disabled. Enable them in the Settings app.
         </div>
       </div>
-
       <div ng-if="usePushNotifications && pushNotifications.value">
-        <ion-toggle ng-model="confirmedTxsNotifications.value" toggle-class="toggle-balanced" ng-change="confirmedTxsNotificationsChange()">
+        <ion-toggle ng-model="confirmedTxsNotifications.value" toggle-class="toggle-positive" ng-change="confirmedTxsNotificationsChange()">
           <span class="toggle-label" translate>Notify me when transactions are confirmed</span>
         </ion-toggle>
       </div>
-
-      <ion-toggle ng-model="emailNotifications.value" toggle-class="toggle-balanced" ng-change="emailNotificationsChange()">
+      <ion-toggle ng-model="emailNotifications.value" toggle-class="toggle-positive" ng-change="emailNotificationsChange()">
         <span class="toggle-label" translate>Enable email notifications</span>
       </ion-toggle>
-
       <div ng-if="emailNotifications.value">
         <div class="settings-explanation">
           <div class="settings-description" translate>
             You'll receive email notifications about payments sent and received from your wallets.
           </div>
         </div>
-
         <form name="emailForm" ng-submit="save()" novalidate>
           <div class="list settings-input-group">
             <label class="item item-input item-stacked-label">
@@ -49,8 +44,6 @@
           </button>
         </form>
       </div>
-
-
     </div>
   </ion-content>
 </ion-view>

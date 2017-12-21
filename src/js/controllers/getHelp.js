@@ -8,7 +8,7 @@ angular.module('owsWalletApp.controllers').controller('getHelpController', funct
     var appName = appConfigService.name;
     var url = appConfigService.gitHubRepoBugs;
     var optIn = true;
-    var title = null;
+    var title = gettextCatalog.getString('Report a Bug');
     var message = gettextCatalog.getString('You may browse or submit bugs at the website.');
     var okText = gettextCatalog.getString('Open');
     var cancelText = gettextCatalog.getString('Go Back');

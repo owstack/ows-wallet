@@ -171,7 +171,7 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
     var explorer = networkService.getNetworkByURI($scope.wallet.networkURI).explorer.production;
     var url = explorer.urlTx + btx.txid;
     var optIn = true;
-    var title = null;
+    var title = gettextCatalog.getString('View On Blockchain');
     var message = gettextCatalog.getString('View Transaction on ' + explorer.label);
     var okText = gettextCatalog.getString('Open ' + explorer.label);
     var cancelText = gettextCatalog.getString('Go Back');

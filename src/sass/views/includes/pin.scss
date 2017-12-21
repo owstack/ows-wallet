@@ -1,37 +1,36 @@
 #pin {
-  background-color: $v-subtle-gray;
+  background: $v-pin-bg;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
+
+  .bar.bar-royal {
+    background: transparent;
+    border: 0;
+  }
+
   .content {
     text-align: center;
     position: fixed;
     width: 100%;
     height: 100%;
-    .app-icon {
-      margin-top: -55px;
-      .big-icon-svg {
-        > .bg {
-          background-image: url("../img/icon.png");
-          height: 60px;
-          width: 60px;
-          margin: auto;
-        }
-      }
-    }
+
     .block-text {
       align-items: center;
-      background-color: $v-subtle-gray;
-      height: 30%;
-      border-bottom: 1px solid $v-light-gray;
+      position: absolute;
+      top: 10%;
+
       .message {
         margin: auto;
+        color: $v-pin-color;
       }
+
       span {
         width: 60%;
         margin: 10% auto;
       }
+
       @media(min-width: 480px) {
         span {
           font-size: 30px;
@@ -39,18 +38,29 @@
         }
       }
     }
+
     .block-code {
       width: 50%;
       margin: auto;
+      position: absolute;
+      top: 23%;
+      left: 50%;
+      transform: translateX(-50%);
+
       @media(min-width: 480px) {
         width: 25%;
       }
     }
+
+    .block-image {
+      position: absolute;
+      top: 23%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
     .block-buttons {
-      .col {
-        padding: 5%;
-      }
-      color: $v-dark-gray;
+      color: $v-pin-buttons-color;
       font-size: 1.7rem;
       font-family: $v-font-family-light;
       cursor: pointer;
@@ -58,6 +68,11 @@
       bottom: 3%;
       left: 5%;
       width: 90%;
+
+      .col {
+        padding: 5%;
+      }
+
       @media(min-width: 480px) {
         left: 15%;
         width: 70%;
@@ -65,20 +80,23 @@
       }
     }
   }
+
   @mixin circle {
     border-radius: 50%;
-    box-shadow: 0 0 3px 0px $v-dark-gray; 
     transition: background-color .2s ease-in-out;
     padding: 7%;
     margin: 5%;
   }
-  .circle-ows-wallet {
+
+  .circle-pin {
     @include circle;
-  	border: 1px solid $v-accent-color;
+  	border: 1px solid $v-pin-circle-color;
   }
-  .filled-ows-wallet {
-    background-color: $v-accent-color;
+
+  .filled-pin {
+    background-color: $v-pin-circle-color;
   }
+
   .error {
     color: $v-error-color;
     max-width: 70%;

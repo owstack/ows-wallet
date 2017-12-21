@@ -11,11 +11,11 @@
   </ion-nav-bar>
   <ion-content class="log-bg">
     <div class="list">
+      <div class="centered padding" ng-show="filteredLogs.length == 0">
+        <span translate>No entries for this log level.</span>
+        <a ng-click="showOptionsMenu()" translate>Adjust setting</a>&nbsp;to view more log content.
+      </div>
       <div class="item item-text-wrap enable_text_select log-entry">
-        <div class="centered" ng-show="filteredLogs.length == 0">
-          <span translate>No entries for this log level</span>.
-          <a ng-click="showOptionsMenu()" translate>Filter setting</a>.
-        </div>
         <ul ng-show="filteredLogs.length > 0">
           <li ng-repeat="l in filteredLogs">
             <span ng-class="{'energized': l.level=='warn', 'dark': l.level=='debug', 'positive': l.level=='info', 'assertive': l.level=='error'}">

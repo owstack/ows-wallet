@@ -126,6 +126,7 @@
     background: white;
   }
  .log-entry {
+    font-family: monospace;
     font-size: 12px;
     line-height: 18px;
     border: none;
@@ -217,7 +218,7 @@
     min-height: 32px;
     text-align: center;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     display: block;
     text-decoration: none;
     z-index: 9999;
@@ -225,7 +226,7 @@
     padding: 5px 10px;
 
     i {
-      font-size: 20px;
+      font-size: 16px;
       margin: 0 2px;
     }
 

@@ -3,8 +3,9 @@
  */
 
 /* Fonts */
-$v-font-family:                                      "Roboto", sans-serif !default;
-$v-font-family-light:                                "Roboto-Light", sans-serif-light !default;
+$v-font-family:                                      'OpenSans', sans-serif !default;
+$v-font-family-light:                                'OpenSans-Light', sans-serif-light !default;
+$v-font-family-bold:                                 'OpenSans-Bold', sans-serif-bold !default;
 
 /* Transparency */
 $v-black-transparent-dark:                           rgba(0, 0, 0, 0.7);
@@ -127,11 +128,6 @@ $v-onboarding-button-secondary-active-bg:            $v-white-transparent-light 
 $v-onboarding-button-secondary-active-border:        transparent !default;
 $v-onboarding-button-secondary-clear-bg:             transparent !default;
 $v-onboarding-button-secondary-clear-color:          $v-accent-color !default;
-$Xv-onboarding-button-secondary-outline-border:       $v-accent-color !default;
-$Xv-onboarding-button-secondary-outline-bg:           transparent !default;
-$Xv-onboarding-button-secondary-outline-color:        $v-accent-color !default;
-$Xv-onboarding-button-secondary-outline-active-bg:    $v-accent-color !default;
-$Xv-onboarding-button-secondary-outline-active-color: $v-accent-color !default;
 
 /* Tour */
 $v-tour-bg:                                          radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
@@ -148,11 +144,6 @@ $v-tour-button-secondary-active-bg:                  $v-white-transparent-light 
 $v-tour-button-secondary-active-border:              transparent !default;
 $v-tour-button-secondary-clear-bg:                   transparent !default;
 $v-tour-button-secondary-clear-color:                $v-accent-color !default;
-$Xv-tour-button-secondary-outline-border:             $v-accent-color !default;
-$Xv-tour-button-secondary-outline-bg:                 transparent !default;
-$Xv-tour-button-secondary-outline-color:              $v-accent-color !default;
-$Xv-tour-button-secondary-outline-active-bg:          $v-accent-color !default;
-$Xv-tour-button-secondary-outline-active-color:       $v-accent-color !default;
 
 /* Backup */
 $v-backup-bg:                                        radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
@@ -174,11 +165,6 @@ $v-backup-button-secondary-active-bg:                $v-white-transparent-light 
 $v-backup-button-secondary-active-border:            transparent !default;
 $v-backup-button-secondary-clear-bg:                 transparent !default;
 $v-backup-button-secondary-clear-color:              $v-accent-color !default;
-$Xv-backup-button-secondary-outline-border:           $v-accent-color !default;
-$Xv-backup-button-secondary-outline-bg:               transparent !default;
-$Xv-backup-button-secondary-outline-color:            $v-accent-color !default;
-$Xv-backup-button-secondary-outline-active-bg:        $v-accent-color !default;
-$Xv-backup-button-secondary-outline-active-color:     $v-accent-color !default;
 
 /* Main tabs */
 $v-tab-home-icon:                                    url('../img/tab-icons/icon-home.svg') !default;
@@ -192,6 +178,12 @@ $v-tab-scan-selected-icon:                           url('../img/tab-icons/icon-
 $v-tab-send-icon:                                    url('../img/tab-icons/icon-send.svg') !default;
 $v-tab-send-selected-icon:                           url('../img/tab-icons/icon-send-selected.svg') !default;
 
+/* PIN */
+$v-pin-bg:                                           radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
+$v-pin-color:                                        $v-white-color !default;
+$v-pin-circle-color:                                 $v-white-color !default;
+$v-pin-buttons-color:                                $v-white-color !default;
+
 /*
  * Ionic variables
  */
@@ -202,6 +194,7 @@ $font-size-base:                                     16px !default;
 $font-size-small:                                    12px !default;
 $font-family-sans-serif:                             $v-font-family !default;
 $font-family-light-sans-serif:                       $v-font-family-light !default;
+$font-family-bold-sans-serif:                        $v-font-family-bold !default;
 
 $link-color:                                         $v-accent-color !default;
 

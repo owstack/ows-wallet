@@ -70,7 +70,7 @@ angular.module('owsWalletApp.controllers').controller('pinController', function(
   };
 
   $scope.getFilledClass = function(limit) {
-    return currentPin.length >= limit ? 'filled-' + $scope.appName : null;
+    return currentPin.length >= limit ? 'filled-pin' : null;
   };
 
   $scope.delete = function() {

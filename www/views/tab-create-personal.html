@@ -67,7 +67,7 @@
             </ion-toggle>
             <div class="comment">
               <span ng-show="formData.seedSource.id == 'new'" translate>Add an optional password to secure the recovery phrase</span>
-              <span ng-show="formData.seedSource.id == 'set'" translate>The recovery phrase could require a password to be imported</span>
+              <span ng-show="formData.seedSource.id == 'set'" translate>The recovery phrase may require a password to be imported</span>
             </div>
           </div>
 
@@ -107,7 +107,7 @@
           </div>
 
           <div class="text-center box-notification error" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
-            <strong translate>This password cannot be recovered. If the password is lost, there is no way you could recover your funds.</strong>
+            <strong translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</strong>
           </div>
 
           <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive" ng-show="encrypt && result == 'correct'">
@@ -127,7 +127,7 @@
           </ion-toggle>
 
           <ion-toggle ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
-            <span translate>Single Address Wallet</span>
+            <span translate>Single Address Wallet</span><br>
             <small translate>For audit purposes</small>
           </ion-toggle>
 

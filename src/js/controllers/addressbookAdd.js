@@ -3,7 +3,7 @@
 angular.module('owsWalletApp.controllers').controller('addressbookAddController', function($scope, $state, $stateParams, $timeout, $ionicHistory, gettextCatalog, addressbookService, popupService, networkService) {
 
   $scope.fromSendTab = $stateParams.fromSendTab;
-  $scope.networkOptions = networkService.getLiveNetworks();
+  $scope.availableNetworks = networkService.getNetworks();
 
   $scope.addressbookEntry = {
     'networkURI': '',

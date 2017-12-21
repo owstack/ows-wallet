@@ -39,12 +39,12 @@
         margin-bottom: .5rem;
 
         > .unit {
-          font-family: "Roboto-Light";
+          font-family: $v-font-family-light;
         }
       }
       .alternative {
         font-size: 16px;
-        font-family: "Roboto-Light";
+        font-family: $v-font-family-light;
         color: $v-light-gray;
       }
     }
@@ -235,7 +235,7 @@
             background: $v-error-color;
             border-color: $v-error-color;
             color: $v-white-color;
-            font-family: "Roboto-Bold";
+            font-family: $v-font-family-bold;
             font-size: 19px;
           }
         }
