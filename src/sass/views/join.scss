@@ -10,15 +10,30 @@
     cursor: pointer;
     line-height: 45px;
   }
+
   .item-stacked-label .icon {
     padding: 0px;
     margin: 0px;
   }
+
+  .item-group {
+    width: 100%;
+    display: flex;
+
+    >.right {
+      margin-right: 20px;
+      padding-top: 3px;
+      width: 100%;
+      text-align: right;
+    }
+  }
+
   .icon {
     &.valid {
       padding-top: 3px;
       color: $v-success-color;
     }
+
     &.invalid {
       padding-top: 3px;
       color: $v-error-color;

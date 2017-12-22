@@ -4,13 +4,16 @@
       width: 100%;
       height: auto;
     }
+
     &.item {
       height: 55px;
     }
+
     i {
       &.left {
         padding-left: 15px;
       }
+
       &.qr {
         cursor: pointer;
         cursor: hand;
@@ -18,81 +21,94 @@
       }
     }
   }
+
   .qr-scan-icon {
     cursor: pointer;
     cursor: hand;
     border-left: 1px solid $v-subtle-gray;
     padding-left: 10px;
   }
+
   .qr-icon {
     line-height: 20px;
   }
+
   .zero-state-cta {
     padding-bottom: 3vh;
     left: 0;
   }
+
   .send-heading {
     font-size: 14px;
     font-weight: bold;
     padding: 0 0 16px 0;
     border: none;
   }
+
   .send-header-wrapper {
     padding: 10px;
     background-color: white;
     box-shadow: 0px 5px 10px 0px $v-light-gray;
   }
+
   .search-wrapper {
     background-color: $v-subtle-gray;
     border-radius: 3px;
     border: none;
-    .svg#Bitcoin_Symbol {
-      width: 14px;
-      .st0 {
-        fill: $v-light-gray;
-      }
-    }
+
     &.focus {
       background: none;
-      .svg#Bitcoin_Symbol {
-        display: none;
+
+      i {
+        &.search {
+          display: none;
+        }
       }
+
       .search-input {
         padding-left: 0;
+
         &:focus::-webkit-input-placeholder {
           opacity: 0;
         }
       }
     }
   }
+
   .abs-v-center {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
    }
+
   .search-input {
     background-color: transparent;
     padding-left: 24px;
   }
+
   .separator-left {
     border-left: 1px solid $v-subtle-gray;
     padding-left: 10px;
     height: 70%;
   }
+
   .crypto-address {
     border-top: none;
     padding-bottom: .5rem;
+
     @media(max-width: 480px) {
       input {
         font-size: 14px;
       }
     }
+
     .icon {
       line-height: 31px;
-        padding-top: 2px;
-        padding-bottom: 1px;
+      padding-top: 2px;
+      padding-bottom: 1px;
     }
   }
+
   .show-more {
     text-align: center;
     padding: 20px;
@@ -100,21 +116,26 @@
     color: $v-accent-color;
     font-weight: bold;
   }
+
   .sendTip {
     text-align: center;
+
     & > .item-heading {
       margin-top: 10px;
       background: 0 none;
     }
+
     .item {
       border-style: none;
     }
+
     & > .title {
       font-size: 20px;
       font-weight: bold;
       color: $v-dark-gray;
       margin: 20px 10px;
     }
+
     & > .subtitle {
       font-size: 1rem;
       line-height: 1.5em;
@@ -122,25 +143,30 @@
       color: $v-dark-gray;
       margin: 20px 1em 2.5em;
     }
-    .big-icon-svg{
+
+    .big-icon-svg {
       .bg.success{
         padding: 0 10px;
         box-shadow: none;
       }
     }
   }
+
   .list {
     .item {
       color: $v-dark-gray;
       border-top: none;
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
+
       .big-icon-svg {
         left:5px;
-       & > .bg{
+
+       & > .bg {
         width:30px;
         height:30px;
         box-shadow: none;
+
         &.wallet {
           background-image: url('../img/icon-wallet.svg');
           background-size: 60%;
@@ -149,6 +175,7 @@
         }
        }
       }
+
       &:before {
         display: block;
         position: absolute;
@@ -159,24 +186,31 @@
         right: 0;
         content: '';
       }
+
       &.item-divider {
         color: $v-dark-gray;
       }
+
       &.item-heading {
         &:before {
           top: 99%;
           width:100%;
         }
       }
+
       &:nth-child(2) {
         &:before {
           width: 0;
         }
       }
+
       .item-note {
         color: $v-dark-gray;
       }
     }
   }
-  .scroll{height: 100%;}
+
+  .scroll {
+    height: 100%;
+  }
 }

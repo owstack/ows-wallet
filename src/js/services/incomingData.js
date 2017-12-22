@@ -3,6 +3,8 @@
 angular.module('owsWalletApp.services').factory('incomingData', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfigService, popupService, gettextCatalog, networkService) {
 
   var root = {};
+  var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
+  var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
   root.showMenu = function(data) {
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);
@@ -13,9 +15,6 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
 
     var joinMatch = '/^' + appConfigService.appUri + ':[0-9A-HJ-NP-Za-km-z]{70,80}$/';
     var joinMatchRE = new RegExp(joinMatch);
-
-    var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
-    var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
     function sanitizeUri(data) {
       // Fixes when a region uses comma to separate decimals
@@ -239,7 +238,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
     });
     $timeout(function() {
       $state.transitionTo('tabs.send.amount', {
-        networkURI: (btcLib.Address.isValid(toAddress, 'livenet/btc') ? 'livenet/btc' : 'testnet/btc'),
+        networkURI: networkURI,
         toAddress: toAddress
       });
     }, 100);

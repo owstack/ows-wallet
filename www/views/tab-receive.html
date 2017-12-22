@@ -51,7 +51,7 @@
               <span translate>Show address</span>
             </button>
           </span>
-          <qrcode ng-if="addr" size="220" data="{{protocol}}:{{addr}}" color="#444455"></qrcode>
+          <qrcode ng-if="addr" size="220" data="{{protocol}}{{addr}}" color="#444455"></qrcode>
           <div class="address-label">
             <span class="ellipsis">{{addr}}</span>
             <ion-spinner ng-show="!addr" class="spinner-dark" icon="crescent"></ion-spinner>

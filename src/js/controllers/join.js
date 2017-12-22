@@ -18,6 +18,7 @@ angular.module('owsWalletApp.controllers').controller('joinController',
       // Provide default values for fields that depend on the network.
       $scope.formData.walletServiceUrl = '';
       $scope.formData.derivationPath = '';
+      $scope.networkLabel = undefined;
       
       profileService.getNetworkFromJoinSecret($scope.formData.secret, function(err, network) {
         if (err) {
@@ -25,6 +26,7 @@ angular.module('owsWalletApp.controllers').controller('joinController',
         }
         $scope.formData.walletServiceUrl = configNetwork[network.getURI()].walletService.url;
         $scope.formData.derivationPath = derivationPathHelper.getPath(network);
+        $scope.networkLabel = network.getFriendlyNetLabel();
       });
     };
 

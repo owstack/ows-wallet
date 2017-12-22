@@ -7,7 +7,7 @@
   <ion-content>
     <form name="setupForm" ng-submit="join()" novalidate>
       <div class="list settings-list settings-input-group">
-        <label class="item item-input item-stacked-label no-border">
+        <label class="item item-input item-stacked-label">
           <span class="input-label" translate>Your nickname</span>
           <input type="text"
           placeholder="Alice"
@@ -16,7 +16,7 @@
           required>
         </label>
         <div>
-          <label class="item item-input item-stacked-label no-border">
+          <label class="item item-input item-stacked-label">
             <span class="input-label" translate>Wallet Invitation</span>
             <div class="input-notification">
               <i ng-show="!setupForm.secret.$invalid" class="icon ion-checkmark-circled valid"></i>
@@ -35,6 +35,13 @@
           </div>
         </div>
 
+        <label class="item item-input no-border" ng-show="networkLabel">
+          <div class="item-group">
+            <span class="input-label" translate>Currency</span>
+            <span class="right">{{networkLabel}}</span>
+          </div>
+        </label>
+
         <div class="item item-divider"></div>
 
         <a class="item" ng-click="showAdvChange()">
@@ -46,7 +53,7 @@
 
           <label class="item item-input item-stacked-label">
             <span class="input-label">Wallet Service URL</span>
-            <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="formData.walletServiceUrl">
+            <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="formData.walletServiceUrl" placeholder="{{'Paste invitation to set URL'|translate}}">
           </label>
 
           <label class="item item-input item-select">
