@@ -25,7 +25,7 @@
   "windowsAppId": "804636ee-b017-4cad-8719-e58ac97ffa5c",
   "pushSenderId": "1036948132229",
   "gappEmailCollectionUrl": "https://script.google.com/macros/s/AKfycby3hCPtYxHrsXfR-rIhnJAWmQ4tRkIufrZjaOs_fk-xsNibaJn7/exec",
-  "gappFeedbackUrl": "https://script.google.com/macros/u/0/s/AKfycbzOOh5MF1y7vLCv-gjDLihKQb_kmuWi6tDPW9Soyev9eSDXU37i/exec",
+  "gappFeedbackUrl": "https://script.google.com/macros/s/AKfycbyMCHddiidfqLGWOmtNqTGakmUEsYpbGCL0uA6Agtl1eUIWVKnO/exec",
   "appUri": "owswallet",
   "statusBarColor": "#000000",
   "bch": {

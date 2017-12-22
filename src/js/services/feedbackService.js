@@ -7,7 +7,7 @@ angular.module('owsWalletApp.services').factory('feedbackService', function($htt
       $log.info("SUCCESS: Feedback sent");
       return cb();
     }, function(err) {
-      $log.info("ERROR: Feedback sent anyway.");
+      $log.info("ERROR: Could not send feedback");
       return cb(err);
     });
   };

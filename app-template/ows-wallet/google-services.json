@@ -1,6 +1,6 @@
 {
   "project_info": {
-    "project_number": "149194066736",
+    "project_number": "1000789490869",
     "firebase_url": "https://ows-wallet.firebaseio.com",
     "project_id": "ows-wallet",
     "storage_bucket": "ows-wallet.appspot.com"
@@ -8,20 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:149194066736:android:6de8942b48fea047",
+        "mobilesdk_app_id": "1:1000789490869:android:a2e793f42bc23bec",
         "android_client_info": {
-          "package_name": "org.openstackwallet.ows-wallet"
+          "package_name": "org.openwalletstack.wallet"
         }
       },
       "oauth_client": [
         {
-          "client_id": "149194066736-1gf0d9nk288dke5jdiuj8unkplhl8nco.apps.googleusercontent.com",
+          "client_id": "1000789490869-05v241p6456luk4a43e26o0kiejo6jf6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCZ8nyjRBe-0Lyur0LjO-SOkjv32uNQKy0"
+          "current_key": "AIzaSyAsQmlLFIwSUe4_0kV1jLH5mXuFY_sxqGo"
         }
       ],
       "services": {
