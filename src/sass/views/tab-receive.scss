@@ -108,10 +108,7 @@
 
   .bg {
     &.wallet {
-      background-image: url('../img/icon-wallet.svg');
-      background-size: 60%;
-      background-position: center;
-      background-repeat: no-repeat;
+      @include icon-wallet(60%);
     }  
   }
 

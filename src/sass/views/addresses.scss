@@ -4,31 +4,37 @@
     font-size: 0.9em;
     color: $v-mid-gray;
     padding-top: 1.3rem;
+
     .spinner svg {
       stroke: $v-dark-gray;
       fill: $v-dark-gray;
     }
   }
+
   .addr {
     &-explanation, &-button-group {
       padding: 0 1rem;
       margin: 1rem 0;
     }
+
     &-description {
       text-align: center;
       font-size: 0.9em;
       color: $v-mid-gray;
       margin: 1rem 0;
+
       a {
         font-weight: bold;
         cursor: pointer;
         cursor: hand;
       }
     }
+
     &-balance {
       margin-top: 4px;
       color: $v-success-color;
     }
+
     &-path {
       margin-top: 4px;
       color: $v-light-gray;
@@ -39,6 +45,7 @@
     margin-top: 25px;
     i {
       box-shadow: $v-hovering-box-shadow;
+
       img {
         content: $v-tab-receive-selected-icon;
       }
@@ -50,43 +57,52 @@
       color: $v-dark-gray;
       padding-top: 1.3rem;
       padding-bottom: 1.3rem;
+
       &.has-addr-value {
         padding-top: .65rem;
         padding-bottom: .65rem;
       }
+
       &.item-divider {
         color: $v-mid-gray;
         padding-bottom: .5rem;
         font-size: .9rem;
       }
+
       &.view-all {
         cursor: pointer;
         cursor: hand;
+
         i {
           font-size: 35px;
           margin-right: 5px;
           color: $link-color;
         }
+
         span {
           color: $link-color;
           font-weight: bold;
         }
       }
+
       i {
         font-size: 35px;
         margin-right: 2px;
       }
     }
+
     .box-error {
       padding: 25px;
       background-color: $v-error-color;
       color: $v-subtle-gray;
+
       h5 {
         margin: 5px;
         color: $v-subtle-gray;
         text-align: center;
         font-weight: bold;
       }
+
       a {
         font-weight: bold;
         color: $v-subtle-gray;
@@ -94,16 +110,9 @@
         cursor: hand;
       }
     }
+
     .item-note {
       color: $v-light-gray;
     }
   }
-  .bg {
-    &.wallet {
-      background-image: url('../img/icon-wallet.svg');
-      background-size: 60%;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-  }  
 }

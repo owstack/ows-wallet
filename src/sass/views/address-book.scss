@@ -104,13 +104,7 @@
       .big-icon-svg {
         padding: 0 7px;
         > .bg {
-          border-radius: $v-icon-border-radius;
-          width: 40px;
-          height: 40px;
-          box-shadow: none;
-          background-repeat: no-repeat;
-          background-clip: padding-box;
-          background-size: 103%;
+          @include icon-shape(40px, 40px);
           &.success {
             background: $v-success-color;
           }
@@ -154,14 +148,9 @@
   .big-icon-svg {
     padding: 0 7px;
     > .bg {
+      @include icon-shape(70px, 70px, 0px 1px 5px $v-white-transparent-subtle);
       background-color: $v-subtle-gray;
-      border-radius: $v-icon-border-radius;
-      width: 70px;
-      height: 70px;
-      box-shadow: 0px 1px 5px $v-white-transparent-subtle;
-      background-repeat: no-repeat;
-      background-clip: padding-box;
-      background-size: 103%;
+
       &.success {
         background: $v-success-color;
       }

@@ -21,11 +21,11 @@
   padding-left: 74px;
 }
 
-
 .icon-svg {
   display: flex;
   justify-content: center;
   align-items: center;
+
   > img {
     background-repeat:no-repeat;
     background-clip: padding-box;
@@ -36,19 +36,17 @@
 
 .big-icon-svg {
   padding: 0 7px;
+
   > .center {
     margin: 0 auto;
   }
+
   > .bg {
-    border-radius: $v-icon-border-radius;
-    width: 40px;
-    height: 40px;
-    box-shadow: $v-hovering-box-shadow;
-    background-repeat:no-repeat;
-    background-clip: padding-box;
-    background-size: 103%;
+    @include icon-shape(40px, 40px, $v-hovering-box-shadow);
+
     &.success{
       background: $v-success-color;
+
       > i {
         font-size: 24px;
         color: $v-white-color;
@@ -60,28 +58,32 @@
   }
 }
 
-
 .wallet-item {
   padding: 1rem 0 2rem 0;
+
   .name {
     color: $v-dark-gray;
     text-align:center;
   }
+
   .big-icon-svg {
     &.circle{
       left:8px;
+
       .bg {
-        border-radius: $v-icon-border-radius;
-        width: 70px;
-        height: 70px;
+        @include icon-shape(70px, 70px, 0px 1px 5px $v-white-transparent-light);
         padding:.1rem;
         margin: 0.2rem;
-        box-shadow: 0px 1px 5px $v-white-transparent-light;
         display:flex;
         margin:auto;
+
+        &.wallet {
+          @include icon-wallet(60%);
+        }
       }
     }
   }
+
   &:before {
     display: block;
     position: absolute;

@@ -1,0 +1,29 @@
+@mixin icon-shape($width, $height, $shadow: none) {
+	border-radius: $v-icon-border-radius;
+	width: $width;
+	height: $height;
+	box-shadow: $shadow;
+	background-repeat: no-repeat;
+	background-clip: padding-box;
+}
+
+@mixin icon-wallet($size) {
+	background-image: url('../img/icon-wallet.svg');
+	background-size: $size;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+@mixin icon-add($size) {
+  background-image: url('../img/icon-add.svg');
+  background-size: 45%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@mixin icon-import($size) {
+  background-image: url('../img/icon-import.svg');
+  background-size: 35%;
+  background-position: center;
+  background-repeat: no-repeat;
+}

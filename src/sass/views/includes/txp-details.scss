@@ -77,11 +77,8 @@
 
       > .bg {
         &.wallet {
-          background-image: url('../img/icon-wallet.svg');
-          background-size: 60%;
-          background-position: center;
-          background-repeat: no-repeat;
           margin-right: 15px;
+          @include icon-wallet(60%);
         }
       }
     }
@@ -245,11 +242,11 @@
         }
 
         > div {
-          border: 3px solid $v-success-color;
-          border-radius: $v-icon-border-radius;
-          display: flex;
-          height: 26px;
+          border-radius: 50%;
           width: 26px;
+          height: 26px;
+          border: 3px solid $v-success-color;
+          display: flex;
           font-size: 13px;
           align-items: center;
           justify-content: center;

@@ -50,7 +50,7 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
         $scope.latestWithBalance = lodash.slice(withBalance, 0, BALANCE_ADDRESS_LIMIT);
 
         lodash.each(withBalance, function(a) {
-          a.balanceStr = txFormatService.formatAmount($scope.wallet.networkURI, a.amount);
+          a.balanceStr = txFormatService.formatAmountStr($scope.wallet.networkURI, a.amount);
         });
 
         $scope.viewAll = {
@@ -68,27 +68,20 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
       });
     });
 
-    feeService.getFeeLevels($scope.wallet, function(err, levels){
-      walletService.getLowUtxos($scope.wallet, levels, function(err, resp) {
-        if (err || !resp) return;
+    walletService.getLowUtxos($scope.wallet, function(err, resp) {
+      if (err || !resp) return;
+      if (resp.allUtxos && resp.allUtxos.length) {
+        var allSum = lodash.sum(resp.allUtxos || 0, 'satoshis');
+        var per = (resp.minFee / allSum) * 100;
 
-        if (resp.allUtxos && resp.allUtxos.length) {
-
-
-          var allSum = lodash.sum(resp.allUtxos || 0, 'satoshis');
-          var per = (resp.minFee / allSum) * 100;
-
-          $scope.lowWarning = resp.warning;
-          $scope.lowUtxosNb = resp.lowUtxos.length;
-          $scope.allUtxosNb = resp.allUtxos.length;
-          $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, lodash.sum(resp.lowUtxos || 0, 'satoshis'));
-          $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, allSum);
-          $scope.minFee = txFormatService.formatAmountStr($scope.wallet.networkURI, resp.minFee || 0);
-          $scope.minFeePer = per.toFixed(2) + '%';
-
-
-        }
-      });
+        $scope.lowWarning = resp.warning;
+        $scope.lowUtxosNb = resp.lowUtxos.length;
+        $scope.allUtxosNb = resp.allUtxos.length;
+        $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, lodash.sum(resp.lowUtxos || 0, 'satoshis'));
+        $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, allSum);
+        $scope.minFee = txFormatService.formatAmountStr($scope.wallet.networkURI, resp.minFee || 0);
+        $scope.minFeePer = per.toFixed(2) + '%';
+      }
     });
   };
 

@@ -942,7 +942,6 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.getLowUtxos = function(wallet, cb) {
-
     wallet.getUtxos({}, function(err, resp) {
       if (err || !resp || !resp.length) return cb('');
 

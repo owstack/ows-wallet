@@ -2,149 +2,175 @@
   &.bg-white {
     background: $v-white-color;
   }
+
   .warning {
     color: $v-warning-color;
   }
+
   .centered {
     width: 100%;
     text-align: center;
   }
+
   .disabled {
     color: $v-light-gray;
   }
+
   .item {
     color: $v-dark-gray;
     border-color: $v-subtle-gray;
   }
+
   .has-comment {
     border-bottom: 0 none;
   }
+
   .comment {
     padding: 15px;
     background-color: $v-white-color;
     font-size:0.9em;
     color: $v-mid-gray;
+
     .text {
       padding-left: 25px;
     }
+
     .icon {
       position: absolute;
+
       img {
         width: 20px;
       }
     }
   }
+
   &-explanation, &-button-group {
     padding: 0 1rem;
     margin: 1rem 0;
   }
+
   &-heading {
     font-size: 17px;
     color: $v-dark-gray;
     margin: 1rem 0;
   }
+
   &-description {
     color: $v-mid-gray;
     margin: 1rem 0;
     font-size: 0.9em;
   }
+
   &-description-disabled {
     font-size: 0.9em;
     color: cadetblue;
     text-decoration: none;
   }
-  .setting-title, .setting-value {
+
+  .setting-title,
+  .setting-value {
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .setting-value {
     color: $v-light-gray;
     font-size: 14px;
   }
+
   .settings-input-group {
     background-color: $v-white-color;
+
     .item-stacked-label {
       padding: 1rem;
     }
+
     .input-label {
       text-transform: uppercase;
       font-size: 12px;
       font-weight: bold;
     }
   }
+
  .settings-list {
     .item {
       color: $v-dark-gray;
       padding-top: 1.3rem;
       padding-bottom: 1.3rem;
+
       &.has-setting-value {
         padding-top: .65rem;
         padding-bottom: .65rem;
       }
+
       &.item-divider {
         color: $v-mid-gray;
         padding-bottom: .5rem;
         font-size: .9rem;
       }
+
       .icon {
         color: $v-light-gray;
       }
     }
+
     .item-note {
       color: $v-light-gray;
     }
+
     .item-toggle .toggle,
     .item-button-right > .button {
       top: 16px;
     }
+
     .toggle-small.item-toggle .toggle,
     .item-button-right > .button {
       top: 25px;
     }
+
     .item-button-right > .button {
       font-size: 16px;
     }
  }
+
  input[type="password"] {
    border: none;
    margin-left: -5px;
    padding-left: 4px;
+
    &.incorrect {
     margin-right: 10px;
     border: 1px solid;
     color: $v-error-color;
    }
+
    &.correct {
     margin-right: 10px;
     border: 1px solid;
     color: $v-success-color;
    }
  }
+
  .log-bg {
     background: white;
   }
+
  .log-entry {
     font-family: monospace;
     font-size: 12px;
     line-height: 18px;
     border: none;
   }
+
  .log-timestamp {
     font-weight: bold;
   }
+
  .log-level {
     font-weight: bold;
   }
-  .bg {
-    &.wallet {
-      background-image: url('../img/icon-wallet.svg');
-      background-size: 60%;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-  }  
 }
 
 #settings-networks,
@@ -152,23 +178,23 @@
   .list {
     .item {
       .big-icon-svg {
-       & > .bg{
+       & > .bg {
         width:20px;
         height:20px;
         border-radius: 0;
         box-shadow: none;
        }
-       &.circle{
+
+       &.custom {
           left:8px;
+
           .bg {
-            border-radius: $v-icon-border-radius;
-            width: 25px;
-            height: 25px;
+            @include icon-shape(25px, 25px, 0px 1px 5px $v-white-transparent-subtle);
             padding:.1rem;
-            box-shadow: 0px 1px 5px $v-white-transparent-subtle;
           }
         }
       }
+
       &:before {
         display: block;
         position: absolute;
@@ -179,11 +205,13 @@
         right: 0;
         content: '';
       }
+
       &.item-heading {
         &:before {
           top: 99%
         }
       }
+
       &:nth-child(2) {
         &:before {
           width: 0;
@@ -191,14 +219,13 @@
       }
     }
   }
+
   .bg {
     &.wallet {
-      background-image: url('../img/icon-wallet.svg');
-      background-size: 60%;
-      background-position: center;
-      background-repeat: no-repeat;
+      @include icon-wallet(60%);
     }
   }
+
   .item-radio .radio-icon {
     font-size: 18px;
   }
@@ -210,9 +237,11 @@
     color: $v-dark-gray;
     margin-bottom: .5rem;
   }
+
   .fee-minutes, .fee-rate {
     font-weight: bold;
   }
+
   .fee-warning {
     background: $v-warning-color;
     min-height: 32px;
@@ -231,14 +260,17 @@
     }
 
   }
+
   .fee-policies {
     border-color: $v-white-color;
     border-style: solid;
   }
 }
+
 .settings-color-name {
   margin-left: 1rem;
 }
+
 .settings-color-block {
   display: inline-block;
   width: 24px;
@@ -251,16 +283,5 @@
 #settings-tos {
   p {
     margin-bottom: 1rem;
-  }
-}
-
-#settings-delete {
-  .bg {
-    &.wallet {
-      background-image: url('../img/icon-wallet.svg');
-      background-size: 60%;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
   }
 }

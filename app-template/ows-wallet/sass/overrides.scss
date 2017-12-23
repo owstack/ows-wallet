@@ -3,3 +3,25 @@
  *
  * See src/sass/variable.scss for variables that can be overriden with definitions in this file.
  */
+
+@mixin icon-shape($width, $height, $shadow: none) {
+  position: relative;
+	width: calc(#{$width} * 0.93);
+  height: $height;
+  margin: 20px 0;
+  border-radius: 50% / 10%;
+  text-align: center;
+  text-indent: .1em;
+	box-shadow: $shadow;
+
+	&:before {
+	  content: '';
+	  position: absolute;
+	  top: 10%;
+	  bottom: 10%;
+	  right: -5%;
+	  left: -5%;
+	  background: inherit;
+	  border-radius: 5% / 50%;
+	}
+}
