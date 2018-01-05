@@ -1,19 +1,38 @@
+<div class="info-group">
 
-<ion-spinner class="spinner-dark recent right" icon="crescent" ng-show="updatingStatus || (updatingTxHistory && updatingTxHistoryProgress<=5)"   ></ion-spinner>
+  <span ng-show="isTestnet(wallet.networkURI)">
+		<img class="info testnet" src="img/icon-testnet-white.svg" ng-show="wallet.credentials.n > 1">
+		<img class="info testnet large" src="img/icon-testnet-white.svg" ng-show="wallet.credentials.n == 1">
+	</span>
 
-<div>
-<img style="height:0.6em; margin-right: 1px;" ng-show="wallet.status.wallet.singleAddress" src="img/icon-text-auditable-white.svg">
-<img style="height:0.6em; margin-right: 1px;" ng-show="isTestnet(wallet.networkURI)" src="img/icon-testnet-white.svg">
-<img style="height:0.6em; margin-right: 1px;" ng-show="isTestnet(wallet.networkURI)" src="img/icon-text-testnet-white.svg">
-<img style="height:0.6em; margin-right: 1px;" ng-show="!wallet.canSign() && !wallet.isPrivKeyExternal()" src="img/icon-read-only-white.svg">
-
-<img style="height:0.6em; margin-right: 1px;"  ng-show="wallet.getPrivKeyExternalSourceName() == 'trezor'" src="img/icon-trezor-white.svg">
-<img style="height:0.6em; margin-right: 1px;"  ng-show="wallet.getPrivKeyExternalSourceName() == 'ledger'" src="img/icon-ledger-white.svg">
-<span ng-show="wallet.credentials.n > 1" class="size-12"><span translate>{{wallet.m}}-of-{{wallet.n}}</span></span>
-<span class="size-12 dib" style="height:0.6em; margin-right: 1px;" ng-show="wallet.credentials.account">#{{wallet.credentials.account || 0}} </span>
-
-<img style="height:0.6em; margin-right: 1px;" ng-show="wallet.isPrivKeyEncrypted()" src="img/icon-locked-white.svg">
-
-<!-- <img style="height:1em" ng&#45;show="wallet.preferences.email" src="img/icon&#45;email.svg"> -->
-<img style="height:0.6em; margin-right: 1px;" ng-show="wallet.usingCustomWalletService" src="img/icon-text-ws-white.svg">
+	<span ng-show="wallet.credentials.n > 1">
+		<img class="info multisig" src="img/icon-users.svg">
+		<span class="info multisig text">{{wallet.m}}-of-{{wallet.n}}</span>
+	</span>
 </div>
+
+<!--
+<div ng-show="!(updatingStatus || (updatingTxHistory && updatingTxHistoryProgress<=5))">
+	<img class="info" ng-show="wallet.status.wallet.singleAddress" src="img/icon-text-auditable-white.svg">
+
+	<img class="info" ng-show="isTestnet(wallet.networkURI)" src="img/icon-testnet-white.svg">
+	<img class="info" ng-show="isTestnet(wallet.networkURI)" src="img/icon-text-testnet-white.svg">
+
+	<img class="info" ng-show="!wallet.canSign() && !wallet.isPrivKeyExternal()" src="img/icon-read-only-white.svg">
+
+	<img class="info" ng-show="wallet.getPrivKeyExternalSourceName() == 'trezor'" src="img/icon-trezor-white.svg">
+	<img class="info" ng-show="wallet.getPrivKeyExternalSourceName() == 'ledger'" src="img/icon-ledger-white.svg">
+
+	<span class="info text" ng-show="wallet.credentials.n > 1"><span translate>{{wallet.m}}-of-{{wallet.n}}</span></span>
+	<span class="info text" ng-show="wallet.credentials.account">#{{wallet.credentials.account || 0}} </span>
+
+	<img class="info" ng-show="wallet.isPrivKeyEncrypted()" src="img/icon-locked-white.svg">
+
+	<!- <img class="info" ng-show="wallet.preferences.email" src="img/icon-email.svg"> ->
+
+	<img class="info" ng-show="wallet.usingCustomWalletService" src="img/icon-text-ws-white.svg">
+</div>
+<div ng-show="updatingStatus || (updatingTxHistory && updatingTxHistoryProgress<=5)">
+	<ion-spinner class="spinner-dark recent" icon="ios"></ion-spinner>
+</div>
+-->

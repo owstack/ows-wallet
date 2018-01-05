@@ -88,10 +88,6 @@ angular.module('owsWalletApp.controllers').controller('sendController', function
     }
   });
 
-  $scope.$on("$ionicView.afterEnter", function() {
-    $scope.showForm = true;
-  });
-
   $scope.goBack = function() {
     $ionicHistory.nextViewOptions({
       disableAnimate: false,

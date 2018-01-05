@@ -1,31 +1,38 @@
 .wallet-details {
   &__tx-amount {
     font-size: 16px;
+
     &--recent {
       color: $v-mid-gray;
       font-weight: bold;
     }
+
     &--received {
       color: $v-success-color;
     }
+
     &--sent {
       color: $v-dark-gray;
     }
   }
+
   &__tx-time {
     white-space: nowrap;
     color: $v-light-gray;
     font-size: 12.5px;
   }
+
   &__tx-title {
     flex-grow: 1;
     color: $v-dark-gray;
     overflow: hidden;
   }
+
   &__tx-icon {
     float: left;
     margin-right: 25px;
   }
+
   &__tx-message {
     margin-right: 1rem;
   }
@@ -136,32 +143,40 @@
       margin-top: 20px;
     }
   }
+
   .bar-header {
     border: 0;
     background: none;
+
     .title, .button {
       color: $v-white-color;
     }
+
     .button {
       background-color: transparent;
     }
   }
-  .nav-bar-block, .bar {
-  background-color: inherit !important;
+  
+  .nav-bar-block,
+  .bar {
+    background-color: transparent !important;
   }
+
   ion-content {
+    padding-top: 0;
+    top: 0;
+    bottom: 0;
 
     &.collapsible {
       margin-top: 210px;
     }
 
-    padding-top: 0;
-    top: 0;
     .scroll {
       background: $v-subtle-gray;
       min-height: 300px;
     }
   }
+
   .amount-wrapper {
     position: relative;
     overflow: visible;
@@ -188,6 +203,7 @@
       }
     }
   }
+
   .amount {
     width: 100%;
     text-align: center;
@@ -199,8 +215,20 @@
     justify-content: center;
 
     &__balance {
-      -webkit-transform: scale3d(1, 1, 1) translateY(49px);
-      transform: scale3d(1, 1, 1) translateY(49px);
+      -webkit-transform: scale3d(1, 1, 1) translateY(20px);
+      transform: scale3d(1, 1, 1) translateY(20px);
+      text-align: left;
+      padding-left: 30px;
+
+      > .value {
+        font-size: 36px;
+        font-weight: bold;
+      }
+
+      > .unit {
+        font-size: 36px;
+        font-family: $v-font-family-light;
+      }
     }
 
     &__updating {
@@ -210,12 +238,23 @@
 
     &-alternative {
       line-height: 36px;
+
+      > .value {
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      > .unit {
+        font-size: 14px;
+        font-family: $v-font-family-light;
+      }
     }
 
     &__button-balance {
       background-color: transparent;
       border: 1px solid $v-white-transparent-mid;
       margin-top: 10px;
+
       i.icon {
         margin-right: 7px;
         vertical-align: middle;
@@ -228,21 +267,26 @@
     }
 
   }
+
   .no-alternative {
     padding-top: 45px;
   }
+
   .item.item-footer {
     font-weight: lighter;
   }
+
   .tx-search:before {
     font-size: 22px !important;
   }
+
   .description {
     background-color: $v-subtle-gray;
     text-align: center;
     font-size: 13px;
     color: $v-mid-gray;
   }
+
   .low-fees {
     .comment {
       color: $v-mid-gray;
@@ -252,6 +296,7 @@
       white-space: nowrap;
       margin-left: 25px;
     }
+
     img {
       position: absolute;
       margin-top: 3px;
@@ -259,23 +304,81 @@
   }
 }
 
+.wallet-details-wallet-actions {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 30px;
+
+  .action-group {
+    display: flex;
+  }
+
+  .button-action {
+    border-radius: 3px;
+    padding: 7px 15px;
+    margin-right: 20px;
+    min-width: 40px;
+    min-height: 36px;
+    max-height: 36px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 14px;
+    color: $v-white-color;
+
+    i {
+      font-size: 24px;
+
+      &:before {
+        line-height: 24px;
+      }
+    }
+
+    &.disabled {
+      color: $v-white-transparent-dark;
+      background: none !important;
+    }
+  }
+}
+
 .wallet-details-wallet-info {
   position: absolute;
-  top: inherit;
-  left: 10px;
-  bottom: 5px;
-  font-size: 20px;
+  bottom: 0;
+  width: 100%;
+  text-align: right;
   color: $v-white-color;
-  width:95%;
+  font-size: 20px;
 
-  .actions{
-    float: right;
-    a {
-      color: $v-white-color;
-      font-size: 14px;
-      cursor: pointer;
-      padding: 5px;
-      line-height: 16px;
+  .info-group {
+    opacity: 0.2;
+
+    .info {
+      position: absolute;
+
+      &.testnet {
+        bottom: 20px;
+        right: 5px;
+        height: 36px;
+
+        &.large {
+          bottom: 50px;
+          right: 15px;
+          height: 85px;
+        }
+      }
+
+      &.multisig {
+        bottom: 50px;
+        right: 15px;
+        height: 85px;
+
+        &.text {
+          bottom: 26px;
+          right: 50px;
+          height: initial;
+          font-size: 12px;
+        }
+      }
     }
   }
 }

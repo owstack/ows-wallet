@@ -14,12 +14,6 @@ angular.module('owsWalletApp.directives')
         scope.hide = function() {
           scope.show = false;
         };
-        scope.sendMax = function() {
-          $timeout(function() {
-            scope.hide();
-          }, 100);
-          scope.onSelect();
-        };
       }
     };
   });

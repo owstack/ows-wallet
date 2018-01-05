@@ -63,3 +63,9 @@
     @include button-outline($v-button-secondary-color);
   }
 }
+
+#walletDetails .button-action {
+  @include button-style($v-wallet-action-button-bg, $v-wallet-action-button-border, $v-wallet-action-button-active-bg, $v-wallet-action-button-active-border, $v-wallet-action-button-color);
+  @include button-clear($v-wallet-action-button-color);
+  @include button-outline($v-wallet-action-button-color);
+}

@@ -193,11 +193,25 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       cache.unitName = configNetwork.unitName;
 
       //STR
-      cache.totalBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.totalBalanceAtomic) + ' ' + cache.unitName;
-      cache.lockedBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.lockedBalanceAtomic) + ' ' + cache.unitName;
-      cache.availableBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.availableBalanceAtomic) + ' ' + cache.unitName;
-      cache.spendableBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.spendableAmount) + ' ' + cache.unitName;
-      cache.pendingBalanceStr = txFormatService.formatAmount(wallet.networkURI, cache.pendingAmount) + ' ' + cache.unitName;
+      cache.totalBalanceValueStr = txFormatService.formatAmount(wallet.networkURI, cache.totalBalanceAtomic);
+      cache.totalBalanceUnitStr = cache.unitName;
+      cache.totalBalanceStr = cache.totalBalanceValueStr + ' ' + cache.totalBalanceUnitStr;
+
+      cache.lockedBalanceValueStr = txFormatService.formatAmount(wallet.networkURI, cache.lockedBalanceAtomic);
+      cache.lockedBalanceUnitStr = cache.unitName;
+      cache.lockedBalanceStr = cache.lockedBalanceValueStr + ' ' + cache.lockedBalanceUnitStr;
+
+      cache.availableBalanceValueStr = txFormatService.formatAmount(wallet.networkURI, cache.availableBalanceAtomic);
+      cache.availableBalanceUnitStr = cache.unitName;
+      cache.availableBalanceStr = cache.availableBalanceValueStr + ' ' + cache.availableBalanceUnitStr;
+
+      cache.spendableBalanceValueStr = txFormatService.formatAmount(wallet.networkURI, cache.spendableAmount);
+      cache.spendableBalanceUnitStr = cache.unitName;
+      cache.spendableBalanceStr = cache.spendableBalanceValueStr + ' ' + cache.spendableBalanceUnitStr;
+
+      cache.pendingBalanceValueStr = txFormatService.formatAmount(wallet.networkURI, cache.pendingAmount);
+      cache.pendingBalanceUnitStr = cache.unitName;
+      cache.pendingBalanceStr = cache.pendingBalanceValueStr + ' ' + cache.pendingBalanceUnitStr;
 
       cache.alternativeName = configNetwork.alternativeName;
       cache.alternativeIsoCode = configNetwork.alternativeIsoCode;
@@ -926,6 +940,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   // Approx utxo amount, from which the uxto is economically redeemable  
   root.getMinFee = function(wallet, nbOutputs) {
     var levels = feeService.cachedFeeLevels;
+    if (!levels) {
+      return 0;
+    }
     var atomicUnit = networkService.getAtomicUnit(wallet.networkURI);
     var lowLevelRate = (lodash.find(levels[wallet.networkURI].data, {
       level: 'normal',

@@ -20,7 +20,7 @@
         </div>
         <div class="amount-label">
           <div class="amount">{{tx.amountValueStr}} <span class="unit">{{tx.amountAtomicStr}}</span></div>
-          <div class="alternative" ng-show="tx.alternativeAmountStr">{{tx.alternativeAmountStr}}</div>
+          <div class="alternative" ng-show="tx.alternativeAmountStr && isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr}}</div>
         </div>
 
         <div class="text-center m10t assertive" ng-if="tx.removed" translate>
@@ -71,7 +71,7 @@
           <span class="label" translate>From</span>
           <div class="wallet">
             <i class="icon big-icon-svg">
-              <div class="bg wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
+              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>

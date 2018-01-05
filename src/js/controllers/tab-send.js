@@ -139,6 +139,7 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
         }
         $log.debug('Got toAddress:' + addr + ' | ' + item.name);
         return $state.transitionTo('tabs.send.amount', {
+          walletId: $scope.walletId,
           networkURI: item.networkURI,
           recipientType: item.recipientType,
           toAddress: addr,
@@ -158,6 +159,7 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    $scope.walletId = data.stateParams.walletId;
     $scope.checkingBalance = true;
     $scope.formData = {
       search: null

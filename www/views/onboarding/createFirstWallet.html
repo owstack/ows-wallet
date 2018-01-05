@@ -1,5 +1,5 @@
 <ion-view id="onboard-create-first-wallet" class="onboarding">
-  <ion-content ng-controller="createFirstWalletController" scroll="false">
+  <ion-content ng-controller="createFirstWalletController" scroll="false" ng-class="{'status-bar': isCordova}">
     <img ng-src="img/onboarding/create-{{network.currency}}.svg" />
     <div class="onboard-text">
       <div class="onboard-topic" translate>Create your initial wallet</div>

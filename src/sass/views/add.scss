@@ -20,7 +20,7 @@
     height: 50px;
     width: 50px;
     padding:4px;
-    &.wallet {
+    &.wallet-icon {
       @include icon-wallet(50%);
     }
     &.wallet-add {

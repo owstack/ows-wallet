@@ -1,10 +1,17 @@
-<ion-view class="settings" show-tabs>
+<ion-view class="settings" XXXshow-tabs ng-attr-show-tabs="{{hideTabs || undefined}}" ng-attr-hide-tabs="{{!hideTabs || undefined}}">
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>
       {{'Wallet Settings'|translate}}
     </ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
+
+    <ion-nav-buttons side="primary">
+      <button class="button back-button button-clear" ng-show="showBackButton" ng-click="goBackToWallet()">
+        <i class="icon ion-ios-arrow-left"></i>
+      </button>
+    </ion-nav-buttons>
+
   </ion-nav-bar>
   <ion-content>
     <div class="list settings-list">

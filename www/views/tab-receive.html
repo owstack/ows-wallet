@@ -80,7 +80,7 @@
     <div class="wallet-selector" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
       <a ng-if="wallet" class="item item-sub item-icon-left item-big-icon-left item-icon-right">
         <i class="icon big-icon-svg">
-          <div class="bg wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
+          <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
         </i>
         <span>
           {{wallet.name || wallet.id}}

@@ -8,7 +8,7 @@ wallet-selector {
   }
 
   .wallet-selector {
-    .wallet {
+    .wallet-outer {
       border: 0;
       padding-right: 0;
       padding-top: 0;
@@ -20,10 +20,11 @@ wallet-selector {
         padding: 0;
         margin-left: -5px;
 
-        > img {
-          height: 39px;
-          width: 39px;
-          padding: 4px;
+        > .bg {
+          &.wallet-icon {
+            margin-right: 15px;
+            @include icon-wallet(60%);
+          }
         }
       }
     }

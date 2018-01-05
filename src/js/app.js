@@ -5,6 +5,7 @@ var modules = [
   'monospaced.qrcode',
   'gettext',
   'ionic',
+  'ionic-native-transitions',
   'ionic-toast',
   'angular-clipboard',
   'ngTouch',

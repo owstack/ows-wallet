@@ -7,7 +7,6 @@ angular.element(document).ready(function() {
     angular.bootstrap(document, ['owsWalletApp']);
   };
 
-
   function handleOpenURL(url) {
     if ('cordova' in window) {
       console.log('DEEP LINK:' + url);
@@ -21,12 +20,9 @@ angular.element(document).ready(function() {
 
   /* Cordova specific Init */
   if ('cordova' in window) {
-
     window.handleOpenURL = handleOpenURL;
 
-
     document.addEventListener('deviceready', function() {
-
       window.open = cordova.InAppBrowser.open;
 
       // Create a sticky event for handling the app being opened via a custom URL

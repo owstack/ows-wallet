@@ -1,7 +1,8 @@
 'use strict';
 angular.module('owsWalletApp.controllers').controller('createFirstWalletController',
-  function($scope, $state, $log, $timeout, $filter, ongoingProcess, profileService, popupService, gettextCatalog, configService, networkService) {
+  function($scope, $state, $log, $timeout, $filter, ongoingProcess, profileService, popupService, gettextCatalog, configService, networkService, platformInfo) {
 
+    $scope.isCordova = platformInfo.isCordova;
     var retryCount = 0;
 
     $scope.$on("$ionicView.enter", function(event, data) {

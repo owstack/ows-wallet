@@ -58,9 +58,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-
     function setWalletSelector(networkURI, minAmount, cb) {
-
       // no min amount? (sendMax) => look for no empty wallets
       minAmount = minAmount || 1;
 
@@ -108,8 +106,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       });
     };
 
-    // Setup $scope
-
     // Grab stateParams
     tx = {
       toAmount: parseInt(data.stateParams.toAmount),
@@ -128,15 +124,17 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       toName: data.stateParams.toName,
       toEmail: data.stateParams.toEmail,
       toColor: data.stateParams.toColor,
-      txp: {},
+      txp: {}
     };
+
+    // The wallet originating the send request.
+    var desiredWalletId = data.stateParams.walletId;
 
     // Other Scope vars
     $scope.isCordova = isCordova;
     $scope.showAddress = false;
 
     updateTx(tx, null, {}, function() {
-
       $scope.walletSelectorTitle = gettextCatalog.getString('Send from');
 
       setWalletSelector(tx.networkURI, tx.toAmount, function(err) {
@@ -144,16 +142,46 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
           return exitWithError('Could not update wallets');
         }
 
-        if ($scope.wallets.length > 1) {
-          $scope.showWalletSelector();
-        } else if ($scope.wallets.length) {
-          setWallet($scope.wallets[0], tx);
+        if (!desiredWalletId) {
+
+          // Either show the wallet selector or choose the one wallet found.
+          if ($scope.wallets.length > 1) {
+            $scope.showWalletSelector();
+          } else if ($scope.wallets.length) {
+            setWallet($scope.wallets[0], tx);
+          }
+
+        } else {
+
+          if ($scope.wallets.length > 1) {
+
+            var desiredWallet = lodash.find($scope.wallets, function(w) {
+              return w.credentials.walletId == desiredWalletId;
+            });
+
+            if (!desiredWallet) {
+              // Cannot send from the desiredWallet, it was filtered out of the list.
+              // Show wallet selector to choose another.
+              $scope.showWalletSelector();
+            } else {
+              // Use the desiredWallet to send.
+              setWallet(desiredWallet, tx);
+            }
+
+          } else {
+
+            // The one wallet found may not be the desiredWallet; if it's not then let the user
+            // know that we could not select the desired wallet to send from.
+            if ($scope.wallets[0].credentials.walletId != desiredWalletId) {
+              popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Not enough funds for fee in selected wallet. Choose another wallet.'));
+            }
+            setWallet($scope.wallets[0], tx);
+          }
         }
       });
 
     });
   });
-
 
   function getSendMaxInfo(tx, wallet, cb) {
     if (!tx.sendMax) return cb();
@@ -302,7 +330,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   }
 
   function useSelectedWallet() {
-
     if (!$scope.useSendMax) {
       showAmount(tx.toAmount);
     }
@@ -321,14 +348,11 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       $scope.buttonText += gettextCatalog.getString('to send');
   };
 
-
   $scope.toggleAddress = function() {
     $scope.showAddress = !$scope.showAddress;
   };
 
-
   function showSendMaxWarning(sendMaxInfo, networkURI) {
-
     function verifyExcludedUtxos() {
       var warningMsg = [];
       if (sendMaxInfo.utxosBelowFee > 0) {
@@ -409,7 +433,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   /* sets a wallet on the UI, creates a TXPs for that wallet */
 
   function setWallet(wallet, tx) {
-
     $scope.wallet = wallet;
 
     setButtonText(wallet.credentials.m > 1, !!tx.paypro);

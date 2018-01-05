@@ -107,7 +107,7 @@
   }
 
   .bg {
-    &.wallet {
+    &.wallet-icon {
       @include icon-wallet(60%);
     }  
   }
@@ -195,7 +195,7 @@
     }
 
     .big-icon-svg {
-      .bg.success{
+      .bg.success {
         padding: 0 10px;
         box-shadow: none;
       }

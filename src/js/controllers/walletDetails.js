@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('walletDetailsController', function($scope, $rootScope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, configService, platformInfo, walletService, txpModalService, externalLinkService, popupService, addressbookService, storageService, $ionicScrollDelegate, $window, walletClientError, gettextCatalog, timeService, feeService, appConfigService, networkService) {
+angular.module('owsWalletApp.controllers').controller('walletDetailsController', function($scope, $rootScope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, configService, platformInfo, walletService, txpModalService, externalLinkService, popupService, addressbookService, storageService, $ionicScrollDelegate, $window, walletClientError, gettextCatalog, timeService, feeService, appConfigService, networkService, $ionicViewSwitcher) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;
@@ -289,10 +289,13 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
   };
 
   function refreshAmountSection(scrollPos) {
-    $scope.showBalanceButton = false;
     if ($scope.status) {
       $scope.showBalanceButton = ($scope.status.totalBalanceAtomic != $scope.status.spendableAmount);
+    } else {
+      $scope.showBalanceButton = false;
     }
+
+    // If the amount header is not collapsible then set the top of the amount balance.
     if (!$scope.amountIsCollapsible) {
       var t = ($scope.showBalanceButton ? 15 : 45);
       $scope.amountScale = 'translateY(' + t + 'px)';
@@ -300,16 +303,24 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
     }
 
     scrollPos = scrollPos || 0;
-    var amountHeight = 210 - scrollPos;
-    if (amountHeight < 80) {
-      amountHeight = 80;
-    }
-    var contentMargin = amountHeight;
-    if (contentMargin > 210) {
-      contentMargin = 210;
+
+    var AMOUNT_HEADER_MAX_HEIGHT = 210;
+    var AMOUNT_HEADER_MIN_HEIGHT = 80;
+
+    // Set smallest collapsed amount header height.
+    var amountHeight = AMOUNT_HEADER_MAX_HEIGHT - scrollPos;
+    if (amountHeight < AMOUNT_HEADER_MIN_HEIGHT) {
+      amountHeight = AMOUNT_HEADER_MIN_HEIGHT;
     }
 
-    var amountScale = (amountHeight / 210);
+    // Set the top of the view content below the amount header.
+    var contentMargin = amountHeight;
+    if (contentMargin > AMOUNT_HEADER_MAX_HEIGHT) {
+      contentMargin = AMOUNT_HEADER_MAX_HEIGHT;
+    }
+
+    // Set the scaled size of the amount header content based on current amount header height.
+    var amountScale = (amountHeight / AMOUNT_HEADER_MAX_HEIGHT);
     if (amountScale < 0.5) {
       amountScale = 0.5;
     }
@@ -317,36 +328,58 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
       amountScale = 1.1;
     }
 
-    var s = amountScale;
-
-    // Make space for the balance button when it needs to display.
-    var TOP_NO_BALANCE_BUTTON = 115;
+    // Set the top position for the amount balance; make space for the balance button when it needs to display.
+    var TOP_NO_BALANCE_BUTTON = 20;
     var TOP_BALANCE_BUTTON = 30;
+
     var top = TOP_NO_BALANCE_BUTTON;
     if ($scope.showBalanceButton) {
       top = TOP_BALANCE_BUTTON;
     }
 
-    var amountTop = ((amountScale - 0.7) / 0.7) * top;
-    if (amountTop < -10) {
-      amountTop = -10;
-    }
-    if (amountTop > top) {
-      amountTop = top;
-    }
+    var amountTop = amountScale * top;
+//    var amountTop = ((amountScale - 0.7) / 0.7) * top;
+//    if (amountTop < -10) {
+//      amountTop = -10;
+//    }
+//    if (amountTop > top) {
+//      amountTop = top;
+//    }
 
-    var t = amountTop;
+    // Vary opacity for elements displayed when amount header is collapsed.
+    $scope.elementOpacity = (amountHeight - 100) / 80;
 
-    $scope.altAmountOpacity = (amountHeight - 100) / 80;
+    // Apply results to view.
     $window.requestAnimationFrame(function() {
       $scope.amountHeight = amountHeight + 'px';
       $scope.contentMargin = contentMargin + 'px';
-      $scope.amountScale = 'scale3d(' + s + ',' + s + ',' + s + ') translateY(' + t + 'px)';
+      $scope.amountScale = 'scale3d(' + amountScale + ',' + amountScale + ',' + amountScale + ') translateY(' + amountTop + 'px)';
       $scope.$digest();
       getScrollPosition();
     });
-  }
+  };
 
+  $scope.sendFrom = function() {
+    if ($scope.hasBalance) {
+      $state.go('tabs.send', {
+        walletId: $scope.walletId
+      });
+    }
+  };
+
+  $scope.receiveTo = function() {
+    $state.go('tabs.receive', {
+      walletId: $scope.walletId
+    });
+  };
+
+  $scope.settingsFor = function() {
+    $state.transitionTo('tabs.preferences', {
+      walletId: $scope.walletId,
+      fromWallet: true
+    });
+  };
+  
   var scrollWatcherInitialized;
 
   $scope.$on("$ionicView.enter", function(event, data) {
@@ -375,6 +408,7 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
     }
 
     $scope.requiresMultipleSignatures = $scope.wallet.credentials.m > 1;
+    $scope.hasBalance = ($scope.status.spendableAmount > 0);
 
     addressbookService.list(function(err, ab) {
       if (err) $log.error(err);
@@ -399,7 +433,6 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
   });
 
   $scope.$on("$ionicView.afterLeave", function(event, data) {
-
     if ($window.StatusBar) {
       var statusBarColor = '#192c3a';
       $window.StatusBar.backgroundColorByHexString(statusBarColor);
@@ -414,10 +447,7 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
 
   function setAndroidStatusBarColor() {
     var SUBTRACT_AMOUNT = 15;
-    var walletColor;
-    if (!$scope.wallet.color) walletColor = '#019477';
-    else walletColor = $scope.wallet.color;
-    var rgb = hexToRgb(walletColor);
+    var rgb = hexToRgb($scope.wallet.color);
     var keys = Object.keys(rgb);
     keys.forEach(function(k) {
       if (rgb[k] - SUBTRACT_AMOUNT < 0) {

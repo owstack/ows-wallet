@@ -23,6 +23,7 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
 
     $scope.showMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == 'tabs.send';
     $scope.recipientType = data.stateParams.recipientType || null;
+    $scope.walletId = data.stateParams.walletId;
     $scope.networkURI = data.stateParams.networkURI || configService.getSync().currencyNetworks.default;
     $scope.toAddress = data.stateParams.toAddress;
     $scope.toName = data.stateParams.toName;
@@ -232,6 +233,7 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
     } else {
       var amount = $scope.showAlternativeAmount ? fromFiat(_amount) : _amount;
       $state.transitionTo('tabs.send.confirm', {
+        walletId: $scope.walletId,
         networkURI: $scope.networkURI,
         recipientType: $scope.recipientType,
         toAmount: $scope.useSendMax ? null : (amount * unitToAtomicUnit).toFixed(atomicUnitDecimals),

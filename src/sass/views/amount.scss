@@ -19,7 +19,7 @@
           width:30px;
           height:30px;
           box-shadow: none;
-          &.wallet {
+          &.wallet-icon {
             @include icon-wallet(60%);
           }
         }

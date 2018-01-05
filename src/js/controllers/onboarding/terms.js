@@ -1,18 +1,7 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('termsController', function($scope, $log, $state, appConfigService, uxLanguage, profileService, externalLinkService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('termsController', function($scope, appConfigService, uxLanguage, externalLinkService, gettextCatalog) {
   $scope.lang = uxLanguage.currentLanguage;
-
-  $scope.confirm = function() {
-    profileService.setDisclaimerAccepted(function(err) {
-      if (err) $log.error(err);
-      else {
-        $state.go('tabs.home', {
-          fromOnboarding: true
-        });
-      }
-    });
-  };
 
   $scope.openExternalLink = function() {
     var url = appConfigService.disclaimerUrl;

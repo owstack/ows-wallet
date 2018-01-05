@@ -74,9 +74,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     return cb(configCache);
   };
 
-
   root.get = function(cb) {
-
     storageService.getConfig(function(err, localConfig) {
       if (localConfig) {
         configCache = JSON.parse(localConfig);

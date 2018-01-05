@@ -2,8 +2,8 @@
   <ion-list>
     <div ng-repeat="topic in topics">
       <ion-item id="{{locationPrefix + topic.id}}" class="help-title" ng-click="toggleTopic(topic)" ng-class="{active: isTopicShown(topic)}">
+        <i class="icon" ng-class="isTopicShown(topic) ? 'arrow-up' : 'arrow-down'"></i>
         {{topic.title}}
-        <i class="icon" ng-class="isTopicShown(topic) ? 'arrow-down' : 'arrow-right'"></i>
       </ion-item>
       <ion-item class="item-accordion help-content" ng-show="isTopicShown(topic)">
         {{topic.content}}

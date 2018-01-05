@@ -14,11 +14,14 @@
     border: none;
 
     i {
-	    color: $v-dark-gray;
-	    font-size: 20px;
+	    color: $v-light-gray;
+	    opacity: 0.7;
+	    font-size: 14px;
 	    position: relative;
-	    top: 2px;
-	    opacity: 1;
+	    border-radius: 3px;
+	    border: 1px solid $v-light-gray;
+	    margin-right: 10px;
+	    padding: 0 5px;
     }
 	}
 

@@ -1,4 +1,10 @@
 #onboard-create-first-wallet {
+  ion-content {
+    &.status-bar {
+      margin-top: 20px;
+    }  
+  }
+  
   img {
     position: relative;
     top: 44px;

@@ -8,13 +8,14 @@
 
   &-icon {
     display: inline-block;
-    padding: 13px;
+    padding: 7px;
     background-color: $v-accent-color;
     @include icon-shape(50px, 50px, $v-subtle-box-shadow);
 
     img {
       height: 100%;
       width: 100%;
+      position: relative;
     }
   }
 

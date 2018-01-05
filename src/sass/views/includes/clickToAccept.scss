@@ -39,13 +39,9 @@ click-to-accept {
         opacity: 1;
       }
 
-      > img {
+      > ion-spinner {
         width: 22px;
         margin-right: 10px;
-        animation-name: spin;
-        animation-duration: 500ms;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
       }
     }
 

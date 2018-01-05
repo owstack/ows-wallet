@@ -13,7 +13,7 @@ if (window && window.navigator) {
 }
 
 //Setting up route
-angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider) {
+angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
     $urlRouterProvider.otherwise('/starting');
 
     // NO CACHE
@@ -30,7 +30,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
     $ionicConfigProvider.navBar.positionSecondaryButtons('right');
 
     // NAV BACK-BUTTON TEXT/ICON
-    $ionicConfigProvider.backButton.icon('icon ion-ios-arrow-thin-left').text('');
+    $ionicConfigProvider.backButton.icon('icon ion-ios-arrow-left').text('');
     $ionicConfigProvider.backButton.previousTitleText(false);
 
     // CHECKBOX CIRCLE
@@ -38,6 +38,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
     // USE NATIVE SCROLLING
     $ionicConfigProvider.scrolling.jsScrolling(false);
+
+    $ionicNativeTransitionsProvider.setDefaultOptions({
+      duration: 200, // in milliseconds (ms), default 400,
+      slowdownfactor: 2, // overlap views (higher number is more) or no overlap (1), default 4
+      iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1
+      androiddelay: -1, // same as above but for Android, default -1
+      fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android)
+      fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
+      triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option
+      backInOppositeDirection: true // Takes over default back transition and state back transition to use the opposite direction transition to go back
+    });
 
     $logProvider.debugEnabled(true);
     $provide.decorator('$log', ['$delegate', 'platformInfo',
@@ -139,7 +150,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       .state('tabs.wallet', {
         url: '/wallet/:walletId/:fromOnboarding',
         views: {
-          'tab-home@tabs': {
+//          'tab-home@tabs': {
+          'tab-home': {
             controller: 'walletDetailsController',
             templateUrl: 'views/walletDetails.html'
           }
@@ -217,12 +229,14 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        */
 
       .state('tabs', {
+        nativeTransitions: null,
         url: '/tabs',
         abstract: true,
         controller: 'tabsController',
         templateUrl: 'views/tabs.html'
       })
       .state('tabs.home', {
+        nativeTransitions: null,
         url: '/home/:fromOnboarding',
         views: {
           'tab-home': {
@@ -232,7 +246,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.receive', {
-        url: '/receive',
+        nativeTransitions: null,
+        url: '/receive/:walletId',
         views: {
           'tab-receive': {
             controller: 'tabReceiveController',
@@ -241,6 +256,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.scan', {
+        nativeTransitions: null,
         url: '/scan',
         views: {
           'tab-scan': {
@@ -250,6 +266,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('scanner', {
+        nativeTransitions: null,
         url: '/scanner',
         params: {
           passthroughMode: null,
@@ -258,7 +275,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         templateUrl: 'views/tab-scan.html'
       })
       .state('tabs.send', {
-        url: '/send',
+        nativeTransitions: null,
+        url: '/send/:walletId',
         views: {
           'tab-send': {
             controller: 'tabSendController',
@@ -267,6 +285,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.settings', {
+        nativeTransitions: null,
         url: '/settings',
         views: {
           'tab-settings': {
@@ -283,7 +302,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        */
 
       .state('tabs.send.amount', {
-        url: '/amount/:networkURI/:recipientType/:toAddress/:toName/:toEmail/:toColor',
+        url: '/amount/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toEmail/:toColor',
         views: {
           'tab-send@tabs': {
             controller: 'amountController',
@@ -292,7 +311,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.send.confirm', {
-        url: '/confirm/:networkURI/:recipientType/:toAddress/:toName/:toAmount/:toEmail/:toColor/:description/:useSendMax',
+        url: '/confirm/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toAmount/:toEmail/:toColor/:description/:useSendMax',
         views: {
           'tab-send@tabs': {
             controller: 'confirmController',
@@ -495,9 +514,10 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        */
 
       .state('tabs.preferences', {
-        url: '/preferences/:walletId',
+        url: '/preferences/:walletId/:fromWallet',
         views: {
-          'tab-settings@tabs': {
+//          'tab-settings@tabs': {
+          'tab-settings': {
             controller: 'preferencesController',
             templateUrl: 'views/preferences.html'
           }
@@ -605,6 +625,47 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
       /*
        *
+       * Addresses
+       *
+       */
+
+      .state('tabs.settings.addresses', {
+        url: '/addresses/:walletId/:toAddress',
+        views: {
+          'tab-settings@tabs': {
+            controller: 'addressesController',
+            templateUrl: 'views/addresses.html'
+          }
+        }
+      })
+      .state('tabs.settings.allAddresses', {
+        url: '/allAddresses/:walletId',
+        views: {
+          'tab-settings@tabs': {
+            controller: 'addressesController',
+            templateUrl: 'views/allAddresses.html'
+          }
+        }
+      })
+
+      /*
+       *
+       * Copayers
+       *
+       */
+
+      .state('tabs.copayers', {
+        url: '/copayers/:walletId',
+        views: {
+          'tab-home': {
+            templateUrl: 'views/copayers.html',
+            controller: 'copayersController'
+          }
+        }
+      })
+
+      /*
+       *
        * Addressbook
        *
        */
@@ -634,47 +695,6 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           'tab-settings@tabs': {
             templateUrl: 'views/addressbookEntry.html',
             controller: 'addressbookEntryController'
-          }
-        }
-      })
-
-      /*
-       *
-       * Copayers
-       *
-       */
-
-      .state('tabs.copayers', {
-        url: '/copayers/:walletId',
-        views: {
-          'tab-home': {
-            templateUrl: 'views/copayers.html',
-            controller: 'copayersController'
-          }
-        }
-      })
-
-      /*
-       *
-       * Addresses
-       *
-       */
-
-      .state('tabs.settings.addresses', {
-        url: '/addresses/:walletId/:toAddress',
-        views: {
-          'tab-settings@tabs': {
-            controller: 'addressesController',
-            templateUrl: 'views/addresses.html'
-          }
-        }
-      })
-      .state('tabs.settings.allAddresses', {
-        url: '/allAddresses/:walletId',
-        views: {
-          'tab-settings@tabs': {
-            controller: 'addressesController',
-            templateUrl: 'views/allAddresses.html'
           }
         }
       })
@@ -766,6 +786,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         template: '<ion-nav-view name="onboarding"></ion-nav-view>'
       })
       .state('onboarding.start', {
+        nativeTransitions: null,
         url: '/onboarding/start',
         views: {
           'onboarding': {
@@ -837,15 +858,6 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           'onboarding': {
             templateUrl: 'views/onboarding/disclaimer.html',
             controller: 'disclaimerController'
-          }
-        }
-      })
-      .state('onboarding.terms', {
-        url: '/onboarding/terms',
-        views: {
-          'onboarding': {
-            templateUrl: 'views/onboarding/terms.html',
-            controller: 'termsController'
           }
         }
       })
@@ -970,7 +982,6 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       });
 
       $ionicPlatform.registerBackButtonAction(function(e) {
-
         //from root tabs view
         var matchHome = $ionicHistory.currentStateName() == 'tabs.home' ? true : false;
         var matchReceive = $ionicHistory.currentStateName() == 'tabs.receive' ? true : false;
@@ -997,14 +1008,16 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
         if ($ionicHistory.backView() && !fromTabs && !fromOnboarding && !matchComplete && !matchPin && !matchLockedView) {
           $ionicHistory.goBack();
-        } else
-        if ($rootScope.backButtonPressedOnceToExit) {
+
+        } else if ($rootScope.backButtonPressedOnceToExit) {
           navigator.app.exitApp();
+
         } else {
           $rootScope.backButtonPressedOnceToExit = true;
           $rootScope.$apply(function() {
             ionicToast.show(gettextCatalog.getString('Press again to exit'), 'bottom', false, 1000);
           });
+
           $timeout(function() {
             $rootScope.backButtonPressedOnceToExit = false;
           }, 3000);

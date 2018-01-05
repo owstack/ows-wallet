@@ -1,12 +1,11 @@
 <action-sheet action-sheet-show="show" class="wallet-selector">
-  <i class="back-arrow ion-ios-arrow-thin-left" ng-click="hide()"></i>
+  <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
   <div class="header">{{title}}</div>
-  <a
-    ng-repeat="w in wallets track by $index"
-    class="item item-icon-left item-big-icon-left item-icon-right wallet"
+  <a ng-repeat="w in wallets track by $index"
+    class="item item-icon-left item-big-icon-left item-icon-right wallet-outer"
     ng-click="selectWallet(w)">
       <i class="icon big-icon-svg">
-        <div class="bg wallet" ng-class="{'wallet-background-color-default': !w.color}" ng-style="{'background-color': w.color}"></div>
+        <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !w.color}" ng-style="{'background-color': w.color}"></div>
       </i>
       <div class="wallet-inner">
         <div class="wallet-details">

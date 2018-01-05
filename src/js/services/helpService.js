@@ -41,7 +41,7 @@ angular.module('owsWalletApp.services').factory('helpService', function(lodash, 
     },
     {
       image: 'img/tour/contacts.svg',
-      topic: gettextCatalog.getString('Add your contacts'),
+      title: gettextCatalog.getString('Add your contacts'),
       description: gettextCatalog.getString('Pay friends and family using money you have in your wallet. Split dinner, send a birthday gift, or just say hello.'),
       acknowledgement: gettextCatalog.getString('I have friends'),
       sortIndex: 4,

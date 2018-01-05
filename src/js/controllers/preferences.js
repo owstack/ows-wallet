@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('preferencesController',
-  function($scope, $rootScope, $timeout, $log, $ionicHistory, configService, profileService, fingerprintService, walletService) {
+  function($scope, $rootScope, $timeout, $log, $ionicHistory, $ionicNativeTransitions, lodash, configService, profileService, fingerprintService, walletService) {
     var wallet;
     var walletId;
 
@@ -72,7 +72,24 @@ angular.module('owsWalletApp.controllers').controller('preferencesController',
       });
     };
 
+    $scope.goBackToWallet = function() {
+      // Reset (clear) history in the settings tab for subsequent deterministic navigation (results in
+      // main settings view being shown when using tab bar).
+      delete $ionicHistory.viewHistory().histories[$ionicHistory.currentHistoryId()];
+
+      $ionicNativeTransitions.stateGo('tabs.wallet', {
+        walletId: walletId
+      }, {}, {
+        type: 'slide',
+        direction: 'right',
+        duration: 200
+      });
+    };
+
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
+      $scope.hideTabs = data.stateParams.fromWallet || undefined;
+      $scope.showBackButton = data.stateParams.fromWallet || false;
+
       wallet = profileService.getWallet(data.stateParams.walletId);
       walletId = wallet.credentials.walletId;
       $scope.wallet = wallet;

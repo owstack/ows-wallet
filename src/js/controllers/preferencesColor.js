@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('preferencesColorController', function($scope, $timeout, $log, $stateParams, $ionicHistory, configService, profileService) {
+angular.module('owsWalletApp.controllers').controller('preferencesColorController', function($scope, $timeout, $log, $stateParams, $ionicHistory, configService, profileService, uiService) {
   var wallet = profileService.getWallet($stateParams.walletId);
   $scope.wallet = wallet;
   var walletId = wallet.credentials.walletId;
@@ -26,10 +26,6 @@ angular.module('owsWalletApp.controllers').controller('preferencesColorControlle
     });
   };
 
-  function getColorDefault() {
-    return rgb2hex(window.getComputedStyle(document.getElementsByClassName('wallet-color-default')[0]).color);
-  };
-
   function getColorCount() {
     var count = window.getComputedStyle(document.getElementsByClassName('wallet-color-count')[0]).content;
     return parseInt(count.replace(/[^0-9]/g, ''));
@@ -37,7 +33,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesColorControlle
 
   function setCurrentColorIndex() {
     try {
-      $scope.currentColorIndex = colorToIndex(config.colorFor[walletId] || getColorDefault());
+      $scope.currentColorIndex = colorToIndex(config.colorFor[walletId] || uiService.getDefaultWalletColor());
     } catch(e) {
       // Wait for DOM to render and try again.
       $timeout(function() {
@@ -60,15 +56,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesColorControlle
 
   function indexToColor(i) {
     // Expect an exception to be thrown if can't getComputedStyle().
-    return rgb2hex(window.getComputedStyle(document.getElementsByClassName('wallet-color-' + i)[0]).backgroundColor);
-  };
-
-  function rgb2hex(rgb) {
-    rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
-    return (rgb && rgb.length === 4) ? "#" +
-      ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-      ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-      ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+    return uiService.rgb2hex(window.getComputedStyle(document.getElementsByClassName('wallet-color-' + i)[0]).backgroundColor);
   };
 
 });

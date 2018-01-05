@@ -85,14 +85,17 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    var walletId = data.stateParams.walletId;
     $scope.wallets = profileService.getWallets();
     $scope.singleWallet = $scope.wallets.length == 1;
     $scope.hasWallets = lodash.isEmpty($scope.wallets) ? false : true;
 
-    if (!$scope.hasWallets) return;
+    if (!$scope.hasWallets) {
+      return;
+    }
 
     // select first wallet if no wallet selected previously
-    var selectedWallet = checkSelectedWallet($scope.wallet, $scope.wallets);
+    var selectedWallet = checkSelectedWallet(walletId, $scope.wallet, $scope.wallets);
     $scope.onWalletSelect(selectedWallet);
 
     $scope.showShareButton = platformInfo.isCordova ? (platformInfo.isIOS ? 'iOS' : 'Android') : null;
@@ -100,7 +103,9 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
     listeners = [
       $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
         // Update current address
-        if ($scope.wallet && walletId == $scope.wallet.id && type == 'NewIncomingTx') $scope.setAddress(true);
+        if ($scope.wallet && walletId == $scope.wallet.id && type == 'NewIncomingTx') {
+          $scope.setAddress(true);
+        }
       })
     ];
   });
@@ -111,13 +116,24 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
     });
   });
 
-  var checkSelectedWallet = function(wallet, wallets) {
-    if (!wallet) return wallets[0];
+  var checkSelectedWallet = function(walletId, wallet, wallets) {
+    var wid = walletId;
+
+    if (!wid) {
+      if (!wallet) {
+        return wallets[0];
+      }
+      wid = wallet.id;
+    }
+
     var w = lodash.find(wallets, function(w) {
-      return w.id == wallet.id;
+      return w.id == wid;
     });
-    if (!w) return wallets[0];
-    return wallet;
+
+    if (!w) {
+      return wallets[0];
+    }
+    return w;
   }
 
   var setProtocol = function() {
@@ -146,6 +162,5 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
       $state.go('tabs.add.create-personal');
     });
   };
-
 
 });

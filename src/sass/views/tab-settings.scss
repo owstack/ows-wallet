@@ -173,8 +173,8 @@
   }
 }
 
-#settings-networks,
-#tab-settings {
+#tab-settings,
+#settings-networks {
   .list {
     .item {
       .big-icon-svg {
@@ -185,12 +185,17 @@
         box-shadow: none;
        }
 
+       & > .network-icon {
+         width: 40px;
+         margin-left: -10px;
+       }
+
        &.custom {
           left:8px;
 
           .bg {
             @include icon-shape(25px, 25px, 0px 1px 5px $v-white-transparent-subtle);
-            padding:.1rem;
+            padding: .1rem;
           }
         }
       }
@@ -221,7 +226,7 @@
   }
 
   .bg {
-    &.wallet {
+    &.wallet-icon {
       @include icon-wallet(60%);
     }
   }

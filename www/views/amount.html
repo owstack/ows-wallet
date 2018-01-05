@@ -19,7 +19,7 @@
 
       <div class="item item-text-wrap item-icon-left crypto-address">
         <i class="icon big-icon-svg" ng-if="recipientType == 'wallet'">
-          <div class="bg wallet" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
+          <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
         </i>
         <span ng-if="recipientType == 'contact'">
           <gravatar class="send-gravatar" name="{{toName}}" height="30" width="30" email="{{toEmail}}"></gravatar>
@@ -58,7 +58,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="keypad">
       <div class="row">

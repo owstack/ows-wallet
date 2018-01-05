@@ -1,15 +1,13 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService, walletService) {
-
-
-    var isCordova = platformInfo.isCordova;
-    var isIOS = platformInfo.isIOS;
+  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService, walletService, uiService) {
 
     var root = {};
-    var usePushNotifications = isCordova;
-
+    var isCordova = platformInfo.isCordova;
+    var isIOS = platformInfo.isIOS;
     var UPDATE_PERIOD = 15;
+
+    var usePushNotifications = isCordova;
 
     root.profile = null;
 
@@ -22,7 +20,6 @@ angular.module('owsWalletApp.services')
       }
     });
 
-
     root.wallet = {}; // decorated version of client
 
     root.updateWalletSettings = function(wallet) {
@@ -30,7 +27,8 @@ angular.module('owsWalletApp.services')
       configService.whenAvailable(function(config) {
         wallet.usingCustomWalletService = config.walletServiceFor && config.walletServiceFor[wallet.id] && (config.walletServiceFor[wallet.id] != defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url);
         wallet.name = (config.aliasFor && config.aliasFor[wallet.id]) || wallet.credentials.walletName;
-        wallet.color = (config.colorFor && config.colorFor[wallet.id]);
+        wallet.color = (config.colorFor && config.colorFor[wallet.id]) || uiService.getDefaultWalletColor();
+        wallet.background = (config.backgroundFor && config.backgroundFor[wallet.id]) || uiService.getDefaultWalletBackground(wallet.color);
         wallet.email = config.emailFor && config.emailFor[wallet.id];
       });
     }
