@@ -13,14 +13,6 @@
     <content src="index.html" />
     <access origin="*" />
 
-    <!-- Config for cordova-plugin-ionic-webview -->
-<!--
-    <allow-navigation href="http://localhost:8080/*"/>
-    <feature name="CDVWKWebViewEngine">
-      <param name="ios-package" value="CDVWKWebViewEngine" />
-    </feature>
-    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
--->
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="iosPersistentFileLocation" value="Library" />
     <preference name="DisallowOverscroll" value="true"/>

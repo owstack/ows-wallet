@@ -9,8 +9,8 @@ angular.module('owsWalletApp.services').factory('helpService', function(lodash, 
   var tourTopics = [
     {
       image: 'img/tour/currencies.svg',
-      title: gettextCatalog.getString('Transact using multiple currencies'),
-      description: gettextCatalog.getString('You can send, receive, and track multiple cryptocurrencies. One app is all you need.'),
+      title: gettextCatalog.getString('Use multiple currencies'),
+      description: gettextCatalog.getString('You can send, receive, and track multiple digital currencies. One app is all you need.'),
       acknowledgement: gettextCatalog.getString('Got it'),
       sortIndex: 0,
       helpTopicId: 'currencies'
@@ -61,18 +61,18 @@ angular.module('owsWalletApp.services').factory('helpService', function(lodash, 
     {
     	id: 'currencies',
       title: gettextCatalog.getString('Currencies'),
-      content: gettextCatalog.getString('You can send, receive, and track multiple cryptocurrencies. One app is all you need.'),
+      content: gettextCatalog.getString('You can send, receive, and track multiple digital currencies. One app is all you need.'),
 			subtopics: [
 				{
-					title: gettextCatalog.getString('What is a cryptocurrency?'),
+					title: gettextCatalog.getString('What is a digital currency?'),
 					content: gettextCatalog.getString('Answer coming soon')
 				},
 				{
-					title: gettextCatalog.getString('What cryptocurrencies can I use with this app?'),
+					title: gettextCatalog.getString('What digital currencies can I use with this app?'),
 					content: gettextCatalog.getString('Answer coming soon')
 				},
 				{
-					title: gettextCatalog.getString('How can I get cryptocurrency?'),
+					title: gettextCatalog.getString('How can I get digital currency?'),
 					content: gettextCatalog.getString('Answer coming soon')
 				}
 			]

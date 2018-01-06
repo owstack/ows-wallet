@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('disclaimerController', function($scope, $state, $log, $ionicConfig, profileService, uxLanguage, externalLinkService, $stateParams, startupService) {
+angular.module('owsWalletApp.controllers').controller('disclaimerController', function($scope, $state, $log, $ionicConfig, $ionicNativeTransitions, profileService, uxLanguage, externalLinkService, $stateParams, startupService) {
 
   $scope.$on("$ionicView.afterEnter", function() {
     startupService.ready();
@@ -46,8 +46,12 @@ angular.module('owsWalletApp.controllers').controller('disclaimerController', fu
   }
 
   $scope.goBack = function() {
-    $state.go('onboarding.backupRequest', {
+    $ionicNativeTransitions.stateGo('onboarding.backupRequest', {
       walletId: $stateParams.walletId
+    }, {}, {
+      type: 'slide',
+      direction: 'right',
+      duration: 200
     });
   }
 

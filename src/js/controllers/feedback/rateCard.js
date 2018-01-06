@@ -23,19 +23,19 @@ angular.module('owsWalletApp.controllers').controller('rateCardController', func
     $scope.score = score;
     switch ($scope.score) {
       case 1:
-        $scope.button_title = gettextCatalog.getString("I think this app is terrible.");
+        $scope.button_title = gettextCatalog.getString("I think it's terrible");
         break;
       case 2:
         $scope.button_title = gettextCatalog.getString("I don't like it");
         break;
       case 3:
-        $scope.button_title = gettextCatalog.getString("Meh - it's alright");
+        $scope.button_title = gettextCatalog.getString("It's alright");
         break;
       case 4:
-        $scope.button_title = gettextCatalog.getString("I like the app");
+        $scope.button_title = gettextCatalog.getString("I like it");
         break;
       case 5:
-        $scope.button_title = gettextCatalog.getString("This app is fantastic!");
+        $scope.button_title = gettextCatalog.getString("It's fantastic!");
         break;
     }
     $timeout(function() {

@@ -49,12 +49,6 @@ angular.module('owsWalletApp.controllers').controller('createFirstWalletControll
           $state.go('onboarding.collectEmail', {
             walletId: walletId
           });
-
-            /*
-          $state.go('onboarding.backupRequest', {
-            walletId: walletId
-          });
-            */
         });
       }, 300);
     };
