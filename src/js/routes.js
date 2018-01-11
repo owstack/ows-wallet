@@ -150,7 +150,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       .state('tabs.wallet', {
         url: '/wallet/:walletId/:fromOnboarding',
         views: {
-//          'tab-home@tabs': {
+          // Relative view target for navigation between tab views.
           'tab-home': {
             controller: 'walletDetailsController',
             templateUrl: 'views/walletDetails.html'
@@ -261,7 +261,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         },
         params: {
-          wallets: null
+          wallets: null,
+          openWallet: null
         }
       })
       .state('tabs.receive', {
@@ -535,7 +536,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       .state('tabs.preferences', {
         url: '/preferences/:walletId/:fromWallet',
         views: {
-//          'tab-settings@tabs': {
+          // Relative view target for navigation between tab views.
           'tab-settings': {
             controller: 'preferencesController',
             templateUrl: 'views/preferences.html'

@@ -187,7 +187,8 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
 
     $scope.goToAllWallets = function() {
       $state.go('tabs.home.allWallets', {
-        wallets: $scope.wallets
+        wallets: $scope.wallets,
+        openWallet: $scope.openWallet
       });
     };
 

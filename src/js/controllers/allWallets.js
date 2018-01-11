@@ -61,6 +61,7 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.wallets = data.stateParams.wallets;
+      $scope.openWallet = data.stateParams.openWallet;
       initWalletPositions();
     });
 
