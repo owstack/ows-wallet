@@ -185,6 +185,12 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       $state.go('tabs.add');
     };
 
+    $scope.goToAllWallets = function() {
+      $state.go('tabs.home.allWallets', {
+        wallets: $scope.wallets
+      });
+    };
+
     var updateTxps = function() {
       profileService.getTxps({
         limit: 3

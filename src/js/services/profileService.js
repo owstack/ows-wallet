@@ -22,17 +22,6 @@ angular.module('owsWalletApp.services')
 
     root.wallet = {}; // decorated version of client
 
-    root.updateWalletSettings = function(wallet) {
-      var defaults = configService.getDefaults();
-      configService.whenAvailable(function(config) {
-        wallet.usingCustomWalletService = walletService.getPreferences(wallet.id).walletServiceUrl != defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url;
-        wallet.name = walletService.getPreferences(wallet.id).alias || wallet.credentials.walletName;
-        wallet.color = walletService.getPreferences(wallet.id).color || uiService.getDefaultWalletColor();
-        wallet.background = walletService.getPreferences(wallet.id).background || uiService.getDefaultWalletBackground(wallet.color);
-        wallet.email = config.emailNotifications.email;
-      });
-    }
-
     root.setBackupFlag = function(walletId) {
       storageService.setBackupFlag(walletId, function(err) {
         if (err) $log.error(err);
@@ -72,6 +61,20 @@ angular.module('owsWalletApp.services')
       return credentials.network + '/' + credentials.currency;
     };
 
+    function _updateWalletSettings(wallet) {
+      configService.whenAvailable(function(config) {
+        var defaults = configService.getDefaults();
+        var prefs = walletService.getPreferences(wallet.id);
+
+        wallet.usingCustomWalletService = prefs.walletServiceUrl && (prefs.walletServiceUrl != defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url);
+        wallet.name = prefs.alias || wallet.credentials.walletName;
+        wallet.color = prefs.color || uiService.getDefaultWalletColor();
+        wallet.background = prefs.background || uiService.getDefaultWalletBackground(wallet.color);
+        wallet.layout = prefs.layout || {};
+        wallet.email = config.emailNotifications.email;
+      });
+    }
+
     // Adds a wallet client to profileService
     root.bindWalletClient = function(wallet, opts) {
       var opts = opts || {};
@@ -92,7 +95,7 @@ angular.module('owsWalletApp.services')
       wallet.m = wallet.credentials.m;
       wallet.n = wallet.credentials.n;
 
-      root.updateWalletSettings(wallet);
+      _updateWalletSettings(wallet);
       root.wallet[walletId] = wallet;
 
       _needsBackup(wallet, function(val) {
@@ -142,7 +145,7 @@ angular.module('owsWalletApp.services')
       $rootScope.$on('Local/SettingsUpdated', function(e, walletId) {
         if (!walletId || walletId == wallet.id) {
           $log.debug('Updating settings for wallet:' + wallet.id);
-          root.updateWalletSettings(wallet);
+          _updateWalletSettings(wallet);
         }
       });
 
@@ -530,22 +533,19 @@ angular.module('owsWalletApp.services')
 
       var saveWalletServiceUrl = function(cb) {
         var defaults = configService.getDefaults();
-        var walletPreferences = {};
-        walletPreferences[walletId] = {
-          walletServiceUrl: opts.walletServiceUrl || defaults.currencyNetworks[client.networkURI].walletService.url
-        };
+        var url = opts.walletServiceUrl || defaults.currencyNetworks[client.networkURI].walletService.url;
 
-        // Dont save the default
-        if (walletPreferences[walletId].walletServiceUrl == defaults.currencyNetworks[client.networkURI].walletService.url) {
+        // Don't save the default
+        if (url != defaults.currencyNetworks[client.networkURI].walletService.url) {
+          walletService.setPreference(walletId, 'walletServiceUrl', url, function() {
+            if (err) {
+              $log.warn(err);
+            }
+            return cb();
+          });
+        } else {
           return cb();
         }
-
-        configService.set({
-          walletPreferences: walletPreferences,
-        }, function(err) {
-          if (err) $log.warn(err);
-          return cb();
-        });
       };
 
       saveWalletServiceUrl(function() {
@@ -567,7 +567,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.importWallet = function(str, opts, cb) {
-      // opts.walletServiceUrl should be set by according to network.
+      // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
       $log.debug('Importing Wallet:', opts);
@@ -611,7 +611,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.importExtendedPrivateKey = function(xPrivKey, opts, cb) {
-      // opts.walletServiceUrl should be set by according to network.
+      // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
       $log.debug('Importing Wallet xPrivKey');
@@ -640,7 +640,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.importMnemonic = function(words, opts, cb) {
-      // opts.walletServiceUrl should be set by according to network.
+      // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
       $log.debug('Importing Wallet Mnemonic');
@@ -668,7 +668,7 @@ angular.module('owsWalletApp.services')
     };
 
     root.importExtendedPublicKey = function(opts, cb) {
-      // opts.walletServiceUrl should be set by according to network.
+      // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
       $log.debug('Importing Wallet XPubKey');
 

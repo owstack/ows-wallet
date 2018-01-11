@@ -4,9 +4,9 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-  <ion-content ng-controller="allWalletsController">
+  <ion-content>
     <div gridster="gridsterOpts">
-        <div ng-repeat="wallet in wallets track by $index" gridster-item="wallet">
+        <div ng-repeat="wallet in wallets track by $index" gridster-item="walletLayoutMap">
           <div class="wallet-grid-item" ng-include="'views/includes/walletCard.html'"></div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('allWalletsController',
-  function($scope, lodash) {
+  function($scope, lodash, walletService) {
 
     var physicalScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width); // TODO: use global value
     var physicalScreenHeight = ((window.innerHeight > 0) ? window.innerHeight : screen.height); // TODO: use global value
@@ -55,25 +55,38 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
     };
 
     $scope.walletLayoutMap = {
-      row: 'wallet.prefs.layout.position[0]',
-      col: 'wallet.prefs.layout.position[1]'
+      row: 'wallet.layout.position[0]',
+      col: 'wallet.layout.position[1]'
     };
+
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
+      $scope.wallets = data.stateParams.wallets;
+      initWalletPositions();
+    });
 
     function saveWalletState(wallets) {
-      // Don't do anything if there is no layout.
-//      if (lodash.isEmpty(wallets)) return;
-//      if (lodash.isUndefined(wallets[wallets.length-1].layout)) return;
-//      if (lodash.isEmpty(wallets[wallets.length-1].layout)) return;
+      function saveWallet(n) {
+        if (n < wallets.length) {
+          walletService.setPreference(wallets[n].id, 'layout', wallets[n].layout, function(err) {
+            saveWallet(n + 1);
+          });
+        }
+      }
 
+      // Clone needed since writing preferences for each wallet would otherwise refresh the underlying scope object.
+      wallets = lodash.cloneDeep(wallets);
+      saveWallet(0);
     };
-/*
+
     function initWalletPositions() {
       // Get the collection of wallets that need positioning.
       var wallets = lodash.filter($scope.wallets, function(wallet) {
-        return lodash.isUndefined(wallet.layout) || lodash.isEmpty(wallet.layout) || lodash.isEqual(wallet.layout, {position:{'0':9999,'1':9999}});
+        return lodash.isEmpty(wallet.layout);
       });
 
-      if (lodash.isEmpty(wallets)) return;
+      if (lodash.isEmpty(wallets)) {
+        return;
+      }
 
       // Walk through each row and column looking for a place the wallets will fit.
       var i = 0;
@@ -101,6 +114,4 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
       }
     };
 
-    initWalletPositions();
-*/
   });

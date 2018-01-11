@@ -232,7 +232,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/allWallets',
         views: {
           'tab-home@tabs': {
-            controller: 'tabHomeController',
+            controller: 'allWalletsController',
             templateUrl: 'views/allWallets.html'
           }
         }
@@ -257,8 +257,11 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-home': {
             controller: 'tabHomeController',
-            templateUrl: 'views/tab-home.html',
+            templateUrl: 'views/tab-home.html'
           }
+        },
+        params: {
+          wallets: null
         }
       })
       .state('tabs.receive', {

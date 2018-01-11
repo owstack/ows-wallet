@@ -77,7 +77,7 @@
     <div ng-if="layout == 'grid'">
       <div class="dashboard-section" translate>
         <span class="left" translate>Recent Wallets</span>
-        <span class="right pointer" ui-sref="tabs.home.allWallets" translate>All &gt;</span>
+        <span class="right pointer" ng-click="goToAllWallets()" translate>All &gt;</span>
       </div>
       <ion-slides class="home-slides" options="walletSlides.options" slider="walletSlides.slider" show-pager="false">
         <ion-slide-page class="home-slide-page" ng-repeat="wallet in wallets track by $index">

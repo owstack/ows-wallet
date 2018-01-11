@@ -83,6 +83,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.setPreference = function(walletId, pref, value, cb) {
+    cb = cb || function(){};
     var walletPreferences = {};
     lodash.set(walletPreferences, 'walletPreferences[' + walletId + '][' + pref + ']', value);
     configService.set(walletPreferences, function(err) {
