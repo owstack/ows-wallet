@@ -1,27 +1,24 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('preferencesColorController', function($scope, $timeout, $log, $stateParams, $ionicHistory, configService, profileService, uiService) {
+angular.module('owsWalletApp.controllers').controller('preferencesColorController', function($scope, $timeout, $log, $stateParams, $ionicHistory, profileService, uiService, walletService) {
   var wallet = profileService.getWallet($stateParams.walletId);
-  $scope.wallet = wallet;
   var walletId = wallet.credentials.walletId;
-  var config = configService.getSync();
-  config.colorFor = config.colorFor || {};
-
   var retries = 3;
+
+  $scope.wallet = wallet;
   $scope.colorCount = getColorCount();
   setCurrentColorIndex();
 
   $scope.save = function(i) {
     var color = indexToColor(i);
-    if (!color) return;
+    if (!color) {
+      return;
+    }
 
-    var opts = {
-      colorFor: {}
-    };
-    opts.colorFor[walletId] = color;
-
-    configService.set(opts, function(err) {
-      if (err) $log.warn(err);
+    walletService.setPreference(walletId, 'color', color, function(err) {
+      if (err) {
+        $log.warn(err);
+      }
       $ionicHistory.goBack();
     });
   };
@@ -33,7 +30,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesColorControlle
 
   function setCurrentColorIndex() {
     try {
-      $scope.currentColorIndex = colorToIndex(config.colorFor[walletId] || uiService.getDefaultWalletColor());
+      $scope.currentColorIndex = colorToIndex(walletService.getPreferences(walletId).color || uiService.getDefaultWalletColor());
     } catch(e) {
       // Wait for DOM to render and try again.
       $timeout(function() {

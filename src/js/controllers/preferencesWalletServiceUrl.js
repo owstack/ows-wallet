@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('preferencesWalletServiceUrlController',
-  function($scope, $log, $stateParams, configService, applicationService, profileService, storageService, appConfigService, networkService) {
-    $scope.success = null;
+  function($scope, $log, $stateParams, configService, applicationService, profileService, storageService, appConfigService, networkService, walletService) {
 
     var wallet = profileService.getWallet($stateParams.walletId);
-    $scope.wallet = wallet;
-
     var walletId = wallet.credentials.walletId;
     var defaults = configService.getDefaults();
-    var config = configService.getSync();
+
+    $scope.wallet = wallet;
     $scope.appName = appConfigService.nameCase;
+    $scope.success = null;
+
     $scope.walletServiceUrl = {
-      value: (config.walletServiceFor && config.walletServiceFor[walletId]) || defaults.currencyNetworks[wallet.networkURI].walletService.url
+      value: walletService.getPreferences(walletId).walletServiceUrl || defaults.currencyNetworks[wallet.networkURI].walletService.url
     };
 
     $scope.resetDefaultUrl = function() {
@@ -41,16 +41,14 @@ angular.module('owsWalletApp.controllers').controller('preferencesWalletServiceU
         $scope.walletServiceUrl.value = walletService;
       }
 
-      var opts = {
-        walletServiceFor: {}
-      };
-      opts.walletServiceFor[walletId] = $scope.walletServiceUrl.value;
-
-      configService.set(opts, function(err) {
-        if (err) $log.debug(err);
+      walletService.setPreference(walletId, 'walletServiceUrl', $scope.walletServiceUrl.value, function(err) {
+        if (err) {
+          $log.debug(err);
+        }
         storageService.setCleanAndScanAddresses(walletId, function() {
           applicationService.restart();
         });
       });
     };
+
   });

@@ -1,45 +1,29 @@
 <ion-view id="tab-home" show-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-title><img class="tab-home__logo" src="img/brand/logo.svg"></ion-nav-title>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-back button-clear" ng-click="toggleLayout()">
+        <img class="icon-nav" ng-src="img/icon-{{nextLayout}}.svg"/>
+      </button>
+    </ion-nav-buttons>
   </ion-nav-bar>
-
   <ion-content>
-    <ion-refresher
-     ng-if="isAndroid"
-     pulling-icon="ion-ios-refresh"
-     spinner="ios-small"
-     on-refresh="onRefresh()">
-   </ion-refresher>
+    <ion-refresher ng-if="isAndroid" pulling-icon="ion-ios-refresh" spinner="ios-small" on-refresh="onRefresh()">
+    </ion-refresher>
 
-    <div class="list card release ng-hide" ng-show="newRelease">
-      <i class="item icon big-icon-svg">
-        <img src="img/icon-update.svg" class="bg"/>
-      </i>
+    <!-- App update available -->
 
-      <div class="item title">{{updateText}}</div>
+    <div ng-show="tipNewRelease" ng-include="'views/includes/tipNewRelease.html'"></div>
 
-      <div class="button" ng-click="openExternalLink()">
-        <span translate>Download</span>
-      </div>
-    </div>
+    <!-- App rating -->
 
-    <div class="ng-hide" ng-show="showRateCard.value" ng-include="'views/feedback/rateCard.html'"></div>
-    <div class="list card homeTip" ng-if="homeTip">
-      <div class="item item-icon-right item-heading">
-        <a ng-click="hideHomeTip()"><i class="icon ion-ios-close-empty close-home-tip"></i></a>
-      </div>
-      <div class="big-icon-svg">
-        <div class="bg success center">
-          <i class="ion-checkmark"></i>
-        </div>
-      </div>
-      <div class="title" translate>
-        Your wallet is ready!
-      </div>
-      <div class="subtitle" translate>
-        On this screen you can see all your wallets, accounts, and assets.
-      </div>
-    </div>
+    <div ng-show="showRateCard.value" ng-include="'views/feedback/rateCard.html'"></div>
+
+    <!-- Wallet is ready tip -->
+
+    <div ng-show="tipWalletReady" ng-include="'views/includes/tipWalletReady.html'"></div>
+
+    <!-- Payment proposals --> 
 
     <div class="list card" ng-hide="!txps[0]">
       <a class="item item-icon-right item-heading" ui-sref="tabs.proposals">
@@ -47,11 +31,12 @@
         <i class="icon arrow-right"></i>
         <span class="badge badge-assertive m5t m10r" ng-show="txpsN>3"> {{txpsN}}</span>
       </a>
-
       <div ng-repeat="tx in txps" ng-click="openTxpModal(tx)">
         <a class="wallet-details__item item item-sub" ng-include="'views/includes/txp.html'"></a>
       </div>
     </div>
+
+    <!-- Recent transactions --> 
 
     <div class="list card" ng-if="notifications[0] && recentTransactionsEnabled">
       <a class="item item-icon-right item-heading" ui-sref="tabs.activity">
@@ -62,51 +47,54 @@
       <a class="item item-sub activity" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
         <span ng-include="'views/includes/walletActivity.html'"></span>
       </a>
+
+      <a class="item item-sub activity" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
+        <span ng-include="'views/includes/walletActivity.html'"></span>
+      </a>
     </div>
 
-    <div class="list card">
+    <!-- List layout -->
+
+    <div ng-if="layout == 'list'" class="list card">
       <div class="item item-icon-right item-heading">
         <span translate>Wallets</span>
         <a ui-sref="tabs.add" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
       </div>
-      <div>
-        <a ng-if="!wallets[0]" ui-sref="tabs.add" class="item item-icon-left item-big-icon-left item-icon-right next-step">
-         <i class="icon big-icon-svg">
-           <div class="bg wallet-icon icon-create-wallet"></div>
-         </i>
-          <span translate>Add wallet</span>
-          <i class="icon arrow-right"></i>
-        </a>
-        <a ng-repeat="wallet in wallets track by $index"
-           class="item item-sub item-icon-left item-big-icon-left item-icon-right wallet"
-           ng-click="openWallet(wallet)">
-          <i class="icon big-icon-svg">
-           <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
-          </i>
-          <span>
-            {{wallet.name || wallet.id}}
-          </span>
-          <p>
-          <span ng-if="!wallet.isComplete()" class="assertive" translate>
-            Incomplete
-          </span>
-          <span ng-if="wallet.isComplete()">
-            <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
-
-            <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
-            <span class="tab-home__wallet__multisig-number" ng-if="wallet.n > 1">
-              {{wallet.m}}-of-{{wallet.n}}
-            </span>
-            <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)" class="tab-home__wallet__status-icon ion-ios-timer-outline"></i>
-            <span class="assertive" ng-if="wallet.error">{{wallet.error}}</span>
-          </span>
-          &nbsp;
-          </p>
-          <i class="icon arrow-right"></i>
-        </a>
+      <a ng-if="!wallets[0]" ui-sref="tabs.add" class="item item-icon-left item-big-icon-left item-icon-right next-step">
+       <i class="icon big-icon-svg">
+         <div class="bg wallet-icon icon-create-wallet"></div>
+       </i>
+        <span translate>Add wallet</span>
+        <i class="icon arrow-right"></i>
+      </a>
+      <div ng-repeat="wallet in wallets track by $index">
+        <span ng-include="'views/includes/walletListItem.html'"></span>
       </div>
     </div>
-    <div class="ng-hide list card" ng-show="nextStepsItems.length>0" ng-include="'views/includes/nextSteps.html'"></div>
 
+    <!-- Grid layout -->
+
+    <div ng-if="layout == 'grid'">
+      <div class="dashboard-section" translate>
+        <span class="left" translate>Recent Wallets</span>
+        <span class="right pointer" ui-sref="tabs.home.allWallets" translate>All &gt;</span>
+      </div>
+      <ion-slides class="home-slides" options="walletSlides.options" slider="walletSlides.slider" show-pager="false">
+        <ion-slide-page class="home-slide-page" ng-repeat="wallet in wallets track by $index">
+          <div class="slide-container">
+            <span ng-include="'views/includes/walletCard.html'"></span>
+          </div>
+        </ion-slide-page>
+        <ion-slide-page class="home-slide-page">
+          <div class="slide-container">
+            <div class="nav-grid-card" ng-click="goToAddWallet()">
+              <i class="icon ion-ios-plus-empty"></i>
+            </div>
+          </div>
+        </ion-slide-page>
+      </ion-slides>
+    </div>
+
+    <div class="ng-hide list card" ng-show="nextStepsItems.length>0" ng-include="'views/includes/nextSteps.html'"></div>
   </ion-content>
 </ion-view>

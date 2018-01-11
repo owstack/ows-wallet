@@ -3,26 +3,21 @@
 angular.module('owsWalletApp.controllers').controller('preferencesInformation',
   function($scope, $log, $ionicHistory, platformInfo, lodash, profileService, configService, $stateParams, $state, walletService, networkService) {
     var wallet = profileService.getWallet($stateParams.walletId);
-    $scope.wallet = wallet;
-
     var walletId = wallet.id;
     var config = configService.getSync();
     var colorCounter = 1;
     var BLACK_WALLET_COLOR = '#202020';
+
     $scope.isCordova = platformInfo.isCordova;
-    config.colorFor = config.colorFor || {};
 
     $scope.saveBlack = function() {
       function save(color) {
-        var opts = {
-          colorFor: {}
-        };
-        opts.colorFor[walletId] = color;
-
-        configService.set(opts, function(err) {
+        walletService.setPreference(walletId, 'color', color, function(err) {
+          if (err) {
+            $log.warn(err);
+          }
           $ionicHistory.removeBackView();
           $state.go('tabs.home');
-          if (err) $log.warn(err);
         });
       };
 

@@ -12,6 +12,7 @@ var modules = [
   'ngLodash',
   'ngCsv',
   'angular-md5',
+  'gridster',
   'bchWalletClientModule',
   'btcWalletClientModule',
   'bitauthModule',

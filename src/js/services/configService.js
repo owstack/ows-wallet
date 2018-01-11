@@ -4,13 +4,13 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
   var root = {};
 
   var defaultConfig = {
-    // wallet limits
+    // Wallet limits
     limits: {
       totalCopayers: 6,
       mPlusN: 100,
     },
 
-    // wallet default config
+    // Wallet default config
     wallet: {
       requiredCopayers: 2,
       totalCopayers: 3,
@@ -18,6 +18,10 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       reconnectDelay: 5000,
       idleDurationMin: 4,
       settings: {}
+    },
+
+    // User preferences
+    walletPreferences: {
     },
 
     currencyNetworks: networkService.defaultConfig(),
@@ -95,15 +99,13 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         if (!configCache.pushNotifications) {
           configCache.pushNotifications = defaultConfig.pushNotifications;
         }
+        if (!configCache.walletPreferences) {
+          configCache.walletPreferences = defaultConfig.walletPreferences;
+        }
 
       } else {
         configCache = lodash.clone(defaultConfig);
       };
-
-      configCache.walletServiceFor = configCache.walletServiceFor || {};
-      configCache.colorFor = configCache.colorFor || {};
-      configCache.aliasFor = configCache.aliasFor || {};
-      configCache.emailFor = configCache.emailFor || {};
 
       $log.debug('Preferences read:', configCache)
 

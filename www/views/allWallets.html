@@ -1,0 +1,14 @@
+<ion-view id="all-wallets" hide-tabs>
+  <ion-nav-bar class="bar-royal">
+    <ion-nav-title>{{'All Wallets' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content ng-controller="allWalletsController">
+    <div gridster="gridsterOpts">
+        <div ng-repeat="wallet in wallets track by $index" gridster-item="wallet">
+          <div class="wallet-grid-item" ng-include="'views/includes/walletCard.html'"></div>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>

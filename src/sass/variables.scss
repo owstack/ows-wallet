@@ -106,7 +106,7 @@ $v-button-secondary-outline-color:                   $v-dark-gray !default;
 $v-button-secondary-outline-active-bg:               $v-dark-gray !default;
 $v-button-secondary-outline-active-color:            $v-white-color !default;
 
-/* Slide */
+/* Slide to pay */
 $v-slide-bg-color:                                   $v-accent-color !default;
 $v-slide-tip-bg-color:                               $v-accent-complement-color !default;
 $v-slide-text-color:                                 $v-white-color !default;
@@ -167,6 +167,11 @@ $v-backup-button-secondary-active-bg:                $v-white-transparent-light 
 $v-backup-button-secondary-active-border:            transparent !default;
 $v-backup-button-secondary-clear-bg:                 transparent !default;
 $v-backup-button-secondary-clear-color:              $v-accent-color !default;
+
+/* Dashboard */
+$v-dashboard-bg:                                     radial-gradient(circle at center 30%, $v-accent-complement-color 0%, $v-black-color 100%);
+$v-dashboard-color:                                  $v-white-color !default;
+$v-dashboard-section-color:                          $v-light-gray !default;
 
 /* Wallet details */
 $v-wallet-action-button-bg:                          none !default; // Overridden by controller

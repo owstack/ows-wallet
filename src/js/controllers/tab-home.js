@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('tabHomeController',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcess, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfo, storageService, txpModalService, appConfigService, startupService, addressbookService, feedbackService, walletClientError, nextStepsService, homeIntegrationsService, pushNotificationsService, timeService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcess, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfo, storageService, txpModalService, appConfigService, startupService, addressbookService, feedbackService, walletClientError, nextStepsService, homeIntegrationsService, pushNotificationsService, timeService, networkService) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -14,6 +14,8 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
     $scope.isAndroid = platformInfo.isAndroid;
     $scope.isNW = platformInfo.isNW;
     $scope.showRateCard = {};
+    $scope.layout = 'grid';
+    $scope.nextLayout = 'list';
 
     $scope.$on("$ionicView.afterEnter", function() {
       startupService.ready();
@@ -97,7 +99,6 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
         })
       ];
 
-
       $scope.homeIntegrations = homeIntegrationsService.get();
 
       configService.whenAvailable(function(config) {
@@ -129,7 +130,7 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       return timeService.withinPastDay(time);
     };
 
-    $scope.openExternalLink = function() {
+    $scope.openExternalLinkDownload = function() {
       var url = appConfigService.gitHubRepoUrl + '/releases/latest';
       var optIn = true;
       var title = gettextCatalog.getString('Update Available');
@@ -180,6 +181,10 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       });
     };
 
+    $scope.goToAddWallet = function() {
+      $state.go('tabs.add');
+    };
+
     var updateTxps = function() {
       profileService.getTxps({
         limit: 3
@@ -205,9 +210,7 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       lodash.each($scope.wallets, function(wallet) {
         walletService.getStatus(wallet, {}, function(err, status) {
           if (err) {
-
             wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered') : walletClientError.msg(err);
-
             $log.error(err);
           } else {
             wallet.error = null;
@@ -261,11 +264,57 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       });
     };
 
-
     $scope.onRefresh = function() {
       $timeout(function() {
         $scope.$broadcast('scroll.refreshComplete');
       }, 300);
       updateAllWallets();
     };
+
+    $scope.isTestnet = function(networkURI) {
+      return networkService.isTestnet(networkURI);
+    };
+
+    //////////////
+    //////////////
+    //////////////
+    //////////////
+
+    $scope.toggleLayout = function() {
+      $scope.layout = ($scope.layout == 'grid' ? 'list' : 'grid');
+      $scope.nextLayout = ($scope.layout == 'grid' ? 'list' : 'grid');
+    };
+
+    $scope.walletSlides = {
+      activeIndex: 0,
+      previousIndex: null,
+      slider: {},
+      options: {
+        pagination: {
+          el: null
+        },
+        effect: 'slide',
+        speed: 300,
+        slidesOffsetBefore: 10,
+        slidesOffsetAfter: 10,
+        spaceBetween: 10,
+        slidesPerView: 'auto'
+      }
+    };
+
+    $scope.$on("$ionicSlides.sliderInitialized", function(event, data) {
+      // data.slider is the instance of Swiper
+      $scope.walletSlides.slider = data.slider;
+    });
+
+    $scope.$on("$ionicSlides.slideChangeStart", function(event, data) {
+      console.log('Slide change is beginning');
+    });
+
+    $scope.$on("$ionicSlides.slideChangeEnd", function(event, data) {
+      // note: the indexes are 0-based
+      $scope.walletSlides.activeIndex = data.slider.activeIndex;
+      $scope.walletSlides.previousIndex = data.slider.previousIndex;
+    });
+
   });

@@ -78,6 +78,18 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       wallet.cachedTxps.isValid = false;
   };
 
+  root.getPreferences = function(walletId) {
+    return configService.getSync().walletPreferences[walletId] || {};
+  };
+
+  root.setPreference = function(walletId, pref, value, cb) {
+    var walletPreferences = {};
+    lodash.set(walletPreferences, 'walletPreferences[' + walletId + '][' + pref + ']', value);
+    configService.set(walletPreferences, function(err) {
+      cb(err);
+    });
+  };
+
   root.getStatus = function(wallet, opts, cb) {
     opts = opts || {};
     var walletId = wallet.id;
@@ -227,8 +239,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         }
       });
 
-      rateService.whenAvailable(function() {
-
+      function cacheAlternativeBalance() {
         var totalBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.totalBalanceAtomic, cache.alternativeIsoCode);
         var pendingBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.pendingAmount, cache.alternativeIsoCode);
         var lockedBalanceAlternative = rateService.toFiat(wallet.networkURI, cache.lockedBalanceAtomic, cache.alternativeIsoCode);
@@ -243,7 +254,15 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
         cache.alternativeBalanceAvailable = true;
         cache.isRateAvailable = true;
-      });
+      };
+
+      if (rateService.isAvailable()) {
+        cacheAlternativeBalance();
+      } else {
+        rateService.whenAvailable(function() {
+          cacheAlternativeBalance();
+        });
+      }
     };
 
     function isStatusCached() {
@@ -1206,9 +1225,8 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     return cb(null, info.type + '|' + info.data + '|' + wallet.networkURI.toLowerCase() + '|' + derivationPath + '|' + (wallet.credentials.mnemonicHasPassphrase));
   };
-
+/*
   root.setTouchId = function(wallet, enabled, cb) {
-
     var opts = {
       touchIdFor: {}
     };
@@ -1222,6 +1240,33 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       }
       configService.set(opts, cb);
     });
+  };
+*/
+  root.setTouchId = function(wallet, enabled, cb) {
+    fingerprintService.check(wallet, function(err) {
+      if (err) {
+        $log.debug('Error with fingerprint:' + err);
+        return cb(err);
+      }
+      root.setPreference(wallet.id, 'touchId', enabled, cb);
+    });
+/*
+    var opts = {
+      walletPreferences: {}
+    };
+    opts.walletPreferences[wallet.id]= {
+      touchId: enabled
+    };
+
+    fingerprintService.check(wallet, function(err) {
+      if (err) {
+        opts.touchIdWalletPreferencesor[wallet.id].touchId = !enabled;
+        $log.debug('Error with fingerprint:' + err);
+        return cb(err);
+      }
+      configService.set(opts, cb);
+    });
+*/
   };
 
   root.getKeys = function(wallet, cb) {

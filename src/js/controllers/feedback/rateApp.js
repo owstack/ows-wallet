@@ -13,7 +13,7 @@ angular.module('owsWalletApp.controllers').controller('rateAppController', funct
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
       "DeviceVersion": ionic.Platform.version(),
-      "Email": lodash.values(config.emailFor)[0] || ' ',
+      "Email": config.emailNotifications.email,
       "Feedback": ' ',
       "Score": $stateParams.score
     };

@@ -224,6 +224,22 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
       /*
        *
+       * All Wallets
+       *
+       */
+
+      .state('tabs.home.allWallets', {
+        url: '/allWallets',
+        views: {
+          'tab-home@tabs': {
+            controller: 'tabHomeController',
+            templateUrl: 'views/allWallets.html'
+          }
+        }
+      })
+
+      /*
+       *
        * Tabs
        *
        */

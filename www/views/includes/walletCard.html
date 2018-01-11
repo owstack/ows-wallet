@@ -1,0 +1,42 @@
+<div class="wallet-grid-card" ng-style="{'background-color': wallet.color}" ng-click="openWallet(wallet)">
+  <div class="wallet-grid-card__container">
+    <div ng-if="wallet.isComplete() && wallet.error" class="wallet-grid-card__err-text ellipsis">
+      {{wallet.error}}
+    </div>
+    <div class="wallet-grid-card__title ellipsis">
+      {{wallet.name || wallet.id}}
+    </div>
+    <div class="wallet-grid-card__balance">
+      <span ng-if="!wallet.isComplete()" class="wallet-grid-card__msg-text" ng-style="{'color': wallet.color}" translate>
+        Incomplete
+      </span>
+      <span ng-if="wallet.isComplete()">
+        <div ng-if="!wallet.balanceHidden">
+          <div class="native-balance">
+            {{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : (wallet.cachedBalance ? wallet.cachedBalance : '')}}
+          </div>
+          <div class="alternative-balance">
+            {{wallet.status.totalBalanceAlternative ? wallet.status.totalBalanceAlternative + ' ' + wallet.status.alternativeIsoCode : (wallet.cachedStatus.totalBalanceAlternative ? wallet.cachedStatus.totalBalanceAlternative + ' ' + wallet.cachedStatus.alternativeIsoCode : '')}}
+          </div>
+          <span class="wallet-grid-card__msg-text" ng-style="{'color': wallet.color}"
+            ng-if="!wallet.status.totalBalanceStr && wallet.cachedBalance && wallet.cachedBalanceUpdatedOn">
+            {{wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo}}
+          </span>
+        </div>
+        <span ng-if="wallet.balanceHidden" class="wallet-grid-card__msg-text" ng-style="{'color': wallet.color}" translate>
+          Balance Hidden
+        </span>
+      </span>
+    </div>
+    <div class="wallet-grid-card__detail">
+      <img class="detail currency" ng-src="img/currency-icons/icon-white-{{wallet.currency}}.svg"/>
+      <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)"
+        class="detail confirming ion-android-time"></i>
+      <img ng-show="isTestnet(wallet.networkURI)" class="detail testnet" src="img/icon-testnet-white.svg">
+      <span ng-if="wallet.n > 1" class="detail wallet-n">
+        {{wallet.m}}-of-{{wallet.n}}
+      </span>
+    </div>
+    <div class="wallet-grid-card__divider"></div>
+  </div>
+</div>

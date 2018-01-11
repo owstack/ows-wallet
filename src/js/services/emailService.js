@@ -10,7 +10,6 @@ angular.module('owsWalletApp.services').factory('emailService', function($log, c
     var wallets = profileService.getWallets();
 
     configService.set({
-      emailFor: null, // Backward compatibility
       emailNotifications: {
         enabled: opts.enabled,
         email: opts.enabled ? opts.email : null
@@ -23,32 +22,24 @@ angular.module('owsWalletApp.services').factory('emailService', function($log, c
 
   root.getEmailIfEnabled = function(config) {
     config = config || configService.getSync();
-    
     if (config.emailNotifications) {
-      if (!config.emailNotifications.enabled) return;
+      if (!config.emailNotifications.enabled) {
+        return;
+      }
 
-      if (config.emailNotifications.email) 
+      if (config.emailNotifications.email) {
         return config.emailNotifications.email;
-    }
-    
-    if (lodash.isEmpty(config.emailFor)) return;
-    
-    // Backward compatibility
-    var emails = lodash.values(config.emailFor);
-    for(var i = 0; i < emails.length; i++) {
-      if (emails[i] !== null && typeof emails[i] !== 'undefined') {
-        return emails[i];
       }
     }
   };
 
   root.init = function() {
     configService.whenAvailable(function(config) {
-
       if (config.emailNotifications && config.emailNotifications.enabled) {
-        
         // If email already set
-        if (config.emailNotifications.email) return;
+        if (config.emailNotifications.email) {
+          return;
+        }
 
         var currentEmail = root.getEmailIfEnabled(config);
 

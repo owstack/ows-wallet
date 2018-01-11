@@ -1,0 +1,13 @@
+#all-wallets {
+  background: $v-dashboard-bg;
+  color: $v-dashboard-color;
+
+  .wallet-grid-item {
+	  width: 150px;
+	  height: 150px;
+	  margin:auto;
+	  position: relative;
+	  top: 50%;
+	  transform: translateY(-50%);
+	 }
+}

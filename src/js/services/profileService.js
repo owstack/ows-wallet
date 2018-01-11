@@ -25,11 +25,11 @@ angular.module('owsWalletApp.services')
     root.updateWalletSettings = function(wallet) {
       var defaults = configService.getDefaults();
       configService.whenAvailable(function(config) {
-        wallet.usingCustomWalletService = config.walletServiceFor && config.walletServiceFor[wallet.id] && (config.walletServiceFor[wallet.id] != defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url);
-        wallet.name = (config.aliasFor && config.aliasFor[wallet.id]) || wallet.credentials.walletName;
-        wallet.color = (config.colorFor && config.colorFor[wallet.id]) || uiService.getDefaultWalletColor();
-        wallet.background = (config.backgroundFor && config.backgroundFor[wallet.id]) || uiService.getDefaultWalletBackground(wallet.color);
-        wallet.email = config.emailFor && config.emailFor[wallet.id];
+        wallet.usingCustomWalletService = walletService.getPreferences(wallet.id).walletServiceUrl != defaults.currencyNetworks[defaults.currencyNetworks.default].walletService.url;
+        wallet.name = walletService.getPreferences(wallet.id).alias || wallet.credentials.walletName;
+        wallet.color = walletService.getPreferences(wallet.id).color || uiService.getDefaultWalletColor();
+        wallet.background = walletService.getPreferences(wallet.id).background || uiService.getDefaultWalletBackground(wallet.color);
+        wallet.email = config.emailNotifications.email;
       });
     }
 
@@ -216,7 +216,7 @@ angular.module('owsWalletApp.services')
       var config = configService.getSync();
       var defaults = configService.getDefaults();
       var networkURI = _getNetworkURI(credentials);
-      return ((config.walletServiceFor && config.walletServiceFor[credentials.walletId]) || defaults.currencyNetworks[networkURI].walletService.url);
+      return (walletService.getPreferences(credentials.walletId).walletServiceUrl || defaults.currencyNetworks[networkURI].walletService.url);
     };
 
     // Used when reading wallets from the profile
@@ -415,8 +415,6 @@ angular.module('owsWalletApp.services')
     // joins and stores a wallet
     root.joinWallet = function(opts, cb) {
       var config = configService.getSync();
-//      opts = opts || {};
-//      opts.walletServiceUrl = config.currencyNetworks[opts.network.getURI()].walletService.url;
       var walletClient = networkService.walletClientFor(opts.network.getURI()).getClient(null, opts);
       $log.debug('Joining Wallet:', opts);
 
@@ -433,7 +431,7 @@ angular.module('owsWalletApp.services')
         $log.debug(ex);
         return cb(gettextCatalog.getString('Bad wallet invitation'));
       }
-//      opts.networkURI = network.getURI();
+
       $log.debug('Joining Wallet:', opts);
 
       seedWallet(opts, function(err, walletClient) {
@@ -532,15 +530,18 @@ angular.module('owsWalletApp.services')
 
       var saveWalletServiceUrl = function(cb) {
         var defaults = configService.getDefaults();
-        var walletServiceFor = {};
-        walletServiceFor[walletId] = opts.walletServiceUrl || defaults.currencyNetworks[client.networkURI].walletService.url;
+        var walletPreferences = {};
+        walletPreferences[walletId] = {
+          walletServiceUrl: opts.walletServiceUrl || defaults.currencyNetworks[client.networkURI].walletService.url
+        };
 
         // Dont save the default
-        if (walletServiceFor[walletId] == defaults.currencyNetworks[client.networkURI].walletService.url)
+        if (walletPreferences[walletId].walletServiceUrl == defaults.currencyNetworks[client.networkURI].walletService.url) {
           return cb();
+        }
 
         configService.set({
-          walletServiceFor: walletServiceFor,
+          walletPreferences: walletPreferences,
         }, function(err) {
           if (err) $log.warn(err);
           return cb();
