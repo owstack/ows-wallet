@@ -18,22 +18,31 @@
   }
 
   .card {
-    background: $v-subtle-gray;
+    background: $v-white-transparent-subtle;
+    color: $v-white-color;
 
-    .item {
-      background: $v-subtle-gray;
-      color: $v-dark-gray;
-      border-top:none;
-      padding-bottom: 1rem;
-      padding-top: 1rem;
+    & > .item-heading {
+      border: none;
+      font-weight: bold;
 
-      &.item-extra-padding {
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
+      .icon {
+        color: $v-white-color;
       }
     }
 
+    .item {
+      background: none;
+      color: $v-white-color;
+      border-color: $v-white-transparent-subtle;
+      padding-bottom: 1rem;
+      padding-top: 1rem;
+    }
+
     .item-sub {
+      .item-detail {
+        font-size: 14px;
+      }
+
       &:first-child:before {
         width: 95%
       }
@@ -43,10 +52,9 @@
         position: absolute;
         width: 75%;
         height: 1px;
-        background: $v-subtle-gray;
-        top:0;
-        right:0;
-        content:'';
+        top: 0;
+        right: 0;
+        content: '';
 
         @media (min-width: 450px){
           &{
@@ -113,7 +121,6 @@
     & > .title {
       font-size: 20px;
       font-weight: bold;
-      color: $v-dark-gray;
       margin: 20px 10px;
     }
 
@@ -121,7 +128,6 @@
       font-size: 1rem;
       line-height: 1.5em;
       font-weight: 300;
-      color: $v-dark-gray;
       margin: 20px 3em 2.5em;
     }
 
@@ -172,7 +178,6 @@
 
     .title {
       font-weight: 700;
-      color: $v-dark-gray;
     }
 
     .button {

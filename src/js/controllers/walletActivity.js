@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('activityController',
+angular.module('owsWalletApp.controllers').controller('walletActivityController',
   function($timeout, $scope, $log, lodash, txpModalService, profileService, walletService, ongoingProcess, popupService, gettextCatalog, $state) {
     $scope.openTxpModal = txpModalService.open;
     $scope.fetchingNotifications = true;

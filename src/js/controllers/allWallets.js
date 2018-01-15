@@ -1,18 +1,23 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('allWalletsController',
-  function($scope, lodash, walletService) {
+  function($scope, lodash, uiService, walletService) {
+
+    $scope.showOptionsMenu = false;
+    $scope.editMode = false;
 
     var physicalScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width); // TODO: use global value
     var physicalScreenHeight = ((window.innerHeight > 0) ? window.innerHeight : screen.height); // TODO: use global value
 
-    var itemWidth = 150;
-    var itemHeight = 150;
-    var itemMargin = 5;
+    var itemWidth = 150; // px
+    var itemHeight = 150; // px
+    var itemMargin = 5; // px
 
     var maxCols = Math.floor(physicalScreenWidth / (itemWidth + 2 * itemMargin));
-    var maxRows = Math.floor(physicalScreenHeight / (itemHeight + 2 * itemMargin));
-    var rowHeight = itemHeight + 2* itemMargin;
+    var maxRows = 100;
+    var rowHeight = itemHeight + 2 * itemMargin;
+
+    var maxFavorites = 6;
 
     $scope.gridsterOpts = {
       columns: maxCols, // the width of the grid, in columns
@@ -21,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
       swapping: true, // whether or not to have items of the same size switch places instead of pushing down if they are the same size
       width: 'auto', // can be an integer or 'auto'. 'auto' scales gridster to be the full width of its containing element
       colWidth: 'auto', // can be an integer or 'auto'.  'auto' uses the pixel width of the element divided by 'columns'
-      rowHeight: rowHeight, // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
+      rowHeight: 'match',//rowHeight, // can be an integer or 'match'.  Match uses the colWidth, giving you square widgets.
       margins: [0, 0], // the pixel distance between each widget
       outerMargin: true, // whether margins apply to outer edges of the grid
       isMobile: false, // stacks the grid items if true
@@ -44,12 +49,13 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
         stop: function(event, $element, widget) {} // optional callback fired when item is finished resizing
       },
       draggable: {
-        enabled: true, // whether dragging items is supported
+        enabled: false, // whether dragging items is supported
         handle: '', // optional selector for resize handle
         start: function(event, $element, widget) {}, // optional callback fired when drag is started,
         drag: function(event, $element, widget) {}, // optional callback fired when item is moved,
         stop: function(event, $element, widget) { // optional callback fired when item is finished dragging
-          saveWalletState($scope.wallets);
+          updateGroupMembership();
+          saveWalletLayout();
         }
       }
     };
@@ -65,24 +71,39 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
       initWalletPositions();
     });
 
-    function saveWalletState(wallets) {
-      function saveWallet(n) {
+    $scope.openOptionsMenu = function() {
+      $scope.showOptionsMenu = true;
+    };
+
+    $scope.startEditFavorites = function() {
+      $scope.showOptionsMenu = false;
+      $scope.editMode = true;
+      $scope.gridsterOpts.draggable.enabled = true;
+    };
+
+    $scope.stopEdit = function() {
+      $scope.editMode = false;
+      $scope.gridsterOpts.draggable.enabled = false;
+    };
+
+    function saveWalletLayout() {
+      function save(n) {
         if (n < wallets.length) {
           walletService.setPreference(wallets[n].id, 'layout', wallets[n].layout, function(err) {
-            saveWallet(n + 1);
+            save(n + 1);
           });
         }
       }
 
       // Clone needed since writing preferences for each wallet would otherwise refresh the underlying scope object.
-      wallets = lodash.cloneDeep(wallets);
-      saveWallet(0);
+      var wallets = lodash.cloneDeep($scope.wallets);
+      save(0);
     };
 
     function initWalletPositions() {
       // Get the collection of wallets that need positioning.
       var wallets = lodash.filter($scope.wallets, function(wallet) {
-        return lodash.isEmpty(wallet.layout);
+        return lodash.isEmpty(wallet.layout.position);
       });
 
       if (lodash.isEmpty(wallets)) {
@@ -91,25 +112,58 @@ angular.module('owsWalletApp.controllers').controller('allWalletsController',
 
       // Walk through each row and column looking for a place the wallets will fit.
       var i = 0;
-      initLayout:
+      loop:
       for (var rowIndex = 0; rowIndex < $scope.gridsterOpts.maxRows; ++rowIndex) {
         for (var colIndex = 0; colIndex < $scope.gridsterOpts.columns; ++colIndex) {
 
-          var testWallet = lodash.find($scope.wallets, function(wallet) {
+          var foundWallet = lodash.find($scope.wallets, function(wallet) {
             return lodash.isEqual(wallet.layout, {
               position: {'0': rowIndex, '1': colIndex}
             });
           });
 
-          if (lodash.isUndefined(testWallet)) {
-            // Position available.
-            $scope.wallets[i++].layout = {
-              position: {'0': rowIndex, '1': colIndex}
+          if (lodash.isUndefined(foundWallet)) {
+            // No wallet at this position.
+            wallets[i++].layout.position = {
+              '0': rowIndex,
+              '1': colIndex
             };
 
-            if (i >= $scope.wallets.length) {
-              break initLayout;
+            if (i >= wallets.length) {
+              break loop;
             }
+          }
+        }
+      }
+    };
+
+    function updateGroupMembership() {
+      var n = 0;
+      loop:
+      for (var rowIndex = 0; rowIndex < $scope.gridsterOpts.maxRows; ++rowIndex) {
+        for (var colIndex = 0; colIndex < $scope.gridsterOpts.columns; ++colIndex) {
+
+          var wallet = lodash.find($scope.wallets, function(w) {
+            return lodash.isEqual(w.layout.position, {
+              '0': rowIndex,
+              '1': colIndex
+            });
+          });
+
+          if (!lodash.isUndefined(wallet)) {
+            var pos = (rowIndex * $scope.gridsterOpts.columns) + colIndex + 1;
+            if (pos <= maxFavorites) {
+              // Assign to group
+              wallet.layout.group = uiService.newWalletGroup('favorite', pos);
+            } else {
+              // Remove group assignment
+              wallet.layout.group = uiService.newWalletGroup('');
+            }
+            n++;
+          }
+
+          if (n >= $scope.wallets.length) {
+            break loop;
           }
         }
       }

@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('itemSelector', function($timeout) {
+  .directive('itemSelectorSendOptions', function($timeout) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/itemSelector.html',
+      templateUrl: 'views/includes/itemSelectorSendOptions.html',
       transclude: true,
       scope: {
-        show: '=itemSelectorShow',
-        onSelect: '=itemSelectorOnSelect'
+        show: '=show',
+        onSelectSendMax: '=onSelectSendMax'
       },
       link: function(scope, element, attrs) {
         scope.hide = function() {

@@ -3,7 +3,7 @@
     <ion-nav-title><img class="tab-home__logo" src="img/brand/logo.svg"></ion-nav-title>
     <ion-nav-buttons side="secondary">
       <button class="button button-back button-clear" ng-click="toggleLayout()">
-        <img class="icon-nav" ng-src="img/icon-{{nextLayout}}.svg"/>
+        <img class="icon-nav" ng-src="img/icon-{{layout.next}}.svg"/>
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
@@ -47,15 +47,11 @@
       <a class="item item-sub activity" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
         <span ng-include="'views/includes/walletActivity.html'"></span>
       </a>
-
-      <a class="item item-sub activity" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
-        <span ng-include="'views/includes/walletActivity.html'"></span>
-      </a>
     </div>
 
     <!-- List layout -->
 
-    <div ng-if="layout == 'list'" class="list card">
+    <div ng-if="layout.current == 'list'" class="list card">
       <div class="item item-icon-right item-heading">
         <span translate>Wallets</span>
         <a ui-sref="tabs.add" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
@@ -67,32 +63,61 @@
         <span translate>Add wallet</span>
         <i class="icon arrow-right"></i>
       </a>
-      <div ng-repeat="wallet in wallets track by $index">
-        <span ng-include="'views/includes/walletListItem.html'"></span>
-      </div>
+      <a ng-repeat="wallet in wallets | filter:{layout: {group: {id:'favorite'}}}:strict | orderBy:'layout.group.ordinal' track by $index"
+        class="item item-sub item-icon-left item-big-icon-left item-icon-right wallet" ng-click="openWallet(wallet)">
+        <i class="icon big-icon-svg">
+          <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+        </i>
+        <span class=ellipsis>
+          {{wallet.name || wallet.id}}
+        </span>
+        <div class="item-detail">
+          <span ng-if="!wallet.isComplete()" class="assertive" translate>
+            Incomplete
+          </span>
+          <span ng-if="wallet.isComplete()">
+            <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
+            <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
+            <span class="tab-home__wallet__multisig-number" ng-if="wallet.n > 1">
+              {{wallet.m}}-of-{{wallet.n}}
+            </span>
+            <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)" class="tab-home__wallet__status-icon ion-ios-timer-outline"></i>
+            <span class="assertive" ng-if="wallet.error">{{wallet.error}}</span>
+          </span>
+          &nbsp;
+        </div>
+        <i class="icon arrow-right"></i>
+      </a>
     </div>
 
     <!-- Grid layout -->
 
-    <div ng-if="layout == 'grid'">
-      <div class="dashboard-section" translate>
-        <span class="left" translate>Recent Wallets</span>
-        <span class="right pointer" ng-click="goToAllWallets()" translate>All &gt;</span>
-      </div>
-      <ion-slides class="home-slides" options="walletSlides.options" slider="walletSlides.slider" show-pager="false">
-        <ion-slide-page class="home-slide-page" ng-repeat="wallet in wallets track by $index">
-          <div class="slide-container">
-            <span ng-include="'views/includes/walletCard.html'"></span>
-          </div>
-        </ion-slide-page>
-        <ion-slide-page class="home-slide-page">
-          <div class="slide-container">
-            <div class="nav-grid-card" ng-click="goToAddWallet()">
-              <i class="icon ion-ios-plus-empty"></i>
+    <div ng-if="layout.current == 'grid'">
+
+      <div ng-repeat="walletGroup in walletGroups">
+
+        <div class="dashboard-section" translate>
+          <span class="left" translate>{{walletGroup.label}}</span>
+          <span class="right pointer" ng-click="goToAllWallets()" translate>All &gt;</span>
+        </div>
+        <ion-slides class="home-slides" options="walletSlides.options" slider="walletSlides.slider" show-pager="false">
+          <ion-slide-page class="home-slide-page"
+            ng-repeat="wallet in wallets | filter:{layout: {group: {id: walletGroup.id}}}:strict | orderBy:'layout.group.ordinal' track by $index">
+            <div class="slide-container">
+              <span ng-include="'views/includes/walletCard.html'"></span>
             </div>
-          </div>
-        </ion-slide-page>
-      </ion-slides>
+          </ion-slide-page>
+          <ion-slide-page class="home-slide-page">
+            <div class="slide-container">
+              <div class="nav-grid-card" ng-click="goToAddWallet()">
+                <i class="icon ion-ios-plus-empty"></i>
+              </div>
+            </div>
+          </ion-slide-page>
+        </ion-slides>
+
+      </div>
+
     </div>
 
     <div class="ng-hide list card" ng-show="nextStepsItems.length>0" ng-include="'views/includes/nextSteps.html'"></div>

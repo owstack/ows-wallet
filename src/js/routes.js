@@ -161,8 +161,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/activity',
         views: {
           'tab-home@tabs': {
-            controller: 'activityController',
-            templateUrl: 'views/activity.html',
+            controller: 'walletActivityController',
+            templateUrl: 'views/wallet-activity.html',
           }
         }
       })
@@ -1124,7 +1124,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
       $log.debug('Route change from:', fromState.name || '-', ' to:', toState.name);
-      $log.debug('            toParams:' + JSON.stringify(toParams || {}));
-      $log.debug('            fromParams:' + JSON.stringify(fromParams || {}));
+      //$log.debug('            toParams:' + JSON.stringify(toParams || {}));
+      //$log.debug('            fromParams:' + JSON.stringify(fromParams || {}));
     });
   });

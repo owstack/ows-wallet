@@ -6,7 +6,7 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
-      <button class="button back-button" ng-click="showSendMaxMenu()" ng-if="showMenu">
+      <button class="button back-button" ng-click="openOptionsMenu()" ng-if="allowOptionsMenu">
         <i class="icon ion-ios-more"></i>
       </button>
     </ion-nav-buttons>
@@ -95,8 +95,8 @@
       </div>
     </div>
   </ion-content>
-  <item-selector
-    item-selector-show="showSendMax"
-    item-selector-on-select="sendMax">
-  </item-selector>
+  <item-selector-send-options
+    show="showOptionsMenu"
+    on-select-send-max="sendMax">
+  </item-selector-send-options>
 </ion-view>

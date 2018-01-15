@@ -70,7 +70,7 @@ angular.module('owsWalletApp.services')
         wallet.name = prefs.alias || wallet.credentials.walletName;
         wallet.color = prefs.color || uiService.getDefaultWalletColor();
         wallet.background = prefs.background || uiService.getDefaultWalletBackground(wallet.color);
-        wallet.layout = prefs.layout || {};
+        wallet.layout = prefs.layout || uiService.getDefaultWalletLayout();
         wallet.email = config.emailNotifications.email;
       });
     }

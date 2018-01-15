@@ -2,6 +2,10 @@
   background: $v-dashboard-bg;
   color: $v-dashboard-color;
 
+  .wallet-grid {
+	  width: 330px;
+  }
+
   .wallet-grid-item {
 	  width: 150px;
 	  height: 150px;
@@ -9,5 +13,31 @@
 	  position: relative;
 	  top: 50%;
 	  transform: translateY(-50%);
-	 }
+	}
+
+  .group-area {
+		width: calc(2 * 165px + 10px);
+		height: calc(3 * 165px);
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 0.5px dashed rgba(255, 255, 255, 0.5);
+	}
+
+  .group-overlay {
+    width: 100%;
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 3;
+  }
+
+  .group-label {
+		font-size: 12px;
+		padding: 5px 10px;
+		background: rgba(0,0,0,0.5);
+		border-radius: 50px;
+	}
 }

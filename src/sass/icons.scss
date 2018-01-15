@@ -27,7 +27,7 @@
   align-items: center;
 
   > img {
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-clip: padding-box;
     background-size: contain;
     height: 18px;
@@ -63,7 +63,7 @@
 
   .name {
     color: $v-dark-gray;
-    text-align:center;
+    text-align: center;
   }
 
   .big-icon-svg {
@@ -72,10 +72,10 @@
 
       .bg {
         @include icon-shape(70px, 70px, 0px 1px 5px $v-white-transparent-light);
-        padding:.1rem;
+        padding: 0.1rem;
         margin: 0.2rem;
-        display:flex;
-        margin:auto;
+        display: flex;
+        margin: auto;
 
         &.wallet-icon {
           @include icon-wallet(60%);

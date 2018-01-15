@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('tabHomeController',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcess, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfo, storageService, txpModalService, appConfigService, startupService, addressbookService, feedbackService, walletClientError, nextStepsService, homeIntegrationsService, pushNotificationsService, timeService, networkService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcess, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfo, storageService, txpModalService, appConfigService, startupService, addressbookService, feedbackService, walletClientError, nextStepsService, homeIntegrationsService, pushNotificationsService, timeService, networkService, uiService) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -14,8 +14,30 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
     $scope.isAndroid = platformInfo.isAndroid;
     $scope.isNW = platformInfo.isNW;
     $scope.showRateCard = {};
-    $scope.layout = 'grid';
-    $scope.nextLayout = 'list';
+
+    $scope.layout = {
+      current: 'grid',
+      next: 'list'
+    };
+
+    $scope.walletSlides = {
+      activeIndex: 0,
+      previousIndex: null,
+      slider: {},
+      options: {
+        freeMode: true,
+        freeModeSticky: true,
+        pagination: {
+          el: null
+        },
+        effect: 'slide',
+        speed: 300,
+        slidesOffsetBefore: 10,
+        slidesOffsetAfter: 10,
+        spaceBetween: 10,
+        slidesPerView: 'auto'
+      }
+    };
 
     $scope.$on("$ionicView.afterEnter", function() {
       startupService.ready();
@@ -35,7 +57,7 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
             return;
           }
           if (newRelease) {
-            $scope.newRelease = true;
+            $scope.tipNewRelease = true;
             $scope.updateText = gettextCatalog.getString('There is a new version of {{appName}} available', {
               appName: $scope.name
             });
@@ -206,6 +228,33 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       })
     };
 
+    var updateAllWalletGroups = function() {
+      // Use the collection of wallets to discern all available wallet groups.
+      // Create an array of unique wallet groups.
+      var groups = lodash.map($scope.wallets, function(wallet) {
+        return {
+          id: wallet.layout.group.id,
+          label: wallet.layout.group.label
+        };
+      });
+
+      // Guarantee the favorites group is always present in the list.
+      groups.push(uiService.newWalletGroup('favorite'));
+
+      groups = lodash.uniq(groups, function(g) {
+        return g.id;
+      });
+
+      groups = lodash.reject(groups, function(g) {
+        return g.id.length == 0;
+      });
+
+      // Sort by group label.
+      $scope.walletGroups = lodash.sortBy(groups, function(g) {
+        return g.label;
+      });
+    };
+
     var updateAllWallets = function() {
       $scope.wallets = profileService.getWallets();
       if (lodash.isEmpty($scope.wallets)) return;
@@ -231,6 +280,8 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
           }
         });
       });
+
+      updateAllWalletGroups();
     };
 
     var updateWallet = function(wallet) {
@@ -271,6 +322,10 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       });
     };
 
+    $scope.hideRateCard = function() {
+      $scope.showRateCard = {};
+    };
+
     $scope.onRefresh = function() {
       $timeout(function() {
         $scope.$broadcast('scroll.refreshComplete');
@@ -282,31 +337,9 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       return networkService.isTestnet(networkURI);
     };
 
-    //////////////
-    //////////////
-    //////////////
-    //////////////
-
     $scope.toggleLayout = function() {
-      $scope.layout = ($scope.layout == 'grid' ? 'list' : 'grid');
-      $scope.nextLayout = ($scope.layout == 'grid' ? 'list' : 'grid');
-    };
-
-    $scope.walletSlides = {
-      activeIndex: 0,
-      previousIndex: null,
-      slider: {},
-      options: {
-        pagination: {
-          el: null
-        },
-        effect: 'slide',
-        speed: 300,
-        slidesOffsetBefore: 10,
-        slidesOffsetAfter: 10,
-        spaceBetween: 10,
-        slidesPerView: 'auto'
-      }
+      $scope.layout.current = ($scope.layout.current == 'grid' ? 'list' : 'grid');
+      $scope.layout.next = ($scope.layout.current == 'grid' ? 'list' : 'grid');
     };
 
     $scope.$on("$ionicSlides.sliderInitialized", function(event, data) {
@@ -315,11 +348,10 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
     });
 
     $scope.$on("$ionicSlides.slideChangeStart", function(event, data) {
-      console.log('Slide change is beginning');
     });
 
     $scope.$on("$ionicSlides.slideChangeEnd", function(event, data) {
-      // note: the indexes are 0-based
+      // The indexes are 0-based
       $scope.walletSlides.activeIndex = data.slider.activeIndex;
       $scope.walletSlides.previousIndex = data.slider.previousIndex;
     });

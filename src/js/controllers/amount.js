@@ -21,7 +21,7 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
     $scope.currency = data.stateParams.currency;
     $scope.forceCurrency = data.stateParams.forceCurrency;
 
-    $scope.showMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == 'tabs.send';
+    $scope.allowOptionsMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == 'tabs.send';
     $scope.recipientType = data.stateParams.recipientType || null;
     $scope.walletId = data.stateParams.walletId;
     $scope.networkURI = data.stateParams.networkURI || configService.getSync().currencyNetworks.default;
@@ -30,7 +30,7 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
     $scope.toEmail = data.stateParams.toEmail;
     $scope.showAlternativeAmount = !!$scope.nextStep;
     $scope.toColor = data.stateParams.toColor;
-    $scope.showSendMax = false;
+    $scope.showOptionsMenu = false;
 
     if (!$scope.nextStep && !data.stateParams.toAddress) {
       $log.error('Bad params at amount')
@@ -104,12 +104,12 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
     if (value && evaluate(value) > 0) paste(evaluate(value));
   };
 
-  $scope.showSendMaxMenu = function() {
-    $scope.showSendMax = true;
+  $scope.openOptionsMenu = function() {
+    $scope.showOptionsMenu = true;
   };
 
   $scope.sendMax = function() {
-    $scope.showSendMax = false;
+    $scope.showOptionsMenu = false;
     $scope.useSendMax = true;
     $scope.finish();
   };
