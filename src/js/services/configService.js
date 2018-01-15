@@ -7,7 +7,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     // Wallet limits
     limits: {
       totalCopayers: 6,
-      mPlusN: 100,
+      mPlusN: 100
     },
 
     // Wallet default config
@@ -29,16 +29,16 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     lock: {
       method: null,
       value: null,
-      bannedUntil: null,
+      bannedUntil: null
     },
 
     // External services
     recentTransactions: {
-      enabled: true,
+      enabled: true
     },
 
     hideNextSteps: {
-      enabled: false,
+      enabled: false
     },
 
     release: {
@@ -48,16 +48,20 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     pushNotificationsEnabled: true,
 
     confirmedTxsNotifications: {
-      enabled: true,
+      enabled: true
     },
 
     emailNotifications: {
-      enabled: false,
+      enabled: false
     },
 
     log: {
       filter: 'debug',
     },
+
+    experimental: {
+      enabled: false
+    }
   };
 
   var configCache = null;
@@ -101,6 +105,9 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         }
         if (!configCache.walletPreferences) {
           configCache.walletPreferences = defaultConfig.walletPreferences;
+        }
+        if (!configCache.experimental) {
+          configCache.experimental = defaultConfig.experimental;
         }
 
       } else {

@@ -4,7 +4,6 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-
   <ion-content>
     <div class="settings-list list">
       <div class="item item-divider"></div>
@@ -14,9 +13,7 @@
       <div class="comment" translate>
         If enabled, wallets will also try to spend unconfirmed funds. This option may cause transaction delays.
       </div>
-
       <div class="item item-divider"></div>
-
       <ion-toggle class="has-comment" ng-model="recentTransactionsEnabled.value" toggle-class="toggle-positive" ng-change="recentTransactionsChange()">
         <span class="toggle-label" translate>Recent Transaction Card</span>
       </ion-toggle>
@@ -31,5 +28,10 @@
       </ion-toggle>
     </div>
 -->
+      <div class="item item-divider"></div>
+      <ion-toggle ng-model="experimental.value" toggle-class="toggle-positive" ng-change="experimentalChange()">
+        <span class="toggle-label" translate>Experimental</span>
+      </ion-toggle>
+    </div>
   </ion-content>
 </ion-view>

@@ -16,8 +16,8 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
     $scope.showRateCard = {};
 
     $scope.layout = {
-      current: 'grid',
-      next: 'list'
+      current: 'list',
+      next: 'grid'
     };
 
     $scope.walletSlides = {
@@ -134,6 +134,8 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
         }
 
         pushNotificationsService.init();
+
+        $scope.experimental = config.experimental.enabled;
 
         $timeout(function() {
           $ionicScrollDelegate.resize();
