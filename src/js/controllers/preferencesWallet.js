@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('preferencesController',
+angular.module('owsWalletApp.controllers').controller('preferencesWalletController',
   function($scope, $rootScope, $timeout, $log, $ionicHistory, $ionicNativeTransitions, lodash, configService, profileService, fingerprintService, walletService) {
     var wallet;
     var walletId;

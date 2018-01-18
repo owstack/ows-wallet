@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('addressesController', function($scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, configService, popupService, gettextCatalog, ongoingProcess, lodash, profileService, walletService, walletClientError, platformInfo, appConfigService, txFormatService, feeService) {
+angular.module('owsWalletApp.controllers').controller('addressesController', function($scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, $ionicModal, configService, popupService, gettextCatalog, ongoingProcess, lodash, profileService, walletService, walletClientError, platformInfo, appConfigService, txFormatService, feeService, helpService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;
@@ -11,7 +11,6 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
   function resetValues() {
     $scope.loading = false;
     $scope.showInfo = false;
-    $scope.showMore = false;
     $scope.allAddressesView = false;
     $scope.latestUnused = $scope.latestWithBalance = null;
     $scope.viewAll = {
@@ -146,25 +145,15 @@ angular.module('owsWalletApp.controllers').controller('addressesController', fun
     }, 10);
   };
 
-  $scope.readMore = function() {
-    $timeout(function() {
-      $scope.showMore = !$scope.showMore;
-      $ionicScrollDelegate.resize();
-    }, 10);
+  $scope.learnMore = function() {
+    // TODO:
+    var locationPrefix = 'tbd';
+    var topicId = 'tbd';
+    helpService.learnMore($scope, locationPrefix, topicId);
   };
 
   $scope.scan = function() {
     walletService.startScan($scope.wallet);
-    $ionicHistory.nextViewOptions({
-      disableAnimate: true,
-      historyRoot: true
-    });
-    $ionicHistory.clearHistory();
-    $state.go('tabs.home').then(function() {
-      $state.transitionTo('tabs.wallet', {
-        walletId: $scope.wallet.credentials.walletId
-      });
-    });
   };
 
   $scope.sendByEmail = function() {

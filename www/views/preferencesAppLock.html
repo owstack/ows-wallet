@@ -1,0 +1,18 @@
+<ion-view id="preferences-app-lock" class="settings" show-tabs>
+  <ion-nav-bar class="bar-royal">
+    <ion-nav-title>{{'App Lock' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div class="list">
+      <ion-radio ng-repeat="opt in options" ng-value="opt" ng-model="currentOption" ng-click="select(opt.method)"
+        ng-disabled="opt.needsBackup || opt.disabled" ng-class="{'bb0': $last}">
+        <span ng-class="{'disabled': opt.needsBackup || opt.disabled}">{{opt.label}}</span>
+      </ion-radio>
+    </div>
+    <div class="box-notification warning" ng-if="errorMsg">
+      {{errorMsg}}
+    </div>
+  </ion-content>
+</ion-view>

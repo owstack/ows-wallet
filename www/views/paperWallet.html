@@ -47,17 +47,17 @@
       <span class="badge badge-energized" translate>No wallets available to receive funds</span>
     </div>
     <slide-to-accept-success
-      slide-success-show="sendStatus === 'success'"
-      slide-success-on-confirm="onSuccessConfirm()"
-      slide-success-hide-on-confirm="true">
+      show="sendStatus === 'success'"
+      on-confirm="onSuccessConfirm()"
+      hide-on-confirm="true">
       <span translate>Funds transferred</span>
     </slide-to-accept-success>
   </ion-content>
   <wallet-selector
-    wallet-selector-title="walletSelectorTitle"
-    wallet-selector-wallets="wallets"
-    wallet-selector-selected-wallet="wallet"
-    wallet-selector-show="showWallets"
-    wallet-selector-on-select="onWalletSelect">
+    title="walletSelectorTitle"
+    wallets="wallets"
+    selected-wallet="wallet"
+    show="showWallets"
+    on-select="onWalletSelect">
   </wallet-selector>
 </ion-view>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('exportController',
-  function($scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, storageService, profileService, platformInfo, gettextCatalog, $state, $stateParams, popupService, appConfigService) {
+  function($scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, storageService, profileService, platformInfo, gettextCatalog, $state, $stateParams, popupService, appConfigService, helpService) {
     var wallet = profileService.getWallet($stateParams.walletId);
     $scope.wallet = wallet;
 
@@ -220,6 +220,13 @@ angular.module('owsWalletApp.controllers').controller('exportController',
           function() {}
         );
       });
+    };
+
+    $scope.learnMore = function() {
+      // TODO:
+      var locationPrefix = 'tbd';
+      var topicId = 'tbd';
+      helpService.learnMore($scope, locationPrefix, topicId);
     };
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {

@@ -15,30 +15,39 @@ angular.module('owsWalletApp.controllers').controller('preferencesWalletServiceU
       value: walletService.getPreferences(walletId).walletServiceUrl || defaults.currencyNetworks[wallet.networkURI].walletService.url
     };
 
+    $scope.customUrl = ($scope.walletServiceUrl.value != defaults.currencyNetworks[wallet.networkURI].walletService.url);
+
+    $scope.$watch(
+      "walletServiceUrl.value",
+      function (newValue, oldValue) {
+        $scope.customUrl = ($scope.walletServiceUrl.value != defaults.currencyNetworks[wallet.networkURI].walletService.url);
+      }
+    );
+
     $scope.resetDefaultUrl = function() {
       $scope.walletServiceUrl.value = defaults.currencyNetworks[wallet.networkURI].walletService.url;
     };
 
     $scope.save = function() {
       var walletServiceEnvs = networkService.getNetworkByURI(wallet.networkURI).walletService;
-      var walletService;
+      var walletServiceUrl;
       switch ($scope.walletServiceUrl.value) {
         case 'prod':
         case 'production':
-          walletService = walletServiceEnvs.production.url;
+          walletServiceUrl = walletServiceEnvs.production.url;
           break;
         case 'sta':
         case 'staging':
-          walletService = walletServiceEnvs.staging.url;
+          walletServiceUrl = walletServiceEnvs.staging.url;
           break;
         case 'loc':
         case 'local':
-          walletService = walletServiceEnvs.local.url;
+          walletServiceUrl = walletServiceEnvs.local.url;
           break;
       };
-      if (walletService) {
-        $log.info('Using Wallet Service URL Alias to ' + walletService);
-        $scope.walletServiceUrl.value = walletService;
+      if (walletServiceUrl) {
+        $log.info('Using Wallet Service URL Alias to ' + walletServiceUrl);
+        $scope.walletServiceUrl.value = walletServiceUrl;
       }
 
       walletService.setPreference(walletId, 'walletServiceUrl', $scope.walletServiceUrl.value, function(err) {

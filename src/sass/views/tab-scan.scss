@@ -58,10 +58,10 @@
       cursor: pointer;
       // hover for desktop only
       body:not(.platform-cordova) &:hover {
-        background-color: $v-accent-complement-color;
+        background-color: $v-accent-2-color;
       }
       &.active, &:active {
-        background-color: $v-accent-color;
+        background-color: $v-accent-1-color;
       }
     }
     .icon-flash {

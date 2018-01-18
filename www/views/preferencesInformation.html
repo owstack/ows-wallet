@@ -1,4 +1,4 @@
-<ion-view class="settings" show-tabs>
+<ion-view id="preferences-information" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>{{'Wallet Information' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -49,7 +49,7 @@
           {{externalSource}}
         </span>
       </div>
-      <a class="item item-icon-right" href ui-sref="tabs.preferences.preferencesExternal" ng-show="wallet.isPrivKeyExternal() && externalSource.isEmbeddedHardware">
+      <a class="item item-icon-right" href ui-sref="tabs.preferencesWallet.external" ng-show="wallet.isPrivKeyExternal() && externalSource.isEmbeddedHardware">
         <span translate>Hardware Wallet</span>
         <span class="item-note">
           {{externalSource}}

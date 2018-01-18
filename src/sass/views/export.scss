@@ -1,10 +1,11 @@
 #export {
-  .list {
-    background-color: $v-white-color;
-  }
+  background: $v-settings-bg;
+  color: $v-settings-color;
+
   .top-tabs.row {
     padding: 0;
   }
+
   .top-tabs .col {
     font-size: 14px;
     cursor: pointer;
@@ -12,19 +13,10 @@
     border-bottom-width: 2px;
     border-bottom-color: $v-top-tabs-color;
   }
-  input[type="password"] {
-    border: none;
-    margin-left: -5px;
-    padding-left: 4px;
-    &.incorrect {
-      padding-left: 3px;
-      border: 1px solid;
-      color: $v-error-color;
-    }
-    &.correct {
-      padding-left: 3px;
-      border: 1px solid;
-      color: $v-success-color;
-    }
+
+  .qrcode {
+    padding: 20px;
+    background: $v-white-color;
+    border-radius: 3px;
   }
 }

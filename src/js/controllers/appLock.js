@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('lockSetupController', function($state, $rootScope, $scope, $timeout, $log, configService, gettextCatalog, fingerprintService, profileService, lodash, applicationService, networkService) {
+angular.module('owsWalletApp.controllers').controller('appLockController', function($state, $rootScope, $scope, $timeout, $log, configService, gettextCatalog, fingerprintService, profileService, lodash, applicationService, networkService) {
 
   function init() {
     $scope.options = [
@@ -81,10 +81,10 @@ angular.module('owsWalletApp.controllers').controller('lockSetupController', fun
     });
 
     if (singleLivenetWallet) {
-      $scope.errorMsg = gettextCatalog.getString('Backup your wallet before using this function');
+      $scope.errorMsg = gettextCatalog.getString('You must backup your wallet in order to use the app lock.');
       disableOptsUntilBackup();
     } else if (atLeastOneLivenetWallet) {
-      $scope.errorMsg = gettextCatalog.getString('Backup all livenet wallets before using this function');
+      $scope.errorMsg = gettextCatalog.getString('You must backup all of your wallets in order to use the app lock.');
       disableOptsUntilBackup();
     } else {
       enableOptsAfterBackup();

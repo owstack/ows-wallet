@@ -40,26 +40,9 @@ angular.module('owsWalletApp.controllers').controller('tourController',
     }
 
     $scope.learnMore = function() {
-      // Conveniently expand the help topic associated with this tour slide
-      $scope.locationPrefix = helpService.tourLocationPrefix;
-      $scope.topicId = $scope.tourTopics[$scope.slide.index].helpTopicId;
-
-      $ionicModal.fromTemplateUrl('views/includes/learnMore.html', {
-        scope: $scope,
-        backdropClickToClose: false,
-        hardwareBackButtonClose: false
-      }).then(function(modal) {
-        $scope.learnMoreModal = modal;
-        $scope.learnMoreModal.show();
-
-        // Scroll to relavent help topic
-        $location.hash($scope.locationPrefix + $scope.topicId);
-        $ionicScrollDelegate.anchorScroll();
-      });
-    };
-
-    $scope.closeLearnMoreModal = function() {
-      $scope.learnMoreModal.remove();
+      var locationPrefix = helpService.tourLocationPrefix;
+      var topicId = $scope.tourTopics[$scope.slide.index].helpTopicId;
+      helpService.learnMore($scope, locationPrefix, topicId);
     };
 
     $scope.slideNext = function() {

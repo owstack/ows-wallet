@@ -1,49 +1,35 @@
-<form name="importForm" ng-submit="importBlob(importForm)" novalidate>
-  <div class="list settings-list settings-input-group">
-    <label class="item item-input item-stacked-label no-border" ng-show="!isSafari && !isCordova">
+<form name="importForm" ng-submit="importBlob(importForm)" class="setupForm" novalidate>
+  <div class="list settings-input-group">
+    <label class="item item-input item-stacked-label" ng-show="!isSafari && !isCordova">
       <div class="input-label" translate>Choose a backup file from your computer</div>
-      <div>
-        <input type="file"
-          placeholder="{{'Select a backup file'|translate}}"
-          ng-model="formData.backupFile" ng-file-select>
-      </div>
+      <input type="file" placeholder="{{'Select a backup file'|translate}}" ng-model="formData.backupFile" ng-file-select>
     </label>
-
     <label class="item item-input item-stacked-label" ng-show="isSafari || isCordova">
       <span class="input-label" translate>Paste the backup plain text code</span>
       <textarea ng-model="formData.backupText" rows="5"></textarea>
     </label>
-
     <label class="item item-input item-stacked-label">
       <span class="input-label" translate>Password</span>
-      <input type="password"
-        placeholder="{{'Your password'|translate}}"
-        ng-model="formData.password">
+      <input type="password" placeholder="{{'Password'|translate}}" ng-model="formData.password">
     </label>
-
-    <label class="item item-input item-select">
-      <div class="input-label" translate>
-        Currency
-      </div>
+    <label class="item item-input item-select bb0">
+      <div class="input-label" translate>Currency</div>
       <select class="m10t" ng-model="formData.network" ng-options="network as network.getCurrencyLabel() for network in availableNetworks"
         ng-change=" onNetworkChange(); resizeView();"></select>
     </label>
-    
     <div class="item item-divider"></div>
-
-    <a class="item" ng-click="showAdvChange()">
+    <a class="item" ng-class="{'bb0': !showAdv}" ng-click="showAdvChange()">
       <span translate ng-show="!showAdv">Show advanced options</span>
       <span translate ng-show="showAdv">Hide advanced options</span>
+      <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
     </a>
-
     <div ng-show="showAdv">
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label bb0">
         <span class="input-label">Wallet Service URL</span>
         <input type="text" ng-model="formData.walletServiceUrl">
       </label>
     </div>
   </div>
-
   <button type="submit" class="button button-standard button-primary" ng-disabled="importForm.$invalid || !formData.password" translate>
     Import backup
   </button>

@@ -7,8 +7,8 @@ angular.module('owsWalletApp.directives')
       templateUrl: 'views/includes/slideToAccept.html',
       transclude: true,
       scope: {
-        sendStatus: '=slideSendStatus',
-        onConfirm: '&slideOnConfirm',
+        sendStatus: '=status',
+        onConfirm: '&onConfirm',
         isDisabled: '=isDisabled'
       },
       link: function(scope, element, attrs) {

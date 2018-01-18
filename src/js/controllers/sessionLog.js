@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('preferencesLogs',
+angular.module('owsWalletApp.controllers').controller('sessionLog',
   function($scope, historicLog, lodash, configService, gettextCatalog) {
 
     var config = configService.getSync();

@@ -476,17 +476,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/about',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesAbout',
-            templateUrl: 'views/preferencesAbout.html'
+            controller: 'aboutController',
+            templateUrl: 'views/about.html'
           }
         }
       })
-      .state('tabs.about.logs', {
+      .state('tabs.about.log', {
         url: '/logs',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesLogs',
-            templateUrl: 'views/preferencesLogs.html'
+            controller: 'sessionLog',
+            templateUrl: 'views/sessionLog.html'
           }
         }
       })
@@ -507,12 +507,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.lockSetup', {
-        url: '/lockSetup',
+      .state('tabs.appLock', {
+        url: '/appLock',
         views: {
           'tab-settings@tabs': {
-            controller: 'lockSetupController',
-            templateUrl: 'views/lockSetup.html',
+            controller: 'appLockController',
+            templateUrl: 'views/preferencesAppLock.html',
           }
         }
       })
@@ -533,17 +533,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        *
        */
 
-      .state('tabs.preferences', {
+      .state('tabs.preferencesWallet', {
         url: '/preferences/:walletId/:fromWallet',
         views: {
           // Relative view target for navigation between tab views.
           'tab-settings': {
-            controller: 'preferencesController',
-            templateUrl: 'views/preferences.html'
+            controller: 'preferencesWalletController',
+            templateUrl: 'views/preferencesWallet.html'
           }
         }
       })
-      .state('tabs.preferences.preferencesAlias', {
+      .state('tabs.preferencesWallet.alias', {
         url: '/preferencesAlias',
         views: {
           'tab-settings@tabs': {
@@ -552,7 +552,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.preferencesColor', {
+      .state('tabs.preferencesWallet.color', {
         url: '/preferencesColor',
         views: {
           'tab-settings@tabs': {
@@ -561,7 +561,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.backupWarning', {
+      .state('tabs.preferencesWallet.backupWarning', {
         url: '/backupWarning/:from',
         views: {
           'tab-settings@tabs': {
@@ -570,7 +570,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.backup', {
+      .state('tabs.preferencesWallet.backup', {
         url: '/backup',
         views: {
           'tab-settings@tabs': {
@@ -579,7 +579,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.preferencesAdvanced', {
+      .state('tabs.preferencesWallet.advanced', {
         url: '/preferencesAdvanced',
         views: {
           'tab-settings@tabs': {
@@ -588,7 +588,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.information', {
+      .state('tabs.preferencesWallet.information', {
         url: '/information',
         views: {
           'tab-settings@tabs': {
@@ -597,7 +597,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.export', {
+      .state('tabs.preferencesWallet.export', {
         url: '/export',
         views: {
           'tab-settings@tabs': {
@@ -606,7 +606,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.preferencesWalletServiceUrl', {
+      .state('tabs.preferencesWallet.walletServiceUrl', {
         url: '/preferencesWalletServiceUrl',
         views: {
           'tab-settings@tabs': {
@@ -615,7 +615,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.preferencesHistory', {
+      .state('tabs.preferencesWallet.history', {
         url: '/preferencesHistory',
         views: {
           'tab-settings@tabs': {
@@ -624,7 +624,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.preferencesExternal', {
+      .state('tabs.preferencesWallet.external', {
         url: '/preferencesExternal',
         views: {
           'tab-settings@tabs': {
@@ -633,7 +633,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           }
         }
       })
-      .state('tabs.preferences.delete', {
+      .state('tabs.preferencesWallet.delete', {
         url: '/delete',
         views: {
           'tab-settings@tabs': {
@@ -710,7 +710,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.addressbook.entry', {
-        url: '/view/:networkURI/:address/:email/:name',
+        url: '/entry/:networkURI/:address/:email/:name',
         views: {
           'tab-settings@tabs': {
             templateUrl: 'views/addressbookEntry.html',

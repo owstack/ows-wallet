@@ -1,8 +1,6 @@
 <ion-view id="view-confirm" hide-tabs>
   <ion-nav-bar class="bar-royal">
-    <ion-nav-title>
-      {{'Confirm'|translate}}
-    </ion-nav-title>
+    <ion-nav-title>{{'Confirm' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
@@ -114,26 +112,26 @@
   </click-to-accept>
   <slide-to-accept
     ng-if="isCordova && wallet"
-    slide-on-confirm="approve(tx, wallet, statusChangeHandler)"
-    slide-send-status="sendStatus"
+    on-confirm="approve(tx, wallet, statusChangeHandler)"
+    status="sendStatus"
     is-disabled="!wallet">
     {{buttonText}}
   </slide-to-accept>
   <slide-to-accept-success
-    slide-success-show="sendStatus === 'success'"
-    slide-success-on-confirm="onSuccessConfirm()"
-    slide-success-hide-on-confirm="true">
+    show="sendStatus === 'success'"
+    on-confirm="onSuccessConfirm()"
+    hide-on-confirm="true">
     <span ng-show="wallet.m == 1 && (wallet.canSign() || wallet.isPrivKeyExternal())" translate>Payment Sent</span>
     <span ng-show="wallet.m > 1 && (wallet.canSign() || wallet.isPrivKeyExternal())" translate>Proposal Created</span>
     <span ng-show="!wallet.canSign() && !wallet.isPrivKeyExternal()" translate>Transaction Created</span>
   </slide-to-accept-success>
 
   <wallet-selector
-    wallet-selector-title="walletSelectorTitle"
-    wallet-selector-wallets="wallets"
-    wallet-selector-selected-wallet="wallet"
-    wallet-selector-show="walletSelector"
-    wallet-selector-on-select="onWalletSelect">
+    title="walletSelectorTitle"
+    wallets="wallets"
+    selected-wallet="wallet"
+    show="walletSelector"
+    on-select="onWalletSelect">
   </wallet-selector>
 
 </ion-view>

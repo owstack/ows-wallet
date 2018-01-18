@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('helpService', function(lodash, gettextCatalog) {
+angular.module('owsWalletApp.services').factory('helpService', function($ionicModal, $ionicScrollDelegate, $location, lodash, gettextCatalog) {
   var root = {};
 
   // Location prefix used for $ionicScrollDelegate to scroll to view element id.
@@ -205,6 +205,22 @@ angular.module('owsWalletApp.services').factory('helpService', function(lodash, 
 		return lodash.sortBy(tourTopics, function(topic) {
 			return topic.sortIndex;
 		});
+  };
+
+  root.learnMore = function(scope, locationPrefix, topicId) {
+    // Conveniently expand the help topic specified
+    $ionicModal.fromTemplateUrl('views/includes/learnMore.html', {
+      scope: scope,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      scope.learnMoreModal = modal;
+      scope.learnMoreModal.show();
+
+      // Scroll to relavent help topic
+      $location.hash(locationPrefix + topicId);
+      $ionicScrollDelegate.anchorScroll();
+    });
   };
 
   return root;

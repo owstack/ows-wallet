@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('preferencesAbout',
+angular.module('owsWalletApp.controllers').controller('aboutController',
   function($scope, $window, appConfigService, gettextCatalog, externalLinkService) {
 
     $scope.title = gettextCatalog.getString('About') + ' ' + appConfigService.nameCase;

@@ -1,4 +1,7 @@
 #addresses {
+  background: $v-settings-bg;
+  color: $v-settings-color;
+
   .updating {
     text-align: center;
     font-size: 0.9em;
@@ -20,13 +23,16 @@
     &-description {
       text-align: center;
       font-size: 0.9em;
-      color: $v-mid-gray;
       margin: 1rem 0;
 
       a {
+        color: $link-color;
         font-weight: bold;
         cursor: pointer;
         cursor: hand;
+        background: $v-white-color;
+        border-radius: 20px;
+        padding: 0 10px;
       }
     }
 
@@ -37,7 +43,7 @@
 
     &-path {
       margin-top: 4px;
-      color: $v-light-gray;
+      color: $v-settings-secondary-color;
     }
   }
 
@@ -54,7 +60,6 @@
 
   .addr-list {
     .item {
-      color: $v-dark-gray;
       padding-top: 1.3rem;
       padding-bottom: 1.3rem;
 
@@ -64,7 +69,6 @@
       }
 
       &.item-divider {
-        color: $v-mid-gray;
         padding-bottom: .5rem;
         font-size: .9rem;
       }
@@ -78,41 +82,12 @@
           margin-right: 5px;
           color: $link-color;
         }
-
-        span {
-          color: $link-color;
-          font-weight: bold;
-        }
       }
 
       i {
         font-size: 35px;
         margin-right: 2px;
       }
-    }
-
-    .box-error {
-      padding: 25px;
-      background-color: $v-error-color;
-      color: $v-subtle-gray;
-
-      h5 {
-        margin: 5px;
-        color: $v-subtle-gray;
-        text-align: center;
-        font-weight: bold;
-      }
-
-      a {
-        font-weight: bold;
-        color: $v-subtle-gray;
-        cursor: pointer;
-        cursor: hand;
-      }
-    }
-
-    .item-note {
-      color: $v-light-gray;
     }
   }
 }

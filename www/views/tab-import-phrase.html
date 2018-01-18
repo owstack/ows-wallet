@@ -1,87 +1,63 @@
 <div ng-show="importErr" class="padding assertive" ng-click="importErr = null">
   <div translate>Could not access the wallet at the server. Please check:</div>
   <ul>
-    <li translate>The password of the recovery phrase (if set)</li>
+    <li translate>The password for the recovery phrase (if set)</li>
     <li translate>The derivation path</li>
     <li translate>The wallet service URL</li>
   </ul>
   <div translate>
-    NOTE: To import a wallet from a 3rd party software, please go to Add Wallet &gt; Create Wallet, and specify the Recovery Phrase there.
+    NOTE: To import a wallet from 3rd party software, please go to Add Wallet &gt; Create Wallet, and specify the Recovery Phrase there.
   </div>
 </div>
-
-<form name="importForm12" ng-submit="importMnemonic(importForm12)" novalidate>
-  <div class="list settings-list settings-input-group">
+<form name="importForm12" ng-submit="importMnemonic(importForm12)" class="setupForm" novalidate>
+  <div class="list settings-input-group">
     <div>
-      <label class="item item-input item-stacked-label no-border">
+      <label class="item item-input item-stacked-label">
         <span class="input-label" translate>Type the Recovery Phrase (usually 12 words)</span>
-          <textarea ng-model="formData.words"
-                    rows="3"
-                    autocapitalize="off"
-                    autocomplete="off"
-                    autocorrect="off"
-                    spellcheck="false"></textarea>
+        <textarea ng-model="formData.words" rows="5" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
       </label>
       <div class="qr-scan-icon">
         <qr-scanner class="qr-icon size-24" on-scan="processWalletInfo(data)"></qr-scanner>
       </div>
-
-      <label class="item item-input item-select">
-        <div class="input-label" translate>
-          Currency
-        </div>
+      <label class="item item-input item-select bb0">
+        <div class="input-label" translate>Currency</div>
         <select class="m10t" ng-model="formData.network" ng-options="network as network.getCurrencyLabel() for network in availableNetworks"
           ng-change=" onNetworkChange(); resizeView();"></select>
       </label>
     </div>
     <div class="item item-divider"></div>
-
-    <a class="item" ng-click="showAdvChange()">
+    <a class="item" ng-class="{'bb0': !showAdv}" ng-click="showAdvChange()">
       <span translate ng-show="!showAdv">Show advanced options</span>
       <span translate ng-show="showAdv">Hide advanced options</span>
+      <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
     </a>
-
     <div ng-show="showAdv">
       <label class="item item-input item-stacked-label">
         <span class="input-label" translate>Password</span>
-        <input type="password"
-        placeholder="{{'The recovery phrase could require a password to be imported'|translate}}"
-        autocapitalize="off"
-        ng-model="formData.passphrase">
+        <input type="password" placeholder="{{'Password'|translate}}" autocapitalize="off" ng-model="formData.passphrase"><br>
+        <div class="item-detail" translate>Importing a recovery phrase may require a password</div>
       </label>
-
       <label class="item item-input item-stacked-label">
         <span class="input-label" translate>Derivation Path</span>
-        <input type="text"
-        placeholder="{{'BIP32 path for address derivation'|translate}}"
-        ng-model="formData.derivationPath">
+        <input type="text" placeholder="{{'BIP32 path for address derivation'|translate}}" ng-model="formData.derivationPath">
       </label>
-
-
       <ion-toggle ng-model="fromHardwareWallet.value" toggle-class="toggle-positive">
         <span class="toggle-label" translate>From Hardware Wallet</span>
       </ion-toggle>
-
       <label class="item item-input item-select" ng-if="fromHardwareWallet.value">
-        <div class="input-label" translate>
-          Wallet Type
-        </div>
+        <div class="input-label" translate>Wallet Type</div>
         <select class="m10t" ng-model="formData.seedSourceAll" ng-options="seed as seed.label for seed in seedOptionsAll"></select>
       </label>
-
       <ion-toggle ng-show="formData.testnetSupported"
         ng-model="formData.testnetSelected" toggle-class="toggle-positive">
         <span translate>Testnet</span>
       </ion-toggle>
-
-      <label class="item item-input item-stacked-label">
+      <label class="item item-input item-stacked-label bb0">
         <span class="input-label" translate>Wallet Service URL</span>
         <input type="text" ng-model="formData.walletServiceUrl">
       </label>
-
     </div>
   </div>
-
   <button type="submit"
     class="button button-standard button-primary"
     ng-disabled="importForm12.$invalid || !formData.words" translate>Import

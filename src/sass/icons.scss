@@ -34,6 +34,7 @@
   }
 }
 
+// Used for big wallet icon
 .big-icon-svg {
   padding: 0 7px;
 
@@ -58,40 +59,29 @@
   }
 }
 
-.wallet-item {
-  padding: 1rem 0 2rem 0;
+// Used for small wallet icon
+.sm-icon-svg {
+  padding: 0 7px;
 
-  .name {
-    color: $v-dark-gray;
-    text-align: center;
+  > .center {
+    margin: 0 auto !important;
   }
 
-  .big-icon-svg {
-    &.circle {
-      left:8px;
+  > .bg {
+    @include icon-shape(20px, 20px);
+  }
+}
 
-      .bg {
-        @include icon-shape(70px, 70px, 0px 1px 5px $v-white-transparent-light);
-        padding: 0.1rem;
-        margin: 0.2rem;
-        display: flex;
-        margin: auto;
+// Used for list icons (not wallet)
+.list-icon-svg {
+  padding: 0 7px;
 
-        &.wallet-icon {
-          @include icon-wallet(60%);
-        }
-      }
-    }
+  > .center {
+    margin: 0 auto !important;
   }
 
-  &:before {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 1px;
-    background: $v-mid-gray;
-    top: 0;
-    right: 0;
-    content: '';
+  > .bg {
+    @include icon-shape(20px, 20px);
+    border-radius: 0 !important;
   }
 }

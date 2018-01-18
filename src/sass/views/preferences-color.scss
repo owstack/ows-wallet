@@ -1,0 +1,12 @@
+#preferences-color {
+  background: $v-settings-bg;
+  color: $v-settings-color;
+
+	.color-block {
+	  display: inline-block;
+	  width: 24px;
+	  height: 24px;
+	  border-radius: 50%;
+	  float: left;
+	}
+}

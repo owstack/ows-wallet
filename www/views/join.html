@@ -5,8 +5,8 @@
     <ion-nav-title>{{'Join Shared Wallet' | translate}}</ion-nav-title>
   </ion-nav-bar>
   <ion-content>
-    <form name="setupForm" ng-submit="join()" novalidate>
-      <div class="list settings-list settings-input-group">
+    <form name="setupForm" ng-submit="join()" class="setupForm" novalidate>
+      <div class="list settings-input-group">
         <label class="item item-input item-stacked-label">
           <span class="input-label" translate>Your nickname</span>
           <input type="text"
@@ -16,7 +16,7 @@
           required>
         </label>
         <div>
-          <label class="item item-input item-stacked-label">
+          <label class="item item-input item-stacked-label bb0">
             <span class="input-label" translate>Wallet Invitation</span>
             <div class="input-notification">
               <i ng-show="!setupForm.secret.$invalid" class="icon ion-checkmark-circled valid"></i>
@@ -44,9 +44,10 @@
 
         <div class="item item-divider"></div>
 
-        <a class="item" ng-click="showAdvChange()">
+        <a class="item" ng-class="{'bb0': !showAdv}" ng-click="showAdvChange()">
           <span translate ng-show="!showAdv">Show advanced options</span>
           <span translate ng-show="showAdv">Hide advanced options</span>
+          <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
         </a>
 
         <div ng-show="showAdv">
@@ -83,15 +84,20 @@
                    ng-model="formData.privateKey">
           </label>
 
-          <ion-toggle class="has-comment" ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()" ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
-            <span class="toggle-label" translate>Add a password</span>
-          </ion-toggle>
-          <div class="comment">
-            <span ng-show="formData.seedSource.id == 'new'" translate>Add an optional password to secure the recovery phrase</span>
-            <span ng-show="formData.seedSource.id == 'set'" translate>The recovery phrase could require a password to be imported</span>
+          <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
+            <ion-toggle ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()"
+              ng-class="{'bb0': encrypt || formData.seedSource.id != 'set'}">
+              <div translate>Add a password</div>
+              <div class="item-detail" ng-show="formData.seedSource.id == 'new'" translate>
+                Add an optional password to secure the recovery phrase
+              </div>
+              <div class="item-detail" ng-show="formData.seedSource.id == 'set'" translate>
+                The recovery phrase may require a password to be imported
+              </div>
+            </ion-toggle>
           </div>
 
-          <div class="item item-input" ng-show="encrypt">
+          <div class="item item-input item-stacked-label bb0 pt0" ng-show="encrypt">
             <input ng-show="formData.seedSource.id == 'new'"
                    placeholder="{{'Password'|translate}}"
                    type="password"
@@ -111,7 +117,7 @@
                    ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
           </div>
 
-          <div class="item item-input" ng-show="encrypt">
+          <div class="item item-input item-stacked-label bb0 pt0" ng-class="{'pb0': result == 'correct'}" ng-show="encrypt">
             <input ng-show="formData.seedSource.id == 'new'"
                    placeholder="{{'Repeat password'|translate}}"
                    type="password"
@@ -129,15 +135,17 @@
                     ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
           </div>
 
-          <div class="text-center box-notification error" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
-            <strong translate>This password cannot be recovered. If the password is lost, there is no way you could recover your funds.</strong>
-          </div>
-
-          <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive" ng-show="encrypt && result == 'correct'">
+          <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive bb0" ng-show="encrypt && result == 'correct'">
             <span class="toggle-label" translate>I have written it down</span>
           </ion-checkbox>
 
-          <label class="item item-input item-stacked-label" ng-show="formData.seedSource.id == 'set'">
+          <div class="item pt0 pb0" ng-class="{'bb0': formData.seedSource.id != 'set'}" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
+            <div class="text-center box-notification error">
+              <strong translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</strong>
+            </div>
+          </div>
+
+          <label class="item item-input item-stacked-label bb0" ng-show="formData.seedSource.id == 'set'">
             <span class="input-label" translate>Derivation Path</span>
             <input type="text"
                    placeholder="{{'BIP32 path for address derivation'|translate}}"

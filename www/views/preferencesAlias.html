@@ -1,26 +1,23 @@
-<ion-view class="settings" show-tabs>
+<ion-view id="preferences-alias" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
-    <ion-nav-title>
-      {{'Wallet Name'|translate}}
-    </ion-nav-title>
+    <ion-nav-title>{{'Wallet Name' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
     <div class="settings-explanation">
       <div class="settings-heading" translate>What do you call this wallet?</div>
-      <div class="settings-description" translate>When this wallet was created, it was called &ldquo;{{walletName}}&rdquo;. You can change the name displayed on this device below.</div>
+      <div class="settings-description" translate>When this wallet was created, it was called &ldquo;{{walletName}}&rdquo;. You can change the name displayed on this device.</div>
     </div>
     <form name="aliasForm" ng-submit="save(aliasForm)" novalidate>
       <div class="list settings-input-group">
-        <label class="item item-input item-stacked-label">
+        <label class="item item-input item-stacked-label bb0">
           <span class="input-label" translate>Name</span>
           <input type="text" id="alias" name="alias" ng-model="alias.value" placeholder="Personal Wallet" required>
         </label>
       </div>
-      <button type="submit"
-              class="button button-standard button-primary"
-              ng-disabled="aliasForm.$invalid || (alias.value == walletAlias)" translate>
+      <button type="submit" class="button button-standard button-primary" ng-disabled="aliasForm.$invalid || (alias.value == walletAlias)"
+        translate>
         Save
       </button>
     </form>

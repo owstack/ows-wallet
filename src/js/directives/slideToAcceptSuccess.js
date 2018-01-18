@@ -7,9 +7,9 @@ angular.module('owsWalletApp.directives')
       templateUrl: 'views/includes/slideToAcceptSuccess.html',
       transclude: true,
       scope: {
-        isShown: '=slideSuccessShow',
-        onConfirm: '&slideSuccessOnConfirm',
-        hideOnConfirm: '=slideSuccessHideOnConfirm'
+        isShown: '=show',
+        onConfirm: '&onConfirm',
+        hideOnConfirm: '=hideOnConfirm'
       },
       link: function(scope, element, attrs) {
         var elm = element[0];

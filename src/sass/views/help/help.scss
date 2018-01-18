@@ -1,51 +1,63 @@
 #help {
-	background: $v-white-color;
-  padding: 10px;
+	@extend %help;
+}
+
+.help {
+	@extend %help;
+}
+
+%help {
+	background: $v-list-bg;
 
 	.list .item:before {
 		background: none;
 	}
 
 	.help-title {
+		color: $v-settings-color;
 	  font-size: 16px;
-    color: $v-dark-gray;
-		padding: 10px;
-    background: $v-white-color;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: $v-list-item-bg;
     border: none;
+    margin: 0;
 
     i {
-	    color: $v-light-gray;
-	    opacity: 0.7;
+    	color: $v-settings-color;
 	    font-size: 14px;
 	    position: relative;
 	    border-radius: 3px;
-	    border: 1px solid $v-light-gray;
-	    margin-right: 10px;
+	    border: 1px solid $v-settings-color;
+	    margin-right: 12px;
+	    margin-left: 2px;
 	    padding: 0 5px;
+	    float: none;
     }
 	}
 
 	.help-content {
+		color: $v-settings-color;
 	  font-size: 14px;
-    color: $v-mid-gray;
 		padding: 5px 15px 15px 15px;
+    background: $v-list-item-bg;
     border: none;
+    margin: 0;
 	}
 
 	.help-title-subtopic {
+    color: $v-accent-1-color;
 	  font-size: 14px;
-    color: $v-accent-color;
     padding: 5px 0;
-    background: $v-white-color;
+    background: none;
     border: none;
 	}
 
 	.help-content-subtopic {
+		color: $v-settings-color;
 	  font-size: 14px;
 		padding: 0 15px;
-    color: $v-mid-gray;
     padding: 0 0 10px 0;
-    background: $v-white-color;
+    background: none;
     border: none;
 	}
 

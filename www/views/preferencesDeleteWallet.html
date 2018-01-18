@@ -1,4 +1,4 @@
-<ion-view id="settings-delete" show-tabs>
+<ion-view id="preferences-delete" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>{{'Delete Wallet' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -7,18 +7,16 @@
   <ion-content>
     <div class="list" ng-show="wallet">
       <div ng-include="'views/includes/walletItem.html'"></div>
-      <h1 class="text-center assertive" translate>Warning!</h1>
-      <div class="padding text-center">
-        <p translate>
-          Permanently delete this wallet.
-        </p>
-        <p translate>
-          THIS ACTION CANNOT BE REVERSED
-        </p>
+      <div class="item">
+        <h1 class="text-center danger" translate>Warning!</h1>
+        <div class="padding text-center">
+          <div translate>Permanently delete this wallet.</div>
+          <div translate>THIS ACTION CANNOT BE REVERSED.</div>
+        </div>
       </div>
-      <button class="button button-standard button-assertive" ng-click="showDeletePopup()">
-        {{'Delete'|translate}} {{walletName}}
-      </button>
     </div>
+    <button class="button button-standard button-assertive" ng-click="showDeletePopup()">
+      {{'Delete' | translate}} {{walletName}}
+    </button>
   </ion-content>
 </ion-view>

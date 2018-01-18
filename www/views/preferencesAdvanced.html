@@ -1,4 +1,4 @@
-<ion-view class="settings" show-tabs>
+<ion-view id="preferences-advanced" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>{{'More Options' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -6,10 +6,8 @@
   </ion-nav-bar>
   <ion-content>
     <div class="list">
-
       <div ng-include="'views/includes/walletItem.html'"></div>
-
-      <a class="item item-icon-right" ui-sref="tabs.preferences.information">
+      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.information">
         <span translate>Wallet Information</span>
         <i class="icon arrow-right"></i>
       </a>
@@ -17,19 +15,19 @@
         <span translate>Wallet Addresses</span>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferences.export">
+      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.export">
         <span translate>Export Wallet</span>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferences.preferencesWalletServiceUrl">
+      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.walletServiceUrl">
         <span translate>Wallet Service URL</span>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferences.preferencesHistory">
+      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.history">
         <span translate>Transaction History</span>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferences.delete">
+      <a class="item item-icon-right bb0" ui-sref="tabs.preferencesWallet.delete">
         <span translate>Delete Wallet</span>
         <i class="icon arrow-right"></i>
       </a>

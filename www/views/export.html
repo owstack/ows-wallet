@@ -1,14 +1,11 @@
-<ion-view id="export" show-tabs>
+<ion-view id="export" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>{{'Export wallet' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-
   <ion-content>
-
     <div ng-include="'views/includes/walletItem.html'"></div>
-
     <div class="row text-center top-tabs">
       <div class="col" ng-click="file.value = true" ng-style="file.value && {'border-bottom-style': 'solid'}">
         <span class="" translate>File/Text</span>
@@ -17,7 +14,6 @@
         <span class="" translate>QR Code</span>
       </div>
     </div>
-
     <div ng-include="'views/tab-export-file.html'" ng-if="file.value"></div>
     <div ng-include="'views/tab-export-qrCode.html'" ng-if="!file.value"></div>
   </ion-content>

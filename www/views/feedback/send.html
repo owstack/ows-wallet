@@ -33,11 +33,11 @@
     <div class="comment">
       <span>{{comment}}</span>
     </div>
-    <div>
-      <textarea class="user-feedback" ng-model="feedback.value" rows="5" placeholder="{{'Your ideas, feedback, or comments' | translate}}"></textarea>
-      <button ng-disabled="!feedback.value" type="submit" class="button button-standard button-primary" ng-click="sendFeedback(feedback.value)" translate>
-        Send
-      </button>
+    <div class="item-feedback">
+      <textarea class="user-feedback" ng-model="feedback.value" rows="10" placeholder="{{'Your ideas, feedback, or comments' | translate}}"></textarea>
     </div>
+    <button ng-disabled="!feedback.value" type="submit" class="button button-standard button-primary" ng-click="sendFeedback(feedback.value)" translate>
+      Send
+    </button>
   </ion-content>
 </ion-view>

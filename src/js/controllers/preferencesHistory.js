@@ -36,7 +36,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesHistory',
             $scope.err = err;
           } else {
             $log.warn('Failed to generate CSV: no transactions');
-            $scope.err = 'no transactions';
+            $scope.err = 'No transactions';
           }
           if (cb) return cb(err);
           return;

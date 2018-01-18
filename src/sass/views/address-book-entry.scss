@@ -1,0 +1,57 @@
+#address-book-entry {
+  background: $v-address-book-bg;
+  color: $v-address-book-color;
+
+  .has-click {
+    cursor: pointer;
+  }
+
+  .list {
+    background: $v-address-book-list-bg;
+
+    .item {
+      background: $v-address-book-item-bg;
+      color: $v-address-book-color;
+      border-color: $v-address-book-item-border-color;
+      border-left: 0;
+      border-right: 0;
+      border-top: 0;
+      margin: 0;
+
+      &.item-divider {
+        background: none;
+      }
+
+      &.assertive {
+        color: $v-assertive-color;
+      }
+
+      &.bb0 {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .gravatar-content {
+    height: 70px;
+    padding-top: 20px;
+    margin-bottom: 50px;
+    text-align: center;
+  }
+
+  .address-book-field-label {
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    display: block;
+  }
+
+  .icon-inline {
+    position: relative;
+    top: 5px;
+
+    > img {
+      height: 22px;
+    }
+  }
+}

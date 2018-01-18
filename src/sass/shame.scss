@@ -10,26 +10,56 @@
  }
 
 .box-notification {
+  color: $v-white-color;
+  font-size: 16px;
   padding: 0.5rem;
   border: 1px solid;
   margin: 10px;
-  a {
-    color: $v-white-color;
+
+  .title {
+    margin: 5px;
+    font-weight: bold;
   }
+
+  div {
+    margin-bottom: 10px;
+  }
+
+  a {
+    color: $v-warning-color;
+    font-weight: bold;
+    cursor: pointer;
+    cursor: hand;
+    background: $v-white-color;
+    border-radius: 20px;
+    padding: 0 10px;
+
+    &:before {
+      margin-top: 10px;
+    }
+  }
+
   &.notice {
     border-color: $v-light-gray;
     background-color: $v-subtle-gray;
     color: $v-dark-gray;
   }
+
   &.warning {
     border-color: $v-warning-color;
     background-color: $v-warning-color;
     color: $v-white-color;
-    &.warning-red{
-      border-color: $v-error-color;
-      background-color: $v-error-color;
+
+    .title {
+      &:before {
+        content: "\f100";
+        font-family: "Ionicons";
+        font-size: 18px;
+        margin-right: 10px;
+      }
     }
   }
+
   &.error {
     background-color: $v-error-color;
     border-color: $v-error-color;
@@ -151,25 +181,6 @@ input[type=number] {
   }
 }
 
-.postfix {
-  position: absolute;
-  font-size: 20px;
-  right: 10px;
-  background-color: $v-subtle-gray;
-  color: $v-dark-gray;
-  border-radius: 4px;
-  padding: 2px 10px;
-  cursor: pointer;
-  top: 21px;
-  z-index: 10;
-  label &{
-    top: 38px;
-    padding: 0 5px;
-  }
-}
-.postfix:active {
-  opacity: 0.2;
-}
 #qr-canvas {
   display: none;
 }
@@ -177,11 +188,6 @@ input[type=number] {
 #qrcode-scanner-video {
   display: block;
   margin: 0 auto;
-}
-
-.input-notification {
-  float: right;
-  margin-right: 25px;
 }
 
 .pr {

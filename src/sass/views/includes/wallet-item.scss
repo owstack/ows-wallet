@@ -1,0 +1,25 @@
+.wallet-item {
+  padding: 1rem 0 2rem 0;
+
+  .name {
+    text-align: center;
+  }
+
+  .big-icon-svg {
+    &.circle {
+      left:8px;
+
+      .bg {
+        @include icon-shape(70px, 70px, 0px 1px 5px $v-white-transparent-light);
+        padding: 0.1rem;
+        margin: 0.2rem;
+        display: flex;
+        margin: auto;
+
+        &.wallet-icon {
+          @include icon-wallet(60%);
+        }
+      }
+    }
+  }
+}

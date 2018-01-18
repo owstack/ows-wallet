@@ -10,6 +10,10 @@
   color: $v-dark-gray;
 }
 
+.button-clear {
+  background: none !important;
+}
+
 .button,
 .backup .button,
 .onboarding .button,
@@ -61,6 +65,14 @@
     @include button-style($v-button-secondary-bg, $v-button-secondary-border, $v-button-secondary-active-bg, $v-button-secondary-active-border, $v-button-secondary-color);
     @include button-clear($v-button-secondary-color);
     @include button-outline($v-button-secondary-color);
+  }
+}
+
+.button {
+  &.button-assertive {
+    @include button-style($v-button-assertive-bg, $v-button-assertive-border, $v-button-assertive-active-bg, $v-button-assertive-active-border, $v-button-assertive-color);
+    @include button-clear($v-button-assertive-color);
+    @include button-outline($v-button-assertive-color);
   }
 }
 

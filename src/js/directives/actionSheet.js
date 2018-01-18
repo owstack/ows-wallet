@@ -7,7 +7,7 @@ angular.module('owsWalletApp.directives')
       templateUrl: 'views/includes/actionSheet.html',
       transclude: true,
       scope: {
-        show: '=actionSheetShow',
+        show: '=show',
       },
       link: function(scope, element, attrs) {
         scope.$watch('show', function() {

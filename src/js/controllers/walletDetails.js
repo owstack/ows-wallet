@@ -374,7 +374,7 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
   };
 
   $scope.settingsFor = function() {
-    $state.transitionTo('tabs.preferences', {
+    $state.transitionTo('tabs.preferencesWallet', {
       walletId: $scope.walletId,
       fromWallet: true
     });

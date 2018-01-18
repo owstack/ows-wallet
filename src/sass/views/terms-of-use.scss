@@ -1,0 +1,92 @@
+#terms-of-use {
+  background: $v-settings-bg;
+  color: $v-settings-color;
+
+  .terms {
+  	margin: 15px;
+
+    &__heading {
+      font-weight: bold;
+    }
+
+	  p {
+	  	font-size: 14px;
+	    margin-bottom: 1rem;
+	  }
+  }
+
+
+/*
+  ion-header-bar {
+    background: $bar-royal-bg;
+    box-shadow: $v-subtle-box-shadow;
+    color: $bar-royal-text;
+
+    .primary-buttons {
+      .button {
+        color: $bar-royal-text;
+        font-size: 2rem;
+      }
+    }
+  }
+
+  ion-content {
+    padding-top: 1.5rem;
+    color: $v-dark-gray;
+    margin-bottom: 210px;
+
+    p {
+      padding: 0 2.5%;
+      margin: 2rem auto;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  }
+*/
+
+/*
+  color: $v-dark-gray;
+  font-size: 14px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  transition: top 0.5s ease;
+  transition-delay: .25s;
+  width: 100%;
+  overflow: scroll;
+  background: $v-white-color;
+  height: 100%;
+
+  ion-nav-bar {
+    position: fixed;
+    background: $v-white-color;
+    width: 100%;
+    z-index: 15;
+  }
+
+  .has-header {
+    width:100%;
+    background: $v-white-color;
+    overflow-y: scroll;
+    position: relative;
+
+    #terms {
+      max-width: 400px;
+      padding-top: .5rem;
+      position: relative;
+      margin: 0 auto;
+      padding-bottom: 165px;
+      width: 90%;
+    }
+  }
+
+  &.slideUp {
+    top:0;
+  }
+*/
+
+
+}

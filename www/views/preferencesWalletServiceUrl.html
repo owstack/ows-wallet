@@ -1,20 +1,18 @@
-<ion-view class="settings" show-tabs>
+<ion-view id="preferences-wallet-service-url" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
-    <ion-nav-title>Wallet Service URL</ion-nav-title>
+    <ion-nav-title>{{'Wallet Service URL' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-
     <div ng-include="'views/includes/walletItem.html'"></div>
-
-    <div class="list settings-list settings-input-group">
+    <div class="list settings-input-group">
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Wallet Service URL</span>
+        <span class="input-label" translate>Wallet Service URL</span>
         <input type="text" id="walletServiceUrl" type="text" name="walletServiceUrl" ng-model="walletServiceUrl.value">
       </label>
-      <button class="no-border postfix" on-tap="resetDefaultUrl()">
-        <i class="icon ion-ios-reload"></i>
+      <button class="icon-right" ng-click="resetDefaultUrl()" ng-show="customUrl">
+        <i class="icon ion-refresh"></i>
       </button>
     </div>
     <div class="settings-explanation">

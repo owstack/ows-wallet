@@ -1,10 +1,15 @@
 <div class="list" ng-show="formData.supported">
-  <div class="text-center m20t">
+  <div class="item text-center">
     <qrcode size="220" version="11" error-correction-level="M" data="{{formData.exportWalletInfo}}" color="#444455"></qrcode>
   </div>
-  <div class="text-center size-12 m10" translate>From the destination device, go to Add wallet &gt; Import wallet and scan this QR code</div>
+  <div class="settings-explanation">
+	  <div class="settings-description" translate>
+	  	On the destination device, go to <b>Add wallet &gt; Import wallet</b> and scan this QR code.
+	  </div>
+	</div>
 </div>
-
-<div class="list" ng-show="!formData.supported">
-  <div class="text-center size-12 m10" translate>Exporting via QR not supported for this wallet</div>
+<div class="settings-explanation" ng-show="!formData.supported" >
+  <div class="settings-description" translate>
+		Exporting via QR code is not supported for this wallet.
+  </div>
 </div>

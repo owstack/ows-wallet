@@ -7,11 +7,11 @@ angular.module('owsWalletApp.directives')
       templateUrl: 'views/includes/walletSelector.html',
       transclude: true,
       scope: {
-        title: '=walletSelectorTitle',
-        show: '=walletSelectorShow',
-        wallets: '=walletSelectorWallets',
-        selectedWallet: '=walletSelectorSelectedWallet',
-        onSelect: '=walletSelectorOnSelect'
+        title: '=title',
+        show: '=show',
+        wallets: '=wallets',
+        selectedWallet: '=selectedWallet',
+        onSelect: '=onSelect'
       },
       link: function(scope, element, attrs) {
         scope.hide = function() {

@@ -1,5 +1,10 @@
 #view-add {
+  background: $v-home-bg;
+  color: $v-home-color;
+
   .item {
+    background: $v-list-item-bg;
+    color: $v-list-item-color;
     margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -12,23 +17,25 @@
       margin-top: 25px;
     }
   }
-  .add-type {
-    color: $v-dark-gray;
-  }
+
   .bg{
     background-color: $v-icon-color;
     height: 50px;
     width: 50px;
     padding:4px;
+  
     &.wallet-icon {
       @include icon-wallet(50%);
     }
+  
     &.wallet-add {
       @include icon-add(45%);
     }
+  
     &.wallet-import {
       @include icon-import(35%);
     }
+  
     &.join{
       padding:10px;
     }

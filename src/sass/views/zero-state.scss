@@ -9,7 +9,7 @@
   &-icon {
     display: inline-block;
     padding: 7px;
-    background-color: $v-accent-color;
+    background-color: $v-accent-1-color;
     @include icon-shape(50px, 50px, $v-subtle-box-shadow);
 
     img {

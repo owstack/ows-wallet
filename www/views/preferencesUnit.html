@@ -1,14 +1,14 @@
-<ion-view class="settings" show-tabs>
+<ion-view id="preferences-unit" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
-    <ion-nav-title>
-      {{'Unit'|translate}}
-    </ion-nav-title>
+    <ion-nav-title>{{'Unit' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <ion-radio ng-repeat="unit in unitList" ng-value="unit.code" ng-model="currentUnit"
-      ng-click="save(unit)">{{unit.shortName}}
-    </ion-radio>
+    <div class="list">
+      <ion-radio ng-repeat="unit in unitList" ng-value="unit.code" ng-model="currentUnit" ng-click="save(unit)" ng-class="{'bb0': $last}">
+        {{unit.shortName}}
+      </ion-radio>
+    </div>
   </ion-content>
 </ion-view>

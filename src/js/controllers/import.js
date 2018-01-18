@@ -27,7 +27,6 @@ angular.module('owsWalletApp.controllers').controller('importController',
       $scope.formData.derivationPath = derivationPathHelper.getPath($scope.formData.network);
       $scope.formData.account = 1;
       $scope.importErr = false;
-      $scope.isOwsWallet = appConfigService.name == 'ows-wallet';
       $scope.fromHardwareWallet = { value: false };
 
       if ($stateParams.code)

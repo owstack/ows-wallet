@@ -1,8 +1,6 @@
-<ion-view id="add-address" hide-tabs>
+<ion-view id="address-book-add" hide-tabs>
   <ion-nav-bar class="bar-royal">
-    <ion-nav-title>
-      <span translate>Add Contact</span>
-    </ion-nav-title>
+    <ion-nav-title>{{'Add Contact' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
@@ -14,21 +12,13 @@
   <ion-content>
     <form name="addressbookForm" no-validate>
       <div class="list add-address-list add-address-input-group">
-        <label class="item item-input item-stacked-label no-border">
+        <label class="item item-input item-stacked-label">
           <span class="input-label" translate>Name</span>
-          <input type="text"
-                 id="name"
-                 name="name"
-                 ng-model="addressbookEntry.name"
-                 required>
+          <input type="text" id="name" placeholder="{{'Name' | translate}}" name="name" ng-model="addressbookEntry.name" required>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label" translate>Email</span>
-          <input type="text"
-                 id="email"
-                 placeholder="{{'name@example.com' | translate}}"
-                 name="email"
-                 ng-model="addressbookEntry.email">
+          <input type="text" id="email" placeholder="{{'Email' | translate}}" name="email" ng-model="addressbookEntry.email">
         </label>
         <div>
           <label class="item item-input item-stacked-label">
@@ -37,29 +27,23 @@
               <i ng-show="!addressbookForm.address.$invalid" class="icon ion-checkmark-circled valid"></i>
               <i ng-show="addressbookForm.address.$invalid && addressbookEntry.address" class="icon ion-close-circled invalid"></i>
             </div>
-            <input type="text"
-                   id="address"
-                   name="address"
-                   ng-model="addressbookEntry.address"
-                   valid-address required>
+            <input type="text" id="address" placeholder="{{'Digital currency address' | translate}}" name="address" ng-model="addressbookEntry.address" valid-address required>
           </label>
           <div class="qr-scan-icon">
             <qr-scanner on-scan="onQrCodeScannedAddressBook(data, addressbookForm)"></qr-scanner>
           </div>
         </div>
-        <label class="item item-input item-select">
-          <div class="input-label" translate>
-            Network
-          </div>
+        <label class="item item-input item-select bb0">
+          <div class="input-label" translate>Network</div>
           <select class="m10t" ng-model="addressbookEntry.network"
-            ng-options="network as network.getFriendlyNetLabel() for network in availableNetworks" required></select>
+            ng-options="network as network.getFriendlyNetLabel() for network in availableNetworks" required>
+            <option value="">Choose network</option>
+          </select>
         </label>
       </div>
       <div class="padding">
-        <button type="submit"
-                class="button button-standard button-primary"
-                ng-click="add(addressbookEntry)"
-                ng-disabled="!addressbookForm.$valid" translate>
+        <button type="submit" class="button button-standard button-primary" ng-click="add(addressbookEntry)"
+          ng-disabled="!addressbookForm.$valid" translate>
           Save
         </button>
       </div>

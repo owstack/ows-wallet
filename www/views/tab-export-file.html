@@ -3,43 +3,47 @@
     <i class="ion-alert-circled"></i>
     <span translate>Failed to export</span>
   </div>
-  <form name="exportForm" novalidate>
-    <div class="list">
-      <label class="item item-input item-stacked-label">
+  <form name="exportForm" class="setupForm" novalidate>
+    <div class="list settings-input-group">
+      <label class="item item-input item-stacked-label bb0">
         <span class="input-label" translate>Set up a password</span>
-        <input type="password" placeholder="{{'Your password'|translate}}" ng-model="formData.password" ng-change="checkPassword(formData.password, formData.repeatpassword)"
-          ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
       </label>
-      <label class="item item-input item-stacked-label">
-        <span class="input-label" translate>Repeat the password</span>
+      <div class="item item-input item-stacked-label bb0 pt0">
+        <input type="password" placeholder="{{'Password'|translate}}" ng-model="formData.password" ng-change="checkPassword(formData.password, formData.repeatpassword)"
+          ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
+      </div>
+      <div class="item item-input item-stacked-label bb0 pt0">
         <input type="password" placeholder="{{'Repeat password'|translate}}" ng-model="formData.repeatpassword" ng-change="checkPassword(formData.repeatpassword, formData.password)"
           ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
-      </label>
+      </div>
       <div ng-show="canSign">
         <div class="item item-divider"></div>
-        <a class="item" ng-click="showAdvChange()">
+        <a class="item" ng-class="{'bb0': !showAdv}" ng-click="showAdvChange()">
           <span translate ng-show="!showAdv">Show advanced options</span>
           <span translate ng-show="showAdv">Hide advanced options</span>
+          <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
         </a>
-        <ion-checkbox ng-show="showAdv" ng-model="formData.noSignEnabled" class="checkbox-positive" ng-change="noSignEnabledChange(); resizeView()">
+        <ion-checkbox ng-show="showAdv" ng-model="formData.noSignEnabled" class="checkbox-positive" ng-change="noSignEnabledChange(); resizeView()" ng-class="{'bb0': formData.noSignEnabled}">
           <span class="toggle-label" translate>Do not include private key</span>
         </ion-checkbox>
+        <div class="comment" ng-show="formData.noSignEnabled">
+          <div class="box-notification warning">
+            <div class="title" translate>Private Key Not Available</div>
+            <div translate>
+              Without including the private key you can only check the wallet balance, transaction history, and create spend proposals from the export. You cannot approve (sign) spend proposals, so <b>funds will not be accessible from the export</b>.
+            </div>
+            <a ng-click="learnMore()" translate>Learn more</a>
+          </div>
+        </div>
       </div>
-      <div class="box-notification warning ng-hide" ng-show="!canSign">
-        <span class="size-14">
-          <i class="ion-alert-circled"></i>
-          <span translate>
-            WARNING: The private key of this wallet is not available. You can only check the wallet balance, transaction history, and create spend proposals from the export. However, you cannot approve (sign) spend proposals, so <b>funds will not be accessible from the export</b>.
-          </span>
-        </span>
-      </div>
-      <div class="box-notification warning ng-hide warning-red" ng-show="formData.noSignEnabled">
-        <span class="size-14">
-          <i class="ion-alert-circled"></i>
-          <span translate>
-          WARNING: Without including the private key you can only check the wallet balance, transaction history, and create spend proposals from the export. However, you cannot approve (sign) spend proposals, so <b>funds will not be accessible from the export</b>.
-          </span>
-        </span>
+      <div class="comment" ng-show="!canSign">
+        <div class="box-notification warning">
+          <div class="title" translate>Private Key Not Available</div>
+          <div translate>
+            Without including the private key you can only check the wallet balance, transaction history, and create spend proposals from the export. You cannot approve (sign) spend proposals, so <b>funds will not be accessible from the export</b>.
+          </div>
+          <a ng-click="learnMore()" translate>Learn more</a>
+        </div>
       </div>
     </div>
     <button
@@ -70,7 +74,7 @@
     </div>
   </form>
 </div>
-<div ng-show="backupWalletPlainText" class="text-center list">
+<div ng-show="backupWalletPlainText" class="list text-center">
   <label class="item item-input item-stacked-label">
     <span class="input-label" translate>Backup wallet</span>
     <textarea rows="12">{{backupWalletPlainText}}</textarea>

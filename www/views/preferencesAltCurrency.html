@@ -1,27 +1,24 @@
-<ion-view class="settings" show-tabs>
+<ion-view id="preferences-alt-currency" class="settings" show-tabs>
   <ion-nav-bar class="bar-royal">
-    <ion-nav-title>
-      {{'Alternative Currency'|translate}}
-    </ion-nav-title>
+    <ion-nav-title>{{'Alternative Currency' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="bar bar-header item-input-inset m20b">
-      <label class="item-input-wrapper">
+    <div class="settings-search">
+      <label class="item item-input search">
         <i class="icon ion-ios-search placeholder-icon"></i>
-        <input type="search" ng-init="searchedAltCurrency = ''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)"
-          placeholder="{{'Search your currency' | translate}}">
+        <input type="search" ng-init="searchedAltCurrency = ''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)" placeholder="Search your currency" class="ng-pristine ng-untouched ng-valid ng-empty" style="">
       </label>
     </div>
     <div class="list" ng-if="lastUsedAltCurrencyList[0]">
       <ion-radio ng-repeat="lastUsedAltCurrency in lastUsedAltCurrencyList" ng-value="lastUsedAltCurrency.isoCode" ng-model="currentCurrency"
-        ng-click="save(lastUsedAltCurrency)">{{lastUsedAltCurrency.name}}
+        ng-click="save(lastUsedAltCurrency)" ng-class="{'bb0': $last}">{{lastUsedAltCurrency.name}}
       </ion-radio>
     </div>
     <div class="list">
       <ion-radio ng-repeat="altCurrency in altCurrencyList" ng-value="altCurrency.isoCode" ng-model="currentCurrency"
-        ng-click="save(altCurrency)">{{altCurrency.name}}
+        ng-click="save(altCurrency)" ng-class="{'bb0': $last}">{{altCurrency.name}}
       </ion-radio>
     </div>
     <ion-infinite-scroll

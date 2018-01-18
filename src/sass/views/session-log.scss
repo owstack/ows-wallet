@@ -1,0 +1,35 @@
+#session-log {
+  background: $v-session-log-bg;
+  color: $v-session-log-color;
+
+ .log-entry {
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 18px;
+    border: none;
+
+   .log-timestamp {
+      font-weight: bold;
+    }
+
+   .log-level {
+      font-weight: bold;
+    }
+   
+    .debug {  
+      color: $v-debug-color;
+    }
+
+    .info {
+      color: $v-info-color;
+    }
+
+    .warning {
+      color: $v-warning-color;
+    }
+
+    .error {
+      color: $v-error-color;
+    }
+  }
+}
