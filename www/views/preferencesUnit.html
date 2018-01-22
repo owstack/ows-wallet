@@ -6,7 +6,7 @@
   </ion-nav-bar>
   <ion-content>
     <div class="list">
-      <ion-radio ng-repeat="unit in unitList" ng-value="unit.code" ng-model="currentUnit" ng-click="save(unit)" ng-class="{'bb0': $last}">
+      <ion-radio ng-repeat="unit in unitList" ng-value="unit.code" ng-model="currentUnit" ng-click="save(unit)">
         {{unit.shortName}}
       </ion-radio>
     </div>

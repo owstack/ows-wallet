@@ -12,9 +12,14 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">
+    <div class="backup" ng-if="wallets[0] && wallet && wallet.isComplete() && wallet.needsBackup" ng-click="openBackupNeededModal()">
+      <i class="icon ion-alert-circled"></i>
+      <span translate>Wallet not backed up</span>
+      <i class="icon arrow-right"></i>
+    </div>
     <div ng-if="!hasWallets" ng-include="'views/includes/tipStartReceiving.html'"></div>
     <div class="address" ng-if="wallets[0]">
-      <div class="address-info" class="text-center" xng-if="wallet && !wallet.isComplete()">
+      <div class="address-info" class="text-center" ng-if="wallet && !wallet.isComplete()">
         <div class="incomplete">
           <div class="title">
             <span translate>Incomplete wallet</span>
@@ -25,7 +30,7 @@
           <button class="button button-standard button-primary" ng-click="goCopayers()" translate>Open wallet</button>
         </div>
       </div>
-      <div class="address-info" ng-if="wallet && wallet.isComplete()">
+      <div class="address-info has-action-selector" ng-if="wallet && wallet.isComplete()">
         <div class="text-center" copy-to-clipboard="addr">
           <span ng-show="shouldShowReceiveAddressFromHardware()">
             <button class="button button-standard button-primary" ng-click="showReceiveAddressFromHardware()">
@@ -49,14 +54,9 @@
         </div>
       </div>
     </div>
-    <div class="backup" ng-if="wallets[0] && wallet && wallet.isComplete() && wallet.needsBackup" ng-click="openBackupNeededModal()">
-      <i class="icon ion-alert-circled"></i>
-      <span translate>Wallet not backed up</span>
-      <i class="icon arrow-right"></i>
-    </div>
     <div class="action-selector" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
       <div class="action-link">
-        <i class="icon big-icon-svg">
+        <i class="icon lg-icon">
           <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
         </i>
         <span>{{wallet.name || wallet.id}}</span>

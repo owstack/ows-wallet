@@ -70,12 +70,12 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
 
   $scope.shareAddress = function() {
     if (!platformInfo.isCordova) return;
-    var data = $scope.protocol + $scope.address + '?amount=' + $scope.amountStandard;
+    var data = $scope.protocol + ':' + $scope.address + '?amount=' + $scope.amountStandard;
     window.plugins.socialsharing.share(data, null, null, null);
   }
 
   $scope.copyToClipboard = function() {
-    return $scope.protocol + $scope.address + '?amount=' + $scope.amountStandard;
+    return $scope.protocol + ':' + $scope.address + '?amount=' + $scope.amountStandard;
   };
 
 });

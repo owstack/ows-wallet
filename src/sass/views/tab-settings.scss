@@ -4,14 +4,14 @@
 }
 
 .settings {
-  @extend %common;
 
-  .warning {
-    color: $v-warning-color;
+  @include common;
+
+  .list .item:not(.item-divider):not(.item-vh):not(.item-input):not(.item-toggle):not([class*="help"]) {
+    height: $v-list-item-setting-height !important;
   }
 
-  .danger {
-    color: $v-assertive-color;
+  .text-danger {
     padding: 10px;
 
     &:before {
@@ -21,7 +21,7 @@
     }
   }
 
-  .disabled {
+  .text-disabled {
     color: $v-settings-secondary-color;
   }
 
@@ -83,31 +83,6 @@
   .settings-input-group {
     .item-stacked-label {
       padding: 1rem;
-    }
-
-    .input-label {
-      color: $v-settings-color;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: bold;
-    }
-  }
-
-  .settings-search {
-    background: $v-list-item-bg;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-
-    .search {
-      border: none;
-      background: none;
-      margin-right: 15px;
-
-      i {
-        font-size: 18px;
-        position: relative;
-        top: 3px;
-      }
     }
   }
 

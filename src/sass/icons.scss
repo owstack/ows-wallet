@@ -1,3 +1,151 @@
+/***********
+ *
+ *  Icon presentation example.
+ *
+ *  <i class="icon lg-icon">
+ *    <div class="bg wallet-icon"></div>
+ *  </i>
+ *
+ **********/
+
+/*
+ * Icon image assignments. Each icon entry defines a new icon for use in views.
+ */
+
+.bg {
+  &.wallet-icon {
+    @include icon-image('../img/icon-wallet.svg', 60%);
+  }
+
+  &.wallet-add-icon {
+    @include icon-image('../img/icon-user-add.svg', 60%);
+  }
+
+  &.wallet-import-icon {
+    @include icon-image('../img/icon-import.svg', 60%);
+  }
+
+  &.user-icon {
+    @include icon-image('../img/icon-contact-placeholder.svg', 60%);
+  }
+
+  &.btc-icon {
+    @include icon-image('../img/currency-icons/icon-btc.svg', 60%);
+  }
+
+  &.bch-icon {
+    @include icon-image('../img/currency-icons/icon-bch.svg', 60%);
+  }
+
+  &.icon-wide {
+    width: 30px;
+    margin-left: -5px;
+  }
+}
+
+/*
+ * Draw an icon background using the icon-shape().
+ * Must provide a background-color for the shape to be visible.
+ *
+ * Used for large wallet icon
+*/
+
+.lg-icon {
+  padding: 0 7px;
+
+  > .center {
+    margin: 0 auto !important;
+  }
+
+  > .bg {
+    @include icon-shape(40px, 40px);
+
+    &.success {
+      background: $v-success-color;
+
+      > i {
+        font-size: 24px;
+        color: $v-white-color;
+        position: relative;
+        top: 8px;
+        left: -4px;
+      }
+    }
+  }
+
+  &.shadow {
+    > .bg {
+      @include icon-shape(40px, 40px, $v-hovering-box-shadow);
+    }
+  }
+}
+
+/*
+ * Used for medium wallet icon
+ */
+
+.md-icon {
+  padding: 0 7px;
+
+  > .center {
+    margin: 0 auto !important;
+  }
+
+  > .bg {
+    @include icon-shape(30px, 30px);
+  }
+
+  &.shadow {
+    > .bg {
+      @include icon-shape(30px, 30px, $v-hovering-box-shadow);
+    }
+  }
+}
+
+/*
+ * Used for small wallet icon
+ */
+
+.sm-icon {
+  padding: 0 7px;
+
+  > .center {
+    margin: 0 auto !important;
+  }
+
+  > .bg {
+    @include icon-shape(20px, 20px);
+  }
+
+  &.shadow {
+    > .bg {
+      @include icon-shape(20px, 20px, $v-hovering-box-shadow);
+    }
+  }
+}
+
+/*
+ * Used for list icons (e.g., for settings icons on left)
+ * Will show the shape if background-color is specified.
+ */
+
+.list-icon {
+  padding: 0 7px;
+
+  > .center {
+    margin: 0 auto !important;
+  }
+
+  > .bg {
+    @include icon-shape(20px, 20px);
+    border-radius: 0 !important;
+  }
+}
+
+/*
+ * Icon treatments
+ */
+
 .icon.arrow-right {
   @extend .ion-ios-arrow-right;
   @extend .just-a-hint;
@@ -17,10 +165,6 @@
   opacity: 0.4;
 }
 
-.item.item-big-icon-left {
-  padding-left: 74px;
-}
-
 .icon-svg {
   display: flex;
   justify-content: center;
@@ -31,57 +175,5 @@
     background-clip: padding-box;
     background-size: contain;
     height: 18px;
-  }
-}
-
-// Used for big wallet icon
-.big-icon-svg {
-  padding: 0 7px;
-
-  > .center {
-    margin: 0 auto !important;
-  }
-
-  > .bg {
-    @include icon-shape(40px, 40px, $v-hovering-box-shadow);
-
-    &.success {
-      background: $v-success-color;
-
-      > i {
-        font-size: 24px;
-        color: $v-white-color;
-        position: relative;
-        top: 8px;
-        left: -4px;
-      }
-    }
-  }
-}
-
-// Used for small wallet icon
-.sm-icon-svg {
-  padding: 0 7px;
-
-  > .center {
-    margin: 0 auto !important;
-  }
-
-  > .bg {
-    @include icon-shape(20px, 20px);
-  }
-}
-
-// Used for list icons (not wallet)
-.list-icon-svg {
-  padding: 0 7px;
-
-  > .center {
-    margin: 0 auto !important;
-  }
-
-  > .bg {
-    @include icon-shape(20px, 20px);
-    border-radius: 0 !important;
   }
 }

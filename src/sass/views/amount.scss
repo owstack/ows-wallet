@@ -1,126 +1,92 @@
-#view-amount {
-  .recipient-label {
-    font-size: 14px;
-    padding-bottom: 0;
-    color: $v-mid-gray;
-  }
-  .item-no-bottom-border + .item {
-      border-top: 0;
-  }
-  @media(max-width: 480px) {
-    .crypto-address {
-      .icon {
-        left: 8px;
-        font-size: 24px;
-      }
-      .big-icon-svg {
-        left:5px;
-        & > .bg {
-          width:30px;
-          height:30px;
-          box-shadow: none;
-          &.wallet-icon {
-            @include icon-wallet(60%);
-          }
-        }
-      }
-      font-size: 13px;
-      padding-left: 48px;
+#amount {
+  background: $v-send-bg;
+  color: $v-send-color;
+
+  @include common;
+
+  .list .item {
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    .item-detail {
+      font-size: 12px;
     }
   }
-  @media(max-width: 320px) {
-    .crypto-address {
-      & > span:last-child {
-        margin-left: -2px;
-      }
-    }
+
+  .bg.user-icon {
+    background-color: $v-icon-color;
   }
-  .send-gravatar {
-    left: 11px;
-    position: absolute;
-    top: 10px;
-  }
+
   .amount-pane-recipient {
     position: absolute;
     top: 95px;
     bottom: 0;
     width: 100%;
-    background-color: $v-white-color;
     padding: 0 16px;
 
     .amount-bar {
       padding: 24px 0;
       font-size: 18px;
+  
       @media(max-height: 480px) {
         padding: 0px;
       }
+  
       @media(max-width: 320px) {
         padding: 0px;
       }
+  
       .title {
         float: left;
-        padding-top: 10px;
-        color: $v-dark-gray;
+        padding-top: 20px;
         font-weight: bold;
+  
         @media(max-height: 480px) {
           padding: 0px;
         }
       }
+  
       @media(max-height: 480px) {
         padding-top: 3px;
       }
     }
+  
     .amount {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      flex-grow: 1;
-      position: absolute;
-      bottom: 254px;
-      top: 66px;
+      margin-top: 30px;
+
       .light {
-        color: $v-light-gray;
-      }
-      @media(max-height: 480px) {
-        top: 45px;
-      }
-      @media(max-width: 320px) {
-        bottom: 276px;
-        top: 60px;
-        & > div {
-          display: inline-block;
-        }
-        & > div:first-child {
-          display: inherit;
-        }
+        color: $v-send-secondary-color;
       }
     }
   }
+
   .amount-pane-no-recipient {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-    background-color: $v-white-color;
     padding: 0 16px;
 
     .amount-bar {
       padding: 24px 0;
       font-size: 18px;
+
       .title {
         padding-top: 10px;
-        color: $v-dark-gray;
         font-weight: bold;
+
         .limits {
           margin-top: 10px;
-          color: $v-light-gray;
+          color: $v-send-secondary-color;
           font-size: 12px;
         }
+
         .select {
           margin: 10px 1px;
         }
       }
     }
+
     .amount {
       display: flex;
       flex-direction: column;
@@ -129,16 +95,19 @@
       position: absolute;
       bottom: 254px;
       top: 66px;
+
       .light {
-        color: $v-light-gray;
+        color: $v-send-secondary-color;
       }
     }
   }
+
   .amount {
     &__editable {
       &--minimize {
         font-size: 22px;
       }
+
       &--standard {
         font-size: 42px;
         @media(max-height: 480px) {
@@ -146,16 +115,15 @@
           padding-top: 10px;
         }
       }
+
       &--placeholder {
-        color: $v-light-gray;
+        color: $v-send-secondary-color;
       }
     }
-    &__number {
-      color: $v-dark-gray;
-    }
+
     &__currency-toggle {
-      border: 1px solid $v-subtle-gray;
-      color: $v-dark-gray;
+      border: 1px solid $v-send-secondary-color;
+      color: $v-send-color;
       border-radius: 3px;
       padding: 0 10px;
       cursor: pointer;
@@ -163,50 +131,59 @@
       position: relative;
       top: -3px;
       line-height: 1;
+
       @media(max-width: 320px) {
         line-height: 30px;
         height: 30px;
       }
     }
+
     &__results {
       &--minimize {
         font-size: 12px;
       }
+
       &--standard {
         font-size: 18px;
         padding: 10px 0;
       }
+
       &--placeholder {
-        color: $v-light-gray;
+        color: $v-send-secondary-color;
       }
     }
+
     &__result {
-      color: $v-light-gray;
+      color: $v-send-secondary-color;
       font-size: .9em;
       margin-bottom: -.9em;
       line-height: 1;
+
       @media(max-height: 480px) {
         margin-bottom: 0;
       }
     }
+
     &__result-equiv {
-      color: $v-mid-gray;
+      color: $v-send-secondary-color;
       font-size: 1.2em;
       margin-top: 2rem;
+
       @media(max-height: 480px) {
         margin-top: 0;
         font-size: 16px;
       }
     }
   }
+
   .keypad {
+    background: $v-keypad-bg;
     text-align: center;
     font-size: 24px;
     font-weight: lighter;
     position: absolute;
     bottom: 0;
     width: 100%;
-    color: $v-mid-gray;
 
     .row {
       padding: 0 !important;
@@ -217,40 +194,40 @@
       line-height: 45px;
     }
 
-    .operator {
-      background-color: $v-subtle-gray;
+    .operation {
+      background: $v-keypad-operation-bg;
       font-weight: normal;
       cursor: pointer;
 
       &:active {
-        background-color: $v-light-gray;
+        background: $v-keypad-operation-active-bg;
       }
     }
 
-    .operator-send {
+    .operation-send {
       font-weight: bolder;
-      color: $v-white-color;
-      background-color: $positive;
+      background: $v-keypad-send-operation-bg;
       font-size: 36px;
       cursor: pointer;
 
       &:active {
-        background-color: $v-subtle-gray;
+        background: $v-keypad-send-operation-active-bg;
       }
     }
 
-    .digit{
+    .digit {
       cursor: pointer;
-      border-top: 1px solid $v-subtle-gray;
-      border-left: 1px solid $v-subtle-gray;
+      background: $v-keypad-digit-bg;
+      border-top: 1px solid $v-keypad-border-color;
+      border-left: 1px solid $v-keypad-border-color;
+
       &:active {
-        background-color: $v-subtle-gray;
+        background: $v-keypad-digit-active-bg;
       }
     }
 
     @media(max-height: 480px) {
       font-size: 12px;
-
     }
   }
 }

@@ -5,25 +5,25 @@
   </div>
   <form name="exportForm" class="setupForm" novalidate>
     <div class="list settings-input-group">
-      <label class="item item-input item-stacked-label bb0">
+      <label class="item item-input item-stacked-label">
         <span class="input-label" translate>Set up a password</span>
       </label>
-      <div class="item item-input item-stacked-label bb0 pt0">
+      <div class="item item-input item-stacked-label pt0">
         <input type="password" placeholder="{{'Password'|translate}}" ng-model="formData.password" ng-change="checkPassword(formData.password, formData.repeatpassword)"
           ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
       </div>
-      <div class="item item-input item-stacked-label bb0 pt0">
+      <div class="item item-input item-stacked-label pt0">
         <input type="password" placeholder="{{'Repeat password'|translate}}" ng-model="formData.repeatpassword" ng-change="checkPassword(formData.repeatpassword, formData.password)"
           ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
       </div>
       <div ng-show="canSign">
         <div class="item item-divider"></div>
-        <a class="item" ng-class="{'bb0': !showAdv}" ng-click="showAdvChange()">
+        <a class="item" ng-click="showAdvChange()">
           <span translate ng-show="!showAdv">Show advanced options</span>
           <span translate ng-show="showAdv">Hide advanced options</span>
           <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
         </a>
-        <ion-checkbox ng-show="showAdv" ng-model="formData.noSignEnabled" class="checkbox-positive" ng-change="noSignEnabledChange(); resizeView()" ng-class="{'bb0': formData.noSignEnabled}">
+        <ion-checkbox ng-show="showAdv" ng-model="formData.noSignEnabled" class="checkbox-positive" ng-change="noSignEnabledChange(); resizeView()">
           <span class="toggle-label" translate>Do not include private key</span>
         </ion-checkbox>
         <div class="comment" ng-show="formData.noSignEnabled">

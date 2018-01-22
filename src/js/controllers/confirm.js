@@ -48,10 +48,13 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
     });
   };
 
-  function setNoWallet(msg) {
+  function setWarning(title, message) {
     $scope.wallet = null;
-    $scope.noWalletMessage = msg;
-    $log.warn('Not ready to make the payment:' + msg);
+    $scope.warning = {
+      title: title,
+      message: message
+    };
+    $log.warn('Not ready to make the payment:' + message);
     $timeout(function() {
       $scope.$apply();
     });
@@ -68,7 +71,9 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       });
 
       if (!$scope.wallets || !$scope.wallets.length) {
-        setNoWallet(gettextCatalog.getString('No wallets available'));
+        setWarning(
+          gettextCatalog.getString('No Wallets Available'),
+          gettextCatalog.getString('There are no wallets available to create a transaction.'));
         return cb();
       }
 
@@ -97,7 +102,9 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
               return cb('Could not update any wallet');
 
             if (lodash.isEmpty(filteredWallets)) {
-              setNoWallet(gettextCatalog.getString('Insufficient funds'));
+              setWarning(
+                gettextCatalog.getString('Insufficient Funds'),
+                gettextCatalog.getString('Not enough funds to create a transaction from any wallet.'));
             }
             $scope.wallets = lodash.clone(filteredWallets);
             return cb();
@@ -173,7 +180,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
             // The one wallet found may not be the desiredWallet; if it's not then let the user
             // know that we could not select the desired wallet to send from.
             if ($scope.wallets[0].credentials.walletId != desiredWalletId) {
-              popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Not enough funds for fee in selected wallet. Choose another wallet.'));
+              popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds for fee in selected wallet. Choose another wallet.'));
             }
             setWallet($scope.wallets[0], tx);
           }
@@ -290,8 +297,10 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
           $log.debug('Send max info', sendMaxInfo);
 
           if (tx.sendMax && sendMaxInfo.amount == 0) {
-            setNoWallet(gettextCatalog.getString('Insufficient funds'));
-            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Not enough funds for fee'));
+            setWarning(
+              gettextCatalog.getString('Insufficient Funds'),
+              gettextCatalog.getString('Not enough funds available to pay the network fee.'));
+            //popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds for fee.'));
             return cb('no_funds');
           }
 
@@ -317,7 +326,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
           var per = (txp.fee / (txp.amount + txp.fee) * 100);
           txp.feeRatePerStr = per.toFixed(2) + '%';
-          txp.feeToHigh = per > FEE_TOO_HIGH_LIMIT_PER;
+          txp.feeTooHigh = per > FEE_TOO_HIGH_LIMIT_PER;
 
           tx.txp[wallet.id] = txp;
           $log.debug('Confirm. TX Fully Updated for wallet:' + wallet.id, tx);
@@ -356,28 +365,29 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
     function verifyExcludedUtxos() {
       var warningMsg = [];
       if (sendMaxInfo.utxosBelowFee > 0) {
-        warningMsg.push(gettextCatalog.getString("A total of {{amountBelowFeeStr}} were excluded. These funds come from UTXOs smaller than the network fee provided.", {
+        warningMsg.push(gettextCatalog.getString('A total of {{amountBelowFeeStr}} were excluded. These funds come from UTXOs smaller than the network fee provided.', {
           amountBelowFeeStr: txFormatService.formatAmountStr(networkURI, sendMaxInfo.amountBelowFee)
         }));
       }
 
       if (sendMaxInfo.utxosAboveMaxSize > 0) {
-        warningMsg.push(gettextCatalog.getString("A total of {{amountAboveMaxSizeStr}} were excluded. The maximum size allowed for a transaction was exceeded.", {
+        warningMsg.push(gettextCatalog.getString('A total of {{amountAboveMaxSizeStr}} were excluded. The maximum size allowed for a transaction was exceeded.', {
           amountAboveMaxSizeStr: txFormatService.formatAmountStr(networkURI, sendMaxInfo.amountAboveMaxSize)
         }));
       }
       return warningMsg.join('\n');
     };
 
-    var msg = gettextCatalog.getString("{{fee}} will be deducted for networking fees.", {
+    var msg = gettextCatalog.getString('{{fee}} will be deducted for networking fees.', {
       fee: txFormatService.formatAmountStr(networkURI, sendMaxInfo.fee)
     });
     var warningMsg = verifyExcludedUtxos();
 
-    if (!lodash.isEmpty(warningMsg))
+    if (!lodash.isEmpty(warningMsg)) {
       msg += '\n' + warningMsg;
+    }
 
-    popupService.showAlert(null, msg, function() {});
+    popupService.showAlert(gettextCatalog.getString('Excluded Funds'), msg, function() {});
   };
 
   $scope.onWalletSelect = function(wallet) {
@@ -437,8 +447,9 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
     setButtonText(wallet.credentials.m > 1, !!tx.paypro);
 
-    if (tx.paypro)
+    if (tx.paypro) {
       _paymentTimeControl(tx.paypro.expires);
+    }
 
     updateTx(tx, wallet, {
       dryRun: true
@@ -474,7 +485,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   };
 
   $scope.approve = function(tx, wallet, onSendStatusChange) {
-
     if (!tx || !wallet) return;
 
     if ($scope.paymentExpired) {
@@ -575,7 +585,6 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   };
 
   $scope.chooseFeeLevel = function(tx, wallet) {
-
     var scope = $rootScope.$new(true);
     scope.networkURI = tx.networkURI;
     scope.feeLevel = tx.feeLevel;
@@ -592,11 +601,8 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       hardwareBackButtonClose: false
     }).then(function(modal) {
       scope.chooseFeeLevelModal = modal;
-      scope.openModal();
-    });
-    scope.openModal = function() {
       scope.chooseFeeLevelModal.show();
-    };
+    });
 
     scope.hideModal = function(newFeeLevel, customFeePerKB) {
       scope.chooseFeeLevelModal.hide();

@@ -1,95 +1,8 @@
-%common {
-	.bg {
-	  &.wallet-icon {
-	    @include icon-wallet(60%);
-	  }
+@mixin common {
 
-	  &.icon-wide {
-	    width: 30px;
-	    margin-left: -5px;
-	  }
-	}
-
-	.qrcode {
-	  padding: 20px;
-	  background: $v-white-color;
-	  border-radius: 3px;
-	}
-
-  .tip {
-    text-align: center;
-
-    & > .item-heading {
-      margin-top: 10px;
-      background: 0 none;
-    }
-
-    .item {
-      border-style: none;
-    }
-
-    & > .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin: 20px 10px;
-    }
-
-    & > .subtitle {
-      font-size: 1rem;
-      line-height: 1.5em;
-      font-weight: 300;
-      margin: 20px 3em 2.5em;
-    }
-
-    .big-icon-svg{
-      .bg.success {
-        padding: 0 10px;
-        box-shadow: none;
-      }
-    }
-  }
-
-	.action-selector {
-		@extend .list;
-
-	  position: absolute;
-	  bottom: 0;
-	  width: 100%;
-	  background: $v-action-selector-bg !important;
-	  border-top-color: $v-action-selector-border;
-	  z-index: 2;
-
-		.action-link {
-			@extend .item;
-			@extend .item-sub;
-			@extend .item-icon-left;
-			@extend .item-big-icon-left;
-			@extend .item-icon-right;
-
-			cursor: pointer;
-			cursor: hand;
-
-			&.activated {
-				background: inherit;
-				border: inherit;
-			}
-		}
-
-		.action-detail {
-			@extend .item-detail;
-		}
-
-	  &:before {
-	    content: "\f3d8";
-	    font-family: "Ionicons";
-	    font-size: 24px;
-	    position: absolute;
-	    top: 50%;
-	    right: 15px;
-	    transform: translateY(-50%);
-	    z-index: 3;
-	  }
-	}
+  /*
+   *  A material-like card
+   */
 
   .card {
     background: $v-card-bg;
@@ -98,20 +11,48 @@
     & > .item-heading {
       border: none;
       font-weight: bold;
+			height: $v-card-item-header-height !important;
 
       .icon {
         color: $v-white-color;
       }
     }
 
+    // Kill the background/border coming from an embedded list, redefine the border
+    .list {
+    	background: none;
+    	.item {
+    		background: none;
+		  	border: none;
+
+		    &:before {
+			    background: $v-card-item-border-color;
+		      display: block;
+		      position: absolute;
+		      width: calc(100% - 15px - 40px); // minus padding minus icon width
+		      height: 1px;
+		      top: 0;
+		      right: 0;
+		      content: '';
+		    }
+
+		    &:first-child:before {
+		      width: calc(100% - 15px); // minus padding
+		    }
+    	}
+    }
+
     .item {
       background: $v-card-item-bg;
       color: $v-card-item-color;
       border-color: $v-card-item-border-color;
-      padding-bottom: 1rem;
-      padding-top: 1rem;
-    }
 
+      :not(&.item-heading) {
+	      padding-bottom: 1.3rem;
+	      padding-top: 1.3rem;
+	    }
+    }
+/*
     .item-sub {
       .item-detail {
         color: $v-card-secondary-color;
@@ -138,7 +79,12 @@
         }
       }
     }
+*/
   }
+
+  /*
+   *  List and item presentation
+   */
 
 	.list {
 	  background: $v-list-bg;
@@ -146,21 +92,48 @@
 	  .item {
 	    background: $v-list-item-bg;
 	    color: $v-list-item-color;
-	    border-color: $v-list-item-border-color;
-	    border-left: 0;
-	    border-right: 0;
-	    border-top: 0;
 	    padding-top: 1.3rem;
 	    padding-bottom: 1.3rem;
+			border: none;
 	    margin: 0;
+
+			&:before {
+			  background: $v-card-item-border-color;
+			  display: block;
+			  position: absolute;
+			  width: 100%;
+			  height: 1px;
+			  top: 0;
+			  right: 0;
+			  content: '';
+			}
 
 	    &.link {
 	      color: $v-list-link-color;
 	    }
 
+	    &.has-label {
+				padding-top: 0;
+				padding-bottom: 0;
+	    }
+
+	    &.item-sub {
+		    margin-top: -21px;
+		    margin-left: -16px;
+		    background: none;
+	
+				&:before {
+					background: none;
+				}
+
+		    > .item-icon-left {
+			    padding-left: 48px;
+		    }
+	    }
+
 	    &.has-value {
-	      padding-top: .65rem;
-	      padding-bottom: .65rem;
+	      padding-top: 0.65rem;
+	      padding-bottom: 0.65rem;
 	    }
 
 	    &.item-divider {
@@ -169,6 +142,61 @@
 	      color: $v-settings-color;
 	      padding-bottom: .5rem;
 	      font-size: .9rem;
+	      height: inherit;
+	    }
+
+			&.item-lg-icon-left {
+			  padding-left: 74px;
+			}
+
+			&.item-md-icon-left {
+			  padding-left: 64px;
+			}
+
+	    .input-label {
+	      color: $v-address-book-color;
+	      text-transform: uppercase;
+	      font-size: 12px;
+	      font-weight: bold;
+	    }
+
+		  .input-notification {
+		    position: absolute;
+		    bottom: 24px;
+		    right: 10px;
+				margin-right: 15px;
+
+		    + input {
+		    	padding-right: 40px;
+		    }
+
+		    &.success {
+			    &:before {
+			    	content: "\f120";
+			      font-family: "Ionicons";
+			      color: $v-success-color;
+			    }
+			  }
+
+		    &.error {
+			    &:before {
+			    	content: "\f128";
+			      font-family: "Ionicons";
+			      color: $v-error-color;
+			    }
+			  }
+		  }
+
+		  .item-icon-right {
+		    position: absolute;
+		    top: 15px;
+		    right: 0;
+		    margin-right: 5px;
+ 			}
+
+	    .item-detail {
+	      color: $v-list-secondary-color;
+	      font-size: 14px;
 	    }
 
 	    .icon {
@@ -182,32 +210,12 @@
 	      }
 	    }
 
-	    .item-detail {
-	      color: $v-list-secondary-color;
-	      font-size: 14px;
-	      line-height: 1.1rem;
-	    }
-
-	    &.bb0 {
-	      border-bottom: 0;
-	    }
-
 	    &.pt0 {
 	      padding-top: 0;
 	    }
 
 	    &.pb0 {
 	      padding-bottom: 0;
-	    }
-
-	    &:before {
-	      display: block;
-	      position: absolute;
-	      width: 100%;
-	      height: 1px;
-	      top: 0;
-	      right: 0;
-	      content: '';
 	    }
 	  }
 
@@ -216,6 +224,10 @@
 
 	    &.assertive {
 	      color: $v-assertive-color;
+	    }
+
+	    &.primary {
+	      color: $v-list-color;
 	    }
 	  }
 
@@ -261,9 +273,13 @@
 	  }
 	}
 
+  /*
+   *  Control styles
+   */
+
 	input {
 	  background: $v-input-bg !important;
-	  color: $v-input-color;
+		color: $input-color;
 	  padding-left: 10px;
 	  margin-top: 5px;
 	}
@@ -282,14 +298,27 @@
 	  }
 	}
 
-	input[type="file"],
+	input[type="file"] {
+	  width: 100%;
+	  margin-top: 10px;
+	  margin-bottom: -10px;
+	  line-height: 0px;
+	}
+
 	input[type="search"] {
 	  width: 100%;
 	}
 
+	input[type="number"] {
+	  &[readonly] {
+	    background-color: $v-subtle-gray;
+	    padding-left: 0;
+	  }
+	}
+
 	textarea {
 	  background: $v-input-bg;
-	  color: $v-input-color;
+		color: $input-color;
 	  padding-left: 10px;
 	  margin-top: 10px;
 	  resize: none;
@@ -307,14 +336,4 @@
 	    top: 4px;
 	  }
 	}
-
-  .centered {
-    width: 100%;
-    text-align: center;
-  }
-
-  .mb20 {
-    margin-bottom: 20px;
-  }
-
 }

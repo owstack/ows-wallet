@@ -2,33 +2,13 @@
   background: $v-address-book-bg;
   color: $v-address-book-color;
 
-  .has-click {
-    cursor: pointer;
-  }
+  @include common;
 
-  .list {
-    background: $v-address-book-list-bg;
+  .item-icon-left.icon-inline {
+    padding-left: 30px;
 
-    .item {
-      background: $v-address-book-item-bg;
-      color: $v-address-book-color;
-      border-color: $v-address-book-item-border-color;
-      border-left: 0;
-      border-right: 0;
-      border-top: 0;
-      margin: 0;
-
-      &.item-divider {
-        background: none;
-      }
-
-      &.assertive {
-        color: $v-assertive-color;
-      }
-
-      &.bb0 {
-        border-bottom: 0;
-      }
+    .icon {
+      top: 18px;
     }
   }
 
@@ -39,19 +19,7 @@
     text-align: center;
   }
 
-  .address-book-field-label {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 12px;
-    display: block;
-  }
-
-  .icon-inline {
-    position: relative;
-    top: 5px;
-
-    > img {
-      height: 22px;
-    }
+  .has-click {
+    cursor: pointer;
   }
 }

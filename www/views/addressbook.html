@@ -23,26 +23,28 @@
       </div>
     </span>
     <span ng-show="!isEmptyList">
-      <div class="address-book-search">
+      <div class="search-wrapper">
         <label class="item item-input search">
           <i class="icon ion-ios-search placeholder-icon"></i>
           <input type="search" placeholder="Search" ng-model="addrSearch.value" ng-change="findAddressbook(addrSearch.value)" ng-model-onblur>
         </label>
       </div>
-      <ion-list>
-        <ion-item ng-repeat="addrEntry in addressbook" class="item-icon-right item-avatar" ng-class="{'bb0': $last}"
+      <div class="list">
+        <a class="item item-icon-left item-lg-icon-left item-icon-right" ng-repeat="addrEntry in addressbook"
           ui-sref="tabs.addressbook.entry({networkURI:addrEntry.networkURI, address:addrEntry.address, email: addrEntry.email, name: addrEntry.name})">
-          <gravatar name="{{addrEntry.name}}" width="50" email="{{addrEntry.email}}"></gravatar>
+          <i class="icon lg-icon">
+            <gravatar class="send-gravatar" width="40" name="{{addrEntry.name}}" email="{{addrEntry.email}}"></gravatar>
+          </i>
           <div class="name">{{addrEntry.name}}</div>
-          <div class="address ellipsis">
-            <i class="icon-inline">
-              <img ng-src="img/currency-icons/icon-{{currencyFor(addrEntry.networkURI)}}.svg"/>
+          <div class="item-detail item-icon-left icon-inline">
+            <i class="icon md-icon">
+              <div class="bg" ng-class="currencyFor(addrEntry.networkURI) + '-icon'"></div>
             </i>
-            <span>{{addrEntry.address}}</span>
+            <span class="ellipsis">{{addrEntry.address}}</span>
           </div>
           <i class="icon arrow-right"></i>
-        </ion-item>
-      </ion-list>
+        </a>
+      </div>
     </span>
   </ion-content>
 </ion-view>

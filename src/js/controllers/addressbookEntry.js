@@ -5,6 +5,7 @@ angular.module('owsWalletApp.controllers').controller('addressbookEntryControlle
   $scope.addressbookEntry.name = $stateParams.name;
   $scope.addressbookEntry.email = $stateParams.email;
   $scope.addressbookEntry.networkURI = $stateParams.networkURI;
+  $scope.addressbookEntry.networkLabel = networkService.getNetworkByURI($stateParams.networkURI).getFriendlyNetLabel();
   $scope.addressbookEntry.address = $stateParams.address;
 
   $scope.sendTo = function() {

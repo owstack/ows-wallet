@@ -81,9 +81,8 @@ angular.module('owsWalletApp.services').factory('openURLService', function($root
         $log.debug('Registering Browser handlers base:' + base);
         // See permitted schemes at https://developer.mozilla.org/en-US/docs/Web/API/Navigator/registerProtocolHandler
         lodash.forEach(networkService.getLiveNetworks(), function(n) {
-          var protocol = n.protocol.replace(':', '');
-          var prefix = (protocol != 'bitcoin' ? 'web+' : '');
-          navigator.registerProtocolHandler(prefix + protocol, url, 'OWS Wallet ' + protocol + ' handler');
+          var prefix = (n.protocol != 'bitcoin' ? 'web+' : '');
+          navigator.registerProtocolHandler(prefix + n.protocol, url, 'OWS Wallet ' + n.protocol + ' handler');
         });
 
         navigator.registerProtocolHandler('web+owswallet', url, 'OWS Wallet handler');

@@ -1,13 +1,12 @@
-<ion-view id="view-confirm" hide-tabs>
+<ion-view id="confirm" hide-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-title>{{'Confirm' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-
   <ion-content class="add-bottom-for-cta">
     <div class="list">
-      <div class="item head">
+      <div class="head">
         <div class="sending-label">
           <img src="img/icon-tx-sent-outline.svg">
           <span translate ng-if="!tx.sendMax">Sending</span>
@@ -18,87 +17,137 @@
           <div class="alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '...'}}</div>
         </div>
       </div>
-      <div class="info">
-        <div class="item single-line" ng-if="tx.paypro">
-          <span class="label" translate>Payment Expires:</span>
-          <span class="item-note" ng-if="!paymentExpired">{{remainingTimeStr}}</span>
-          <span class="item-note" ng-if="paymentExpired" ng-style="{'color': 'red'}" translate>Expired</span>
+      <div>
+
+        <!-- Warning -->
+
+        <div class="box-notification warning" ng-show="warning" translate>
+          <div class="title">{{warning.title}}</div>
+          <div>{{warning.message}}</div>
         </div>
 
-        <div class="item">
-          <span class="label" translate>To</span>
-          <span class="payment-proposal-to" ng-if="!recipientType">
-            <img ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
+        <div ng-if="!warning">
 
-            <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
-              <contact ng-if="!tx.toName" address="{{tx.toAddress}}"></contact>
-              <span class="m15l size-14" ng-if="tx.toName">{{tx.toName}}</span>
+          <!-- Paypro time -->
+
+          <div class="item" ng-if="tx.paypro">
+            <span translate>Payment Expires</span>
+            <span class="item-note primary" ng-if="!paymentExpired">{{remainingTimeStr}}</span>
+            <span class="item-note assertive" ng-if="paymentExpired" translate>Expired</span>
+          </div>
+
+          <!-- To -->
+
+          <div class="item has-label">
+            <span class="input-label" translate>To</span>
+
+            <!-- Wallet -->
+
+            <div class="item item-sub" ng-if="tx.recipientType == 'wallet'">
+              <div class="item-icon-left">
+                <i class="icon md-icon">
+                  <div class="bg wallet-icon" ng-style="{'background-color': tx.toColor}"></div>
+                </i>
+                <div copy-to-clipboard="tx.toAddress">
+                  <span ng-if="tx.toName">{{tx.toName}}</span>
+                  <div class="item-detail ellipsis">{{tx.toAddress}}</div>
+                </div>
+              </div>
             </div>
 
-            <div ng-if="tx.paypro" ng-click="openPPModal(tx.paypro)" class="m15l size-14 w100p pointer">
-              <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked" style="color:green"></i>
-              <i ng-show="!tx.paypro.caTrusted" class="ion-unlocked" style="color:red"></i>
-              <span class="ellipsis" ng-show="!tx.toName">{{tx.paypro.domain || tx.paypro.toAddress}}</span>
-              <span ng-show="tx.toName">{{tx.toName}}</span>
-            </div>
-            <!-- <contact ng-if="!tx.hasMultiplesOutputs" class="ellipsis" address="{{tx.toAddress}}"></contact>
-            <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span> -->
-          </span>
-          <div class="wallet" ng-if="recipientType == 'wallet'">
-            <i class="icon big-icon-svg">
-              <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}" class="bg"></div>
-            </i>
-            <div copy-to-clipboard="tx.toAddress" class="ellipsis">
-              <contact ng-if="!tx.toName" address="{{tx.toAddress}}"></contact>
-              <span ng-if="tx.toName" class="wallet-name">{{tx.toName}}</span>
-            </div>
-          </div>
-          <div ng-if="recipientType == 'contact'" class="gravatar-contact toggle" ng-click="toggleAddress()">
-            <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{toEmail}}"></gravatar>
-            <span ng-if="tx.toName && !showAddress">{{tx.toName}}</span>
-            <span ng-if="tx.toName && showAddress">{{tx.toAddress}}</span>
-          </div>
-        </div>
-        <a class="item item-icon-right" ng-hide="!wallet" ng-click="showWalletSelector()">
-          <span class="label" translate>From</span>
-          <div class="wallet" ng-if="wallet">
-            <i class="icon big-icon-svg">
-              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
-            </i>
-            <div>{{wallet.name}}</div>
-          </div>
-          <div class="wallet" ng-if="!wallet">
-            <i class="icon big-icon-svg">
-              <div class="bg wallet-icon" ng-style="{'background-color': 'grey'}"></div>
-            </i>
-            <div>...</div>
-          </div>
-          <i class="icon arrow-right"></i>
-        </a>
-        <div class="item item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
-          <span class="label">{{'Fee:' | translate}} {{tx.feeLevelName | translate}}</span>
-          <span class="m10l">{{tx.txp[wallet.id].feeStr || '...'}}</span>
-          <span class="item-note m10l">
-            <span>{{tx.txp[wallet.id].alternativeFeeStr || '...'}}&nbsp;
-            <span class="fee-rate" ng-if="tx.txp[wallet.id].feeRatePerStr"> &middot;
-                <i class="ion-alert-circled warn" ng-show="tx.txp[wallet.id].feeToHigh"></i> &nbsp;
-                <span class="fee-rate" ng-class="{'warn':tx.txp[wallet.id].feeToHigh}" translate> {{tx.txp[wallet.id].feeRatePerStr}}  of the sending amount </span>
+            <!-- Contact -->
 
+            <div class="item item-sub" ng-if="tx.recipientType == 'contact'">
+              <div class="item-icon-left">
+                <i class="icon md-icon">
+                  <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{tx.toEmail}}"></gravatar>
+                </i>
+                <div copy-to-clipboard="tx.toAddress">
+                  <span>{{tx.toName}}</span>
+                  <div class="item-detail ellipsis">{{tx.toAddress}}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unknown -->
+
+            <div class="item item-sub" ng-if="!tx.recipientType">
+              <div class="item-icon-left">
+                <i class="icon md-icon">
+                  <div class="bg" ng-class="tx.currency + '-icon'"></div>
+                </i>
+                <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
+                  <contact ng-if="!tx.toName" address="{{tx.toAddress}}"></contact>
+                  <span class="m15l size-14" ng-if="tx.toName">{{tx.toName}}</span>
+                </div>
+
+                <div ng-if="tx.paypro" ng-click="openPPModal(tx.paypro)" class="m15l size-14 w100p pointer">
+                  <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked" style="color:green"></i>
+                  <i ng-show="!tx.paypro.caTrusted" class="ion-unlocked" style="color:red"></i>
+                  <span class="ellipsis" ng-show="!tx.toName">{{tx.paypro.domain || tx.paypro.toAddress}}</span>
+                  <span ng-show="tx.toName">{{tx.toName}}</span>
+                </div>
+                <!-- <contact ng-if="!tx.hasMultiplesOutputs" class="ellipsis" address="{{tx.toAddress}}"></contact>
+                <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- From -->
+
+          <div class="item has-label item-icon-right" ng-hide="!wallet" ng-click="showWalletSelector()">
+            <span class="input-label" translate>From</span>
+            <div class="item item-sub">
+              <div class="item-icon-left">
+                <div ng-if="wallet">
+                  <i class="icon md-icon">
+                    <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+                  </i>
+                  <div>{{wallet.name}}</div>
+                </div>
+                <div ng-if="!wallet">
+                  <i class="icon md-icon">
+                    <div class="bg wallet-icon" ng-style="{'background-color': 'grey'}"></div>
+                  </i>
+                  <div>...</div>
+                </div>
+              </div>
+            </div>
+            <i class="icon arrow-right"></i>
+          </div>
+
+          <!-- Fee -->
+
+          <div class="item has-label item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
+            <span class="input-label" translate>Fee</span>
+            <div class="item item-sub">
+              <div>{{tx.feeLevelName | translate}}</div>
+              <div>{{tx.txp[wallet.id].feeStr || '...'}}</div>
+              <span class="item-detail">
+                <span>{{tx.txp[wallet.id].alternativeFeeStr || '...'}}
+                  <span class="fee-rate" ng-if="tx.txp[wallet.id].feeRatePerStr">&nbsp;&middot;
+                    <span xng-show="tx.txp[wallet.id].feeTooHigh">&nbsp;
+                      <i class="ion-alert-circled text-warning" ng-show="tx.txp[wallet.id].feeTooHigh"></i>
+                    </span>
+                    <span class="fee-rate" ng-class="{'text-warning': tx.txp[wallet.id].feeTooHigh}" translate>
+                      {{tx.txp[wallet.id].feeRatePerStr}}  of the sending amount
+                    </span>
+                  </span>
+                </span>
+              </span>
+            </div>
+            <i class="icon arrow-right"></i>
+          </div>
+
+          <!-- Memo -->
+
+          <a class="item item-icon-right" ng-if="wallet" ng-click="showDescriptionPopup(tx)">
+            <span class="label" translate>Add Memo</span>
+            <span class="item-note m10l">
+              {{tx.description}}
             </span>
-          </span>
-          </span>
-
-          <i class="icon arrow-right"></i>
-        </div>
-        <a class="item item-icon-right" ng-if="wallet" ng-click="showDescriptionPopup(tx)">
-          <span class="label" translate>Add Memo</span>
-          <span class="item-note m10l">
-            {{tx.description}}
-          </span>
-          <i class="icon arrow-right"></i>
-        </a>
-        <div class="text-center" ng-show="noWalletMessage">
-          <span class="badge badge-energized">{{noWalletMessage}}</span>
+            <i class="icon arrow-right"></i>
+          </a>
         </div>
       </div>
     </div>
@@ -125,7 +174,6 @@
     <span ng-show="wallet.m > 1 && (wallet.canSign() || wallet.isPrivKeyExternal())" translate>Proposal Created</span>
     <span ng-show="!wallet.canSign() && !wallet.isPrivKeyExternal()" translate>Transaction Created</span>
   </slide-to-accept-success>
-
   <wallet-selector
     title="walletSelectorTitle"
     wallets="wallets"
@@ -133,5 +181,4 @@
     show="walletSelector"
     on-select="onWalletSelect">
   </wallet-selector>
-
 </ion-view>

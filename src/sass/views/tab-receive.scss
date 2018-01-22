@@ -2,7 +2,7 @@
   background: $v-receive-bg;
   color: $v-receive-color;
 
-  @extend %common;
+  @include common;
 
   .button-share {
     color: $v-white-color;
@@ -22,7 +22,6 @@
 
     &-info {
       padding-top: 50px;
-      padding-bottom: 80px;
 
       .address-label {
         font-size: 14px;

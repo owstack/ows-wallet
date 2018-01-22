@@ -45,15 +45,3 @@
     }
   }
 }
-
-#tab-send {
-  .card, .list {
-    & > .item-heading {
-      font-weight: 700;
-
-      .icon {
-        color: $v-mid-gray;
-      }
-    }
-  }
-}

@@ -1,28 +1,20 @@
 #txp-details,
-#view-confirm {
-  $item-lateral-padding: 20px;
-  $item-vertical-padding: 10px;
-  $item-border-color: $v-subtle-gray;
-  $item-label-color: $v-mid-gray;
+#confirm {
 
+/*
   .item-note {
     float: none;
     .fee-rate {
       display: inline-block;
     }
   }
-
-  .list {
-    background: $v-subtle-gray;
-  }
-
+*/
   .add-bottom-for-cta {
     bottom: 92px;
   }
 
   .head {
-    padding: 30px $item-lateral-padding 3rem;
-    border-top: 0;
+    padding: 30px 20px 3rem;
 
     .sending-label {
       display: flex;
@@ -57,14 +49,15 @@
     }
   }
 
+/*
   .item {
-    border-color: $item-border-color;
+    border-color: $v-subtle-gray;
 
     &-note {
       word-break: keep-all;
     }
   }
-
+*/
   .wallet {
     display: flex;
     align-items: center;
@@ -74,13 +67,6 @@
     > i {
       padding: 0;
       position: static;
-
-      > .bg {
-        &.wallet-icon {
-          margin-right: 15px;
-          @include icon-wallet(60%);
-        }
-      }
     }
   }
 
@@ -96,30 +82,18 @@
 
     .item {
       color: $v-dark-gray;
-      padding-top: $item-vertical-padding;
-      padding-bottom: $item-vertical-padding;
-      padding-left: $item-lateral-padding;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 20px;
 
       &:not(.item-icon-right) {
-        padding-right: $item-lateral-padding;
+        padding-right: 20px;
       }
 
       .label {
         font-size: 14px;
-        color: $item-label-color;
+        color: $v-mid-gray;
         margin-bottom: 8px;
-      }
-
-      &.single-line {
-        display: flex;
-        align-items: center;
-        padding-top: 17px;
-        padding-bottom: 17px;
-
-        .label {
-          margin: 0;
-          flex-grow: 1;
-        }
       }
 
       &.low-fees {
@@ -141,15 +115,15 @@
     .toggle-label {
       margin-top: 5px;
       font-size: 14px;
-      color: $item-label-color;
+      color: $v-mid-gray;
     }
 
     .item-divider {
       padding-top: 1.2rem;
-      color: $item-label-color;
+      color: $v-mid-gray;
       font-size: 15px;
     }
-
+/*
     .payment-proposal-to {
       width: 100%;
       display: inline-block;
@@ -181,19 +155,19 @@
         display: inline-block;
       }
     }
-
+*/
     .timeline-item {
       border: 0;
 
       &:nth-child(2) {
-        border-top: 1px solid $item-border-color;
+        border-top: 1px solid $v-subtle-gray;
       }
 
       &:last-child {
-        border-bottom: 1px solid $item-border-color;
+        border-bottom: 1px solid $v-subtle-gray;
       }
 
-      padding: 17px $item-lateral-padding;
+      padding: 17px 20px;
 
       > * {
         padding-right: 0;
@@ -280,7 +254,7 @@
   }
 
   .proposal-deletion-help {
-    color: $item-label-color;
+    color: $v-mid-gray;
     padding: 1rem 2rem;
   }
 

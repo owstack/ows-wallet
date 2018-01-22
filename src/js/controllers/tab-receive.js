@@ -154,7 +154,7 @@ angular.module('owsWalletApp.controllers').controller('tabReceiveController', fu
 
   $scope.shareAddress = function() {
     if (!$scope.isCordova) return;
-    window.plugins.socialsharing.share($scope.protocol + $scope.addr, null, null, null);
+    window.plugins.socialsharing.share($scope.protocol + ':' + $scope.addr, null, null, null);
   };
 
   $scope.createWallet = function() {

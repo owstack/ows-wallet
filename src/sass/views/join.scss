@@ -2,27 +2,9 @@
   background: $v-home-bg;
   color: $v-home-color;
 
-  .qr-scan-icon a {
-    z-index: 10;
-    display: block;
-    position: absolute;
-    top: 117px;
-    right: 10px;
-    padding: 0 10px;
-    font-size: 24px;
-    cursor: pointer;
-    line-height: 45px;
-  }
-
   .item-stacked-label .icon {
     padding: 0px;
     margin: 0px;
-  }
-
-  .input-notification {
-    float: right;
-    margin-right: 40px;
-    margin-top: -4px;
   }
 
   .item-group {

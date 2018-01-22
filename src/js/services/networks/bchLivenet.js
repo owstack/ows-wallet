@@ -7,7 +7,7 @@ angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, g
     currency: 'bch',
     net: 'livenet',
     name: 'Bitcoin Cash',
-    protocol: 'bitcoincash:',
+    protocol: 'bitcoincash',
     getURI: function() { return networkHelpers.getURI(this) },
     getCurrencyLabel: function() { return networkHelpers.getCurrencyLabel(this) },
     getNetLabel: function() { return networkHelpers.getNetLabel(this) },

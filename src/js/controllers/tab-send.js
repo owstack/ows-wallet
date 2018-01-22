@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabSendController', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, addressbookService, profileService, lodash, $state, walletService, incomingData, popupService, platformInfo, walletClientError, gettextCatalog, scannerService, networkService) {
+angular.module('owsWalletApp.controllers').controller('tabSendController', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, $ionicNativeTransitions, addressbookService, profileService, lodash, $state, walletService, incomingData, popupService, platformInfo, walletClientError, gettextCatalog, scannerService, networkService) {
 
   var originalList;
   var CONTACTS_SHOW_LIMIT;
@@ -20,33 +20,35 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   };
 
   var updateWalletsList = function() {
-    var networkResult = lodash.countBy($scope.wallets, function(w) {
-      return networkService.parseNet(w.network);
-    });
-
-    $scope.showTransferCard = $scope.hasWallets && (networkResult.livenet > 1 || networkResult.testnet > 1);
+    $scope.showTransferCard = $scope.hasWallets;
 
     if ($scope.showTransferCard) {
       var walletsToTransfer = $scope.wallets;
-      if (!(networkResult.livenet > 1)) {
-        walletsToTransfer = lodash.filter(walletsToTransfer, function(item) {
-          return item.network == 'testnet';
-        });
+
+      // If a sending walletId is specified then filter the transfer list by sending wallet network.
+      if ($scope.walletId) {
+        var sendingWallet = profileService.getWallet($scope.walletId);
+
+        if (networkService.isTestnet(sendingWallet.networkURI)) {
+          walletsToTransfer = lodash.filter(walletsToTransfer, function(w) {
+            return networkService.isTestnet(w.network);
+          });
+        } else if (networkService.isTestnet(sendingWallet.networkURI)) {
+          walletsToTransfer = lodash.filter(walletsToTransfer, function(w) {
+            return networkService.isTestnet(w.network);
+          });
+        };
       }
-      if (!(networkResult.testnet > 1)) {
-        walletsToTransfer = lodash.filter(walletsToTransfer, function(item) {
-          return networkService.isLivenet(item.network);
-        });
-      }
+
       var walletList = [];
-      lodash.each(walletsToTransfer, function(v) {
+      lodash.each(walletsToTransfer, function(w) {
         walletList.push({
-          networkURI: v.networkURI,
-          color: v.color,
-          name: v.name,
+          networkURI: w.networkURI,
+          color: w.color,
+          name: w.name,
           recipientType: 'wallet',
           getAddress: function(cb) {
-            walletService.getAddress(v, false, cb);
+            walletService.getAddress(w, false, cb);
           },
         });
       });
@@ -56,24 +58,34 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
 
   var updateContactsList = function(cb) {
     addressbookService.list(function(err, ab) {
-      if (err) $log.error(err);
+      if (err) {
+        $log.error(err);
+      }
 
       $scope.hasContacts = lodash.isEmpty(ab) ? false : true;
-      if (!$scope.hasContacts) return cb();
+      if (!$scope.hasContacts) {
+        return cb();
+      }
 
+      var sendingWallet = profileService.getWallet($scope.walletId);
       var completeContacts = [];
+
       lodash.each(ab, function(v, k) {
-        completeContacts.push({
-          name: v.name,
-          address: k,
-          networkURI: v.networkURI,
-          email: v.email,
-          recipientType: 'contact',
-          getAddress: function(cb) {
-            return cb(null, k);
-          },
-        });
+        // If a sending wallet is specified then filter the contact list by sending wallet network, else include all contacts.
+        if (!sendingWallet || (sendingWallet && (sendingWallet.networkURI == v.networkURI))) {
+          completeContacts.push({
+            name: v.name,
+            address: k,
+            networkURI: v.networkURI,
+            email: v.email,
+            recipientType: 'contact',
+            getAddress: function(cb) {
+              return cb(null, k);
+            },
+          });
+        }
       });
+
       var contacts = completeContacts.slice(0, (currentContactsPage + 1) * CONTACTS_SHOW_LIMIT);
       $scope.contactsShowMore = completeContacts.length > contacts.length;
       originalList = originalList.concat(contacts);
@@ -109,7 +121,6 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   };
 
   $scope.findContact = function(search) {
-
     if (incomingData.redir(search)) {
       return;
     }
@@ -151,6 +162,20 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
     });
   };
 
+  $scope.goBackToWallet = function() {
+    // Reset (clear) history in the send tab for subsequent deterministic navigation (results in
+    // main settings view being shown when using tab bar).
+    delete $ionicHistory.viewHistory().histories[$ionicHistory.currentHistoryId()];
+
+    $ionicNativeTransitions.stateGo('tabs.wallet', {
+      walletId: $scope.walletId
+    }, {}, {
+      type: 'slide',
+      direction: 'right',
+      duration: 200
+    });
+  };
+
   // This could probably be enhanced refactoring the routes abstract states
   $scope.createWallet = function() {
     $state.go('tabs.home').then(function() {
@@ -160,6 +185,9 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     $scope.walletId = data.stateParams.walletId;
+    $scope.showBackButton = ($scope.walletId ? true : false);
+    $scope.hideTabs = !lodash.isEmpty(data.stateParams.walletId);
+
     $scope.checkingBalance = true;
     $scope.formData = {
       search: null

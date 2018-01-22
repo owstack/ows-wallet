@@ -23,7 +23,7 @@
           clear:both;
           width: 100%;
           display: inline-block;
-          &.wallet-name{
+          &.wallet-name {
             font-size:16px;
             width: 70%;
             white-space: nowrap;
@@ -31,21 +31,18 @@
             overflow: hidden;
             font-weight: 600;
           }
-          &.wallet-number{
+          &.wallet-number {
             visibility: hidden;
           }
           &.visible{
             visibility: visible !important;
           }
         }
-        .big-icon-svg {
+        .lg-icon {
           & > .bg{
             padding:.3rem;
             width: 40px;
             height:40px;
-            &.wallet-icon {
-              @include icon-wallet(60%);
-            }
           }
         }
       }

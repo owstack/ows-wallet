@@ -25,8 +25,7 @@
       <i class="icon ion-alert-circled"></i>{{feeWarning}}
     </div>
     <div class="list fee-policies">
-      <ion-radio ng-repeat="(fee, level) in feeOpts" ng-if="fee != 'custom'" ng-value="fee" ng-model="currentFeeLevel"
-        ng-click="save(fee)" ng-class="{'bb0': $last}">
+      <ion-radio ng-repeat="(fee, level) in feeOpts" ng-if="fee != 'custom'" ng-value="fee" ng-model="currentFeeLevel" ng-click="save(fee)">
         {{level|translate}}
       </ion-radio>
     </div>

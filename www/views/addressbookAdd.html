@@ -11,7 +11,7 @@
   </ion-nav-bar>
   <ion-content>
     <form name="addressbookForm" no-validate>
-      <div class="list add-address-list add-address-input-group">
+      <div class="list add-address-input-group">
         <label class="item item-input item-stacked-label">
           <span class="input-label" translate>Name</span>
           <input type="text" id="name" placeholder="{{'Name' | translate}}" name="name" ng-model="addressbookEntry.name" required>
@@ -20,20 +20,17 @@
           <span class="input-label" translate>Email</span>
           <input type="text" id="email" placeholder="{{'Email' | translate}}" name="email" ng-model="addressbookEntry.email">
         </label>
-        <div>
-          <label class="item item-input item-stacked-label">
-            <span class="input-label" translate>Address</span>
-            <div class="input-notification">
-              <i ng-show="!addressbookForm.address.$invalid" class="icon ion-checkmark-circled valid"></i>
-              <i ng-show="addressbookForm.address.$invalid && addressbookEntry.address" class="icon ion-close-circled invalid"></i>
-            </div>
-            <input type="text" id="address" placeholder="{{'Digital currency address' | translate}}" name="address" ng-model="addressbookEntry.address" valid-address required>
-          </label>
-          <div class="qr-scan-icon">
-            <qr-scanner on-scan="onQrCodeScannedAddressBook(data, addressbookForm)"></qr-scanner>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label" translate>Address</span>
+          <input type="text" id="address" placeholder="{{'Digital currency address' | translate}}" name="address"
+            ng-model="addressbookEntry.address" valid-address required>
+          <div class="input-notification" ng-class="addressbookForm.address.$invalid ? 'error' : 'success'"
+            ng-show="!addressbookForm.address.$invalid || (addressbookForm.address.$invalid && addressbookEntry.address)"></div>
+          <div class="item-icon-right">
+            <qr-scanner class="size-24" on-scan="onQrCodeScannedAddressBook(data, addressbookForm)"></qr-scanner>
           </div>
-        </div>
-        <label class="item item-input item-select bb0">
+        </label>
+        <label class="item item-input item-select">
           <div class="input-label" translate>Network</div>
           <select class="m10t" ng-model="addressbookEntry.network"
             ng-options="network as network.getFriendlyNetLabel() for network in availableNetworks" required>

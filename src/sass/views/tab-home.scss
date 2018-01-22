@@ -2,7 +2,11 @@
   background: $v-home-bg;
   color: $v-home-color;
 
-  @extend %common;
+  @include common;
+
+  .list .item:not(.item-heading) {
+    height: $v-card-item-lg-wallet-height !important;
+  }
 
   .icon-create-wallet {
     background-color: $v-accent-1-color;
@@ -101,7 +105,7 @@
       margin-bottom: 20px;
     }
 
-    .big-icon-svg {
+    .lg-icon {
       > .bg {
         box-shadow: none;
       }

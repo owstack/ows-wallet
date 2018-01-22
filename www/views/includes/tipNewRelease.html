@@ -1,9 +1,19 @@
 <div class="card tip release">
-  <i class="item icon big-icon-svg">
-    <img src="img/icon-update.svg" class="bg"/>
-  </i>
-  <div class="item title">{{updateText}}</div>
-  <div class="button button-standard button-primary" ng-click="openExternalLinkDownload()">
-    <span translate>Download</span>
+  <div class="item item-icon-right item-heading ng-hide"></div>
+  <div class="item">
+    <i class="icon lg-icon">
+      <img src="img/icon-update.svg" class="bg"/>
+    </i>
+    <div class="title" translate>
+      Update available
+    </div>
+    <div class="subtitle">
+      {{updateText}}
+    </div>
+    <div class="padding">
+      <button class="button button-standard button-primary" ng-click="openExternalLinkDownload()" translate>
+        Download
+      </button>
+    </div>
   </div>
 </div>

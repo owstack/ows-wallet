@@ -7,7 +7,7 @@ angular.module('owsWalletApp.services').factory('btcTestnet', function(lodash, g
     currency: 'btc',
     net: 'testnet',
     name: 'Bitcoin',
-    protocol: 'bitcoin:',
+    protocol: 'bitcoin',
     getURI: function() { return networkHelpers.getURI(this) },
     getCurrencyLabel: function() { return networkHelpers.getCurrencyLabel(this) },
     getNetLabel: function() { return networkHelpers.getNetLabel(this) },

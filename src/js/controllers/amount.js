@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('amountController', function($scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcess, popupService, walletClientError, payproService, profileService, nodeWebkitService, networkService) {
+angular.module('owsWalletApp.controllers').controller('amountController', function($scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfo, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcess, popupService, walletClientError, payproService, profileService, nodeWebkitService, networkService, walletService) {
   var _id;
   var atomicUnitToUnit;
   var atomicUnitDecimals;
@@ -26,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
     $scope.walletId = data.stateParams.walletId;
     $scope.networkURI = data.stateParams.networkURI || configService.getSync().currencyNetworks.default;
     $scope.toAddress = data.stateParams.toAddress;
-    $scope.toName = data.stateParams.toName;
+    $scope.toName = data.stateParams.toName || gettextCatalog.getString('Digital currency address');
     $scope.toEmail = data.stateParams.toEmail;
     $scope.showAlternativeAmount = !!$scope.nextStep;
     $scope.toColor = data.stateParams.toColor;
@@ -50,7 +50,7 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
       if (e.key.match(reNr)) {
         $scope.pushDigit(e.key);
       } else if (e.key.match(reOp)) {
-        $scope.pushOperator(e.key);
+        $scope.pushOperation(e.key);
       } else if (e.keyCode === 86) {
         if (e.ctrlKey || e.metaKey)
           processClipboard();
@@ -125,8 +125,11 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
   };
 
   function checkFontSize() {
-    if ($scope.amount && $scope.amount.length >= SMALL_FONT_SIZE_LIMIT) $scope.smallFont = true;
-    else $scope.smallFont = false;
+    if ($scope.amount && $scope.amount.length >= SMALL_FONT_SIZE_LIMIT) {
+      $scope.smallFont = true;
+    } else {
+      $scope.smallFont = false;
+    }
   };
 
   $scope.pushDigit = function(digit) {
@@ -139,20 +142,20 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
     processAmount();
   };
 
-  $scope.pushOperator = function(operator) {
+  $scope.pushOperation = function(operation) {
     if (!$scope.amount || $scope.amount.length == 0) return;
-    $scope.amount = _pushOperator($scope.amount);
+    $scope.amount = _pushOperation($scope.amount);
 
-    function _pushOperator(val) {
-      if (!isOperator(lodash.last(val))) {
-        return val + operator;
+    function _pushOperation(val) {
+      if (!isOperation(lodash.last(val))) {
+        return val + operation;
       } else {
-        return val.slice(0, -1) + operator;
+        return val.slice(0, -1) + operation;
       }
     };
   };
 
-  function isOperator(val) {
+  function isOperation(val) {
     var regex = /[\/\-\+\x\*]/;
     return regex.test(val);
   };
@@ -214,36 +217,101 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
   function format(val) {
     var result = val.toString();
 
-    if (isOperator(lodash.last(val)))
+    if (isOperation(lodash.last(val)))
       result = result.slice(0, -1);
 
     return result.replace('x', '*');
   };
 
+  function verifyFunding(minAmount, cb) {
+    var wallets = [];
+    if ($scope.walletId) {
+      // Check only the desired wallet.
+      wallets.push(profileService.getWallet($scope.walletId));
+    } else {
+      // Check all wallets.
+      wallets = profileService.getWallets({
+        onlyComplete: true,
+        networkURI: $scope.networkURI
+      });
+    }
+
+    if (!wallets || !wallets.length) {
+      return cb(false);
+    }
+
+    // Convert to atomic units.
+    minAmount = (minAmount * unitToAtomicUnit).toFixed(atomicUnitDecimals);
+
+    if ($scope.useSendMax) {
+      // Detect zero balance when using send max (since actual amounts are not fetched to this point).
+      minAmount = 1;
+    }
+
+    var filteredWallets = [];
+    var index = 0;
+
+    lodash.each(wallets, function(w) {
+      walletService.getStatus(w, {}, function(err, status) {
+        if (err || !status) {
+          $log.error(err);
+        } else {
+          if (status.availableBalanceAtomic > minAmount) {
+            filteredWallets.push(w);
+          }
+        }
+
+        if (++index == wallets.length) {
+          var err;
+          if (lodash.isEmpty(filteredWallets)) {
+            if ($scope.walletId) {
+              err = gettextCatalog.getString('Not enough funds to create a transaction from wallet \'{{walletName}}\'.', {
+                walletName: wallets[0].name
+              });
+            } else {
+              err = gettextCatalog.getString('Not enough funds to create a transaction from any wallet.');
+            }
+          }
+          cb(err);
+        }
+      });
+    });
+  };
+
   $scope.finish = function() {
     var _amount = evaluate(format($scope.amount));
 
-    if ($scope.nextStep) {
-      $state.transitionTo($scope.nextStep, {
-        id: _id,
-        amount: $scope.useSendMax ? null : _amount,
-        currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
-        useSendMax: $scope.useSendMax
-      });
-    } else {
-      var amount = $scope.showAlternativeAmount ? fromFiat(_amount) : _amount;
-      $state.transitionTo('tabs.send.confirm', {
-        walletId: $scope.walletId,
-        networkURI: $scope.networkURI,
-        recipientType: $scope.recipientType,
-        toAmount: $scope.useSendMax ? null : (amount * unitToAtomicUnit).toFixed(atomicUnitDecimals),
-        toAddress: $scope.toAddress,
-        toName: $scope.toName,
-        toEmail: $scope.toEmail,
-        toColor: $scope.toColor,
-        useSendMax: $scope.useSendMax
-      });
-    }
-    $scope.useSendMax = null;
+    // Avoid a view transition followed by an insufficient funds message; check and present an error here.
+    // There is a detection of zero funds when Send max is selected; insufficent funds calculation is done later when 
+    // the at least one wallet has a non-zero balance.
+    verifyFunding(_amount , function(err) {
+      if (err) {
+        popupService.showAlert(gettextCatalog.getString('Insufficent Funds'), err);
+      } else {
+
+        if ($scope.nextStep) {
+          $state.transitionTo($scope.nextStep, {
+            id: _id,
+            amount: $scope.useSendMax ? null : _amount,
+            currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
+            useSendMax: $scope.useSendMax
+          });
+        } else {
+          var amount = $scope.showAlternativeAmount ? fromFiat(_amount) : _amount;
+          $state.transitionTo('tabs.send.confirm', {
+            walletId: $scope.walletId,
+            networkURI: $scope.networkURI,
+            recipientType: $scope.recipientType,
+            toAmount: $scope.useSendMax ? null : (amount * unitToAtomicUnit).toFixed(atomicUnitDecimals),
+            toAddress: $scope.toAddress,
+            toName: $scope.toName,
+            toEmail: $scope.toEmail,
+            toColor: $scope.toColor,
+            useSendMax: $scope.useSendMax
+          });
+        }
+        $scope.useSendMax = null;
+      }
+    });
   };
 });

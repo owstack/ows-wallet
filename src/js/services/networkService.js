@@ -76,20 +76,27 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   };
 
   root.getLivenetForCurrency = function(currency) {
-    return lodash.find(networks, function(n) {
-      return (n.currency == currency) && (n.net == 'livenet');
+    return lodash.find(root.getLiveNetworks(), function(n) {
+      return (n.currency == currency);
     });
   };
 
   root.getTestnetForCurrency = function(currency) {
-    return lodash.find(networks, function(n) {
-      return (n.currency == currency) && (n.net == 'testnet');
+    return lodash.find(root.getTestNetworks(), function(n) {
+      return (n.currency == currency);
     });
   };
 
   root.getNetworkForCurrencyNet = function(currency, net) {
     return lodash.find(networks, function(n) {
       return (n.currency == currency) && (n.net == net);
+    });
+  };
+
+  root.getNetworkForProtocol = function(protocol) {
+    // Return only livenets for the protocol.
+    return lodash.find(root.getLiveNetworks(), function(n) {
+      return n.protocol == protocol;
     });
   };
 

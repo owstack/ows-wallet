@@ -13,7 +13,7 @@
 		background: none;
 	}
 
-	.help-title {
+	.help-topic {
 		color: $v-settings-color;
 	  font-size: 16px;
     padding-top: 10px;
@@ -44,7 +44,7 @@
     margin: 0;
 	}
 
-	.help-title-subtopic {
+	.help-subtopic-title {
     color: $v-accent-1-color;
 	  font-size: 14px;
     padding: 5px 0;
@@ -52,7 +52,7 @@
     border: none;
 	}
 
-	.help-content-subtopic {
+	.help-subtopic-content {
 		color: $v-settings-color;
 	  font-size: 14px;
 		padding: 0 15px;
@@ -76,5 +76,4 @@
 	.list .item.item-accordion.ng-hide-remove {
 	  display: block !important;
 	}
-
 }

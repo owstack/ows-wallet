@@ -2,93 +2,15 @@
   background: $v-address-book-bg;
   color: $v-address-book-color;
 
+  @include common;
+
   .zero-state-cta {
     padding-bottom: 3vh;
-  }
-
-  .list {
-    background: $v-address-book-list-bg;
-  }
-
-  .qr-scan-icon a {
-    z-index: 10;
-    display: block;
-    position: absolute;
-    top: 168px;
-    right: 10px;
-    padding: 0 10px;
-    font-size: 24px;
-    cursor: pointer;
-    line-height: 155px;
-  }
-
-  .icon {
-    &.valid {
-      padding-top: 3px;
-      color: $v-success-color;
-    }
-
-    &.invalid {
-      padding-top: 3px;
-      color: $v-error-color;
-    }
   }
 
   .add-address-input-group {
     .item-stacked-label {
       padding: 1rem;
     }
-
-    .input-label {
-      color: $v-address-book-color;
-      text-transform: uppercase;
-      font-size: 12px;
-      font-weight: bold;
-    }
   }
-
-  .add-address-list {
-    .item {
-      background: $v-address-book-item-bg;
-      color: $v-address-book-item-color;
-      padding-top: 1.3rem;
-      padding-bottom: 1.3rem;
-      border-color: $v-address-book-item-border-color;
-      border-left: 0;
-      border-right: 0;
-      border-top: 0;
-
-      &.item-divider {
-        padding-bottom: .5rem;
-        font-size: .9rem;
-      }
-
-      &.bb0 {
-        border-bottom: 0;
-      }
-
-      .input-notification {
-        float: right;
-        margin-right: 40px;
-        margin-top: -4px;
-      }
-    }
-  }
-
-  input {
-    background: $v-input-bg !important;
-    color: $v-address-book-color;
-    padding-left: 10px;
-    margin-top: 5px;
-  }
-
-  select {
-    background: none;
-    color: $v-address-book-color;
-    top: -10px;
-  }
-
-  .item-select:after {
-    color: $v-address-book-secondary-color;
-  }  
 }

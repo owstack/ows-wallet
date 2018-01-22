@@ -18,7 +18,7 @@
           required>
         </label>
 
-        <label class="item item-input item-select bb0">
+        <label class="item item-input item-select">
           <div class="input-label" translate>
             Currency
           </div>
@@ -28,7 +28,7 @@
 
         <div class="item item-divider"></div>
 
-        <a class="item" ng-class="{'bb0': !showAdv}" ng-click="showAdvChange()">
+        <a class="item" ng-click="showAdvChange()">
           <span translate ng-show="!showAdv">Show advanced options</span>
           <span translate ng-show="showAdv">Hide advanced options</span>
           <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
@@ -62,7 +62,7 @@
           </label>
 
           <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
-            <ion-toggle ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()" ng-class="{'bb0': encrypt}">
+            <ion-toggle ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
               <div translate>Add a password</div>
               <div class="item-detail" ng-show="formData.seedSource.id == 'new'" translate>
                 Add an optional password to secure the recovery phrase
@@ -73,7 +73,7 @@
             </ion-toggle>
           </div>
 
-          <div class="item item-input item-stacked-label bb0 pt0" ng-show="encrypt">
+          <div class="item item-input item-stacked-label pt0" ng-show="encrypt">
             <input ng-show="formData.seedSource.id == 'new'"
                    placeholder="{{'Password'|translate}}"
                    type="password"
@@ -93,7 +93,7 @@
                    ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
           </div>
 
-          <div class="item item-input item-stacked-label bb0 pt0" ng-show="encrypt">
+          <div class="item item-input item-stacked-label pt0" ng-show="encrypt">
             <input ng-show="formData.seedSource.id == 'new'"
                    placeholder="{{'Repeat password'|translate}}"
                    type="password"
@@ -111,8 +111,9 @@
                     ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
           </div>
 
-          <div class="item pt0 pb0" ng-class="{'bb0': result == 'correct'}" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
+          <div class="item item-vh pt0 pb0" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
             <div class="text-center box-notification error">
+              <div class="title" translate>Backup Your Password</div>
               <strong translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</strong>
             </div>
           </div>
@@ -133,7 +134,7 @@
             <div translate>Testnet</div>
           </ion-toggle>
 
-          <ion-toggle ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive" class="bb0">
+          <ion-toggle ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
             <div translate>Single Address Wallet</div>
             <div class="item-detail" translate>For audit purposes</div>
           </ion-toggle>

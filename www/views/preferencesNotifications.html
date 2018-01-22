@@ -11,7 +11,7 @@
       </div>
       <div class="item item-divider"></div>
       <div ng-if="PNEnabledByUser">
-        <ion-toggle ng-model="pushNotifications.value" toggle-class="toggle-positive" class="bb0" ng-change="pushNotificationsChange()" ng-if="usePushNotifications">
+        <ion-toggle ng-model="pushNotifications.value" toggle-class="toggle-positive" ng-change="pushNotificationsChange()" ng-if="usePushNotifications">
           <span class="toggle-label" translate>Enable push notifications</span>
         </ion-toggle>
       </div>
@@ -20,7 +20,7 @@
           <span class="toggle-label" translate>Notify me when transactions are confirmed</span>
         </ion-toggle>
       </div>
-      <ion-toggle ng-model="emailNotifications.value" toggle-class="toggle-positive" class="bb0" ng-change="emailNotificationsChange()">
+      <ion-toggle ng-model="emailNotifications.value" toggle-class="toggle-positive" ng-change="emailNotificationsChange()">
         <span class="toggle-label" translate>Enable email notifications</span>
       </ion-toggle>
       <div ng-if="emailNotifications.value">
@@ -28,10 +28,10 @@
           You'll receive email notifications about payments sent and received from your wallets.
         </div>
         <form name="emailForm" ng-submit="save()" novalidate>
-          <div class="settings-input-group mb20">
-            <label class="item item-input item-stacked-label bb0">
+          <div class="settings-input-group m20b">
+            <label class="item item-input item-stacked-label">
               <span class="input-label" translate>Email Address</span>
-              <input type="email" id="email" name="email" ng-model="newEmail.value" required></input>
+              <input type="email" id="email" name="email" placeholder="{{'Email'|translate}}" ng-model="newEmail.value" required></input>
             </label>
           </div>
           <button type="submit" class="button button-standard button-primary"

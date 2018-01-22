@@ -1,15 +1,19 @@
 'use strict';
+
 angular.module('owsWalletApp.directives')
-  .directive('showTabs', function($rootScope, $timeout) {
-    return {
-      restrict: 'A',
-      link: function($scope, $el) {
-        $scope.$on("$ionicView.beforeEnter", function(event, data) {
-          $timeout(function() {
+.directive('showTabs', function($rootScope, $timeout) {
+  return {
+    link: function(scope, elem, attrs, ctrl) {
+      scope.$on("$ionicView.beforeEnter", function(event, data) {
+        $timeout(function() {
+          if (!attrs.showTabs || (attrs.showTabs == 'true')) {
             $rootScope.hideTabs = '';
-            $rootScope.$apply();
-          });
+          } else {
+            $rootScope.hideTabs = 'tabs-item-hide';
+          }
+          $rootScope.$apply();
         });
-      }
-    };
-  });
+      });
+    }
+  };
+});

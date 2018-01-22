@@ -1,18 +1,19 @@
-#view-confirm {
-  background-color: $v-white-color;
-  .item-note {
-    float: none;
-    .fee-rate {
-      display: inline-block;
-      .warn {
-        color: red;
-      }
+#confirm {
+  background: $v-send-bg;
+  color: $v-send-color;
 
+  @include common;
+
+  .item-note {
+    &.x {
+      color: $v-send-color;
     }
   }
+
   .tx-details-content > .scroll {
     padding-bottom: .25rem;
   }
+
   .gravatar-contact {
     display: flex;
     margin-left: -3px;
@@ -20,9 +21,7 @@
       margin: 5px 0 0 8px;
     }
   }
-  .wallet-name {
-    margin-top: -3px;
-  }
+
   .toggle {
     cursor: pointer;
   }

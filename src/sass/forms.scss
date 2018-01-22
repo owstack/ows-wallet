@@ -1,0 +1,194 @@
+.text-warning {
+  color: $v-warning-color;
+}
+
+.text-danger {
+  color: $v-assertive-color;
+}
+
+/*
+ *  QR code presentation
+ */
+
+.qrcode {
+  padding: 20px;
+  background: $v-white-color;
+  border-radius: 3px;
+}
+
+/*
+ *  A search input
+ */
+
+.search-wrapper {
+  background: $v-list-item-bg;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+
+  .search {
+    border: none;
+    background: none;
+    margin-right: 15px;
+
+    i {
+      font-size: 18px;
+      position: relative;
+      top: 3px;
+
+      &.icon-right {
+        padding-left: 10px;
+      }
+    }
+  }
+}
+
+/*
+ *  A very visible notification container
+ */
+
+.box-notification {
+  color: $v-white-color;
+  font-size: 16px;
+  padding: 0.5rem;
+  border: 1px solid;
+  margin: 10px;
+
+  .title {
+    margin: 5px;
+    font-weight: bold;
+  }
+
+  div {
+    margin-bottom: 10px;
+  }
+
+  a {
+    color: $v-warning-color;
+    font-weight: bold;
+    cursor: pointer;
+    cursor: hand;
+    background: $v-white-color;
+    border-radius: 20px;
+    padding: 0 10px;
+
+    &:before {
+      margin-top: 10px;
+    }
+  }
+
+  &.notice {
+    border-color: $v-light-gray;
+    background-color: $v-subtle-gray;
+    color: $v-dark-gray;
+  }
+
+  &.warning {
+    border-color: $v-warning-color;
+    background-color: $v-warning-color;
+    color: $v-white-color;
+
+    .title {
+      &:before {
+        content: "\f100";
+        font-family: "Ionicons";
+        font-size: 18px;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &.error {
+    background-color: $v-error-color;
+    border-color: $v-error-color;
+    color: $v-white-color;
+  }
+}
+
+/*
+ *  Used with .card to present an informative message in a view
+ */
+
+.tip {
+  text-align: center;
+  padding: 0 20px 20px;
+
+  & .item-heading {
+    margin-top: 10px;
+    background: 0 none;
+  }
+
+  .item {
+    border-style: none;
+  }
+
+  & .title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 10px;
+  }
+
+  & .subtitle {
+    font-size: 16px;
+    line-height: 1.5em;
+    font-weight: 300;
+  }
+
+  .lg-icon {
+    .bg.success {
+      padding: 0 10px;
+      box-shadow: none;
+    }
+  }
+}
+
+/*
+ *  Action selector is used to present an action sheet
+ */
+
+.action-selector {
+  @extend .list;
+
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $v-action-selector-height;
+  background: $v-action-selector-bg !important;
+  padding: 0;
+  z-index: 2;
+
+  .action-link {
+    @extend .item;
+//      @extend .item-sub;
+    @extend .item-icon-left;
+    @extend .item-lg-icon-left;
+    @extend .item-icon-right;
+
+    cursor: pointer;
+    cursor: hand;
+
+    &.activated {
+      background: inherit;
+      border: inherit;
+    }
+  }
+
+  .action-detail {
+    @extend .item-detail;
+  }
+
+  &:before {
+    content: "\f3d8";
+    font-family: "Ionicons";
+    font-size: 24px;
+    opacity: 0.4;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    z-index: 3;
+  }
+}
+
+.has-action-selector {
+  padding-bottom: $v-action-selector-height;
+}

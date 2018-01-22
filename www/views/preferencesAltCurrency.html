@@ -5,7 +5,7 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="settings-search">
+    <div class="search-wrapper">
       <label class="item item-input search">
         <i class="icon ion-ios-search placeholder-icon"></i>
         <input type="search" ng-init="searchedAltCurrency = ''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)" placeholder="Search your currency" class="ng-pristine ng-untouched ng-valid ng-empty" style="">
@@ -13,12 +13,12 @@
     </div>
     <div class="list" ng-if="lastUsedAltCurrencyList[0]">
       <ion-radio ng-repeat="lastUsedAltCurrency in lastUsedAltCurrencyList" ng-value="lastUsedAltCurrency.isoCode" ng-model="currentCurrency"
-        ng-click="save(lastUsedAltCurrency)" ng-class="{'bb0': $last}">{{lastUsedAltCurrency.name}}
+        ng-click="save(lastUsedAltCurrency)">{{lastUsedAltCurrency.name}}
       </ion-radio>
     </div>
     <div class="list">
       <ion-radio ng-repeat="altCurrency in altCurrencyList" ng-value="altCurrency.isoCode" ng-model="currentCurrency"
-        ng-click="save(altCurrency)" ng-class="{'bb0': $last}">{{altCurrency.name}}
+        ng-click="save(altCurrency)">{{altCurrency.name}}
       </ion-radio>
     </div>
     <ion-infinite-scroll

@@ -2,7 +2,6 @@
 
 angular.module('owsWalletApp.directives')
   .directive('qrScanner', function($state, $rootScope, $log, $ionicHistory, scannerService, popupService) {
-
     return {
       restrict: 'E',
       scope: {

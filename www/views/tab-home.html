@@ -51,43 +51,45 @@
 
     <!-- List layout -->
 
-    <div ng-if="layout.current == 'list'" class="list card">
+    <div ng-if="layout.current == 'list'" class="card">
       <div class="item item-icon-right item-heading">
         <span translate>Wallets</span>
         <a ui-sref="tabs.add" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
       </div>
-      <a ng-if="!wallets[0]" ui-sref="tabs.add" class="item item-icon-left item-big-icon-left item-icon-right next-step">
-       <i class="icon big-icon-svg">
+      <a ng-if="!wallets[0]" ui-sref="tabs.add" class="item item-icon-left item-lg-icon-left item-icon-right next-step">
+       <i class="icon lg-icon">
          <div class="bg wallet-icon icon-create-wallet"></div>
        </i>
         <span translate>Add wallet</span>
         <i class="icon arrow-right"></i>
       </a>
-      <a ng-repeat="wallet in wallets | filter:{layout: {group: {id:'favorite'}}}:strict | orderBy:'layout.group.ordinal' track by $index"
-        class="item item-sub item-icon-left item-big-icon-left item-icon-right wallet" ng-click="openWallet(wallet)">
-        <i class="icon big-icon-svg">
-          <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
-        </i>
-        <span class=ellipsis>
-          {{wallet.name || wallet.id}}
-        </span>
-        <div class="item-detail">
-          <span ng-if="!wallet.isComplete()" class="assertive" translate>
-            Incomplete
+      <div class="list">
+        <a ng-repeat="wallet in wallets | filter:{layout: {group: {id:'favorite'}}}:strict | orderBy:'layout.group.ordinal' track by $index"
+          class="item item-icon-left item-lg-icon-left item-icon-right wallet" ng-click="openWallet(wallet)">
+          <i class="icon lg-icon shadow">
+            <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+          </i>
+          <span class=ellipsis>
+            {{wallet.name || wallet.id}}
           </span>
-          <span ng-if="wallet.isComplete()">
-            <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
-            <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
-            <span class="tab-home__wallet__multisig-number" ng-if="wallet.n > 1">
-              {{wallet.m}}-of-{{wallet.n}}
+          <div class="item-detail">
+            <span ng-if="!wallet.isComplete()" class="assertive" translate>
+              Incomplete
             </span>
-            <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)" class="tab-home__wallet__status-icon ion-ios-timer-outline"></i>
-            <span class="assertive" ng-if="wallet.error">{{wallet.error}}</span>
-          </span>
-          &nbsp;
-        </div>
-        <i class="icon arrow-right"></i>
-      </a>
+            <span ng-if="wallet.isComplete()">
+              <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
+              <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
+              <span class="tab-home__wallet__multisig-number" ng-if="wallet.n > 1">
+                {{wallet.m}}-of-{{wallet.n}}
+              </span>
+              <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)" class="tab-home__wallet__status-icon ion-ios-timer-outline"></i>
+              <span class="assertive" ng-if="wallet.error">{{wallet.error}}</span>
+            </span>
+            &nbsp;
+          </div>
+          <i class="icon arrow-right"></i>
+        </a>
+      </div>
     </div>
 
     <!-- Grid layout -->

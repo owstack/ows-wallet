@@ -73,16 +73,49 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
         }
       }, 100);
     }
-    // data extensions for Payment Protocol with non-backwards-compatible request
+    // Data extensions for Payment Protocol with non-backwards-compatible request.
+    // TODO: does not support detecting testnets.
     if ((/^bitcoin(cash)?:\?r=[\w+]/).exec(data)) {
+      var protocol = data.split(':')[0];
       data = decodeURIComponent(data.replace(/bitcoin(cash)?:\?r=/, ''));
-      $state.go('tabs.send', {}, {
-        'reload': true,
-        'notify': $state.current.name == 'tabs.send' ? false : true
-      }).then(function() {
-        $state.transitionTo('tabs.send.confirm', {
-          paypro: data
-        });
+
+      payproService.getPayProDetails(data, function(err, details) {
+        if (err) {
+          popupService.showAlert(gettextCatalog.getString('Error'), err);
+        } else {
+
+          var addrNetwork;
+          var err;
+
+          switch (protocol) {
+            case 'bitcoin': 
+              if (btcLib.Address.isValid(details.toAddress, 'livenet') || btcLib.Address.isValid(details.toAddress, 'testnet')) {
+                addrNetwork = btcLib.Address(details.toAddress).network;
+              } else {
+                err = gettextCatalog.getString('Payment instruction not recognized.');
+              }
+              break;
+
+            case 'bitcoincash':
+              if (bchLib.Address.isValid(details.toAddress, 'livenet')) {
+                addrNetwork = bchLib.Address(details.toAddress).network;
+              } else {
+                err = gettextCatalog.getString('Payment instruction not recognized.');
+              }
+              break;
+
+            default:
+              err = gettextCatalog.getString('Payment instruction not recognized.');
+              break;
+          }
+
+          if (err) {
+            return popupService.showAlert(gettextCatalog.getString('Error'), err);
+          }
+
+          details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+          handlePayPro(details);
+        }
       });
       return true;
     }
@@ -92,46 +125,77 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
     // BIP21 - bitcoin URL
     if (btcLib.URI.isValid(data)) {
       var parsed = btcLib.URI(data);
-
       var addr = parsed.address ? parsed.address.toString() : '';
       var message = parsed.message;
-      var addrNetwork = parsed.network;
-
       var amount = parsed.amount ? parsed.amount : '';
+      var addrNetwork;
 
       if (parsed.r) {
         payproService.getPayProDetails(parsed.r, function(err, details) {
           if (err) {
-            if (addr && amount) goSend(addr, amount, message);
-            else popupService.showAlert(gettextCatalog.getString('Error'), err);
-          } else handlePayPro(details);
+            if (addr && amount) {
+              goSend(addr, amount, message);
+            } else {
+              popupService.showAlert(gettextCatalog.getString('Error'), err);
+            }
+          } else {
+
+            if (btcLib.Address.isValid(details.toAddress, 'livenet') || btcLib.Address.isValid(details.toAddress, 'testnet')) {
+              addrNetwork = btcLib.Address(details.toAddress).network;
+              details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+              handlePayPro(details);
+            } else {
+              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+            }
+          }
         });
       } else {
-        var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-        goSend(addr, amount, message, networkURI);
+
+        if (btcLib.Address.isValid(addr, 'livenet') || btcLib.Address.isValid(addr, 'testnet')) {
+          addrNetwork = btcLib.Address(addr).network;
+          var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+          goSend(addr, amount, message, networkURI);
+        } else {
+          return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+        }
       }
       return true;
 
     // BIP21 - bitcoincash URL
     } else if (bchLib.URI.isValid(data)) {
       var parsed = bchLib.URI(data);
-
       var addr = parsed.address ? parsed.address.toString() : '';
-      var addrNetwork = parsed.network;
       var message = parsed.message;
-
       var amount = parsed.amount ? parsed.amount : '';
+      var addrNetwork;
 
       if (parsed.r) {
         payproService.getPayProDetails(parsed.r, function(err, details) {
           if (err) {
-            if (addr && amount) goSend(addr, amount, message);
-            else popupService.showAlert(gettextCatalog.getString('Error'), err);
-          } else handlePayPro(details);
+            if (addr && amount) {
+              goSend(addr, amount, message);
+            } else {
+              popupService.showAlert(gettextCatalog.getString('Error'), err);
+            }
+          } else {
+            if (bchLib.Address.isValid(details.toAddress, 'livenet')) {
+              addrNetwork = bchLib.Address(details.toAddress).network;
+              details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+              handlePayPro(details);
+            } else {
+              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+            }
+          }
         });
       } else {
-        var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-        goSend(addr, amount, message, networkURI);
+
+        if (bchLib.Address.isValid(addr, 'livenet')) {
+          addrNetwork = bchLib.Address(addr).network;
+          var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
+          goSend(addr, amount, message, networkURI);
+        } else {
+          return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+        }
       }
       return true;
 
@@ -146,6 +210,17 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
           });
           return;
         }
+
+        var addrNetwork;
+        if (btcLib.Address.isValid(details.toAddress, 'livenet') || btcLib.Address.isValid(details.toAddress, 'testnet')) {
+          addrNetwork = btcLib.Address(details.toAddress).network;
+        } else if (btcLib.Address.isValid(details.toAddress, 'livenet')) {
+          addrNetwork = bchLib.Address(details.toAddress).network;
+        } else {
+          return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+        }
+
+        details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
         handlePayPro(details);
         return true;
       });
@@ -228,7 +303,6 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
     }
 
     return false;
-
   };
 
   function goToAmountPage(toAddress, networkURI) {
@@ -249,6 +323,7 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       toAmount: payProDetails.amount,
       toAddress: payProDetails.toAddress,
       description: payProDetails.memo,
+      networkURI: payProDetails.networkURI,
       paypro: payProDetails
     };
     scannerService.pausePreview();
