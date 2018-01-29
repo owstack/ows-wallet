@@ -5,108 +5,96 @@
   <ion-content>
     <div class="list">
       <div class="item item-divider"></div>
-      <a class="item item-icon-left item-icon-right" ui-sref="tabs.addressbook">
+      <a class="item has-detail item-icon-left item-icon-right" ui-sref="tabs.addressbook">
         <i class="icon list-icon">
           <img src="img/icon-contacts.svg" class="bg"/>
         </i>
-        <span>{{'Address Book' | translate}}</span>
+        <div>{{'Address Book' | translate}}</div>
+        <div class="item-detail">{{addressbookEntryCount}} entries</div>
         <i class="icon arrow-right"></i>
       </a>
       <a class="item item-icon-left item-icon-right" ui-sref="help">
         <i class="icon list-icon">
           <img src="img/icon-help-support.svg" class="bg"/>
         </i>
-        <span>{{'Get Help' | translate }}</span>
+        <div>{{'Get Help' | translate }}</div>
         <i class="icon arrow-right"></i>
       </a>
       <a class="item item-icon-left item-icon-right" ui-sref="tabs.feedback">
         <i class="icon list-icon">
           <img src="img/icon-send-feedback.svg" class="bg"/>
         </i>
-        <span>{{'Give Feedback' | translate}}</span>
+        <div>{{'Give Feedback' | translate}}</div>
         <i class="icon arrow-right"></i>
       </a>
       <a ng-if="isCordova" class="item item-icon-left item-icon-right" ui-sref="tabs.shareApp({score: 4, skipped: true, fromSettings: true})">
         <i class="icon list-icon">
           <img src="img/icon-heart.svg" class="bg"/>
         </i>
-        <span translate>Share {{appName}}</span>
+        <div translate>Share {{appName}}</div>
         <i class="icon arrow-right"></i>
       </a>
-
       <div class="item item-divider">{{'Preferences' | translate}}</div>
-
-      <a class="item item-icon-left item-icon-right" ui-sref="tabs.notifications">
+      <a class="item has-detail item-icon-left item-icon-right" ui-sref="tabs.notifications">
         <i class="icon list-icon">
           <img src="img/icon-notifications.svg" class="bg"/>
         </i>
-        <span>{{'Notifications' | translate}}</span>
+        <div>{{'Notifications' | translate}}</div>
+        <div class="item-detail">
+          <span ng-if="pushNotificationsEnabled" translate>Enabled</span>
+          <span ng-if="!pushNotificationsEnabled" translate>Disabled</span>
+        </div>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item item-icon-left item-icon-right" ui-sref="tabs.networks">
+      <a class="item has-detail item-icon-left item-icon-right" ui-sref="tabs.networks">
         <i class="icon list-icon">
           <img src="img/icon-network.svg" class="bg"/>
         </i>
-        <span>{{'Currency Networks' | translate}}</span>
+        <div>{{'Currency Networks' | translate}}</div>
+        <div class="item-detail">{{availableNetworks.length}}</div>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item has-value item-icon-left item-icon-right" ui-sref="tabs.language">
+      <a class="item has-detail item-icon-left item-icon-right" ui-sref="tabs.language">
         <i class="icon list-icon">
           <img src="img/icon-language.svg" class="bg"/>
         </i>
-        <span class="setting-title">{{'Language' | translate}}</span>
-        <span class="setting-value">
-          {{currentLanguageName|translate}}
-        </span>
+        <div>{{'Language' | translate}}</div>
+        <div class="item-detail">{{currentLanguageName|translate}}</div>
         <i class="icon arrow-right"></i>
       </a>
-      <a class="item has-value item-icon-left item-icon-right" ui-sref="tabs.appLock" ng-if="isCordova || isDevel">
+      <a class="item has-detail item-icon-left item-icon-right" ui-sref="tabs.appLock" ng-if="isCordova || isDevel">
         <i class="icon list-icon">
           <img src="img/icon-locked.svg" class="bg"/>
         </i>
-        <span class="setting-title">{{'App Lock' | translate}}</span>
-        <span class="setting-value">
-          {{method}}
-        </span>
+        <div>{{'App Lock' | translate}}</div>
+        <div class="item-detail">{{appLockMethod}}</div>
         <i class="icon arrow-right"></i>
       </a>
-
       <div class="item item-divider" ng-show="wallets[0]">{{'Wallets' | translate}}</div>
-
       <a class="item item-icon-left item-icon-right" href ui-sref="tabs.preferencesWallet({'walletId': item.id})"
         ng-repeat="item in wallets track by $index">
         <i class="icon sm-icon custom">
           <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
         </i>
-        <span>
-          {{item.name || item.id}}
-          <span class="size-12 text-light" ng-show="item.n > 1">
-            {{item.m}}-of-{{item.n}}
-          </span>
-        </span>
-        <span class="item-note assertive" ng-show="!item.isComplete()">
-          {{'Incomplete' | translate}}
-        </span>
-        <span class="item-note assertive" ng-show="item.isComplete() && item.needsBackup">
-          {{'Backup needed' | translate}}
-        </span>
+        <span>{{item.name || item.id}}</span>
+        <span class="item-note assertive" ng-show="!item.isComplete()">{{'Incomplete' | translate}}</span>
+        <span class="item-note assertive" ng-show="item.isComplete() && item.needsBackup">{{'Backup needed' | translate}}</span>
+        <div class="item-detail" ng-show="item.n > 1">{{item.m}}-of-{{item.n}}</div>
         <i class="icon arrow-right"></i>
       </a>
-
       <div class="item item-divider"></div>
-
       <a class="item item-icon-right item-icon-left" href ui-sref="tabs.advanced">
         <i class="icon list-icon">
           <img src="img/icon-advanced.svg" class="bg"/>
         </i>
-        <span>{{'Advanced' | translate}}</span>
+        <div>{{'Advanced' | translate}}</div>
         <i class="icon arrow-right"></i>
       </a>
       <a class="item item-icon-left item-icon-right" href ui-sref="tabs.about">
         <i class="icon list-icon">
           <img src="img/icon-about.svg" class="bg"/>
         </i>
-        <span>{{'About' | translate}}</span> {{appName}}
+        <div>{{'About' | translate}}  {{appName}}</div>
         <i class="icon arrow-right"></i>
       </a>
       <div class="item item-divider"></div>

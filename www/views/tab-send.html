@@ -27,7 +27,7 @@
         </a>
       </div>
       <div class="list">
-        <a class="item item-icon-left item-md-icon-left item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
+        <a class="item item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
           <i class="icon md-icon">
             <gravatar class="send-gravatar" width="30" name="{{item.name}}" email="{{item.email}}"></gravatar>
           </i>
@@ -44,7 +44,7 @@
         <span translate>Transfer to Wallet</span>
       </div>
       <div class="list">
-        <a class="item item-icon-left item-md-icon-left item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
+        <a class="item item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
           <i class="icon md-icon" ng-if="item.recipientType == 'wallet'">
             <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
           </i>

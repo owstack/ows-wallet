@@ -1,12 +1,10 @@
 click-to-accept {
-
   position: fixed;
   bottom: 0;
-  height: 92px;
+  height: 72px;
   width: 100%;
 
   .click-to-accept {
-
     &__button.button.button-primary.button-standard {
       height: 100%;
       max-width: 9999px;
@@ -44,7 +42,6 @@ click-to-accept {
         margin-right: 10px;
       }
     }
-
   }
 
   @keyframes spin {

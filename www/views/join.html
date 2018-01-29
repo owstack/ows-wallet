@@ -6,37 +6,31 @@
   </ion-nav-bar>
   <ion-content>
     <form name="setupForm" ng-submit="join()" class="setupForm" novalidate>
-      <div class="list settings-input-group">
+      <div class="list">
         <label class="item item-input item-stacked-label">
           <span class="input-label" translate>Your nickname</span>
-          <input type="text"
-          placeholder="Alice"
-          name="myName"
-          ng-model="formData.myName"
-          required>
+          <input type="text" placeholder="Alice" name="myName" ng-model="formData.myName" required>
         </label>
         <div>
           <label class="item item-input item-stacked-label">
-            <span class="input-label" translate>Wallet Invitation</span>
-            <input id="secret"
-                   type="text"
-                   placeholder="{{'Paste invitation here'|translate}}"
-                   name="secret"
-                   ng-model="formData.secret"
-                   ng-change="onSecretChange()"
-                   wallet-secret required>
-            <div class="item-icon-right">
-              <qr-scanner class="size-24" on-scan="onQrCodeScannedJoin(data)"></qr-scanner>
-            </div>
-            <div class="input-notification" ng-class="setupForm.secret.$invalid ? 'error' : 'success'"
-              ng-show="!setupForm.secret.$invalid || (setupForm.secret.$invalid && formData.secret)"></div>
+            <span class="input-label">
+              {{'Wallet Invitation' | translate}}
+              <div class="item-icon-right">
+                <qr-scanner class="size-24" on-scan="onQrCodeScannedJoin(data)"></qr-scanner>
+              </div>
+            </span>
+            <input id="secret" type="text" placeholder="{{'Paste invitation here'|translate}}" name="secret" ng-model="formData.secret"
+              ng-change="onSecretChange()" ng-class="{'correct': !setupForm.secret.$invalid, 'incorrect': setupForm.secret.$invalid}" wallet-secret required>
           </label>
         </div>
 
-        <label class="item item-input no-border" ng-show="networkLabel">
+        <label class="item item-input">
           <div class="item-group">
             <span class="input-label" translate>Currency</span>
-            <span class="right">{{networkLabel}}</span>
+            <span class="right">
+              <span ng-show="networkLabel">{{networkLabel}}</span>
+              <span ng-show="!networkLabel" class="text-disabled" translate>Paste invitation to set</span>
+            </span>
           </div>
         </label>
 
@@ -51,16 +45,13 @@
         <div ng-show="showAdv">
 
           <label class="item item-input item-stacked-label">
-            <span class="input-label">Wallet Service URL</span>
-            <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="formData.walletServiceUrl" placeholder="{{'Paste invitation to set URL'|translate}}">
+            <span class="input-label" translate>Wallet Service URL</span>
+            <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="formData.walletServiceUrl" placeholder="{{'Paste invitation to set'|translate}}">
           </label>
 
           <label class="item item-input item-select">
-            <div class="input-label" translate>
-              Wallet Key
-            </div>
-            <select class="m10t"
-                    ng-model="formData.seedSource"
+            <div class="input-label" translate>Wallet Key</div>
+            <select ng-model="formData.seedSource"
                     ng-options="seed as seed.label for seed in seedOptions"
                     ng-change="resizeView()">
             </select>
@@ -83,7 +74,7 @@
           </label>
 
           <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
-            <ion-toggle ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
+            <ion-toggle class="item-fh" ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
               <div translate>Add a password</div>
               <div class="item-detail" ng-show="formData.seedSource.id == 'new'" translate>
                 Add an optional password to secure the recovery phrase
@@ -136,7 +127,7 @@
             <span class="toggle-label" translate>I have written it down</span>
           </ion-checkbox>
 
-          <div class="item item-vh pt0 pb0" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
+          <div class="item item-fh pt0 pb0" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
             <div class="text-center box-notification error">
               <div class="title" translate>Backup Your Password</div>
               <strong translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</strong>

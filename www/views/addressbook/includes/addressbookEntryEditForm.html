@@ -1,0 +1,54 @@
+<form name="form.addressbookForm" no-validate>
+  <ion-list>
+    <ion-item class="item-input item-stacked-label">
+      <span class="input-label" translate>Name</span>
+      <input type="text" id="name" placeholder="{{'Name' | translate}}" name="name" ng-model="addressbookEntry.name" required>
+    </ion-item>
+    <ion-item class="item-input item-stacked-label">
+      <span class="input-label" translate>Email</span>
+      <input type="text" id="email" placeholder="{{'Email' | translate}}" name="email" ng-model="addressbookEntry.email">
+    </ion-item>
+    <ion-item class="item-divider item-icon-right" ng-if="addressbookEntry.addresses.length > 0" translate>
+      Addresses
+      <div ng-click="toggleDeleteAddressMode()">
+        <i class="icon ion-android-more-vertical"></i>
+      </div>
+    </ion-item>
+    <ion-list show-delete="showDeleteAddress">
+      <ion-item class="item-fh" ng-repeat="a in addressbookEntry.addresses track by $index">
+        <ion-delete-button class="ion-minus-circled" ng-click="deleteAddress($index)"></ion-delete-button>
+        <div class="row">
+          <div class="col item-input item-icon-right">
+            <input type="text" placeholder="{{'Label (optional)' | translate}}" ng-model="a.label">
+            <qr-scanner ng-click="onQrCodeScanFor({{$index}})" on-scan="onQrCodeScanned(data)"
+              Xon-cancel="onQrCodeCancel()"></qr-scanner>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-1 item-select">
+            <select id="{{'net' + $index}}" name="{{'net' + $index}}" ng-model="addressbookEntry.addresses[$index].networkURI"
+              ng-options="network.getURI() as network.getCurrencyLabel() for network in availableNetworks" required>
+              <option value="">Select</option>
+            </select>
+          </div>
+          <div class="col item-input">
+            <input type="text" id="{{'dca' + $index}}" name="{{'dca' + $index}}"
+              placeholder="{{'Digital currency address' | translate}}"
+              ng-model="a.address" ng-class="{'correct': !form.addressbookForm.address{{$index}}.$invalid, 'incorrect': a.address.length > 0 && form.addressbookForm.address{{$index}}.$invalid}" valid-address required>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ion-item class="item-divider"></ion-item>
+    <ion-item class="has-click text-center" ng-click="addAddress()">
+      <span translate>Add Address</span>
+    </ion-item>
+    <ion-item class="item-divider"></ion-item>
+    <div ng-if="entryMode == 'edit'">
+      <ion-item class="has-click text-center" ng-click="deleteContact()">
+        <span class="assertive" translate>Delete Contact</span>
+      </ion-item>
+      <ion-item class="item-divider"></ion-item>
+    </div>
+  </ion-list>
+</form>

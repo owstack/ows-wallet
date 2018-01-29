@@ -1,3 +1,7 @@
+.text-disabled {
+  color: $v-disabled-color;
+}
+
 .text-warning {
   color: $v-warning-color;
 }
@@ -101,6 +105,15 @@
     background-color: $v-error-color;
     border-color: $v-error-color;
     color: $v-white-color;
+
+    .title {
+      &:before {
+        content: "\f128";
+        font-family: "Ionicons";
+        font-size: 18px;
+        margin-right: 10px;
+      }
+    }
   }
 }
 
@@ -146,8 +159,6 @@
  */
 
 .action-selector {
-  @extend .list;
-
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -155,26 +166,8 @@
   background: $v-action-selector-bg !important;
   padding: 0;
   z-index: 2;
-
-  .action-link {
-    @extend .item;
-//      @extend .item-sub;
-    @extend .item-icon-left;
-    @extend .item-lg-icon-left;
-    @extend .item-icon-right;
-
-    cursor: pointer;
-    cursor: hand;
-
-    &.activated {
-      background: inherit;
-      border: inherit;
-    }
-  }
-
-  .action-detail {
-    @extend .item-detail;
-  }
+  cursor: pointer;
+  cursor: hand;
 
   &:before {
     content: "\f3d8";
@@ -186,6 +179,14 @@
     right: 15px;
     transform: translateY(-50%);
     z-index: 3;
+  }
+
+  &.list .item {
+    background: none !important;
+
+    &:before {
+      background: none !important;
+    }
   }
 }
 

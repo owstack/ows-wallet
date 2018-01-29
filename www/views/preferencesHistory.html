@@ -9,20 +9,20 @@
     <div class="list">
       <a class="item link" href ng-show="csvReady && !isCordova" ng-csv="csvContent" csv-header="csvHeader"
         filename="{{appName}}-{{wallet.name}}.csv">
-        <span translate>Export to file</span>
+        <div translate>Export to file</div>
       </a>
-      <a class="item" href ng-show="!csvReady && !isCordova" ng-class="{'link': !err}">
-        <span translate>Export to file</span>
-        <span class="item-note" ng-show="!err" translate>
+      <a class="item has-detail" href ng-show="!csvReady && !isCordova" ng-class="{'link': !err}">
+        <div translate>Export to file</div>
+        <div class="item-detail" ng-show="!err" translate>
           Preparing...
-        </span>
-        <span class="item-note" ng-show="err">
+        </div>
+        <div class="item-detail" ng-show="err">
           {{err | translate}}
-        </span>
+        </div>
       </a>
-      <div ng-show="!isCordova" class="item item-divider"></div>
+      <div class="item item-divider"></div>
       <a class="item link" ng-click="clearTransactionHistory()">
-        <span translate>Resynchonize with wallet service</span>
+        <div translate>Resynchonize with wallet service</div>
       </a>
       <div class="settings-explanation">
         <div class="settings-description" translate>

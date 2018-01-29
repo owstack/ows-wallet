@@ -1,29 +1,20 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('addressbookListController', function($scope, $log, $timeout, addressbookService, lodash, popupService, gettextCatalog, networkService) {
-
+angular.module('owsWalletApp.controllers').controller('addressbookListController', function($scope, $log, $timeout, addressbookService, lodash) {
+  
   var contacts;
 
   var initAddressbook = function() {
     addressbookService.list(function(err, ab) {
-      if (err) $log.error(err);
+      if (err) {
+        $log.error(err.message);
+      }
+      contacts = ab;
 
       $scope.isEmptyList = lodash.isEmpty(ab);
+      $scope.showAddIcon = !$scope.isEmptyList;
+      $scope.addressbook = lodash.clone(ab);
 
-      if (!$scope.isEmptyList) $scope.showAddIcon = true;
-      else $scope.showAddIcon = false;
-
-      contacts = [];
-      lodash.each(ab, function(v, k) {
-        contacts.push({
-          name: lodash.isObject(v) ? v.name : v,
-          networkURI: lodash.isObject(v) ? v.networkURI : v,
-          address: k,
-          email: lodash.isObject(v) ? v.email : null
-        });
-      });
-
-      $scope.addressbook = lodash.clone(contacts);
       $timeout(function() {
         $scope.$apply();
       });
@@ -52,9 +43,5 @@ angular.module('owsWalletApp.controllers').controller('addressbookListController
     $scope.addrSearch = { value: null };
     initAddressbook();
   });
-
-  $scope.currencyFor = function(networkURI) {
-    return networkService.parseCurrency(networkURI);
-  };
 
 });

@@ -7,7 +7,9 @@ angular.module('owsWalletApp.controllers').controller('proposalsController',
 
     $scope.$on("$ionicView.enter", function(event, data) {
       addressbookService.list(function(err, ab) {
-        if (err) $log.error(err);
+        if (err) {
+          $log.error(err.message);
+        }
         $scope.addressbook = ab || {};
 
         profileService.getTxps(50, function(err, txps) {

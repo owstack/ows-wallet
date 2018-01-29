@@ -2,7 +2,7 @@
   <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
   <div class="header">{{title}}</div>
   <a ng-repeat="w in wallets track by $index"
-    class="item item-icon-left item-lg-icon-left item-icon-right wallet-outer"
+    class="item item-icon-left icon-left-lg item-icon-right wallet-outer"
     ng-click="selectWallet(w)">
       <i class="icon lg-icon">
         <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !w.color}" ng-style="{'background-color': w.color}"></div>

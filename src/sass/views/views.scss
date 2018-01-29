@@ -16,9 +16,9 @@
 @import "export";
 @import "all-wallets";
 
-@import "address-book";
-@import "address-book-add";
-@import "address-book-entry";
+@import "addressbook/addressbook";
+@import "addressbook/addressbook-entry";
+@import "addressbook/addressbook-entry-edit";
 @import "addresses";
 @import "preferences-networks";
 @import "preferences-notifications";
@@ -58,7 +58,9 @@
 @import "includes/wallet-item";
 @import "includes/wallets";
 @import "includes/modals/modals";
+@import "includes/modals/backup-needed-modal";
 @import "includes/modals/choose-fee-level";
+@import "includes/modals/screenshot-warning-modal";
 @import "includes/modals/wallets";
 @import "includes/clickToAccept";
 @import "includes/incomingDataMenu";

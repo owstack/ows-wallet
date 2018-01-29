@@ -1,44 +1,57 @@
 <ion-modal-view id="choose-fee-level" ng-controller="feeLevelsController">
   <ion-header-bar align-title="center" class="bar-royal">
-    <div class="title">
-      {{'Network Fee Policy'|translate}}
-    </div>
-    <button
-      ng-disabled="customFeePerKB && !customAtomicPerByte.value"
-      class="button button-clear" ng-click="ok()" translate>
+    <div class="title">{{'Network Fee Policy'|translate}}</div>
+    <button class="button button-clear" ng-disabled="customFeePerKB && !customAtomicPerByte.value" ng-click="ok()" translate>
       Done
     </button>
   </ion-header-bar>
   <ion-content>
     <div class="box-notification warning" ng-if="isTestnet=(networkURI)">
-      Testnet
-    </div>
-    <div class="row selected-fee-level" ng-show="feeLevel">
-      <div class="col time" ng-if="!customFeePerKB">
-        <div class="value">
-          <span ng-if="avgConfirmationTime">
-            {{avgConfirmationTime | amDurationFormat: 'minute'}}
-          </span>
-          <span ng-if="loadingFee">...</span>
-        </div>
-        <span translate>Average confirmation time</span>
+      <div class="title">
+        {{'Fees are for' | translate}} {{networkLabel}}.
       </div>
-      <div class="col rate" ng-class="{'separator': !customFeePerKB}">
-        <div ng-if="!customFeePerKB">
-          <div class="value">
-            <span ng-if="feePerAtomicByte && !loadingFee">
-              {{feePerAtomicByte}} {{atomicUnit.shortName}}/byte
-            </span>
-            <span ng-if="loadingFee">...</span>
+    </div>
+    <div class="box-notification error" ng-if="showError">
+      <div class="title" translate>
+        Transactions without fee are not supported.
+      </div>
+    </div>
+    <div class="box-notification error" ng-if="showMinWarning || showMaxWarning">
+      <div class="title" ng-if="showMinWarning" translate>
+        Your fee is lower than recommended.
+      </div>
+      <div class="title" ng-if="showMaxWarning" translate>
+        You should not set a fee higher than {{maxFeeRecommended}} {{atomicUnit.shortName}}/byte.
+      </div>
+    </div>
+    <div ng-show="feeLevel">
+      <div class="fee-header">
+        <div class="row selected-fee-level" ng-if="!customFeePerKB">
+          <div class="col time">
+            <div class="value">
+              <span ng-if="avgConfirmationTime">
+                {{avgConfirmationTime | amDurationFormat: 'minute'}}
+              </span>
+              <span ng-if="loadingFee">...</span>
+              <div class="label" translate>Average confirmation time</div>
+            </div>
           </div>
-          <span translate>Current fee rate for this policy</span>
+          <div class="col rate separator">
+            <div class="value">
+              <span ng-if="feePerAtomicByte && !loadingFee">
+                {{feePerAtomicByte}} {{atomicUnit.shortName}}/byte
+              </span>
+              <span ng-if="loadingFee">...</span>
+              <div class="label" translate>Current fee rate for this policy</div>
+            </div>
+          </div>
         </div>
-        <div ng-if="customFeePerKB">
-          <div class="list">
-            <label class="item item-input">
-              <input
+        <div class="list" ng-if="customFeePerKB">
+          <label class="item item-input item-stacked-label">
+            <span class="input-label" translate>Enter custom fee</span>
+            <input
               type="number"
-              placeholder="{{'Enter custom fee'|translate}}"
+              placeholder="{{'Enter fee'|translate}}"
               ng-min="minFeeAllowed"
               ng-max="maxFeeAllowed"
               min="minFeeRecommended"
@@ -46,39 +59,15 @@
               ng-change="checkFees(customAtomicPerByte.value)"
               ng-model="customAtomicPerByte.value"
               ng-required="customFeePerKB">
-              <span class="unit">{{atomicUnit.shortName}}/byte</span>
-            </label>
-          </div>
-          <div class="error-fee">
-            <div ng-if="showError">
-              <i class="icon ion-close-circled"></i>
-              <span translate>
-                Transactions without fee are not supported.
-              </span>
-            </div>
-            <div ng-if="showMinWarning || showMaxWarning">
-              <i class="icon ion-alert-circled"></i>
-              <span ng-if="showMinWarning" translate>
-                Your fee is lower than recommended.
-              </span>
-              <span ng-if="showMaxWarning" translate>
-                You should not set a fee higher than {{maxFeeRecommended}} {{atomicUnit.shortName}}/byte.
-              </span>
-            </div>
-          </div>
+            <span class="unit">{{atomicUnit.shortName}}/byte</span>
+          </label>
         </div>
       </div>
+      <div class="list fee-policies">
+        <ion-radio ng-repeat="(fee, level) in feeOpts" ng-value="fee" ng-model="selectedFee.value">
+          {{level | translate}}
+        </ion-radio>
+      </div>
     </div>
-
-    <div class="list" ng-show="feeLevel">
-      <label class="item item-input item-select">
-        <div class="input-label" translate>
-          Fee level
-        </div>
-        <select ng-options="fee as level | translate for (fee,level) in feeOpts" ng-model="selectedFee.value">
-        </select>
-      </label>
-    </div>
-
   </ion-content>
 </ion-modal-view>

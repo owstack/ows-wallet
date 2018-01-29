@@ -54,7 +54,21 @@
         </div>
       </div>
     </div>
-    <div class="action-selector" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
+    <div class="action-selector list" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
+      <div class="item item-fh item-icon-left icon-left-lg">
+        <i class="icon lg-icon">
+          <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+        </i>
+        <span>{{wallet.name || wallet.id}}</span>
+        <div class="item-detail">
+          <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr}} </span>
+          <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
+          <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
+          <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
+        </div>
+      </div>
+<!--
+
       <div class="action-link">
         <i class="icon lg-icon">
           <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
@@ -67,6 +81,7 @@
           <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
         </div>
       </div>
+-->
     </div>
   </ion-content>
   <wallet-selector

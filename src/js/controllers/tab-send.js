@@ -59,7 +59,7 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
   var updateContactsList = function(cb) {
     addressbookService.list(function(err, ab) {
       if (err) {
-        $log.error(err);
+        $log.error(err.message);
       }
 
       $scope.hasContacts = lodash.isEmpty(ab) ? false : true;
@@ -171,8 +171,7 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
       walletId: $scope.walletId
     }, {}, {
       type: 'slide',
-      direction: 'right',
-      duration: 200
+      direction: 'right'
     });
   };
 

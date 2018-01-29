@@ -1,35 +1,46 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('tabSettingsController', function($rootScope, $timeout, $scope, appConfigService, $log, lodash, uxLanguage, platformInfo, profileService, feeService, configService, storageService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('tabSettingsController', function($timeout, $scope, appConfigService, uxLanguage, platformInfo, profileService, configService, gettextCatalog, networkService, addressbookService) {
 
-  var updateConfig = function() {
+  var setScope = function() {
+    $scope.isCordova = platformInfo.isCordova;
+    $scope.isDevel = platformInfo.isDevel;
+    $scope.appName = appConfigService.nameCase;
     $scope.currentLanguageName = uxLanguage.getCurrentLanguageName();
     $scope.wallets = profileService.getWallets();
 
     configService.whenAvailable(function(config) {
+      addressbookService.list(function(err, ab) {
+        if (!err) {
+          $scope.addressbookEntryCount = Object.keys(ab).length;
+        }
+      });
+
+      $scope.availableNetworks = networkService.getNetworks();
+      $scope.pushNotificationsEnabled = config.pushNotificationsEnabled;
+
       $scope.unitName = config.wallet.settings.unitName;
       $scope.selectedAlternative = {
         name: config.wallet.settings.alternativeName,
         isoCode: config.wallet.settings.alternativeIsoCode
       };
+
+      var locked = config.lock && config.lock.method;
+
+      if (!locked || locked == 'none'){
+        $scope.appLockMethod = gettextCatalog.getString('Disabled');
+      } else {
+        $scope.appLockMethod = $scope.locked.charAt(0).toUpperCase() + config.lock.method.slice(1);
+      }
     });
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.isCordova = platformInfo.isCordova;
-    $scope.isDevel = platformInfo.isDevel;
-    $scope.appName = appConfigService.nameCase;
-    configService.whenAvailable(function(config) {
-      $scope.locked = config.lock && config.lock.method;
-      if (!$scope.locked || $scope.locked == 'none')
-        $scope.method = gettextCatalog.getString('Disabled');
-      else
-        $scope.method = $scope.locked.charAt(0).toUpperCase() + config.lock.method.slice(1);
-    });
+    setScope();
   });
 
   $scope.$on("$ionicView.enter", function(event, data) {
-    updateConfig();
+    setScope();
   });
 
 });

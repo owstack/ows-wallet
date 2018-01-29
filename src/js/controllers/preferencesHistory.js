@@ -147,7 +147,8 @@ angular.module('owsWalletApp.controllers').controller('preferencesHistory',
       });
     };
 
-    $scope.$on("$ionicView.enter", function(event, data) {
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.csvHistory();
     });
+
   });

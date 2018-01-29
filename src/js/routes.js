@@ -343,11 +343,11 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.send.addressbook', {
-        url: '/addressbook/add/:fromSendTab/:addressbookEntry',
+        url: '/addressbook/add/:fromSendTab',
         views: {
           'tab-send@tabs': {
-            templateUrl: 'views/addressbookAdd.html',
-            controller: 'addressbookAddController'
+            templateUrl: 'views/addressbook/addressbookEntryEdit.html',
+            controller: 'addressbookEntryEditController'
           }
         }
       })
@@ -695,7 +695,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/addressbook',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook.html',
+            templateUrl: 'views/addressbook/addressbook.html',
             controller: 'addressbookListController'
           }
         }
@@ -704,17 +704,26 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/add',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbookAdd.html',
-            controller: 'addressbookAddController'
+            templateUrl: 'views/addressbook/addressbookEntryEdit.html',
+            controller: 'addressbookEntryEditController'
           }
         }
       })
       .state('tabs.addressbook.entry', {
-        url: '/entry/:networkURI/:address/:email/:name',
+        url: '/entry/:id',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbookEntry.html',
+            templateUrl: 'views/addressbook/addressbookEntry.html',
             controller: 'addressbookEntryController'
+          }
+        }
+      })
+      .state('tabs.addressbook.edit', {
+        url: '/edit/:id',
+        views: {
+          'tab-settings@tabs': {
+            templateUrl: 'views/addressbook/addressbookEntryEdit.html',
+            controller: 'addressbookEntryEditController'
           }
         }
       })

@@ -1,15 +1,23 @@
 /***********
  *
- *  Icon presentation example.
+ *  Icon presentation examples.
  *
- *  <i class="icon lg-icon">
- *    <div class="bg wallet-icon"></div>
- *  </i>
+ *   Shaped icon:
+ *
+ *   <i class="icon lg-icon">
+ *     <div class="bg wallet-icon"></div>
+ *   </i>
+ *
+ *   img tag icon:
+ *
+ *   <i class="icon md-icon">
+ *     <img class="bg" ng-src="img/my-icon.svg">
+ *   </i>
  *
  **********/
 
 /*
- * Icon image assignments. Each icon entry defines a new icon for use in views.
+ * Shaped icon image assignments. Each icon entry defines a new icon for use in views.
  */
 
 .bg {
@@ -26,29 +34,18 @@
   }
 
   &.user-icon {
+//    background-color: $v-icon-color;
     @include icon-image('../img/icon-contact-placeholder.svg', 60%);
-  }
-
-  &.btc-icon {
-    @include icon-image('../img/currency-icons/icon-btc.svg', 60%);
-  }
-
-  &.bch-icon {
-    @include icon-image('../img/currency-icons/icon-bch.svg', 60%);
-  }
-
-  &.icon-wide {
-    width: 30px;
-    margin-left: -5px;
   }
 }
 
 /*
  * Draw an icon background using the icon-shape().
  * Must provide a background-color for the shape to be visible.
+ * Classes also usable with explicit img tags.
  *
- * Used for large wallet icon
-*/
+ * Used for large shaped (wallet) and img icon
+ */
 
 .lg-icon {
   padding: 0 7px;
@@ -57,6 +54,7 @@
     margin: 0 auto !important;
   }
 
+  // Icon with shape
   > .bg {
     @include icon-shape(40px, 40px);
 
@@ -73,6 +71,16 @@
     }
   }
 
+  // Icon with explicit img
+  > img.bg {
+    height: 40px;
+  }
+
+  &.wide-icon > img.bg {
+    width: 50px;
+    margin-left: -10px;
+  }
+
   &.shadow {
     > .bg {
       @include icon-shape(40px, 40px, $v-hovering-box-shadow);
@@ -81,7 +89,7 @@
 }
 
 /*
- * Used for medium wallet icon
+ * Used for medium shaped (wallet) and img icon
  */
 
 .md-icon {
@@ -91,8 +99,19 @@
     margin: 0 auto !important;
   }
 
+  // Icon with shape
   > .bg {
     @include icon-shape(30px, 30px);
+  }
+
+  // Icon with explicit img
+  > img.bg {
+    height: 20px;
+  }
+
+  &.wide-icon > img.bg {
+    width: 40px;
+    margin-left: -8px;
   }
 
   &.shadow {
@@ -103,7 +122,7 @@
 }
 
 /*
- * Used for small wallet icon
+ * Used for small shaped (wallet) and img icon
  */
 
 .sm-icon {
@@ -113,8 +132,19 @@
     margin: 0 auto !important;
   }
 
+  // Icon with shape
   > .bg {
     @include icon-shape(20px, 20px);
+  }
+
+  // Icon with explicit img
+  > img.bg {
+    height: 18px;
+  }
+
+  &.wide-icon > img.bg {
+    width: 25px;
+    margin-left: -3px;
   }
 
   &.shadow {
@@ -139,6 +169,11 @@
   > .bg {
     @include icon-shape(20px, 20px);
     border-radius: 0 !important;
+  }
+
+  &.wide-icon > img.bg {
+    width: 30px;
+    margin-left: -5px;
   }
 }
 

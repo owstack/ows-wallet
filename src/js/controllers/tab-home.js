@@ -102,7 +102,9 @@ angular.module('owsWalletApp.controllers').controller('tabHomeController',
       updateAllWallets();
 
       addressbookService.list(function(err, ab) {
-        if (err) $log.error(err);
+        if (err) {
+          $log.error(err.message);
+        }
         $scope.addressbook = ab || {};
       });
 

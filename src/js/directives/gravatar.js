@@ -5,6 +5,7 @@ angular.module('owsWalletApp.directives')
     return {
       restrict: 'AE',
       replace: true,
+      template: '<img class="gravatar" alt="{{ name }}" height="{{ height }}"  width="{{ width }}" src="https://secure.gravatar.com/avatar/{{ emailHash }}.jpg?s={{ width }}&d=mm">',
       scope: {
         name: '@',
         height: '@',
@@ -12,10 +13,17 @@ angular.module('owsWalletApp.directives')
         email: '@'
       },
       link: function(scope, el, attr) {
-        if (typeof scope.email === "string") {
+        function refresh() {
           scope.emailHash = md5.createHash(scope.email.toLowerCase() || '');
         }
-      },
-      template: '<img class="gravatar" alt="{{ name }}" height="{{ height }}"  width="{{ width }}" src="https://secure.gravatar.com/avatar/{{ emailHash }}.jpg?s={{ width }}&d=mm">'
+
+        scope.$watch("email",function(newValue, oldValue) {
+          refresh();
+        });
+
+        if (typeof scope.email === "string") {
+          refresh();
+        }
+      }
     };
   });

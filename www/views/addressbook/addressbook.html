@@ -1,4 +1,4 @@
-<ion-view id="address-book" hide-tabs>
+<ion-view id="addressbook" hide-tabs>
   <ion-nav-bar class="bar-royal">
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -30,18 +30,12 @@
         </label>
       </div>
       <div class="list">
-        <a class="item item-icon-left item-lg-icon-left item-icon-right" ng-repeat="addrEntry in addressbook"
-          ui-sref="tabs.addressbook.entry({networkURI:addrEntry.networkURI, address:addrEntry.address, email: addrEntry.email, name: addrEntry.name})">
+        <a class="item item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
+          ui-sref="tabs.addressbook.entry({id: addressbookEntry.id})">
           <i class="icon lg-icon">
-            <gravatar class="send-gravatar" width="40" name="{{addrEntry.name}}" email="{{addrEntry.email}}"></gravatar>
+            <gravatar class="send-gravatar" width="40" name="{{addressbookEntry.name}}" email="{{addressbookEntry.email}}"></gravatar>
           </i>
-          <div class="name">{{addrEntry.name}}</div>
-          <div class="item-detail item-icon-left icon-inline">
-            <i class="icon md-icon">
-              <div class="bg" ng-class="currencyFor(addrEntry.networkURI) + '-icon'"></div>
-            </i>
-            <span class="ellipsis">{{addrEntry.address}}</span>
-          </div>
+          <div class="name">{{addressbookEntry.name}}</div>
           <i class="icon arrow-right"></i>
         </a>
       </div>

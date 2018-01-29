@@ -50,8 +50,7 @@ angular.module('owsWalletApp.controllers').controller('disclaimerController', fu
       walletId: $stateParams.walletId
     }, {}, {
       type: 'slide',
-      direction: 'right',
-      duration: 200
+      direction: 'right'
     });
   }
 

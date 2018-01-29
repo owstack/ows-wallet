@@ -1,0 +1,20 @@
+#addressbook {
+  background: $v-addressbook-bg;
+  color: $v-addressbook-color;
+
+  @include common;
+
+  .scroll {
+    height: 100%;
+  }
+
+  .icon-inline {
+    position: relative;
+    left: -15px;
+    padding-left: 50px;
+  }
+
+  .zero-state-cta {
+    padding-bottom: 3vh;
+  }
+}

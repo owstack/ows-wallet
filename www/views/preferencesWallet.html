@@ -44,9 +44,9 @@
           <span translate>
             If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected.
           </span>
-          <div class="box-notification warning" ng-show="wallet.needsBackup" translate>
-            <div class="title">Backup Required</div>
-            <div>This wallet must be backed up before a spending password can be created.</div>
+          <div class="box-notification warning" ng-show="wallet.needsBackup">
+            <div class="title" translate>Backup Required</div>
+            <div translate>This wallet must be backed up before a spending password can be created.</div>
           </div>
         </div>
       </div>

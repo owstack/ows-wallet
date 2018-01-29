@@ -3,7 +3,7 @@ slide-to-accept {
   bottom: 0;
   height: 72px;
   width: 100%;
-  background: $v-slide-bg-color;
+  background: $v-slide-bg;
 
   @mixin center-vertically {
     display: flex;
@@ -19,11 +19,12 @@ slide-to-accept {
       overflow: hidden;
       position: relative;
     }
+
     &__slider {
       @include center-vertically;
       height: 100%;
       width: 100%;
-      background: $v-slide-tip-bg-color;
+      background: $v-slide-tip-bg;
       -webkit-transform: translateX(0);
       transform: translateX(0);
       margin-left: -100%;
@@ -34,7 +35,7 @@ slide-to-accept {
         content: '';
         width: 10000px;
         left: -10000px + 1;
-        background: $v-slide-tip-bg-color;
+        background: $v-slide-tip-bg;
       }
 
       &::after {
@@ -42,7 +43,7 @@ slide-to-accept {
         content: '';
         width: 15px;
         right: -10px;
-        background: $v-slide-tip-bg-color;
+        background: $v-slide-tip-bg;
       }
 
       > i {
@@ -58,7 +59,7 @@ slide-to-accept {
         @include center-vertically;
         width: 70px;
         height: 72px;
-        background: $v-slide-tip-bg-color;
+        background: $v-slide-tip-bg;
         right: -70px;
         border-radius: 0 15px 15px 0;
         top: 50%;
@@ -67,6 +68,7 @@ slide-to-accept {
         box-shadow: $v-slide-shadow;
       }
     }
+
     &__tip-icon {
       @include center-vertically;
       left: 20px;
@@ -78,6 +80,7 @@ slide-to-accept {
         height: 40px;
       }
     }
+
     &__button-text {
       @include center-vertically;
 
@@ -85,7 +88,7 @@ slide-to-accept {
       top: 0;
       left: 0;
       width: 100%;
-      color: $v-slide-text-color;
+      color: $v-slide-color;
       font-size: 20px;
       z-index: 1;
       margin-left: 25px;
@@ -99,7 +102,7 @@ slide-to-accept {
     &__status-text {
       @include center-vertically;
       justify-content: center;
-      color: $v-slide-text-color;
+      color: $v-slide-color;
       z-index: 4;
       width: 100%;
       font-size: 17px;

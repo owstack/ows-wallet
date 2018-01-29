@@ -6,20 +6,20 @@
   </ion-nav-bar>
   <ion-content>
     <div class="list">
-      <div class="box-notification warning" ng-if="!PNEnabledByUser && isIOSApp" translate>
-        Push notifications for {{appName}} are currently disabled. Enable them in the Settings app.
+      <div class="box-notification warning" ng-if="!PNEnabledByUser && isIOSApp">
+        <div class="title" translate>Push Notification Disabled</div>
+        Push notifications for {{appName}} are currently disabled. Enable them in the device Settings app.
       </div>
       <div class="item item-divider"></div>
-      <div ng-if="PNEnabledByUser">
-        <ion-toggle ng-model="pushNotifications.value" toggle-class="toggle-positive" ng-change="pushNotificationsChange()" ng-if="usePushNotifications">
+      <div class="item" ng-if="usePushNotifications && PNEnabledByUser">
+        <ion-toggle ng-model="pushNotifications.value" toggle-class="toggle-positive" ng-change="pushNotificationsChange()">
           <span class="toggle-label" translate>Enable push notifications</span>
         </ion-toggle>
       </div>
-      <div ng-if="usePushNotifications && pushNotifications.value">
-        <ion-toggle ng-model="confirmedTxsNotifications.value" toggle-class="toggle-positive" ng-change="confirmedTxsNotificationsChange()">
-          <span class="toggle-label" translate>Notify me when transactions are confirmed</span>
-        </ion-toggle>
-      </div>
+      <ion-toggle ng-model="confirmedTxsNotifications.value" toggle-class="toggle-positive" ng-change="confirmedTxsNotificationsChange()"
+        ng-if="usePushNotifications && pushNotifications.value">
+        <span class="toggle-label" translate>Notify me when transactions are confirmed</span>
+      </ion-toggle>
       <ion-toggle ng-model="emailNotifications.value" toggle-class="toggle-positive" ng-change="emailNotificationsChange()">
         <span class="toggle-label" translate>Enable email notifications</span>
       </ion-toggle>
@@ -28,12 +28,13 @@
           You'll receive email notifications about payments sent and received from your wallets.
         </div>
         <form name="emailForm" ng-submit="save()" novalidate>
-          <div class="settings-input-group m20b">
+          <div>
             <label class="item item-input item-stacked-label">
               <span class="input-label" translate>Email Address</span>
               <input type="email" id="email" name="email" placeholder="{{'Email'|translate}}" ng-model="newEmail.value" required></input>
             </label>
           </div>
+          <div class="item item-divider"></div>
           <button type="submit" class="button button-standard button-primary"
             ng-disabled="emailForm.$invalid || (newEmail.value == latestEmail.value)" translate>Save
           </button>

@@ -1,9 +1,15 @@
 wallet-selector {
-  $border-color: $v-subtle-gray;
+  .item {
+    background: none;
+
+    &.activated {
+      background: none;
+    }
+  }
 
   .w-action-sheet__sheet {
     padding-left: 2rem;
-    padding-right: .75rem;
+    padding-right: 0.75rem;
   }
 
   .wallet-selector {
@@ -20,10 +26,6 @@ wallet-selector {
         margin-left: -5px;
       }
     }
-
-    .item-icon-left {
-      padding-left: 64px;
-    }
     
     .wallet-inner {
       width: 100%;
@@ -38,7 +40,7 @@ wallet-selector {
         position: absolute;
         width: 100%;
         height: 1px;
-        background: $border-color;
+        background: $v-action-sheet-border-color;
         bottom: 0;
         right: 0;
         content: '';
@@ -61,7 +63,7 @@ wallet-selector {
       }
 
       .wallet-balance {
-        color: $v-dark-gray;
+        color: $v-action-sheet-secondary-color;
         font-family: $v-font-family-light;
       }
     }

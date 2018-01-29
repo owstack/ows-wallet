@@ -81,8 +81,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesWalletControll
         walletId: walletId
       }, {}, {
         type: 'slide',
-        direction: 'right',
-        duration: 200
+        direction: 'right'
       });
     };
 

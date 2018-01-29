@@ -10,6 +10,7 @@ angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, g
     protocol: 'bitcoincash',
     getURI: function() { return networkHelpers.getURI(this) },
     getCurrencyLabel: function() { return networkHelpers.getCurrencyLabel(this) },
+    getCurrencyLongLabel: function() { return networkHelpers.getCurrencyLongLabel(this) },
     getNetLabel: function() { return networkHelpers.getNetLabel(this) },
     getFriendlyNetLabel: function() { return networkHelpers.getFriendlyNetLabel(this) },
     walletClient: {

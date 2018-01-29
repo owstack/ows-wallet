@@ -1,6 +1,6 @@
-#address-book-entry {
-  background: $v-address-book-bg;
-  color: $v-address-book-color;
+#addressbook-entry {
+  background: $v-addressbook-bg;
+  color: $v-addressbook-color;
 
   @include common;
 
@@ -13,8 +13,7 @@
   }
 
   .gravatar-content {
-    height: 70px;
-    padding-top: 20px;
+    margin-top: 20px;
     margin-bottom: 50px;
     text-align: center;
   }

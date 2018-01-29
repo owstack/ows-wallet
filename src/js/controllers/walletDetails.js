@@ -411,7 +411,9 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
     $scope.hasBalance = ($scope.status.spendableAmount > 0);
 
     addressbookService.list(function(err, ab) {
-      if (err) $log.error(err);
+      if (err) {
+        $log.error(err.message);
+      }
       $scope.addressbook = ab || {};
     });
 

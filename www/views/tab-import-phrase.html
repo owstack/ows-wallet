@@ -13,15 +13,17 @@
   <div class="list settings-input-group">
     <div>
       <label class="item item-input item-stacked-label">
-        <span class="input-label" translate>Type the Recovery Phrase (usually 12 words)</span>
+        <span class="input-label">
+          {{'Type the Recovery Phrase (usually 12 words)' | translate}}
+          <div class="item-icon-right">
+            <qr-scanner class="size-24" on-scan="processWalletInfo(data)"></qr-scanner>
+          </div>
+        </span>
         <textarea ng-model="formData.words" rows="5" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
-        <div class="item-icon-right">
-          <qr-scanner class="size-24" on-scan="processWalletInfo(data)"></qr-scanner>
-        </div>
       </label>
       <label class="item item-input item-select">
-        <div class="input-label" translate>Currency</div>
-        <select class="m10t" ng-model="formData.network" ng-options="network as network.getCurrencyLabel() for network in availableNetworks"
+        <span class="input-label" translate>Currency</span>
+        <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
           ng-change=" onNetworkChange(); resizeView();"></select>
       </label>
     </div>
@@ -45,8 +47,8 @@
         <span class="toggle-label" translate>From Hardware Wallet</span>
       </ion-toggle>
       <label class="item item-input item-select" ng-if="fromHardwareWallet.value">
-        <div class="input-label" translate>Wallet Type</div>
-        <select class="m10t" ng-model="formData.seedSourceAll" ng-options="seed as seed.label for seed in seedOptionsAll"></select>
+        <span class="input-label" translate>Wallet Type</span>
+        <select ng-model="formData.seedSourceAll" ng-options="seed as seed.label for seed in seedOptionsAll"></select>
       </label>
       <ion-toggle ng-show="formData.testnetSupported"
         ng-model="formData.testnetSelected" toggle-class="toggle-positive">

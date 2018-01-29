@@ -395,12 +395,12 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
   };
 
   $scope.showDescriptionPopup = function(tx) {
-    var message = gettextCatalog.getString('Add description');
+    var message = gettextCatalog.getString('Set Memo');
     var opts = {
       defaultText: tx.description
     };
 
-    popupService.showPrompt(null, message, opts, function(res) {
+    popupService.showPrompt(message, null, opts, function(res) {
       if (typeof res != 'undefined') tx.description = res;
       $timeout(function() {
         $scope.$apply();

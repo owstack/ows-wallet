@@ -7,7 +7,7 @@
   <div ng-show="seedOptions[0]">
     <div class="list settings-input-group">
       <label class="item item-input item-select">
-        <div class="input-label" translate>Wallet Type</div>
+        <span class="input-label" translate>Wallet Type</span>
         <select ng-model="formData.seedSource" ng-options="seed as seed.label for seed in seedOptions"></select>
       </label>
       <label class="item item-input item-stacked-label" ng-show="formData.seedSource.id == 'trezor' || formData.seedSource.id == 'ledger'">

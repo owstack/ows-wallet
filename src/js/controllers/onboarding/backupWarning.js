@@ -23,8 +23,7 @@ angular.module('owsWalletApp.controllers').controller('backupWarningController',
           walletId: $scope.walletId
         }, {}, {
           type: 'slide',
-          direction: 'right',
-          duration: 200
+          direction: 'right'
         });
       }, 200);
     };
@@ -35,8 +34,7 @@ angular.module('owsWalletApp.controllers').controller('backupWarningController',
       walletId: $scope.walletId
     }, {}, {
       type: 'slide',
-      direction: 'right',
-      duration: 200
+      direction: 'right'
     });
   };
 

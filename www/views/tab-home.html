@@ -56,7 +56,7 @@
         <span translate>Wallets</span>
         <a ui-sref="tabs.add" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
       </div>
-      <a ng-if="!wallets[0]" ui-sref="tabs.add" class="item item-icon-left item-lg-icon-left item-icon-right next-step">
+      <a ng-if="!wallets[0]" ui-sref="tabs.add" class="item item-icon-left icon-left-lg item-icon-right next-step">
        <i class="icon lg-icon">
          <div class="bg wallet-icon icon-create-wallet"></div>
        </i>
@@ -65,7 +65,7 @@
       </a>
       <div class="list">
         <a ng-repeat="wallet in wallets | filter:{layout: {group: {id:'favorite'}}}:strict | orderBy:'layout.group.ordinal' track by $index"
-          class="item item-icon-left item-lg-icon-left item-icon-right wallet" ng-click="openWallet(wallet)">
+          class="item item-fh item-icon-left icon-left-lg item-icon-right" ng-click="openWallet(wallet)">
           <i class="icon lg-icon shadow">
             <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
           </i>

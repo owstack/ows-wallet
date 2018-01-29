@@ -8,7 +8,11 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function() {
   };
 
   root.getCurrencyLabel = function(obj) {
-  	return obj.name + ' (' + obj.currency.toUpperCase() + ')';
+    return (obj.net == 'testnet' ? 't' : '') + obj.currency.toUpperCase();
+  };
+
+  root.getCurrencyLongLabel = function(obj) {
+    return obj.name + ' (' + root.getCurrencyLabel() + ')';
   };
 
   root.getNetLabel = function(obj) {

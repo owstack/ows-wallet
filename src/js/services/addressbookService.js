@@ -3,34 +3,88 @@
 angular.module('owsWalletApp.services').factory('addressbookService', function(storageService, lodash, $log, networkService) {
   var root = {};
 
-  root.get = function(addr, cb) {
+  var errorSpec = [{
+    name: 'READ_AB_ERROR',
+    title: 'Error',
+    message: 'Could not read the addressbook.'
+  }, {
+    name: 'REMOVE_AB_ERROR',
+    title: 'Error',
+    message: 'Could not remove the addressbook.'
+  }, {
+    name: 'ADD_ENTRY_ERROR',
+    title: 'Error',
+    message: 'Could not add contact.'
+  }, {
+    name: 'REMOVE_ENTRY_ERROR',
+    title: 'Error',
+    message: 'Could not remove contact.'
+  }, {
+    name: 'ADDRESSBOOK_EMPTY',
+    title: 'Error',
+    message: 'The addressbook is empty.'
+  }, {
+    name: 'ENTRY_NOT_FOUND',
+    title: 'Error',
+    message: 'The contact was not found.'
+  }];
+
+  function error(name) {
+    return lodash.find(errorSpec, function(e) {
+      return e.name == name;
+    });
+  }
+
+  root.get = function(id, cb) {
     storageService.getAddressbook(function(err, ab) {
-      if (err) return cb(err);
-      if (ab) ab = JSON.parse(ab);
-      if (ab && ab[addr]) return cb(null, ab[addr]);
-      return cb();
+      if (err) {
+        return cb(error('READ_AB_ERROR'));
+      }
+
+      if (ab) {
+        ab = JSON.parse(ab);
+      }
+
+      var entry = lodash.find(ab, function(entry) {
+        return entry.id == id;
+      });
+
+      return cb(null, entry);
     });
   };
 
   root.list = function(cb) {
     storageService.getAddressbook(function(err, ab) {
-      if (err) return cb('Could not get the Addressbook');
-      if (ab) ab = JSON.parse(ab);
-      ab = ab || {};
-      return cb(err, ab);
+      if (err) {
+        return cb(error('READ_AB_ERROR'));
+      }
+
+      if (ab) {
+        ab = JSON.parse(ab);
+      }
+      ab = ab || [];
+
+      return cb(null, ab);
     });
   };
 
   root.add = function(entry, cb) {
     storageService.getAddressbook(function(err, ab) {
-      if (err) return cb(err);
-      if (ab) ab = JSON.parse(ab);
-      ab = ab || {};
-      if (lodash.isArray(ab)) ab = {}; // No array
-      if (ab[entry.address]) return cb('Entry already exist');
-      ab[entry.address] = entry;
-      storageService.setAddressbook(JSON.stringify(ab), function(err, ab) {
-        if (err) return cb('Error adding new entry');
+      if (err) {
+        return cb(error('READ_AB_ERROR'));
+      }
+
+      if (ab) {
+        ab = JSON.parse(ab);
+      }
+      ab = ab || [];
+
+      ab.push(entry);
+
+      storageService.setAddressbook(angular.toJson(ab), function(err, ab) {
+        if (err) {
+          return cb(error('ADD_ENTRY_ERROR'));
+        }
         root.list(function(err, ab) {
           return cb(err, ab);
         });
@@ -38,16 +92,56 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
     });
   };
 
-  root.remove = function(addr, cb) {
+  root.set = function(entry, cb) {
     storageService.getAddressbook(function(err, ab) {
-      if (err) return cb(err);
-      if (ab) ab = JSON.parse(ab);
-      ab = ab || {};
-      if (lodash.isEmpty(ab)) return cb('Addressbook is empty');
-      if (!ab[addr]) return cb('Entry does not exist');
-      delete ab[addr];
-      storageService.setAddressbook(JSON.stringify(ab), function(err) {
-        if (err) return cb('Error deleting entry');
+      if (err) {
+        return cb(error('READ_AB_ERROR'));
+      }
+
+      if (ab) {
+        ab = JSON.parse(ab);
+      }
+      ab = ab || [];
+
+      ab = lodash.reject(ab, function(e) {
+        return e.id == entry.id;
+      });
+      ab.push(entry);
+
+      storageService.setAddressbook(angular.toJson(ab), function(err, ab) {
+        if (err) {
+          return cb(error('ADD_ENTRY_ERROR'));
+        }
+        root.list(function(err, ab) {
+          return cb(err, ab);
+        });
+      });
+    });
+  };
+
+  root.remove = function(id, cb) {
+    storageService.getAddressbook(function(err, ab) {
+      if (err) {
+        return cb(error('READ_AB_ERROR'));
+      }
+
+      if (ab) {
+        ab = JSON.parse(ab);
+      }
+      ab = ab || [];
+
+      if (lodash.isEmpty(ab)) {
+        return cb(error('ADDRESSBOOK_EMPTY'));
+      }
+
+      ab = lodash.reject(ab, function(entry) {
+        return entry.id == id;
+      });
+
+      storageService.setAddressbook(angular.toJson(ab), function(err) {
+        if (err) {
+          return cb(error('REMOVE_ENTRY_ERROR'));
+        }
         root.list(function(err, ab) {
           return cb(err, ab);
         });
@@ -57,7 +151,9 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
 
   root.removeAll = function(cb) {
     storageService.removeAddressbook(function(err) {
-      if (err) return cb('Error deleting addressbook');
+      if (err) {
+        return cb(error('REMOVE_AB_ERROR'));
+      }
       return cb();
     });
   };

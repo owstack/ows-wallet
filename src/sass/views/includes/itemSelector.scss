@@ -1,6 +1,11 @@
 item-selector {
+  .item {
+    background: none;
 
-  $border-color: $v-subtle-gray;
+    &.activated {
+      background: none;
+    }
+  }
 
   .w-action-sheet__sheet {
     padding-left: 2rem;
@@ -17,7 +22,6 @@ item-selector {
       overflow: visible;
 
       > i {
-        color: $v-accent-1-color;
         padding: 0 0 5px 0;
         margin-left: -5px;
 
@@ -28,6 +32,7 @@ item-selector {
         }
       }
     }
+
     .item-selector-inner {
       display: flex;
       position: relative;
@@ -39,7 +44,7 @@ item-selector {
         position: absolute;
         width: 100%;
         height: 1px;
-        background: $border-color;
+        background: $v-action-sheet-border-color;
         bottom: 0;
         right: 0;
         content: '';
@@ -57,5 +62,4 @@ item-selector {
       }
     }
   }
-
 }

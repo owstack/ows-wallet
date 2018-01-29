@@ -7,10 +7,6 @@
 
   @include common;
 
-  .list .item:not(.item-divider):not(.item-vh):not(.item-input):not(.item-toggle):not([class*="help"]) {
-    height: $v-list-item-setting-height !important;
-  }
-
   .text-danger {
     padding: 10px;
 
@@ -19,10 +15,6 @@
       font-family: "Ionicons";
       margin-right: 10px;
     }
-  }
-
-  .text-disabled {
-    color: $v-settings-secondary-color;
   }
 
   .has-comment {
@@ -65,25 +57,6 @@
     margin: 1rem 0;
     font-size: 14px;
     line-height: 1.2rem;
-  }
-
-  .setting-title,
-  .setting-value {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .setting-value {
-    color: $v-settings-secondary-color;
-    font-size: 14px;
-  }
-
-  .settings-input-group {
-    .item-stacked-label {
-      padding: 1rem;
-    }
   }
 
   .setupForm {

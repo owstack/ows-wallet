@@ -6,7 +6,7 @@
       <div class="onboard-description" translate>Choose which kind of wallet to create now. You can always create more wallets later. If you have a backup of an existing wallet you can choose to restore your backup instead.</div>
     </div>
 		<div class="button-bar padding">
-      <a grouped-radio="n.getURI()" ng-model="data.networkURI" ng-repeat="n in availableNetworks">{{n.getCurrencyLabel()}}</a>
+      <a grouped-radio="n.getURI()" ng-model="data.networkURI" ng-repeat="n in availableNetworks">{{n.getCurrencyLongLabel()}}</a>
     </div>
     <div id="cta-buttons">
       <button class="button button-standard button-primary" id="get-started" ng-click="createFirstWallet()" translate-context="button" translate>Create {{network.getFriendlyNetLabel()}} wallet</button>

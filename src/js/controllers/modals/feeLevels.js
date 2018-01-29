@@ -11,7 +11,6 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
     popupService.showAlert(title, msg, function() {
       $scope.chooseFeeLevelModal.hide();
     });
-
   };
 
   var getMinRecommended = function() {
@@ -101,6 +100,7 @@ angular.module('owsWalletApp.controllers').controller('feeLevelsController', fun
   // $scope.customFeePerKB
   // $scope.feePerAtomicByte
 
+  $scope.networkLabel = networkService.getNetworkByURI($scope.networkURI).getFriendlyNetLabel();
   $scope.atomicUnit = networkService.getAtomicUnit($scope.networkURI);
 
   if (lodash.isEmpty($scope.feeLevel)) showErrorAndClose(null, gettextCatalog.getString('Fee level is not defined') );
