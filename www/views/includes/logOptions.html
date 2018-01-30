@@ -1,21 +1,19 @@
-<action-sheet show="show" class="log-options">
+<action-sheet id="action-sheet" class="log-options" show="show">
   <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
   <div class="header" translate>Log options</div>
-  <div ng-include="'views/includes/checkBar.html'"></div>
-  <a class="item item-icon-left entry no-border" copy-to-clipboard="onCopy()" ng-click="hide()">
-    <i class="icon ion-clipboard"></i>
-    <div class="entry-inner">
-      <div class="entry-details">
-        <div class="entry-name" translate>Copy to clipboard</div>
-      </div>
+  <ion-list>
+    <div class="check-bar-bg">
+      <div ng-include="'views/includes/checkBar.html'"></div>
     </div>
-  </a>
-  <a class="item item-icon-left entry no-border" ng-click="onSend(); hide()" ng-show="isCordova">
-    <i class="icon ion-ios-email-outline"></i>
-    <div class="entry-inner">
-      <div class="entry-details">
-        <div class="entry-name" translate>Send by email</div>
+    <ion-item class="item-icon-left icon-left-lg" ng-click="hide()">
+      <div copy-to-clipboard="onCopy()">
+        <i class="icon ion-clipboard"></i>
+        {{'Copy to clipboard' | translate}}
       </div>
-    </div>
-  </a>
+    </ion-item>
+    <ion-item class="item-icon-left icon-left-lg" ng-show="isCordova" ng-click="onSend(); hide();">
+      <i class="icon ion-ios-email-outline"></i>
+      {{'Send by email' | translate}}
+    </ion-item>
+  </ion-list>
 </action-sheet>

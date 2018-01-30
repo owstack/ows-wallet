@@ -1,4 +1,8 @@
+#action-sheet,
 action-sheet {
+
+  @include common;
+
   .w-action-sheet {
     &__sheet {
       background: $v-action-sheet-bg;

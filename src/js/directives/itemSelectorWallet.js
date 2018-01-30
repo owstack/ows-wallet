@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('walletSelector', function($timeout) {
+  .directive('itemSelectorWallet', function($timeout) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/walletSelector.html',
+      templateUrl: 'views/includes/itemSelectorWallet.html',
       transclude: true,
       scope: {
         title: '=title',
@@ -17,6 +17,7 @@ angular.module('owsWalletApp.directives')
         scope.hide = function() {
           scope.show = false;
         };
+        
         scope.selectWallet = function(wallet) {
           $timeout(function() {
             scope.hide();

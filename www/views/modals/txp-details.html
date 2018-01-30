@@ -50,7 +50,7 @@
           <span class="label" translate>To</span>
           <span class="payment-proposal-to" copy-to-clipboard="tx.toAddress">
             <img ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
-            <contact ng-if="!tx.hasMultiplesOutputs" class="ellipsis" address="{{tx.toAddress}}"></contact>
+            <span ng-if="!tx.hasMultiplesOutputs" class="ellipsis">{{tx.toAddress}}</span>
             <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span>
           </span>
         </div>
@@ -111,7 +111,7 @@
                 <span ng-show="tx.merchant.pr.ca"><i class="fi-lock"></i> {{tx.paypro.domain}}</span>
                 <span ng-show="!tx.merchant.pr.ca"><i class="fi-unlock"></i> {{tx.paypro.domain}}</span>
               </span>
-              <contact address="{{tx.toAddress}}" ng-hide="tx.merchant"></contact>
+              <span ng-hide="tx.merchant">{{tx.toAddress}}</span>
             </span>
           </div>
           <div class="item" ng-if="paymentExpired">

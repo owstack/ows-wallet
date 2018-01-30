@@ -1,12 +1,10 @@
-<action-sheet show="show" class="item-selector">
+<action-sheet id="action-sheet" class="item-selector" show="show">
   <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
-  <div class="header">Send options</div>
-  <a class="item item-icon-left option no-border" ng-click="onSelectSendMax()">
-    <i class="icon ion-ios-speedometer-outline"></i>
-    <div class="item-selector-inner">
-      <div class="item-selector-details">
-        <div class="item-selector-name" translate>Send max amount</div>
-      </div>
-    </div>
-  </a>
+  <div class="header" translate>Send options</div>
+  <ion-list>
+    <ion-item class="item-icon-left icon-left-lg" ng-click="onSelectSendMax()">
+      <i class="icon ion-ios-speedometer-outline"></i>
+      {{'Send max amount' | translate}}
+    </ion-item>
+  </ion-list>
 </action-sheet>

@@ -40,8 +40,8 @@
           <span class="payment-proposal-to">
             <img ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
             <div copy-to-clipboard="btx.addressTo" class="ellipsis">
-              <contact ng-if="!toName" address="{{btx.addressTo}}" class="ellipsis" style="display: block;"></contact>
-              <span class="m15l size-14" ng-if="toName">{{toName}}</span>
+              <span ng-if="toName" class="m15l size-14">{{toName}}</span>
+              <span ng-if="!toName" class="ellipsis" style="display: block;">{{btx.addressTo}}</span>
             </div>
           </span>
         </div>

@@ -7,12 +7,12 @@ angular.module('owsWalletApp.directives')
       templateUrl: 'views/includes/logOptions.html',
       transclude: true,
       scope: {
-        show: '=logOptionsShow',
-        options: '=logOptions',
-        fillClass: '=logOptionsFillClass',
-        onSelect: '=logOptionsOnSelect',
-        onCopy: '=logOptionsOnCopy',
-        onSend: '=logOptionsOnSend'
+        show: '=show',
+        options: '=options',
+        fillClass: '=fillClass',
+        onSelect: '=onSelect',
+        onCopy: '=onCopy',
+        onSend: '=onSend'
       },
       link: function(scope, element, attrs) {
         scope.isCordova = platformInfo.isCordova;

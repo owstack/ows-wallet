@@ -20,6 +20,7 @@ angular.module('owsWalletApp.controllers').controller('sessionLog',
       lodash.each($scope.logOptions, function(opt) {
         opt.selected = opt.weight <= weight ? true : false;
         opt.head = opt.weight == weight;
+        opt.open = opt.weight > weight ? true : false;
       });
 
       // Save the setting.

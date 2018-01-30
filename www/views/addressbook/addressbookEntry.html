@@ -24,7 +24,8 @@
       <ion-item class="item-divider" ng-if="addressbookEntry.addresses.length > 0" translate>
         Addresses
       </ion-item>
-      <ion-item class="has-label item-icon-right has-click" ng-click="sendTo()" ng-repeat="a in addressbookEntry.addresses">
+      <ion-item class="has-label item-icon-right has-click" ng-click="sendTo($index)"
+        ng-repeat="a in addressbookEntry.addresses track by $index">
         <span class="input-label" translate>{{addressLabelFor(a)}}</span>
         <div class="item item-sub item-icon-left icon-left-lg" copy-to-clipboard="a.address">
           <i class="icon lg-icon">

@@ -72,8 +72,8 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
       if (!$scope.wallets || !$scope.wallets.length) {
         setWarning(
-          gettextCatalog.getString('No Wallets Available'),
-          gettextCatalog.getString('There are no wallets available to create a transaction.'));
+          gettextCatalog.getString('Insufficient Funds'),
+          gettextCatalog.getString('There are no wallets with an available balance to create a transaction.'));
         return cb();
       }
 

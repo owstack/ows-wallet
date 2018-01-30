@@ -70,18 +70,35 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
       var sendingWallet = profileService.getWallet($scope.walletId);
       var completeContacts = [];
 
-      lodash.each(ab, function(v, k) {
+      lodash.forEach(ab, function(entry) {
         // If a sending wallet is specified then filter the contact list by sending wallet network, else include all contacts.
-        if (!sendingWallet || (sendingWallet && (sendingWallet.networkURI == v.networkURI))) {
+        var addresses = entry.addresses;
+
+        if (sendingWallet) {
+          addresses = lodash.filter(entry.addresses, function(address) {
+            return address.networkURI == sendingWallet.networkURI;
+          });
+        }
+
+        if (addresses.length > 1) {
           completeContacts.push({
-            name: v.name,
-            address: k,
-            networkURI: v.networkURI,
-            email: v.email,
             recipientType: 'contact',
+            contactId: entry.id,
+            name: entry.name,
+            email: entry.email,
             getAddress: function(cb) {
-              return cb(null, k);
-            },
+              return cb(null, addresses);
+            }
+          });
+        } else if (addresses.length == 1) {
+          completeContacts.push({
+            recipientType: 'contact',
+            contactId: entry.id,
+            name: entry.name,
+            email: entry.email,
+            getAddress: function(cb) {
+              return cb(null, addresses[0]);
+            }
           });
         }
       });
@@ -141,24 +158,74 @@ angular.module('owsWalletApp.controllers').controller('tabSendController', funct
     $scope.list = result;
   };
 
+  $scope.onContactAddressSelect = function(contact, index) {
+    $scope.casSelected = index;
+
+    // Create an item and transition to the amount view with it.
+    $scope.goToAmount({
+      recipientType: 'contact',
+      contactId: contact.id,
+      getAddress: function(cb) {
+        return cb(null, contact.addresses[index]);
+      }
+    });
+  };
+
   $scope.goToAmount = function(item) {
     $timeout(function() {
-      item.getAddress(function(err, addr) {
-        if (err || !addr) {
-          //Error is already formated
-          return popupService.showAlert(err);
-        }
-        $log.debug('Got toAddress:' + addr + ' | ' + item.name);
-        return $state.transitionTo('tabs.send.amount', {
-          walletId: $scope.walletId,
-          networkURI: item.networkURI,
-          recipientType: item.recipientType,
-          toAddress: addr,
-          toName: item.name,
-          toEmail: item.email,
-          toColor: item.color
-        })
-      });
+      if (item.recipientType == 'contact') {
+
+        addressbookService.get(item.contactId, function(err, entry) {
+          if (err) {
+            return popupService.showAlert(err.title, err.message);
+          }
+
+          item.getAddress(function(err, addr) {
+            if (lodash.isArray(addr)) {
+              // Multiple addresses. Present UI to choose one.
+              // Replace the contacts addresses with the filtered list.
+              entry.addresses = addr;
+
+              $scope.casTitle = entry.name + '\'s addresses';
+              $scope.casContact = entry;
+              $scope.casSelected = $scope.casSelected || 0; // Arbitrarily select the first entry if not set.
+
+              $scope.showContactAddressSelector = true;
+
+            } else {
+              // Single address.  Just select it, no need to require user to select from UI.
+              $log.debug('Got toAddress:' + addr.address + ' | ' + entry.name);
+              return $state.transitionTo('tabs.send.amount', {
+                recipientType: item.recipientType,
+                networkURI: addr.networkURI,
+                toAddress: addr.address,
+                toName: entry.name + (addr.label ? ' - ' + addr.label : ''),
+                toEmail: entry.email
+              });
+            }
+          });
+        });
+
+      } else {
+
+        // Recipient is not a contact in our address book.
+        item.getAddress(function(err, addr) {
+          if (err || !addr) {
+            return popupService.showAlert(err);
+          }
+
+          $log.debug('Got toAddress:' + addr + ' | ' + item.name);
+          return $state.transitionTo('tabs.send.amount', {
+            recipientType: item.recipientType,
+            walletId: $scope.walletId,
+            networkURI: item.networkURI,
+            toAddress: addr,
+            toName: item.name + (item.label ? ' - ' + item.label : ''),
+            toEmail: item.email,
+            toColor: item.color
+          });
+        });
+      };
     });
   };
 
