@@ -10,6 +10,8 @@ angular.module('owsWalletApp.controllers').controller('addressbookEntryEditContr
   var scanInProgressAddressIndex = null;
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    $scope.from = data.stateParams.from;
+    
     if (!scanInProgress) {
       if (data.stateParams && data.stateParams.id) {
         $scope.entryMode = 'edit';
@@ -36,9 +38,9 @@ angular.module('owsWalletApp.controllers').controller('addressbookEntryEditContr
           email: '',
           addresses: [
           {
-            address: '',
+            address: data.stateParams.address || '',
             label: '',
-            networkURI: ''
+            networkURI: data.stateParams.networkURI || ''
           }]
         };
       }
@@ -101,7 +103,11 @@ angular.module('owsWalletApp.controllers').controller('addressbookEntryEditContr
 
   $scope.close = function(count) {
     count = count || -1;
-    $ionicHistory.goBack(count);
+    if ($scope.from == 'scan') {
+      goScan(); 
+    } else {
+      $ionicHistory.goBack(count);
+    }
   };
 
   $scope.done = function() {
@@ -112,6 +118,13 @@ angular.module('owsWalletApp.controllers').controller('addressbookEntryEditContr
           $rootScope.$apply();
         }, 100);
       }
+    });
+  };
+
+  function goScan() {
+    $ionicHistory.goBack();
+    $timeout(function() {
+      $state.go('tabs.scan');
     });
   };
 

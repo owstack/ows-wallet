@@ -143,6 +143,30 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return aUnit.value / sUnit.value;
   };
 
+  root.forEachNetwork = function(opts, callback, done) {
+    opts = opts || {};
+    opts.net = opts.net || 'all';
+
+    var networks;
+    if (opts.net == 'livenet') {
+      networks = root.getLiveNetworks();
+    } else if (opts.net == 'testnet') {
+      networks = root.getTestNetworks();
+    } else {
+      networks = root.getNetworks();      
+    }
+
+    lodash.forEach(networks, function(n) {
+      var walletClient = root.walletClientFor(n.getURI()).getLib();
+      callback(walletClient, n);
+    });
+    done();
+  };
+
+  ({net: 'livenet'}, function(walletClient, network) {
+    walletClient.PrivateKey(privateKey, network.getURI());
+  });
+
   // Parsers
 
   root.parseCurrency = function(networkURI) {

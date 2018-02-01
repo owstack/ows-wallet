@@ -8,16 +8,19 @@
   background: linear-gradient(to bottom, $v-primary-color 0%, $v-secondary-color 100%);
   color: $v-white-color;
   height: 100%;
+
   .scroll-content {
     display: table !important;
     width: 100% !important;
     height: 100% !important;
   }
+
   .scroll {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
   }
+
   .block-spinner {
     display: block;
   }

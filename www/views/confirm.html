@@ -1,5 +1,5 @@
 <ion-view id="confirm" hide-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Confirm' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -17,138 +17,126 @@
           <div class="alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '...'}}</div>
         </div>
       </div>
-      <div>
 
-        <!-- Warning -->
+      <!-- Paypro time -->
 
-        <div class="box-notification warning" ng-show="warning" translate>
-          <div class="title">{{warning.title}}</div>
-          {{warning.message}}
+      <div class="item" ng-if="tx.paypro">
+        <span translate>Payment Expires</span>
+        <span class="item-note primary" ng-if="!paymentExpired">{{remainingTimeStr}}</span>
+        <span class="item-note assertive" ng-if="paymentExpired" translate>Expired</span>
+      </div>
+
+      <!-- To -->
+
+      <div class="item has-label">
+        <span class="input-label" translate>To</span>
+
+        <!-- Wallet -->
+
+        <div class="item item-sub has-detail item-fh" ng-if="tx.recipientType == 'wallet'">
+          <div class="item-icon-left">
+            <i class="icon md-icon">
+              <div class="bg wallet-icon" ng-style="{'background-color': tx.toColor}"></div>
+            </i>
+            <div copy-to-clipboard="tx.toAddress">
+              <span ng-if="tx.toName">{{tx.toName}}</span>
+              <div class="item-detail ellipsis">{{tx.toAddress}}</div>
+            </div>
+          </div>
         </div>
 
-        <div ng-if="!warning">
+        <!-- Contact -->
 
-          <!-- Paypro time -->
-
-          <div class="item" ng-if="tx.paypro">
-            <span translate>Payment Expires</span>
-            <span class="item-note primary" ng-if="!paymentExpired">{{remainingTimeStr}}</span>
-            <span class="item-note assertive" ng-if="paymentExpired" translate>Expired</span>
-          </div>
-
-          <!-- To -->
-
-          <div class="item has-label">
-            <span class="input-label" translate>To</span>
-
-            <!-- Wallet -->
-
-            <div class="item item-sub has-detail item-fh" ng-if="tx.recipientType == 'wallet'">
-              <div class="item-icon-left">
-                <i class="icon md-icon">
-                  <div class="bg wallet-icon" ng-style="{'background-color': tx.toColor}"></div>
-                </i>
-                <div copy-to-clipboard="tx.toAddress">
-                  <span ng-if="tx.toName">{{tx.toName}}</span>
-                  <div class="item-detail ellipsis">{{tx.toAddress}}</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Contact -->
-
-            <div class="item item-sub has-detail" ng-if="tx.recipientType == 'contact'">
-              <div class="item-icon-left">
-                <i class="icon md-icon">
-                  <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{tx.toEmail}}"></gravatar>
-                </i>
-                <div copy-to-clipboard="tx.toAddress">
-                  <span>{{tx.toName}}</span>
-                  <div class="item-detail ellipsis">{{tx.toAddress}}</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Unknown -->
-
-            <div class="item item-sub" ng-if="!tx.recipientType">
-              <div class="item-icon-left">
-                <i class="icon md-icon">
-                  <div class="bg" ng-class="tx.currency + '-icon'"></div>
-                </i>
-                <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
-                  <span ng-if="!tx.toName">{{tx.toAddress}}</span>
-                  <span ng-if="tx.toName" class="m15l size-14">{{tx.toName}}</span>
-                </div>
-                <div ng-if="tx.paypro" ng-click="openPPModal(tx.paypro)" class="m15l size-14 w100p pointer">
-                  <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked" style="color:green"></i>
-                  <i ng-show="!tx.paypro.caTrusted" class="ion-unlocked" style="color:red"></i>
-                  <span class="ellipsis" ng-show="!tx.toName">{{tx.paypro.domain || tx.paypro.toAddress}}</span>
-                  <span ng-show="tx.toName">{{tx.toName}}</span>
-                </div>
-              </div>
+        <div class="item item-sub has-detail" ng-if="tx.recipientType == 'contact'">
+          <div class="item-icon-left">
+            <i class="icon md-icon">
+              <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{tx.toEmail}}"></gravatar>
+            </i>
+            <div copy-to-clipboard="tx.toAddress">
+              <span>{{tx.toName}}</span>
+              <div class="item-detail ellipsis">{{tx.toAddress}}</div>
             </div>
           </div>
+        </div>
 
-          <!-- From -->
+        <!-- Unknown -->
 
-          <div class="item has-label item-icon-right" ng-hide="!wallet" ng-click="showWalletSelector()">
-            <span class="input-label" translate>From</span>
-            <div class="item item-sub">
-              <div class="item-icon-left">
-                <div ng-if="wallet">
-                  <i class="icon md-icon">
-                    <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
-                  </i>
-                  <div>{{wallet.name}}</div>
-                </div>
-                <div ng-if="!wallet">
-                  <i class="icon md-icon">
-                    <div class="bg wallet-icon" ng-style="{'background-color': 'grey'}"></div>
-                  </i>
-                  <div>...</div>
-                </div>
-              </div>
+        <div class="item item-sub" ng-if="!tx.recipientType">
+          <div class="item-icon-left">
+            <i class="icon md-icon">
+              <div class="bg" ng-class="tx.currency + '-icon'"></div>
+            </i>
+            <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
+              <span ng-if="!tx.toName">{{tx.toAddress}}</span>
+              <span ng-if="tx.toName" class="m15l size-14">{{tx.toName}}</span>
             </div>
-            <i class="icon arrow-right"></i>
-          </div>
-
-          <!-- Fee -->
-
-          <div class="item has-label item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
-            <span class="input-label" translate>Fee</span>
-            <div class="item item-sub has-detail item-fh">
-              <div>{{tx.feeLevelName | translate}}</div>
-              <div>{{tx.txp[wallet.id].feeStr || '...'}}</div>
-              <span class="item-detail">
-                <span>{{tx.txp[wallet.id].alternativeFeeStr || '...'}}
-                  <span class="fee-rate" ng-if="tx.txp[wallet.id].feeRatePerStr">&nbsp;&middot;
-                    <span xng-show="tx.txp[wallet.id].feeTooHigh">&nbsp;
-                      <i class="ion-alert-circled text-warning" ng-show="tx.txp[wallet.id].feeTooHigh"></i>
-                    </span>
-                    <span class="fee-rate" ng-class="{'text-warning': tx.txp[wallet.id].feeTooHigh}" translate>
-                      {{tx.txp[wallet.id].feeRatePerStr}}  of the sending amount
-                    </span>
-                  </span>
-                </span>
-              </span>
+            <div ng-if="tx.paypro" ng-click="openPPModal(tx.paypro)" class="m15l size-14 w100p pointer">
+              <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked" style="color:green"></i>
+              <i ng-show="!tx.paypro.caTrusted" class="ion-unlocked" style="color:red"></i>
+              <span class="ellipsis" ng-show="!tx.toName">{{tx.paypro.domain || tx.paypro.toAddress}}</span>
+              <span ng-show="tx.toName">{{tx.toName}}</span>
             </div>
-            <i class="icon arrow-right"></i>
           </div>
-
-          <!-- Memo -->
-
-          <div class="item has-label item-icon-right" ng-if="wallet" ng-click="showDescriptionPopup(tx)">
-            <span class="input-label" translate>Memo</span>
-            <div class="item item-sub">
-              <div>{{tx.description}}</div>
-              <div class="text-disabled" ng-show="!tx.description" translate>Add a transaction memo</div>
-            </div>
-            <i class="icon arrow-right"></i>
-          </div>
-
         </div>
       </div>
+
+      <!-- From -->
+
+      <div class="item has-label item-icon-right" ng-hide="!wallet" ng-click="showWalletSelector()">
+        <span class="input-label" translate>From</span>
+        <div class="item item-sub">
+          <div class="item-icon-left">
+            <div ng-if="wallet">
+              <i class="icon md-icon">
+                <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+              </i>
+              <div>{{wallet.name}}</div>
+            </div>
+            <div ng-if="!wallet">
+              <i class="icon md-icon">
+                <div class="bg wallet-icon" ng-style="{'background-color': 'grey'}"></div>
+              </i>
+              <div>...</div>
+            </div>
+          </div>
+        </div>
+        <i class="icon arrow-right"></i>
+      </div>
+
+      <!-- Fee -->
+
+      <div class="item has-label item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
+        <span class="input-label" translate>Fee</span>
+        <div class="item item-sub has-detail item-fh">
+          <div class="item-note">{{tx.feeLevelName | translate}}</div>
+          <div>{{tx.txp[wallet.id].feeStr || '...'}}</div>
+          <span class="item-detail">
+            <span>{{tx.txp[wallet.id].alternativeFeeStr || '...'}}
+              <span class="fee-rate" ng-if="tx.txp[wallet.id].feeRatePerStr">&nbsp;&middot;
+                <span xng-show="tx.txp[wallet.id].feeTooHigh">&nbsp;
+                  <i class="ion-alert-circled text-warning" ng-show="tx.txp[wallet.id].feeTooHigh"></i>
+                </span>
+                <span class="fee-rate" ng-class="{'text-warning': tx.txp[wallet.id].feeTooHigh}" translate>
+                  {{tx.txp[wallet.id].feeRatePerStr}}  of the sending amount
+                </span>
+              </span>
+            </span>
+          </span>
+        </div>
+        <i class="icon arrow-right"></i>
+      </div>
+
+      <!-- Memo -->
+
+      <div class="item has-label item-icon-right" ng-if="wallet" ng-click="showDescriptionPopup(tx)">
+        <span class="input-label" translate>Memo</span>
+        <div class="item item-sub">
+          <div>{{tx.description}}</div>
+          <div class="text-disabled" ng-show="!tx.description" translate>Add a transaction memo</div>
+        </div>
+        <i class="icon arrow-right"></i>
+      </div>
+
     </div>
   </ion-content>
   <click-to-accept

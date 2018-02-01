@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, platformInfo, gettextCatalog) {
+angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, $timeout, platformInfo, gettextCatalog) {
 
   var isCordova = platformInfo.isCordova;
 
   /*************** Ionic ****************/
 
   var _ionicAlert = function(title, message, cb, okText) {
-    if (!cb) cb = function() {};
+    cb = cb || function() {};
     $ionicPopup.alert({
       title: title,
       subTitle: message,
@@ -17,6 +17,7 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
   };
 
   var _ionicConfirm = function(title, message, okText, cancelText, cb) {
+    cb = cb || function() {};
     $ionicPopup.confirm({
       title: title,
       subTitle: message,
@@ -31,6 +32,7 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
 
   var _ionicPrompt = function(title, message, opts, cb) {
     opts = opts || {};
+    cb = cb || function() {};
     $ionicPopup.prompt({
       title: title,
       subTitle: message,
@@ -46,31 +48,39 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
   /*************** Cordova ****************/
 
   var _cordovaAlert = function(title, message, cb, okText) {
-    if (!cb) cb = function() {};
-    title = title ? title : '';
+    cb = cb || function() {};
+    title = title || '';
     okText = okText || gettextCatalog.getString('OK');
     navigator.notification.alert(message, cb, title, okText);
   };
 
   var _cordovaConfirm = function(title, message, okText, cancelText, cb) {
+    cb = cb || function() {};
     var onConfirm = function(buttonIndex) {
-      if (buttonIndex == 2) return cb(true);
-      else return cb(false);
+      if (buttonIndex == 2) {
+        return cb(true);
+      } else {
+        return cb(false);
+      }
     }
     okText = okText || gettextCatalog.getString('OK');
     cancelText = cancelText || gettextCatalog.getString('Cancel');
-    title = title ? title : '';
+    title = title || '';
     navigator.notification.confirm(message, onConfirm, title, [cancelText, okText]);
   };
 
   var _cordovaPrompt = function(title, message, opts, cb) {
+    cb = cb || function() {};
     var onPrompt = function(results) {
-      if (results.buttonIndex == 1) return cb(results.input1);
-      else return cb();
+      if (results.buttonIndex == 1) {
+        return cb(results.input1);
+      } else {
+        return cb();
+      }
     }
     var okText = gettextCatalog.getString('OK');
     var cancelText = gettextCatalog.getString('Cancel');
-    title = title ? title : '';
+    title = title || '';
     navigator.notification.prompt(message, onPrompt, title, [okText, cancelText], opts.defaultText);
   };
 
@@ -86,10 +96,11 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
     var message = (msg && msg.message) ? msg.message : msg;
     $log.warn(title ? (title + ': ' + message) : message);
 
-    if (isCordova)
+    if (isCordova) {
       _cordovaAlert(title, message, cb, okText);
-    else
+    } else {
       _ionicAlert(title, message, cb, okText);
+    }
   };
 
   /**
@@ -106,10 +117,11 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
   this.showConfirm = function(title, message, okText, cancelText, cb) {
     $log.warn(title ? (title + ': ' + message) : message);
 
-    if (isCordova)
+    if (isCordova) {
       _cordovaConfirm(title, message, okText, cancelText, cb);
-    else
+    } else {
       _ionicConfirm(title, message, okText, cancelText, cb);
+    }
   };
 
   /**
@@ -127,11 +139,11 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
 
     opts = opts ||  {};
 
-    if (isCordova && !opts.forceHTMLPrompt)
+    if (isCordova && !opts.forceHTMLPrompt) {
       _cordovaPrompt(title, message, opts, cb);
-    else
+    } else {
       _ionicPrompt(title, message, opts, cb);
+    }
   };
-
 
 });

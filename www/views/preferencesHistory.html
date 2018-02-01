@@ -1,5 +1,5 @@
 <ion-view id="preferences-history" class="settings" show-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Transaction History' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -7,11 +7,11 @@
   <ion-content>
     <div ng-include="'views/includes/walletItem.html'"></div>
     <div class="list">
-      <a class="item link" href ng-show="csvReady && !isCordova" ng-csv="csvContent" csv-header="csvHeader"
+      <a class="item is-button" href ng-show="csvReady && !isCordova" ng-csv="csvContent" csv-header="csvHeader"
         filename="{{appName}}-{{wallet.name}}.csv">
         <div translate>Export to file</div>
       </a>
-      <a class="item has-detail" href ng-show="!csvReady && !isCordova" ng-class="{'link': !err}">
+      <a class="item has-detail" href ng-show="!csvReady && !isCordova" ng-class="{'is-button': !err}">
         <div translate>Export to file</div>
         <div class="item-detail" ng-show="!err" translate>
           Preparing...
@@ -21,7 +21,7 @@
         </div>
       </a>
       <div class="item item-divider"></div>
-      <a class="item link" ng-click="clearTransactionHistory()">
+      <a class="item is-button" ng-click="clearTransactionHistory()">
         <div translate>Resynchonize with wallet service</div>
       </a>
       <div class="settings-explanation">

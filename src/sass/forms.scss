@@ -6,8 +6,27 @@
   color: $v-warning-color;
 }
 
+.text-error {
+  color: $v-assertive-color;
+}
+
 .text-danger {
   color: $v-assertive-color;
+}
+
+.spinner {
+    stroke: $v-spinner-color;
+    fill: $v-spinner-color;
+}
+
+.bar.bar-header {
+  background: $v-bar-header-bg;
+  border-bottom: $v-bar-header-border;
+  color: $v-bar-header-color;
+
+  .button {
+    color: $v-bar-header-color;
+  }
 }
 
 /*
@@ -51,7 +70,7 @@
  */
 
 .box-notification {
-  color: $v-white-color;
+  color: $v-notification-box-color;
   font-size: 16px;
   padding: 0.5rem;
   border: 1px solid;
@@ -68,10 +87,10 @@
 
   a {
     color: $v-warning-color;
+    background: $v-notification-box-color;
     font-weight: bold;
     cursor: pointer;
     cursor: hand;
-    background: $v-white-color;
     border-radius: 20px;
     padding: 0 10px;
 
@@ -80,16 +99,23 @@
     }
   }
 
-  &.notice {
-    border-color: $v-light-gray;
-    background-color: $v-subtle-gray;
-    color: $v-dark-gray;
+  &.info {
+    border-color: $v-info-color;
+    background-color: $v-info-color;
+
+    .title {
+      &:before {
+        content: "\f149";
+        font-family: "Ionicons";
+        font-size: 18px;
+        margin-right: 10px;
+      }
+    }
   }
 
   &.warning {
     border-color: $v-warning-color;
     background-color: $v-warning-color;
-    color: $v-white-color;
 
     .title {
       &:before {
@@ -104,7 +130,6 @@
   &.error {
     background-color: $v-error-color;
     border-color: $v-error-color;
-    color: $v-white-color;
 
     .title {
       &:before {

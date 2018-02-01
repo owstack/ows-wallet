@@ -1,42 +1,44 @@
 <ion-view id="view-add" show-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Add Wallet' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <ion-list>
-      <a class="item item-remove-animate item-icon-right item-icon-left icon-left-lg" type="item-text-wrap" ui-sref="tabs.add.create-personal">
-       <i class="icon lg-icon">
-          <div class="bg wallet-icon"></div>
-        </i>
-        <span translate>New Personal Wallet</span>
-        <i class="icon arrow-right"></i>
-      </a>
+    <div class="card no-header">
+      <ion-list>
+        <ion-item class="item-icon-left icon-left-lg item-icon-right" ui-sref="tabs.add.create-personal">
+         <i class="icon lg-icon">
+            <div class="bg wallet-icon icon-single-wallet"></div>
+          </i>
+          <span translate>New Personal Wallet</span>
+          <i class="icon arrow-right"></i>
+        </ion-item>
 
-      <a class="item item-remove-animate item-icon-right item-icon-left icon-left-lg" type="item-text-wrap" ui-sref="tabs.add.create-shared">
-        <i class="icon lg-icon">
-          <div class="bg wallet-icon"></div>
-        </i>
-        <span translate>Create Shared Wallet</span>
-        <i class="icon arrow-right"></i>
-      </a>
+        <ion-item class="item-icon-left icon-left-lg item-icon-right" ui-sref="tabs.add.create-shared">
+          <i class="icon lg-icon">
+            <div class="bg wallet-icon icon-shared-wallet"></div>
+          </i>
+          <span translate>Create Shared Wallet</span>
+          <i class="icon arrow-right"></i>
+        </ion-item>
 
-      <a class="item item-remove-animate item-icon-right item-icon-left icon-left-lg" type="item-text-wrap" ui-sref="tabs.add.join">
-        <i class="icon lg-icon">
-          <div class="bg wallet-add-icon"></div>
-        </i>
-        <span translate>Join Shared Wallet</span>
-        <i class="icon arrow-right"></i>
-      </a>
+        <ion-item class="item-icon-left icon-left-lg item-icon-right" ui-sref="tabs.add.join">
+          <i class="icon lg-icon">
+            <div class="bg wallet-add-icon icon-join-wallet"></div>
+          </i>
+          <span translate>Join Shared Wallet</span>
+          <i class="icon arrow-right"></i>
+        </ion-item>
 
-      <a class="item item-remove-animate item-icon-right item-icon-left icon-left-lg" type="item-text-wrap" ui-sref="tabs.add.import">
-        <i class="icon lg-icon">
-          <div class="bg wallet-import-icon"></div>
-        </i>
-        <span translate>Import Wallet</span>
-        <i class="icon arrow-right"></i>
-      </a>
-    </ion-list>
+        <ion-item class="item-icon-left icon-left-lg item-icon-right" ui-sref="tabs.add.import">
+          <i class="icon lg-icon">
+            <div class="bg wallet-import-icon icon-import-wallet"></div>
+          </i>
+          <span translate>Import Wallet</span>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+      </ion-list>
+    </div>
   </ion-content>
 </ion-view>

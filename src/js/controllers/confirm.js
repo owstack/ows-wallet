@@ -71,9 +71,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       });
 
       if (!$scope.wallets || !$scope.wallets.length) {
-        setWarning(
-          gettextCatalog.getString('Insufficient Funds'),
-          gettextCatalog.getString('There are no wallets with an available balance to create a transaction.'));
+        popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('There are no wallets with an available balance to create a transaction.'));
         return cb();
       }
 
@@ -102,9 +100,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
               return cb('Could not update any wallet');
 
             if (lodash.isEmpty(filteredWallets)) {
-              setWarning(
-                gettextCatalog.getString('Insufficient Funds'),
-                gettextCatalog.getString('Not enough funds to create a transaction from any wallet.'));
+              popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds to create a transaction from any wallet.'));
             }
             $scope.wallets = lodash.clone(filteredWallets);
             return cb();
@@ -177,7 +173,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
           } else {
 
-            // The one wallet found may not be the desiredWallet; if it's not then let the user
+            // The one wallet found may not be the desiredWallet (we select it anyway); if it's not then let the user
             // know that we could not select the desired wallet to send from.
             if ($scope.wallets[0].credentials.walletId != desiredWalletId) {
               popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds for fee in selected wallet. Choose another wallet.'));
@@ -293,14 +289,10 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
         }
 
         if (sendMaxInfo) {
-
           $log.debug('Send max info', sendMaxInfo);
 
           if (tx.sendMax && sendMaxInfo.amount == 0) {
-            setWarning(
-              gettextCatalog.getString('Insufficient Funds'),
-              gettextCatalog.getString('Not enough funds available to pay the network fee.'));
-            //popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds for fee.'));
+            popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds available to pay the network fee.'));
             return cb('no_funds');
           }
 
@@ -387,7 +379,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       msg += '\n' + warningMsg;
     }
 
-    popupService.showAlert(gettextCatalog.getString('Excluded Funds'), msg, function() {});
+    popupService.showAlert(gettextCatalog.getString('Excluded Funds'), msg);
   };
 
   $scope.onWalletSelect = function(wallet) {
@@ -440,9 +432,11 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
     };
   };
 
-  /* sets a wallet on the UI, creates a TXPs for that wallet */
-
+  // Sets a wallet on the UI, creates a TXPs for that wallet.
   function setWallet(wallet, tx) {
+    if ($scope.wallet === wallet) {
+      return;
+    }
     $scope.wallet = wallet;
 
     setButtonText(wallet.credentials.m > 1, !!tx.paypro);
@@ -458,9 +452,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
         $ionicScrollDelegate.resize();
         $scope.$apply();
       }, 10);
-
     });
-
   };
 
   var setSendError = function(msg) {
@@ -606,19 +598,24 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
     scope.hideModal = function(newFeeLevel, customFeePerKB) {
       scope.chooseFeeLevelModal.hide();
-      $log.debug('New fee level choosen:' + newFeeLevel + ' was:' + tx.feeLevel);
 
-      usingCustomFee = newFeeLevel == 'custom' ? true : false;
+      // Wait for the modal to finish close transition, the next steps may try to open a popup
+      // during the modal close transition which results in locking out the UI.
+      $timeout(function(){
+        $log.debug('New fee level choosen:' + newFeeLevel + ' was:' + tx.feeLevel);
 
-      if (tx.feeLevel == newFeeLevel && !usingCustomFee) return;
+        usingCustomFee = newFeeLevel == 'custom' ? true : false;
 
-      tx.feeLevel = newFeeLevel;
-      if (usingCustomFee) tx.feeRate = parseInt(customFeePerKB);
+        if (tx.feeLevel == newFeeLevel && !usingCustomFee) return;
 
-      updateTx(tx, wallet, {
-        clearCache: true,
-        dryRun: true
-      }, function() {});
+        tx.feeLevel = newFeeLevel;
+        if (usingCustomFee) tx.feeRate = parseInt(customFeePerKB);
+
+        updateTx(tx, wallet, {
+          clearCache: true,
+          dryRun: true
+        }, function() {});
+      }, 300);
     };
   };
 

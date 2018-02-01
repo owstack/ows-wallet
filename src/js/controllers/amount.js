@@ -281,23 +281,24 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
   $scope.finish = function() {
     var _amount = evaluate(format($scope.amount));
 
-    // Avoid a view transition followed by an insufficient funds message; check and present an error here.
-    // There is a detection of zero funds when Send max is selected; insufficent funds calculation is done later when 
-    // the at least one wallet has a non-zero balance.
-    verifyFunding(_amount , function(err) {
-      if (err) {
-        popupService.showAlert(gettextCatalog.getString('Insufficent Funds'), err);
-      } else {
+    if ($scope.nextStep) {
+      $state.transitionTo($scope.nextStep, {
+        id: _id,
+        amount: $scope.useSendMax ? null : _amount,
+        currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
+        useSendMax: $scope.useSendMax
+      });
 
-        if ($scope.nextStep) {
-          $state.transitionTo($scope.nextStep, {
-            id: _id,
-            amount: $scope.useSendMax ? null : _amount,
-            currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
-            useSendMax: $scope.useSendMax
-          });
+    } else {
+      // Avoid a view transition followed by an insufficient funds message; check and present an error here.
+      // There is a detection of zero funds when Send max is selected; insufficent funds calculation is done later when 
+      // the at least one wallet has a non-zero balance.
+      verifyFunding(_amount , function(err) {
+        if (err) {
+          popupService.showAlert(gettextCatalog.getString('Insufficent Funds'), err);
         } else {
           var amount = $scope.showAlternativeAmount ? fromFiat(_amount) : _amount;
+
           $state.transitionTo('tabs.send.confirm', {
             walletId: $scope.walletId,
             networkURI: $scope.networkURI,
@@ -309,9 +310,10 @@ angular.module('owsWalletApp.controllers').controller('amountController', functi
             toColor: $scope.toColor,
             useSendMax: $scope.useSendMax
           });
+          
+          $scope.useSendMax = null;
         }
-        $scope.useSendMax = null;
-      }
-    });
+      });
+    }
   };
 });

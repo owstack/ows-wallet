@@ -701,7 +701,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('tabs.addressbook.add', {
-        url: '/add',
+        url: '/add/:from/:address/:networkURI',
         views: {
           'tab-settings@tabs': {
             templateUrl: 'views/addressbook/addressbookEntryEdit.html',

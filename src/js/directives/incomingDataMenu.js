@@ -9,6 +9,8 @@ angular.module('owsWalletApp.directives')
         $rootScope.$on('incomingDataMenu.showMenu', function(event, data) {
           $timeout(function() {
             scope.networkURI = data.networkURI;
+            scope.currency = data.currency;
+            scope.currencyLabel = data.currencyLabel;
             scope.data = data.data;
             scope.type = data.type;
             scope.showMenu = true;
@@ -42,11 +44,12 @@ angular.module('owsWalletApp.directives')
         scope.addToAddressBook = function(networkURI, address) {
           scope.showMenu = false;
           $timeout(function() {
-            $state.go('tabs.send').then(function() {
+            $state.go('tabs.settings').then(function() {
               $timeout(function() {
-                $state.transitionTo('tabs.send.addressbook', {
+                $state.transitionTo('tabs.addressbook.add', {
                   networkURI: networkURI,
-                  addressbookEntry: address
+                  address: address,
+                  from: 'scan'
                 });
               });
             });

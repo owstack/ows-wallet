@@ -1,14 +1,10 @@
 #txp-details,
 #confirm {
+  background: $v-home-bg;
+  color: $v-home-color;
 
-/*
-  .item-note {
-    float: none;
-    .fee-rate {
-      display: inline-block;
-    }
-  }
-*/
+  @include common;
+
   .add-bottom-for-cta {
     bottom: 92px;
   }
@@ -49,206 +45,98 @@
     }
   }
 
-/*
-  .item {
-    border-color: $v-subtle-gray;
+  .timeline-item {
+    border: 0;
 
-    &-note {
-      word-break: keep-all;
+    &:nth-child(2) {
+      border-top: 1px solid $v-subtle-gray;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid $v-subtle-gray;
+    }
+
+    padding: 17px 20px;
+
+    > * {
+      padding-right: 0;
     }
   }
-*/
-  .wallet {
+
+  .timeline-content {
     display: flex;
     align-items: center;
-    padding: .2rem 0;
-    margin-bottom: 5px;
 
-    > i {
-      padding: 0;
-      position: static;
-    }
-  }
-
-  .info {
-    span {
-      display: block;
-    }
-
-    .badge {
-      border-radius: 0;
-      padding: .5rem;
-    }
-
-    .item {
-      color: $v-dark-gray;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      padding-left: 20px;
-
-      &:not(.item-icon-right) {
-        padding-right: 20px;
-      }
-
-      .label {
-        font-size: 14px;
-        color: $v-mid-gray;
-        margin-bottom: 8px;
-      }
-
-      &.low-fees {
-        display: flex;
-        font-size: 14px;
-        color: $v-mid-gray;
-        align-items: center;
-
-        i {
-          padding-right: 20px;
-        }
-      }
-    }
-
-    .toggle-unconfirmed {
-      padding-bottom: 15px;
-    }
-
-    .toggle-label {
-      margin-top: 5px;
-      font-size: 14px;
-      color: $v-mid-gray;
-    }
-
-    .item-divider {
-      padding-top: 1.2rem;
-      color: $v-mid-gray;
-      font-size: 15px;
-    }
-/*
-    .payment-proposal-to {
-      width: 100%;
-      display: inline-block;
-      padding: 8px 13px;
-      background-color: $v-subtle-gray;
-      margin-top: 10px;
-      margin-bottom: 5px;
+    &__icon {
       display: flex;
       align-items: center;
-      border-radius: 4px;
+      min-width: 40px;
+      padding-right: 1rem;
+      padding-left: 1rem;
+      margin-right: .5rem;
+      position: relative;
 
-      img {
-        padding: .2rem;
-        padding-left: 0;
-        border-right: 1px solid $v-light-gray;
-        padding-right: 12px;
-        height: 22px;
+      &::before {
+        content: '';
+        background: $v-subtle-gray;
+        height: 100px;
+        width: 1px;
+        position: absolute;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-100%);
+        transform: translateX(-50%) translateY(-100%);
+        top: 0;
       }
 
-      i {
-        color: grey;
-        position: inherit;
-        padding: 0 10px;
-        float: right;
-      }
-      contact {
-        margin-left: 15px;
-        font-size: 14px;
-        display: inline-block;
-      }
-    }
-*/
-    .timeline-item {
-      border: 0;
-
-      &:nth-child(2) {
-        border-top: 1px solid $v-subtle-gray;
+      &::after {
+        content: '';
+        background: $v-subtle-gray;
+        height: 100px;
+        width: 1px;
+        position: absolute;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(100%);
+        transform: translateX(-50%) translateY(100%);
+        bottom: 0;
       }
 
-      &:last-child {
-        border-bottom: 1px solid $v-subtle-gray;
+      > img {
+        width: 26px;
       }
 
-      padding: 17px 20px;
-
-      > * {
-        padding-right: 0;
-      }
-    }
-
-    .timeline-content {
-      display: flex;
-      align-items: center;
-
-      &__icon {
+      > div {
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        border: 3px solid $v-success-color;
         display: flex;
+        font-size: 13px;
         align-items: center;
-        min-width: 40px;
-        padding-right: 1rem;
-        padding-left: 1rem;
-        margin-right: .5rem;
-        position: relative;
+        justify-content: center;
+        font-weight: 600;
+        vertical-align: middle;
+        color: $v-success-color;
 
-        &::before {
-          content: '';
-          background: $v-subtle-gray;
-          height: 100px;
-          width: 1px;
-          position: absolute;
-          left: 50%;
-          -webkit-transform: translateX(-50%) translateY(-100%);
-          transform: translateX(-50%) translateY(-100%);
-          top: 0;
-        }
-
-        &::after {
-          content: '';
-          background: $v-subtle-gray;
-          height: 100px;
-          width: 1px;
-          position: absolute;
-          left: 50%;
-          -webkit-transform: translateX(-50%) translateY(100%);
-          transform: translateX(-50%) translateY(100%);
-          bottom: 0;
-        }
-
-        > img {
-          width: 26px;
-        }
-
-        > div {
-          border-radius: 50%;
-          width: 26px;
-          height: 26px;
-          border: 3px solid $v-success-color;
-          display: flex;
-          font-size: 13px;
-          align-items: center;
-          justify-content: center;
-          font-weight: 600;
-          vertical-align: middle;
-          color: $v-success-color;
-
-          &.rejected {
-            background: $v-error-color;
-            border-color: $v-error-color;
-            color: $v-white-color;
-            font-family: $v-font-family-bold;
-            font-size: 19px;
-          }
+        &.rejected {
+          background: $v-error-color;
+          border-color: $v-error-color;
+          color: $v-white-color;
+          font-family: $v-font-family-bold;
+          font-size: 19px;
         }
       }
+    }
 
-      &__label {
-        flex-grow: 1;
+    &__label {
+      flex-grow: 1;
 
-        > .action {
-          font-size: 16px;
-        }
+      > .action {
+        font-size: 16px;
+      }
 
-        > .name {
-          color: $v-light-gray;
-          font-size: 14px;
-        }
+      > .name {
+        color: $v-light-gray;
+        font-size: 14px;
       }
     }
   }
@@ -256,15 +144,5 @@
   .proposal-deletion-help {
     color: $v-mid-gray;
     padding: 1rem 2rem;
-  }
-
-  .view-on-blockchain-btn {
-    background: $v-black-transparent-subtle;
-    color: $v-dark-gray;
-    margin-bottom: 1.5rem;
-    display: inline-block;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
   }
 }

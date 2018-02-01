@@ -40,13 +40,13 @@
       </ion-item>
     </ion-list>
     <ion-item class="item-divider"></ion-item>
-    <ion-item class="has-click text-center" ng-click="addAddress()">
+    <ion-item class="has-click is-button" ng-click="addAddress()">
       <span translate>Add Address</span>
     </ion-item>
     <ion-item class="item-divider"></ion-item>
     <div ng-if="entryMode == 'edit'">
-      <ion-item class="has-click text-center" ng-click="deleteContact()">
-        <span class="assertive" translate>Delete Contact</span>
+      <ion-item class="has-click is-button assertive" ng-click="deleteContact()">
+        <span translate>Delete Contact</span>
       </ion-item>
       <ion-item class="item-divider"></ion-item>
     </div>

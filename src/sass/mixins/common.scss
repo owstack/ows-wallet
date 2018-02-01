@@ -47,39 +47,17 @@
       color: $v-card-item-color;
       border-color: $v-card-item-border-color;
 
-      :not(&.item-heading) {
+      &:not(&.item-heading) {
 	      padding-bottom: 1.3rem;
 	      padding-top: 1.3rem;
 	    }
     }
-/*
-    .item-sub {
-      .item-detail {
-        color: $v-card-secondary-color;
-        font-size: 14px;
-      }
 
-      &:first-child:before {
-        width: 95%
-      }
-
-      &:before {
-        display: block;
-        position: absolute;
-        width: 75%;
-        height: 1px;
-        top: 0;
-        right: 0;
-        content: '';
-
-        @media (min-width: 450px){
-          &{
-            width:90%;
-          }
-        }
-      }
+    &.no-header {
+			.list .item:first-child:before {
+				background: none;
+			}    
     }
-*/
   }
 
   /*
@@ -133,6 +111,42 @@
 		    }
 		  }
 
+	    &.has-detail {
+	      padding-top: 0.65rem;
+	      padding-bottom: 0.65rem;
+	    }
+
+	    &.has-label {
+				padding-top: 0;
+				padding-bottom: 0;
+	    }
+
+	    &.item-divider {
+	      background: none;
+	      border: none;
+	      color: $v-settings-color;
+	      padding-bottom: .5rem;
+	      font-size: .9rem;
+	      height: inherit;
+	    }
+
+		  &.item-no-bg {
+		  	background: none;
+
+		  	&:before {
+		  		background: none;		  	
+		  	}
+		  }
+
+	    &.is-button {
+	      color: $v-list-item-link-color;
+	      text-align: center;
+
+	      &.assertive {
+		      color: $v-assertive-color;
+	      }
+	    }
+
 			&.item-input {
 				padding-right: 16px;
 			}
@@ -168,11 +182,6 @@
 		    }
 		  }
 
-	    &.has-detail {
-	      padding-top: 0.65rem;
-	      padding-bottom: 0.65rem;
-	    }
-
 	    .input-label {
 	    	color: $v-list-item-color;
 				text-transform: uppercase;
@@ -190,24 +199,11 @@
  	      }
 		  }
 
-	    &.has-label {
-				padding-top: 0;
-				padding-bottom: 0;
-	    }
-
-	    &.item-divider {
-	      background: none;
-	      border: none;
-	      color: $v-settings-color;
-	      padding-bottom: .5rem;
-	      font-size: .9rem;
-	      height: inherit;
-	    }
-
-	    &.link {
-	      color: $v-list-item-link-color;
-	      text-align: center;
-	    }
+		  .item-content {
+		  	color: inherit;
+		  	white-space: initial;
+		    text-align: left;
+		  }
 
 	    .icon {
 	      color: $v-list-item-color;
@@ -306,14 +302,19 @@
       background: $v-toggle-handle-bg;
     }
 
-		input:checked + .track .handle {
-			background-color: $v-toggle-on-handle-bg;
-		}
-
     .track {
       background: $v-toggle-bg;
       border-color: $v-toggle-border-color;
     }
+
+		input:checked + .track .handle {
+			background: $v-toggle-on-handle-bg;
+		}
+
+		input:checked + .track {
+			background: $v-toggle-on-bg;
+      border-color: $v-toggle-on-border-color;
+		}
   }
 
   .checkbox {

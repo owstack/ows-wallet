@@ -1,5 +1,5 @@
 <ion-view id="tab-receive" show-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Receive' | translate}}</ion-nav-title>
     <ion-nav-buttons side="secondary">
       <button class="button-share ng-hide" ng-show="wallets[0] && showShareButton" ng-click="shareAddress()">
@@ -40,18 +40,19 @@
           <qrcode ng-if="addr" size="220" data="{{protocol}}{{addr}}" color="#444455"></qrcode>
           <div class="address-label">
             <span class="ellipsis">{{addr}}</span>
-            <ion-spinner ng-show="!addr" class="spinner-dark" icon="crescent"></ion-spinner>
+            <ion-spinner ng-show="!addr" icon="crescent"></ion-spinner>
           </div>
         </div>
-        <div class="list">
-          <a ng-show="addr" class="item item-icon-right" ng-click="requestSpecificAmount()">
+        <ion-list>
+          <ion-item ng-show="addr" class="item-icon-right" ng-click="requestSpecificAmount()">
             <span translate>Request Specific Amount</span>
             <i class="icon arrow-right"></i>
-          </a>
-          <a ng-show="addr" class="item link" ng-click="setAddress(true)">
+          </ion-item>
+          <ion-item ng-show="addr" class="has-click is-button" ng-click="setAddress(true)">
             <span translate>Generate New Address</span>
-          </a>
-        </div>
+          </ion-item>
+          <ion-item class="item-divider"></ion-item>
+        </ion-list>
       </div>
     </div>
     <div class="action-selector list" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
@@ -67,21 +68,6 @@
           <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
         </div>
       </div>
-<!--
-
-      <div class="action-link">
-        <i class="icon lg-icon">
-          <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
-        </i>
-        <span>{{wallet.name || wallet.id}}</span>
-        <div class="action-detail">
-          <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr}} </span>
-          <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
-          <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
-          <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
-        </div>
-      </div>
--->
     </div>
   </ion-content>
   <item-selector-wallet

@@ -12,7 +12,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function() {
   };
 
   root.getCurrencyLongLabel = function(obj) {
-    return obj.name + ' (' + root.getCurrencyLabel() + ')';
+    return obj.name + ' (' + root.getCurrencyLabel(obj) + ')';
   };
 
   root.getNetLabel = function(obj) {

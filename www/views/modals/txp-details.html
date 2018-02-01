@@ -1,5 +1,5 @@
 <ion-modal-view id="txp-details" ng-controller="txpDetailsController" ng-init="init()">
-  <ion-header-bar align-title="center" class="bar-royal">
+  <ion-header-bar align-title="center" class="bar bar-header">
     <button class="button button-clear" ng-click="close()">
       Close
     </button>
@@ -31,7 +31,7 @@
           <div ng-show="tx.status == 'accepted'">
             <div class="m10b positive" translate>Payment accepted, but not yet broadcasted</div>
 
-            <button class="button button-positive button-block" ng-click="broadcast(tx)" ng-disabled="loading">
+            <button class="button button-standard button-primary" ng-click="broadcast(tx)" ng-disabled="loading">
               <i class="icon ion-ios-cloud-upload-outline"></i>
               <span translate>Broadcast Payment</span>
             </button>

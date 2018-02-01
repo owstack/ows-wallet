@@ -37,13 +37,8 @@ $v-secondary-color:                                  #313131 !default;
 $v-accent-1-color:                                   #00afff !default;
 $v-accent-2-color:                                   #004466 !default;
 
-$v-text-primary-color:                               #000000 !default;
-$v-text-secondary-color:                             #ffffff !default;
-$v-text-accent-color:                                #00afff !default;
-
 $v-link-color:                                       #00afff !default;
 $v-disabled-color:                                   $v-white-transparent-light !default;
-
 $v-success-color:                                    #0EC286 !default;
 $v-success-bg-color:                                 #0EC286 !default;
 $v-debug-color:                                      #ffffff !default;
@@ -87,6 +82,13 @@ $v-top-tabs-color:                                   $v-accent-1-color !default;
 $v-icon-color:                                       $v-accent-1-color !default;
 $v-icon-negative-color:                              $v-accent-1-color !default;
 $v-icon-border-radius:                               8% !default;
+
+$v-bar-header-bg:                                    $v-primary-color !default;
+$v-bar-header-border:                                none !default;
+$v-bar-header-color:                                 $v-white-color !default;
+$v-bar-header-button-color:                          $v-white-color !default;
+
+$v-notification-box-color:                           $v-white-color !default;
 
 $v-button-primary-bg:                                $v-accent-1-color !default;
 $v-button-primary-color:                             $v-white-color !default;
@@ -132,9 +134,8 @@ $v-button-assertive-outline-active-color:            $v-white-color !default;
 $v-onboarding-pane-bg:                               $v-primary-color !default;
 $v-onboarding-bg:                                    radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
 $v-onboarding-color:                                 $v-white-color !default;
-$v-onboarding-bar-header-color:                      $v-white-color !default;
-$v-onboarding-bar-header-button-color:               $v-white-color !default;
-$v-onboarding-button-back-color:                     $v-white-color !default;
+$v-onboarding-bar-header-color:                      $v-bar-header-color !default;
+$v-onboarding-bar-header-button-color:               $v-bar-header-button-color !default;
 $v-onboarding-backup-alert-icon-color:               $v-accent-1-color !default;
 $v-onboarding-checkbox-off-border:                   $v-accent-1-color !default;
 $v-onboarding-checkbox-on-border:                    $v-success-color !default;
@@ -147,13 +148,17 @@ $v-onboarding-button-secondary-active-border:        transparent !default;
 $v-onboarding-button-secondary-clear-bg:             transparent !default;
 $v-onboarding-button-secondary-clear-color:          $v-accent-1-color !default;
 
+$v-onboarding-tou-bg:                                $v-black-transparent-darker !default;
+$v-onboarding-tou-color:                             $v-white-color !default;
+$v-onboarding-email-bg:                              $v-black-transparent-darker !default;
+$v-onboarding-email-color:                           $v-white-color !default;
+
 /* Tour */
 
 $v-tour-bg:                                          radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
 $v-tour-color:                                       $v-white-color !default;
-$v-tour-bar-header-color:                            $v-white-color !default;
-$v-tour-bar-header-button-color:                     $v-white-color !default;
-$v-tour-button-back-color:                           $v-white-color !default;
+$v-tour-bar-header-color:                            $v-bar-header-color !default;
+$v-tour-bar-header-button-color:                     $v-bar-header-button-color !default;
 $v-tour-swiper-pagination-bg:                        $v-accent-1-color !default;
 
 $v-tour-button-secondary-bg:                         $v-white-transparent-subtle !default;
@@ -168,9 +173,8 @@ $v-tour-button-secondary-clear-color:                $v-accent-1-color !default;
 
 $v-backup-bg:                                        radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%);
 $v-backup-color:                                     $v-white-color !default;
-$v-backup-bar-header-color:                          $v-white-color !default;
-$v-backup-bar-header-button-color:                   $v-white-color !default;
-$v-backup-button-back-color:                         $v-white-color !default;
+$v-backup-bar-header-color:                          $v-bar-header-color !default;
+$v-backup-bar-header-button-color:                   $v-bar-header-button-color !default;
 $v-backup-phrase-bg:                                 none !default;
 $v-backup-phrase-border:                             1px solid $v-accent-2-color !default;
 $v-backup-phrase-color:                              $v-white-color !default;
@@ -196,13 +200,13 @@ $v-card-item-bg:                                     none !default;
 $v-card-item-color:                                  $v-white-color !default;
 $v-card-item-border-color:                           $v-white-transparent-subtle !default;
 $v-card-item-header-height:                          54px !default;
-$v-card-item-lg-wallet-height:                       80px !default;
-$v-card-item-md-wallet-height:                       64px !default;
+$v-card-item-lg-height:                              80px !default;
+$v-card-item-md-height:                              64px !default;
 
 $v-list-bg:                                          none !default;
 $v-list-item-bg:                                     $v-white-transparent-subtle !default;
 $v-list-item-color:                                  $v-white-color !default;
-$v-list-item-secondary-color:                        $v-white-transparent-light !default;
+$v-list-item-secondary-color:                        $v-white-transparent-mid !default;
 $v-list-item-link-color:                             $v-link-color !default;
 $v-list-item-border-color:                           $v-white-transparent-subtle !default;
 $v-list-item-height:                                 64px !default;
@@ -258,11 +262,6 @@ $v-addressbook-bg:                                   radial-gradient(circle at c
 $v-addressbook-color:                                $v-white-color !default;
 $v-addressbook-secondary-color:                      $v-white-transparent-mid !default;
 
-/* TOU */
-
-$v-tou-bg:                                           $v-white-color !default;
-$v-tou-color:                                        $v-dark-gray !default;
-
 /* Session log */
 
 $v-session-log-bg:                                   radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
@@ -311,13 +310,17 @@ $v-pin-buttons-color:                                $v-white-color !default;
 $v-input-bg:                                         $v-white-transparent-subtle !default;
 $v-input-color:                                      $v-white-color !default;
 $v-input-ro-color:                                   $v-white-transparent-mid !default;
+
 $v-checkbox-bg:                                      none !default;
+
 $v-toggle-bg:                                        $v-dark-gray !default;
 $v-toggle-handle-bg:                                 $v-mid-gray !default;
 $v-toggle-border-color:                              $v-dark-gray !default;
 $v-toggle-on-bg:                                     $v-white-color !default;
 $v-toggle-on-handle-bg:                              $v-light-gray !default;
 $v-toggle-on-border-color:                           $v-white-color !default;
+
+$v-spinner-color:                                    $v-white-color !default;
 
 /* Ionic variables */
 
@@ -351,9 +354,9 @@ $item-default-active-border:                         darken($v-subtle-gray, 7%) 
 $item-divider-bg:                                    $v-subtle-gray !default;
 
 $bar-default-border:                                 $v-subtle-gray !default;
-$bar-royal-bg:                                       $v-primary-color !default;
-$bar-royal-border:                                   $v-primary-color !default;
-$bar-royal-text:                                     $v-white-color !default;
+$bar-royal-bg:                                       $v-bar-header-bg !default;
+$bar-royal-border:                                   $v-bar-header-border !default;
+$bar-royal-text:                                     $v-bar-header-color !default;
 
 $tabs-icon-size:                                     22px !default;
 

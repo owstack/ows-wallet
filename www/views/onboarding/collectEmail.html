@@ -7,18 +7,22 @@
         <div class="success-message" translate>Your wallet was created successfully.</div>
       </div>
     </div>
-    <div id="collect-email">
+    <div id="collect-email-container">
       <div id="collect-email-inner" ng-if="!confirmation">
-        <div translate class="heading" translate>Notifications by email</div>
-        <div translate class="prompt" translate>Where would you like to receive email notifications about payments?</div>
+        <div class="heading" translate>Notifications by email</div>
+        <div class="prompt" translate>Where would you like to receive email notifications about payments?</div>
         <form id="email-form" name="emailForm" ng-submit="confirm(emailForm)" novalidate>
-          <label class="item item-input" id="email-label">
-            <input type="email" name="email" ng-model="data.email" placeholder="{{'Email'|translate}}" required></input>
-          </label>
-          <ion-checkbox ng-model="data.news"><span translate>Get news and updates from {{author}}</span></ion-checkbox>
-          <button class="button button-standard button-primary" ng-disabled="emailForm.$invalid">
-            Continue
-          </button>
+          <ion-list>
+            <ion-item class="item-input item-no-bg p0t">
+              <input type="email" name="email" ng-model="data.email" placeholder="{{'Email'|translate}}" required>
+            </ion-item>
+            <ion-checkbox class="has-detail item-no-bg" ng-model="data.news">
+              <span translate>Get news and updates from {{author}}</span>
+            </ion-checkbox>
+            <button class="button button-standard button-primary m20t" ng-disabled="emailForm.$invalid" translate>
+              Continue
+            </button>
+          </ion-list>
         </form>
       </div>
       <div id="collect-email-confirm" ng-if="confirmation">

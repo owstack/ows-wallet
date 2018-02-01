@@ -1,7 +1,8 @@
-$relish-success: 1.3s;
-
 #onboarding-collect-email {
-  background: $v-success-bg-color;
+
+  @include common;
+
+  $v-relish-success: 1.3s;
 
   #success-container {
     top: 41vh;
@@ -10,7 +11,7 @@ $relish-success: 1.3s;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: .5s;
-    animation-delay: $relish-success;
+    animation-delay: $v-relish-success;
     animation-fill-mode: forwards;
 
     >i {
@@ -43,7 +44,7 @@ $relish-success: 1.3s;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: .2s;
-    animation-delay: $relish-success;
+    animation-delay: $v-relish-success;
     animation-fill-mode: forwards;
     opacity: 0;
 
@@ -55,7 +56,6 @@ $relish-success: 1.3s;
   }
 
   .heading {
-    color: $v-dark-gray;
     font-size: 18px;
     font-weight: bold;
     margin: 2rem 0 1rem;
@@ -63,50 +63,38 @@ $relish-success: 1.3s;
 
   .prompt {
     margin: 1rem 1.5rem;
-    color: $v-mid-gray;
   }
 
-  #email-form {
-    margin: 0 1.5rem 1rem;
-  }
+  #collect-email-container {
+    background: $v-onboarding-email-bg;
+    color: $v-onboarding-email-color;
 
-  #email-label {
-    border-radius: $v-visible-radius;
-    background: $v-subtle-gray;
-    height: 3rem;
-    margin-top:0;
-  }
-
-  #collect-email {
-    opacity: 1;
-    background: $v-white-color;
     animation-name: topBottom;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: .4s;
-    animation-delay: $relish-success + .2s;
+    animation-delay: $v-relish-success + .2s;
+    animation-fill-mode: forwards;
+    width: 100%;
     position: absolute;
     bottom: -100%;
-    animation-fill-mode: forwards;
-    z-index: 5;
     margin-top: 0;
-    width: 100%;
+    z-index: 5;
   }
 
-  #collect-email-inner {
-    max-width: 400px;
-    margin: 0 auto;
+  #email-form {
+    button {
+      margin-bottom: 20px;
+    }
   }
 
   #collect-email-confirm {
     p.confirm {
       margin: 2rem 0 1rem;
-      color: $v-dark-gray;
       font-size: 18px;
       font-weight: bold;
     }
     p.user-email {
-      color: $v-dark-gray;
       margin-bottom: 2rem;
     }
   }
@@ -121,49 +109,14 @@ $relish-success: 1.3s;
     padding-top: 0;
   }
 
-  .item {
-    border: none;
-    label {
-      background: none;
-    }
-
-    .checkbox input:before,
-    .checkbox .checkbox-icon:before {
-      border-radius: 50% !important;
-      background: none;
-      border-width: 2px;
-      padding: 12px;
-      position: relative;
-      right: 2px;
-      bottom: 2px;
-    }
-
-    .checkbox input:checked:after,
-    input:checked + .checkbox-icon:after {
-      border-color: $v-onboarding-checkbox-on-border;
-      top: 8px;
-      left: 6px;
-    }
-
-    .item-content {
-      color: $v-mid-gray;
-      text-align: left;
-      margin-left: 75px;
-      white-space: initial;
-    }
-  }
-
-  .item-checkbox {
-    padding: 1rem 0;
-    margin: 1rem 0;
-  }
-
-  .item-checkbox .checkbox {
-    margin-left: 15px;
-  }
-
   .checkbox input:before,
-  .checkbox .checkbox-icon:before{
+  .checkbox .checkbox-icon:before {
+    border-color: $v-onboarding-checkbox-off-border;
+    background: transparent;
+  }
+
+  .checkbox input:after,
+  .checkbox .checkbox-icon:after {
     border-color: $v-onboarding-checkbox-on-border;
   }
 

@@ -1,10 +1,10 @@
 <ion-view id="addresses" class="settings addr" hide-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Wallet Addresses' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
-      <button class="button back-button" ng-click="init()">
+      <button class="button back-button button-clear" ng-click="init()">
         <i class="icon ion-ios-refresh-empty"></i>
       </button>
     </ion-nav-buttons>
@@ -25,10 +25,10 @@
       </div>
 -->
       <div class="list">
-        <div class="item view-all link" ng-click="scan()">
+        <div class="item view-all is-button" ng-click="scan()">
           <span translate>Scan addresses for funds</span>
         </div>
-        <div class="item item-icon-right view-all link" ng-if="viewAll.value" ng-click="viewAllAddresses()">
+        <div class="item item-icon-right view-all is-button" ng-if="viewAll.value" ng-click="viewAllAddresses()">
           <span translate>View All Addresses</span>
           <i class="icon ion-ios-arrow-thin-right"></i>
         </div>
@@ -37,7 +37,7 @@
           <i class="icon ion-ios-plus-empty"></i>
         </div>
         <div ng-if="loading" class="updating">
-          <ion-spinner class="spinner-dark recent" icon="crescent"></ion-spinner>
+          <ion-spinner class="recent" icon="crescent"></ion-spinner>
           <span translate>Loading addresses...</span>
         </div>
         <div ng-if="latestUnused[0]">

@@ -1,13 +1,13 @@
 <ion-view id="txp-details" hide-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{title}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
 
   <ion-content class="tx-details-content">
-    <div class="list" ng-if="btx">
-      <div class="item head">
+    <ion-list ng-if="btx">
+      <ion-item class="head item-fh">
         <div class="sending-label" ng-if="btx.confirmations > 0">
           <img src="img/icon-tx-sent-outline.svg" ng-if="btx.action === 'sent'">
           <img src="img/icon-tx-received-outline.svg" ng-if="btx.action === 'received'">
@@ -33,115 +33,132 @@
             </span>
           </div>
         </div>
-      </div>
-      <div class="info">
-        <div class="item" ng-if="btx.action === 'sent'">
-          <span class="label" translate>To</span>
-          <span class="payment-proposal-to">
-            <img ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
+      </ion-item>
+
+      <ion-item class="has-label item-fh" ng-if="btx.action === 'sent'">
+        <span class="input-label" translate>To</span>
+        <ion-item class="item-sub item-fh">
+          <div class="item-icon-left">
+            <i class="icon md-icon">
+              <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
+            </i>
             <div copy-to-clipboard="btx.addressTo" class="ellipsis">
-              <span ng-if="toName" class="m15l size-14">{{toName}}</span>
-              <span ng-if="!toName" class="ellipsis" style="display: block;">{{btx.addressTo}}</span>
+              <span ng-if="toName" >{{toName}}</span>
+              <span ng-if="!toName" class="ellipsis">{{btx.addressTo}}</span>
             </div>
-          </span>
-        </div>
-        <div class="item">
-          <span class="label" ng-if="btx.action === 'sent'" translate>From</span>
-          <span class="label" ng-if="btx.action !== 'sent'" translate>To</span>
-          <div class="wallet">
-            <i class="icon lg-icon">
+            </div>
+        </ion-item>
+      </ion-item>
+
+      <ion-item class="has-label">
+        <span ng-if="btx.action === 'sent'" class="input-label" translate>From</span>
+        <span ng-if="btx.action !== 'sent'" class="input-label" translate>To</span>
+        <ion-item class="item-sub item-fh">
+          <div class="item-icon-left">
+            <i class="icon md-icon">
               <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>
+        </ion-item>
+      </ion-item>
+
+      <ion-item ng-if="btx.action != 'received' && isShared">
+        <span translate>Created by</span>
+        <span class="item-note">
+          {{btx.creatorName}}
+        </span>
+      </ion-item>
+
+      <ion-item ng-if="btx.ts || btx.createdOn || btx.time">
+        <span translate>Date</span>
+        <span class="item-note">
+          <time>{{ (btx.ts || btx.createdOn || btx.time) * 1000 | amDateFormat:'MM/DD/YYYY hh:mm a'}}</time>
+        </span>
+      </ion-item>
+
+      <ion-item class="item-icon-right has-detail has-click" ng-click="showCommentPopup()">
+        <span translate>Memo</span>
+        <div class="item-detail">
+          {{btx.note.body || btx.message}}
+          <span ng-show="!(btx.note.body || btx.message)" translate>Add a transaction memo</span>
         </div>
-        <div class="item single-line" ng-if="btx.action != 'received' && isShared">
-          <span class="label" translate>Created by</span>
-          <span class="item-note">
-            {{btx.creatorName}}
-          </span>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+
+      <ion-item class="has-detail" ng-if="btx.action != 'received'">
+        <span translate>Fee</span>
+        <span class="item-note">{{btx.feeStr || '...'}}</span>
+        <div class="item-detail">
+          {{btx.feeFiatStr || '...'}}&nbsp;
+            <span class="fee-rate" ng-if="btx.feeRateStr" translate>- {{btx.feeRateStr}} of the transaction</span>
         </div>
-        <div class="item single-line" ng-if="btx.ts || btx.createdOn || btx.time">
-          <span class="label" translate>Date</span>
-          <span class="item-note">
-            <time>{{ (btx.ts || btx.createdOn || btx.time) * 1000 | amDateFormat:'MM/DD/YYYY hh:mm a'}}</time>
-          </span>
-        </div>
-        <a class="item item-icon-right" ng-class="{'single-line': !btx.note.body && !btx.message}" ng-click="showCommentPopup()">
-          <span class="label" translate>Memo</span>
-          <div class="item-note" style="display: block; float: none; margin-bottom: .25rem;">
-            {{btx.note.body || btx.message}}
-          </div>
-          <i class="icon arrow-right"></i>
-        </a>
-        <div class="item" ng-if="btx.action != 'received'">
-          <span class="label" translate>Fee</span>
-          <span class="m10l">{{btx.feeStr || '...'}}</span>
-          <span class="item-note m10l">
-            <span>{{btx.feeFiatStr || '...'}}&nbsp;<span class="fee-rate" ng-if="btx.feeRateStr" translate>- {{btx.feeRateStr}} of the transaction</span></span>
-          </span>
-        </div>
-        <div class="item low-fees" ng-if="btx.action == 'received' && btx.lowFees">
-          <i class="icon"><img src="img/icon-warning.svg" width="20px"></i>
-          <span translate>This transaction could take a long time to confirm or could be dropped due to the low fees set by the sender</span>
-        </div>
-        <div class="item low-fees" ng-if="btx.lowAmount">
-          <i class="icon"><img src="img/icon-warning.svg" width="20px"></i>
-          <span translate>
-This transaction amount is too small compared to current network fees. Spending these funds will need a network fee cost comparable to the funds itself. </span>
-        </div>
- 
-        <div class="item single-line">
-          <span class="label" translate>Confirmations</span>
-          <span class="item-note">
-            <span ng-if="!btx.confirmations || btx.confirmations == 0" translate>
-              Unconfirmed
-            </span>
-            <span ng-if="btx.confirmations>0 && !btx.safeConfirmed">
-              {{btx.confirmations}}
-            </span>
-            <span ng-if="btx.safeConfirmed">
-              {{btx.safeConfirmed}}
-            </span>
-          </span>
-        </div>
-        <div ng-if="txsUnsubscribedForNotifications">
-          <ion-toggle ng-show="!btx.confirmations || btx.confirmations == 0"
-                      class="toggle-unconfirmed"
-                      ng-model="txNotification.value"
-                      toggle-class="toggle-positive"
-                      ng-change="txConfirmNotificationChange()">
-            <span class="toggle-label" translate>Notify me if confirmed</span>
-          </ion-toggle>
-        </div>
-        <div ng-if="actionList[0]">
-          <div class="item item-divider" translate>Timeline</div>
-          <div class="item timeline-item" ng-class="{'action-created' : a.type == 'created' || a.type == 'accept', 'action-rejected' : a.type == 'reject'}" ng-repeat="a in actionList track by $index">
-            <div class="timeline-content">
-              <div class="timeline-content__icon">
-                <div class="rejected" ng-if="a.type === 'reject'">!</div>
-                <img src="img/icon-broadcasted.svg" ng-if="a.type === 'broadcasted'">
-                <div ng-if="a.type !== 'reject' && a.type !== 'broadcasted'">
-                  {{actionList.length - $index}}
-                </div>
-              </div>
-              <div class="timeline-content__label">
-                <div class="action">{{a.description}}</div>
-                <div class="name">{{a.by}}</div>
-              </div>
-              <div>
-                <span class="item-note">
-                  <time>{{ a.time * 1000 | amTimeAgo}}</time>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+      </ion-item>
+
+      <div class="box-notification warning" ng-if="btx.action == 'received' && btx.lowFees" translate>
+        <div class="title">Low Fee Transation</div>
+        <span translate>
+          This transaction could take a long time to confirm or may never confirm due to the low fees set by the sender.
+        </span>
       </div>
 
-    </div>
+      <div class="box-notification warning" ng-if="btx.lowAmount" translate>
+        <div class="title">Transaction Amount Too Small</div>
+        <span translate>
+          This transaction amount is too small when compared with current network fees. Spending these funds will require a network fee cost comparable to the amount itself.
+        </span>
+      </div>
 
-    <button ng-if="btx" class="view-on-blockchain-btn button button-standard button-primary" ng-click="viewOnBlockchain()" translate>
+      <ion-item>
+        <span translate>Confirmations</span>
+        <span class="item-note">
+          <span ng-if="!btx.confirmations || btx.confirmations == 0" translate>
+            Unconfirmed
+          </span>
+          <span ng-if="btx.confirmations>0 && !btx.safeConfirmed">
+            {{btx.confirmations}}
+          </span>
+          <span ng-if="btx.safeConfirmed">
+            {{btx.safeConfirmed}}
+          </span>
+        </span>
+      </ion-item>
+
+      <div ng-if="txsUnsubscribedForNotifications">
+        <ion-toggle ng-show="!btx.confirmations || btx.confirmations == 0" ng-model="txNotification.value"
+          toggle-class="toggle-positive" ng-change="txConfirmNotificationChange()">
+          <span translate>Notify me if confirmed</span>
+        </ion-toggle>
+      </div>
+
+      <div ng-if="actionList[0]">
+        <ion-item class="item-divider" translate>Timeline</ion-item>
+        <ion-item class="timeline-item" ng-repeat="a in actionList track by $index"
+          ng-class="{'action-created' : a.type == 'created' || a.type == 'accept', 'action-rejected' : a.type == 'reject'}">
+          <div class="timeline-content">
+            <div class="timeline-content__icon">
+              <div class="rejected" ng-if="a.type === 'reject'">!</div>
+              <img src="img/icon-broadcasted.svg" ng-if="a.type === 'broadcasted'">
+              <div ng-if="a.type !== 'reject' && a.type !== 'broadcasted'">
+                {{actionList.length - $index}}
+              </div>
+            </div>
+            <div class="timeline-content__label">
+              <div class="action">{{a.description}}</div>
+              <div class="name">{{a.by}}</div>
+            </div>
+            <div>
+              <span class="item-note">
+                <time>{{ a.time * 1000 | amTimeAgo}}</time>
+              </span>
+            </div>
+          </div>
+        </ion-item>
+      </div>
+      <ion-item class="item-divider"></ion-item>
+    </ion-list>
+
+    <button ng-if="btx" class="button button-standard button-primary m20b" ng-click="viewOnBlockchain()" translate>
       View on blockchain
     </button>
 

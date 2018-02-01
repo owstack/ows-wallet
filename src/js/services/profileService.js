@@ -792,6 +792,12 @@ angular.module('owsWalletApp.services')
         });
       }
 
+      if (opts.network) {
+        ret = lodash.filter(ret, function(w) {
+          return (w.network == opts.network);
+        });
+      }
+
       if (opts.n) {
         ret = lodash.filter(ret, function(w) {
           return (w.credentials.n == opts.n);

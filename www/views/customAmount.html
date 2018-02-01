@@ -1,5 +1,5 @@
 <ion-view id="custom-amount" hide-tabs>
-  <ion-nav-bar class="bar-royal">
+  <ion-nav-bar class="bar bar-header">
     <ion-nav-buttons side="primary">
       <button class="button back-button button-clear" ng-click="close()" translate>
         Close
@@ -8,11 +8,7 @@
     <ion-nav-title>{{'Custom Amount' | translate}}</ion-nav-title>
     <ion-nav-buttons side="secondary">
       <button class="button-share ng-hide" ng-show="showShareButton" ng-click="shareAddress()">
-        <i class="icon"
-          ng-class="{
-          'ion-ios-upload-outline': showShareButton == 'iOS',
-          'ion-android-share-alt': showShareButton != 'iOS'
-          }"></i>
+        <i class="icon" ng-class="{'ion-ios-upload-outline': showShareButton == 'iOS', 'ion-android-share-alt': showShareButton != 'iOS'}"></i>
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
@@ -20,30 +16,28 @@
     <div class="address" ng-if="address && amountStandard">
       <div class="qr-code" copy-to-clipboard="copyToClipboard()">
         <qrcode size="220" data="{{protocol}}{{address + '?amount=' + amountStandard}}" color="#444455"></qrcode>
-      </div>
-      <div class="info">
-        <div class="item single-line" copy-to-clipboard="address">
-          <span class="label" translate>Address</span>
-          <span class="item-note ellipsis">
-            {{address}}
-          </span>
+        <div class="address-label">
+          <span class="ellipsis">{{address}}</span>
+          <ion-spinner ng-show="!address" icon="crescent"></ion-spinner>
         </div>
-        <div class="item single-line">
+      </div>
+      <ion-list>
+        <ion-item class="has-label">
+          <span class="input-label" translate>Receive to</span>
+          <div class="item item-sub item-icon-left icon-left-md">
+            <i class="icon md-icon">
+              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+            </i>
+            {{wallet.name}}
+          </div>
+        </ion-item>
+        <ion-item>
           <span class="label" translate>Amount</span>
           <span class="item-note">
             {{amountAtomicStr}} - {{altAmountStr}}
           </span>
-        </div>
-        <div class="item single-line">
-          <div class="wallet">
-            <i class="icon lg-icon">
-              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
-            </i>
-            {{wallet.name}}&nbsp;
-          </div>
-          <div class="label" translate>Receive in</div>
-        </div>
+        </ion-item>
       </div>
-    </div>
+    </ion-list>
   </ion-content>
 </ion-view>

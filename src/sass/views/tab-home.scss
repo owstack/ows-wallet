@@ -5,7 +5,7 @@
   @include common;
 
   .list .item:not(.item-heading) {
-    height: $v-card-item-lg-wallet-height !important;
+    height: $v-card-item-md-height !important;
   }
 
   .icon-create-wallet {

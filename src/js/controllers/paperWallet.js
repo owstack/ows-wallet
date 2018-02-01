@@ -3,7 +3,9 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
 
     function _scanFunds(cb) {
       function getPrivateKey(scannedKey, isPkEncrypted, passphrase, cb) {
-        if (!isPkEncrypted) return cb(null, scannedKey);
+        if (!isPkEncrypted) {
+          return cb(null, scannedKey);
+        }
         $scope.wallet.decryptBIP38PrivateKey(scannedKey, passphrase, null, cb);
       };
 
@@ -12,41 +14,64 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
       };
 
       function checkPrivateKey(privateKey) {
-        try {
-          networkService.walletClientFor('livenet/btc').getLib().PrivateKey(privateKey, 'livenet/btc'); // TODO: support other than livenet/btc
-        } catch (err) {
-          return false;
-        }
-        return true;
+        var result;
+
+        // Check to see if private key is valid on any network. Only look at livenets.
+        networkService.forEachNetwork({net: 'livenet'}, function(walletClient, network) {
+          if (!result) {
+            try {
+              walletClient.PrivateKey(privateKey, network.getURI());
+              result = true;
+            } catch (err) {
+              result = false;
+            }
+          }
+        }, function() {
+          return result;
+        });
       };
 
       getPrivateKey($scope.scannedKey, $scope.isPkEncrypted, $scope.passphrase, function(err, privateKey) {
-        if (err) return cb(err);
-        if (!checkPrivateKey(privateKey)) return cb(new Error('Invalid private key'));
+        if (err) {
+          return cb(err);
+        }
+        if (!checkPrivateKey(privateKey)) {
+          return cb(new Error('Invalid private key'));
+        }
 
         getBalance(privateKey, function(err, balance) {
-          if (err) return cb(err);
+          if (err) {
+            return cb(err);
+          }
           return cb(null, privateKey, balance);
         });
       });
     };
 
     $scope.scanFunds = function() {
+      $scope.scanComplete = false;
       ongoingProcess.set('scanning', true);
       $timeout(function() {
         _scanFunds(function(err, privateKey, balance) {
           ongoingProcess.set('scanning', false);
           if (err) {
             $log.error(err);
-            popupService.showAlert(gettextCatalog.getString('Error scanning funds:'), err || err.toString());
+            popupService.showAlert(gettextCatalog.getString('Error Scanning For Funds'), err || err.toString());
             $state.go('tabs.home');
+
           } else {
+            $scope.scanComplete = true;
             $scope.privateKey = privateKey;
             $scope.balanceAtomic = balance;
-            if ($scope.balanceAtomic <= 0)
-              popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Not funds found'));
+            if ($scope.balanceAtomic <= 0) {
+              popupService.showAlert(
+                gettextCatalog.getString('No Funds Found'),
+                gettextCatalog.getString('No funds were found while scanning addresses.'));
+              $state.go('tabs.home');
+            }
+
             var config = configService.getSync().wallet.settings;
-            $scope.balance = txFormatService.formatAmount('livenet/btc', balance) + ' ' + config.unitName; // TODO: support other than livenet/btc
+            $scope.balance = txFormatService.formatAmount($scope.wallet.networkURI, balance) + ' ' + config.unitName;
           }
           $scope.$apply();
         });
@@ -106,7 +131,9 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
     };
 
     $scope.showWalletSelector = function() {
-      if ($scope.singleWallet) return;
+      if ($scope.singleWallet) {
+        return;
+      }
       $scope.walletSelectorTitle = gettextCatalog.getString('Transfer to');
       $scope.showWallets = true;
     };
@@ -115,11 +142,11 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
       $scope.scannedKey = (data.stateParams && data.stateParams.privateKey) ? data.stateParams.privateKey : null;
       $scope.isPkEncrypted = $scope.scannedKey ? ($scope.scannedKey.substring(0, 2) == '6P') : null;
       $scope.sendStatus = null;
-      $scope.error = false;
+      $scope.scanComplete = false;
 
       $scope.wallets = profileService.getWallets({
         onlyComplete: true,
-        networkURI: 'livenet/btc', // TODO: support other than livenet/btc
+        network: 'livenet'
       });
       $scope.singleWallet = $scope.wallets.length == 1;
 
@@ -131,9 +158,12 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
 
     $scope.$on("$ionicView.enter", function(event, data) {
       $scope.wallet = $scope.wallets[0];
-      if (!$scope.wallet) return;
-      if (!$scope.isPkEncrypted) $scope.scanFunds();
-      else {
+      if (!$scope.wallet) {
+        return;
+      }
+      if (!$scope.isPkEncrypted) {
+        $scope.scanFunds();
+      } else {
         var message = gettextCatalog.getString('Private key encrypted. Enter password');
         popupService.showPrompt(null, message, null, function(res) {
           $scope.passphrase = res;

@@ -2,30 +2,12 @@
   background: $v-home-bg;
   color: $v-home-color;
 
-  .item {
-    background: $v-list-item-bg;
-    color: $v-list-item-color;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    border: none;
-    padding-left: 90px;
+  @include common;
 
-    &:first-child {
-      margin-top: 25px;
-    }
-  }
-
-  .bg {
-    background-color: $v-icon-color;
-    height: 40px;
-    width: 40px;
-    padding: 4px;
-
-    &.join {
-      padding:10px;
-    }
+  .icon-single-wallet,
+  .icon-shared-wallet,
+  .icon-join-wallet,
+  .icon-import-wallet {
+    background-color: $v-accent-1-color;
   }
 }

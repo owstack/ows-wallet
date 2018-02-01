@@ -1,4 +1,4 @@
-<span class="wallet-activity">
+<span>
   <div ng-if="notification.type == 'NewCopayer' && notification.wallet.n>1" translate>
     Copayer joined
   </div>
@@ -9,14 +9,14 @@
 
   <div ng-if="notification.type == 'NewOutgoingTx'">
     <span translate>Payment Sent </span>
-    <div class="wallet-activity-amount">
+    <div class="right">
       {{notification.amountStr}}
     </div>
   </div>
 
   <div ng-if="notification.type == 'NewIncomingTx'">
     <span translate>Payment Received</span>
-    <div class="wallet-activity-amount">
+    <div class="right">
       {{notification.amountStr}}
     </div>
   </div>
@@ -24,7 +24,7 @@
   <div ng-if="notification.type == 'TxProposalRemoved'">
     <span translate>Proposal Deleted</span>:
     <b>{{notification.message}}</b>
-    <div class="wallet-activity-amount">
+    <div class="right">
       {{notification.amountStr}}:
     </div>
   </div>
@@ -32,7 +32,7 @@
   <div ng-if="notification.type == 'TxProposalRejectedBy'">
     <span translate>Proposal Rejected</span>:
     <b>{{notification.message}}</b>
-    <div class="wallet-activity-amount">
+    <div class="right">
       {{notification.amountStr}}:
       </div>
   </div>
@@ -40,7 +40,7 @@
   <span ng-if="notification.type == 'NewTxProposal'">
     <span translate>New Proposal</span>:
     <b>{{notification.message}}</b>
-    <div class="wallet-activity-amount">
+    <div class="right">
       {{notification.amountStr}}
     </div>
   </span>
@@ -48,16 +48,16 @@
   <span ng-if="notification.type == 'TxProposalAcceptedBy'">
     <span translate>Proposal Accepted</span>:
     <b>{{notification.message}}</b>
-    <div class="wallet-activity-amount">
+    <div class="right">
       {{notification.amountStr}}
     </div>
   </span>
 
-  <div class="wallet-activity-note">
+  <div class="item-detail">
     <!-- {{notification.types}} -->
-    <i class="icon ion-record wallet-activity-note-child" ng-style="{'color':notification.wallet.color}"></i>
-    <span ng-if="notification.creatorName" class="wallet-activity-note-child">{{ notification.creatorName}}@</span>
-    <span class="wallet-activity-note-child">{{notification.wallet.name}}</span>
-    <time class="wallet-activity-note-child">{{ notification.createdOn * 1000 | amTimeAgo}}</time>
+    <i class="icon ion-record xwallet-activity-note-child" ng-style="{'color':notification.wallet.color}"></i>
+    <span ng-if="notification.creatorName">{{ notification.creatorName}}@</span>
+    <span >{{notification.wallet.name}}</span>
+    <time class="right">{{ notification.createdOn * 1000 | amTimeAgo}}</time>
   </div>
 </span>

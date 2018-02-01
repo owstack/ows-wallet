@@ -229,9 +229,11 @@ angular.module('owsWalletApp.services').factory('incomingData', function($log, $
       var addrNetwork = btcLib.Address(data).network;
       var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
       if ($state.includes('tabs.scan')) {
+        var network = networkService.getNetworkByURI(networkURI);
         root.showMenu({
           networkURI: networkURI,
-          currency: networkService.getNetworkByURI(networkURI).currency,
+          currency: network.currency,
+          currencyLabel: network.getFriendlyNetLabel(),
           data: data,
           type: 'cryptoAddress'
         });

@@ -3,18 +3,42 @@
 
 @import "../../bower_components/ionic/scss/ionic";
 
-/* Ionic Overrides and Workarounds */
+// Ionic Overrides and Workarounds
+//
 // Please include a description of the problem solved by the workaround.
 
-// the ion tabs element never needs it's own background (backgrounds are
-// rendered by the tabs), and the default background would cover the scanner
+// Defeat the Ionic styling when an ion-item includes ui-sref class.
+.item-complex .item-content {
+  position: initial;
+  z-index: initial;
+  padding: initial;
+  border: initial;
+  background-color: initial;
+}
+
+.item .item-content.activated {
+  background-color: initial;
+}
+
+.item-complex.item-icon-left .item-content {
+  padding-left: initial;
+}
+
+// When placing a link in the label of a checkbox, this pulls the click overlay to the right allowing
+// click through to the link in the label.
+.item-checkbox .checkbox {
+  right: auto !important;
+}
+
+// The ion tabs element never needs it's own background (backgrounds are
+// rendered by the tabs), and the default background would cover the scanner.
 ion-tabs.ion-tabs-transparent {
   background: none transparent;
 }
 
 ion-nav-bar.hide { display: block !important; }
 
-// .placeholder-icon padding cannot be modified by a variable
+// .placeholder-icon padding cannot be modified by a variable.
 $placeholder-icon-padding: 10px;
 .placeholder-icon {
   &:first-child {
@@ -25,17 +49,17 @@ $placeholder-icon-padding: 10px;
   }
 }
 
-// .item-input-wrapper background cannot be modified by a variable
+// .item-input-wrapper background cannot be modified by a variable.
 .item-input-wrapper {
   background: none transparent;
 }
 
-// the default .item p color of #666 cannot be modified by a variable
+// The default .item p color of #666 cannot be modified by a variable.
 .item p {
   color: $v-mid-gray;
 }
 
-// we'd like to diverge from the standard ionic formula for left-right card margins
+// We'd like to diverge from the standard ionic formula for left-right card margins.
 .card {
   margin: ($content-padding * 2) 14px;
 }

@@ -1,101 +1,101 @@
-<action-sheet show="showMenu">
-
+<action-sheet id="action-sheet" class="incoming-data-menu" show="showMenu">
   <div ng-if="type === 'url'">
-    <div class="incoming-data-menu__item head">
-      <div class="incoming-data-menu__header" translate>Website</div>
-      <div class="incoming-data-menu__url">
-        <div class="incoming-data-menu__url__icon">
-          <img ng-hide="https" src="img/icon-unlocked.svg">
-          <img ng-show="https" src="img/icon-locked-green.svg">
-        </div>
-        <div class="incoming-data-menu__url__text">
+    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <div class="header" translate>Website</div>
+      <ion-list>
+        <ion-item class="item-icon-left">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-unlocked.svg" ng-hide="https" >
+            <img class="bg" src="img/icon-locked-green.svg" ng-show="https">
+          </i>
           {{data}}
-        </div>
-      </div>
+        </ion-item>
+        <ion-item class="has-click item-icon-left item-icon-right" ng-click="goToUrl(data)">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-link-external.svg">
+          </i>
+          <div translate>Open website</div>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+      </ion-list>
     </div>
-    <a class="incoming-data-menu__item item item-icon-right" ng-click="goToUrl(data)">
-      <img src="img/icon-link-external.svg">
-      <div class="incoming-data-menu__item__text" translate>Open website</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__cancel item" ng-click="hide()" translate>
-      Cancel
-    </a>
   </div>
-
   <div ng-if="type === 'cryptoAddress'">
-    <div class="incoming-data-menu__item head">
-      <div class="incoming-data-menu__header" translate>Address</div>
-      <div class="incoming-data-menu__url">
-        <div class="incoming-data-menu__url__icon">
-          <img ng-src="img/currency-icons/icon-{{currency}}.svg">
-        </div>
-        <div class="incoming-data-menu__url__text">
-          {{data}}
-        </div>
-      </div>
+    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <div class="header">{{currencyLabel}} address</div>
+      <ion-list>
+        <ion-item class="item-icon-left">
+          <i class="icon md-icon">
+            <img class="bg" ng-src="img/currency-icons/icon-{{currency}}.svg">
+          </i>
+          <div class="cryptoAddress ellipsis">{{data}}</div>
+        </ion-item>
+        <ion-item class="has-click item-icon-left item-icon-right" ng-click="addToAddressBook(networkURI, data)">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-contacts.svg">
+          </i>
+          <div translate>Add as a contact</div>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+        <ion-item class="has-click item-icon-left item-icon-right" ng-click="sendPaymentToAddress(networkURI, data)">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-send-alt.svg">
+          </i>
+          <div translate>Send payment to this address</div>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+        <ion-item class="item-icon-left">
+          <div copy-to-clipboard="data">
+            <i class="icon md-icon">
+              <img class="bg" src="img/icon-paperclip.svg">
+            </i>
+            <div translate>Copy to clipboard</div>
+          </div>
+        </ion-item>
+      </ion-list>
     </div>
-    <a class="incoming-data-menu__item item item-icon-right" ng-click="addToAddressBook(networkURI, data)">
-      <img src="img/icon-contacts.svg">
-      <div class="incoming-data-menu__item__text" translate>Add as a contact</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__item item item-icon-right" ng-click="sendPaymentToAddress(networkURI, data)">
-      <img src="img/icon-send-alt.svg">
-      <div class="incoming-data-menu__item__text" translate>Send payment to this address</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__item item item-icon-right" copy-to-clipboard="data">
-      <img src="img/icon-paperclip.svg">
-      <div class="incoming-data-menu__item__text" translate>Copy to clipboard</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__cancel item" ng-click="hide()" translate>
-      Cancel
-    </a>
   </div>
-
   <div ng-if="type === 'text'">
-    <div class="incoming-data-menu__item head">
-      <div class="incoming-data-menu__header" translate>Text</div>
-      <div class="incoming-data-menu__url">
-        <div class="incoming-data-menu__url__text no-border">
+    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <div class="header">Text</div>
+      <ion-list>
+        <ion-item>
           {{data}}
-        </div>
-      </div>
+        </ion-item>
+        <ion-item class="item-icon-left">
+          <div copy-to-clipboard="data">
+            <i class="icon md-icon">
+              <img class="bg" src="img/icon-paperclip.svg">
+            </i>
+            <div translate>Copy to clipboard</div>
+          </div>
+        </ion-item>
+      </ion-list>
     </div>
-    <a class="incoming-data-menu__item item item-icon-right" copy-to-clipboard="data">
-      <img src="img/icon-paperclip.svg">
-      <div class="incoming-data-menu__item__text" translate>Copy to clipboard</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__cancel item" ng-click="hide()" translate>
-      Cancel
-    </a>
   </div>
-
   <div ng-if="type === 'privateKey'">
-    <div class="incoming-data-menu__item head">
-      <div class="incoming-data-menu__header" translate>Private Key</div>
-      <div class="incoming-data-menu__url">
-        <div class="incoming-data-menu__url__text no-border">
-          {{data}}
-        </div>
-      </div>
+    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <div class="header">Private Key</div>
+      <ion-list>
+        <ion-item>
+          <div class="cryptoKey ellipsis">{{data}}</div>
+        </ion-item>
+        <ion-item class="has-click item-icon-left item-icon-right" ng-click="scanPaperWallet(data)">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-import-paper.svg">
+          </i>
+          <div translate>Import paper wallet</div>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+        <ion-item class="item-icon-left">
+          <div copy-to-clipboard="data">
+            <i class="icon md-icon">
+              <img class="bg" src="img/icon-paperclip.svg">
+            </i>
+            <div translate>Copy to clipboard</div>
+          </div>
+        </ion-item>
+      </ion-list>
     </div>
-    <a class="incoming-data-menu__item item item-icon-right" ng-click="scanPaperWallet(data)">
-      <img src="img/icon-import-paper.svg">
-      <div class="incoming-data-menu__item__text" translate>Import paper wallet</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__item item item-icon-right" copy-to-clipboard="data">
-      <img src="img/icon-paperclip.svg">
-      <div class="incoming-data-menu__item__text" translate>Copy to clipboard</div>
-      <i class="icon arrow-right"></i>
-    </a>
-    <a class="incoming-data-menu__cancel item" ng-click="hide()" translate>
-      Cancel
-    </a>
   </div>
-
 </action-sheet>
