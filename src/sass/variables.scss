@@ -68,15 +68,22 @@ $v-default-wallet-color-index:                       8 !default; // See $v-walle
 $v-default-wallet-color:                             map-get( map-get($v-wallet-color-map, $v-default-wallet-color-index) , color) !default;
 $v-default-wallet-background:                        linear-gradient(30deg, rgba(0,0,0,0) 50%,rgba(0,0,0,0.5) 90%) $v-default-wallet-color !default;
 
-/* Theme */
+/* Shadows */
 
 $v-subtle-box-shadow:                                0 1px 2px $v-black-transparent-light !default;
 $v-hovering-box-shadow:                              0px 6px 12px 0px $v-black-transparent-light !default;
+
+/* Corners */
+
 $v-subtle-radius:                                    3px !default;
 $v-visible-radius:                                   6px !default;
 $v-unmistakable-radius:                              12px !default;
+
+/* Theme */
+
 $v-scanner-bg-color:                                 $v-primary-color !default;
 $v-scanner-guide-color:                              $v-accent-1-color !default;
+
 $v-top-tabs-color:                                   $v-accent-1-color !default;
 
 $v-icon-color:                                       $v-accent-1-color !default;
@@ -88,7 +95,13 @@ $v-bar-header-border:                                none !default;
 $v-bar-header-color:                                 $v-white-color !default;
 $v-bar-header-button-color:                          $v-white-color !default;
 
-$v-notification-box-color:                           $v-white-color !default;
+$v-notification-color:                               $v-white-color !default;
+$v-notification-info-border:                         $v-accent-2-color !default;
+$v-notification-info-bg:                             $v-accent-2-color !default;
+$v-notification-warning-border:                      $v-warning-color !default;
+$v-notification-warning-bg:                          $v-warning-color !default;
+$v-notification-error-border:                        $v-error-color !default;
+$v-notification-error-bg:                            $v-error-color !default;
 
 $v-button-primary-bg:                                $v-accent-1-color !default;
 $v-button-primary-color:                             $v-white-color !default;
@@ -147,6 +160,8 @@ $v-onboarding-button-secondary-active-bg:            $v-white-transparent-light 
 $v-onboarding-button-secondary-active-border:        transparent !default;
 $v-onboarding-button-secondary-clear-bg:             transparent !default;
 $v-onboarding-button-secondary-clear-color:          $v-accent-1-color !default;
+$v-onboarding-button-secondary-outline-bg:           transparent !default;
+$v-onboarding-button-secondary-outline-color:        $v-accent-1-color !default;
 
 $v-onboarding-tou-bg:                                $v-black-transparent-darker !default;
 $v-onboarding-tou-color:                             $v-white-color !default;
@@ -168,6 +183,8 @@ $v-tour-button-secondary-active-bg:                  $v-white-transparent-light 
 $v-tour-button-secondary-active-border:              transparent !default;
 $v-tour-button-secondary-clear-bg:                   transparent !default;
 $v-tour-button-secondary-clear-color:                $v-accent-1-color !default;
+$v-tour-button-secondary-outline-bg:                 transparent !default;
+$v-tour-button-secondary-outline-color:              $v-accent-1-color !default;
 
 /* Backup */
 
@@ -189,6 +206,8 @@ $v-backup-button-secondary-active-bg:                $v-white-transparent-light 
 $v-backup-button-secondary-active-border:            transparent !default;
 $v-backup-button-secondary-clear-bg:                 transparent !default;
 $v-backup-button-secondary-clear-color:              $v-accent-1-color !default;
+$v-backup-button-secondary-outline-bg:               transparent !default;
+$v-backup-button-secondary-outline-color:            $v-accent-1-color !default;
 
 /* Cards and lists */
 
@@ -255,6 +274,8 @@ $v-wallet-action-button-active-bg:                   $v-black-transparent-subtle
 $v-wallet-action-button-active-border:               transparent !default;
 $v-wallet-action-button-clear-bg:                    transparent !default;
 $v-wallet-action-button-clear-color:                 $v-white-color !default;
+$v-wallet-action-button-outline-bg:                  transparent !default;
+$v-wallet-action-button-outline-color:               $v-white-color !default;
 
 /* Address book */
 

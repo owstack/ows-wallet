@@ -1,6 +1,6 @@
 <div class="card tip">
-  <div class="item item-icon-right item-heading ng-hide"></div>
-  <div class="item"></div>
+  <ion-item class="item-icon-right item-heading ng-hide"></ion-item>
+  <ion-item>
     <div>
       <i class="icon zero-state-icon">
         <img src="img/icon-receive-tip.svg"/>
@@ -9,15 +9,11 @@
     <div class="title" translate>
       Start receiving
     </div>
-    <div class="subtitle">
-      <span ng-show="!hasWallets" translate>
-        To get started receiving digital currency you need to add a wallet.
-      </span>
-      <div class="padding">
-        <button class="button button-standard button-primary" ng-click="createWallet()" ng-show="!hasWallets" translate>
-          Add wallet
-        </button>
-      </div>
-    </div>
-  </div>
+    <span class="subtitle" translate>
+      To get started receiving digital currency you need to add a wallet.
+    </span>
+    <button class="button button-standard button-primary" ng-click="createWallet()" translate>
+      Add wallet
+    </button>
+  </ion-item>
 </div>

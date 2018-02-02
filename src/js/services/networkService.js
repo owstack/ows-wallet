@@ -143,7 +143,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return aUnit.value / sUnit.value;
   };
 
-  root.forEachNetwork = function(opts, callback, done) {
+  root.forEachNetwork = function(opts, callback) {
     opts = opts || {};
     opts.net = opts.net || 'all';
 
@@ -160,7 +160,6 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       var walletClient = root.walletClientFor(n.getURI()).getLib();
       callback(walletClient, n);
     });
-    done();
   };
 
   ({net: 'livenet'}, function(walletClient, network) {

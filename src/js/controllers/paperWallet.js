@@ -20,15 +20,14 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
         networkService.forEachNetwork({net: 'livenet'}, function(walletClient, network) {
           if (!result) {
             try {
-              walletClient.PrivateKey(privateKey, network.getURI());
+              walletClient.PrivateKey(privateKey, network.net);
               result = true;
             } catch (err) {
               result = false;
             }
           }
-        }, function() {
-          return result;
         });
+        return result;
       };
 
       getPrivateKey($scope.scannedKey, $scope.isPkEncrypted, $scope.passphrase, function(err, privateKey) {
@@ -67,7 +66,6 @@ angular.module('owsWalletApp.controllers').controller('paperWalletController',
               popupService.showAlert(
                 gettextCatalog.getString('No Funds Found'),
                 gettextCatalog.getString('No funds were found while scanning addresses.'));
-              $state.go('tabs.home');
             }
 
             var config = configService.getSync().wallet.settings;

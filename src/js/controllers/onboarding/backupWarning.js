@@ -19,7 +19,7 @@ angular.module('owsWalletApp.controllers').controller('backupWarningController',
     $scope.close = function() {
       $scope.warningModal.remove();
       $timeout(function() {
-        $ionicNativeTransitions.stateGo($scope.fromState, {
+        $ionicNativeTransitions.stateGo($scope.toState, {
           walletId: $scope.walletId
         }, {}, {
           type: 'slide',

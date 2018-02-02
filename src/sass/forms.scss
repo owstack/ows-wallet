@@ -70,11 +70,12 @@
  */
 
 .box-notification {
-  color: $v-notification-box-color;
+  color: $v-notification-color;
   font-size: 16px;
   padding: 0.5rem;
   border: 1px solid;
   margin: 10px;
+  box-shadow: $v-subtle-box-shadow;
 
   .title {
     margin: 5px;
@@ -87,7 +88,7 @@
 
   a {
     color: $v-warning-color;
-    background: $v-notification-box-color;
+    background: $v-notification-color;
     font-weight: bold;
     cursor: pointer;
     cursor: hand;
@@ -100,8 +101,8 @@
   }
 
   &.info {
-    border-color: $v-info-color;
-    background-color: $v-info-color;
+    border: $v-notification-info-border;
+    background: $v-notification-info-bg;
 
     .title {
       &:before {
@@ -114,8 +115,8 @@
   }
 
   &.warning {
-    border-color: $v-warning-color;
-    background-color: $v-warning-color;
+    border: $v-notification-warning-border;
+    background: $v-notification-warning-bg;
 
     .title {
       &:before {
@@ -128,8 +129,8 @@
   }
 
   &.error {
-    background-color: $v-error-color;
-    border-color: $v-error-color;
+    border: $v-notification-error-border;
+    background: $v-notification-error-bg;
 
     .title {
       &:before {

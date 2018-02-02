@@ -20,8 +20,8 @@
 .tour .button {
   &.button-primary {
     @include button-style($v-button-primary-bg, $v-button-primary-border, $v-button-primary-active-bg, $v-button-primary-active-border, $v-button-primary-color);
-    @include button-clear($v-button-primary-bg);
-    @include button-outline($v-button-primary-bg);
+    @include button-clear($v-button-primary-clear-color);
+    @include button-outline($v-button-primary-outline-color);
   }
   &.button-primary,
   &.button-secondary,
@@ -39,45 +39,45 @@
 .backup .button {
   &.button-secondary {
     @include button-style($v-backup-button-secondary-bg, $v-backup-button-secondary-border, $v-backup-button-secondary-active-bg, $v-backup-button-secondary-active-border, $v-backup-button-secondary-color);
-    @include button-clear($v-backup-button-secondary-color);
-    @include button-outline($v-backup-button-secondary-color);
+    @include button-clear($v-backup-button-secondary-clear-color);
+    @include button-outline($v-backup-button-secondary-outline-color);
   }
 }
 
 .onboarding .button {
   &.button-secondary {
     @include button-style($v-onboarding-button-secondary-bg, $v-onboarding-button-secondary-border, $v-onboarding-button-secondary-active-bg, $v-onboarding-button-secondary-active-border, $v-onboarding-button-secondary-color);
-    @include button-clear($v-onboarding-button-secondary-color);
-    @include button-outline($v-onboarding-button-secondary-color);
+    @include button-clear($v-onboarding-button-secondary-clear-color);
+    @include button-outline($v-onboarding-button-secondary-outline-color);
   }
 }
 
 .tour .button {
   &.button-secondary {
     @include button-style($v-tour-button-secondary-bg, $v-tour-button-secondary-border, $v-tour-button-secondary-active-bg, $v-tour-button-secondary-active-border, $v-tour-button-secondary-color);
-    @include button-clear($v-tour-button-secondary-color);
-    @include button-outline($v-tour-button-secondary-color);
+    @include button-clear($v-tour-button-secondary-clear-color);
+    @include button-outline($v-tour-button-secondary-outline-color);
   }
 }
 
 .button {
   &.button-secondary {
     @include button-style($v-button-secondary-bg, $v-button-secondary-border, $v-button-secondary-active-bg, $v-button-secondary-active-border, $v-button-secondary-color);
-    @include button-clear($v-button-secondary-color);
-    @include button-outline($v-button-secondary-color);
+    @include button-clear($v-button-secondary-clear-color);
+    @include button-outline($v-button-secondary-outline-color);
   }
 }
 
 .button {
   &.button-assertive {
     @include button-style($v-button-assertive-bg, $v-button-assertive-border, $v-button-assertive-active-bg, $v-button-assertive-active-border, $v-button-assertive-color);
-    @include button-clear($v-button-assertive-color);
-    @include button-outline($v-button-assertive-color);
+    @include button-clear($v-button-assertive-clear-color);
+    @include button-outline($v-button-assertive-outline-color);
   }
 }
 
 #walletDetails .button-action {
   @include button-style($v-wallet-action-button-bg, $v-wallet-action-button-border, $v-wallet-action-button-active-bg, $v-wallet-action-button-active-border, $v-wallet-action-button-color);
-  @include button-clear($v-wallet-action-button-color);
-  @include button-outline($v-wallet-action-button-color);
+  @include button-clear($v-wallet-action-button-clear-color);
+  @include button-outline($v-wallet-action-button-outline-color);
 }

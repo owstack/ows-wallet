@@ -3,4 +3,11 @@
   color: $v-home-color;
 
   @include common;
+
+  .button.button-standard.button-primary {
+	  position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
