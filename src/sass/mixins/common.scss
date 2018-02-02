@@ -47,7 +47,7 @@
       color: $v-card-item-color;
       border-color: $v-card-item-border-color;
 
-      &:not(&.item-heading) {
+      &:not(.item-heading) {
 	      padding-bottom: 1.3rem;
 	      padding-top: 1.3rem;
 	    }
