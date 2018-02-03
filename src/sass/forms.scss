@@ -29,6 +29,25 @@
   }
 }
 
+#bullet-list {
+  font-size: 15px;
+  margin: 10px auto 10px 1.5em;
+}
+
+#bullet-list ul {
+  margin-top: 10px;
+}
+
+#bullet-list ul li {
+  text-align: left;
+  list-style: disc outside;
+
+  span {
+    position: relative;
+    left: -5px;
+  }
+}
+
 /*
  *  QR code presentation
  */
@@ -87,7 +106,7 @@
   }
 
   a {
-    color: $v-warning-color;
+    color: $v-link-color;
     background: $v-notification-color;
     font-weight: bold;
     cursor: pointer;
@@ -112,6 +131,10 @@
         margin-right: 10px;
       }
     }
+
+    a {
+      color: $v-notification-info-bg;
+    }
   }
 
   &.warning {
@@ -126,6 +149,10 @@
         margin-right: 10px;
       }
     }
+
+    a {
+      color: $v-notification-warning-bg;
+    }
   }
 
   &.error {
@@ -139,6 +166,10 @@
         font-size: 18px;
         margin-right: 10px;
       }
+    }
+
+    a {
+      color: $v-notification-error-bg;
     }
   }
 }

@@ -32,8 +32,7 @@
             </select>
           </div>
           <div class="col item-input">
-            <input type="text" id="{{'dca' + $index}}" name="{{'dca' + $index}}"
-              placeholder="{{'Digital currency address' | translate}}"
+            <input type="text" id="{{'dca' + $index}}" name="{{'dca' + $index}}" placeholder="{{'Digital currency address' | translate}}"
               ng-model="a.address" ng-class="{'correct': !form.addressbookForm.address{{$index}}.$invalid, 'incorrect': a.address.length > 0 && form.addressbookForm.address{{$index}}.$invalid}" valid-address required>
           </div>
         </div>

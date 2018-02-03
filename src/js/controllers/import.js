@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('importController',
-  function($scope, $timeout, $log, $state, $stateParams, $ionicHistory, $ionicScrollDelegate, profileService, configService, ledger, trezor, derivationPathHelper, platformInfo, ongoingProcess, walletService, popupService, gettextCatalog, appConfigService, hwWallet, networkService) {
+  function($scope, $timeout, $log, $state, $stateParams, $ionicHistory, $ionicScrollDelegate, profileService, configService, ledger, trezor, derivationPathHelper, platformInfo, ongoingProcess, walletService, popupService, gettextCatalog, appConfigService, hwWallet, networkService, helpService) {
 
     var reader = new FileReader();
     var defaults = configService.getDefaults();
@@ -414,6 +414,13 @@ angular.module('owsWalletApp.controllers').controller('importController',
       $timeout(function() {
         $ionicScrollDelegate.resize();
       }, 10);
+    };
+
+    $scope.learnMore = function() {
+      // TODO:
+      var locationPrefix = 'tbd';
+      var topicId = 'tbd';
+      helpService.learnMore($scope, locationPrefix, topicId);
     };
 
     $scope.$on("$ionicView.afterEnter", function(event, data) {

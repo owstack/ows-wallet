@@ -8,13 +8,16 @@
       </ion-item>
       <ion-item class="item-accordion item-fh help-content" ng-show="isTopicShown(topic)">
         {{topic.content}}
-        <div ng-repeat="subtopic in topic.subtopics">
-          <ion-item class="help-subtopic-title" ng-click="toggleSubtopic(subtopic)" ng-class="{active: isSubtopicShown(subtopic)}">
-            {{subtopic.title}}
-          </ion-item>
-          <ion-item class="item-accordion item-fh help-subtopic-content" ng-show="isSubtopicShown(subtopic)">
-            {{subtopic.content}}
-          </ion-item>
+        <div id="bullet-list">
+          <ul>
+            <li class="help-subtopic-title" ng-click="toggleSubtopic(subtopic)" ng-class="{active: isSubtopicShown(subtopic)}"
+              ng-repeat="subtopic in topic.subtopics">
+              <span>{{subtopic.title}}</span>
+              <ion-item class="item-accordion item-fh help-subtopic-content" ng-show="isSubtopicShown(subtopic)">
+                {{subtopic.content}}
+              </ion-item>
+            </li>
+          </ul>
         </div>
       </ion-item>
     </div>

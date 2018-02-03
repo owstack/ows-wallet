@@ -81,7 +81,7 @@
 
 	    // Set a uniform height, exclude for some classes.
 	    // 'item-fh' is an override class.
-		  &:not(.item-fh):not(.item-divider):not(.item-input):not(.has-label) {
+		  &:not(.item-fh):not(.item-divider):not(.item-input):not(.has-label):not([class^="help"]) {
 		    height: $v-list-item-height !important;
 		  }
 
@@ -138,9 +138,15 @@
 		  	background: none;
 
 		  	&:before {
-		  		background: none;		  	
+		  		background: none;
 		  	}
 		  }
+
+			&.item-no-line  {
+		  	&:before {
+		  		background: none;
+		  	}
+			}
 
 	    &.is-button {
 	      color: $v-list-item-link-color;
@@ -193,6 +199,7 @@
 		    font-weight: bold;
 		    width: 85%;
 		    max-width: 85%;
+		    display: inline;
 
 	      .item-icon-right {
 					float: right;
@@ -251,6 +258,14 @@
 	    border: 1px solid;
 	    color: $v-success-color;
 	  }
+
+	  &[readonly] {
+	  	color: $v-input-readonly-color;
+	  }
+	}
+
+	input[type="text"] {
+		line-height: 1.428571429; // 20/14
 	}
 
 	input[type="file"] {
@@ -261,13 +276,6 @@
 
 	input[type="search"] {
 	  width: 100%;
-	}
-
-	input[type="number"] {
-	  &[readonly] {
-	    background-color: $v-input-ro-color;
-	    padding-left: 0;
-	  }
 	}
 
 	textarea {

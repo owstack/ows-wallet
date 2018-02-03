@@ -58,7 +58,11 @@ angular.module('owsWalletApp.controllers').controller('joinController',
     };
 
     function resetPasswordFields() {
-      $scope.formData.passphrase = $scope.formData.createPassphrase = $scope.formData.passwordSaved = $scope.formData.repeatPassword = $scope.result = null;
+      $scope.formData.passphrase = null;
+      $scope.formData.createPassphrase = null;
+      $scope.formData.passwordSaved = null;
+      $scope.formData.repeatPassword = null;
+      $scope.result = null;
       $timeout(function() {
         $scope.$apply();
       });
@@ -152,8 +156,9 @@ angular.module('owsWalletApp.controllers').controller('joinController',
             return;
           }
 
-          if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id)
+          if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id) {
             account = account - 1;
+          }
 
           opts.account = account;
           opts.isMultisig = true;

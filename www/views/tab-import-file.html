@@ -1,36 +1,37 @@
 <form name="importForm" ng-submit="importBlob(importForm)" class="setupForm" novalidate>
-  <div class="list settings-input-group">
-    <label class="item item-input item-stacked-label" ng-show="!isSafari && !isCordova">
+  <ion-list>
+    <ion-item class="item-input item-stacked-label" ng-show="!isSafari && !isCordova">
       <span class="input-label" translate>Choose a backup file from your computer</span>
       <input type="file" placeholder="{{'Select a backup file'|translate}}" ng-model="formData.backupFile" ng-file-select>
-    </label>
-    <label class="item item-input item-stacked-label" ng-show="isSafari || isCordova">
+    </ion-item>
+    <ion-item class="item-input item-stacked-label" ng-show="isSafari || isCordova">
       <span class="input-label" translate>Paste the backup plain text code</span>
       <textarea ng-model="formData.backupText" rows="5"></textarea>
-    </label>
-    <label class="item item-input item-stacked-label">
+    </ion-item>
+    <ion-item class="item-input item-stacked-label">
       <span class="input-label" translate>Password</span>
       <input type="password" placeholder="{{'Password'|translate}}" ng-model="formData.password">
-    </label>
-    <label class="item item-input item-select">
+    </ion-item>
+    <ion-item class="item-input item-select">
       <span class="input-label" translate>Currency</span>
       <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
         ng-change=" onNetworkChange(); resizeView();"></select>
-    </label>
-    <div class="item item-divider"></div>
-    <a class="item" ng-click="showAdvChange()">
+    </ion-item>
+    <ion-item class="item-divider"></ion-item>
+    <ion-item class="has-click" ng-click="showAdvChange()">
       <span translate ng-show="!showAdv">Show advanced options</span>
       <span translate ng-show="showAdv">Hide advanced options</span>
       <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
-    </a>
+    </ion-item>
     <div ng-show="showAdv">
-      <label class="item item-input item-stacked-label">
+      <ion-item class="item-input item-stacked-label">
         <span class="input-label">Wallet Service URL</span>
         <input type="text" ng-model="formData.walletServiceUrl">
-      </label>
+      </ion-item>
     </div>
-  </div>
-  <button type="submit" class="button button-standard button-primary" ng-disabled="importForm.$invalid || !formData.password" translate>
+  </ion-list>
+  <button type="submit" class="button button-standard button-primary m20t m20b"
+    ng-disabled="importForm.$invalid || !formData.password" translate>
     Import backup
   </button>
 </form>

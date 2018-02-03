@@ -2,6 +2,8 @@
   background: $v-home-bg;
   color: $v-home-color;
 
+  @include common;
+
   .top-tabs.row {
     padding: 0;
   }

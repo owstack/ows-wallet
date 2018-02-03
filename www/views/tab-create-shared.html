@@ -1,4 +1,4 @@
-<ion-view id="tab-create-shared" class="settings" show-tabs>
+<ion-view id="tab-create-shared" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Create Shared Wallet' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -6,89 +6,67 @@
   </ion-nav-bar>
   <ion-content>
     <form name="setupForm" ng-submit="create()" class="setupForm" novalidate>
-      <div class="list settings-input-group">
-        <label class="item item-input item-stacked-label">
+      <ion-list>
+        <ion-item class="item-input item-stacked-label">
           <span class="input-label" translate>Wallet name</span>
-          <input type="text"
-            placeholder="{{'Family vacation funds'|translate}}"
-            ng-model="formData.walletName"
-            ng-required="true"
-            ng-focus="formFocus('wallet-name')"
-            ng-blur="formFocus(false)">
-        </label>
-
-        <label class="item item-input item-stacked-label">
+          <input type="text" placeholder="{{'Family vacation funds'|translate}}" ng-model="formData.walletName" ng-required="true"
+            ng-focus="formFocus('wallet-name')" ng-blur="formFocus(false)">
+        </ion-item>
+        <ion-item class="item-input item-stacked-label">
           <span class="input-label" translate>Your name</span>
-          <input type="text"
-            placeholder="Alice"
-            ng-model="formData.myName"
-            ng-required="formData.totalCopayers != 1"
-            ng-disabled="formData.totalCopayers == 1"
-            ng-focus="formFocus('my-name')"
-            ng-blur="formFocus(false)">
-        </label>
-
-        <label class="item item-input item-select">
+          <input type="text" placeholder="Alice" ng-model="formData.myName" ng-required="formData.totalCopayers != 1"
+            ng-disabled="formData.totalCopayers == 1" ng-focus="formFocus('my-name')" ng-blur="formFocus(false)">
+        </ion-item>
+        <ion-item class="item-input item-select">
           <span class="input-label" translate>
             Currency
           </span>
           <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
             ng-change="onNetworkChange(); resizeView();"></select>
-        </label>
-
-        <label class="item item-input item-select">
+        </ion-item>
+        <ion-item class="item-input item-select">
           <span class="input-label" translate>
             Total number of copayers
           </span>
           <select ng-model="formData.totalCopayers" ng-options="totalCopayers as totalCopayers for totalCopayers in TCValues"
             ng-change="setTotalCopayers(formData.totalCopayers)">
           </select>
-        </label>
-
-        <label class="item item-input item-select">
+        </ion-item>
+        <ion-item class="item-input item-select">
           <span class="input-label" translate>
             Required number of signatures
           </span>
           <select ng-model="formData.requiredCopayers" ng-options="requiredCopayers as requiredCopayers for requiredCopayers in RCValues"
             ng-disabled="formData.totalCopayers == 1">
           </select>
-        </label>
-
-        <div class="item item-divider"></div>
-
-        <a class="item" ng-click="showAdvChange()">
+        </ion-item>
+        <ion-item class="item-divider"></ion-item>
+        <ion-item class="has-click" ng-click="showAdvChange()">
           <span translate ng-show="!showAdv">Show advanced options</span>
           <span translate ng-show="showAdv">Hide advanced options</span>
           <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
-        </a>
-
+        </ion-item>
         <div ng-show="showAdv">
-          <label class="item item-input item-stacked-label">
+          <ion-item class="item-input item-stacked-label">
             <span class="input-label">Wallet Service URL</span>
             <input type="text" ng-model="formData.walletServiceUrl">
-          </label>
-
-          <label class="item item-input item-select">
+          </ion-item>
+          <ion-item class="item-input item-select">
             <span class="input-label" translate>
               Wallet Key
             </span>
             <select ng-model="formData.seedSource" ng-options="seed as seed.label for seed in seedOptions"
               ng-change="onSeedChange(); resizeView();"></select>
-          </label>
-
-          <label class="item item-input item-stacked-label" ng-show="formData.seedSource.id == 'trezor' || formData.seedSource.id == 'ledger'">
+          </ion-item>
+          <ion-item class="item-input item-stacked-label" ng-show="formData.seedSource.id == 'trezor' || formData.seedSource.id == 'ledger'">
             <span class="input-label" translate>Account Number</span>
             <input type="number" ng-model="formData.account" ignore-mouse-wheel>
-          </label>
-
-          <label class="item item-input item-stacked-label" ng-show="formData.seedSource.id == 'set'">
+          </ion-item>
+          <ion-item class="item-input item-stacked-label" ng-show="formData.seedSource.id == 'set'">
             <span class="input-label" translate>Wallet Recovery Phrase</span>
-            <input placeholder="{{'Enter the recovery phrase (BIP39)'|translate}}"
-            autocapitalize="off"
-            type="text"
-            ng-model="formData.privateKey">
-          </label>
-
+            <input type="text" placeholder="{{'Enter the recovery phrase (BIP39)'|translate}}" autocapitalize="off"
+              ng-model="formData.privateKey">
+          </ion-item>
           <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
             <ion-toggle class="item-fh" ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
               <div translate>Add a password</div>
@@ -99,78 +77,50 @@
                 The recovery phrase may require a password to be imported
               </div>
             </ion-toggle>
+            <ion-item class="item-input item-stacked-label item-no-line pt0" ng-show="encrypt">
+              <input type="password" ng-show="formData.seedSource.id == 'new'" placeholder="{{'Password'|translate}}"
+                autocapitalize="off" name="createPassphrase" ng-model="formData.createPassphrase"
+                ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"
+                ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
+              <input type="password" ng-show="formData.seedSource.id == 'set'" placeholder="{{'Password'|translate}}" autocapitalize="off"
+                name="passphrase" ng-model="formData.passphrase" ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
+                ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
+            </ion-item>
+            <ion-item class="item-input item-stacked-label item-no-line pt0" ng-show="encrypt">
+              <input type="password" ng-show="formData.seedSource.id == 'new'" placeholder="{{'Repeat password'|translate}}"
+                autocapitalize="off" ng-model="formData.repeatPassword"
+                ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"
+                ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
+              <input type="password" ng-show="formData.seedSource.id == 'set'" placeholder="{{'Repeat password'|translate}}"
+                autocapitalize="off" ng-model="formData.repeatPassword" ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
+                ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
+            </ion-item>
+            <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive item-no-line" ng-show="encrypt && result == 'correct'">
+              <span class="toggle-label" translate>I have written it down</span>
+            </ion-checkbox>
+            <ion-item class="item-fh item-no-line pt0 pb0"
+              ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
+              <div class="box-notification error">
+                <div class="title" translate>Backup Your Password</div>
+                <div translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</div>
+              </div>
+            </ion-item>
           </div>
-
-          <div class="item item-input item-stacked-label pt0" ng-show="encrypt">
-            <input ng-show="formData.seedSource.id == 'new'"
-                   placeholder="{{'Password'|translate}}"
-                   type="password"
-                   autocapitalize="off"
-                   name="createPassphrase"
-                   ng-model="formData.createPassphrase"
-                   ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"
-                   ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
-
-            <input ng-show="formData.seedSource.id == 'set'"
-                   placeholder="{{'Password'|translate}}"
-                   type="password"
-                   autocapitalize="off"
-                   name="passphrase"
-                   ng-model="formData.passphrase"
-                   ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
-                   ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
-          </div>
-
-          <div class="item item-input item-stacked-label pt0" ng-show="encrypt">
-            <input ng-show="formData.seedSource.id == 'new'"
-                   placeholder="{{'Repeat password'|translate}}"
-                   type="password"
-                   autocapitalize="off"
-                   ng-model="formData.repeatPassword"
-                   ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"
-                   ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
-
-             <input ng-show="formData.seedSource.id == 'set'"
-                    placeholder="{{'Repeat password'|translate}}"
-                    type="password"
-                    autocapitalize="off"
-                    ng-model="formData.repeatPassword"
-                    ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
-                    ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
-          </div>
-
-          <div class="item item-fh pt0 pb0" ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
-            <div class="box-notification error">
-              <div class="title" translate>Backup Your Password</div>
-              <div translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</div>
-            </div>
-          </div>
-
-          <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive" ng-show="encrypt && result == 'correct'">
-            <span class="toggle-label" translate>I have written it down</span>
-          </ion-checkbox>
-
-          <label class="item item-input item-stacked-label" ng-show="formData.seedSource.id  == 'set'">
+          <ion-item class="item-input item-stacked-label" ng-show="formData.seedSource.id  == 'set'">
             <span class="input-label" translate>Derivation Path</span>
-            <input type="text"
-            placeholder="{{'BIP32 path for address derivation'|translate}}"
-            ng-model="formData.derivationPath">
-          </label>
-
+            <input type="text" placeholder="{{'BIP32 path for address derivation'|translate}}" ng-model="formData.derivationPath">
+          </ion-item>
           <ion-toggle ng-show="formData.testnetSupported"
             ng-model="formData.testnetSelected" toggle-class="toggle-positive">
             <span translate>Testnet</span>
           </ion-toggle>
-
           <ion-toggle class="item-fh" ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
             <div translate>Single Address Wallet</div>
             <div class="item-detail" translate>For audit purposes</div>
           </ion-toggle>
-
-        </div> <!-- advanced -->
-      </div> <!-- list -->
-
-      <button type="submit" class="button button-standard button-primary"
+        </div>
+      </ion-list>
+      <button type="submit" class="button button-standard button-primary m20t m20b"
         ng-disabled="setupForm.$invalid || ((encrypt && !formData.passwordSaved) || encrypt && ((formData.seedSource.id == 'new' && !formData.createPassphrase) || (formData.seedSource.id == 'set' && !formData.passphrase)))">
         <span translate>Create {{formData.requiredCopayers}}-of-{{formData.totalCopayers}} wallet</span>
       </button>

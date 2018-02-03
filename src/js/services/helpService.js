@@ -6,196 +6,189 @@ angular.module('owsWalletApp.services').factory('helpService', function($ionicMo
   // Location prefix used for $ionicScrollDelegate to scroll to view element id.
   root.tourLocationPrefix = 'tour-';
 
-  var tourTopics = [
-    {
+  var tourTopics = [{
       image: 'img/tour/currencies.svg',
       title: gettextCatalog.getString('Use multiple currencies'),
       description: gettextCatalog.getString('You can send, receive, and track multiple digital currencies. One app is all you need.'),
       acknowledgement: gettextCatalog.getString('Got it'),
       sortIndex: 0,
-      helpTopicId: 'currencies'
-    },
-    {
+      helpTopicId: 'help-currencies'
+    }, {
       image: 'img/tour/wallets.svg',
       title: gettextCatalog.getString('Setup multiple wallets, each with a unique purpose'),
       description: gettextCatalog.getString('Just like bank accounts, you can setup wallets for savings, spending, budgeting, sharing, etc.'),
       acknowledgement: gettextCatalog.getString('I’m my own bank!'),
       sortIndex: 1,
-      helpTopicId: 'wallets'
-    },
-    {
+      helpTopicId: 'help-wallets'
+    }, {
       image: 'img/tour/share.svg',
       title: gettextCatalog.getString('Share wallets with family, friends, or business associates'),
       description: gettextCatalog.getString('You can start a new shared wallet and invite people to join, or you can join someone else\'s shared wallet. Multiple people must agree to spend money from a shared wallet.'),
       acknowledgement: gettextCatalog.getString('Cool... social spending'),
       sortIndex: 2,
-      helpTopicId: 'shared-wallets'
-    },
-    {
+      helpTopicId: 'help-shared-wallets'
+    }, {
       image: 'img/tour/backup.svg',
       title: gettextCatalog.getString('Protect your money with safe and secure backups'),
       description: gettextCatalog.getString('There is one private key for each wallet. Export and store it in a safe place. You can use the key later to restore your wallet and spend your money.'),
       acknowledgement: gettextCatalog.getString('I\'m responsible'),
       sortIndex: 3,
-      helpTopicId: 'backup'
-    },
-    {
+      helpTopicId: 'help-backup'
+    }, {
       image: 'img/tour/contacts.svg',
       title: gettextCatalog.getString('Add your contacts'),
       description: gettextCatalog.getString('Pay friends and family using money you have in your wallet. Split dinner, send a birthday gift, or just say hello.'),
       acknowledgement: gettextCatalog.getString('I have friends'),
       sortIndex: 4,
-      helpTopicId: 'contacts'
-    },
-    {
+      helpTopicId: 'help-contacts'
+    }, {
       image: 'img/tour/notifications.svg',
       title: gettextCatalog.getString('Get notified when you receive money'),
       description: gettextCatalog.getString('Transactions are recorded in the public blockchain. When you receive money your wallet will let you know right away.'),
       acknowledgement: gettextCatalog.getString('Thanks for letting me know'),
       sortIndex: 5,
-      helpTopicId: 'notifications'
-    }
-  ];
+      helpTopicId: 'help-notifications'
+    }];
 
-  var helpTopics = [
-    {
-    	id: 'currencies',
+  var helpTopics = [{
+    	id: 'help-currencies',
       title: gettextCatalog.getString('Currencies'),
       content: gettextCatalog.getString('You can send, receive, and track multiple digital currencies. One app is all you need.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('What is a digital currency?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('What digital currencies can I use with this app?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('How can I get digital currency?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    },
-    {
-    	id: 'wallets',
+				}]
+    }, {
+    	id: 'help-wallets',
       title: gettextCatalog.getString('Wallets'),
       content: gettextCatalog.getString('Just like bank accounts, you can setup wallets for savings, spending, budgeting, sharing, etc.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('What is a wallet?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('Where is my wallet stored?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('What infromation is stored in my wallet?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('How many wallets can I have?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('Can I send money between wallets?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    },
-    {
-    	id: 'shared-wallets',
+				}]
+    }, {
+    	id: 'help-shared-wallets',
       title: gettextCatalog.getString('Shared wallets'),
       content: gettextCatalog.getString('You can start a new shared wallet and invite people to join, or you can join someone else\'s shared wallet. Multiple people must agree to spend money from a shared wallet.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('What is a shared wallet?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('Why would I use a shared wallet?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('Where is a shared wallet stored?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('What information stored in a shared wallet?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    },
-    {
-    	id: 'backup',
+				}]
+    }, {
+    	id: 'help-backup',
       title: gettextCatalog.getString('Secure wallet backup'),
       content: gettextCatalog.getString('There is one private key for each wallet. Export and store it in a safe place. You can use the key later to restore your wallet and spend your money.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('Why do I need to backup my wallets?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('What is the most important thing to know about backing up my wallets?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('What should I do if my wallet backup is lost or compromised?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    },
-    {
-    	id: 'contacts',
+				}]
+    }, {
+    	id: 'help-contacts',
       title: gettextCatalog.getString('Contacts'),
       content: gettextCatalog.getString('Pay friends and family using money you have in your wallet. Split dinner, send a birthday gift, or just say hello.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('How do I add a new contact?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('How do I send money to a contact?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    },
-    {
-    	id: 'notifications',
+				}]
+    }, {
+    	id: 'help-notifications',
       title: gettextCatalog.getString('Notifications'),
       content: gettextCatalog.getString('Transactions are recorded in the public blockchain. When you receive money your wallet will let you know right away.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('What notifications will I receive?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('How do I disable/enable notifications?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    },
-    {
-    	id: 'miner-fees',
+				}]
+    }, {
+    	id: 'help-miner-fees',
       title: gettextCatalog.getString('Miner Fees'),
       content: gettextCatalog.getString('Each transaction you send requires a network miner fee.'),
-			subtopics: [
-				{
+			subtopics: [{
 					title: gettextCatalog.getString('How much is the miner fee?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('Who sets the miner fee?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				},
-				{
+				}, {
 					title: gettextCatalog.getString('What happens if my miner fee is too low?'),
 					content: gettextCatalog.getString('Answer coming soon')
-				}
-			]
-    }
-  ];
+				}]
+    }, {
+      id: 'help-import',
+      title: gettextCatalog.getString('Importing Wallets and Private Keys'),
+      content: gettextCatalog.getString('You can import previously exported wallets using a Recovery Phrase or sweep funds from other wallets if you have a Private Key.'),
+      subtopics: [{
+          title: gettextCatalog.getString('What is a Recovery Phrase?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('I have a Recovery Phrase, how do I recreate my wallet with it?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('How do import a wallet using a Recovery Phrase from third-party software?'),
+          content: gettextCatalog.getString('To import a wallet from 3rd party software please use \'Create Personal Wallet\' or \'Create Shared Wallet\'. Choose \'Show advanced options\' then set \'Wallet Key\' to \'Specify Recovery Phrase\'.')
+        }, {
+          title: gettextCatalog.getString('What is a Private Key?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('Why can\'t I import a Private Key to create a wallet?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('What is funds \'sweeping\' and how do I use a Private Key to do it?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }]
+    }, {
+      id: 'help-export',
+      title: gettextCatalog.getString('Exporting Wallets'),
+      content: gettextCatalog.getString('There is one private key for each wallet. Export and store it in a safe place. You can use the key later to restore your wallet and spend your money.'),
+      subtopics: [{
+          title: gettextCatalog.getString('Why do I need to backup my wallets?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('What is the most important thing to know about backing up my wallets?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('What should I do if my wallet backup is lost or compromised?'),
+          content: gettextCatalog.getString('Answer coming soon')
+        }]
+    }];
 
   root.getHelpTopics = function() {
   	return helpTopics;
