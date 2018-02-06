@@ -27,8 +27,8 @@
       <ion-item class="has-label item-icon-right has-click" ng-click="sendTo($index)"
         ng-repeat="a in addressbookEntry.addresses track by $index">
         <span class="input-label" translate>{{addressLabelFor(a)}}</span>
-        <div class="item item-sub item-icon-left icon-left-lg" copy-to-clipboard="a.address">
-          <i class="icon lg-icon">
+        <div class="item item-sub item-icon-left icon-left-md" copy-to-clipboard="a.address">
+          <i class="icon md-icon">
             <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
           </i>
           <div class="ellipsis">{{a.address}}</div>

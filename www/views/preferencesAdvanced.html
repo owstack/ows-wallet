@@ -1,36 +1,36 @@
-<ion-view id="preferences-advanced" class="settings" show-tabs>
+<ion-view id="preferences-advanced" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'More Options' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="list">
+    <ion-list>
       <div ng-include="'views/includes/walletItem.html'"></div>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.information">
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.information">
         <span translate>Wallet Information</span>
         <i class="icon arrow-right"></i>
-      </a>
-      <a class="item item-icon-right" ng-click="goToAddresses()">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ng-click="goToAddresses()">
         <span translate>Wallet Addresses</span>
         <i class="icon arrow-right"></i>
-      </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.export">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.export">
         <span translate>Export Wallet</span>
         <i class="icon arrow-right"></i>
-      </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.walletServiceUrl">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.walletServiceUrl">
         <span translate>Wallet Service URL</span>
         <i class="icon arrow-right"></i>
-      </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.history">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.history">
         <span translate>Transaction History</span>
         <i class="icon arrow-right"></i>
-      </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.delete">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.delete">
         <span translate>Delete Wallet</span>
         <i class="icon arrow-right"></i>
-      </a>
-    </div>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

@@ -20,7 +20,7 @@
           <qrcode size="220" error-correction-level="L" data="{{secret}}" color="#444455"></qrcode>
           <div ng-show="!secret" style="position:relative; top:-226px; height:0px">
             <div style="height:220px; width:220px; margin:auto; background: white">
-              <ion-spinner icon="lines"></ion-spinner>
+              <ion-spinner icon="ios"></ion-spinner>
             </div>
           </div>
           <div class="copayers-secret">
@@ -35,8 +35,8 @@
       </ion-list>
       <div ng-show="secret">
         <div class="box-notification warning" ng-show="wallet.notAuthorized">
-          <div class="title" translate>Wallet incomplete and broken</div>
-          <div translate>Delete it and create a new one.</div>
+          <h2 translate>Wallet incomplete and broken</h2>
+          <p translate>Delete it and create a new one.</p>
         </div>
         <div class="card">
           <ion-item class="item-heading">

@@ -96,17 +96,17 @@
       </ion-item>
 
       <div class="box-notification warning" ng-if="btx.action == 'received' && btx.lowFees" translate>
-        <div class="title">Low Fee Transation</div>
-        <span translate>
+        <h2>Low Fee Transation</h2>
+        <p translate>
           This transaction could take a long time to confirm or may never confirm due to the low fees set by the sender.
-        </span>
+        </p>
       </div>
 
       <div class="box-notification warning" ng-if="btx.lowAmount" translate>
-        <div class="title">Transaction Amount Too Small</div>
-        <span translate>
+        <h2>Transaction Amount Too Small</h2>
+        <p translate>
           This transaction amount is too small when compared with current network fees. Spending these funds will require a network fee cost comparable to the amount itself.
-        </span>
+        </p>
       </div>
 
       <ion-item>

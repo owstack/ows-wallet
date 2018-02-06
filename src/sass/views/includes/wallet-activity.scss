@@ -5,6 +5,6 @@
   @include common;
 
   .list .item:not(.item-heading) {
-    height: $v-card-item-lg-height !important;
+    height: $v-list-item-lg-height !important;
   }
 }

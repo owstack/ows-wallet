@@ -22,7 +22,7 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
       title: title,
       subTitle: message,
       cancelText: cancelText,
-      cancelType: 'button-clear button-positive',
+      cancelType: 'button-clear button-secondary',
       okText: okText,
       okType: 'button-clear button-positive'
     }).then(function(res) {

@@ -16,7 +16,7 @@ $v-black-transparent-mid:                            rgba(0, 0, 0, 0.5) !default
 $v-black-transparent-light:                          rgba(0, 0, 0, 0.3) !default;
 $v-black-transparent-subtle:                         rgba(0, 0, 0, 0.1) !default;
 
-$v-white-transparent-darker:                         rgba(255, 255, 255, 0.8) !default;
+$v-white-transparent-darker:                         rgba(255, 255, 255, 0.9) !default;
 $v-white-transparent-dark:                           rgba(255, 255, 255, 0.7) !default;
 $v-white-transparent-mid:                            rgba(255, 255, 255, 0.5) !default;
 $v-white-transparent-light:                          rgba(255, 255, 255, 0.3) !default;
@@ -37,6 +37,8 @@ $v-secondary-color:                                  #313131 !default;
 $v-accent-1-color:                                   #00afff !default;
 $v-accent-2-color:                                   #004466 !default;
 
+$v-text-color:                                       #ffffff !default;
+$v-heading-text-color:                               #ffffff !default;
 $v-link-color:                                       #00afff !default;
 $v-disabled-color:                                   $v-white-transparent-light !default;
 $v-success-color:                                    #0EC286 !default;
@@ -219,8 +221,6 @@ $v-card-item-bg:                                     none !default;
 $v-card-item-color:                                  $v-white-color !default;
 $v-card-item-border-color:                           $v-white-transparent-subtle !default;
 $v-card-item-header-height:                          54px !default;
-$v-card-item-lg-height:                              80px !default;
-$v-card-item-md-height:                              64px !default;
 
 $v-list-bg:                                          none !default;
 $v-list-item-bg:                                     $v-white-transparent-subtle !default;
@@ -228,7 +228,8 @@ $v-list-item-color:                                  $v-white-color !default;
 $v-list-item-secondary-color:                        $v-white-transparent-mid !default;
 $v-list-item-link-color:                             $v-link-color !default;
 $v-list-item-border-color:                           $v-white-transparent-subtle !default;
-$v-list-item-height:                                 64px !default;
+$v-list-item-lg-height:                              80px !default;
+$v-list-item-md-height:                              64px !default;
 
 /* keypad */
 
@@ -301,6 +302,14 @@ $v-tab-scan-icon:                                    url('../img/tab-icons/icon-
 $v-tab-scan-selected-icon:                           url('../img/tab-icons/icon-scan-selected.svg') !default;
 $v-tab-send-icon:                                    url('../img/tab-icons/icon-send.svg') !default;
 $v-tab-send-selected-icon:                           url('../img/tab-icons/icon-send-selected.svg') !default;
+
+/* Popup dialog */
+
+$v-popup-bg:                                         $v-white-transparent-darker !default;
+$v-popup-border:                                     none !default;
+$v-popup-head-border:                                1px solid $v-white-color !default;
+$v-popup-title-color:                                $v-dark-gray !default;
+$v-popup-sub-title-color:                            $v-dark-gray !default;
 
 /* Action selector and action sheet */
 

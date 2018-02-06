@@ -1,14 +1,14 @@
-<ion-view id="preferences-color" class="settings" show-tabs>
+<ion-view id="preferences-color" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Wallet Color' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content class="wallet-color-count">
-    <div class="list">
+    <ion-list>
       <ion-radio ng-repeat="i in [] | range:colorCount" ng-value="i" ng-model="currentColorIndex" ng-click="save(i)">
         <span class="color-block wallet-color-{{i}}"></span>
       </ion-radio>
-    </div>
+    </ion-list>
   </ion-content>
 </ion-view>

@@ -2,11 +2,17 @@
   background: $v-settings-bg;
   color: $v-settings-color;
 
+  @include common;
+
+  .list .item .item-content {
+  	white-space: nowrap;
+  }
+
 	.color-block {
 	  display: inline-block;
 	  width: 24px;
 	  height: 24px;
-	  border-radius: 50%;
 	  float: left;
+	  border-radius: 50%;
 	}
 }

@@ -2,92 +2,9 @@
   background: $v-settings-bg;
   color: $v-settings-color;
 
-  .updating {
-    text-align: center;
-    font-size: 0.9em;
-    color: $v-mid-gray;
-    padding-top: 1.3rem;
-
-    .spinner svg {
-      stroke: $v-dark-gray;
-      fill: $v-dark-gray;
-    }
-  }
-
-  .addr {
-    &-explanation, &-button-group {
-      padding: 0 1rem;
-      margin: 1rem 0;
-    }
-
-    &-description {
-      text-align: center;
-      font-size: 0.9em;
-      margin: 1rem 0;
-
-      a {
-        color: $link-color;
-        font-weight: bold;
-        cursor: pointer;
-        cursor: hand;
-        background: $v-white-color;
-        border-radius: 20px;
-        padding: 0 10px;
-      }
-    }
-
-    &-balance {
-      margin-top: 4px;
-      color: $v-success-color;
-    }
-
-    &-path {
-      margin-top: 4px;
-      color: $v-list-item-secondary-color;
-    }
-  }
-
-  .banner-icon {
-    margin-top: 25px;
-    i {
-      box-shadow: $v-hovering-box-shadow;
-
-      img {
-        content: $v-tab-receive-selected-icon;
-      }
-    }
-  }
-
-  .addr-list {
-    .item {
-      padding-top: 1.3rem;
-      padding-bottom: 1.3rem;
-
-      &.has-addr-value {
-        padding-top: .65rem;
-        padding-bottom: .65rem;
-      }
-
-      &.item-divider {
-        padding-bottom: .5rem;
-        font-size: .9rem;
-      }
-
-      &.view-all {
-        cursor: pointer;
-        cursor: hand;
-
-        i {
-          font-size: 35px;
-          margin-right: 5px;
-          color: $link-color;
-        }
-      }
-
-      i {
-        font-size: 35px;
-        margin-right: 2px;
-      }
-    }
+  @include common;
+  
+  .balance {
+    color: $v-success-color !important;
   }
 }

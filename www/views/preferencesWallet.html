@@ -1,4 +1,4 @@
-<ion-view id="preferences-wallet" class="settings" ng-attr-show-tabs="{{hideTabs || undefined}}" ng-attr-hide-tabs="{{!hideTabs || undefined}}">
+<ion-view id="preferences-wallet" ng-attr-show-tabs="{{hideTabs || undefined}}" ng-attr-hide-tabs="{{!hideTabs || undefined}}">
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Wallet Settings' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -10,57 +10,56 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
-    <div class="list">
+    <ion-list>
       <div ng-include="'views/includes/walletItem.html'"></div>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.alias">
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.alias">
         <span translate>Name</span>
         <span class="item-note ellipsis">
           {{wallet.name}}
         </span>
         <i class="icon arrow-right"></i>
-      </a>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.color">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.color">
         <span translate>Color</span>
         <i class="icon arrow-right"></i>
-      </a>
+      </ion-item>
       <ion-toggle ng-model="hiddenBalance.value" toggle-class="toggle-positive" ng-change="hiddenBalanceChange()">
         <span class="toggle-label" translate>Hide Balance</span>
       </ion-toggle>
-      <div class="item item-divider" ng-hide="wallet.isPrivKeyExternal() || !wallet.canSign()" translate>
+      <ion-item class="item-divider" ng-hide="wallet.isPrivKeyExternal() || !wallet.canSign()" translate>
         Security
-      </div>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.backupWarning({from: 'tabs.preferencesWallet'})" ng-hide="wallet.isPrivKeyExternal()">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.backupWarning({from: 'tabs.preferencesWallet'})" ng-hide="wallet.isPrivKeyExternal()">
         <span translate>Backup</span>
         <span class="item-note assertive" ng-show="wallet.needsBackup">
           {{'Backup needed' | translate}}
         </span>
         <i class="icon arrow-right"></i>
-      </a>
+      </ion-item>
       <div ng-show="wallet.canSign()">
         <ion-toggle ng-model="encryptEnabled.value" toggle-class="toggle-positive" ng-change="encryptChange()" ng-disabled="wallet.needsBackup">
           <span ng-class="{'text-disabled': wallet.needsBackup}" class="toggle-label" translate>Request Spending Password</span>
         </ion-toggle>
-        <div class="comment">
+        <ion-item class="item-comment append">
           <span translate>
             If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected.
           </span>
           <div class="box-notification warning" ng-show="wallet.needsBackup">
-            <div class="title" translate>Backup Required</div>
-            <div translate>This wallet must be backed up before a spending password can be created.</div>
+            <h2 translate>Backup Required</h2>
+            <p translate>This wallet must be backed up before a spending password can be created.</p>
           </div>
-        </div>
+        </ion-item>
       </div>
-      <div ng-show="wallet.canSign() && touchIdAvailable">
-        <ion-toggle  ng-model="touchIdEnabled.value" toggle-class="toggle-positive" ng-change="touchIdChange()">
-          <span class="toggle-label" translate>Request Fingerprint</span>
-        </ion-toggle>
-      </div>
-      <div class="item item-divider"></div>
-      <a class="item item-icon-right" ui-sref="tabs.preferencesWallet.advanced">
+      <ion-toggle ng-model="touchIdEnabled.value" toggle-class="toggle-positive" ng-change="touchIdChange()"
+        ng-show="wallet.canSign() && touchIdAvailable">
+        <span class="toggle-label" translate>Request Fingerprint</span>
+      </ion-toggle>
+      <ion-item class="item-divider"></ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.advanced">
         <span translate>More Options</span>
         <i class="icon arrow-right"></i>
-      </a>
-      <div class="item item-divider"></div>
-    </div>
+      </ion-item>
+      <ion-item class="item-divider"></ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

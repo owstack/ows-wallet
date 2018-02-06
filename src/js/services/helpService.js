@@ -188,6 +188,17 @@ angular.module('owsWalletApp.services').factory('helpService', function($ionicMo
           title: gettextCatalog.getString('What should I do if my wallet backup is lost or compromised?'),
           content: gettextCatalog.getString('Answer coming soon')
         }]
+    }, {
+      id: 'help-addresses',
+      title: gettextCatalog.getString('Digital Currency Addresses'),
+      content: gettextCatalog.getString('An digital currency address is the reference a wallet uses to locate funds associated with the wallet. A wallet may contain one or more addresses.'),
+      subtopics: [{
+          title: gettextCatalog.getString('Can I use the same address multiple times?'),
+          content: gettextCatalog.getString('It is a good idea to avoid reusing addresses. Doing so improves your privacy and keeps your coins secure against hypothetical attacks by quantum computers.')
+        }, {
+          title: gettextCatalog.getString('What is the unused address limit about?'),
+          content: gettextCatalog.getString('Unused addresses are addresses that have no associated transactions. The wallet restore process stops (by design) when 20 addresses are generated in a row each of which contain no funds. To safely generate more addresses, make a payment to one of the unused addresses which has already been generated.')
+        }]
     }];
 
   root.getHelpTopics = function() {
@@ -202,7 +213,7 @@ angular.module('owsWalletApp.services').factory('helpService', function($ionicMo
 
   root.learnMore = function(scope, locationPrefix, topicId) {
     // Conveniently expand the help topic specified
-    $ionicModal.fromTemplateUrl('views/includes/learnMore.html', {
+    $ionicModal.fromTemplateUrl('views/modals/learnMore.html', {
       scope: scope,
       backdropClickToClose: false,
       hardwareBackButtonClose: false

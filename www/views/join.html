@@ -57,13 +57,15 @@
           <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
             <ion-toggle class="item-fh" ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
               <div translate>Add a password</div>
-              <div class="item-detail" ng-show="formData.seedSource.id == 'new'" translate>
+            </ion-toggle>
+            <ion-item class="item-comment append">
+              <div ng-show="formData.seedSource.id == 'new'" translate>
                 Add an optional password to secure the recovery phrase
               </div>
-              <div class="item-detail" ng-show="formData.seedSource.id == 'set'" translate>
+              <div ng-show="formData.seedSource.id == 'set'" translate>
                 The recovery phrase may require a password to be imported
               </div>
-            </ion-toggle>
+            </ion-item>
             <ion-item class="item-input item-stacked-label item-no-line pt0" ng-show="encrypt">
               <input type="password"  ng-show="formData.seedSource.id == 'new'" placeholder="{{'Password'|translate}}" autocapitalize="off"
                 name="createPassphrase" ng-model="formData.createPassphrase"
@@ -90,8 +92,8 @@
             <ion-item class="item-fh item-no-line pt0 pb0"
               ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
               <div class="box-notification error">
-                <div class="title" translate>Backup Your Password</div>
-                <div translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</div>
+                <h2 translate>Backup Your Password</h2>
+                <p translate>This password cannot be recovered. If the password is lost, there is no way to recover your funds.</p>
               </div>
             </ion-item>
           </div>

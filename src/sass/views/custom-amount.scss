@@ -4,26 +4,10 @@
 
   @include common;
 
-  .button-share {
-    color: $v-bar-header-button-color;
-    box-shadow: none;
-    border-color: transparent;
-    background: transparent;
-    padding: 0 10px;
-
-    .icon:before {
-      font-size: 26px;
-    }
-  }
-
   .address {
-    overflow: auto;
-    height: 100%; 
-
     .qr-code {
       text-align: center;
-      margin-top: 7vh;
-      margin-bottom: 7vh;
+      margin-top: 50px;
     }
 
     .address-label {

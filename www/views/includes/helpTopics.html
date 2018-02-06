@@ -1,4 +1,4 @@
-<div class="help" ng-controller="helpTopicsController" ng-init="init(topicId, locationPrefix)">
+<div id="help" ng-controller="helpTopicsController" ng-init="init(topicId, locationPrefix)">
   <ion-list>
     <div ng-repeat="topic in topics">
       <ion-item id="{{locationPrefix + topic.id}}" class="item-fh help-topic" ng-click="toggleTopic(topic)"

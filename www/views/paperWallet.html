@@ -12,18 +12,18 @@
   </ion-nav-bar>
   <ion-content scroll="false">
     <div class="box-notification info" ng-if="!noMatchingWallet && scanComplete">
-      <div ng-if="balanceAtomic > 0">
-        <div class="title" translate>Funds Found!</div>
-        <div translate>A balance of {{balance}} was found.</div>
-      </div>
-      <div ng-if="balanceAtomic == 0">
-        <div class="title" translate>No Funds Found</div>
-        <div translate>There is no balance associated with this private key.</div>
-      </div>
+      <span ng-if="balanceAtomic > 0">
+        <h2 translate>Funds Found!</h2>
+        <p translate>A balance of {{balance}} was found.</p>
+      </span>
+      <span ng-if="balanceAtomic == 0">
+        <h2 translate>No Funds Found</h2>
+        <p translate>There is no balance associated with this private key.</p>
+      </span>
     </div>
     <div class="box-notification warning" ng-if="balance && noMatchingWallet">
-      <div class="title" translate>No Available Wallets</div>
-      <div translate>There are no wallets available to receive funds.</div>
+      <h2 translate>No Available Wallets</h2>
+      <p translate>There are no wallets available to receive funds.</p>
     </div>
     <div ng-if="balanceAtomic && !noMatchingWallet">
       <div class="card">

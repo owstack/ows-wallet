@@ -4,10 +4,6 @@
 
   @include common;
 
-  .list .item:not(.item-heading) {
-    height: $v-card-item-md-height !important;
-  }
-
   .icon-create-wallet {
     background-color: $v-accent-1-color;
   }

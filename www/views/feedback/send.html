@@ -2,41 +2,44 @@
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Give Feedback' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
-      <button ng-show="score" class="button button-clear ng-hide" ng-click="sendFeedback(null, true)" translate>
+      <button ng-show="score" class="button button-clear" ng-click="sendFeedback(null, true)" translate>
         Cancel
       </button>
-      <button ng-show="!score || fromSettings" class="button back-button button-clear ng-hide" ng-click="goBack()">
+      <button ng-show="!score || fromSettings" class="button back-button button-clear" ng-click="goBack()">
         <i class="icon ion-ios-arrow-left"></i>
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header" scroll="false">
-    <div class="row item item-sub feedback-heading">
-      <div class="col col-50">
-        <div class="feedback-title" ng-if="!justFeedback">
-          <span>{{reaction}}</span>
+    <ion-list>
+      <ion-item class="row" ng-if="!justFeedback">
+        <div class="col col-50">
+          <h1>
+            {{reaction}}
+          </h1>
         </div>
+        <div class="col col-50 rating" ng-if="score">
+          <img class="star" ng-if="1 <= score" src="img/icon-star-filled.svg"/>
+          <img class="star" ng-if="1 > score" src="img/icon-star.svg"/>
+          <img class="star" ng-if="2 <= score" src="img/icon-star-filled.svg"/>
+          <img class="star" ng-if="2 > score" src="img/icon-star.svg"/>
+          <img class="star" ng-if="3 <= score" src="img/icon-star-filled.svg"/>
+          <img class="star" ng-if="3 > score" src="img/icon-star.svg"/>
+          <img class="star" ng-if="4 <= score" src="img/icon-star-filled.svg"/>
+          <img class="star" ng-if="4 > score" src="img/icon-star.svg"/>
+          <img class="star" ng-if="5 ==  score" src="img/icon-star-filled.svg"/>
+          <img class="star" ng-if="5 > score" src="img/icon-star.svg"/>
+        </div>
+      </ion-item>
+      <div class="box-notification info clear">
+        {{comment}}
       </div>
-      <div class="col col-50 rating" ng-if="score">
-        <img class="send-feedback-star" ng-if="1 <= score" src="img/icon-star-filled.svg"/>
-        <img class="send-feedback-star" ng-if="1 > score" src="img/icon-star.svg"/>
-        <img class="send-feedback-star" ng-if="2 <= score" src="img/icon-star-filled.svg"/>
-        <img class="send-feedback-star" ng-if="2 > score" src="img/icon-star.svg"/>
-        <img class="send-feedback-star" ng-if="3 <= score" src="img/icon-star-filled.svg"/>
-        <img class="send-feedback-star" ng-if="3 > score" src="img/icon-star.svg"/>
-        <img class="send-feedback-star" ng-if="4 <= score" src="img/icon-star-filled.svg"/>
-        <img class="send-feedback-star" ng-if="4 > score" src="img/icon-star.svg"/>
-        <img class="send-feedback-star" ng-if="5 ==  score" src="img/icon-star-filled.svg"/>
-        <img class="send-feedback-star" ng-if="5 > score" src="img/icon-star.svg"/>
-      </div>
-    </div>
-    <div class="comment">
-      <span>{{comment}}</span>
-    </div>
-    <div class="item-feedback">
-      <textarea class="user-feedback" ng-model="feedback.value" rows="10" placeholder="{{'Your ideas, feedback, or comments' | translate}}"></textarea>
-    </div>
-    <button ng-disabled="!feedback.value" type="submit" class="button button-standard button-primary" ng-click="sendFeedback(feedback.value)" translate>
+      <ion-item class="item-fh">
+        <textarea ng-model="feedback.value" rows="10" placeholder="{{'Your ideas, feedback, or comments' | translate}}"></textarea>
+      </ion-item>
+    </ion-list>
+    <button type="submit" class="button button-standard button-primary m20t" ng-disabled="!feedback.value"
+      ng-click="sendFeedback(feedback.value)" translate>
       Send
     </button>
   </ion-content>

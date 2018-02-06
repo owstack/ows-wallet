@@ -406,17 +406,6 @@
   }
 }
 
-a.item {
-  cursor: pointer;
-}
-
-.recent svg {
-  margin-left:5px;
-  width:0.7em;
-  height:0.7em;
-  stroke: $v-subtle-gray;
-}
-
 .updatingHistory {
   color: $v-dark-gray;
   font-size: 0.9em;

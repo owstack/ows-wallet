@@ -41,7 +41,7 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
 
       var amount = parsedAmount.amount;
       var currency = parsedAmount.currency;
-      $scope.amountAtomicStr = parsedAmount.amountAtomicStr;
+      $scope.amountUnitStr = parsedAmount.amountUnitStr;
 
       var standardUnit = networkService.getStandardUnit($scope.wallet.networkURI);
 
@@ -53,7 +53,7 @@ angular.module('owsWalletApp.controllers').controller('customAmountController', 
         var standardParsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amountAtomic, config.unitName);
         
         $scope.amountStandard = standardParsedAmount.amount;
-        $scope.altAmountStr = standardParsedAmount.amountAtomicStr;
+        $scope.altAmountStr = standardParsedAmount.amountUnitStr;
       } else {
         $scope.amountStandard = amount;
         $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.networkURI, parsedAmount.amountAtomic);

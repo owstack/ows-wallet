@@ -30,14 +30,14 @@
         </label>
       </div>
       <div class="list">
-        <a class="item item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
+        <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
           ui-sref="tabs.addressbook.entry({id: addressbookEntry.id})">
           <i class="icon lg-icon">
             <gravatar class="send-gravatar" width="40" name="{{addressbookEntry.name}}" email="{{addressbookEntry.email}}"></gravatar>
           </i>
           <div class="name">{{addressbookEntry.name}}</div>
           <i class="icon arrow-right"></i>
-        </a>
+        </ion-item>
       </div>
     </span>
   </ion-content>

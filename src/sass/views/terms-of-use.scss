@@ -5,40 +5,52 @@
   font-size: 14px;
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 100%;
-  left: 0;
   overflow: scroll;
-  transition: top 0.5s ease;
-  transition-delay: .25s;
-  z-index: 10;
+
+  // When included from onboarding flow.
+  
+  &.disclaimer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transition: top 0.5s ease;
+    transition-delay: .25s;
+    z-index: 10;
+
+    &.slideUp {
+      top:0;
+    }
+
+    ion-nav-bar {
+      position: fixed;
+      width: 100%;
+      z-index: 15;
+    }
+
+    .has-header {
+      width:100%;
+      overflow-y: scroll;
+      position: relative;
+    }
+
+    .terms {
+      margin-bottom: 210px;
+    }
+  }
+
+  // TOU content style.
 
   .terms {
-    margin: 15px 15px 210px 15px;
+    margin: 15px;
 
     &__heading {
       font-weight: bold;
     }
 
-	  p {
-	  	font-size: 14px;
-	    margin-bottom: 1rem;
-	  }
+    p {
+      font-size: 14px;
+      margin-bottom: 1rem;
+    }
   }
 
-  ion-nav-bar {
-    position: fixed;
-    width: 100%;
-    z-index: 15;
-  }
-
-  .has-header {
-    width:100%;
-    overflow-y: scroll;
-    position: relative;
-  }
-
-  &.slideUp {
-    top: 0;
-  }
 }

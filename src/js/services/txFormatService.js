@@ -183,34 +183,34 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     var config = configService.getSync().currencyNetworks[networkURI];
     var unitToAtomicUnit = config.unitToAtomicUnit;
     var atomicToUnit = 1 / unitToAtomicUnit;
-    var amountAtomicStr;
+    var amountUnitStr;
     var amountAtomic;
     var alternativeIsoCode = config.alternativeIsoCode;
 
-    var networkUnits = networkService.getNetworkByURI(networkURI).units;
-    var foundCurrencyName = lodash.find(networkUnits, function(u) {
+    var allNetworkUnits = networkService.getNetworkByURI(networkURI).units;
+    var networkUnit = lodash.find(allNetworkUnits, function(u) {
       return u.shortName == currency;
     });
 
     var atomicUnit = networkService.getAtomicUnit(networkURI);
     var standardUnit = networkService.getStandardUnit(networkURI);
 
-    if (!foundCurrencyName) { // Alternate currency
+    if (!networkUnit) { // Alternate currency
       amountAtomic = rateService.fromFiat(networkURI, amount, currency).toFixed(atomicUnit.decimals);
-      amountAtomicStr = $filter('formatFiatAmount')(amount) + ' ' + currency;
+      amountUnitStr = $filter('formatFiatAmount')(amount) + ' ' + currency;
 
     } else if (currency == atomicUnit.shortName) { // Atomic
       amountAtomic = amount;
-      amountAtomicStr = root.formatAmountStr(networkURI, amountAtomic);
+      amountUnitStr = root.formatAmountStr(networkURI, amountAtomic);
       // convert atomics to standard
-      amount = (amountAtomic * atomicToUnit).toFixed(standardUnit.decimals);
+      amount = (amountAtomic / standardUnit.value).toFixed(standardUnit.decimals);
       currency = standardUnit.shortName;
 
-    } else if (currency == standardUnit.shortName) { // Standard
+    } else { // Not atomic or fiat
       amountAtomic = parseInt((amount * unitToAtomicUnit).toFixed(atomicUnit.decimals));
-      amountAtomicStr = root.formatAmountStr(networkURI, amountAtomic);
+      amountUnitStr = root.formatAmountStr(networkURI, amountAtomic);
       // convert atomics to standard
-      amount = (amountAtomic * atomicToUnit).toFixed(standardUnit.decimals);
+      amount = (amountAtomic / standardUnit.value).toFixed(standardUnit.decimals);
       currency = standardUnit.shortName;
     }
 
@@ -219,7 +219,7 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
       currency: currency,
       alternativeIsoCode: alternativeIsoCode,
       amountAtomic: amountAtomic,
-      amountAtomicStr: amountAtomicStr
+      amountUnitStr: amountUnitStr
     };
   };
 

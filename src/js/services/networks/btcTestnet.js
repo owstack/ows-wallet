@@ -81,7 +81,8 @@ angular.module('owsWalletApp.services').factory('btcTestnet', function(lodash, g
       },
       explainer: {
         heading: gettextCatalog.getString('Bitcoin transactions include a fee collected by miners on the network.'),
-        description: gettextCatalog.getString('The higher the fee, the greater the incentive a miner has to include that transaction in a block. Current fees are determined based on network load and the selected policy.')
+        description: gettextCatalog.getString('The higher the fee, the greater the incentive a miner has to include the transaction in a block. Current fees are determined based on network load and the selected policy.'),
+        units: gettextCatalog.getString('Fees are expressed in units \'cost per byte\' (of the transaction message size) and estimate the number of blocks (converted to time) it may take to get the transaction included in a block.')
       }
     }
   };

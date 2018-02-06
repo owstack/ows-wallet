@@ -1,4 +1,4 @@
-<ion-view id="preferences-history" class="settings" show-tabs>
+<ion-view id="preferences-history" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Transaction History' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -6,12 +6,13 @@
   </ion-nav-bar>
   <ion-content>
     <div ng-include="'views/includes/walletItem.html'"></div>
-    <div class="list">
-      <a class="item is-button" href ng-show="csvReady && !isCordova" ng-csv="csvContent" csv-header="csvHeader"
-        filename="{{appName}}-{{wallet.name}}.csv">
-        <div translate>Export to file</div>
-      </a>
-      <a class="item has-detail" href ng-show="!csvReady && !isCordova" ng-class="{'is-button': !err}">
+    <ion-list>
+      <ion-item class="is-button" ng-show="csvReady && !isCordova">
+        <div ng-csv="csvContent" csv-header="csvHeader" filename="{{appName}}-{{wallet.name}}.csv">
+          <div translate>Export to file</div>
+        </div>
+      </ion-item>
+      <ion-item class="has-detail" ng-show="!csvReady && !isCordova" ng-class="{'is-button': !err}">
         <div translate>Export to file</div>
         <div class="item-detail" ng-show="!err" translate>
           Preparing...
@@ -19,16 +20,13 @@
         <div class="item-detail" ng-show="err">
           {{err | translate}}
         </div>
-      </a>
-      <div class="item item-divider"></div>
-      <a class="item is-button" ng-click="clearTransactionHistory()">
-        <div translate>Resynchonize with wallet service</div>
-      </a>
-      <div class="settings-explanation">
-        <div class="settings-description" translate>
-          The transaction history and all new incoming transactions are cached on this device. Resynchronizing with the server clears the cache and retrieves transaction history from the wallet service.
-        </div>
+      </ion-item>
+      <div class="box-notification info clear">
+        <p>The transaction history and all new incoming transactions are cached on this device. Resynchronizing with the server clears the cache and retrieves transaction history from the wallet service.</p>
       </div>
-    </div>
+      <ion-item class="is-button" ng-click="clearTransactionHistory()">
+        <div translate>Resynchonize with wallet service</div>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

@@ -1,33 +1,29 @@
-<ion-view id="preferences-fee" class="settings" show-tabs>
+<ion-view id="preferences-fee" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Network Fee Policy' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="settings-explanation">
-      <div class="settings-heading">{{network.feePolicy.explainer.heading}}</div>
-      <div class="settings-description">{{network.feePolicy.explainer.description}}</div>
-      <div class="estimates">
-        <div>
-          <span translate>Average confirmation time</span>:
-          <span class="fee-minutes" ng-if="avgConfirmationTime">{{avgConfirmationTime | amDurationFormat: 'minute'}}</span>
-          <span ng-if="loadingFee">...</span>
-        </div>
-        <div>
-          <span translate>Current fee rate for this policy</span>:
-          <span class="fee-rate" ng-if="feePerAtomicUnitByte">{{feePerAtomicUnitByte}} {{atomicUnitCode}}/byte</span>
-          <span ng-if="loadingFee">...</span>
-        </div>
+    <div class="box-notification info clear">
+      <p >{{network.feePolicy.explainer.heading}}</p>
+      <p>{{network.feePolicy.explainer.description}}</p>
+      <p>{{network.feePolicy.explainer.units}}</p>
+      <a ng-click="learnMore()" translate>Learn more</a>
+    </div>
+    <div class="box-notification warning" ng-if="feeWarning">
+      <div class="notice">
+        {{feeWarning}}
       </div>
     </div>
-    <div class="fee-warning" ng-if="feeWarning">
-      <i class="icon ion-alert-circled"></i>{{feeWarning}}
-    </div>
-    <div class="list fee-policies">
-      <ion-radio ng-repeat="(fee, level) in feeOpts" ng-if="fee != 'custom'" ng-value="fee" ng-model="currentFeeLevel" ng-click="save(fee)">
-        {{level|translate}}
+    <ion-list>
+      <ion-radio class="has-detail" ng-repeat="fl in feeLevels" ng-if="fl.level != 'custom'" ng-value="fl.level"
+        ng-model="currentFeeLevel" ng-click="save(fl.level)">
+        {{fl.name|translate}}
+        <div class="item-detail">
+          {{fl.feePerAtomicUnitByte}} {{fl.atomicUnitCode}}/byte &middot; {{fl.avgConfirmationTime | amDurationFormat: 'minute'}}
+        </div>
       </ion-radio>
-    </div>
+    </ion-list>
   </ion-content>
 </ion-view>

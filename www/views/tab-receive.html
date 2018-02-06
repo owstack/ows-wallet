@@ -40,7 +40,7 @@
           <qrcode ng-if="addr" size="220" data="{{protocol}}{{addr}}" color="#444455"></qrcode>
           <div class="address-label">
             <span class="ellipsis">{{addr}}</span>
-            <ion-spinner ng-show="!addr" icon="crescent"></ion-spinner>
+            <ion-spinner ng-show="!addr" icon="ios"></ion-spinner>
           </div>
         </div>
         <ion-list>
@@ -55,7 +55,7 @@
         </ion-list>
       </div>
     </div>
-    <div class="action-selector list" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
+    <div class="action-selector list" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet" ng-class="{'no-arrow': wallets.length <= 1}">
       <div class="item item-fh item-icon-left icon-left-lg">
         <i class="icon lg-icon">
           <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>

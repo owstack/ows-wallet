@@ -1,108 +1,109 @@
-<ion-view id="preferences-information" class="settings" show-tabs>
+<ion-view id="preferences-information" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Wallet Information' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="list">
+    <ion-list>
       <div ng-include="'views/includes/walletItem.html'"></div>
-      <div class="item" ng-click="saveBlack()">
+      <ion-item ng-click="saveBlack()">
         <span translate>Wallet Name (at creation)</span>
         <span class="item-note">
           {{walletName}}
         </span>
-      </div>
-      <div class="item" copy-to-clipboard="walletId">
-        <span translate>Wallet Id</span>
-        <span class="item-note">
-          {{walletId}}
-        </span>
-      </div>
-      <div class="item">
+      </ion-item>
+      <ion-item class="has-click">
+        <div copy-to-clipboard="walletId">
+          <span translate>Wallet Id</span>
+          <span class="item-note">
+            {{walletId}}
+          </span>
+        </div>
+      </ion-item>
+      <ion-item>
         <span translate>Wallet Configuration (m-n)</span>
         <span class="item-note">
           {{M}}-{{N}}
         </span>
-      </div>
-      <div class="item">
+      </ion-item>
+      <ion-item>
         <span translate>Wallet Network</span>
         <span class="item-note">
           {{networkLabel}}
         </span>
-      </div>
-      <div class="item">
+      </ion-item>
+      <ion-item>
         <span translate>Address Type</span>
         <span class="item-note">
           {{addressType}}
         </span>
-      </div>
-      <div class="item">
+      </ion-item>
+      <ion-item>
         <span translate>Derivation Strategy</span>
         <span class="item-note">
           {{derivationStrategy}}
         </span>
-      </div>
-      <div class="item" ng-show="wallet.isPrivKeyExternal() && !externalSource.isEmbeddedHardware">
+      </ion-item>
+      <ion-item ng-show="wallet.isPrivKeyExternal() && !externalSource.isEmbeddedHardware">
         <span translate>Hardware Wallet</span>
         <span class="item-note">
           {{externalSource}}
         </span>
-      </div>
-      <a class="item item-icon-right" href ui-sref="tabs.preferencesWallet.external" ng-show="wallet.isPrivKeyExternal() && externalSource.isEmbeddedHardware">
+      </ion-item>
+      <ion-item class="has-click item-icon-right" ui-sref="tabs.preferencesWallet.external"
+        ng-show="wallet.isPrivKeyExternal() && externalSource.isEmbeddedHardware">
         <span translate>Hardware Wallet</span>
         <span class="item-note">
           {{externalSource}}
         </span>
         <i class="icon arrow-right"></i>
-      </a>
-      <div class="item" ng-show="!wallet.isPrivKeyExternal() && !wallet.canSign()">
+      </ion-item>
+      <ion-item ng-show="!wallet.isPrivKeyExternal() && !wallet.canSign()">
         <span translate></span>
         <span class="item-note">
           No private key
         </span>
-      </div>
-      <div class="item" ng-show="wallet.credentials.account">
+      </ion-item>
+      <ion-item ng-show="wallet.credentials.account">
         <span translate>Account</span>({{derivationStrategy}})
         <span class="item-note">
           #{{wallet.credentials.account}}
         </span>
-      </div>
-
-      <div ng-show="wallet.cachedStatus.wallet.copayers[0]" class="item item-divider">
+      </ion-item>
+      <ion-item class="item-divider" ng-show="wallet.cachedStatus.wallet.copayers[0]">
         Copayers
-      </div>
-
-      <div class="item item-icon-right" ng-repeat="copayer in wallet.cachedStatus.wallet.copayers">
+      </ion-item>
+      <ion-item class="item-icon-right" ng-repeat="copayer in wallet.cachedStatus.wallet.copayers">
         {{copayer.name}}
         <span ng-show="copayer.id == wallet.copayerId">
           ({{'Me'|translate}})
         </span>
-      </div>
-
-      <div class="item item-divider" translate>
+      </ion-item>
+      <ion-item class="item-divider" translate>
         Extended Public Keys
-      </div>
-
-      <div class="item" ng-repeat="pk in pubKeys" copy-to-clipboard="pk">
-        <span translate>Copayer {{$index}}</span>
-        <span class="item-note">
-          <span>{{pk}}</span>
-          <span ng-if="$index == 0">({{basePath}})</span>
-        </span>
-      </div>
-
-      <div ng-show="wallet.balanceByAddress[0]">
-        <div class="item item-divider" translate>
-          Balance By Address
+      </ion-item>
+      <ion-item class="has-click item-fh has-detail" ng-repeat="pk in pubKeys">
+        <div copy-to-clipboard="pk">
+          <span translate>Copayer {{$index}}</span>
+          <span class="item-detail">
+            <span>{{pk}}</span>
+            <span ng-if="$index == 0">({{basePath}})</span>
+          </span>
         </div>
-        <div class="item" ng-repeat="a in wallet.balanceByAddress" copy-to-clipboard="a.address">
+      </ion-item>
+      <div ng-show="wallet.balanceByAddress[0]">
+        <ion-item class="item-divider" translate>
+          Balance By Address
+        </ion-item>
+        <ion-item ng-repeat="a in wallet.balanceByAddress" copy-to-clipboard="a.address">
           <span>{{a.address}}</span>
           <span class="item-note">
             {{(a.amount/standardUnit.value).toFixed(standardUnit.digits)}} {{standardUnit.shortName}}
           </span>
-        </div>
+        </ion-item>
       </div>
-    </div>
+      <ion-item class="item-divider"></ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

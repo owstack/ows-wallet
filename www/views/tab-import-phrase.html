@@ -1,6 +1,6 @@
 <div class="box-notification error" ng-show="importErr">
-  <div class="title" translate>Wallet Not Accessible</div>
-  <div translate>Could not access the wallet at the server. Please check the following.</div>
+  <h2 translate>Wallet Not Accessible</h2>
+  <p translate>Could not access the wallet at the server. Please check the following.</p>
   <div id="bullet-list">
     <ul>
       <li translate>The password for the recovery phrase (if set)</li>
@@ -37,8 +37,8 @@
         <span class="input-label" translate>Password</span>
         <input type="password" placeholder="{{'Password'|translate}}" autocapitalize="off" ng-model="formData.passphrase"><br>
         <div class="box-notification info">
-          <div class="title" translate>Password May Be Required</div>
-          <div translate>Importing a recovery phrase may require a password</div>
+          <h2 translate>Password May Be Required</h2>
+          <p translate>Importing a recovery phrase may require a password.</p>
         </div>
       </ion-item>
       <ion-item class="item-input item-stacked-label">
