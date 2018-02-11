@@ -1,18 +1,17 @@
-<div ng-controller="homeIntegrationsController">
-  <div class="item item-icon-right item-heading" ng-click="toggle()" >
+<div class="card" ng-controller="homeIntegrationsController">
+  <ion-item class="item-heading item-icon-right" ng-click="toggle()" >
     <span translate>Services</span>
     <i class="icon arrow-up" ng-show="!hide"></i>
     <i class="icon arrow-down" ng-show="hide"></i>
-  </div>
-  <div ng-show="!hide">
-    <div ng-repeat="service in services track by $index">
-      <a ui-sref="{{service.sref}}" class="item item-sub item-icon-left icon-left-lg item-icon-right next-step">
-        <i class="icon lg-icon">
-          <div class="bg {{service.icon}}"></div>
-        </i>
-        <span>{{service.title ||  service.name}}</span>
-        <i class="icon arrow-right"></i>
-      </a>
-    </div>
-  </div>
+  </ion-item>
+  <ion-list ng-show="!hide">
+    <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="service in services track by $index"
+      ui-sref="{{service.sref}}">
+      <i class="icon lg-icon">
+        <div class="bg {{service.icon}}"></div>
+      </i>
+      <span>{{service.title ||  service.name}}</span>
+      <i class="icon arrow-right"></i>
+    </ion-item>
+  </ion-list>
 </div>

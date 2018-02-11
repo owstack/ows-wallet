@@ -6,8 +6,12 @@
   </ion-nav-bar>
   <ion-content>
     <div class="box-notification info clear">
-      <p>What do you call this wallet?</p>
-      <p>When this wallet was created, it was called &ldquo;{{walletName}}&rdquo;. You can change the name displayed on this device.</p>
+      <p translate>
+        What do you call this wallet?
+      </p>
+      <p translate>
+        When this wallet was created, it was called &ldquo;{{walletName}}&rdquo;. You can change the name displayed on this device.
+      </p>
     </div>
     <form name="aliasForm" ng-submit="save(aliasForm)" novalidate>
       <ion-list>

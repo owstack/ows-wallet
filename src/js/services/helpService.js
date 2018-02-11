@@ -83,6 +83,9 @@ angular.module('owsWalletApp.services').factory('helpService', function($ionicMo
 				}, {
 					title: gettextCatalog.getString('Can I send money between wallets?'),
 					content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('How is by balance calculated?'),
+          content: gettextCatalog.getString('By default your wallet shows the total balance, this is the total amount of digital currency stored in this wallet. If there are pending transactions in your wallet then your spendable balance is the total balance less the sum of all pending transaction amounts. Pending transactions include those that are not yet confirmed as well as pending proposals if your wallet is a shared wallet. Confirming transactions have less than 1 blockchain confirmation. Pending transaction proposals in shared wallets allocate funds from the wallet to the transaction. The amount allocated is determined using unspent transaction outputs associated with this wallet and may be more than the actual amounts associated with the sum of your pending transaction proposals in the wallet.')
 				}]
     }, {
     	id: 'help-shared-wallets',
@@ -100,6 +103,9 @@ angular.module('owsWalletApp.services').factory('helpService', function($ionicMo
 				}, {
 					title: gettextCatalog.getString('What information stored in a shared wallet?'),
 					content: gettextCatalog.getString('Answer coming soon')
+        }, {
+          title: gettextCatalog.getString('How does a spending proposal affect my balance?'),
+          content: gettextCatalog.getString('Spending proposals set aside, or lock, a portion of your total wallet balance from being spent elsewhere while the transaction is pending.')
 				}]
     }, {
     	id: 'help-backup',

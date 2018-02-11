@@ -1,5 +1,4 @@
-#txp-details,
-#confirm {
+#txp-details {
   background: $v-home-bg;
   color: $v-home-color;
 
@@ -9,63 +8,17 @@
     bottom: 92px;
   }
 
-  .head {
-    padding: 30px 20px 3rem;
-
-    .sending-label {
-      display: flex;
-      font-size: 18px;
-      align-items: center;
-      margin-bottom: 1.5rem;
-
-      img {
-        margin-right: 1rem;
-        height: 35px;
-        width: 35px;
-      }
-    }
-
-    .amount-label {
-      line-height: 30px;
-
-      .amount {
-        font-size: 38px;
-        margin-bottom: .5rem;
-
-        > .unit {
-          font-family: $v-font-family-light;
-        }
-      }
-
-      .alternative {
-        font-size: 16px;
-        font-family: $v-font-family-light;
-        color: $v-light-gray;
-      }
-    }
-  }
-
-  .timeline-item {
-    border: 0;
-
-    &:nth-child(2) {
-      border-top: 1px solid $v-subtle-gray;
-    }
-
-    &:last-child {
-      border-bottom: 1px solid $v-subtle-gray;
-    }
-
-    padding: 17px 20px;
-
-    > * {
-      padding-right: 0;
-    }
+  .item-timeline:before {
+    width: 85% !important;
   }
 
   .timeline-content {
     display: flex;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
 
     &__icon {
       display: flex;
@@ -73,12 +26,12 @@
       min-width: 40px;
       padding-right: 1rem;
       padding-left: 1rem;
-      margin-right: .5rem;
+      margin-right: 0.5rem;
       position: relative;
 
       &::before {
         content: '';
-        background: $v-subtle-gray;
+        background: $v-txp-timeline-color;
         height: 100px;
         width: 1px;
         position: absolute;
@@ -90,7 +43,7 @@
 
       &::after {
         content: '';
-        background: $v-subtle-gray;
+        background: $v-txp-timeline-color;
         height: 100px;
         width: 1px;
         position: absolute;
@@ -100,49 +53,27 @@
         bottom: 0;
       }
 
-      > img {
-        width: 26px;
-      }
-
       > div {
         border-radius: 50%;
         width: 26px;
         height: 26px;
-        border: 3px solid $v-success-color;
+        border: 3px solid $v-txp-timeline-approve-color;
         display: flex;
         font-size: 13px;
         align-items: center;
         justify-content: center;
         font-weight: 600;
         vertical-align: middle;
-        color: $v-success-color;
+        color: $v-txp-timeline-approve-color;
 
         &.rejected {
-          background: $v-error-color;
-          border-color: $v-error-color;
-          color: $v-white-color;
-          font-family: $v-font-family-bold;
+          background: $v-txp-timeline-reject-color;
+          border-color: $v-txp-timeline-reject-color;
+          color: $v-home-color;
+          font-weight: bold;
           font-size: 19px;
         }
       }
     }
-
-    &__label {
-      flex-grow: 1;
-
-      > .action {
-        font-size: 16px;
-      }
-
-      > .name {
-        color: $v-light-gray;
-        font-size: 14px;
-      }
-    }
-  }
-
-  .proposal-deletion-help {
-    color: $v-mid-gray;
-    padding: 1rem 2rem;
   }
 }

@@ -1,10 +1,10 @@
 <span>
   <div ng-if="notification.type == 'NewCopayer' && notification.wallet.n>1" translate>
-    Copayer joined
+    Copayer Joined
   </div>
 
   <div ng-if="notification.type == 'NewCopayer' && notification.wallet.n==1" translate>
-    Wallet created
+    Wallet Created
   </div>
 
   <div ng-if="notification.type == 'NewOutgoingTx'">
@@ -55,8 +55,8 @@
 
   <div class="item-detail">
     <!-- {{notification.types}} -->
-    <i class="icon ion-record xwallet-activity-note-child" ng-style="{'color':notification.wallet.color}"></i>
-    <span ng-if="notification.creatorName">{{ notification.creatorName}}@</span>
+    <i class="icon ion-record" ng-style="{'color':notification.wallet.color}"></i>
+    <span ng-if="notification.creatorName"> {{notification.creatorName}}@</span>
     <span >{{notification.wallet.name}}</span>
     <time class="right">{{ notification.createdOn * 1000 | amTimeAgo}}</time>
   </div>

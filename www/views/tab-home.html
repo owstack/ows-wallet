@@ -23,29 +23,29 @@
 
     <div ng-show="tipWalletReady" ng-include="'views/includes/tipWalletReady.html'"></div>
 
-    <!-- Payment proposals --> 
+    <!-- Payment proposals -->
 
-    <div class="list card" ng-hide="!txps[0]">
-      <a class="item item-icon-right item-heading" ui-sref="tabs.proposals">
-        {{'Payment Proposals'|translate}}
+    <div class="card" ng-hide="!txps[0]">
+      <ion-item class="item-heading has-click item-icon-right" ui-sref="tabs.proposals">
+        <span translate>Payment Proposals</span>
         <i class="icon arrow-right"></i>
-        <span class="badge badge-assertive m5t m10r" ng-show="txpsN > 3"> {{txpsN}}</span>
-      </a>
-      <div ng-repeat="tx in txps" ng-click="openTxpModal(tx)">
-        <a class="wallet-details__item item item-sub" ng-include="'views/includes/txp.html'"></a>
-      </div>
+        <span class="item-note badge badge-assertive" ng-show="txpsN > 3"> {{txpsN}}</span>
+      </ion-item>
+      <ion-list>
+        <div ng-include="'views/includes/txp.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></div>
+      </ion-list>
     </div>
 
     <!-- Recent transactions --> 
 
     <div class="card" ng-if="notifications[0] && recentTransactionsEnabled">
-      <div class="item item-heading item-icon-right has-click" ui-sref="tabs.activity">
+      <ion-item class="item-heading has-click item-icon-right" ui-sref="tabs.activity">
         <span translate>Recent Transactions</span>
         <i class="icon arrow-right"></i>
         <span class="badge badge-assertive m5t m10r" ng-show="notificationsN > 3"> {{notificationsN}}</span>
-      </div>
+      </ion-item>
       <ion-list>
-        <ion-item class="has-click item-h-lg" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
+        <ion-item class="has-click has-detail" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
           <span ng-include="'views/includes/walletActivity.html'"></span>
         </ion-item>
       </ion-list>
@@ -53,8 +53,8 @@
 
     <!-- List layout -->
 
-    <div ng-if="layout.current == 'list'" class="card">
-      <ion-item class="item-icon-right item-heading">
+    <div class="card" ng-if="layout.current == 'list'">
+      <ion-item class="item-heading item-icon-right">
         <span translate>Wallets</span>
         <a ui-sref="tabs.add" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
       </ion-item>
@@ -80,7 +80,7 @@
             </span>
             <span ng-if="wallet.isComplete()">
               <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
-              <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
+              <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
               <span class="tab-home__wallet__multisig-number" ng-if="wallet.n > 1">
                 {{wallet.m}}-of-{{wallet.n}}
               </span>

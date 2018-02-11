@@ -1,12 +1,14 @@
 <action-sheet id="action-sheet" class="item-selector" show="show">
   <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
   <div class="header" translate>Options</div>
-  <a class="item item-icon-left option no-border" ng-click="onSelectChooseFavorites()">
-    <i class="icon ion-ios-heart-outline"></i>
-    <div class="item-selector-inner">
-      <div class="item-selector-details">
-        <div class="item-selector-name" translate>Choose favorite wallets</div>
+  <ion-list>
+    <ion-item class="has-click item-icon-left option no-border" ng-click="onSelectChooseFavorites()">
+      <i class="icon ion-ios-heart-outline"></i>
+      <div class="item-selector-inner">
+        <div class="item-selector-details">
+          <div class="item-selector-name" translate>Choose favorite wallets</div>
+        </div>
       </div>
-    </div>
-  </a>
+    </ion-item>
+  </ion-list>
 </action-sheet>

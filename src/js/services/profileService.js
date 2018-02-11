@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService, walletService, uiService) {
+  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService, walletService, uiService, addressbookService) {
 
     var root = {};
     var isCordova = platformInfo.isCordova;
@@ -497,20 +497,19 @@ angular.module('owsWalletApp.services')
     };
 
     root.setMetaData = function(walletClient, addressBook, cb) {
-      storageService.getAddressbook(function(err, localAddressBook) {
-        var localAddressBook1 = {};
-        try {
-          localAddressBook1 = JSON.parse(localAddressBook);
-        } catch (ex) {
-          $log.warn(ex);
+      addressbookService.list(function(err, localAddressBook) {
+        if (err) {
+          $log.error(err);
         }
-        var mergeAddressBook = lodash.merge(addressBook, localAddressBook1);
-        storageService.setAddressbook(JSON.stringify(addressBook), function(err) {
-          if (err) return cb(err);
+        var mergeAddressBook = addressBook.concat(localAddressBook);
+        addressbookService.setAddressbook(mergeAddressBook, function(err, ab) {
+          if (err) {
+            return cb(err);
+          }
           return cb(null);
         });
       });
-    }
+    };
 
     // Adds and bind a new client to the profile
     var addAndBindWalletClient = function(client, opts, cb) {

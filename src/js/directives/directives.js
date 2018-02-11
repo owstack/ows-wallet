@@ -141,9 +141,10 @@ angular.module('owsWalletApp.directives')
         restrict: 'E',
         link: function(scope, element, attrs) {
           var addr = attrs.address;
-          addressbookService.get(addr, function(err, ab) {
-            if (ab) {
-              var name = lodash.isObject(ab) ? ab.name : ab;
+          addressbookService.findInAllByAddress(addr, function(err, entries) {
+            if (entries.length > 0) {
+              // Choose the first entry, ignore others.
+              var name = (entries[0].name.length > 0 ? entries[0].name : addr);
               element.append(name);
             } else {
               element.append(addr);

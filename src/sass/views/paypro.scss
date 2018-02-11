@@ -1,10 +1,6 @@
-#confirm {
+#paypro {
   background: $v-send-bg;
   color: $v-send-color;
 
   @include common;
-
-  .add-bottom-for-cta {
-    bottom: 92px;
-  }
 }

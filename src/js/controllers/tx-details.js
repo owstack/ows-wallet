@@ -46,7 +46,9 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
         $log.warn('Could not fetch transaction note: ' + err);
         return;
       }
-      if (!note) return;
+      if (!note) {
+        return;
+      }
 
       $scope.btx.note = note;
       $scope.$apply();
@@ -93,9 +95,13 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
 
   var updateTx = function(opts) {
     opts = opts || {};
-    if (!opts.hideLoading) ongoingProcess.set('loadingTxInfo', true);
+    if (!opts.hideLoading) {
+      ongoingProcess.set('loadingTxInfo', true);
+    }
     walletService.getTx($scope.wallet, txId, function(err, tx) {
-      if (!opts.hideLoading) ongoingProcess.set('loadingTxInfo', false);
+      if (!opts.hideLoading) {
+        ongoingProcess.set('loadingTxInfo', false);
+      }
       if (err) {
         $log.warn('Error getting transaction: ' + err);
         $ionicHistory.goBack();
@@ -103,15 +109,24 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
       }
 
       $scope.btx = txFormatService.processTx(tx, $scope.wallet.networkURI);
+      
       txFormatService.formatAlternativeStr($scope.wallet.networkURI, tx.fees, function(v) {
         $scope.btx.feeFiatStr = v;
         $scope.btx.feeRateStr = ($scope.btx.fees / ($scope.btx.amount + $scope.btx.fees) * 100).toFixed(2) + '%';
       });
 
       if ($scope.btx.action != 'invalid') {
-        if ($scope.btx.action == 'sent') $scope.title = gettextCatalog.getString('Sent Funds');
-        if ($scope.btx.action == 'received') $scope.title = gettextCatalog.getString('Received Funds');
-        if ($scope.btx.action == 'moved') $scope.title = gettextCatalog.getString('Moved Funds');
+        if ($scope.btx.action == 'sent') {
+          $scope.title = gettextCatalog.getString('Sent Funds');
+        }
+
+        if ($scope.btx.action == 'received') {
+          $scope.title = gettextCatalog.getString('Received Funds');
+        }
+
+        if ($scope.btx.action == 'moved') {
+          $scope.title = gettextCatalog.getString('Moved Funds');
+        }
       }
 
       updateMemo();
@@ -122,15 +137,18 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
       });
 
       feeService.getFeeLevels($scope.wallet, function(err, levels) {
-        if (err) return;
+        if (err) {
+          return;
+        }
         walletService.getLowAmount($scope.wallet, levels, function(err, amount) {
-          if (err) return;
-          $scope.btx.lowAmount = tx.amount < amount;
+          if (err) {
+            return;
+          }
+          $scope.btx.lowAmount = (tx.amount < amount);
 
           $timeout(function() {
             $scope.$apply();
           });
-
         });
       });
     });
@@ -138,20 +156,25 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
 
   var updateTxDebounced = lodash.debounce(updateTx, 5000);
 
-  $scope.showCommentPopup = function() {
+  $scope.showMemoPopup = function() {
     var opts = {};
     if ($scope.btx.message) {
       opts.defaultText = $scope.btx.message;
     }
-    if ($scope.btx.note && $scope.btx.note.body) opts.defaultText = $scope.btx.note.body;
 
-    popupService.showPrompt($scope.wallet.name, gettextCatalog.getString('Memo'), opts, function(text) {
-      if (typeof text == "undefined") return;
+    if ($scope.btx.note && $scope.btx.note.body) {
+      opts.defaultText = $scope.btx.note.body;
+    }
+
+    popupService.showPrompt(gettextCatalog.getString('Set Memo'), null, opts, function(text) {
+      if (typeof text == "undefined") {
+        return;
+      }
+      $log.debug('Saving memo');
 
       $scope.btx.note = {
         body: text
       };
-      $log.debug('Saving memo');
 
       var args = {
         txid: $scope.btx.txid,
@@ -160,7 +183,7 @@ angular.module('owsWalletApp.controllers').controller('txDetailsController', fun
 
       walletService.editTxNote($scope.wallet, args, function(err, res) {
         if (err) {
-          $log.debug('Could not save tx comment ' + err);
+          $log.debug('Could not save tx memo ' + err);
         }
       });
     });

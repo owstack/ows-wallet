@@ -13,7 +13,7 @@
       </div>
       <div ng-if="w.isComplete()" class="item-detail">
         <div ng-if="!w.balanceHidden">{{w.status.availableBalanceStr}}</div>
-        <div ng-if="w.balanceHidden" translate>[Balance Hidden]</div>
+        <div ng-if="w.balanceHidden" translate>Balance Hidden</div>
       </div>
       <i class="icon check ion-ios-checkmark-empty" ng-show="selectedWallet === w"></i>
     </ion-item>

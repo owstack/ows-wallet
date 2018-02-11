@@ -2,6 +2,7 @@
 @import "add";
 @import "amount";
 @import "confirm";
+@import "paypro";
 @import "copayers";
 @import "starting";
 @import "tab-home";
@@ -44,7 +45,10 @@
 
 @import "wallet-colors";
 @import "walletBalance";
-@import "walletDetails";
+@import "wallet-details";
+@import "wallet-activity";
+@import "proposals";
+@import "tx-search";
 @import "zero-state";
 @import "backup/backup";
 @import "onboarding/onboarding";
@@ -57,7 +61,6 @@
 @import "feedback/rateApp";
 @import "includes/actionSheet";
 @import "includes/menu-popover";
-@import "includes/wallet-activity";
 @import "includes/wallet-item";
 @import "includes/wallets";
 @import "includes/modals/modals";

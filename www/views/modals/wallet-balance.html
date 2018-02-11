@@ -1,5 +1,5 @@
-<ion-modal-view id="wallet-balance">
-  <ion-header-bar align-title="center" ng-style="{'background-color': wallet.color}">
+<ion-modal-view id="wallet-balance" ng-style="{'background': wallet.background}">
+  <ion-header-bar align-title="center">
     <button class="button button-clear" ng-click="close()" translate>
       Close
     </button>
@@ -15,82 +15,55 @@
   </div>
   </ion-header-bar>
   <ion-content>
-    <div class="wallet-balance__heading" translate>All of your wallet balance may not be available for immediate spending.</div>
-    <div class="wallet-balance__list list card">
-      <div class="wallet-balance__item item">
-        <img class="wallet-balance__icon" src="img/icon-sigma.svg" height="18" width="18"\>
-        <div class="wallet-balance__content no-border">
-          <div class="wallet-balance__title" translate>Total</div>
-          <span class="item-note text-right wallet-balance__amount">
-            <span class="wallet-balance__amount wallet-balance__amount--total">
-              {{status.totalBalanceStr}}
-            </span>
-            <div>
-              <span class="wallet-balance__amount--alternative ng-binding">
-                {{status.totalBalanceAlternative}} {{status.alternativeIsoCode}}
-              </span>
-            </div>
+    <div class="card">
+      <ion-list>
+        <ion-item class="item-icon-left icon-left-md">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-sigma.svg">
+          </i>
+          <span translate>Total</span>
+          <span class="item-note">
+            <span class="balance-total">{{status.totalBalanceStr}}</span>
+            <div>{{status.totalBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
-        </div>
-      </div>
-      <div class="wallet-balance__description" translate>The total amount of digital currency stored in this wallet.</div>
+        </ion-item>
+
+        <ion-item class="item-icon-left icon-left-md">
+          <i class="icon md-icon ion-ios-checkmark-outline">
+          </i>
+          <span translate>Available</span>
+          <span class="item-note">
+            <span class="balance-available">{{status.spendableBalanceStr}}</span>
+            <div>{{status.spendableBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+          </span>
+        </ion-item>
+
+        <ion-item class="item-icon-left icon-left-md">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-confirming.svg">
+          </i>
+          <span translate>Confirming</span>
+          <span class="item-note">
+            <span ng-class="{'balance-confirming': status.pendingAmount > 0}">{{status.pendingBalanceStr}}</span>
+            <div>{{status.pendingBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+          </span>
+        </ion-item>
+
+        <ion-item class="item-icon-left icon-left-md">
+          <i class="icon md-icon">
+            <img class="bg" src="img/icon-locked.svg">
+          </i>
+          <span translate>Locked</span>
+          <span class="item-note">
+            <span ng-class="{'balance-locked': status.lockedBalanceAtomic > 0}">{{status.lockedBalanceStr}}</span>
+            <div>{{status.lockedBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+          </span>
+        </ion-item>
+      </ion-list>
     </div>
-    <div class="wallet-balance__list list card">
-      <div class="wallet-balance__item item">
-        <i class="wallet-balance__icon icon ion-ios-checkmark-outline"></i>
-        <div class="wallet-balance__content no-border">
-          <div class="wallet-balance__title" translate>Available</div>
-          <span class="item-note text-right wallet-balance__amount">
-            <span class="wallet-balance__amount wallet-balance__amount--available">
-              {{status.spendableBalanceStr}}
-            </span>
-            <div>
-              <span class="wallet-balance__amount--alternative ng-binding">
-                {{status.spendableBalanceAlternative}} {{status.alternativeIsoCode}}
-              </span>
-            </div>
-          </span>
-        </div>
-      </div>
-      <div class="wallet-balance__description" translate>The amount of digital currency immediately spendable from this wallet.</div>
-    </div>
-    <div class="wallet-balance__list list card">
-      <div class="wallet-balance__item item">
-        <img class="wallet-balance__icon" src="img/icon-confirming.svg" width="18"\>
-        <div class="wallet-balance__content no-border">
-          <div class="wallet-balance__title" translate>Confirming</div>
-          <span class="item-note text-right wallet-balance__amount">
-            <span class="wallet-balance__amount wallet-balance__amount--confirming">
-              {{status.pendingBalanceStr}}
-            </span>
-            <div>
-              <span class="wallet-balance__amount--alternative ng-binding">
-                {{status.pendingBalanceAlternative}} {{status.alternativeIsoCode}}
-              </span>
-            </div>
-          </span>
-        </div>
-      </div>
-      <div class="wallet-balance__description" translate>The amount of digital currency stored in this wallet with less than 1 blockchain confirmation.</div>
-    </div>
-    <div class="wallet-balance__list list card" ng-show="status.lockedBalanceAtomic!=0">
-      <div class="wallet-balance__item item">
-        <img class="wallet-balance__icon" src="img/icon-locked.svg" width="18"\>
-        <div class="wallet-balance__content no-border">
-          <div class="wallet-balance__title" translate>Locked</div>
-          <span class="item-note text-right wallet-balance__amount">
-            <span class="wallet-balance__amount wallet-balance__amount--locked">
-              {{status.lockedBalanceStr}}
-            </span>
-            <div>
-              <span class="wallet-balance__amount--alternative ng-binding">
-                {{status.lockedBalanceAlternative}} {{status.alternativeIsoCode}}
-              </span>
-            </div>
-          </span>
-        </div>
-      </div>
-      <div class="wallet-balance__description" translate>The amount of digital currency stored in this wallet that is allocated as inputs to your pending transaction proposals. The amount is determined using unspent transaction outputs associated with this wallet and may be more than the actual amounts associated with your pending transaction proposals.</div>
+    <div class="box-notification info clear">
+      <p class="notice" translate>Your total wallet balance may not be available for immediate spending.</p>
+      <a ng-click="learnMore()" translate>Learn more</a>
     </div>
   </ion-content>
 </ion-modal-view>

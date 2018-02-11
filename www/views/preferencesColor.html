@@ -4,10 +4,10 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-  <ion-content class="wallet-color-count">
+  <ion-content class="wallet-vanity-color-count">
     <ion-list>
       <ion-radio ng-repeat="i in [] | range:colorCount" ng-value="i" ng-model="currentColorIndex" ng-click="save(i)">
-        <span class="color-block wallet-color-{{i}}"></span>
+        <span class="color-block wallet-vanity-color-{{i}}"></span>
       </ion-radio>
     </ion-list>
   </ion-content>

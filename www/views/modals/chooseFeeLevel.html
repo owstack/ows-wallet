@@ -11,12 +11,14 @@
         {{'Fees are for' | translate}} {{networkLabel}}.
       </h2>
     </div>
-    <div class="box-notification error" ng-if="showError">
-      <h2 translate>
-        Transactions without fee are not supported.
+    <div class="box-notification error" ng-if="showNoFeeError">
+      <h2>
+        <span translate>
+          Transactions without fee are not supported.
+        </span>
       </h2>
     </div>
-    <div class="box-notification error" ng-if="showMinWarning || showMaxWarning">
+    <div class="box-notification warning" ng-if="!showNoFeeError && (showMinWarning || showMaxWarning)">
       <h2>
         <span ng-if="showMinWarning" translate>
           Your fee is lower than recommended.
@@ -48,28 +50,27 @@
             </div>
           </div>
         </div>
-        <div class="list" ng-if="customFeePerKB">
-          <label class="item item-input item-stacked-label">
+        <ion-list ng-if="customFeePerKB">
+          <ion-item class="item-input item-stacked-label">
             <span class="input-label" translate>Enter custom fee</span>
-            <input
-              type="number"
-              placeholder="{{'Enter fee'|translate}}"
-              ng-min="minFeeAllowed"
-              ng-max="maxFeeAllowed"
-              min="minFeeRecommended"
-              max="maxFeeRecommended"
-              ng-change="checkFees(customAtomicPerByte.value)"
-              ng-model="customAtomicPerByte.value"
-              ng-required="customFeePerKB">
-            <span class="unit">{{atomicUnit.shortName}}/byte</span>
-          </label>
-        </div>
+            <div class="item item-sub">
+              <input type="number" placeholder="{{'Enter fee'|translate}}" ng-min="minFeeAllowed" ng-max="maxFeeAllowed" min="minFeeRecommended"
+                max="maxFeeRecommended" ng-change="checkFees(customAtomicPerByte.value)" ng-model="customAtomicPerByte.value"
+                ng-required="customFeePerKB">
+              <span class="unit">{{atomicUnit.shortName}}/byte</span>
+            </div>
+          </ion-item>
+        </ion-list>
       </div>
-      <div class="list fee-policies">
-        <ion-radio ng-repeat="(fee, level) in feeOpts" ng-value="fee" ng-model="selectedFee.value">
-          {{level | translate}}
+      <ion-list>
+        <ion-radio ng-class="{'has-detail': fl.feePerKb}" ng-repeat="fl in feeLevels" ng-value="fl.level"
+          ng-model="selectedFee.value">
+          {{fl.name|translate}}
+          <div class="item-detail" ng-if="fl.feePerKb">
+            {{fl.feePerAtomicUnitByte}} {{fl.atomicUnitCode}}/byte &middot; {{fl.avgConfirmationTime | amDurationFormat: 'minute'}}
+          </div>
         </ion-radio>
-      </div>
+      </ion-list>
     </div>
   </ion-content>
 </ion-modal-view>

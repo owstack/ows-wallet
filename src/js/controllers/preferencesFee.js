@@ -32,7 +32,6 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
         feeLevel.atomicUnitCode = networkService.getAtomicUnit($scope.networkURI).shortName;
         feeLevel.feePerAtomicUnitByte = (feeLevel.feePerKb / 1000).toFixed();
         feeLevel.avgConfirmationTime = feeLevel.nbBlocks * 10;
-        feeLevel.invalidCustomFeeEntered = false;
       });
 
       $timeout(function() {
@@ -68,7 +67,6 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
   };
 
   var setMinWarning = function() {
-
     if (parseInt($scope.feeLevels[$scope.currentFeeLevel].feePerAtomicUnitByte) < $scope.getMinimumRecommeded()) {
       $scope.showMinWarning = true;
     } else {
@@ -79,10 +77,8 @@ angular.module('owsWalletApp.controllers').controller('preferencesFeeController'
   var setMaxWarning = function() {
     if (parseInt($scope.feeLevels[$scope.currentFeeLevel].feePerAtomicUnitByte) > 1000) {
       $scope.showMaxWarning = true;
-      $scope.invalidCustomFeeEntered = true;
     } else {
       $scope.showMaxWarning = false;
-      $scope.invalidCustomFeeEntered = false;
     }
   };
 

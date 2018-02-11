@@ -4,7 +4,7 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
-      <button class="button back-button button-clear" ng-click="init()">
+      <button class="button button-nav-bar button-clear" ng-click="init()">
         <i class="icon ion-ios-refresh-empty"></i>
       </button>
     </ion-nav-buttons>
@@ -13,7 +13,9 @@
     <div ng-include="'views/includes/walletItem.html'"></div>
     <div class="addr-list">
       <div class="box-notification info clear">
-        <p>Each wallet can generate billions of addresses. A new address is automatically generated each time you receive a payment.</p>
+        <p translate>
+          Each wallet can generate billions of addresses. A new address is automatically generated each time you receive a payment.
+        </p>
         <a ng-click="learnMore()" translate>Learn more</a>
       </div>
       <ion-list>

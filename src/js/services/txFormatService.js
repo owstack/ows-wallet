@@ -7,7 +7,9 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     var utils = networkService.walletClientFor(networkURI).getUtils();
 
     var config = configService.getSync().currencyNetworks[networkURI];
-    if (config.unitCode == config.atomicUnitCode) return atomics;
+    if (config.unitCode == config.atomicUnitCode) {
+      return atomics;
+    }
 
     //TODO : now only works for english, specify opts to change thousand separator and decimal separator
     var opts = {
@@ -17,16 +19,22 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
   };
 
   root.formatAmountStr = function(networkURI, atomics) {
-    if (isNaN(atomics)) return;
+    if (isNaN(atomics)) {
+      return;
+    }
     var config = configService.getSync().currencyNetworks[networkURI];
     return root.formatAmount(networkURI, atomics) + ' ' + config.unitName;
   };
 
   root.toFiat = function(networkURI, atomics, code, cb) {
-    if (isNaN(atomics)) return;
+    if (isNaN(atomics)) {
+      return;
+    }
     var val = function() {
       var v1 = rateService.toFiat(networkURI, atomics, code);
-      if (!v1) return null;
+      if (!v1) {
+        return null;
+      }
 
       return v1.toFixed(2);
     };
@@ -37,16 +45,22 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
         return cb(val());
       });
     } else {
-      if (!rateService.isAvailable()) return null;
+      if (!rateService.isAvailable()) {
+        return null;
+      }
       return val();
     };
   };
 
   root.formatToUSD = function(networkURI, atomics, cb) {
-    if (isNaN(atomics)) return;
+    if (isNaN(atomics)) {
+      return;
+    }
     var val = function() {
       var v1 = rateService.toFiat(networkURI, atomics, 'USD');
-      if (!v1) return null;
+      if (!v1) {
+        return null;
+      }
 
       return v1.toFixed(2);
     };
@@ -57,19 +71,25 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
         return cb(val());
       });
     } else {
-      if (!rateService.isAvailable()) return null;
+      if (!rateService.isAvailable()) {
+        return null;
+      }
       return val();
     };
   };
 
   root.formatAlternativeStr = function(networkURI, atomics, cb) {
-    if (isNaN(atomics)) return;
+    if (isNaN(atomics)) {
+      return;
+    }
     var config = configService.getSync().currencyNetworks[networkURI];
 
     var val = function() {
       var v1 = parseFloat((rateService.toFiat(networkURI, atomics, config.alternativeIsoCode)).toFixed(2));
       v1 = $filter('formatFiatAmount')(v1);
-      if (!v1) return null;
+      if (!v1) {
+        return null;
+      }
 
       return v1 + ' ' + config.alternativeIsoCode;
     };
@@ -80,14 +100,17 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
         return cb(val());
       });
     } else {
-      if (!rateService.isAvailable()) return null;
+      if (!rateService.isAvailable()) {
+        return null;
+      }
       return val();
     };
   };
 
   root.processTx = function(tx, networkURI) {
-    if (!tx || tx.action == 'invalid')
+    if (!tx || tx.action == 'invalid') {
       return tx;
+    }
 
     // New transaction output format
     if (tx.outputs && tx.outputs.length) {
@@ -147,8 +170,9 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
       tx = txFormatService.processTx(tx);
 
       // no future transactions...
-      if (tx.createdOn > now)
+      if (tx.createdOn > now) {
         tx.createdOn = now;
+      }
 
       tx.wallet = profileService.getWallet(tx.walletId);
       if (!tx.wallet) {
@@ -172,8 +196,9 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
         tx.statusForUs = 'pending';
       }
 
-      if (!tx.deleteLockTime)
+      if (!tx.deleteLockTime) {
         tx.canBeRemoved = true;
+      }
     });
 
     return txps;

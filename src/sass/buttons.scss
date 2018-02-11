@@ -6,8 +6,12 @@
   display: block;
 }
 
-.button {
-  color: $v-dark-gray;
+.button-nav-bar {
+  border: 0;
+  .icon:before {
+    color: $v-bar-header-button-color;
+    font-size: 24px !important;
+  }
 }
 
 .button-clear {
@@ -60,6 +64,12 @@
   }
 }
 
+#wallet-details .button-action {
+  @include button-style($v-wallet-action-button-bg, $v-wallet-action-button-border, $v-wallet-action-button-active-bg, $v-wallet-action-button-active-border, $v-wallet-action-button-color);
+  @include button-clear($v-wallet-action-button-clear-color);
+  @include button-outline($v-wallet-action-button-outline-color);
+}
+
 .button {
   &.button-secondary {
     @include button-style($v-button-secondary-bg, $v-button-secondary-border, $v-button-secondary-active-bg, $v-button-secondary-active-border, $v-button-secondary-color);
@@ -74,10 +84,4 @@
     @include button-clear($v-button-assertive-clear-color);
     @include button-outline($v-button-assertive-outline-color);
   }
-}
-
-#walletDetails .button-action {
-  @include button-style($v-wallet-action-button-bg, $v-wallet-action-button-border, $v-wallet-action-button-active-bg, $v-wallet-action-button-active-border, $v-wallet-action-button-color);
-  @include button-clear($v-wallet-action-button-clear-color);
-  @include button-outline($v-wallet-action-button-outline-color);
 }

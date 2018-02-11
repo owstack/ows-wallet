@@ -6,9 +6,9 @@
   </ion-nav-bar>
   <ion-content>
     <div ng-if="fetchingNotifications" class="updating">
-      <div class="text-center m10t">
+      <div class="text-center m20t">
+        <span translate>Updating</span>
         <ion-spinner icon="ios"></ion-spinner>
-        <div translate>Updating...</div>
       </div>
     </div>
     <div ng-show="!notifications[0]">
@@ -16,7 +16,7 @@
     </div>
     <div class="card" ng-if="!fetchingNotifications">
       <ion-list>
-        <ion-item class="item-fh has-click" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
+        <ion-item class="has-click has-detail" ng-repeat="notification in notifications" ng-click="openNotificationModal(notification)">
           <span ng-include="'views/includes/walletActivity.html'"></span>
         </ion-item>
       </ion-list>

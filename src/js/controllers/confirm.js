@@ -38,7 +38,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
 
   function exitWithError(err) {
     $log.info('Error setting wallet selector:' + err);
-    popupService.showAlert(gettextCatalog.getString(), walletClientError.msg(err), function() {
+    popupService.showAlert(gettextCatalog.getString('Wallet Error'), walletClientError.msg(err), function() {
       $ionicHistory.nextViewOptions({
         disableAnimate: true,
         historyRoot: true
@@ -480,7 +480,7 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
     if (!tx || !wallet) return;
 
     if ($scope.paymentExpired) {
-      popupService.showAlert(null, gettextCatalog.getString('This payment request has expired.'));
+      popupService.showAlert(gettextCatalog.getString('Payment Request Expired'), gettextCatalog.getString('This payment request has expired.'));
       $scope.sendStatus = '';
       $timeout(function() {
         $scope.$apply();
@@ -493,22 +493,25 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
       ongoingProcess.set('creatingTx', false, onSendStatusChange);
       if (err) return;
 
-      // confirm txs for more that 20usd, if not spending/touchid is enabled
+      // Confirm txs for more that 20usd, if not spending/touchid is enabled
       function confirmTx(cb) {
-        if (walletService.isEncrypted(wallet))
+        if (walletService.isEncrypted(wallet)) {
           return cb();
+        }
 
         var amountUsd = parseFloat(txFormatService.formatToUSD(wallet.networkURI, txp.amount));
-        if (amountUsd <= CONFIRM_LIMIT_USD)
+        if (amountUsd <= CONFIRM_LIMIT_USD) {
           return cb();
+        }
 
         var message = gettextCatalog.getString('Sending {{amountStr}} from your {{name}} wallet', {
           amountStr: tx.amountStr,
           name: wallet.name
         });
+        var title = gettextCatalog.getString('Confirm Transaction');
         var okText = gettextCatalog.getString('Confirm');
         var cancelText = gettextCatalog.getString('Cancel');
-        popupService.showConfirm(null, message, okText, cancelText, function(ok) {
+        popupService.showConfirm(title, message, okText, cancelText, function(ok) {
           return cb(!ok);
         });
       };
@@ -518,12 +521,16 @@ angular.module('owsWalletApp.controllers').controller('confirmController', funct
           $log.info('No signing proposal: No private key');
 
           return walletService.onlyPublish(wallet, txp, function(err) {
-            if (err) setSendError(err);
+            if (err) {
+              setSendError(err);
+            }
           }, onSendStatusChange);
         }
 
         walletService.publishAndSign(wallet, txp, function(err, txp) {
-          if (err) return setSendError(err);
+          if (err) {
+            return setSendError(err);
+          }
           if (config.confirmedTxsNotifications && config.confirmedTxsNotifications.enabled) {
             txConfirmNotification.subscribe(wallet, {
               txid: txp.txid

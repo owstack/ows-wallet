@@ -5,13 +5,13 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="search-wrapper">
-      <ion-item class="item-input search">
-        <i class="icon ion-ios-search placeholder-icon"></i>
+    <ion-list>
+      <ion-item class="item-input item-icon-left icon-left-sm">
+        <i class="icon ion-ios-search sm-icon"></i>
         <input type="search" ng-init="searchedAltCurrency = ''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)"
           placeholder="Search your currency" class="ng-pristine ng-untouched ng-valid ng-empty" style="">
       </ion-item>
-    </div>
+    </ion-list>
     <div ng-if="lastUsedAltCurrencyList[0]">
       <ion-list ng-if="lastUsedAltCurrencyList[0]">
         <ion-item class="item-divider" translate>

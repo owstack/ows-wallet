@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcess, platformInfo, $ionicScrollDelegate, txFormatService, walletClientError, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService) {
+angular.module('owsWalletApp.controllers').controller('txpDetailsController', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcess, platformInfo, $ionicScrollDelegate, txFormatService, walletClientError, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService, helpService) {
   var now = Math.floor(Date.now() / 1000);
   var countDown;
 
@@ -270,4 +270,12 @@ angular.module('owsWalletApp.controllers').controller('txpDetailsController', fu
     $scope.loading = null;
     $scope.txpDetailsModal.hide();
   };
+
+  $scope.learnMore = function() {
+    // TODO:
+    var locationPrefix = 'tbd';
+    var topicId = 'tbd';
+    helpService.learnMore($scope, locationPrefix, topicId);
+  };
+
 });

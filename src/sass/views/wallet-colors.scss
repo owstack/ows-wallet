@@ -1,21 +1,21 @@
 /*
- * Generate wallet colors from color map
+ * Generate wallet vanity colors from color map
  */
 
-.wallet-color-count {
-  content: '' + length($v-wallet-color-map);
+.wallet-vanity-color-count {
+  content: '' + length($v-wallet-vanity-color-map);
 }
 
 .wallet-css-default {
-	background: $v-default-wallet-background;
-  color: $v-default-wallet-color;
+  background: $v-wallet-vanity-bg;
+  color: $v-wallet-vanity-color;
 }
 
-@each $id, $map in $v-wallet-color-map {
-  .wallet-color-#{$id} {
+@each $id, $map in $v-wallet-vanity-color-map {
+  .wallet-vanity-color-#{$id} {
     background: map-get($map, color);
   }
-  .wallet-color-#{$id}:before {
+  .wallet-vanity-color-#{$id}:before {
     content: map-get($map, name);
     margin-left: 2.4rem;
   }

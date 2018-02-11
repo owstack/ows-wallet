@@ -38,7 +38,7 @@
             {{wallet.name || wallet.id}}
             <div class="item-detail">
               <span ng-if="!wallet.balanceHidden">{{wallet.status.totalBalanceStr}}</span>
-              <span ng-if="wallet.balanceHidden" translate>[Balance Hidden]</span>
+              <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
               <span ng-if="wallet.n > 1">&middot; {{wallet.m}}-of-{{wallet.n}}</span>
             </div>
             <div class="item-note assertive" ng-if="wallet.error">{{wallet.error}}</div>

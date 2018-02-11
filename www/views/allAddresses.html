@@ -1,36 +1,34 @@
-<ion-view id="addresses" class="addr" hide-tabs>
+<ion-view id="addresses" hide-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'All Addresses' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-
   <ion-content>
-    <div class="addr-list list">
-      <div class="item item-divider"></div>
-
+    <ion-list>
+      <ion-item class="item-divider"></ion-item>
       <div ng-if="loading" class="updating">
         <ion-spinner icon="ios"></ion-spinner>
         <span translate>Loading addresses...</span>
       </div>
-
       <div ng-show="isCordova && allAddresses[0]">
-        <div class="item view-all" ng-click="sendByEmail()">
+        <ion-item class="view-all" ng-click="sendByEmail()">
           <span translate>Send addresses by email</span>
-        </div>
-
-        <div class="item item-divider"></div>
+        </ion-item>
+        <ion-item class="item-divider"></ion-item>
       </div>
-
-      <div class="item" ng-repeat="a in allAddresses track by $index" copy-to-clipboard="a.address">
-        {{a.address}}
-        <div class="addr-path" ng-if="!a.balanceStr">
-          {{a.path}} {{a.createdOn * 1000 | amDateFormat:'MMMM Do YYYY, hh:mm a'}}
+      <ion-item ng-repeat="a in allAddresses track by $index">
+        <div copy-to-clipboard="a.address">
+          {{a.address}}
+          <div ng-if="!a.balanceStr">
+            {{a.path}} {{a.createdOn * 1000 | amDateFormat:'MMMM Do YYYY, hh:mm a'}}
+          </div>
+          <div class="balance" ng-if="a.balanceStr">
+            {{a.balanceStr}}
+          </div>
         </div>
-        <div class="addr-balance" ng-if="a.balanceStr">{{a.balanceStr}}</div>
-      </div>
-
-      <div class="item item-divider"></div>
-    </div>
+      </ion-item>
+      <ion-item class="item-divider"></ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

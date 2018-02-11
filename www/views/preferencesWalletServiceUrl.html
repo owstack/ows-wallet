@@ -7,7 +7,9 @@
   <ion-content>
     <div ng-include="'views/includes/walletItem.html'"></div>
     <div class="box-notification info clear">
-      <p>{{appName}} depends on Wallet Services for blockchain information, networking and copayer synchronization. The default configuration points to Open Wallet Stack's public instance.</p>
+      <p translate>
+        {{appName}} depends on Wallet Services for blockchain information, networking and copayer synchronization. The default configuration points to Open Wallet Stack's public instance.
+      </p>
     </div>
     <ion-list>
       <ion-item class="item-input item-stacked-label">
@@ -20,6 +22,8 @@
         <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="walletServiceUrl.value">
       </ion-item>
     </ion-list>
-    <button class="button button-standard button-primary m20t" ng-click="save()" translate>Save</button>
+    <button class="button button-standard button-primary m20t" ng-click="save()" translate>
+      Save
+    </button>
   </ion-content>
 </ion-view>

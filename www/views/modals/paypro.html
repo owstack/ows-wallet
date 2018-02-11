@@ -1,62 +1,77 @@
-<ion-modal-view id="confirm">
+<ion-modal-view id="paypro">
   <ion-header-bar align-title="center" class="bar bar-header">
     <div class="title" translate>Payment request</div>
-    <button class="button button-back button-clear" ng-click="cancel()">
-      {{'Close' | translate}}
+    <button class="button button-back button-clear" ng-click="cancel()" translate>
+      Close
     </button>
   </ion-header-bar>
   <ion-content>
-    <div class="list">
-      <div class="item head">
-        <div class="amount-label">
-          <div class="amount">{{tx.amountValueStr || '...'}} <span class="unit">{{tx.amountAtomicStr}}</span></div>
-          <div class="alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '...'}}</div>
+    <ion-list>
+      <ion-item class="tx-header">
+        <div class="tx-label">
+          <img src="img/icon-tx-sent-outline.svg">
+          <span translate>Sending</span>
         </div>
-      </div>
-      <div class="info">
-        <div class="item single-line" ng-if="tx.paypro.domain">
-          <span class="label">{{'Pay To'|translate}}</span>
-          <span class="item-note">
-            {{tx.paypro.domain}}
+        <div class="tx-amount-wrapper">
+          <div class="tx-amount">{{tx.amountValueStr || '...'}} <span class="tx-unit">{{tx.amountAtomicStr}}</span></div>
+          <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '...'}}</div>
+        </div>
+      </ion-item>
+      <ion-item ng-if="tx.paypro.domain">
+        <span translate>Pay To</span>
+        <span class="item-note">
+          {{tx.paypro.domain}}
+        </span>
+      </ion-item>
+      <ion-item ng-if="tx.paypro.toAddress">
+        <span translate>Address</span>
+        <span class="item-note ellipsis">
+          {{tx.paypro.toAddress}}
+        </span>
+      </ion-item>
+      <ion-item class="item-fh">
+        <span translate>Certified by</span>
+        <span class="item-note">
+          <span ng-show="tx.paypro.caTrusted">
+            <i class="ion-locked text-success"></i>
+            {{tx.paypro.caName}}
+            <div>
+              <i class="ion-checkmark-circled"></i>
+              <span translate>Trusted Certificate</span>
+            </div>
           </span>
-        </div>
-        <div class="item single-line" ng-if="tx.paypro.toAddress">
-          <span class="label">{{'Address'|translate}}</span>
-          <span class="item-note m10l ellipsis">
-            {{tx.paypro.toAddress}}
-          </span>
-        </div>
-        <div class="item">
-          <span class="label">{{'Certified by'|translate}}</span>
-          <span class="item-note w100p">
-            <span ng-show="tx.paypro.caTrusted">
-              <i class="ion-locked" style="color:green"></i>
-              {{tx.paypro.caName}} {{'(Trusted)' | translate}}</span>
+          <span ng-show="!tx.paypro.caTrusted">
+            <span ng-show="tx.paypro.selfSigned">
+              <i class="ion-unlocked text-danger"></i>
+              <span translate>Self-signed Certificate</span>
+              <div>
+                <i class="ion-alert-circled"></i>
+                <span translate>UNTRUSTED CERTIFICATE</span>
+              </div>
             </span>
-            <span ng-show="!tx.paypro.caTrusted">
-              <span ng-show="tx.paypro.selfSigned">
-                <i class="ion-unlocked" style="color:red"></i> <span translate>Self-signed Certificate</span>
-              </span>
-              <span ng-show="!tx.paypro.selfSigned">
-                <i class="ion-locked" style="color:yellow"></i>{{tx.paypro.caName}}<br>
-                <span translate>WARNING: UNTRUSTED CERTIFICATE</span>
-              </span>
+            <span ng-show="!tx.paypro.selfSigned">
+              <i class="ion-unlocked text-danger"></i>
+              {{tx.paypro.caName}}
+              <div>
+                <i class="ion-alert-circled"></i>
+                <span translate>UNTRUSTED CERTIFICATE</span>
+              </div>
             </span>
           </span>
-        </div>
-        <div class="item" ng-if="tx.paypro.memo">
-          <span class="label">{{'Memo'|translate}}</span>
-          <span class="item-note w100p">
-            {{tx.paypro.memo}}
-          </span>
-        </div>
-        <div class="item single-line" ng-if="tx.paypro.expires">
-          <span class="label">{{'Expires'|translate}}</span>
-          <span class="item-note">
-            {{tx.paypro.expires * 1000 | amTimeAgo }}
-          </span>
-        </div>
-      </div>
-    </div>
+        </span>
+      </ion-item>
+      <ion-item ng-if="tx.paypro.memo">
+        <span translate>Memo</span>
+        <span class="item-note">
+          {{tx.paypro.memo}}
+        </span>
+      </ion-item>
+      <ion-item ng-if="tx.paypro.expires">
+        <span translate>Expires</span>
+        <span class="item-note">
+          {{tx.paypro.expires * 1000 | amTimeAgo}}
+        </span>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-modal-view>

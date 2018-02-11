@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('exportController',
-  function($scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, storageService, profileService, platformInfo, gettextCatalog, $state, $stateParams, popupService, appConfigService, helpService) {
+  function($scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, storageService, profileService, platformInfo, gettextCatalog, $state, $stateParams, popupService, appConfigService, helpService, addressbookService) {
     var wallet = profileService.getWallet($stateParams.walletId);
     $scope.wallet = wallet;
 
@@ -110,7 +110,7 @@ angular.module('owsWalletApp.controllers').controller('exportController',
           return;
         }
 
-        $scope.getAddressbook(function(err, localAddressBook) {
+        addressbookService.list(function(err, localAddressBook) {
           if (err) {
             popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export'));
             return;
@@ -133,21 +133,6 @@ angular.module('owsWalletApp.controllers').controller('exportController',
       });
     };
 
-    $scope.getAddressbook = function(cb) {
-      storageService.getAddressbook(function(err, addressBook) {
-        if (err) return cb(err);
-
-        var localAddressBook = [];
-        try {
-          localAddressBook = JSON.parse(addressBook);
-        } catch (ex) {
-          $log.warn(ex);
-        }
-
-        return cb(null, localAddressBook);
-      });
-    };
-
     $scope.getBackup = function(cb) {
       getPassword(function(err, password) {
         if (err) {
@@ -155,7 +140,7 @@ angular.module('owsWalletApp.controllers').controller('exportController',
           return;
         }
 
-        $scope.getAddressbook(function(err, localAddressBook) {
+        addressbookService.list(function(err, localAddressBook) {
           if (err) {
             popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export'));
             return cb(null);

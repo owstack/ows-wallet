@@ -2,63 +2,61 @@
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Send' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
-      <button class="button back-button button-clear" ng-show="showBackButton" ng-click="goBackToWallet()">
+      <button class="button button-nav-bar button-clear" ng-show="showBackButton" ng-click="goBackToWallet()">
         <i class="icon ion-ios-arrow-left"></i>
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
     <div ng-if="hasFunds">
-      <div class="search-wrapper">
-        <label class="item item-input search">
-          <i class="icon ion-ios-search placeholder-icon"></i>
-          <input type="text" class="search-input" placeholder="{{'Search or recipient address' | translate}}" ng-model="formData.search"
+      <ion-list>
+        <ion-item class="item-input item-icon-left icon-left-sm item-icon-right">
+          <i class="icon ion-ios-search sm-icon"></i>
+          <input type="text" placeholder="{{'Search or recipient address' | translate}}" ng-model="formData.search"
             ng-change="findContact(formData.search)" ng-model-onblur ng-focus="searchInFocus()" ng-blur="searchBlurred()">
-          <i class="icon icon-svg icon-right" on-tap="openScanner()"><img src="img/icon-scan.svg"></i>
-        </label>
-      </div>
+          <i class="icon icon-svg" on-tap="openScanner()">
+            <img src="img/icon-scan.svg">
+          </i>
+        </ion-item>
+      </ion-list>
     </div>
     <div ng-if="!checkingBalance && (!hasFunds || !hasWallets)" ng-include="'views/includes/tipStartSending.html'"></div>
     <div class="card" ng-if="hasContacts && hasWallets && hasFunds">
-      <div class="item item-icon-right item-heading">
+      <ion-item class="item-icon-right item-heading">
         <span translate>Contacts</span>
         <a ng-if="hasContacts" ui-sref="tabs.send.addressbook">
           <i class="icon ion-ios-plus-empty list-add-button"></i>
         </a>
-      </div>
-      <div class="list">
-        <a class="item item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
+      </ion-item>
+      <ion-list>
+        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
           <i class="icon md-icon">
             <gravatar class="send-gravatar" width="30" name="{{item.name}}" email="{{item.email}}"></gravatar>
           </i>
           {{item.name}}
           <i class="icon arrow-right"></i>
-        </a>
+        </ion-item>
         <div class="show-more" ng-if="contactsShowMore" ng-click="showMore()" translate>
           Show more
         </div>
-      </div>
+      </ion-list>
     </div>
     <div class="card" ng-if="showTransferCard && hasFunds">
-      <div class="item item-heading">
+      <ion-item class="item-heading">
         <span translate>Transfer to Wallet</span>
-      </div>
-      <div class="list">
-        <a class="item item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
+      </ion-item>
+      <ion-list>
+        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
           <i class="icon md-icon" ng-if="item.recipientType == 'wallet'">
             <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
           </i>
           {{item.name}}
           <i class="icon arrow-right"></i>
-        </a>
-      </div>
+        </ion-item>
+      </ion-list>
     </div>
   </ion-content>
-  <item-selector-contact-address
-    title="casTitle"
-    contact="casContact"
-    selected="casSelected"
-    show="showContactAddressSelector"
+  <item-selector-contact-address title="casTitle" contact="casContact" selected="casSelected" show="showContactAddressSelector"
     on-select="onContactAddressSelect">
   </item-selector-contact-address>
 </ion-view>

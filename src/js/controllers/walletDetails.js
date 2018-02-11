@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('walletDetailsController', function($scope, $rootScope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, configService, platformInfo, walletService, txpModalService, externalLinkService, popupService, addressbookService, storageService, $ionicScrollDelegate, $window, walletClientError, gettextCatalog, timeService, feeService, appConfigService, networkService, $ionicViewSwitcher) {
+angular.module('owsWalletApp.controllers').controller('walletDetailsController', function($scope, $rootScope, $interval, $timeout, $filter, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, configService, platformInfo, walletService, txpModalService, externalLinkService, popupService, addressbookService, storageService, $ionicScrollDelegate, $window, walletClientError, gettextCatalog, timeService, feeService, appConfigService, networkService, $ionicViewSwitcher, helpService) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;
@@ -12,7 +12,9 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
   $scope.isAndroid = platformInfo.isAndroid;
   $scope.isIOS = platformInfo.isIOS;
 
-  $scope.amountIsCollapsible = !$scope.isAndroid;
+  $scope.headerIsCollapsible = !$scope.isAndroid;
+//  $scope.headerIsCollapsible = false;
+  $scope.listTxHistoryPaddingBottom = $window.screen.height * 0.9 + 'px';
 
   $scope.openExternalLink = function(url, target) {
     externalLinkService.open(url, target);
@@ -80,7 +82,10 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
         if (err === 'WALLET_NOT_REGISTERED') {
           $scope.walletNotRegistered = true;
         } else {
-          $scope.updateStatusError = walletClientError.msg(err, gettextCatalog.getString('Could not update wallet'));
+          $scope.updateStatusError = {
+            message: gettextCatalog.getString('Could not update wallet'),
+            detail: walletClientError.msg(err)
+          }
         }
         $scope.status = null;
       } else {
@@ -103,7 +108,7 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
     $scope.txHistorySearchResults = [];
     $scope.filteredTxHistory = [];
 
-    $ionicModal.fromTemplateUrl('views/modals/search.html', {
+    $ionicModal.fromTemplateUrl('views/modals/tx-search.html', {
       scope: $scope,
       focusFirstInput: true
     }).then(function(modal) {
@@ -149,7 +154,9 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
 
   $scope.recreate = function() {
     walletService.recreate($scope.wallet, function(err) {
-      if (err) return;
+      if (err) {
+        return;
+      }
       $timeout(function() {
         walletService.startScan($scope.wallet, function() {
           $scope.updateAll();
@@ -160,14 +167,17 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
   };
 
   var updateTxHistory = function(cb) {
-    if (!cb) cb = function() {};
+    if (!cb) {
+      cb = function() {};
+    }
     $scope.updatingTxHistory = true;
-
     $scope.updateTxHistoryError = false;
     $scope.updatingTxHistoryProgress = 0;
 
     var progressFn = function(txs, newTxs) {
-      if (newTxs > 5) $scope.txHistory = null;
+      if (newTxs > 5) {
+        $scope.txHistory = null;
+      }
       $scope.updatingTxHistoryProgress = newTxs;
       $timeout(function() {
         $scope.$apply();
@@ -185,8 +195,11 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
       }
 
       var hasTx = txHistory[0];
-      if (hasTx) $scope.showNoTransactionsYetMsg = false;
-      else $scope.showNoTransactionsYetMsg = true;
+      if (hasTx) {
+        $scope.showNoTransactionsYetMsg = false;
+      } else {
+        $scope.showNoTransactionsYetMsg = true;
+      }
 
       $scope.completeTxHistory = txHistory;
       $scope.showHistory();
@@ -263,7 +276,9 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
 
   $scope.hideToggle = function() {
     profileService.toggleHideBalanceFlag($scope.wallet.credentials.walletId, function(err) {
-      if (err) $log.error(err);
+      if (err) {
+        $log.error(err);
+      }
     });
   };
 
@@ -290,70 +305,50 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
 
   function refreshAmountSection(scrollPos) {
     if ($scope.status) {
-      $scope.showBalanceButton = ($scope.status.totalBalanceAtomic != $scope.status.spendableAmount);
+      $scope.showAvailableBalance = ($scope.status.totalBalanceAtomic != $scope.status.spendableAmount);
     } else {
-      $scope.showBalanceButton = false;
-    }
-
-    // If the amount header is not collapsible then set the top of the amount balance.
-    if (!$scope.amountIsCollapsible) {
-      var t = ($scope.showBalanceButton ? 15 : 45);
-      $scope.amountScale = 'translateY(' + t + 'px)';
-      return;
+      $scope.showAvailableBalance = false;
     }
 
     scrollPos = scrollPos || 0;
 
-    var AMOUNT_HEADER_MAX_HEIGHT = 210;
-    var AMOUNT_HEADER_MIN_HEIGHT = 80;
+    var HEADER_MAX_HEIGHT = 210;
+    var HEADER_MIN_HEIGHT = 88;
+    var HEADER_TOP = 20;
 
-    // Set smallest collapsed amount header height.
-    var amountHeight = AMOUNT_HEADER_MAX_HEIGHT - scrollPos;
-    if (amountHeight < AMOUNT_HEADER_MIN_HEIGHT) {
-      amountHeight = AMOUNT_HEADER_MIN_HEIGHT;
+    // Set smallest collapsed header height.
+    var collapsibleItemHeight = HEADER_MAX_HEIGHT - scrollPos;
+    if (collapsibleItemHeight < HEADER_MIN_HEIGHT) {
+      collapsibleItemHeight = HEADER_MIN_HEIGHT;
     }
 
-    // Set the top of the view content below the amount header.
-    var contentMargin = amountHeight;
-    if (contentMargin > AMOUNT_HEADER_MAX_HEIGHT) {
-      contentMargin = AMOUNT_HEADER_MAX_HEIGHT;
+    // Set the top of the view content below the header.
+    var contentMargin = collapsibleItemHeight;
+    if (contentMargin > HEADER_MAX_HEIGHT) {
+      contentMargin = HEADER_MAX_HEIGHT;
     }
 
-    // Set the scaled size of the amount header content based on current amount header height.
-    var amountScale = (amountHeight / AMOUNT_HEADER_MAX_HEIGHT);
-    if (amountScale < 0.5) {
-      amountScale = 0.5;
+    // Set the scaled size of the header content based on current header height.
+    var headerScale = (collapsibleItemHeight / HEADER_MAX_HEIGHT);
+    if (headerScale < 0.5) {
+      headerScale = 0.5;
     }
-    if (amountScale > 1.1) {
-      amountScale = 1.1;
-    }
-
-    // Set the top position for the amount balance; make space for the balance button when it needs to display.
-    var TOP_NO_BALANCE_BUTTON = 20;
-    var TOP_BALANCE_BUTTON = 30;
-
-    var top = TOP_NO_BALANCE_BUTTON;
-    if ($scope.showBalanceButton) {
-      top = TOP_BALANCE_BUTTON;
+    if (headerScale > 1.1) {
+      headerScale = 1.1;
     }
 
-    var amountTop = amountScale * top;
-//    var amountTop = ((amountScale - 0.7) / 0.7) * top;
-//    if (amountTop < -10) {
-//      amountTop = -10;
-//    }
-//    if (amountTop > top) {
-//      amountTop = top;
-//    }
+    // Set the top position for the header.
+    var headerTop = headerScale * HEADER_TOP;
 
-    // Vary opacity for elements displayed when amount header is collapsed.
-    $scope.elementOpacity = (amountHeight - 100) / 80;
+    // Vary opacity for elements displayed when header is collapsed.
+    $scope.elementOpacity = (collapsibleItemHeight - 100) / 80;
 
     // Apply results to view.
     $window.requestAnimationFrame(function() {
-      $scope.amountHeight = amountHeight + 'px';
+      $scope.collapsibleItemHeight = collapsibleItemHeight + 'px';
       $scope.contentMargin = contentMargin + 'px';
-      $scope.amountScale = 'scale3d(' + amountScale + ',' + amountScale + ',' + amountScale + ') translateY(' + amountTop + 'px)';
+      $scope.headerScale = 'scale3d(' + headerScale + ',' + headerScale + ',' + headerScale + ') translateY(' + headerTop + 'px)';
+      $scope.isCollapsing = collapsibleItemHeight < HEADER_MAX_HEIGHT;
       $scope.$digest();
       getScrollPosition();
     });
@@ -379,12 +374,19 @@ angular.module('owsWalletApp.controllers').controller('walletDetailsController',
       fromWallet: true
     });
   };
+
+  $scope.learnMore = function() {
+    // TODO:
+    var locationPrefix = 'tbd';
+    var topicId = 'tbd';
+    helpService.learnMore($scope, locationPrefix, topicId);
+  };
   
   var scrollWatcherInitialized;
 
   $scope.$on("$ionicView.enter", function(event, data) {
     if ($scope.isCordova && $scope.isAndroid) setAndroidStatusBarColor();
-    if (scrollWatcherInitialized || !$scope.amountIsCollapsible) {
+    if (scrollWatcherInitialized || !$scope.headerIsCollapsible) {
       return;
     }
     scrollWatcherInitialized = true;

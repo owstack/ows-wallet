@@ -14,14 +14,11 @@
   padding: initial;
   border: initial;
   background-color: initial;
+  height: 100%;
 }
 
 .item .item-content.activated {
   background-color: initial;
-}
-
-.item-complex.item-icon-left .item-content {
-//  padding-left: initial;
 }
 
 // When placing a link in the label of a checkbox, this pulls the click overlay to the right allowing

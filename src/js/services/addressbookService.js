@@ -8,6 +8,10 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
     title: 'Error',
     message: 'Could not read the addressbook.'
   }, {
+    name: 'REPLACE_AB_ERROR',
+    title: 'Error',
+    message: 'Could not write the addressbook.'
+  }, {
     name: 'REMOVE_AB_ERROR',
     title: 'Error',
     message: 'Could not remove the addressbook.'
@@ -119,6 +123,17 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
     });
   };
 
+  root.setAddressbook = function(ab, cb) {
+    storageService.setAddressbook(JSON.stringify(ab), function(err) {
+      if (err) {
+        return cb(error('REPLACE_AB_ERROR'));
+      }
+      root.list(function(err, ab) {
+        return cb(err, ab);
+      });
+    });
+  };
+
   root.remove = function(id, cb) {
     storageService.getAddressbook(function(err, ab) {
       if (err) {
@@ -156,6 +171,31 @@ angular.module('owsWalletApp.services').factory('addressbookService', function(s
       }
       return cb();
     });
+  };
+
+  root.findInAllByAddress = function(address, cb) {
+    root.list(function(err, ab) {
+      if (err) {
+        $log.error(err.message);
+        return cb(err);
+      }
+      return cb(null, root.findByAddress(ab, address));
+    });
+  };
+
+  root.findByAddress = function(entries, address) {
+    var matchedEntries = [];
+
+    lodash.forEach(entries, function(entry) {
+      var matchedAddresses = lodash.find(entry.addresses, function(ea) {
+        return ea.address == address;
+      });
+
+      if (matchedAddresses && matchedAddresses.length > 0) {
+        matchedEntries.push(entry);
+      }
+    });
+    return matchedEntries;
   };
 
   return root;

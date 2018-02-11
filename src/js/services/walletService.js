@@ -25,8 +25,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     ledger.signTx(txp, wallet.credentials.account, function(result) {
       $log.debug('Ledger response', result);
-      if (!result.success)
+      if (!result.success) {
         return cb(result.message || result.error);
+      }
 
       txp.signatures = lodash.map(result.signatures, function(s) {
         return s.substring(0, s.length - 2);
@@ -40,7 +41,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     var xPubKeys = lodash.pluck(wallet.credentials.publicKeyRing, 'xPubKey');
     trezor.signTx(xPubKeys, txp, wallet.credentials.account, function(err, result) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
       $log.debug('Trezor response', result);
       txp.signatures = result.signatures;
@@ -122,8 +125,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         tx = txFormatService.processTx(tx, wallet.networkURI);
 
         // no future transactions...
-        if (tx.createdOn > now)
+        if (tx.createdOn > now) {
           tx.createdOn = now;
+        }
 
         tx.wallet = wallet;
 
@@ -148,8 +152,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
           tx.statusForUs = 'pending';
         }
 
-        if (!tx.deleteLockTime)
+        if (!tx.deleteLockTime) {
           tx.canBeRemoved = true;
+        }
       });
 
       wallet.pendingTxps = txps;
@@ -172,7 +177,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     };
 
     function cacheBalance(wallet, balance) {
-      if (!balance) return;
+      if (!balance) {
+        return;
+      }
 
       var configWallet = configService.getSync().wallet;
       var configNetwork = configService.getSync().currencyNetworks[wallet.networkURI];
@@ -295,7 +302,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
       $log.debug('Updating Status:', wallet.credentials.walletName, tries);
       get(function(err, status) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         var currentStatusHash = walletStatusHash(status);
         $log.debug('Status update. hash:' + currentStatusHash + ' Try:' + tries);
@@ -324,7 +333,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   var getSavedTxs = function(walletId, cb) {
     storageService.getTxHistory(walletId, function(err, txs) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
       var localTxs = [];
 
@@ -348,10 +359,13 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       skip: skip,
       limit: limit
     }, function(err, txsFromServer) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
-      if (!txsFromServer.length)
+      if (!txsFromServer.length) {
         return cb();
+      }
 
       var res = lodash.takeWhile(txsFromServer, function(tx) {
         return tx.txid != endingTxid;
@@ -363,8 +377,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   var removeAndMarkSoftConfirmedTx = function(txs) {
     return lodash.filter(txs, function(tx) {
-      if (tx.confirmations >= root.SOFT_CONFIRMATION_LIMIT)
+      if (tx.confirmations >= root.SOFT_CONFIRMATION_LIMIT) {
         return tx;
+      }
       tx.recent = true;
     });
   }
@@ -379,8 +394,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       tx = txFormatService.processTx(tx, wallet.networkURI);
 
       // no future transactions...
-      if (tx.time > now)
+      if (tx.time > now) {
         tx.time = now;
+      }
 
       if (tx.confirmations >= root.SAFE_CONFIRMATIONS) {
         tx.safeConfirmed = root.SAFE_CONFIRMATIONS + '+';
@@ -533,7 +549,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
 
         function updateNotes(cb2) {
-          if (!endingTs) return cb2();
+          if (!endingTs) {
+            return cb2();
+          }
 
           $log.debug('Syncing notes from: ' + endingTs);
           wallet.getTxNotes({
@@ -557,7 +575,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         }
 
         function updateLowAmount(txs) {
-          if (!opts.lowAmount) return;
+          if (!opts.lowAmount) {
+            return;
+          }
 
           lodash.each(txs, function(tx) {
             tx.lowAmount = tx.amount < opts.lowAmount;
@@ -606,7 +626,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     wallet.getTxNote({
       txid: txid
     }, function(err, note) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
       return cb(null, note);
     });
   };
@@ -619,7 +641,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.getTxp = function(wallet, txpid, cb) {
     wallet.getTx(txpid, function(err, txp) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
       return cb(null, txp);
     });
   };
@@ -631,7 +655,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         txid: txid
       });
 
-      if (!tx) return cb('Could not get transaction');
+      if (!tx) {
+        return cb('Could not get transaction');
+      }
       return cb(null, tx);
     };
 
@@ -641,7 +667,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       root.getTxHistory(wallet, {
         limitTx: txid
       }, function(err, txHistory) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         finish(txHistory);
       });
@@ -665,7 +693,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     var walletId = wallet.credentials.walletId;
 
-    if (!wallet.isComplete()) return cb();
+    if (!wallet.isComplete()) {
+      return cb();
+    }
 
     function isHistoryCached() {
       return wallet.completeHistory && wallet.completeHistory.isValid;
@@ -678,7 +708,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     $log.debug('Updating Transaction History: ' + wallet.credentials.walletName);
 
     updateLocalTxHistory(wallet, opts, function(err, txs) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
       if (opts.limitTx) {
         return cb(err, txs);
@@ -690,9 +722,13 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.isEncrypted = function(wallet) {
-    if (lodash.isEmpty(wallet)) return;
+    if (lodash.isEmpty(wallet)) {
+      return;
+    }
     var isEncrypted = wallet.isPrivKeyEncrypted();
-    if (isEncrypted) $log.debug('Wallet is encrypted');
+    if (isEncrypted) {
+      $log.debug('Wallet is encrypted');
+    }
     return isEncrypted;
   };
 
@@ -701,8 +737,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       return cb('MISSING_PARAMETER');
 
     wallet.createTxProposal(txp, function(err, createdTxp) {
-      if (err) return cb(err);
-      else {
+      if (err) {
+        return cb(err);
+      } else {
         $log.debug('Transaction created');
         return cb(null, createdTxp);
       }
@@ -710,14 +747,16 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.publishTx = function(wallet, txp, cb) {
-    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet))
+    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet)) {
       return cb('MISSING_PARAMETER');
+    }
 
     wallet.publishTxProposal({
       txp: txp
     }, function(err, publishedTx) {
-      if (err) return cb(err);
-      else {
+      if (err) {
+        return cb(err);
+      } else {
         $log.debug('Transaction published');
         return cb(null, publishedTx);
       }
@@ -725,8 +764,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.signTx = function(wallet, txp, password, cb) {
-    if (!wallet || !txp || !cb)
+    if (!wallet || !txp || !cb) {
       return cb('MISSING_PARAMETER');
+    }
 
     if (wallet.isPrivKeyExternal()) {
       switch (wallet.getPrivKeyExternalSourceName()) {
@@ -754,26 +794,32 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.broadcastTx = function(wallet, txp, cb) {
-    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet))
+    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet)) {
       return cb('MISSING_PARAMETER');
+    }
 
-    if (txp.status != 'accepted')
+    if (txp.status != 'accepted') {
       return cb('TX_NOT_ACCEPTED');
+    }
 
     wallet.broadcastTxProposal(txp, function(err, broadcastedTxp, memo) {
-      if (err)
+      if (err) {
         return cb(err);
+      }
 
       $log.debug('Transaction broadcasted');
-      if (memo) $log.info(memo);
+      if (memo) {
+        $log.info(memo);
+      }
 
       return cb(null, broadcastedTxp);
     });
   };
 
   root.rejectTx = function(wallet, txp, cb) {
-    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet))
+    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet)) {
       return cb('MISSING_PARAMETER');
+    }
 
     wallet.rejectTxProposal(txp, null, function(err, rejectedTxp) {
       $log.debug('Transaction rejected');
@@ -782,8 +828,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.removeTx = function(wallet, txp, cb) {
-    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet))
+    if (lodash.isEmpty(txp) || lodash.isEmpty(wallet)) {
       return cb('MISSING_PARAMETER');
+    }
 
     wallet.removeTxProposal(txp, function(err) {
       $log.debug('Transaction removed');
@@ -799,12 +846,15 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     prefs = prefs || {};
     cb = cb || function() {};
 
-    if (!lodash.isArray(clients))
+    if (!lodash.isArray(clients)) {
       clients = [clients];
+    }
 
     function updateRemotePreferencesFor(clients, prefs, next) {
       var wallet = clients.shift();
-      if (!wallet) return next();
+      if (!wallet) {
+        return next();
+      }
 
       var configNetwork = configService.getSync().currencyNetworks[wallet.networkURI];
       prefs.unit = configNetwork.unitCode;
@@ -831,7 +881,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     prefs.language = uxLanguage.getCurrentLanguage();
   
     updateRemotePreferencesFor(lodash.clone(clients), prefs, function(err) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
       $log.debug('Remote preferences saved for' + lodash.map(clients, function(x) {
         return x.credentials.walletId;
@@ -858,7 +910,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     cb = cb || function() {};
 
     $log.debug('Scanning wallet ' + wallet.id);
-    if (!wallet.isComplete()) return;
+    if (!wallet.isComplete()) {
+      return;
+    }
 
     wallet.updating = true;
     ongoingProcess.set('scanning', true);
@@ -908,7 +962,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
             reverse: true,
             limit: 1
           }, function(err, addr) {
-            if (err) return cb(err);
+            if (err) {
+              return cb(err);
+            }
             return cb(null, addr[0].address);
           });
         }
@@ -980,7 +1036,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.getLowUtxos = function(wallet, cb) {
     wallet.getUtxos({}, function(err, resp) {
-      if (err || !resp || !resp.length) return cb('');
+      if (err || !resp || !resp.length) {
+        return cb('');
+      }
 
       var minFee = root.getMinFee(wallet, resp.length);
 
@@ -1005,17 +1063,26 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.getAddress = function(wallet, forceNew, cb) {
     storageService.getLastAddress(wallet.id, function(err, addr) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
-      if (!forceNew && addr) return cb(null, addr);
+      if (!forceNew && addr) {
+        return cb(null, addr);
+      }
 
-      if (!wallet.isComplete())
+      if (!wallet.isComplete()) {
         return cb('WALLET_NOT_COMPLETE');
+      }
 
       createAddress(wallet, function(err, _addr) {
-        if (err) return cb(err, addr);
+        if (err) {
+          return cb(err, addr);
+        }
         storageService.storeLastAddress(wallet.id, _addr, function() {
-          if (err) return cb(err);
+          if (err) {
+            return cb(err);
+          }
           return cb(null, _addr);
         });
       });
@@ -1026,7 +1093,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     wallet.getMainAddresses({
       reverse: true
     }, function(err, addr) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
       var addrObj = lodash.find(addr, function(a) {
         return a.address == address;
       });
@@ -1039,11 +1108,13 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.isReady = function(wallet, cb) {
-    if (!wallet.isComplete())
+    if (!wallet.isComplete()) {
       return cb('WALLET_NOT_COMPLETE');
+    }
 
-    if (wallet.needsBackup)
+    if (wallet.needsBackup) {
       return cb('WALLET_NEEDS_BACKUP');
+    }
     return cb();
   };
 
@@ -1056,8 +1127,12 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       class: 'text-warn'
     };
     popupService.showPrompt(title, name, opts, function(res) {
-      if (!res) return cb();
-      if (res) return cb(res)
+      if (!res) {
+        return cb();
+      }
+      if (res) {
+        return cb(res);
+      }
     });
   };
 
@@ -1066,11 +1141,14 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     var title = gettextCatalog.getString('Enter new spending password');
     var warnMsg = gettextCatalog.getString('Your wallet key will be encrypted. The Spending Password cannot be recovered. Be sure to write it down.');
     askPassword(warnMsg, title, function(password) {
-      if (!password) return cb('no password');
+      if (!password) {
+        return cb('no password');
+      }
       title = gettextCatalog.getString('Confirm your new spending password');
       askPassword(warnMsg, title, function(password2) {
-        if (!password2 || password != password2)
+        if (!password2 || password != password2) {
           return cb('password mismatch');
+        }
 
         wallet.encryptPrivateKey(password);
         return cb();
@@ -1082,7 +1160,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   root.decrypt = function(wallet, cb) {
     $log.debug('Disabling private key encryption for' + wallet.name);
     askPassword(null, gettextCatalog.getString('Enter Spending Password'), function(password) {
-      if (!password) return cb('no password');
+      if (!password) {
+        return cb('no password');
+      }
 
       try {
         wallet.decryptPrivateKey(password);
@@ -1094,11 +1174,17 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   root.handleEncryptedWallet = function(wallet, cb) {
-    if (!root.isEncrypted(wallet)) return cb();
+    if (!root.isEncrypted(wallet)) {
+      return cb();
+    }
 
     askPassword(wallet.name, gettextCatalog.getString('Enter Spending Password'), function(password) {
-      if (!password) return cb('No password');
-      if (!wallet.checkPassword(password)) return cb('Wrong password');
+      if (!password) {
+        return cb('No password');
+      }
+      if (!wallet.checkPassword(password)) {
+        return cb('Wrong password');
+      }
 
       return cb(null, password);
     });
@@ -1111,7 +1197,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       root.invalidateCache(wallet);
       ongoingProcess.set('rejectTx', false);
 
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
       $rootScope.$emit('Local/TxAction', wallet.id);
       return cb(null, txpr);
@@ -1124,7 +1212,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     root.publishTx(wallet, txp, function(err, publishedTxp) {
       root.invalidateCache(wallet);
       ongoingProcess.set('sendingTx', false, customStatusHandler);
-      if (err) return cb(walletClientError.msg(err));
+      if (err) {
+        return cb(walletClientError.msg(err));
+      }
       $rootScope.$emit('Local/TxAction', wallet.id);
       return cb();
     });
@@ -1133,10 +1223,14 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.prepare = function(wallet, cb) {
     fingerprintService.check(wallet, function(err) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
 
       root.handleEncryptedWallet(wallet, function(err, password) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         return cb(null, password);
       });
@@ -1155,13 +1249,17 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     }
 
     root.prepare(wallet, function(err, password) {
-      if (err) return cb(walletClientError.msg(err));
+      if (err) {
+        return cb(walletClientError.msg(err));
+      }
 
       ongoingProcess.set('sendingTx', true, customStatusHandler);
 
       publishFn(wallet, txp, function(err, publishedTxp) {
         ongoingProcess.set('sendingTx', false, customStatusHandler);
-        if (err) return cb(walletClientError.msg(err));
+        if (err) {
+          return cb(walletClientError.msg(err));
+        }
 
         ongoingProcess.set('signingTx', true, customStatusHandler);
         root.signTx(wallet, publishedTxp, password, function(err, signedTxp) {
@@ -1207,8 +1305,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     var info;
 
     // not supported yet
-    if (wallet.credentials.derivationStrategy != 'BIP44' || !wallet.canSign())
+    if (wallet.credentials.derivationStrategy != 'BIP44' || !wallet.canSign()) {
       return cb(gettextCatalog.getString('Exporting via QR not supported for this wallet'));
+    }
 
     var keys = root.getKeysWithPassword(wallet, password);
 
@@ -1272,7 +1371,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
   root.getKeys = function(wallet, cb) {
     root.prepare(wallet, function(err, password) {
-      if (err) return cb(err);
+      if (err) {
+        return cb(err);
+      }
       var keys;
 
       try {

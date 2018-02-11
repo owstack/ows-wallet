@@ -23,13 +23,13 @@
       </div>
     </span>
     <span ng-show="!isEmptyList">
-      <div class="search-wrapper">
-        <label class="item item-input search">
-          <i class="icon ion-ios-search placeholder-icon"></i>
+      <ion-list>
+        <ion-item class="item-input item-icon-left icon-left-sm">
+          <i class="icon ion-ios-search sm-icon"></i>
           <input type="search" placeholder="Search" ng-model="addrSearch.value" ng-change="findAddressbook(addrSearch.value)" ng-model-onblur>
-        </label>
-      </div>
-      <div class="list">
+        </ion-item>
+      </ion-list>
+      <ion-list>
         <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
           ui-sref="tabs.addressbook.entry({id: addressbookEntry.id})">
           <i class="icon lg-icon">
@@ -38,7 +38,7 @@
           <div class="name">{{addressbookEntry.name}}</div>
           <i class="icon arrow-right"></i>
         </ion-item>
-      </div>
+      </ion-list>
     </span>
   </ion-content>
 </ion-view>

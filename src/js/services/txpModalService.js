@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('txpModalService', function(configService, profileService, $rootScope, $ionicModal) {
+angular.module('owsWalletApp.services').factory('txpModalService', function(configService, profileService, $rootScope, $timeout, $ionicModal, $ionicScrollDelegate) {
 
   var root = {};
 
@@ -9,7 +9,9 @@ angular.module('owsWalletApp.services').factory('txpModalService', function(conf
     var config = configService.getSync().wallet;
     var scope = $rootScope.$new(true);
     scope.tx = tx;
-    if (!scope.tx.toAddress) scope.tx.toAddress = tx.outputs[0].toAddress;
+    if (!scope.tx.toAddress) {
+      scope.tx.toAddress = tx.outputs[0].toAddress;
+    }
     scope.wallet = wallet;
     scope.copayers = wallet ? wallet.copayers : null;
     scope.currentSpendUnconfirmed = config.spendUnconfirmed;
@@ -18,6 +20,21 @@ angular.module('owsWalletApp.services').factory('txpModalService', function(conf
     $ionicModal.fromTemplateUrl('views/modals/txp-details.html', {
       scope: scope
     }).then(function(modal) {
+      scope.showMultipleOutputs = {
+        value: false
+      };
+
+      scope.showMultipleOutputsChange = function() {
+        scope.showMultipleOutputs.value = !scope.showMultipleOutputs.value;
+        scope.resizeView();
+      };
+
+      scope.resizeView = function() {
+        $timeout(function() {
+          $ionicScrollDelegate.resize();
+        }, 10);
+      };
+
       scope.txpDetailsModal = modal;
       scope.txpDetailsModal.show();
     });

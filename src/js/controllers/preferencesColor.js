@@ -24,7 +24,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesColorControlle
   };
 
   function getColorCount() {
-    var count = window.getComputedStyle(document.getElementsByClassName('wallet-color-count')[0]).content;
+    var count = window.getComputedStyle(document.getElementsByClassName('wallet-vanity-color-count')[0]).content;
     return parseInt(count.replace(/[^0-9]/g, ''));
   };
 
@@ -53,7 +53,7 @@ angular.module('owsWalletApp.controllers').controller('preferencesColorControlle
 
   function indexToColor(i) {
     // Expect an exception to be thrown if can't getComputedStyle().
-    return uiService.rgb2hex(window.getComputedStyle(document.getElementsByClassName('wallet-color-' + i)[0]).backgroundColor);
+    return uiService.rgb2hex(window.getComputedStyle(document.getElementsByClassName('wallet-vanity-color-' + i)[0]).backgroundColor);
   };
 
 });

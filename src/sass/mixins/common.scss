@@ -1,7 +1,7 @@
 @mixin common {
 
   /*
-   *  A material-like card
+   *  A card
    */
 
   .card {
@@ -14,13 +14,15 @@
 			height: $v-card-item-header-height !important;
 
       .icon {
-        color: $v-white-color;
+        color: $v-card-color;
+        font-size: 32px;
       }
     }
 
     // Kill the background/border coming from an embedded list, redefine the border
     .list {
     	background: none;
+    	padding: 0;
 
     	.item {
     		background: none;
@@ -53,6 +55,14 @@
 	      padding-top: 1.3rem;
 	    }
 
+	    &.item-heading .item-content {
+	    	padding: 16px;
+	    }
+
+      .badge {
+		    right: 44px;
+			}
+
 	    button {
 		    margin-top: 20px;
 	    }
@@ -71,6 +81,7 @@
 
 	.list {
 	  background: $v-list-bg;
+    padding: 0;
 
 	  .item {
 	    background: $v-list-item-bg;
@@ -81,7 +92,7 @@
 
 	    // Set a uniform height if no height is specified, exclude for some classes.
 	    // 'item-fh' is an override class.
-		  &:not(.item-fh):not([class^="item-h-"]):not(.item-divider):not(.item-comment):not(.item-input):not(.has-label):not([class^="help"]) {
+		  &:not(.item-fh):not([class*="item-h-"]):not(.item-divider):not(.item-comment):not(.item-stacked-label):not(.has-label):not([class^="help"]):not(.tx-header):not(.compact) {
 		    height: $v-list-item-md-height !important;
 		  }
 
@@ -119,12 +130,27 @@
 		  	&.icon-left {
 			  	&-lg {
 					  padding-left: 70px;
-			  	}
-			  }
 
-		  	&.icon-left {
+					  i.lg-icon {
+					  	font-size: 40px;
+					  }
+			  	}
+
 			  	&-md {
 					  padding-left: 60px;
+
+					  i.md-icon {
+					  	font-size: 30px;
+					  }
+			  	}
+
+			  	&-sm {
+					  padding-left: 40px;
+
+					  i.sm-icon {
+					  	font-size: 20px;
+					  	color: $v-white-transparent-light;
+					  }
 			  	}
 		  	}
 		  }
@@ -138,11 +164,13 @@
 			  	&-lg .item-content {
 					  padding-left: 54px;
 			  	}
-			  }
 
-		  	&.icon-left {
 			  	&-md .item-content {
 					  padding-left: 44px;
+			  	}
+
+			  	&-sm .item-content {
+					  padding-left: 34px;
 			  	}
 		  	}
 		  }
@@ -173,12 +201,12 @@
 	    }
 
 	    &.item-divider {
+	      font-size: .9rem;
 	      background: none;
 	      border: none;
-	      color: $v-settings-color;
-	      padding-bottom: .5rem;
-	      font-size: .9rem;
-	      height: inherit;
+	      height: 30px;
+		    padding-top: 0.5rem;
+		    padding-bottom: 0;
 	    }
 
 		  &.item-no-bg {
@@ -204,8 +232,8 @@
 	      }
 	    }
 
-			&.item-input {
-				padding-right: 16px;
+			&.item-stacked-label input {
+				margin-top: 10px;
 			}
 
   	  &.item-comment {
@@ -214,6 +242,23 @@
 		    line-height: 1.2rem;
 		  }
 
+/*
+		  &.item-search {
+		    border: none;
+		    background: none;
+		    margin-right: 15px;
+
+		    i {
+		      font-size: 18px;
+		      position: relative;
+		      top: 3px;
+
+		      &.icon-right {
+		        padding-left: 10px;
+		      }
+		    }
+		  }
+*/
 	    &.append {
 		    padding-top: 0;
 		    padding-bottom: 0;
@@ -234,8 +279,15 @@
 			  }
 	    }
 
+	    &.compact {
+	    	font-size: 14px;
+	    	padding-top: 10px;
+	    	padding-bottom: 10px;
+	    	height: 42px;
+	    }
+
 	    &.item-sub {
-		    margin-top: -16px;
+		    margin-top: -7px;
 		    margin-left: -16px;
 		    background: none;
 	
@@ -246,15 +298,21 @@
 			  &.item-icon-left.icon-left {
 			  	&-lg {
 					  padding-left: 64px;
-				    margin-top: -7px;
 			  	}
 
 			  	&-md {
 					  padding-left: 54px;
-				    margin-top: -7px;
+			  	}
+
+			  	&-sm {
+					  padding-left: 34px;
 			  	}
 			  }
 	    }
+
+      .badge {
+		    right: 44px;
+			}
 
 	    .item-detail {
 	      color: $v-list-item-secondary-color;
@@ -263,15 +321,33 @@
 
 		  .item-note {
 		    color: $v-list-item-secondary-color;
+	      font-size: 14px;
+	      text-align: right;
+    		position: relative;
+		    top: 50%;
+		    transform: translateY(-50%);
 
 		    &.assertive {
 		      color: $v-assertive-color;
+		    }
+
+		    &.warning {
+		      color: $v-warning-color;
 		    }
 
 		    &.primary {
 		      color: $v-list-item-color;
 		    }
 		  }
+
+	    .item-marker {
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      height: 100%;
+	      width: 3px;
+	      background: $v-warning-color;
+	    }
 
 	    .input-label {
 	    	color: $v-list-item-color;
@@ -327,16 +403,13 @@
 	  background: $v-input-bg !important;
 		color: $input-color;
 	  padding-left: 10px;
-	  margin-top: 10px;
 
 	  &.incorrect {
-	    margin-right: 10px;
 	    border: 1px solid;
 	    color: $v-error-color;
 	  }
 
 	  &.correct {
-	    margin-right: 10px;
 	    border: 1px solid;
 	    color: $v-success-color;
 	  }

@@ -1,0 +1,62 @@
+<div class="head-content" ng-style="{'height': collapsibleItemHeight}"
+  ng-class="{'collapsible': headerIsCollapsible, 'is-collapsing': isCollapsing}">
+  <!-- Status error -->
+  <div class="box-notification error clear compact make-collapsible" ng-style="{'transform': headerScale}"
+    ng-show="updateStatusError">
+    <h2>{{updateStatusError.message}}</h2>
+    <p>{{updateStatusError.detail}}</p>
+  </div>
+  <!-- No status error -->
+  <div ng-show="!updateStatusError">
+    <div class="balance-wrapper">
+      <div ng-click="updateAll(true)" on-hold="hideToggle()" ng-style="{'transform': headerScale}"
+        ng-class="{'make-collapsible': headerIsCollapsible}">
+        <!-- Balance -->
+        <div ng-show="!wallet.balanceHidden && !wallet.scanning">
+          <span class="balance-value">
+            {{status.totalBalanceValueStr}}
+          </span>
+          &nbsp;
+          <span class="balance-unit">
+            {{status.totalBalanceUnitStr}}
+          </span>
+          <div class="amount-alternative" ng-if="status.totalBalanceAlternative && isLivenet(wallet.networkURI)"
+            ng-style="{opacity: elementOpacity}">
+            <span class="value">
+              {{status.totalBalanceAlternative}}
+            </span>
+            &nbsp;
+            <span class="unit">
+              {{status.alternativeIsoCode}}
+            </span>
+          </div>
+        </div>
+        <!-- Balance messages -->
+        <div ng-show="wallet.balanceHidden && !wallet.scanning">
+          <span class="balance-message">
+            Balance Hidden
+            <div class="balance-message-tip" ng-style="{opacity: elementOpacity}">
+              Tap and hold to show
+            </div>
+          </span>
+        </div>
+        <div ng-show="wallet.scanning">
+          <span class="balance-message">
+            Updating...
+            <div class="balance-message-tip" ng-style="{opacity: elementOpacity}">
+              Scanning for funds
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Wallet information decoration -->
+<div ng-style="{opacity: elementOpacity}">
+  <span ng-include="'views/includes/walletInfo.html'"></span>
+</div>
+<!-- Action buttons -->
+<div ng-style="{opacity: elementOpacity}">
+  <span ng-include="'views/includes/walletActions.html'"></span>
+</div>

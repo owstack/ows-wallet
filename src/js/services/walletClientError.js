@@ -6,18 +6,21 @@ angular.module('owsWalletApp.services')
     // This service applies to all network Wallet Clients.
 
     root.msg = function(err, prefix) {
-      if (!err)
+      if (!err) {
         return 'Unknown error';
+      }
 
       var name;
 
       if (err.name) {
-        if (err.name == 'Error')
+        if (err.name == 'Error'){
           name = err.message
-        else
+        } else {
           name = err.name.replace(/^[a-z].*wc.Error/g, '');
-      } else
+        }
+      } else {
         name = err;
+      }
 
       var body = '';
       prefix = prefix || '';

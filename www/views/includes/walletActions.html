@@ -1,14 +1,13 @@
-<div class="action-group">
-	<button class="button button-action" ng-class="{'disabled': !hasBalance}" ng-style="{'background': wallet.color + '80'}"
-		ng-click="sendFrom()" translate>
-		Send
-  </button>
-	<button class="button button-action" ng-style="{'background': wallet.color + '80'}" 
-		ng-click="receiveTo()" translate>
-		Receive
-  </button>
-	<button class="button button-action" ng-style="{'background': wallet.color + '80'}"
-		ng-click="settingsFor()" translate>
-		<i class="icon ion-more"></i>
-  </button>
+<div class="wallet-actions">
+	<div class="action-group">
+		<button class="button button-action" ng-class="{'disabled': !hasBalance}" ng-click="sendFrom()" translate>
+			Send
+	  </button>
+		<button class="button button-action" ng-click="receiveTo()" translate>
+			Receive
+	  </button>
+		<button class="button button-action" ng-click="settingsFor()" translate>
+			<i class="icon ion-more"></i>
+	  </button>
+	</div>
 </div>

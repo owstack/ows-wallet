@@ -4,15 +4,15 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
-      <button class="button back-button button-clear" ng-click="openOptionsMenu()" ng-if="allowOptionsMenu">
+      <button class="button button-nav-bar button-clear" ng-click="openOptionsMenu()" ng-if="allowOptionsMenu">
         <i class="icon ion-ios-more"></i>
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">
-    <div class="list" ng-if="!customAmount && !nextStep">
-      <div class="item item-divider" translate>Recipient</div>
-      <div class="item has-detail item-icon-left ellipsis">
+    <ion-list ng-if="!customAmount && !nextStep">
+      <ion-item class="item-divider" translate>Recipient</ion-item>
+      <ion-item class="has-detail item-icon-left ellipsis">
         <i class="icon md-icon" ng-if="recipientType == 'wallet'">
           <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
         </i>
@@ -28,8 +28,8 @@
         </span>
         <span ng-if="toName" class="m10l">{{toName}}</span>
         <span ng-if="toAddress" class="item-detail m10l ellipsis">{{toAddress}}</span>
-      </div>
-    </div>
+      </ion-item>
+    </ion-list>
     <div ng-class="{'amount-pane-recipient': !customAmount && !nextStep, 'amount-pane-no-recipient': customAmount || nextStep}">
       <div class="amount-bar oh">
         <div class="title">

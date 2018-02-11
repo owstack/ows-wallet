@@ -1,26 +1,23 @@
-<ion-view show-tabs>
+<ion-view id="proposals" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Pending Proposals' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
-  <ion-content class="padding">
-
+  <ion-content>
     <div ng-if="fetchingProposals" class="updating">
-      <div class="text-center">
+      <div class="text-center m20t">
+        <span translate>Updating</span>
         <ion-spinner icon="ios"></ion-spinner>
-        <div translate>Updating...</div>
       </div>
     </div>
-
-    <div class="list card" ng-show="txps[0] && !fetchingProposals" style="padding: 0;">
-        <a ng-repeat="tx in txps" ng-click="openTxpModal(tx)" class="wallet-details__item item item-sub" ng-include="'views/includes/txp.html'"></a>
+    <div ng-show="!txps[0] && !fetchingProposals">
+      <div class="text-center m10t" translate>No pending proposals</div>
     </div>
-
-    <div class="list card" ng-show="!txps[0] && !fetchingProposals">
-      <div class="item">
-        <span translate>No pending proposals</span>
-      </div>
+    <div class="card" ng-show="txps[0] && !fetchingProposals">
+      <ion-list>
+        <span ng-include="'views/includes/txp.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></span>
+      </ion-list>
     </div>
   </ion-content>
 </ion-view>
