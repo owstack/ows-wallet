@@ -8,72 +8,54 @@
     bottom: 92px;
   }
 
-  .item-timeline:before {
-    width: 85% !important;
+  .action-created {
+    color: $v-success-color;
+    border-color: $v-success-color;
   }
 
-  .timeline-content {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
+  .action-rejected {
+    color: $v-error-color;
+    border-color: $v-error-color;
+  }
 
-    &__icon {
-      display: flex;
-      align-items: center;
-      min-width: 40px;
-      padding-right: 1rem;
-      padding-left: 1rem;
-      margin-right: 0.5rem;
-      position: relative;
+  .event-icon {
+    > img {
+      width: 26px;
+      height: 26px;
+    }
 
-      &::before {
-        content: '';
-        background: $v-txp-timeline-color;
-        height: 100px;
-        width: 1px;
-        position: absolute;
-        left: 50%;
-        -webkit-transform: translateX(-50%) translateY(-100%);
-        transform: translateX(-50%) translateY(-100%);
-        top: 0;
-      }
+    &.draw {
+      width: 26px;
+      height: 26px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      border-radius: 50%;
+      border: 3px solid;
+      line-height: 20px;
+    }
 
-      &::after {
-        content: '';
-        background: $v-txp-timeline-color;
-        height: 100px;
-        width: 1px;
-        position: absolute;
-        left: 50%;
-        -webkit-transform: translateX(-50%) translateY(100%);
-        transform: translateX(-50%) translateY(100%);
-        bottom: 0;
-      }
+  }
 
-      > div {
-        border-radius: 50%;
-        width: 26px;
-        height: 26px;
-        border: 3px solid $v-txp-timeline-approve-color;
-        display: flex;
-        font-size: 13px;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        vertical-align: middle;
-        color: $v-txp-timeline-approve-color;
+  .timeline {
+    &::before {
+      content: '';
+      background: $v-txp-timeline-color;
+      height: 100%;
+      width: 1px;
+      position: absolute;
+      left: 50%;
+      top: calc(-50% - 13px);
+    }
 
-        &.rejected {
-          background: $v-txp-timeline-reject-color;
-          border-color: $v-txp-timeline-reject-color;
-          color: $v-home-color;
-          font-weight: bold;
-          font-size: 19px;
-        }
-      }
+    &::after {
+      content: '';
+      background: $v-txp-timeline-color;
+      height: 100%;
+      width: 1px;
+      position: absolute;
+      left: 50%;
+      top: calc(50% + 13px);
     }
   }
 }

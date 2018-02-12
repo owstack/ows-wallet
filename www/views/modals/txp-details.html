@@ -151,23 +151,25 @@
       </div>
       <!-- Timeline -->
       <div ng-if="actionList[0]">
-        <ion-item class="item-divider" translate>
-          Timeline
-        </ion-item>
-        <ion-item class="item-timeline has-detail item-icon-left icon-left-lg" ng-repeat="a in actionList track by $index"
-          ng-class="{'action-created' : a.type == 'created' || a.type == 'accept', 'action-rejected' : a.type == 'reject'}">
-          <div class="item-note">
-            <time>{{a.time * 1000 | amTimeAgo}}</time>
-          </div>
-          <div>{{a.description}}</div>
-          <span class="item-detail">
-            {{a.by}}
-          </span>
-          <div class="timeline-content">
-            <div class="timeline-content__icon">
-              <div class="rejected" ng-if="a.type === 'reject'">!</div>
-              <div ng-if="a.type !== 'reject'">{{actionList.length - $index}}</div>
+        <ion-item class="item-divider" translate>Timeline</ion-item>
+        <ion-item class="item-icon-left icon-left-md" ng-repeat="a in actionList track by $index" ng-class="{'has-detail': a.by}">
+          <i class="icon md-icon event-icon timeline" ng-if="a.type === 'broadcasted'">
+            <img class="bg" src="img/icon-broadcasted.svg">
+          </i>
+          <i class="icon md-icon" ng-if="a.type !== 'broadcasted'">
+            <div class="event-icon draw timeline action-created" ng-if="a.type !== 'reject'">
+              {{actionList.length - $index}}
             </div>
+            <div class="event-icon draw timeline action-rejected" ng-if="a.type === 'reject'">
+              !
+            </div>
+          </i>
+          <div>{{a.description}}</div>
+          <span class="item-note">
+            <time>{{ a.time * 1000 | amTimeAgo}}</time>
+          </span>
+          <div class="item-detail">
+            {{a.by}}
           </div>
         </ion-item>
       </div>
