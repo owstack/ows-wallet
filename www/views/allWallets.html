@@ -16,7 +16,9 @@
     <div ng-if="editMode">
       <div class="group-area"></div>
       <div class="group-overlay">
-        <span class="group-label" translate>Drag favorite wallets into this area</span>
+        <span class="group-label" translate>
+          Drag favorite wallets into this area
+        </span>
       </div>
     </div>
     <div gridster="gridsterOpts" class="wallet-grid">
@@ -25,8 +27,6 @@
       </div>
     </div>
   </ion-content> 
-  <item-selector-all-wallets
-    show="showOptionsMenu"
-    on-select-choose-favorites="startEditFavorites">
+  <item-selector-all-wallets show="showOptionsMenu" on-select-choose-favorites="startEditFavorites">
   </item-selector-all-wallets>
 </ion-view>

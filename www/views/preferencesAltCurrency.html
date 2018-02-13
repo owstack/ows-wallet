@@ -14,7 +14,7 @@
     </ion-list>
     <div ng-if="lastUsedAltCurrencyList[0]">
       <ion-list ng-if="lastUsedAltCurrencyList[0]">
-        <ion-item class="item-divider" translate>
+        <ion-item class="item-divider has-label" translate>
           Recently Used
         </ion-item>
         <ion-radio ng-repeat="lastUsedAltCurrency in lastUsedAltCurrencyList" ng-value="lastUsedAltCurrency.isoCode" ng-model="currentCurrency"
@@ -23,7 +23,7 @@
       </ion-list>
     </div>
     <ion-list>
-      <ion-item class="item-divider" translate>
+      <ion-item class="item-divider has-label" translate>
         All Currencies
       </ion-item>
       <ion-radio ng-repeat="altCurrency in altCurrencyList" ng-value="altCurrency.isoCode" ng-model="currentCurrency"

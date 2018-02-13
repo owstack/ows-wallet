@@ -2,25 +2,21 @@
   <div ng-if="notification.type == 'NewCopayer' && notification.wallet.n>1" translate>
     Copayer Joined
   </div>
-
   <div ng-if="notification.type == 'NewCopayer' && notification.wallet.n==1" translate>
     Wallet Created
   </div>
-
   <div ng-if="notification.type == 'NewOutgoingTx'">
     <span translate>Payment Sent </span>
     <div class="right">
       {{notification.amountStr}}
     </div>
   </div>
-
   <div ng-if="notification.type == 'NewIncomingTx'">
     <span translate>Payment Received</span>
     <div class="right">
       {{notification.amountStr}}
     </div>
   </div>
-
   <div ng-if="notification.type == 'TxProposalRemoved'">
     <span translate>Proposal Deleted</span>:
     <b>{{notification.message}}</b>
@@ -28,7 +24,6 @@
       {{notification.amountStr}}:
     </div>
   </div>
-
   <div ng-if="notification.type == 'TxProposalRejectedBy'">
     <span translate>Proposal Rejected</span>:
     <b>{{notification.message}}</b>
@@ -36,7 +31,6 @@
       {{notification.amountStr}}:
       </div>
   </div>
-
   <span ng-if="notification.type == 'NewTxProposal'">
     <span translate>New Proposal</span>:
     <b>{{notification.message}}</b>
@@ -44,7 +38,6 @@
       {{notification.amountStr}}
     </div>
   </span>
-
   <span ng-if="notification.type == 'TxProposalAcceptedBy'">
     <span translate>Proposal Accepted</span>:
     <b>{{notification.message}}</b>
@@ -52,7 +45,6 @@
       {{notification.amountStr}}
     </div>
   </span>
-
   <div class="item-detail">
     <!-- {{notification.types}} -->
     <i class="icon ion-record" ng-style="{'color':notification.wallet.color}"></i>

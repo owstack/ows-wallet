@@ -6,19 +6,23 @@
   </ion-nav-bar>
   <ion-content>
     <ion-list>
-      <ion-item class="item-divider" translate>
+      <ion-item class="item-divider has-label" translate>
         Release information
       </ion-item>
       <ion-item class="item-icon-left">
         <i class="icon ion-ios-download-outline"></i>
-        <span translate>Version</span>
+        <span translate>
+          Version
+        </span>
         <span class="item-note">
           v{{version}}
         </span>
       </ion-item>
       <ion-item class="item-icon-left" ng-click="openExternalLink()">
         <i class="icon ion-social-github-outline"></i>
-        <span translate>Commit hash</span>
+        <span translate>
+          Commit hash
+        </span>
         <span class="item-note">
           #{{commitHash}}
         </span>
@@ -26,12 +30,16 @@
       <ion-item class="item-divider"></ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" ui-sref="tabs.about.termsOfUse">
         <i class="icon ion-ios-list-outline"></i>
-        <span translate>Terms of Use</span>
+        <span translate>
+          Terms of Use
+        </span>
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" ui-sref="tabs.about.log">
         <i class="icon ion-ios-copy-outline"></i>
-        <span translate>Session log</span>
+        <span translate>
+          Session log
+        </span>
         <i class="icon arrow-right"></i>
       </ion-item>
     </ion-list>

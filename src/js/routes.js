@@ -5,8 +5,9 @@ var unsupported, isaosp;
 if (window && window.navigator) {
   var rxaosp = window.navigator.userAgent.match(/Android.*AppleWebKit\/([\d.]+)/);
   isaosp = (rxaosp && rxaosp[1] < 537);
-  if (!window.cordova && isaosp)
+  if (!window.cordova && isaosp) {
     unsupported = true;
+  }
   if (unsupported) {
     window.location = '#/unsupported';
   }

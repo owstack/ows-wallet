@@ -10,21 +10,13 @@
   <ion-content>
     <ion-refresher ng-if="isAndroid" pulling-icon="ion-ios-refresh" spinner="ios-small" on-refresh="onRefresh()">
     </ion-refresher>
-
     <!-- App update available -->
-
     <div ng-show="tipNewRelease" ng-include="'views/includes/tipNewRelease.html'"></div>
-
     <!-- App rating -->
-
     <div ng-show="showRateCard.value" ng-include="'views/feedback/rateCard.html'"></div>
-
     <!-- Wallet is ready tip -->
-
     <div ng-show="tipWalletReady" ng-include="'views/includes/tipWalletReady.html'"></div>
-
     <!-- Payment proposals -->
-
     <div class="card" ng-hide="!txps[0]">
       <ion-item class="item-heading has-click item-icon-right" ui-sref="tabs.proposals">
         <span translate>Payment Proposals</span>
@@ -35,9 +27,7 @@
         <div ng-include="'views/includes/txp.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></div>
       </ion-list>
     </div>
-
     <!-- Recent transactions --> 
-
     <div class="card" ng-if="notifications[0] && recentTransactionsEnabled">
       <ion-item class="item-heading has-click item-icon-right" ui-sref="tabs.activity">
         <span translate>Recent Transactions</span>
@@ -50,9 +40,7 @@
         </ion-item>
       </ion-list>
     </div>
-
     <!-- List layout -->
-
     <div class="card" ng-if="layout.current == 'list'">
       <ion-item class="item-heading item-icon-right">
         <span translate>Wallets</span>
@@ -94,13 +82,9 @@
         </ion-item>
       </ion-list>
     </div>
-
     <!-- Grid layout -->
-
     <div ng-if="layout.current == 'grid'">
-
       <div ng-repeat="walletGroup in walletGroups">
-
         <div class="home-section" translate>
           <span class="left" translate>{{walletGroup.label}}</span>
           <span class="right pointer" ng-click="goToAllWallets()" translate>All &gt;</span>
@@ -120,11 +104,8 @@
             </div>
           </ion-slide-page>
         </ion-slides>
-
       </div>
-
     </div>
-
     <div class="ng-hide list card" ng-show="nextStepsItems.length>0" ng-include="'views/includes/nextSteps.html'"></div>
   </ion-content>
 </ion-view>

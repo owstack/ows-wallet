@@ -123,7 +123,7 @@
       </ion-toggle>
       <!-- Timeline -->
       <div ng-if="actionList[0]">
-        <ion-item class="item-divider" translate>Timeline</ion-item>
+        <ion-item class="item-divider has-label" translate>Timeline</ion-item>
         <ion-item class="item-icon-left icon-left-md" ng-repeat="a in actionList track by $index" ng-class="{'has-detail': a.by}">
           <i class="icon md-icon event-icon timeline" ng-if="a.type === 'broadcasted'">
             <img class="bg" src="img/icon-broadcasted.svg">

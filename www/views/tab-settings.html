@@ -34,7 +34,9 @@
         <div translate>Share {{appName}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="item-divider">{{'Preferences' | translate}}</ion-item>
+      <ion-item class="item-divider has-label">
+        {{'Preferences' | translate}}
+      </ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="tabs.notifications">
         <i class="icon list-icon">
           <img src="img/icon-notifications.svg" class="bg"/>
@@ -70,7 +72,7 @@
         <div class="item-detail">{{appLockMethod}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="item-divider" ng-show="wallets[0]">{{'Wallets' | translate}}</ion-item>
+      <ion-item class="item-divider has-label" ng-show="wallets[0]">{{'Wallets' | translate}}</ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="tabs.preferencesWallet({'walletId': item.id})"
         ng-repeat="item in wallets track by $index">
         <i class="icon sm-icon custom">

@@ -20,26 +20,38 @@
       </div>
       <ion-list>
         <ion-item class="has-click view-all is-button" ng-click="scan()">
-          <span translate>Scan addresses for funds</span>
+          <span translate>
+            Scan addresses for funds
+          </span>
         </ion-item>
         <ion-item class="has-click item-icon-right" ng-if="viewAll.value" ng-click="viewAllAddresses()">
-          <span translate>All Addresses</span>
+          <span translate>
+            All Addresses
+          </span>
           <i class="icon arrow-right"></i>
         </ion-item>
-        <ion-item class="item-divider item-icon-right">
-          <span translate>Unused Addresses</span>
+        <ion-item class="item-divider item-icon-right has-label">
+            <span translate>
+              Unused Addresses
+          </span>
           <a href ng-click="newAddress()">
             <i class="icon ion-ios-plus-empty"></i>
           </a>
         </ion-item>
         <div ng-if="loading" class="text-center">
           <ion-spinner icon="ios"></ion-spinner>
-          <span translate>Loading addresses...</span>
+          <span translate>
+            Loading addresses...
+          </span>
         </div>
         <div ng-if="latestUnused[0]">
           <div class="box-notification warning" ng-if="gapReached">
-            <h2 translate>Unused Addresses Limit Reached</h2>
-            <p translate>The maximum number of consecutive unused addresses (20) has been reached. When one of your unused addresses receives a payment, a new address will be generated.</p>
+            <h2 translate>
+              Unused Addresses Limit Reached
+            </h2>
+            <p translate>
+              The maximum number of consecutive unused addresses (20) has been reached. When one of your unused addresses receives a payment, a new address will be generated.
+            </p>
             <a ng-click="learnMore()" translate>Learn more</a>
           </div>
           <ion-item class="has-click has-detail" ng-repeat="u in latestUnused track by $index">
@@ -52,7 +64,7 @@
           </ion-item>
         </div>
         <div ng-if="latestWithBalance[0]">
-          <ion-item class="item-divider" translate>
+          <ion-item class="item-divider has-label" translate>
             Addresses With Balance
           </ion-item>
           <ion-item class="has-click has-detail" ng-repeat="w in latestWithBalance track by $index">
@@ -67,29 +79,37 @@
           </ion-item>
         </div>
         <div ng-if="allUtxosNb">
-          <ion-item class="item-divider" translate>
+          <ion-item class="item-divider has-label" translate>
             Wallet Inputs
           </ion-item>
           <ion-item>
-            <span translate>Total wallet inputs</span>
+            <span translate>
+              Total wallet inputs
+            </span>
             <div class="item-note">
               {{allUtxosNb}} [{{allUtxosSum}}]
             </div>
           </ion-item>
           <ion-item>
-            <span  translate>Low amount inputs</span>
+            <span  translate>
+              Low amount inputs
+            </span>
             <div class="item-note">
               {{lowUtxosNb}} [{{lowUtxosSum}}]
             </div>
           </ion-item>
           <ion-item>
-            <span translate>Balance transfer fee</span>
+            <span translate>
+              Balance transfer fee
+            </span>
             <div class="item-note">
               {{minFeePer}} [{{minFee}}]
             </div>
           </ion-item>
           <ion-item class="item-comment append">
-            <span translate>Approximate network fee to transfer wallet's balance with 'Priority' fee level.</span>
+            <span translate>
+              Approximate network fee to transfer wallet's balance with 'Priority' fee level.
+            </span>
           </ion-item>
         </div>
       </ion-list>

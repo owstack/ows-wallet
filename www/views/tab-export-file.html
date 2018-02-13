@@ -4,15 +4,13 @@
   </div>
   <form name="exportForm" class="setupForm" novalidate>
     <ion-list>
-      <ion-item class="item-input item-stacked-label">
+      <ion-item class="item-input item-stacked-label prepend">
         <span class="input-label" translate>Set up a password</span>
-      </ion-item>
-      <ion-item class="item-input item-stacked-label pt0">
         <input type="password" placeholder="{{'Password'|translate}}" ng-model="formData.password"
           ng-change="checkPassword(formData.password, formData.repeatpassword)"
           ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
       </ion-item>
-      <ion-item class="item-input item-stacked-label pt0">
+      <ion-item class="item-input item-stacked-label append">
         <input type="password" placeholder="{{'Repeat password'|translate}}" ng-model="formData.repeatpassword"
           ng-change="checkPassword(formData.repeatpassword, formData.password)"
           ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">

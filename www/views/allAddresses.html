@@ -9,11 +9,15 @@
       <ion-item class="item-divider"></ion-item>
       <div ng-if="loading" class="updating">
         <ion-spinner icon="ios"></ion-spinner>
-        <span translate>Loading addresses...</span>
+        <span translate>
+          Loading addresses...
+        </span>
       </div>
       <div ng-show="isCordova && allAddresses[0]">
         <ion-item class="view-all" ng-click="sendByEmail()">
-          <span translate>Send addresses by email</span>
+          <span translate>
+            Send addresses by email
+          </span>
         </ion-item>
         <ion-item class="item-divider"></ion-item>
       </div>

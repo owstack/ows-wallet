@@ -8,7 +8,7 @@
       <span class="input-label" translate>Email</span>
       <input type="text" id="email" placeholder="{{'Email' | translate}}" name="email" ng-model="addressbookEntry.email">
     </ion-item>
-    <ion-item class="item-divider item-icon-right" ng-if="addressbookEntry.addresses.length > 0" translate>
+    <ion-item class="item-divider item-icon-right has-label" ng-if="addressbookEntry.addresses.length > 0" translate>
       Addresses
       <div ng-click="toggleDeleteAddressMode()">
         <i class="icon ion-android-more-vertical"></i>

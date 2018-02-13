@@ -3,21 +3,31 @@
     <div id="success-container">
       <i class="ion-checkmark-circled"></i>
       <div class="success-text">
-        <div class="success-title" translate>Success</div>
-        <div class="success-message" translate>Your wallet was created successfully.</div>
+        <div class="success-title" translate>
+          Success
+        </div>
+        <div class="success-message" translate>
+          Your wallet was created successfully.
+        </div>
       </div>
     </div>
     <div id="collect-email-container">
       <div id="collect-email-inner" ng-if="!confirmation">
-        <div class="heading" translate>Notifications by email</div>
-        <div class="prompt" translate>Where would you like to receive email notifications about payments?</div>
+        <div class="heading" translate>
+          Notifications by email
+        </div>
+        <div class="prompt" translate>
+          Where would you like to receive email notifications about payments?
+        </div>
         <form id="email-form" name="emailForm" ng-submit="confirm(emailForm)" novalidate>
           <ion-list>
-            <ion-item class="item-input item-no-bg p0t">
+            <ion-item class="item-input item-no-bg prepend">
               <input type="email" name="email" ng-model="data.email" placeholder="{{'Email'|translate}}" required>
             </ion-item>
             <ion-checkbox class="has-detail item-no-bg" ng-model="data.news">
-              <span translate>Get news and updates from {{author}}</span>
+              <span translate>
+                Get news and updates from {{author}}
+              </span>
             </ion-checkbox>
             <button class="button button-standard button-primary m20t" ng-disabled="emailForm.$invalid" translate>
               Continue
@@ -26,17 +36,26 @@
         </form>
       </div>
       <div id="collect-email-confirm" ng-if="confirmation">
-        <p translate class="confirm">Confirm email address</p>
-        <p class="user-email">{{data.email}}</p>
+        <p class="confirm" translate>
+          Confirm email address
+        </p>
+        <p class="user-email">
+          {{data.email}}
+        </p>
         <div id="cta-buttons">
-          <button class="button button-standard button-primary" ng-click="save()" ng-disabled="disableButton" translate-context="button" translate>Confirm</button>
-          <button class="button button-standard button-secondary button-clear" ng-click="cancel()" translate>Edit</button>
+          <button class="button button-standard button-primary" ng-click="save()" ng-disabled="disableButton" translate-context="button"
+            translate>
+            Confirm
+          </button>
+          <button class="button button-standard button-secondary button-clear" ng-click="cancel()" translate>
+            Edit
+          </button>
         </div>
       </div>
     </div>
     <div class="overlay collect-overlay">
-      <button class="button button-stable button-clear" ng-click="goNextView()">
-        {{'Skip' | translate}}
+      <button class="button button-stable button-clear" ng-click="goNextView()" translate>
+        Skip
       </button>
     </div>
   </ion-content>

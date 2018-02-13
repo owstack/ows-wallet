@@ -71,7 +71,7 @@
           #{{wallet.credentials.account}}
         </span>
       </ion-item>
-      <ion-item class="item-divider" ng-show="wallet.cachedStatus.wallet.copayers[0]">
+      <ion-item class="item-divider has-label" ng-show="wallet.cachedStatus.wallet.copayers[0]">
         Copayers
       </ion-item>
       <ion-item class="item-icon-right" ng-repeat="copayer in wallet.cachedStatus.wallet.copayers">
@@ -80,7 +80,7 @@
           ({{'Me'|translate}})
         </span>
       </ion-item>
-      <ion-item class="item-divider" translate>
+      <ion-item class="item-divider has-label" translate>
         Extended Public Keys
       </ion-item>
       <ion-item class="has-click item-fh has-detail" ng-repeat="pk in pubKeys">
@@ -93,7 +93,7 @@
         </div>
       </ion-item>
       <div ng-show="wallet.balanceByAddress[0]">
-        <ion-item class="item-divider" translate>
+        <ion-item class="item-divider has-label" translate>
           Balance By Address
         </ion-item>
         <ion-item ng-repeat="a in wallet.balanceByAddress" copy-to-clipboard="a.address">

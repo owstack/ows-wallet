@@ -188,6 +188,10 @@
 		    .item-sub {
 		    	padding-right: 0;
 		    }
+
+		    .item-note {
+		    	right: 44px;
+		    }
 		  }
 
 	    &.has-detail {
@@ -204,9 +208,19 @@
 	      font-size: .9rem;
 	      background: none;
 	      border: none;
-	      height: 30px;
-		    padding-top: 0.5rem;
+	      height: 34px;
+		    padding-top: 1rem;
 		    padding-bottom: 0;
+
+		    &.item-icon-right {
+		    	i.icon {
+		    		top: 5px;
+		    	}
+		    }
+
+				&.has-label {
+	    		height: 44px;
+		    }
 	    }
 
 		  &.item-no-bg {
@@ -232,6 +246,12 @@
 	      }
 	    }
 
+			&.item-input.item-icon-left {
+				i.sm-icon {
+					padding: 0;
+				}
+			}
+
 			&.item-stacked-label input {
 				margin-top: 10px;
 			}
@@ -244,7 +264,6 @@
 
 	    &.append {
 		    padding-top: 0;
-		    padding-bottom: 10px;
 
 		    &:before {
 		  		background: none;
@@ -252,7 +271,6 @@
 	    }
 
 	    &.prepend {
-		    padding-top: 0;
 		    padding-bottom: 0;
 
 		    + ion-item {
