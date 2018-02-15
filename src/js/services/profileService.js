@@ -1,10 +1,10 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function profileServiceFactory($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientError, uxLanguage, platformInfo, txFormatService, appConfigService, networkService, walletService, uiService, addressbookService) {
+  .factory('profileService', function($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientErrorService, uxLanguageService, platformInfoService, txFormatService, appConfigService, networkService, walletService, uiService, addressBookService) {
 
     var root = {};
-    var isCordova = platformInfo.isCordova;
-    var isIOS = platformInfo.isIOS;
+    var isCordova = platformInfoService.isCordova;
+    var isIOS = platformInfoService.isIOS;
     var UPDATE_PERIOD = 15;
 
     var usePushNotifications = isCordova;
@@ -188,7 +188,7 @@ angular.module('owsWalletApp.services')
       validationLock = true;
 
       // IOS devices are already checked
-      var skipDeviceValidation = isIOS || root.profile.isDeviceChecked(platformInfo.ua);
+      var skipDeviceValidation = isIOS || root.profile.isDeviceChecked(platformInfoService.ua);
       var walletId = client.credentials.walletId;
 
       $log.debug('ValidatingWallet: ' + walletId + ' skip Device:' + skipDeviceValidation);
@@ -200,7 +200,7 @@ angular.module('owsWalletApp.services')
 
           $log.debug('ValidatingWallet End:  ' + walletId + ' isOK:' + isOK);
           if (isOK) {
-            root.profile.setChecked(platformInfo.ua, walletId);
+            root.profile.setChecked(platformInfoService.ua, walletId);
           } else {
             $log.warn('Key Derivation failed for wallet:' + walletId);
             storageService.clearLastAddress(walletId, function() {});
@@ -212,7 +212,7 @@ angular.module('owsWalletApp.services')
     };
 
     var shouldSkipValidation = function(walletId) {
-      return root.profile.isChecked(platformInfo.ua, walletId) || isIOS;
+      return root.profile.isChecked(platformInfoService.ua, walletId) || isIOS;
     }
 
     var getWalletServiceUrl = function(credentials) {
@@ -351,7 +351,7 @@ angular.module('owsWalletApp.services')
           return cb(gettextCatalog.getString('Could not create using the specified extended public key'));
         }
       } else {
-        var lang = uxLanguage.getCurrentLanguage();
+        var lang = uxLanguageService.getCurrentLanguage();
         try {
           walletClient.seedFromRandomWithMnemonic({
             network: opts.network.net,
@@ -397,7 +397,7 @@ angular.module('owsWalletApp.services')
             singleAddress: opts.singleAddress,
             walletPrivKey: opts.walletPrivKey,
           }, function(err, secret) {
-            if (err) return walletClientError.cb(err, gettextCatalog.getString('Error creating wallet'), cb);
+            if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Error creating wallet'), cb);
             return cb(null, walletClient, secret);
           });
         });
@@ -441,7 +441,7 @@ angular.module('owsWalletApp.services')
         if (err) return cb(err);
 
         walletClient.joinWallet(opts.secret, opts.myName || 'me', {}, function(err) {
-          if (err) return walletClientError.cb(err, gettextCatalog.getString('Could not join wallet'), cb);
+          if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Could not join wallet'), cb);
           addAndBindWalletClient(walletClient, {
             walletServiceUrl: opts.walletServiceUrl
           }, cb);
@@ -497,12 +497,12 @@ angular.module('owsWalletApp.services')
     };
 
     root.setMetaData = function(walletClient, addressBook, cb) {
-      addressbookService.list(function(err, localAddressBook) {
+      addressBookService.list(function(err, localAddressBook) {
         if (err) {
           $log.error(err);
         }
         var mergeAddressBook = addressBook.concat(localAddressBook);
-        addressbookService.setAddressbook(mergeAddressBook, function(err, ab) {
+        addressBookService.setAddressbook(mergeAddressBook, function(err, ab) {
           if (err) {
             return cb(err);
           }
@@ -621,7 +621,7 @@ angular.module('owsWalletApp.services')
           if (err instanceof errors.NOT_AUTHORIZED)
             return cb(err);
 
-          return walletClientError.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
@@ -657,7 +657,7 @@ angular.module('owsWalletApp.services')
           if (err instanceof errors.NOT_AUTHORIZED)
             return cb(err);
 
-          return walletClientError.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
@@ -682,7 +682,7 @@ angular.module('owsWalletApp.services')
           if (err instanceof errors.NOT_AUTHORIZED)
             err.name = 'WALLET_DOES_NOT_EXIST';
 
-          return walletClientError.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import'), cb);
         }
 
         addAndBindWalletClient(walletClient, {

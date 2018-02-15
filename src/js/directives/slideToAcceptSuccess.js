@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('slideToAcceptSuccess', function($timeout) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/slideToAcceptSuccess.html',
+      templateUrl: 'views/includes/slide-to-accept-success.html',
       transclude: true,
       scope: {
         isShown: '=show',

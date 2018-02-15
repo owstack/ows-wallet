@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('itemSelectorContactAddress', function($timeout, networkService) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/itemSelectorContactAddress.html',
+      templateUrl: 'views/includes/item-selector-contact-address.html',
       transclude: true,
       scope: {
         title: '=title',

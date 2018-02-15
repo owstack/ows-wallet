@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.services').factory('payproService',
-  function(profileService, gettextCatalog, ongoingProcess, $log) {
+  function(profileService, gettextCatalog, ongoingProcessService, $log) {
 
     var ret = {};
 
@@ -16,12 +16,12 @@ angular.module('owsWalletApp.services').factory('payproService',
 
       $log.debug('Fetch PayPro Request...', uri);
 
-      if (!disableLoader) ongoingProcess.set('fetchingPayPro', true);
+      if (!disableLoader) ongoingProcessService.set('fetchingPayPro', true);
 
       wallet.fetchPayPro({
         payProUrl: uri,
       }, function(err, paypro) {
-        if (!disableLoader) ongoingProcess.set('fetchingPayPro', false);
+        if (!disableLoader) ongoingProcessService.set('fetchingPayPro', false);
         if (err) return cb(err);
         else if (!paypro.verified) {
           $log.warn('Failed to verify payment protocol signatures');

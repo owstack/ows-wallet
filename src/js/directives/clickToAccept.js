@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('clickToAccept', function() {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/clickToAccept.html',
+      templateUrl: 'views/includes/click-to-accept.html',
       transclude: true,
       scope: {
         sendStatus: '=clickSendStatus',

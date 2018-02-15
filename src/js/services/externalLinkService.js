@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').service('externalLinkService', function(platformInfo, nodeWebkitService, popupService, gettextCatalog, $window, $log, $timeout) {
+angular.module('owsWalletApp.services').service('externalLinkService', function(platformInfoService, nodeWebkitService, popupService, gettextCatalog, $window, $log, $timeout) {
 
   var _restoreHandleOpenURL = function(old) {
     $timeout(function() {
@@ -16,7 +16,7 @@ angular.module('owsWalletApp.services').service('externalLinkService', function(
       $log.debug('Skip: ' + url);
     };
 
-    if (platformInfo.isNW) {
+    if (platformInfoService.isNW) {
       nodeWebkitService.openExternalLink(url);
       _restoreHandleOpenURL(old);
     } else {

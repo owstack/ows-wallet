@@ -3,7 +3,7 @@
 /**
  * Profile
  *
- * credential: array of OBJECTS
+ * credential: array of objects
  */
 function Profile() {
   this.version = '1.0.0';

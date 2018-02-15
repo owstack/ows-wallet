@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('feedbackService', function($http, $log, $httpParamSerializer, configService, appConfigService) {
+angular.module('owsWalletApp.services').factory('feedbackService', function($http, $log, $httpParamSerializer, appConfigService) {
   var root = {};
 
   root.send = function(dataSrc, cb) {

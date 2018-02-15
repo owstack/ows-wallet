@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('addressbookService', function(storageService, lodash, $log, networkService) {
+angular.module('owsWalletApp.services').factory('addressBookService', function(storageService, lodash, $log) {
   var root = {};
 
   var errorSpec = [{

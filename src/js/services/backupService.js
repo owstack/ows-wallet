@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('backupService', function backupServiceFactory($log, $timeout, $stateParams, profileService, appConfigService, networkService) {
+  .factory('backupService', function($log, $timeout, $stateParams, profileService, appConfigService, networkService) {
 
     var root = {};
 

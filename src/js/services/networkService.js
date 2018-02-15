@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, appConfigService, /* networks >> */ bchLivenet, btcLivenet, btcTestnet) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, btcLivenet, btcTestnet) {
   var root = {};
 
   var defaultNetwork;

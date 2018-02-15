@@ -219,7 +219,7 @@ angular.module('owsWalletApp.services').factory('helpService', function($ionicMo
 
   root.learnMore = function(scope, locationPrefix, topicId) {
     // Conveniently expand the help topic specified
-    $ionicModal.fromTemplateUrl('views/modals/learnMore.html', {
+    $ionicModal.fromTemplateUrl('views/modals/learn-more.html', {
       scope: scope,
       backdropClickToClose: false,
       hardwareBackButtonClose: false

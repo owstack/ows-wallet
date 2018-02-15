@@ -1,23 +1,23 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('copyToClipboard', function(platformInfo, nodeWebkitService, gettextCatalog, ionicToast, clipboard) {
+  .directive('copyToClipboard', function(platformInfoService, nodeWebkitService, gettextCatalog, ionicToast, clipboard) {
     return {
       restrict: 'A',
-      scope: {
-        copyToClipboard: '=copyToClipboard'
-      },
       link: function(scope, elem, attrs, ctrl) {
-        var isCordova = platformInfo.isCordova;
-        var isNW = platformInfo.isNW;
+        var isCordova = platformInfoService.isCordova;
+        var isNW = platformInfoService.isNW;
+
         elem.bind('mouseover', function() {
           elem.css('cursor', 'pointer');
         });
 
         var msg = gettextCatalog.getString('Copied to clipboard');
         elem.bind('click', function() {
-          var data = scope.copyToClipboard;
-          if (!data) return;
+          var data = attrs.copyToClipboard;
+          if (!data) {
+            return;
+          }
 
           if (isCordova) {
             cordova.plugins.clipboard.copy(data);

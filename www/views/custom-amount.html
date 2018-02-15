@@ -1,0 +1,43 @@
+<ion-view id="custom-amount" hide-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-buttons side="primary">
+      <button class="button button-nav-bar button-clear" ng-click="close()" translate>
+        Close
+      </button>
+    </ion-nav-buttons>
+    <ion-nav-title>{{'Custom Amount' | translate}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-nav-bar button-clear" ng-show="showShareButton" ng-click="shareAddress()">
+        <i class="icon" ng-class="{'ion-ios-upload-outline': showShareButton == 'iOS', 'ion-android-share-alt': showShareButton != 'iOS'}"></i>
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content scroll="false">
+    <div class="address" ng-if="address && amountStandard">
+      <div class="qr-code" copy-to-clipboard="{{copyToClipboard()}}">
+        <qrcode size="220" data="{{protocol}}{{address + '?amount=' + amountStandard}}" color="#444455"></qrcode>
+        <div class="address-label">
+          <span class="ellipsis">{{address}}</span>
+          <ion-spinner ng-show="!address" icon="ios"></ion-spinner>
+        </div>
+      </div>
+      <ion-list>
+        <ion-item class="has-label">
+          <span class="input-label" translate>Receive to</span>
+          <div class="item item-sub item-icon-left icon-left-md">
+            <i class="icon md-icon">
+              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+            </i>
+            {{wallet.name}}
+          </div>
+        </ion-item>
+        <ion-item>
+          <span class="label" translate>Amount</span>
+          <span class="item-note">
+            {{amountUnitStr}}<span ng-if="altAmountStr"> - {{altAmountStr}}</span>
+          </span>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

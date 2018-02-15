@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('owsWalletApp.services').service('scannerService', function($log, $timeout, platformInfo, $rootScope, $window) {
+angular.module('owsWalletApp.services').service('scannerService', function($log, $timeout, platformInfoService, $rootScope, $window) {
 
-  var isDesktop = !platformInfo.isCordova;
+  var isDesktop = !platformInfoService.isCordova;
   var QRScanner = $window.QRScanner;
   var lightEnabled = false;
   var backCamera = true; // the plugin defaults to the back camera

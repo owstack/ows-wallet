@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('incomingDataMenu', function($timeout, $rootScope, $state, externalLinkService) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/incomingDataMenu.html',
+      templateUrl: 'views/includes/incoming-data-menu.html',
       link: function(scope, element, attrs) {
         $rootScope.$on('incomingDataMenu.showMenu', function(event, data) {
           $timeout(function() {
@@ -46,7 +46,7 @@ angular.module('owsWalletApp.directives')
           $timeout(function() {
             $state.go('tabs.settings').then(function() {
               $timeout(function() {
-                $state.transitionTo('tabs.addressbook.add', {
+                $state.transitionTo('tabs.address-book.add', {
                   networkURI: networkURI,
                   address: address,
                   from: 'scan'
@@ -59,7 +59,7 @@ angular.module('owsWalletApp.directives')
           scope.showMenu = false;
           $state.go('tabs.home').then(function() {
             $timeout(function() {
-              $state.transitionTo('tabs.home.paperWallet', {
+              $state.transitionTo('tabs.home.paper-wallet', {
                 privateKey: privateKey
               });
             }, 50);

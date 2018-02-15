@@ -319,11 +319,9 @@ p {
     font-family: "Ionicons";
     font-size: 24px;
     opacity: 0.4;
-    position: absolute;
-    top: 50%;
     right: 15px;
-    transform: translateY(-50%);
     z-index: 3;
+    @include absolute-vertical-center();
   }
 
   &.list .item {

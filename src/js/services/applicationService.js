@@ -1,15 +1,15 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('applicationService', function($rootScope, $timeout, $ionicHistory, $ionicModal, platformInfo, fingerprintService, openURLService, configService, $state) {
+  .factory('applicationService', function($rootScope, $timeout, $ionicHistory, $ionicModal, platformInfoService, fingerprintService, configService, $state) {
     var root = {};
 
     root.isPinModalOpen = false;
 
-    var isNW = platformInfo.isNW;
+    var isNW = platformInfoService.isNW;
 
     root.restart = function() {
       var hashIndex = window.location.href.indexOf('#/');
-      if (platformInfo.isCordova) {
+      if (platformInfoService.isCordova) {
         window.location = window.location.href.substr(0, hashIndex);
         $timeout(function() {
           $rootScope.$digest();
@@ -35,7 +35,7 @@ angular.module('owsWalletApp.services')
     root.fingerprintModal = function() {
       var scope = $rootScope.$new(true);
 
-      $ionicModal.fromTemplateUrl('views/modals/fingerprintCheck.html', {
+      $ionicModal.fromTemplateUrl('views/modals/fingerprint-check.html', {
         scope: scope,
         animation: 'none',
         backdropClickToClose: false,

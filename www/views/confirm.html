@@ -35,7 +35,7 @@
           <i class="icon md-icon">
             <div class="bg wallet-icon" ng-style="{'background-color': tx.toColor}"></div>
           </i>
-          <div copy-to-clipboard="tx.toAddress">
+          <div copy-to-clipboard="{{tx.toAddress}}">
             <span ng-if="tx.toName">{{tx.toName}}</span>
             <div class="item-detail ellipsis">{{tx.toAddress}}</div>
           </div>
@@ -45,7 +45,7 @@
           <i class="icon md-icon">
             <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{tx.toEmail}}"></gravatar>
           </i>
-          <div copy-to-clipboard="tx.toAddress">
+          <div copy-to-clipboard="{{tx.toAddress}}">
             <span>{{tx.toName}}</span>
             <div class="item-detail ellipsis">{{tx.toAddress}}</div>
           </div>
@@ -55,7 +55,7 @@
           <i class="icon md-icon">
             <img class="bg" ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
           </i>
-          <div copy-to-clipboard="tx.toAddress" ng-if="!tx.paypro" class="ellipsis">
+          <div copy-to-clipboard="{{tx.toAddress}}" ng-if="!tx.paypro" class="ellipsis">
             <span ng-if="tx.toName">{{tx.toName}}</span>
             <span ng-if="!tx.toName">{{tx.toAddress}}</span>
             <div class="item-detail" ng-if="tx.toName">{{tx.toAddress}}</div>
@@ -91,8 +91,8 @@
       <!-- Fee -->
       <ion-item class="has-label item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
         <span class="input-label" translate>Fee</span>
+        <span class="item-note">{{tx.feeLevelName | translate}}</span>
         <div class="item item-sub has-detail item-fh">
-          <div class="item-note">{{tx.feeLevelName | translate}}</div>
           <div>{{tx.txp[wallet.id].feeStr || '...'}}</div>
           <span class="item-detail">
             <span>{{tx.txp[wallet.id].alternativeFeeStr || '...'}}

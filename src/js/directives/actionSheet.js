@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('actionSheet', function($rootScope, $timeout) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/actionSheet.html',
+      templateUrl: 'views/includes/action-sheet.html',
       transclude: true,
       scope: {
         show: '=show',

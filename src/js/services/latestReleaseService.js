@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('latestReleaseService', function latestReleaseServiceFactory($log, $http, configService) {
+  .factory('latestReleaseService', function($log, $http, configService) {
 
     var root = {};
 

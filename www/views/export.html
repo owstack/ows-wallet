@@ -5,7 +5,7 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div ng-include="'views/includes/walletItem.html'"></div>
+    <div ng-include="'views/includes/wallet-item.html'"></div>
     <div class="row text-center top-tabs">
       <div class="col" ng-click="file.value = true" ng-style="file.value && {'border-bottom-style': 'solid'}">
         <span class="" translate>File/Text</span>
@@ -14,7 +14,7 @@
         <span class="" translate>QR Code</span>
       </div>
     </div>
-    <div ng-include="'views/tab-export-file.html'" ng-if="file.value"></div>
-    <div ng-include="'views/tab-export-qrCode.html'" ng-if="!file.value"></div>
+    <div ng-include="'views/export-file.html'" ng-if="file.value"></div>
+    <div ng-include="'views/export-qr-code.html'" ng-if="!file.value"></div>
   </ion-content>
 </ion-view>

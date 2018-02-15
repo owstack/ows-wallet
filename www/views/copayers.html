@@ -15,8 +15,7 @@
         <ion-item class="item-divider has-label" translate>
           Share this invitation with your copayers
         </ion-item>
-        <ion-item class="item-fh text-center">
-          <div copy-to-clipboard="secret">
+        <ion-item class="item-fh text-center" copy-to-clipboard="{{secret}}">
           <qrcode size="220" error-correction-level="L" data="{{secret}}" color="#444455"></qrcode>
           <div ng-show="!secret" style="position:relative; top:-226px; height:0px">
             <div style="height:220px; width:220px; margin:auto; background: white">
@@ -25,7 +24,6 @@
           </div>
           <div class="copayers-secret">
             {{secret || ('Loading...' | translate)}}
-          </div>
           </div>
         </ion-item>
         <ion-item class="item-divider"></ion-item>

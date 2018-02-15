@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('itemSelectorWallet', function($timeout) {
     return {
       restrict: 'E',
-      templateUrl: 'views/includes/itemSelectorWallet.html',
+      templateUrl: 'views/includes/item-selector-wallet.html',
       transclude: true,
       scope: {
         title: '=title',

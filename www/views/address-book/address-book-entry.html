@@ -1,0 +1,40 @@
+<ion-view id="addressbook-entry" hide-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-back button-clear" ng-click="edit()" translate>
+        Edit
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <div class="gravatar-content">
+      <gravatar name="{{addressbookEntry.name}}" width="80" email="{{addressbookEntry.email}}"></gravatar>
+      <div>{{addressbookEntry.name}}</div>
+    </div>
+    <ion-list>
+      <ion-item class="has-label item-icon-right has-click">
+        <span class="input-label" translate>Email</span>
+        <div class="item item-sub" copy-to-clipboard="{{addressbookEntry.address}}">
+          <div class="ellipsis">{{addressbookEntry.email}}</div>
+        </div>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+      <ion-item class="item-divider has-label" ng-if="addressbookEntry.addresses.length > 0" translate>
+        Addresses
+      </ion-item>
+      <ion-item class="has-label item-icon-right has-click" ng-click="sendTo($index)"
+        ng-repeat="a in addressbookEntry.addresses track by $index">
+        <span class="input-label" translate>{{addressLabelFor(a)}}</span>
+        <div class="item item-sub item-icon-left icon-left-md">
+          <i class="icon md-icon">
+            <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
+          </i>
+          <div class="ellipsis">{{a.address}}</div>
+        </div>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

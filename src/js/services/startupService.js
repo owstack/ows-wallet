@@ -13,14 +13,16 @@ angular.module('owsWalletApp.services').service('startupService', function($log,
       }, 20);
       splashscreenVisible = false;
     }
-  }
+  };
+
   function _showStatusBar(){
     if(typeof StatusBar !== "undefined" && !statusBarVisible){
       $log.debug('startupService is showing the StatusBar...');
       StatusBar.show();
       statusBarVisible = true;
     }
-  }
+  };
+  
   this.ready = function() {
     _showStatusBar();
     _hideSplash();

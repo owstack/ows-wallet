@@ -7,7 +7,7 @@
       Search Transactions
     </div>
   </ion-header-bar>
-  <ion-content ng-controller="txSearchController" ng-init="search = ''">
+  <ion-content ng-controller="TxSearchCtrl" ng-init="search = ''">
     <ion-list>
       <ion-item class="item-input item-icon-left icon-left-sm">
         <i class="icon ion-ios-search sm-icon"></i>
@@ -17,7 +17,7 @@
     </ion-list>
     <ion-list ng-show="txHistory[0]">
       <div ng-repeat="btx in txHistorySearchResults track by $index" ng-click="openTx(btx)">
-        <span ng-include="'views/includes/walletHistory.html'"></span>
+        <span ng-include="'views/includes/wallet-history.html'"></span>
       </div>
       <ion-item class="item-fh item-no-bg text-center" ng-if="txHistoryShowMore">
         <div>{{filteredTxHistory.length - txHistorySearchResults.length}} more</div>

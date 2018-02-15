@@ -1,0 +1,25 @@
+<div id="help" ng-controller="HelpTopicsCtrl" ng-init="init(topicId, locationPrefix)">
+  <ion-list>
+    <div ng-repeat="topic in topics">
+      <ion-item id="{{locationPrefix + topic.id}}" class="item-fh help-topic" ng-click="toggleTopic(topic)"
+        ng-class="{active: isTopicShown(topic)}">
+        <i class="icon" ng-class="isTopicShown(topic) ? 'arrow-up' : 'arrow-down'"></i>
+        {{topic.title}}
+      </ion-item>
+      <ion-item class="item-accordion item-fh help-content" ng-show="isTopicShown(topic)">
+        {{topic.content}}
+        <div id="bullet-list">
+          <ul>
+            <li class="help-subtopic-title" ng-click="toggleSubtopic(subtopic)" ng-class="{active: isSubtopicShown(subtopic)}"
+              ng-repeat="subtopic in topic.subtopics">
+              <span>{{subtopic.title}}</span>
+              <ion-item class="item-accordion item-fh help-subtopic-content" ng-show="isSubtopicShown(subtopic)">
+                {{subtopic.content}}
+              </ion-item>
+            </li>
+          </ul>
+        </div>
+      </ion-item>
+    </div>
+  </ion-list>
+</div>

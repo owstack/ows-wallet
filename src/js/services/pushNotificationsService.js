@@ -1,9 +1,9 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($log, $state, $ionicHistory, platformInfo, lodash, appConfigService, profileService, configService, networkService) {
+angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($log, $state, $ionicHistory, platformInfoService, lodash, appConfigService, profileService, configService, networkService) {
   var root = {};
-  var isIOS = platformInfo.isIOS;
-  var isAndroid = platformInfo.isAndroid;
-  var usePushNotifications = platformInfo.isCordova;
+  var isIOS = platformInfoService.isIOS;
+  var isAndroid = platformInfoService.isAndroid;
+  var usePushNotifications = platformInfoService.isCordova;
 
   var _token = null;
 

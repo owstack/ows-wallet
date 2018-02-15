@@ -1,0 +1,48 @@
+.log-options {
+
+  .check-bar-bg {
+    background: $v-list-item-bg;
+  }
+
+  #check-bar {
+    $bar-widths: (
+      // Order must match weight, see services/historicLogService.js
+      error: 10%,
+      warn: 35%,
+      info: 65%,
+      debug: 90%
+    );
+
+    .check-bar {
+      .initial-bar {
+        border: 2px solid $v-accent-1-color;
+      }
+
+      @each $name, $bar-width in $bar-widths {
+        .fill-bar-#{$name} {
+          width: $bar-width !important;
+        }
+      }
+    }
+
+    .head .checkbox-icon {
+      width: 22px;
+      height: 22px;
+      top: 0;
+    }
+
+    .open .checkbox-icon:before {
+      background: $v-white-color !important;
+    }
+
+    .checkbox-icon {
+      width: 10px;
+      height: 10px;
+      top: 6px;
+
+      &:before {
+        background: $v-accent-1-color !important;
+      }
+    }
+  }
+}

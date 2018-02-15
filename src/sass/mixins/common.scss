@@ -60,6 +60,7 @@
 	    }
 
       .badge {
+		    top: 12px;
 		    right: 44px;
 			}
 
@@ -90,6 +91,17 @@
 			border: none;
 	    margin: 0;
 
+			&:before {
+			  background: $v-card-item-border-color;
+			  display: block;
+			  position: absolute;
+			  width: 100%;
+			  height: 1px;
+			  top: 0;
+			  right: 0;
+			  content: '';
+			}
+
 	    // Set a uniform height if no height is specified, exclude for some classes.
 	    // 'item-fh' is an override class.
 		  &:not(.item-fh):not([class*="item-h-"]):not(.item-divider):not(.item-comment):not(.item-stacked-label):not(.has-label):not([class^="help"]):not(.tx-header):not(.compact) {
@@ -107,15 +119,10 @@
 		  	}
 		  }
 
-			&:before {
-			  background: $v-card-item-border-color;
-			  display: block;
-			  position: absolute;
-			  width: 100%;
-			  height: 1px;
-			  top: 0;
-			  right: 0;
-			  content: '';
+		  &:not(.item-detail) {
+		  	h1, h2, h3, h4 {
+			  	@include relative-vertical-center();
+			  }
 			}
 
 			///////////
@@ -252,14 +259,20 @@
 				}
 			}
 
-			&.item-stacked-label input {
-				margin-top: 10px;
+			&.item-stacked-label {
+				padding-top: 16px;
+    		padding-bottom: 16px;
+
+				input {
+					margin-top: 10px;
+				}
 			}
 
   	  &.item-comment {
 		    color: $v-list-item-secondary-color;
 		    font-size: 14px;
 		    line-height: 1.2rem;
+		    padding-bottom: 16px;
 		  }
 
 	    &.append {
@@ -324,10 +337,8 @@
 		    color: $v-list-item-secondary-color;
 	      font-size: 14px;
 	      text-align: right;
-    		position: absolute;
-		    top: 50%;
-		    transform: translateY(-50%);
 		    right: 16px;
+				@include absolute-vertical-center();
 
 		    &.assertive {
 		      color: $v-assertive-color;
@@ -385,14 +396,6 @@
 	        float: right;
 	        font-size: 28px;
 	      }
-	    }
-
-	    &.pt0 {
-	      padding-top: 0;
-	    }
-
-	    &.pb0 {
-	      padding-bottom: 0;
 	    }
 	  }
 	}

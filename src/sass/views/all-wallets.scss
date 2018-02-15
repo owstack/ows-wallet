@@ -10,18 +10,14 @@
 	  width: 150px;
 	  height: 150px;
 	  margin:auto;
-	  position: relative;
-	  top: 50%;
-	  transform: translateY(-50%);
+		@include relative-vertical-center();
 	}
 
   .group-area {
 		width: calc(2 * 165px + 10px);
 		height: calc(3 * 165px);
-		position: absolute;
-		left: 50%;
-		transform: translateX(-50%);
-		border: 0.5px dashed rgba(255, 255, 255, 0.5);
+		border: 0.5px dashed $v-white-transparent-mid;
+		@include absolute-horizontal-center();
 	}
 
   .group-overlay {

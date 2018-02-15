@@ -1,5 +1,5 @@
  'use strict';
- angular.module('owsWalletApp.services').factory('nextStepsService', function(configService, $log, lodash) {
+ angular.module('owsWalletApp.services').factory('nextStepsService', function($log, lodash) {
    var root = {};
    var services = [];
 

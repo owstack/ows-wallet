@@ -1,0 +1,32 @@
+<ion-view id="all-wallets" hide-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'All Wallets' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-nav-bar button-clear" ng-click="openOptionsMenu()" ng-if="!editMode">
+        <i class="icon ion-ios-more"></i>
+      </button>
+      <button class="button button-nav-bar button-clear" ng-click="stopEdit()" ng-if="editMode" translate>
+        Done
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-if="editMode">
+      <div class="group-area"></div>
+      <div class="group-overlay">
+        <span class="group-label" translate>
+          Drag favorite wallets into this area
+        </span>
+      </div>
+    </div>
+    <div gridster="gridsterOpts" class="wallet-grid">
+      <div ng-repeat="wallet in wallets track by $index" gridster-item="walletLayoutMap">
+        <div class="wallet-grid-item" ng-include="'views/includes/wallet-card.html'"></div>
+      </div>
+    </div>
+  </ion-content> 
+  <item-selector-all-wallets show="showOptionsMenu" on-select-choose-favorites="startEditFavorites">
+  </item-selector-all-wallets>
+</ion-view>

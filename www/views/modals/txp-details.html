@@ -1,4 +1,4 @@
-<ion-modal-view id="txp-details" ng-controller="txpDetailsController" ng-init="init()">
+<ion-modal-view id="tx-details" ng-controller="TxpDetailsCtrl" ng-init="init()">
   <ion-header-bar align-title="center" class="bar bar-header">
     <button class="button button-clear" ng-click="close()">
       Close
@@ -42,16 +42,14 @@
         Warning: this transaction has unconfirmed inputs
       </ion-item>
       <!-- To -->
-      <ion-item class="has-label">
-        <div copy-to-clipboard="tx.toAddress">
-          <span class="input-label" translate>To</span>
-          <div class="item item-sub item-icon-left icon-left-md">
-            <i class="icon md-icon">
-              <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
-            </i>
-            <span ng-if="!tx.hasMultiplesOutputs" class="ellipsis">{{tx.toAddress}}</span>
-            <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span>
-          </div>
+      <ion-item class="has-label" copy-to-clipboard="{{tx.toAddress}}">
+        <span class="input-label" translate>To</span>
+        <div class="item item-sub item-icon-left icon-left-md">
+          <i class="icon md-icon">
+            <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
+          </i>
+          <span ng-if="!tx.hasMultiplesOutputs" class="ellipsis">{{tx.toAddress}}</span>
+          <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span>
         </div>
       </ion-item>
       <!-- Recipients -->

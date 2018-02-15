@@ -1,29 +1,23 @@
 <div class="card">
-	<ion-item>
-		<span copy-to-clipboard="output.toAddress">
-		  <span translate>To</span>
-		  <span class="item-note">
-		  	{{output.toAddress || output.address}}
-		  </span>
+	<ion-item copy-to-clipboard="{{output.toAddress}}">
+	  <span translate>To</span>
+	  <span class="item-note">
+	  	{{output.toAddress || output.address}}
+	  </span>
+	</ion-item>
+	<ion-item copy-to-clipboard="{{output.amountStr}}">
+	  <span translate>Amount</span>
+	  <span class="item-note">
+	  	{{output.amountStr}}
+		  <div ng-show="output.alternativeAmountStr && isLivenet(wallet.networkURI)">
+		  	{{output.alternativeAmountStr}}
+		  </div>
 		</span>
 	</ion-item>
-	<ion-item>
-		<span copy-to-clipboard="output.amountStr">
-		  <span translate>Amount</span>
-		  <span class="item-note">
-		  	{{output.amountStr}}
-			  <div ng-show="output.alternativeAmountStr && isLivenet(wallet.networkURI)">
-			  	{{output.alternativeAmountStr}}
-			  </div>
-		  </span>
-		</span>
-	</ion-item>
-	<ion-item ng-show="output.message">
-		<span copy-to-clipboard="output.message">
-		  <span translate>Note</span>
-		  <span class="item-note">
-		  	{{output.message}}
-		  </span>
-		</span>
+	<ion-item ng-show="output.message" copy-to-clipboard="{{output.message}}">
+	  <span translate>Note</span>
+	  <span class="item-note">
+	  	{{output.message}}
+	  </span>
 	</ion-item>
 </div>

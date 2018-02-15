@@ -1,8 +1,8 @@
 'use strict';
 
-angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, $timeout, platformInfo, gettextCatalog) {
+angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, $timeout, platformInfoService, gettextCatalog) {
 
-  var isCordova = platformInfo.isCordova;
+  var isCordova = platformInfoService.isCordova;
 
   /*************** Ionic ****************/
 

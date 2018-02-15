@@ -14,7 +14,7 @@ if (window && window.navigator) {
 }
 
 //Setting up route
-angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
+angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
     $urlRouterProvider.otherwise('/starting');
 
     // NO CACHE
@@ -52,13 +52,13 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
     });
 
     $logProvider.debugEnabled(true);
-    $provide.decorator('$log', ['$delegate', 'platformInfo',
-      function($delegate, platformInfo) {
-        var historicLog = historicLogProvider.$get();
+    $provide.decorator('$log', ['$delegate', 'platformInfoService',
+      function($delegate, platformInfoService) {
+        var historicLogService = historicLogServiceProvider.$get();
 
-        historicLog.getLevels().forEach(function(levelDesc) {
+        historicLogService.getLevels().forEach(function(levelDesc) {
           var level = levelDesc.level;
-          if (platformInfo.isDevel && level == 'error') return;
+          if (platformInfoService.isDevel && level == 'error') return;
 
           var orig = $delegate[level];
           $delegate[level] = function() {
@@ -78,7 +78,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
                     v = JSON.stringify(v);
                 }
                 // Trim output in mobile
-                if (platformInfo.isCordova) {
+                if (platformInfoService.isCordova) {
                   v = v.toString();
                   if (v.length > 3000) {
                     v = v.substr(0, 2997) + '...';
@@ -92,10 +92,10 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
             });
 
             try {
-              if (platformInfo.isCordova)
+              if (platformInfoService.isCordova)
                 console.log(args.join(' '));
 
-              historicLog.add(level, args.join(' '));
+              historicLogService.add(level, args.join(' '));
               orig.apply(null, args);
             } catch (e) {
               console.log('ERROR (at log decorator):', e, args[0]);
@@ -132,10 +132,10 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
       .state('uri', {
         url: '/uri/:url',
-        controller: function($stateParams, $log, openURLService, profileService) {
+        controller: function($stateParams, $log, openUrlService, profileService) {
           profileService.whenAvailable(function() {
             $log.info('DEEP LINK from Browser:' + $stateParams.url);
-            openURLService.handleURL({
+            openUrlService.handleURL({
               url: $stateParams.url
             });
           })
@@ -153,8 +153,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           // Relative view target for navigation between tab views.
           'tab-home': {
-            controller: 'walletDetailsController',
-            templateUrl: 'views/walletDetails.html'
+            controller: 'WalletDetailsCtrl',
+            templateUrl: 'views/wallet-details.html'
           }
         }
       })
@@ -162,7 +162,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/activity',
         views: {
           'tab-home@tabs': {
-            controller: 'walletActivityController',
+            controller: 'WalletActivityCtrl',
             templateUrl: 'views/wallet-activity.html',
           }
         }
@@ -171,7 +171,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/proposals',
         views: {
           'tab-home@tabs': {
-            controller: 'proposalsController',
+            controller: 'ProposalsCtrl',
             templateUrl: 'views/proposals.html',
           }
         }
@@ -180,17 +180,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/tx-details/:txid',
         views: {
           'tab-home@tabs': {
-            controller: 'txDetailsController',
+            controller: 'TxDetailsCtrl',
             templateUrl: 'views/tx-details.html'
           }
         }
       })
-      .state('tabs.wallet.backupWarning', {
-        url: '/backupWarning/:from/:walletId',
+      .state('tabs.wallet.backup-warning', {
+        url: '/backup-warning/:from/:walletId',
         views: {
           'tab-home@tabs': {
-            controller: 'backupWarningController',
-            templateUrl: 'views/backupWarning.html'
+            controller: 'OnboardingBackupWarningCtrl',
+            templateUrl: 'views/backup-warning.html'
           }
         }
       })
@@ -199,7 +199,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-home@tabs': {
             templateUrl: 'views/backup.html',
-            controller: 'backupController'
+            controller: 'BackupCtrl'
           }
         }
       })
@@ -208,17 +208,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/addresses/:walletId/:toAddress',
         views: {
           'tab-home@tabs': {
-            controller: 'addressesController',
+            controller: 'AddressesCtrl',
             templateUrl: 'views/addresses.html'
           }
         }
       })
-      .state('tabs.wallet.allAddresses', {
-        url: '/allAddresses/:walletId',
+      .state('tabs.wallet.all-addresses', {
+        url: '/all-addresses/:walletId',
         views: {
           'tab-home@tabs': {
-            controller: 'addressesController',
-            templateUrl: 'views/allAddresses.html'
+            controller: 'AddressesCtrl',
+            templateUrl: 'views/all-addresses.html'
           }
         }
       })
@@ -229,12 +229,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        *
        */
 
-      .state('tabs.home.allWallets', {
-        url: '/allWallets',
+      .state('tabs.home.all-wallets', {
+        url: '/all-wallets',
         views: {
           'tab-home@tabs': {
-            controller: 'allWalletsController',
-            templateUrl: 'views/allWallets.html'
+            controller: 'AllWalletsCtrl',
+            templateUrl: 'views/all-wallets.html'
           }
         }
       })
@@ -249,7 +249,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         nativeTransitions: null,
         url: '/tabs',
         abstract: true,
-        controller: 'tabsController',
+        controller: 'TabsCtrl',
         templateUrl: 'views/tabs.html'
       })
       .state('tabs.home', {
@@ -257,8 +257,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/home/:fromOnboarding',
         views: {
           'tab-home': {
-            controller: 'tabHomeController',
-            templateUrl: 'views/tab-home.html'
+            controller: 'HomeCtrl',
+            templateUrl: 'views/home.html'
           }
         },
         params: {
@@ -271,8 +271,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/receive/:walletId',
         views: {
           'tab-receive': {
-            controller: 'tabReceiveController',
-            templateUrl: 'views/tab-receive.html',
+            controller: 'ReceiveCtrl',
+            templateUrl: 'views/receive.html',
           }
         }
       })
@@ -281,8 +281,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/scan',
         views: {
           'tab-scan': {
-            controller: 'tabScanController',
-            templateUrl: 'views/tab-scan.html',
+            controller: 'ScanCtrl',
+            templateUrl: 'views/scan.html',
           }
         }
       })
@@ -292,16 +292,16 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         params: {
           passthroughMode: null,
         },
-        controller: 'tabScanController',
-        templateUrl: 'views/tab-scan.html'
+        controller: 'ScanCtrl',
+        templateUrl: 'views/scan.html'
       })
       .state('tabs.send', {
         nativeTransitions: null,
         url: '/send/:walletId',
         views: {
           'tab-send': {
-            controller: 'tabSendController',
-            templateUrl: 'views/tab-send.html',
+            controller: 'SendCtrl',
+            templateUrl: 'views/send.html',
           }
         }
       })
@@ -310,8 +310,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/settings',
         views: {
           'tab-settings': {
-            controller: 'tabSettingsController',
-            templateUrl: 'views/tab-settings.html',
+            controller: 'SettingsCtrl',
+            templateUrl: 'views/settings.html',
           }
         }
       })
@@ -326,7 +326,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/amount/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toEmail/:toColor',
         views: {
           'tab-send@tabs': {
-            controller: 'amountController',
+            controller: 'AmountCtrl',
             templateUrl: 'views/amount.html'
           }
         }
@@ -335,7 +335,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/confirm/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toAmount/:toEmail/:toColor/:description/:useSendMax',
         views: {
           'tab-send@tabs': {
-            controller: 'confirmController',
+            controller: 'ConfirmCtrl',
             templateUrl: 'views/confirm.html'
           }
         },
@@ -343,12 +343,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
           paypro: null
         }
       })
-      .state('tabs.send.addressbook', {
-        url: '/addressbook/add/:fromSendTab',
+      .state('tabs.send.address-book', {
+        url: '/address-book/add/:fromSendTab',
         views: {
           'tab-send@tabs': {
-            templateUrl: 'views/addressbook/addressbookEntryEdit.html',
-            controller: 'addressbookEntryEditController'
+            templateUrl: 'views/address-book/address-book-entry-edit.html',
+            controller: 'AddressBookEntryEditCtrl'
           }
         }
       })
@@ -372,7 +372,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-home@tabs': {
             templateUrl: 'views/join.html',
-            controller: 'joinController'
+            controller: 'JoinWalletCtrl'
           },
         }
       })
@@ -381,7 +381,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-home@tabs': {
             templateUrl: 'views/import.html',
-            controller: 'importController'
+            controller: 'ImportWalletCtrl'
           },
         },
       })
@@ -389,8 +389,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/create-personal',
         views: {
           'tab-home@tabs': {
-            templateUrl: 'views/tab-create-personal.html',
-            controller: 'createController'
+            templateUrl: 'views/create-personal.html',
+            controller: 'CreateWalletCtrl'
           },
         }
       })
@@ -398,8 +398,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/create-shared',
         views: {
           'tab-home@tabs': {
-            templateUrl: 'views/tab-create-shared.html',
-            controller: 'createController'
+            templateUrl: 'views/create-shared.html',
+            controller: 'CreateWalletCtrl'
           },
         }
       })
@@ -414,8 +414,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/notifications',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesNotificationsController',
-            templateUrl: 'views/preferencesNotifications.html'
+            controller: 'PreferencesNotificationsCtrl',
+            templateUrl: 'views/preferences/notifications.html'
           }
         }
       })
@@ -423,8 +423,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/language',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesLanguageController',
-            templateUrl: 'views/preferencesLanguage.html'
+            controller: 'PreferencesLanguageCtrl',
+            templateUrl: 'views/preferences/language.html'
           }
         }
       })
@@ -432,8 +432,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/networks/:id',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesNetworksController',
-            templateUrl: 'views/preferencesNetworks.html'
+            controller: 'PreferencesNetworksCtrl',
+            templateUrl: 'views/preferences/networks.html'
           }
         }
       })
@@ -441,8 +441,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/network-settings/:networkURI',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesNetworksController',
-            templateUrl: 'views/preferencesNetworks.html'
+            controller: 'PreferencesNetworksCtrl',
+            templateUrl: 'views/preferences/networks.html'
           }
         }
       })
@@ -450,8 +450,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/unit/:networkURI',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesUnitController',
-            templateUrl: 'views/preferencesUnit.html'
+            controller: 'PreferencesUnitCtrl',
+            templateUrl: 'views/preferences/unit.html'
           }
         }
       })
@@ -459,17 +459,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/fee/:networkURI',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesFeeController',
-            templateUrl: 'views/preferencesFee.html'
+            controller: 'PreferencesFeeCtrl',
+            templateUrl: 'views/preferences/fee.html'
           }
         }
       })
-      .state('tabs.altCurrency', {
-        url: '/altCurrency/:networkURI',
+      .state('tabs.alternative-currency', {
+        url: '/alternative-currency/:networkURI',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesAltCurrencyController',
-            templateUrl: 'views/preferencesAltCurrency.html'
+            controller: 'PreferencesAltCurrencyCtrl',
+            templateUrl: 'views/preferences/alternative-currency.html'
           }
         }
       })
@@ -477,7 +477,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/about',
         views: {
           'tab-settings@tabs': {
-            controller: 'aboutController',
+            controller: 'AboutCtrl',
             templateUrl: 'views/about.html'
           }
         }
@@ -486,16 +486,16 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/logs',
         views: {
           'tab-settings@tabs': {
-            controller: 'sessionLog',
-            templateUrl: 'views/sessionLog.html'
+            controller: 'SessionLogCtrl',
+            templateUrl: 'views/session-log.html'
           }
         }
       })
-      .state('tabs.about.termsOfUse', {
-        url: '/termsOfUse',
+      .state('tabs.about.terms-of-use', {
+        url: '/terms-of-use',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/termsOfUse.html'
+            templateUrl: 'views/terms-of-use.html'
           }
         }
       })
@@ -503,17 +503,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/advanced',
         views: {
           'tab-settings@tabs': {
-            controller: 'advancedSettingsController',
-            templateUrl: 'views/advancedSettings.html'
+            controller: 'AdvancedSettingsCtrl',
+            templateUrl: 'views/advanced-settings.html'
           }
         }
       })
-      .state('tabs.appLock', {
-        url: '/appLock',
+      .state('tabs.app-lock', {
+        url: '/app-lock',
         views: {
           'tab-settings@tabs': {
-            controller: 'appLockController',
-            templateUrl: 'views/preferencesAppLock.html',
+            controller: 'AppLockCtrl',
+            templateUrl: 'views/preferences/app-lock.html',
           }
         }
       })
@@ -521,7 +521,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/pin/:action',
         views: {
           'tab-settings@tabs': {
-            controller: 'pinController',
+            controller: 'PinCtrl',
             templateUrl: 'views/pin.html',
             cache: false
           }
@@ -534,112 +534,112 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        *
        */
 
-      .state('tabs.preferencesWallet', {
+      .state('tabs.preferences', {
         url: '/preferences/:walletId/:fromWallet',
         views: {
           // Relative view target for navigation between tab views.
           'tab-settings': {
-            controller: 'preferencesWalletController',
-            templateUrl: 'views/preferencesWallet.html'
+            controller: 'PreferencesWalletCtrl',
+            templateUrl: 'views/preferences/wallet.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.alias', {
-        url: '/preferencesAlias',
+      .state('tabs.preferences.alias', {
+        url: '/preferences/alias',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesAliasController',
-            templateUrl: 'views/preferencesAlias.html'
+            controller: 'PreferencesAliasCtrl',
+            templateUrl: 'views/preferences/alias.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.color', {
-        url: '/preferencesColor',
+      .state('tabs.preferences.color', {
+        url: '/preferences/color',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesColorController',
-            templateUrl: 'views/preferencesColor.html'
+            controller: 'PreferencesColorCtrl',
+            templateUrl: 'views/preferences/color.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.backupWarning', {
-        url: '/backupWarning/:from',
+      .state('tabs.preferences.backup-warning', {
+        url: '/backup-warning/:from',
         views: {
           'tab-settings@tabs': {
-            controller: 'backupWarningController',
-            templateUrl: 'views/backupWarning.html'
+            controller: 'OnboardingBackupWarningCtrl',
+            templateUrl: 'views/backup-warning.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.backup', {
+      .state('tabs.preferences.backup', {
         url: '/backup',
         views: {
           'tab-settings@tabs': {
-            controller: 'backupController',
+            controller: 'BackupCtrl',
             templateUrl: 'views/backup.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.advanced', {
-        url: '/preferencesAdvanced',
+      .state('tabs.preferences.advanced', {
+        url: '/preferences/advanced',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesAdvancedController',
-            templateUrl: 'views/preferencesAdvanced.html'
+            controller: 'PreferencesAdvancedCtrl',
+            templateUrl: 'views/preferences/advanced.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.information', {
+      .state('tabs.preferences.information', {
         url: '/information',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesInformation',
-            templateUrl: 'views/preferencesInformation.html'
+            controller: 'PreferencesInformationCtrl',
+            templateUrl: 'views/preferences/information.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.export', {
+      .state('tabs.preferences.export', {
         url: '/export',
         views: {
           'tab-settings@tabs': {
-            controller: 'exportController',
+            controller: 'ExportWalletCtrl',
             templateUrl: 'views/export.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.walletServiceUrl', {
-        url: '/preferencesWalletServiceUrl',
+      .state('tabs.preferences.wallet-service-url', {
+        url: '/preferences/wallet-service-url',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesWalletServiceUrlController',
-            templateUrl: 'views/preferencesWalletServiceUrl.html'
+            controller: 'PreferencesWalletServiceUrlCtrl',
+            templateUrl: 'views/preferences/wallet-service-url.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.history', {
-        url: '/preferencesHistory',
+      .state('tabs.preferences.history', {
+        url: '/preferences/history',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesHistory',
-            templateUrl: 'views/preferencesHistory.html'
+            controller: 'PreferencesHistoryCtrl',
+            templateUrl: 'views/preferences/history.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.external', {
-        url: '/preferencesExternal',
+      .state('tabs.preferences.external', {
+        url: '/preferences/external-hardware',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesExternalController',
-            templateUrl: 'views/preferencesExternal.html'
+            controller: 'PreferencesExternalHardwareCtrl',
+            templateUrl: 'views/preferences/external-hardware.html'
           }
         }
       })
-      .state('tabs.preferencesWallet.delete', {
+      .state('tabs.preferences.delete', {
         url: '/delete',
         views: {
           'tab-settings@tabs': {
-            controller: 'preferencesDeleteWalletController',
-            templateUrl: 'views/preferencesDeleteWallet.html'
+            controller: 'PreferencesDeleteWalletCtrl',
+            templateUrl: 'views/preferences/delete-wallet.html'
           }
         }
       })
@@ -654,17 +654,17 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/addresses/:walletId/:toAddress',
         views: {
           'tab-settings@tabs': {
-            controller: 'addressesController',
+            controller: 'AddressesCtrl',
             templateUrl: 'views/addresses.html'
           }
         }
       })
-      .state('tabs.settings.allAddresses', {
-        url: '/allAddresses/:walletId',
+      .state('tabs.settings.all-addresses', {
+        url: '/all-addresses/:walletId',
         views: {
           'tab-settings@tabs': {
-            controller: 'addressesController',
-            templateUrl: 'views/allAddresses.html'
+            controller: 'AddressesCtrl',
+            templateUrl: 'views/all-addresses.html'
           }
         }
       })
@@ -680,7 +680,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-home': {
             templateUrl: 'views/copayers.html',
-            controller: 'copayersController'
+            controller: 'CopayersCtrl'
           }
         }
       })
@@ -692,39 +692,39 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        */
 
 
-      .state('tabs.addressbook', {
-        url: '/addressbook',
+      .state('tabs.address-book', {
+        url: '/address-book',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook/addressbook.html',
-            controller: 'addressbookListController'
+            templateUrl: 'views/address-book/address-book.html',
+            controller: 'AddressBookCtrl'
           }
         }
       })
-      .state('tabs.addressbook.add', {
-        url: '/add/:from/:address/:networkURI',
+      .state('tabs.address-book.add', {
+        url: '/address-book/add/:from/:address/:networkURI',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook/addressbookEntryEdit.html',
-            controller: 'addressbookEntryEditController'
+            templateUrl: 'views/address-book/address-book-entry-edit.html',
+            controller: 'AddressBookEntryEditCtrl'
           }
         }
       })
-      .state('tabs.addressbook.entry', {
-        url: '/entry/:id',
+      .state('tabs.address-book.entry', {
+        url: '/address-book/entry/:id',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook/addressbookEntry.html',
-            controller: 'addressbookEntryController'
+            templateUrl: 'views/address-book/address-book-entry.html',
+            controller: 'AddressBookEntryCtrl'
           }
         }
       })
-      .state('tabs.addressbook.edit', {
-        url: '/edit/:id',
+      .state('tabs.address-book.edit', {
+        url: '/address-book/edit/:id',
         views: {
           'tab-settings@tabs': {
-            templateUrl: 'views/addressbook/addressbookEntryEdit.html',
-            controller: 'addressbookEntryEditController'
+            templateUrl: 'views/address-book/address-book-entry-edit.html',
+            controller: 'AddressBookEntryEditCtrl'
           }
         }
       })
@@ -735,30 +735,30 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        *
        */
 
-      .state('tabs.paymentRequest', {
+      .state('tabs.payment-request', {
         url: '/payment-request',
         abstract: true,
         params: {
           id: null,
-          nextStep: 'tabs.paymentRequest.confirm'
+          nextStep: 'tabs.payment-request.confirm'
         }
       })
 
-      .state('tabs.paymentRequest.amount', {
+      .state('tabs.payment-request.amount', {
         url: '/amount/:networkURI',
         views: {
           'tab-receive@tabs': {
-            controller: 'amountController',
+            controller: 'AmountCtrl',
             templateUrl: 'views/amount.html'
           }
         }
       })
-      .state('tabs.paymentRequest.confirm', {
+      .state('tabs.payment-request.confirm', {
         url: '/confirm/:amount/:currency',
         views: {
           'tab-receive@tabs': {
-            controller: 'customAmountController',
-            templateUrl: 'views/customAmount.html'
+            controller: 'CustomAmountCtrl',
+            templateUrl: 'views/custom-amount.html'
           }
         }
       })
@@ -769,12 +769,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        *
        */
 
-      .state('tabs.receive.backupWarning', {
-        url: '/backupWarning/:from/:walletId',
+      .state('tabs.receive.backup-warning', {
+        url: '/backup-warning/:from/:walletId',
         views: {
           'tab-receive@tabs': {
-            controller: 'backupWarningController',
-            templateUrl: 'views/backupWarning.html'
+            controller: 'OnboardingBackupWarningCtrl',
+            templateUrl: 'views/backup-warning.html'
           }
         }
       })
@@ -782,7 +782,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/backup/:walletId',
         views: {
           'tab-receive@tabs': {
-            controller: 'backupController',
+            controller: 'BackupCtrl',
             templateUrl: 'views/backup.html'
           }
         }
@@ -794,12 +794,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
        *
        */
 
-      .state('tabs.home.paperWallet', {
-        url: '/paperWallet/:privateKey',
+      .state('tabs.home.paper-wallet', {
+        url: '/paper-wallet/:privateKey',
         views: {
           'tab-home@tabs': {
-            controller: 'paperWalletController',
-            templateUrl: 'views/paperWallet.html'
+            controller: 'PaperWalletCtrl',
+            templateUrl: 'views/paper-wallet.html'
           }
         }
       })
@@ -821,7 +821,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/start.html',
-            controller: 'startController'
+            controller: 'OnboardingStartCtrl'
           }
         }
       })
@@ -830,46 +830,46 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'onboarding': {
             templateUrl: 'views/help/tour.html',
-            controller: 'tourController'
+            controller: 'HelpTourCtrl'
           }
         },
         params: {
           fromOnboarding: true
         }
       })
-      .state('onboarding.createFirstWallet', {
-        url: '/onboarding/createFirstWallet',
+      .state('onboarding.create-first-wallet', {
+        url: '/onboarding/create-first-wallet',
         views: {
           'onboarding': {
-            templateUrl: 'views/onboarding/createFirstWallet.html',
-            controller: 'createFirstWalletController'
+            templateUrl: 'views/onboarding/create-first-wallet.html',
+            controller: 'OnboardingCreateFirstWalletCtrl'
           }
         }
       })
-      .state('onboarding.collectEmail', {
-        url: '/onboarding/collectEmail/:walletId',
+      .state('onboarding.collect-email', {
+        url: '/onboarding/collect-email/:walletId',
         views: {
           'onboarding': {
-            templateUrl: 'views/onboarding/collectEmail.html',
-            controller: 'collectEmailController'
+            templateUrl: 'views/onboarding/collect-email.html',
+            controller: 'OnboardingCollectEmailCtrl'
           }
         }
       })
-      .state('onboarding.backupRequest', {
-        url: '/onboarding/backupRequest/:walletId',
+      .state('onboarding.backup-request', {
+        url: '/onboarding/backup-request/:walletId',
         views: {
           'onboarding': {
-            templateUrl: 'views/onboarding/backupRequest.html',
-            controller: 'backupRequestController'
+            templateUrl: 'views/onboarding/backup-request.html',
+            controller: 'OnboardingBackupRequestCtrl'
           }
         }
       })
-      .state('onboarding.backupWarning', {
-        url: '/onboarding/backupWarning/:from/:walletId',
+      .state('onboarding.backup-warning', {
+        url: '/onboarding/backup-warning/:from/:walletId',
         views: {
           'onboarding': {
-            templateUrl: 'views/backupWarning.html',
-            controller: 'backupWarningController'
+            templateUrl: 'views/backup-warning.html',
+            controller: 'OnboardingBackupWarningCtrl'
           }
         }
       })
@@ -878,7 +878,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'onboarding': {
             templateUrl: 'views/backup.html',
-            controller: 'backupController'
+            controller: 'BackupCtrl'
           }
         }
       })
@@ -887,7 +887,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'onboarding': {
             templateUrl: 'views/onboarding/disclaimer.html',
-            controller: 'disclaimerController'
+            controller: 'OnboardingDisclaimerCtrl'
           }
         }
       })
@@ -896,7 +896,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'onboarding': {
             templateUrl: 'views/import.html',
-            controller: 'importController'
+            controller: 'ImportWalletCtrl'
           },
         },
         params: {
@@ -916,15 +916,15 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-settings@tabs': {
             templateUrl: 'views/feedback/send.html',
-            controller: 'sendController'
+            controller: 'FeedbackSendCtrl'
           }
         }
       })
-      .state('tabs.shareApp', {
-        url: '/feedback/shareApp/:score/:skipped/:fromSettings',
+      .state('tabs.share-app', {
+        url: '/feedback/share-app/:score/:skipped/:fromSettings',
         views: {
           'tab-settings@tabs': {
-            controller: 'completeController',
+            controller: 'FeedbackCompleteCtrl',
             templateUrl: 'views/feedback/complete.html'
           }
         }
@@ -938,7 +938,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-home@tabs': {
             templateUrl: 'views/feedback/send.html',
-            controller: 'sendController'
+            controller: 'FeedbackSendCtrl'
           }
         }
       })
@@ -946,16 +946,16 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         url: '/feedback/complete/:score/:skipped',
         views: {
           'tab-home@tabs': {
-            controller: 'completeController',
+            controller: 'FeedbackCompleteCtrl',
             templateUrl: 'views/feedback/complete.html'
           }
         }
       })
-      .state('tabs.rate.rateApp', {
-        url: '/feedback/rateApp/:score',
+      .state('tabs.rate.rate-app', {
+        url: '/feedback/rate-app/:score',
         views: {
           'tab-home@tabs': {
-            controller: 'rateAppController',
+            controller: 'FeedbackRateAppCtrl',
             templateUrl: 'views/feedback/rateApp.html'
           }
         }
@@ -973,7 +973,7 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         views: {
           'tab-settings@tabs': {
             templateUrl: 'views/help/getHelp.html',
-            controller: 'getHelpController'
+            controller: 'GetHelpCtrl'
           }
         },
         params: {
@@ -981,11 +981,11 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         }
       })
       .state('help.tour', {
-        url: '/tour',
+        url: '/help/tour',
         views: {
           'tab-settings@tabs': {
             templateUrl: 'views/help/tour.html',
-            controller: 'tourController'
+            controller: 'HelpTourCtrl'
           }
         },
         params: {
@@ -994,12 +994,18 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
       });
 
   })
-  .run(function($rootScope, $state, $location, $log, $timeout, startupService, ionicToast, fingerprintService, $ionicHistory, $ionicPlatform, $window, appConfigService, lodash, platformInfo, profileService, uxLanguage, gettextCatalog, openURLService, storageService, scannerService, configService, emailService, applicationService) {
+  .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfigService, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService) {
+    // The following services injected that need to run at startup.
+    //
+    //   fingerprintService
+    //   startupService
+    //   storageService
+    //
 
-    uxLanguage.init();
+    uxLanguageService.init();
 
     $ionicPlatform.ready(function() {
-      if (screen.width < 768 && platformInfo.isCordova)
+      if (screen.width < 768 && platformInfoService.isCordova)
         screen.lockOrientation('portrait');
 
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -1023,8 +1029,8 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
 
         //onboarding with no back views
         var matchStart = $ionicHistory.currentStateName() == 'onboarding.start' ? true : false;
-        var matchCollectEmail = $ionicHistory.currentStateName() == 'onboarding.collectEmail' ? true : false;
-        var matchBackupRequest = $ionicHistory.currentStateName() == 'onboarding.backupRequest' ? true : false;
+        var matchCollectEmail = $ionicHistory.currentStateName() == 'onboarding.collect-email' ? true : false;
+        var matchBackupRequest = $ionicHistory.currentStateName() == 'onboarding.backup-request' ? true : false;
         var backedUp = $ionicHistory.backView().stateName == 'onboarding.backup' ? true : false;
         var noBackView = $ionicHistory.backView().stateName == 'starting' ? true : false;
         var matchDisclaimer = $ionicHistory.currentStateName() == 'onboarding.disclaimer' && (backedUp || noBackView) ? true : false;
@@ -1113,12 +1119,12 @@ angular.module('owsWalletApp').config(function(historicLogProvider, $provide, $l
         // After everything have been loaded
         $timeout(function() {
           emailService.init(); // Update email subscription if necessary
-          openURLService.init();
+          openUrlService.init();
         }, 1000);
       });
     });
 
-    if (platformInfo.isNW) {
+    if (platformInfoService.isNW) {
       var gui = require('nw.gui');
       var win = gui.Window.get();
       var nativeMenuBar = new gui.Menu({

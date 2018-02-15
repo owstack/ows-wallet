@@ -75,8 +75,7 @@
                 name="passphrase" ng-model="formData.passphrase" ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
                 ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
             </ion-item>
-            <ion-item class="item-input item-stacked-label item-no-line append" ng-class="{'pb0': result == 'correct'}"
-              ng-show="encrypt">
+            <ion-item class="item-input item-stacked-label item-no-line append" ng-show="encrypt">
               <input type="password" ng-show="formData.seedSource.id == 'new'" placeholder="{{'Repeat password'|translate}}"
                 autocapitalize="off" ng-model="formData.repeatPassword"
                 ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"

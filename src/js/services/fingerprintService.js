@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('fingerprintService', function($log, gettextCatalog, configService, platformInfo) {
+angular.module('owsWalletApp.services').factory('fingerprintService', function($log, gettextCatalog, configService, platformInfoService) {
   var root = {};
 
   var _isAvailable = false;
 
-  if (platformInfo.isCordova) {
+  if (platformInfoService.isCordova) {
     window.plugins.touchid = window.plugins.touchid || {};
     window.plugins.touchid.isAvailable(
       function(msg) {

@@ -1,0 +1,68 @@
+#help {
+	color: $v-list-item-color;
+
+	.list .item {
+		&:before {
+			background: none;
+		}
+
+		&.help-topic {
+		  font-size: 16px;
+	    padding-top: 10px;
+	    padding-bottom: 10px;
+	    background: $v-list-item-bg;
+	    border: none;
+	    margin: 0;
+
+	    i.icon.arrow-up,
+	    i.icon.arrow-down {
+	    	color: $v-list-item-color;
+		    font-size: 14px;
+		    position: relative;
+		    border-radius: 3px;
+		    border: 1px solid $v-list-item-color;
+		    margin-right: 12px;
+		    margin-left: 2px;
+		    padding: 0 5px;
+		    float: none;
+	    }
+		}
+
+		&.item-accordion {
+		  line-height: 22px;
+		  opacity: 1;
+		  transition: 0.1s all linear;
+		}
+
+		&.item-accordion.ng-hide {
+		  line-height: 0px;
+		  opacity: 0;
+		}
+
+		&.item-accordion.ng-hide-add,
+		&.item-accordion.ng-hide-remove {
+		  display: block !important;
+		}
+
+		&.help-content {
+		  font-size: 14px;
+			padding: 5px 15px 15px 15px;
+		}
+
+		.help-subtopic-title {
+	    color: $v-accent-1-color;
+		  font-size: 14px;
+	    padding: 5px 0;
+	    background: none;
+	    border: none;
+		}
+
+		.help-subtopic-content {
+		  font-size: 14px;
+	    padding: 0 0 10px 0;
+			margin-left: -5px;
+	    background: none;
+	    border: none;
+		}
+	}
+}

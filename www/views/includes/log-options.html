@@ -1,0 +1,19 @@
+<action-sheet id="action-sheet" class="log-options" show="show">
+  <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+  <div class="header" translate>Log options</div>
+  <ion-list>
+    <div class="check-bar-bg">
+      <div ng-include="'views/includes/check-bar.html'"></div>
+    </div>
+    <ion-item class="item-icon-left icon-left-lg" ng-click="hide()" copy-to-clipboard="{{onCopy()}}">
+        <i class="icon ion-clipboard"></i>
+        <span translate>
+          Copy to clipboard
+        </span>
+    </ion-item>
+    <ion-item class="item-icon-left icon-left-lg" ng-show="isCordova" ng-click="onSend(); hide();">
+      <i class="icon ion-ios-email-outline"></i>
+      {{'Send by email' | translate}}
+    </ion-item>
+  </ion-list>
+</action-sheet>

@@ -10,7 +10,7 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
-    <div ng-include="'views/includes/walletItem.html'"></div>
+    <div ng-include="'views/includes/wallet-item.html'"></div>
     <div class="addr-list">
       <div class="box-notification info clear">
         <p translate>
@@ -54,12 +54,12 @@
             </p>
             <a ng-click="learnMore()" translate>Learn more</a>
           </div>
-          <ion-item class="has-click has-detail" ng-repeat="u in latestUnused track by $index">
-            <div copy-to-clipboard="u.address">
+          <ion-item class="has-click has-detail" ng-repeat="u in latestUnused track by $index" copy-to-clipboard="{{u.address}}">
+            <span>
               {{u.address}}
-              <div class="item-detail">
-                {{u.path}} {{u.createdOn * 1000 | amDateFormat:'MMMM Do YYYY, hh:mm a'}}
-              </div>
+            </span>
+            <div class="item-detail">
+              {{u.path}} {{u.createdOn * 1000 | amDateFormat:'MMMM Do YYYY, hh:mm a'}}
             </div>
           </ion-item>
         </div>
@@ -67,14 +67,12 @@
           <ion-item class="item-divider has-label" translate>
             Addresses With Balance
           </ion-item>
-          <ion-item class="has-click has-detail" ng-repeat="w in latestWithBalance track by $index">
-            <div copy-to-clipboard="w.address">
-              <span class="ellipsis">
-                {{w.address}}
-              </span>
-              <div class="item-detail balance">
-                {{w.balanceStr}}
-              </div>
+          <ion-item class="has-click has-detail" ng-repeat="w in latestWithBalance track by $index" copy-to-clipboard="{{w.address}}">
+            <span class="ellipsis">
+              {{w.address}}
+            </span>
+            <div class="item-detail balance">
+              {{w.balanceStr}}
             </div>
           </ion-item>
         </div>

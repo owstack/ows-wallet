@@ -1,0 +1,34 @@
+<ion-view id="preferences-history" show-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Transaction History' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-include="'views/includes/wallet-item.html'"></div>
+    <ion-list>
+      <ion-item class="is-button" ng-show="csvReady && !isCordova">
+        <div ng-csv="csvContent" csv-header="csvHeader" filename="{{appName}}-{{wallet.name}}.csv">
+          <div translate>Export to file</div>
+        </div>
+      </ion-item>
+      <ion-item class="has-detail" ng-show="!csvReady && !isCordova" ng-class="{'is-button': !err}">
+        <div translate>Export to file</div>
+        <div class="item-detail" ng-show="!err" translate>
+          Preparing...
+        </div>
+        <div class="item-detail" ng-show="err">
+          {{err | translate}}
+        </div>
+      </ion-item>
+      <div class="box-notification info clear">
+        <p translate>
+          The transaction history and all new incoming transactions are cached on this device. Resynchronizing with the server clears the cache and retrieves transaction history from the wallet service.
+        </p>
+      </div>
+      <ion-item class="is-button" ng-click="clearTransactionHistory()">
+        <div translate>Resynchonize with wallet service</div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

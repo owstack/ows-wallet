@@ -1,13 +1,13 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('storageService', function(logHeader, fileStorageService, localStorageService, $log, lodash, platformInfo, $timeout, networkService) {
+  .factory('storageService', function(logHeaderService, fileStorageService, localStorageService, $log, lodash, platformInfoService, $timeout, networkService) {
 
     var root = {};
     var storage;
 
     // File storage is not supported for writing according to
     // https://github.com/apache/cordova-plugin-file/#supported-platforms
-    var shouldUseFileStorage = platformInfo.isCordova;
+    var shouldUseFileStorage = platformInfoService.isCordova;
 
     if (shouldUseFileStorage) {
       $log.debug('Using: FileStorage');

@@ -1,4 +1,4 @@
-<ion-view id="txp-details" hide-tabs>
+<ion-view id="tx-details" hide-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{title}}</ion-nav-title>
     <ion-nav-back-button>
@@ -35,16 +35,14 @@
         </div>
       </ion-item>
       <!-- To -->
-      <ion-item class="has-label item-fh" ng-if="btx.action === 'sent'">
+      <ion-item class="has-label item-fh" ng-if="btx.action === 'sent'" copy-to-clipboard="{{btx.addressTo}}">
         <span class="input-label" translate>To</span>
         <ion-item class="item-sub item-fh item-icon-left icon-left-md">
           <i class="icon md-icon">
             <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
           </i>
-          <div copy-to-clipboard="btx.addressTo" class="ellipsis">
-            <span ng-if="toName" >{{toName}}</span>
-            <span ng-if="!toName" class="ellipsis">{{btx.addressTo}}</span>
-          </div>
+          <span ng-if="toName" class="ellipsis">{{toName}}</span>
+          <span ng-if="!toName" class="ellipsis">{{btx.addressTo}}</span>
         </ion-item>
       </ion-item>
       <!-- From -->
