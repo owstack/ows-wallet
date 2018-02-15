@@ -128,8 +128,7 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
           _openWallet(walletIdHashed);
         });
       } else {
-        // TODO
-        // Notification was received in foreground. Maybe the user needs to be notified. 
+        // TODO-AJP: Notification was received in foreground. Maybe the user needs to be notified. 
       }
     });
   } 

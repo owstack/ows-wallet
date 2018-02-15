@@ -11,7 +11,7 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
       return atomics;
     }
 
-    //TODO : now only works for english, specify opts to change thousand separator and decimal separator
+    //TODO-AJP: now only works for english, specify opts to change thousand separator and decimal separator
     var opts = {
       fullPrecision: !!fullPrecision
     };

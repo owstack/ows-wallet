@@ -6,8 +6,8 @@ angular.module('owsWalletApp.controllers').controller('AllWalletsCtrl',
     $scope.showOptionsMenu = false;
     $scope.editMode = false;
 
-    var physicalScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width); // TODO: use global value
-    var physicalScreenHeight = ((window.innerHeight > 0) ? window.innerHeight : screen.height); // TODO: use global value
+    var physicalScreenWidth = ((window.innerWidth > 0) ? window.innerWidth : screen.width);
+    var physicalScreenHeight = ((window.innerHeight > 0) ? window.innerHeight : screen.height);
 
     var itemWidth = 150; // px
     var itemHeight = 150; // px

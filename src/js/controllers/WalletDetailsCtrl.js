@@ -376,7 +376,7 @@ angular.module('owsWalletApp.controllers').controller('WalletDetailsCtrl', funct
   };
 
   $scope.learnMore = function() {
-    // TODO:
+    // TODO-AJP:
     var locationPrefix = 'tbd';
     var topicId = 'tbd';
     helpService.learnMore($scope, locationPrefix, topicId);

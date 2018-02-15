@@ -3,7 +3,7 @@
 angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfigService, popupService, gettextCatalog, networkService) {
 
   var root = {};
-  var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO: make this extensible
+  var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO-AJP: make this extensible
   var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
   root.showMenu = function(data) {
@@ -44,7 +44,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
     function checkPrivateKey(privateKey) {
       try {
-          btcLib.PrivateKey(privateKey, 'livenet'); // TODO: support more than btc
+          btcLib.PrivateKey(privateKey, 'livenet'); // TODO-AJP: support more than btc, would need to prompt for network
       } catch (err) {
         return false;
       }
@@ -74,7 +74,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       }, 100);
     }
     // Data extensions for Payment Protocol with non-backwards-compatible request.
-    // TODO: does not support detecting testnets.
+    // TODO-AJP: does not support detecting testnets.
     if ((/^bitcoin(cash)?:\?r=[\w+]/).exec(data)) {
       var protocol = data.split(':')[0];
       data = decodeURIComponent(data.replace(/bitcoin(cash)?:\?r=/, ''));

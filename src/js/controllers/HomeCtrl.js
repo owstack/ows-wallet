@@ -274,7 +274,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
             wallet.error = null;
             wallet.status = status;
 
-            // TODO service refactor? not in profile service
+            // TODO-AJP: service refactor? not in profile service
             profileService.setLastKnownBalance(wallet.id, wallet.status.totalBalanceStr, function() {});
           }
           if (++j == i) {

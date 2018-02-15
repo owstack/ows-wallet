@@ -490,7 +490,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       function getNewTxs(newTxs, skip, next) {
         getTxsFromServer(wallet, skip, endingTxid, requestLimit, function(err, res, shouldContinue) {
           if (err) {
-            $log.warn(walletClientErrorService.msg(err, 'Server Error')); //TODO
+            $log.warn(walletClientErrorService.msg(err, 'Server Error')); // TODO-AJP
             var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
             if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
               $log.info('Retrying history download in 5 secs...');
@@ -509,8 +509,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
           $log.debug('Syncing TXs. Got:' + newTxs.length + ' Skip:' + skip, ' EndingTxid:', endingTxid, ' Continue:', shouldContinue);
 
-          // TODO Dirty <HACK>
-          // do not sync all history, just looking for a single TX.
+          // TODO-AJP: <HACK> do not sync all history, just looking for a single TX.
           if (opts.limitTx) {
 
             foundLimitTx = lodash.find(newTxs, {
@@ -588,7 +587,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
         updateNotes(function() {
 
-          // <HACK>
+          // TODO-AJP: <HACK>
           if (foundLimitTx) {
             $log.debug('Tx history read until limitTx: ' + opts.limitTx);
             // in this case, only the orig cb is called.

@@ -208,7 +208,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
     };
 
     $scope.learnMore = function() {
-      // TODO:
+      // TODO-AJP:
       var locationPrefix = 'tbd';
       var topicId = 'tbd';
       helpService.learnMore($scope, locationPrefix, topicId);

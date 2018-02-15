@@ -8,7 +8,7 @@ angular.module('owsWalletApp.controllers').controller('PreferencesHistoryCtrl',
     $scope.appName = appConfigService.nameCase;
 
 
-    // TODO : move this to walletService.
+    // TODO-AJP: move this to walletService.
     $scope.csvHistory = function(cb) {
       var allTxs = [];
 

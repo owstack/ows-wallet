@@ -1094,7 +1094,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
               });
             }
           } else {
-            throw new Error(err); // TODO
+            throw new Error(err); // TODO-AJP: what could happen?
           }
         } else {
           profileService.storeProfileIfDirty();

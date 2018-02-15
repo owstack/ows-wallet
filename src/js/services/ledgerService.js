@@ -97,8 +97,6 @@ angular.module('owsWalletApp.services')
     };
 
     root.signTx = function(txp, account, callback) {
-
-      // TODO Compat
       var isMultisig = true;
       if (txp.addressType == 'P2PKH') {
         var msg = 'P2PKH wallets are not supported with ledger';

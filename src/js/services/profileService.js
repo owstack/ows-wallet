@@ -568,7 +568,7 @@ angular.module('owsWalletApp.services')
     root.importWallet = function(str, opts, cb) {
       ////////////
       //
-      // TODO: refactor client service to provide access to SJCL without regard for networkURI (it's a generic service).
+      // TODO-AJP: refactor client service to provide access to SJCL without regard for networkURI (it's a generic service).
       //
       ////////////
       var commonClient = networkService.walletClientFor('livenet/btc').getClient(null, opts);
@@ -585,7 +585,7 @@ angular.module('owsWalletApp.services')
         }
 
         str = JSON.stringify(c);
-        commonClient.import(str); // TODO: this just sets credentials on the client; consider in refactor
+        commonClient.import(str); // TODO-AJP: this just sets credentials on the client; consider in refactor
       } catch (err) {
         return cb(gettextCatalog.getString('Could not import. Check input file and spending password'));
       }
@@ -602,7 +602,7 @@ angular.module('owsWalletApp.services')
       var networkURI = networkService.getNetworkForCurrencyNet(str.currency, str.network).getURI();
       var walletClient = networkService.walletClientFor(networkURI).getClient(null, opts);
       
-      walletClient.credentials = commonClient.credentials; // TODO: this should go away during the refactor, or at least be handled better
+      walletClient.credentials = commonClient.credentials; // TODO-AJP: this should go away during the refactor, or at least be handled better
 
       addAndBindWalletClient(walletClient, {
         walletServiceUrl: opts.walletServiceUrl
@@ -896,57 +896,57 @@ angular.module('owsWalletApp.services')
       };
 
       function process(notifications, networkURI) {
-        if (!notifications) return [];
+        if (!notifications) {
+          return [];
+        }
 
         var shown = lodash.sortBy(notifications, 'createdOn').reverse();
 
         shown = shown.splice(0, opts.limit || MAX);
 
-        lodash.each(shown, function(x) {
-          x.txpId = x.data ? x.data.txProposalId : null;
-          x.txid = x.data ? x.data.txid : null;
-          x.types = [x.type];
+        lodash.each(shown, function(notification) {
+          notification.txpId = notification.data ? notification.data.txProposalId : null;
+          notification.txid = notification.data ? notification.data.txid : null;
+          notification.types = [notification.type];
 
-          if (x.data && x.data.amount)
-            x.amountStr = txFormatService.formatAmountStr(networkURI, x.data.amount);
+          if (notification.data && notification.data.amount) {
+            notification.amountStr = txFormatService.formatAmountStr(networkURI, notification.data.amount);
+          }
 
-          x.action = function() {
-            // TODO?
+          notification.action = function() {
+            // TODO-AJP: ?
             // $state.go('tabs.wallet', {
-            //   walletId: x.walletId,
-            //   txpId: x.txpId,
-            //   txid: x.txid,
+            //   walletId: notification.walletId,
+            //   txpId: notification.txpId,
+            //   txid: notification.txid,
             // });
           };
         });
 
         var finale = shown; // GROUPING DISABLED!
-
-        var finale = [],
-          prev;
-
+        var prev;
 
         // Item grouping... DISABLED.
 
         // REMOVE (if we want 1-to-1 notification) ????
-        lodash.each(shown, function(x) {
-          if (prev && prev.walletId === x.walletId && prev.txpId && prev.txpId === x.txpId && prev.creatorId && prev.creatorId === x.creatorId) {
-            prev.types.push(x.type);
-            prev.data = lodash.assign(prev.data, x.data);
-            prev.txid = prev.txid || x.txid;
-            prev.amountStr = prev.amountStr || x.amountStr;
-            prev.creatorName = prev.creatorName || x.creatorName;
+        lodash.each(shown, function(notification) {
+          if (prev && prev.walletId === notification.walletId && prev.txpId && prev.txpId === notification.txpId && prev.creatorId && prev.creatorId === notification.creatorId) {
+            prev.types.push(notification.type);
+            prev.data = lodash.assign(prev.data, notification.data);
+            prev.txid = prev.txid || notification.txid;
+            prev.amountStr = prev.amountStr || notification.amountStr;
+            prev.creatorName = prev.creatorName || notification.creatorName;
           } else {
-            finale.push(x);
-            prev = x;
+            finale.push(notification);
+            prev = notification;
           }
         });
 
-        lodash.each(finale, function(x) {
-          var u = networkService.walletClientFor(x.wallet.networkURI).getUtils();
-          if (x.data && x.data.message && x.wallet && x.wallet.credentials.sharedEncryptingKey) {
-            // TODO TODO TODO => Wallet Client
-            x.message = u.decryptMessage(x.data.message, x.wallet.credentials.sharedEncryptingKey);
+        lodash.each(finale, function(notification) {
+          var u = networkService.walletClientFor(notification.wallet.networkURI).getUtils();
+          if (notification.data && notification.data.message && notification.wallet && notification.wallet.credentials.sharedEncryptingKey) {
+            // TODO-AJP: => Wallet Client
+            notification.message = u.decryptMessage(notification.data.message, notification.wallet.credentials.sharedEncryptingKey);
           }
         });
 
@@ -962,8 +962,8 @@ angular.module('owsWalletApp.services')
 
             var n;
 
-            n = lodash.filter(wallet.cachedActivity.n, function(x) {
-              return typeFilter[x.type];
+            n = lodash.filter(wallet.cachedActivity.n, function(n) {
+              return typeFilter[n.type];
             });
 
             var idToName = {};

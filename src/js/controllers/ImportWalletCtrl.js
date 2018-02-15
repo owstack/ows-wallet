@@ -114,7 +114,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         var obj = JSON.parse(str);
         ////////////
         //
-        // TODO: refactor client service to provide access to SJCL without regard for networkURI.
+        // TODO-AJP: refactor client service to provide access to SJCL without regard for networkURI.
         //
         ////////////
         str2 = networkService.walletClientFor('livenet/btc').getSJCL().decrypt($scope.formData.password, str);
@@ -420,7 +420,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
     };
 
     $scope.learnMore = function() {
-      // TODO:
+      // TODO-AJP:
       var locationPrefix = 'tbd';
       var topicId = 'tbd';
       helpService.learnMore($scope, locationPrefix, topicId);

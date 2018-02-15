@@ -13,7 +13,7 @@ angular.module('owsWalletApp.services')
       if (isNW) {
         chrome.storage.local.get(k,
           function(data) {
-            //TODO check for errors
+            // TODO-AJP: check for errors
             return cb(null, data[k]);
           });
       } else {

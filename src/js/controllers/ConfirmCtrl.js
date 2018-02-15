@@ -200,7 +200,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
   function getTxp(tx, wallet, dryRun, cb) {
 
-    // ToDo: use a credential's (or fc's) function for this
+    // TODO-AJP: use a credential's (or fc's) function for this
     if (tx.description && !wallet.credentials.sharedEncryptingKey) {
       var msg = gettextCatalog.getString('Could not add message to imported wallet without shared encrypting key');
       $log.warn(msg);

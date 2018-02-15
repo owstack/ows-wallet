@@ -26,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('PreferencesWalletCtrl',
           if (err) {
             $log.warn(err);
 
-            // ToDo show error?
+            // TODO-AJP: show error?
             $scope.encryptEnabled.value = false;
             $timeout(function() {
               $scope.$apply();
@@ -43,7 +43,7 @@ angular.module('owsWalletApp.controllers').controller('PreferencesWalletCtrl',
           if (err) {
             $log.warn(err);
 
-            // ToDo show error?
+            // TODO-AJP: show error?
             $scope.encryptEnabled.value = true;
             $timeout(function() {
               $scope.$apply();

@@ -83,7 +83,7 @@ angular.module('owsWalletApp.controllers').controller('PreferencesFeeCtrl', func
   };
 
   $scope.learnMore = function() {
-    // TODO:
+    // TODO-AJP:
     var locationPrefix = 'tbd';
     var topicId = 'tbd';
     helpService.learnMore($scope, locationPrefix, topicId);
