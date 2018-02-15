@@ -566,8 +566,12 @@ angular.module('owsWalletApp.services')
     };
 
     root.importWallet = function(str, opts, cb) {
-      // opts.walletServiceUrl should be set according to network.
-      var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
+      ////////////
+      //
+      // TODO: refactor client service to provide access to SJCL without regard for networkURI (it's a generic service).
+      //
+      ////////////
+      var commonClient = networkService.walletClientFor('livenet/btc').getClient(null, opts);
 
       $log.debug('Importing Wallet:', opts);
 
@@ -581,11 +585,7 @@ angular.module('owsWalletApp.services')
         }
 
         str = JSON.stringify(c);
-
-        walletClient.import(str, {
-          compressed: opts.compressed,
-          password: opts.password
-        });
+        commonClient.import(str); // TODO: this just sets credentials on the client; consider in refactor
       } catch (err) {
         return cb(gettextCatalog.getString('Could not import. Check input file and spending password'));
       }
@@ -597,6 +597,12 @@ angular.module('owsWalletApp.services')
       }
 
       var addressBook = str.addressBook || {};
+
+      // Find the correct wallet client using the network info from the imported data.
+      var networkURI = networkService.getNetworkForCurrencyNet(str.currency, str.network).getURI();
+      var walletClient = networkService.walletClientFor(networkURI).getClient(null, opts);
+      
+      walletClient.credentials = commonClient.credentials; // TODO: this should go away during the refactor, or at least be handled better
 
       addAndBindWalletClient(walletClient, {
         walletServiceUrl: opts.walletServiceUrl

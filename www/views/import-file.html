@@ -12,11 +12,6 @@
       <span class="input-label" translate>Password</span>
       <input type="password" placeholder="{{'Password'|translate}}" ng-model="formData.password">
     </ion-item>
-    <ion-item class="item-input item-select">
-      <span class="input-label" translate>Currency</span>
-      <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
-        ng-change=" onNetworkChange(); resizeView();"></select>
-    </ion-item>
     <ion-item class="item-divider"></ion-item>
     <ion-item class="has-click" ng-click="showAdvChange()">
       <span translate ng-show="!showAdv">Show advanced options</span>
