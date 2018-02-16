@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
   function($scope, $timeout, $log, $ionicHistory, feeService, popupService, gettextCatalog, configService, profileService, $state, ongoingProcessService, txFormatService, $stateParams, walletService, networkService) {
 
@@ -6,43 +8,81 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
         if (!isPkEncrypted) {
           return cb(null, scannedKey);
         }
-        $scope.wallet.decryptBIP38PrivateKey(scannedKey, passphrase, null, cb);
-      };
 
-      function getBalance(privateKey, cb) {
-        $scope.wallet.getBalanceFromPrivateKey(privateKey, cb);
-      };
-
-      function checkPrivateKey(privateKey) {
-        var result;
-
-        // Check to see if private key is valid on any network. Only look at livenets.
+        // Attempt to decrypt on available livenet networks.
+        var found = false;
         networkService.forEachNetwork({net: 'livenet'}, function(walletClient, network) {
-          if (!result) {
+          if (!found) {
             try {
-              walletClient.PrivateKey(privateKey, network.net);
-              result = true;
+              walletClient.decryptBIP38PrivateKey(scannedKey, passphrase, null, function(err, privateKey) {
+                if (err) {
+                  throw(err);
+                }
+
+                found = true;
+                cb(null, privateKey);
+              });
             } catch (err) {
-              result = false;
+              // Ignore error and continue.
             }
           }
         });
-        return result;
+        if (!found) {
+          cb('could not decrypt private key');
+        }
+      };
+
+      function checkPrivateKey(privateKey, cb) {
+        var isValid;
+        var pkNetwork;
+
+        // Attempt to validate the private key on available livenet networks.
+        networkService.forEachNetwork({net: 'livenet'}, function(walletClient, network) {
+          if (!isValid) {
+            try {
+              walletClient.PrivateKey(privateKey, network.net);
+              isValid = true;
+              pkNetwork = network;
+            } catch (err) {
+              isValid = false;
+            }
+          }
+        });
+        cb(isValid, pkNetwork);
       };
 
       getPrivateKey($scope.scannedKey, $scope.isPkEncrypted, $scope.passphrase, function(err, privateKey) {
         if (err) {
           return cb(err);
         }
-        if (!checkPrivateKey(privateKey)) {
-          return cb(new Error('Invalid private key'));
-        }
 
-        getBalance(privateKey, function(err, balance) {
-          if (err) {
-            return cb(err);
+        checkPrivateKey(privateKey, function(isValid, network) {
+          if (!isValid) {
+            return cb(new Error('Invalid private key'));
           }
-          return cb(null, privateKey, balance);
+
+          // Load possible destination wallets and default to the first one in the list if able.
+          $scope.wallets = profileService.getWallets({
+            onlyComplete: true,
+            networkURI: network.getURI()
+          });
+
+          if ($scope.wallets && $scope.wallets.length > 0) {
+            $scope.wallet = $scope.wallets[0];
+            $scope.singleWallet = $scope.wallets.length == 1;
+
+            // Got a valid private key and wallet. Get the balance from the private key.
+            $scope.wallet.getBalanceFromPrivateKey(privateKey, function(err, balance, address) {
+              if (err) {
+                return cb(err);
+              }
+              return cb(null, privateKey, balance, address, network);
+            });
+
+          } else {
+            $scope.noMatchingWallet = true;
+            return cb('No compatible wallet to receive funds.');
+          }
         });
       });
     };
@@ -50,49 +90,69 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
     $scope.scanFunds = function() {
       $scope.scanComplete = false;
       ongoingProcessService.set('scanning', true);
-      $timeout(function() {
-        _scanFunds(function(err, privateKey, balance) {
-          ongoingProcessService.set('scanning', false);
-          if (err) {
-            $log.error(err);
-            popupService.showAlert(gettextCatalog.getString('Error Scanning For Funds'), err || err.toString());
-            $state.go('tabs.home');
 
-          } else {
-            $scope.scanComplete = true;
-            $scope.privateKey = privateKey;
-            $scope.balanceAtomic = balance;
-            if ($scope.balanceAtomic <= 0) {
-              popupService.showAlert(
-                gettextCatalog.getString('No Funds Found'),
-                gettextCatalog.getString('No funds were found while scanning addresses.'));
-            }
+      _scanFunds(function(err, privateKey, balance, address, network) {
+        ongoingProcessService.set('scanning', false);
+        if (err) {
+          popupService.showAlert(gettextCatalog.getString('Error Scanning For Funds'), err || err.toString());
+          $state.go('tabs.home');
 
-            var config = configService.getSync().wallet.settings;
-            $scope.balance = txFormatService.formatAmount($scope.wallet.networkURI, balance) + ' ' + config.unitName;
+        } else {
+          var networkURI = network.getURI();
+
+          $scope.scanComplete = true;
+          $scope.privateKey = privateKey;
+          $scope.balanceAtomic = balance;
+          $scope.address = address;
+
+          var configNetwork = configService.getSync().currencyNetworks[networkURI];
+          $scope.balanceStr = txFormatService.formatAmount(networkURI, balance) + ' ' + configNetwork.unitName;
+
+          txFormatService.formatAlternativeStr(networkURI, balance, function(amountStr) {
+            $scope.balanceAlternativeStr = amountStr;
+          });
+
+          // Provide a visible alert for the user.
+          if ($scope.balanceAtomic <= 0) {
+            popupService.showAlert(
+              gettextCatalog.getString('No Funds Found'),
+              gettextCatalog.getString('No funds were found while scanning addresses.')
+            );
           }
+        }
+        $timeout(function() {
           $scope.$apply();
-        });
-      }, 100);
+        }, 100);
+      });
     };
 
     function _sweepWallet(cb) {
       walletService.getAddress($scope.wallet, true, function(err, destinationAddress) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         $scope.wallet.buildTxFromPrivateKey($scope.privateKey, destinationAddress, null, function(err, testTx) {
-          if (err) return cb(err);
+          if (err) {
+            return cb(err);
+          }
           var rawTxLength = testTx.serialize().length;
+
           feeService.getCurrentFeeRate($scope.wallet, function(err, feePerKb) {
             var opts = {};
             opts.fee = Math.round((feePerKb * rawTxLength) / 2000);
+
             $scope.wallet.buildTxFromPrivateKey($scope.privateKey, destinationAddress, opts, function(err, tx) {
-              if (err) return cb(err);
+              if (err) {
+                return cb(err);
+              }
               $scope.wallet.broadcastRawTx({
                 rawTx: tx.serialize(),
-                network: 'livenet/btc'
+                network: networkURI
               }, function(err, txid) {
-                if (err) return cb(err);
+                if (err) {
+                  return cb(err);
+                }
                 return cb(null, destinationAddress, txid);
               });
             });
@@ -111,13 +171,17 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
           $scope.sending = false;
           if (err) {
             $log.error(err);
-            popupService.showAlert(gettextCatalog.getString('Error sweeping wallet:'), err || err.toString());
+            popupService.showAlert(gettextCatalog.getString('Error Sweeping Wallet'), err || err.toString());
           } else {
             $scope.sendStatus = 'success';
           }
           $scope.$apply();
         });
       }, 100);
+    };
+
+    $scope.isLivenet = function(networkURI) {
+      return networkService.isLivenet(networkURI);
     };
 
     $scope.onSuccessConfirm = function() {
@@ -133,7 +197,9 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
         return;
       }
       $scope.walletSelectorTitle = gettextCatalog.getString('Transfer to');
-      $scope.showWallets = true;
+      $scope.showWallets = {
+        value: true
+      };
     };
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
@@ -141,24 +207,9 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
       $scope.isPkEncrypted = $scope.scannedKey ? ($scope.scannedKey.substring(0, 2) == '6P') : null;
       $scope.sendStatus = null;
       $scope.scanComplete = false;
-
-      $scope.wallets = profileService.getWallets({
-        onlyComplete: true,
-        network: 'livenet'
-      });
-      $scope.singleWallet = $scope.wallets.length == 1;
-
-      if (!$scope.wallets || !$scope.wallets.length) {
-        $scope.noMatchingWallet = true;
-        return;
-      }
     });
 
     $scope.$on("$ionicView.enter", function(event, data) {
-      $scope.wallet = $scope.wallets[0];
-      if (!$scope.wallet) {
-        return;
-      }
       if (!$scope.isPkEncrypted) {
         $scope.scanFunds();
       } else {

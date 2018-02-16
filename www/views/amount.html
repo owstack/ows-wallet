@@ -14,7 +14,7 @@
       <ion-item class="item-divider has-label" translate>
         Recipient
       </ion-item>
-      <ion-item class="has-detail item-icon-left ellipsis">
+      <ion-item class="has-detail item-icon-left icon-left-md">
         <i class="icon md-icon" ng-if="recipientType == 'wallet'">
           <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
         </i>
@@ -28,12 +28,12 @@
             <div class="bg user-icon"></div>
           </i>
         </span>
-        <span ng-if="toName" class="m10l">
+        <span ng-if="toName">
           {{toName}}
         </span>
-        <span ng-if="toAddress" class="item-detail m10l ellipsis">
+        <div ng-if="toAddress" class="item-detail ellipsis">
           {{toAddress}}
-        </span>
+        </div>
       </ion-item>
     </ion-list>
     <div ng-class="{'amount-pane-recipient': !customAmount && !nextStep, 'amount-pane-no-recipient': customAmount || nextStep}">

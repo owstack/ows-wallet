@@ -115,6 +115,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         ////////////
         //
         // TODO-AJP: refactor client service to provide access to SJCL without regard for networkURI.
+        // Choose livenet/btc arbitrarily.
         //
         ////////////
         str2 = networkService.walletClientFor('livenet/btc').getSJCL().decrypt($scope.formData.password, str);
