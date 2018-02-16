@@ -49,6 +49,19 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryEditCtrl'
     scanInProgress = false;
   });
 
+  $scope.addressChanged = function(addressEntry) {
+    var result = networkService.isValidAddress(addressEntry.address);
+    if (result.isValid) {
+      addressEntry.networkURI = result.network.getURI();
+    } else {
+      addressEntry.networkURI = undefined;      
+    }
+  };
+
+  $scope.currencyFor = function(networkURI) {
+    return networkService.parseCurrency(networkURI);
+  };
+
   $scope.addAddress = function() {
     var newAddress = {
       address: '',
@@ -66,15 +79,8 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryEditCtrl'
   $scope.onQrCodeScanned = function(data) {
     $timeout(function() {
       if (data) {
-        var protocol = data.split(':')[0];
-        var scanAddressFormSelect = $scope.form.addressbookForm['net' + scanInProgressAddressIndex];
-        var n = networkService.getNetworkForProtocol(protocol);
-        if (n) {
-          scanAddressFormSelect.$setViewValue(n.getURI());
-          scanAddressFormSelect.$render();
-        }
-
         // Remove protocol if present
+        var protocol = data.split(':')[0];
         data = data.replace(/^.*:/, '');
 
         // Set the address input value.

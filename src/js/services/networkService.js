@@ -184,6 +184,70 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return root.parseNet(networkURI) == 'testnet';
   };
 
+  root.isValidAddress = function(value) {
+    var result = {
+      isValid: false
+    };
+
+    if (value == undefined) {
+      return result;
+    }
+
+    // Check BIP21 uri and regular address
+    lodash.forEach(root.getNetworks(), function(n) {
+      var netLib = root.walletClientFor(n.getURI()).getLib();
+      var URI = netLib.URI;
+      var Address = netLib.Address;
+
+      var hasProtocol = value.includes(':');
+      if (hasProtocol) {
+
+        // Check BIP21 uri
+        if (value.startsWith(n.protocol)) {
+          var uri;
+          var isAddressValid;
+          var isUriValid = URI.isValid(value);
+
+          if (isUriValid) {
+            uri = new URI(value);
+            isAddressValid = Address.isValid(uri.address.toString(), 'livenet');
+
+            if (root.hasTestnet(n.currency)) {
+              isAddressValid = isAddressValid || Address.isValid(uri.address.toString(), 'testnet');
+            }
+          }
+          result = {
+            isValid: isUriValid && isAddressValid,
+            network: n
+          };
+          return false; // break loop
+        }
+
+      } else {
+
+        // Check regular address
+        var isAddressValid = Address.isValid(value, 'livenet');
+        if (root.hasTestnet(n.currency)) {
+          isAddressValid = isAddressValid || Address.isValid(value, 'testnet');
+        }
+
+        result = {
+          isValid: isAddressValid,
+          network: n
+        };
+
+        if (isAddressValid) {
+          return false; // break loop
+        }
+      }
+    });
+
+    if (!result.isValid) {
+      delete result.network;
+    }
+    return result;
+  };
+
   init();
 
   return root;

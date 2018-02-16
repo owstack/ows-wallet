@@ -1,4 +1,4 @@
-@mixin common {
+.ows {
 
   /*
    *  A card
@@ -119,7 +119,7 @@
 		  	}
 		  }
 
-		  &:not(.item-detail) {
+		  :not(.item-detail):not(.box-notification) {
 		  	h1, h2, h3, h4 {
 			  	@include relative-vertical-center();
 			  }
@@ -263,7 +263,8 @@
 				padding-top: 16px;
     		padding-bottom: 16px;
 
-				input {
+				input,
+				textarea {
 					margin-top: 10px;
 				}
 			}
@@ -303,10 +304,15 @@
 	    &.item-sub {
 		    margin-top: -7px;
 		    margin-left: -16px;
-		    background: none;
+    		background: none;
 	
 				&:before {
 					background: none;
+				}
+
+				> div,
+				> span {
+					width: 100%;
 				}
 
 			  &.item-icon-left.icon-left {
@@ -321,6 +327,10 @@
 			  	&-sm {
 					  padding-left: 34px;
 			  	}
+			  }
+
+			  &:not(.item-icon-right) {
+      		padding-right: 0;			  
 			  }
 	    }
 
@@ -362,6 +372,19 @@
 	      background: $v-warning-color;
 	    }
 
+		  .item-delete .button.icon {
+		    color: $v-assertive-color !important;
+				background: $v-black-transparent-light;
+		    left: -8px;
+		    width: 50px;
+		    padding-left: 14px;
+		    border-radius: 0;
+
+		    &:before {
+		      font-size: 24px;
+		    }
+		  }
+
 	    .input-label {
 	    	color: $v-list-item-color;
 				text-transform: uppercase;
@@ -374,8 +397,8 @@
 	      .item-icon-right {
 					float: right;
 			    position: absolute;
-			    top: 1.3rem;
-			    right: 0;
+			    top: 15px;
+			    right: 5px;
 			    padding: 0;
  	      }
 		  }

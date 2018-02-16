@@ -51,11 +51,6 @@ $placeholder-icon-padding: 10px;
   background: none transparent;
 }
 
-// The default .item p color of #666 cannot be modified by a variable.
-.item p {
-  color: $v-mid-gray;
-}
-
 // We'd like to diverge from the standard ionic formula for left-right card margins.
 .card {
   margin: ($content-padding * 2) 14px;
