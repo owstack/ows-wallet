@@ -1,7 +1,9 @@
 #wallet-details {
   color: $v-wallet-color;
 
-  @include common;
+  .bar.bar-header {
+    background: transparent;
+  }
 
   .w-content {
     position: relative;
@@ -146,7 +148,7 @@
         font-size: 24px;
 
         &:before {
-          line-height: 24px;
+          line-height: 21px;
         }
       }
 

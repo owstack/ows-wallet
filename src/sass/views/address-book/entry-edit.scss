@@ -1,9 +1,6 @@
-#addressbook-entry-add,
 #addressbook-entry-edit {
   background: $v-addressbook-bg;
   color: $v-addressbook-color;
-
-  @include common;
 
   .gravatar-content {
     margin-top: 20px;

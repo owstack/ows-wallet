@@ -1,8 +1,6 @@
-#tab-receive {
+#receive {
   background: $v-receive-bg;
   color: $v-receive-color;
-
-  @include common;
 
   .button-share {
     color: $v-bar-header-button-color;

@@ -2,8 +2,6 @@
   background: $v-receive-bg;
   color: $v-receive-color;
 
-  @include common;
-
   .address {
     .qr-code {
       text-align: center;

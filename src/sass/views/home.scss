@@ -1,8 +1,6 @@
-#tab-home {
+#home {
   background: $v-home-bg;
   color: $v-home-color;
-
-  @include common;
 
   .icon-create-wallet {
     background-color: $v-accent-1-color;

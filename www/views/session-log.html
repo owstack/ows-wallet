@@ -1,4 +1,4 @@
-<ion-view id="session-log" hide-tabs>
+<ion-view id="session-log" class="ows" hide-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Session Log' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -10,12 +10,14 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
-    <ion-list>
-      <ion-item class="item-fh text-center padding" ng-show="filteredLogs.length == 0">
-        <span translate>No entries for this log level.</span>
+    <div class="box-notification info clear" ng-show="filteredLogs.length == 0">
+      <h2 translate>No Entries For This Log Level</h2>
+      <p>
         <a ng-click="showOptionsMenu()" translate>Adjust setting</a>&nbsp;to view more log content.
-      </ion-item>
-      <ion-item class="item-fh item-text-wrap enable_text_select log-entry" ng-show="filteredLogs.length > 0">
+      </p>
+    </div>
+    <ion-list ng-show="filteredLogs.length > 0">
+      <ion-item class="item-fh item-text-wrap enable_text_select log-entry">
         <ul ng-show="filteredLogs.length > 0">
           <li ng-repeat="l in filteredLogs">
             <span ng-class="{'warning': l.level=='warn', 'debug': l.level=='debug', 'info': l.level=='info', 'error': l.level=='error'}">

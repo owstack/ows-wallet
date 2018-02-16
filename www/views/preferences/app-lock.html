@@ -1,12 +1,13 @@
-<ion-view id="preferences-app-lock" show-tabs>
+<ion-view id="preferences-app-lock" class="ows" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'App Lock' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="box-notification info clear" ng-if="errorMsg">
-      <p class="notice">{{errorMsg}}</p>
+    <div class="box-notification info clear" ng-if="error">
+      <h2 class="notice">{{error.title}}</h2>
+      <p>{{error.message}}</p>
     </div>
     <ion-list>
       <ion-radio ng-repeat="opt in options" ng-value="opt" ng-model="currentOption" ng-click="select(opt.method)"

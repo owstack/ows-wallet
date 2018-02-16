@@ -1,4 +1,4 @@
-<ion-view id="tab-scan" show-tabs>
+<ion-view id="scan" class="ows" show-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'Scan' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
@@ -8,7 +8,7 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">
-    <div class="ng-hide zero-state" id="tab-scan-has-problems" ng-show="currentState === scannerStates.unauthorized || currentState === scannerStates.denied || currentState === scannerStates.unavailable">
+    <div class="ng-hide zero-state" id="scan-has-problems" ng-show="currentState === scannerStates.unauthorized || currentState === scannerStates.denied || currentState === scannerStates.unavailable">
       <i class="icon zero-state-icon">
         <img src="img/tab-icons/icon-receive.svg"/>
       </i>
@@ -23,8 +23,8 @@
         <button ng-show="currentState === scannerStates.unavailable" class="ng-hide button button-standard button-primary" ng-click="attemptToReactivate()" translate>Retry Camera</button>
       </div>
     </div>
-    <div class="ng-show" id="tab-scan-loading-camera" ng-show="currentState === scannerStates.loading"></div>
-    <div class="ng-hide" id="tab-scan-camera-ready" ng-show="currentState === scannerStates.visible">
+    <div class="ng-show" id="scan-loading-camera" ng-show="currentState === scannerStates.loading"></div>
+    <div class="ng-hide" id="scan-camera-ready" ng-show="currentState === scannerStates.visible">
       <div class="guides">
         <img class="svg qr-scan-guides" src="img/qr-scan-guides.svg">
       </div>

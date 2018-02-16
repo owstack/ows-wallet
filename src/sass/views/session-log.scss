@@ -2,8 +2,6 @@
   background: $v-session-log-bg;
   color: $v-session-log-color;
 
-  @include common;
-
  .log-entry {
     font-family: monospace;
     font-size: 12px;

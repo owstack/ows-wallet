@@ -81,14 +81,20 @@ angular.module('owsWalletApp.controllers').controller('AppLockCtrl', function($s
     });
 
     if (singleLivenetWallet) {
-      $scope.errorMsg = gettextCatalog.getString('You must backup your wallet in order to use the app lock.');
+      $scope.error = {
+        title: gettextCatalog.getString('Backup Required'),
+        message: gettextCatalog.getString('You must backup your wallet in order to use the app lock.')
+      };
       disableOptsUntilBackup();
     } else if (atLeastOneLivenetWallet) {
-      $scope.errorMsg = gettextCatalog.getString('You must backup all of your wallets in order to use the app lock.');
+      $scope.error = {
+        title: gettextCatalog.getString('Backup Required'),
+        message: gettextCatalog.getString('You must backup all of your wallets in order to use the app lock.')
+      };
       disableOptsUntilBackup();
     } else {
       enableOptsAfterBackup();
-      $scope.errorMsg = null;
+      $scope.error = null;
     }
 
     function enableOptsAfterBackup() {

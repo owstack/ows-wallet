@@ -2,8 +2,6 @@
   background: $v-settings-bg;
   color: $v-settings-color;
 
-  @include common;
-  
   .balance {
     color: $v-success-color !important;
   }

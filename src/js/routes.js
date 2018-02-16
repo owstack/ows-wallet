@@ -121,7 +121,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
       .state('starting', {
         url: '/starting',
-        template: '<ion-view id="starting"><ion-content><div class="block-spinner row"><ion-spinner class="spinner-stable" icon="crescent"></ion-spinner></div></ion-content></ion-view>'
+        template: '<ion-view id="starting" class="ows"><ion-content><div class="block-spinner row"><ion-spinner class="spinner-stable" icon="crescent"></ion-spinner></div></ion-content></ion-view>'
       })
 
       /*

@@ -1,4 +1,4 @@
-<ion-view id="addresses" hide-tabs>
+<ion-view id="addresses" class="ows" hide-tabs>
   <ion-nav-bar class="bar bar-header">
     <ion-nav-title>{{'All Addresses' | translate}}</ion-nav-title>
     <ion-nav-back-button>
@@ -21,14 +21,14 @@
         </ion-item>
         <ion-item class="item-divider"></ion-item>
       </div>
-      <ion-item ng-repeat="a in allAddresses track by $index" copy-to-clipboard="{{a.address}}">
+      <ion-item class="has-detail" ng-repeat="a in allAddresses track by $index" copy-to-clipboard="{{a.address}}">
         <span>
           {{a.address}}
         </span>
-        <div ng-if="!a.balanceStr">
+        <div class="item-detail" ng-if="!a.balanceStr">
           {{a.path}} {{a.createdOn * 1000 | amDateFormat:'MMMM Do YYYY, hh:mm a'}}
         </div>
-        <div class="balance" ng-if="a.balanceStr">
+        <div class="item-detail balance" ng-if="a.balanceStr">
           {{a.balanceStr}}
         </div>
       </ion-item>

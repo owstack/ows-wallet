@@ -1,0 +1,515 @@
+.ows {
+
+  /*
+   *  A card
+   */
+
+  .card {
+    background: $v-card-bg;
+    color: $v-card-color;
+
+    & > .item-heading {
+      border: none;
+      font-weight: bold;
+			height: $v-card-item-header-height !important;
+
+      .icon {
+        color: $v-card-color;
+        font-size: 32px;
+      }
+    }
+
+    // Kill the background/border coming from an embedded list, redefine the border
+    .list {
+    	background: none;
+    	padding: 0;
+
+    	.item {
+    		background: none;
+		  	border: none;
+
+		    &:before {
+			    background: $v-card-item-border-color;
+		      display: block;
+		      position: absolute;
+		      width: calc(100% - 15px - 40px); // minus padding minus icon width
+		      height: 1px;
+		      top: 0;
+		      right: 0;
+		      content: '';
+		    }
+
+		    &:first-child:before {
+		      width: calc(100% - 15px); // minus padding
+		    }
+    	}
+    }
+
+    .item {
+      background: $v-card-item-bg;
+      color: $v-card-item-color;
+      border-color: $v-card-item-border-color;
+
+      &:not(.item-heading) {
+	      padding-bottom: 1.3rem;
+	      padding-top: 1.3rem;
+	    }
+
+	    &.item-heading .item-content {
+	    	padding: 16px;
+	    }
+
+      .badge {
+		    top: 12px;
+		    right: 44px;
+			}
+
+	    button {
+		    margin-top: 20px;
+	    }
+    }
+
+    &.no-header {
+			.list .item:first-child:before {
+				background: none;
+			}    
+    }
+  }
+
+  /*
+   *  List and item presentation
+   */
+
+	.list {
+	  background: $v-list-bg;
+    padding: 0;
+
+	  .item {
+	    background: $v-list-item-bg;
+	    color: $v-list-item-color;
+	    padding: 1.3rem 16px;
+			border: none;
+	    margin: 0;
+
+			&:before {
+			  background: $v-card-item-border-color;
+			  display: block;
+			  position: absolute;
+			  width: 100%;
+			  height: 1px;
+			  top: 0;
+			  right: 0;
+			  content: '';
+			}
+
+	    // Set a uniform height if no height is specified, exclude for some classes.
+	    // 'item-fh' is an override class.
+		  &:not(.item-fh):not([class*="item-h-"]):not(.item-divider):not(.item-comment):not(.item-stacked-label):not(.has-label):not([class^="help"]):not(.tx-header):not(.compact) {
+		    height: $v-list-item-md-height !important;
+		  }
+
+		  // Specific height may be set on individual items.
+		  &.item-h {
+		  	&-md {
+		  		height: $v-list-item-md-height !important;
+		  	}
+
+		  	&-lg {
+		  		height: $v-list-item-lg-height !important;
+		  	}
+		  }
+
+		  :not(.item-detail):not(.box-notification) {
+		  	h1, h2, h3, h4 {
+			  	@include relative-vertical-center();
+			  }
+			}
+
+			///////////
+			//
+			// Set left position of item content based on icon use.
+			// item-complex appears on some ion-item's, e.g., when using ui-sref attribute.
+			//
+
+		  &.item-icon-left:not(.item-complex) {
+	  		padding-left: 50px;
+
+		  	&.icon-left {
+			  	&-lg {
+					  padding-left: 70px;
+
+					  i.lg-icon {
+					  	font-size: 40px;
+					  }
+			  	}
+
+			  	&-md {
+					  padding-left: 60px;
+
+					  i.md-icon {
+					  	font-size: 30px;
+					  }
+			  	}
+
+			  	&-sm {
+					  padding-left: 40px;
+
+					  i.sm-icon {
+					  	font-size: 20px;
+					  	color: $v-white-transparent-light;
+					  }
+			  	}
+		  	}
+		  }
+
+		  &.item-complex.item-icon-left {
+		  	.item-content {
+		  		padding-left: 34px;
+		  	}
+
+		  	&.icon-left {
+			  	&-lg .item-content {
+					  padding-left: 54px;
+			  	}
+
+			  	&-md .item-content {
+					  padding-left: 44px;
+			  	}
+
+			  	&-sm .item-content {
+					  padding-left: 34px;
+			  	}
+		  	}
+		  }
+
+			//
+			//
+			//
+			///////////
+
+		  &.item-icon-right {
+    		padding-right: 44px;
+		    cursor: pointer;
+		    cursor: hand;
+
+		    .item-sub {
+		    	padding-right: 0;
+		    }
+
+		    .item-note {
+		    	right: 44px;
+		    }
+		  }
+
+	    &.has-detail {
+	      padding-top: 0.65rem;
+	      padding-bottom: 0.65rem;
+	    }
+
+	    &.has-label {
+				padding-top: 5px;
+				padding-bottom: 0;
+	    }
+
+	    &.item-divider {
+	      font-size: .9rem;
+	      background: none;
+	      border: none;
+	      height: 34px;
+		    padding-top: 1rem;
+		    padding-bottom: 0;
+
+		    &.item-icon-right {
+		    	i.icon {
+		    		top: 5px;
+		    	}
+		    }
+
+				&.has-label {
+	    		height: 44px;
+		    }
+	    }
+
+		  &.item-no-bg {
+		  	background: none;
+
+		  	&:before {
+		  		background: none;
+		  	}
+		  }
+
+			&.item-no-line  {
+		  	&:before {
+		  		background: none;
+		  	}
+			}
+
+	    &.is-button {
+	      color: $v-list-item-link-color;
+	      text-align: center;
+
+	      &.assertive {
+		      color: $v-assertive-color;
+	      }
+	    }
+
+			&.item-input.item-icon-left {
+				i.sm-icon {
+					padding: 0;
+				}
+			}
+
+			&.item-stacked-label {
+				padding-top: 16px;
+    		padding-bottom: 16px;
+
+				input,
+				textarea {
+					margin-top: 10px;
+				}
+			}
+
+  	  &.item-comment {
+		    color: $v-list-item-secondary-color;
+		    font-size: 14px;
+		    line-height: 1.2rem;
+		    padding-bottom: 16px;
+		  }
+
+	    &.append {
+		    padding-top: 0;
+
+		    &:before {
+		  		background: none;
+		  	}
+	    }
+
+	    &.prepend {
+		    padding-bottom: 0;
+
+		    + ion-item {
+			    &:before {
+			  		background: none;
+			  	}
+			  }
+	    }
+
+	    &.compact {
+	    	font-size: 14px;
+	    	padding-top: 10px;
+	    	padding-bottom: 10px;
+	    	height: 42px;
+	    }
+
+	    &.item-sub {
+		    margin-top: -7px;
+		    margin-left: -16px;
+		    background: none;
+	
+				&:before {
+					background: none;
+				}
+
+			  &.item-icon-left.icon-left {
+			  	&-lg {
+					  padding-left: 64px;
+			  	}
+
+			  	&-md {
+					  padding-left: 54px;
+			  	}
+
+			  	&-sm {
+					  padding-left: 34px;
+			  	}
+			  }
+	    }
+
+      .badge {
+		    right: 44px;
+			}
+
+	    .item-detail {
+	      color: $v-list-item-secondary-color;
+	      font-size: 14px;
+	    }
+
+		  .item-note {
+		    color: $v-list-item-secondary-color;
+	      font-size: 14px;
+	      text-align: right;
+		    right: 16px;
+				@include absolute-vertical-center();
+
+		    &.assertive {
+		      color: $v-assertive-color;
+		    }
+
+		    &.warning {
+		      color: $v-warning-color;
+		    }
+
+		    &.primary {
+		      color: $v-list-item-color;
+		    }
+		  }
+
+	    .item-marker {
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      height: 100%;
+	      width: 3px;
+	      background: $v-warning-color;
+	    }
+
+	    .input-label {
+	    	color: $v-list-item-color;
+				text-transform: uppercase;
+		    font-size: 12px;
+		    font-weight: bold;
+		    width: 85%;
+		    max-width: 85%;
+		    display: inline;
+
+	      .item-icon-right {
+					float: right;
+			    position: absolute;
+			    top: 15px;
+			    right: 5px;
+			    padding: 0;
+ 	      }
+		  }
+
+		  .item-content {
+		  	color: inherit;
+				padding-right: initial;
+		  	white-space: initial;
+		    text-align: left;
+		  }
+
+	    .icon {
+	      color: $v-list-item-color;
+
+	      &.arrow-up,
+	      &.arrow-down {
+	        color: $v-list-item-secondary-color;
+	        float: right;
+	        font-size: 28px;
+	      }
+	    }
+	  }
+	}
+
+  /*
+   *  Control styles
+   */
+
+	input {
+	  background: $v-input-bg !important;
+		color: $input-color;
+	  padding-left: 10px;
+
+	  &.incorrect {
+	    border: 1px solid;
+	    color: $v-error-color;
+	  }
+
+	  &.correct {
+	    border: 1px solid;
+	    color: $v-success-color;
+	  }
+
+	  &[readonly] {
+	  	color: $v-input-readonly-color;
+	  }
+	}
+
+	input[type="text"] {
+		line-height: 1.428571429; // 20/14
+	}
+
+	input[type="file"] {
+	  width: 100%;
+	  margin-bottom: -10px;
+	  line-height: 0px;
+	}
+
+	input[type="search"] {
+	  width: 100%;
+	}
+
+	textarea {
+	  background: $v-input-bg;
+		color: $input-color;
+		width: 100%;
+	  padding: 10px;
+	  resize: none;
+	}
+
+  .item-toggle .toggle,
+  .item-button-right > .button {
+    top: 16px;
+  }
+
+  .toggle-small.item-toggle .toggle,
+  .item-button-right > .button {
+    top: 25px;
+  }
+
+  .item-button-right > .button {
+    font-size: 16px;
+  }
+
+  select {
+    background: none;
+    color: $v-list-item-color;
+  }
+
+  .item-select:after {
+    color: $v-list-item-secondary-color;
+  }
+
+  .toggle {
+    .handle {
+      background: $v-toggle-handle-bg;
+    }
+
+    .track {
+      background: $v-toggle-bg;
+      border-color: $v-toggle-border-color;
+    }
+
+		input:checked + .track .handle {
+			background: $v-toggle-on-handle-bg;
+		}
+
+		input:checked + .track {
+			background: $v-toggle-on-bg;
+      border-color: $v-toggle-on-border-color;
+		}
+  }
+
+  .checkbox {
+    .checkbox-icon:before {
+      background: $v-checkbox-bg;
+    }
+  }
+
+  .item-checkbox .item-content {
+  	padding-left: 38px;
+  }
+
+	.item-radio {
+	  & .item-content,
+	  & input:checked + .radio-content .item-content {
+	    background: none;
+	    padding-top: 0;
+	    padding-bottom: 0;
+	  }
+
+	  .radio-icon {
+	    top: 4px;
+	  }
+	}
+}

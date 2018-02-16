@@ -1,8 +1,6 @@
 #wallet-balance {
   color: $v-wallet-color;
 
-  @include common;
-
   .balance-total {
     color: $v-wallet-color;
   }

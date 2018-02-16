@@ -1,8 +1,6 @@
-#tab-send {
+#send {
   background: $v-send-bg;
   color: $v-send-color;
-
-  @include common;
 
   .scroll {
     height: 100%;
