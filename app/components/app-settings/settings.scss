@@ -1,0 +1,14 @@
+#settings {
+  background: $v-settings-bg;
+  color: $v-settings-color;
+}
+
+@import "about/about";
+@import "advanced/advanced";
+@import "app-lock/app-lock";
+@import "language/language";
+@import "networks/networks";
+@import "notifications/notifications";
+@import "session-log/session-log";
+@import "terms-of-use/terms-of-use";
+@import "version/version";

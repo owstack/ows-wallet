@@ -1,0 +1,63 @@
+<ion-view id="send" class="ows" hide-tabs="{{hideTabs}}">
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Send' | translate}}</ion-nav-title>
+    <ion-nav-buttons side="primary">
+      <button class="button button-nav-bar button-clear" ng-show="showBackButton" ng-click="goBackToWallet()">
+        <i class="icon ion-ios-arrow-left"></i>
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-if="hasFunds">
+      <ion-list>
+        <ion-item class="item-input item-icon-left icon-left-sm item-icon-right">
+          <i class="icon ion-ios-search sm-icon"></i>
+          <input type="text" placeholder="{{'Search or recipient address' | translate}}" ng-model="formData.search"
+            ng-change="findContact(formData.search)" ng-model-onblur ng-focus="searchInFocus()" ng-blur="searchBlurred()">
+          <i class="icon icon-svg" on-tap="openScanner()">
+            <img src="img/icon-scan.svg">
+          </i>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div ng-if="!checkingBalance && (!hasFunds || !hasWallets)"
+      ng-include="'views/send/tips/start-sending/start-sending.html'"></div>
+    <div class="card" ng-if="hasContacts && hasWallets && hasFunds">
+      <ion-item class="item-icon-right item-heading">
+        <span translate>Contacts</span>
+        <a ng-if="hasContacts" ui-sref="tabs.send.address-book">
+          <i class="icon ion-ios-plus-empty list-add-button"></i>
+        </a>
+      </ion-item>
+      <ion-list>
+        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
+          <i class="icon md-icon">
+            <gravatar class="send-gravatar" width="30" name="{{item.name}}" email="{{item.email}}"></gravatar>
+          </i>
+          {{item.name}}
+          <i class="icon arrow-right"></i>
+        </ion-item>
+        <div class="show-more" ng-if="contactsShowMore" ng-click="showMore()" translate>
+          Show more
+        </div>
+      </ion-list>
+    </div>
+    <div class="card" ng-if="showTransferCard && hasFunds">
+      <ion-item class="item-heading">
+        <span translate>Transfer to Wallet</span>
+      </ion-item>
+      <ion-list>
+        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
+          <i class="icon md-icon" ng-if="item.recipientType == 'wallet'">
+            <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
+          </i>
+          {{item.name}}
+          <i class="icon arrow-right"></i>
+        </ion-item>
+      </ion-list>
+    </div>
+  </ion-content>
+  <contact-address-menu title="casTitle" contact="casContact" selected="casSelected" show="showContactAddressSelector"
+    on-select="onContactAddressSelect">
+  </contact-address-menu>
+</ion-view>

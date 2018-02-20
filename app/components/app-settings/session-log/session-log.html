@@ -1,0 +1,36 @@
+<ion-view id="session-log" class="ows" hide-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Session Log' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-nav-bar button-clear" ng-click="showOptionsMenu()">
+        <i class="icon ion-ios-more"></i>
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <div class="box-notification info clear" ng-show="filteredLogs.length == 0">
+      <h2 translate>No Entries For This Log Level</h2>
+      <p>
+        <a ng-click="showOptionsMenu()" translate>Adjust setting</a>&nbsp;to view more log content.
+      </p>
+    </div>
+    <ion-list ng-show="filteredLogs.length > 0">
+      <ion-item class="item-fh item-text-wrap enable_text_select log-entry">
+        <ul ng-show="filteredLogs.length > 0">
+          <li ng-repeat="l in filteredLogs">
+            <span ng-class="{'warning': l.level=='warn', 'debug': l.level=='debug', 'info': l.level=='info', 'error': l.level=='error'}">
+              <span class="log-timestamp">[{{l.timestamp}}]</span>
+              <span class="log-level">[{{l.level}}]</span>
+              {{l.msg}}
+            </span>
+          </li>
+        </ul>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <log-options-menu show="showOptions" options="logOptions" fill-class="fillClass" on-select="setOptionSelected" on-copy="prepareLogs"
+    on-send="sendLogs">
+  </log-options-menu>
+</ion-view>

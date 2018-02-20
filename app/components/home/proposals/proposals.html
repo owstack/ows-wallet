@@ -1,0 +1,23 @@
+<ion-view id="proposals" class="ows" show-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Pending Proposals' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-if="fetchingProposals" class="updating">
+      <div class="text-center m20t">
+        <span translate>Updating</span>
+        <ion-spinner icon="ios"></ion-spinner>
+      </div>
+    </div>
+    <div ng-show="!txps[0] && !fetchingProposals">
+      <div class="text-center m10t" translate>No pending proposals</div>
+    </div>
+    <div class="card" ng-show="txps[0] && !fetchingProposals">
+      <ion-list>
+        <span ng-include="'shared/partials/txp-item/txp-item.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></span>
+      </ion-list>
+    </div>
+  </ion-content>
+</ion-view>

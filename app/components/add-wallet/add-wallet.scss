@@ -1,0 +1,15 @@
+#add {
+  background: $v-home-bg;
+  color: $v-home-color;
+
+  .icon-single-wallet,
+  .icon-shared-wallet,
+  .icon-join-wallet,
+  .icon-import-wallet {
+    background-color: $v-accent-1-color;
+  }
+}
+
+@import "create/create";
+@import "import/import";
+@import "join/join";

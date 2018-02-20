@@ -1,0 +1,16 @@
+#preferences-wallet {
+  background: $v-settings-bg;
+  color: $v-settings-color;
+}
+
+@import "addresses/addresses";
+@import "advanced/advanced";
+@import "alias/alias";
+@import "color/color";
+@import "delete/delete";
+@import "export/export";
+@import "external-hardware/external-hardware";
+@import "history/history";
+@import "information/information";
+@import "partials/partials";
+@import "wallet-service-url/wallet-service-url";

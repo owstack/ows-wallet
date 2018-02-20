@@ -1,7 +1,7 @@
 # translation
 i18n/po/*.mo
 i18n/crowdin_api_key.txt
-src/js/translations.js
+app/shared/translations
 
 # cordova
 plugins
@@ -80,32 +80,26 @@ Session.vim
 .tags1
 
 # SASS
-src/sass/*.css
 .sass-cache
-src/sass/app
+app/shared/sass/overrides
 
 # www
 # All img's generated from resources.sketch
-www/css/*
-www/img/*
-www/lib/*
-www/js/*
-www/fonts
+# All content copied into place by grunt.
+www/*
 
 # templates
 /config.xml
 /ionic.config.json
-/appConfig.json
-externalServices.json
-src/js/appConfig.js
-src/js/externalServices.js
+/app.config.json
+app/app.config.js
+app/index.html
 chrome-app/manifest.json
-www/index.html
 
 # Generated resources
 resources/*
+app/assets/img
 
 # Firebase
 /GoogleService-Info.plist
 /google-services.json
-

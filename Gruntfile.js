@@ -11,9 +11,6 @@ module.exports = function(grunt) {
       appConfig: {
         command: 'node ./util/buildAppConfig.js'
       },
-      externalServices: {
-        command: 'node ./util/buildExternalServices.js'
-      },
       clean: {
         command: 'rm -Rf bower_components node_modules'
       },
@@ -78,19 +75,18 @@ module.exports = function(grunt) {
         },
       },
       sass: {
-        files: ['src/sass/**/**/*.scss'],
+        files: ['app/**/*.scss'],
         tasks: ['sass']
       },
       main: {
         files: [
-          'src/js/init.js',
-          'src/js/app.js',
-          'src/js/directives/*.js',
-          'src/js/filters/*.js',
-          'src/js/routes.js',
-          'src/js/services/**/*.js',
-          'src/js/models/*.js',
-          'src/js/controllers/**/*.js'
+          'app/app.init.js',
+          'app/app.js',
+          'app/shared/**/*.js',
+          'app/app.routes.js',
+          'app/services/**/*.js',
+          'app/models/*.js',
+          'app/components/**/*.js'
         ],
         tasks: ['concat:js']
       },
@@ -111,7 +107,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: ['src/sass/main.scss'],
+          src: ['app/shared/sass/main.scss'],
           dest: 'www/css/',
           ext: '.css'
         }]
@@ -147,18 +143,15 @@ module.exports = function(grunt) {
       },
       js: {
         src: [
-          'src/js/app.js',
-          'src/js/routes.js',
-          'src/js/directives/*.js',
-          'src/js/filters/*.js',
-          'src/js/models/*.js',
-          'src/js/services/**/*.js',
-          'src/js/controllers/**/*.js',
-          'src/js/translations.js',
-          'src/js/appConfig.js',
-          'src/js/externalServices.js',
-          'src/js/init.js',
-          'src/js/trezor-url.js',
+          'app/app.js',
+          'app/app.config.js',
+          'app/app.routes.js',
+          'app/shared/**/*.js',
+          'app/models/*.js',
+          'app/services/**/*.js',
+          'app/components/**/*.js',
+          'app/app.init.js',
+          'app/IndexCtrl.js',
           'bower_components/trezor-connect/connect.js',
           'node_modules/bezier-easing/dist/bezier-easing.min.js',
           'node_modules/cordova-plugin-qrscanner/dist/cordova-plugin-qrscanner-lib.min.js'
@@ -188,11 +181,8 @@ module.exports = function(grunt) {
       pot: {
         files: {
           'i18n/po/template.pot': [
-            'www/index.html',
-            'www/views/**/*.html',
-            'src/js/routes.js',
-            'src/js/services/*.js',
-            'src/js/controllers/**/*.js'
+            'app/**/*.html',
+            'app/**/*.js'
           ]
         }
       },
@@ -203,11 +193,46 @@ module.exports = function(grunt) {
           module: 'owsWalletApp'
         },
         files: {
-          'src/js/translations.js': ['i18n/po/*.po']
+          'app/shared/translations/translations.js': ['i18n/po/*.po']
         }
       },
     },
     copy: {
+      app_root: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/',
+        src: ['index.html', 'cordova.js'],
+        dest: 'www/'
+      },
+      app_views: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/components',
+        src: '**/*.html',
+        dest: 'www/views/'
+      },
+      app_shared: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/shared',
+        src: '**/*.html',
+        dest: 'www/shared/'
+      },
+      app_fonts: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/assets/fonts',
+        src: '**/*',
+        dest: 'www/fonts/'
+      },
+      app_imgs: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/assets/img',
+        src: '**/*',
+        dest: 'www/img/'
+      },
       ionic_fonts: {
         expand: true,
         flatten: true,
@@ -275,7 +300,21 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['nggettext_compile', 'exec:appConfig', 'exec:externalServices', 'browserify', 'sass', 'concat', 'copy:ionic_fonts', 'copy:ionic_js']);
+  grunt.registerTask('default', [
+    'nggettext_compile',
+    'exec:appConfig',
+    'sass',
+    'concat',
+    'copy:app_root',
+    'copy:app_views',
+    'copy:app_shared',
+    'copy:app_fonts',
+    'copy:app_imgs',
+    'copy:ionic_fonts',
+    'copy:ionic_js',
+    'browserify'
+  ]);
+
   grunt.registerTask('prod', ['default', 'uglify']);
   grunt.registerTask('translate', ['nggettext_extract']);
   grunt.registerTask('desktop', ['prod', 'nwjs', 'copy:linux', 'compress:linux']);

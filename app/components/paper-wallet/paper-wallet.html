@@ -1,0 +1,69 @@
+<ion-view id="paper-wallet" class="ows" hide-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Sweep Paper Wallet' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-buttons side="secondary">
+      <button ng-disabled="sending || balanceAtomic <= 0 || noMatchingWallet || balance == 0"
+        class="button button-clear" ng-click="sweepWallet()" translate>
+        Sweep
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content scroll="false">
+    <div ng-if="scanComplete">
+      <ion-list>
+        <ion-item class="tx-header">
+          <div class="tx-label">
+            <img src="img/icon-tx-sent-outline.svg">
+            <span translate>Sweeping balance</span>
+          </div>
+          <div class="tx-amount-wrapper">
+            <div class="tx-amount">{{balanceStr || '...'}}</div>
+            <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{balanceAlternativeStr || '...'}}</div>
+          </div>
+        </ion-item>
+        <ion-item class="has-label" copy-to-clipboard="{{address}}">
+          <span class="input-label" translate>From</span>
+          <div class="item item-sub item-icon-left icon-left-md">
+            <span class="ellipsis">{{address}}</span>
+            <i class="icon md-icon">
+              <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
+            </i>
+          </div>
+        </ion-item>
+        <div class="box-notification warning" ng-if="noMatchingWallet">
+          <h2 translate>No Available Wallets</h2>
+          <p translate>There are no wallets available to receive funds.</p>
+        </div>
+        <div ng-if="!noMatchingWallet">
+          <ion-item class="has-label has-click" ng-class="{'item-icon-right': !singleWallet}" ng-if="(balanceAtomic > 0)"
+            ng-click="showWalletSelector()">
+            <span class="input-label" translate>To</span>
+              <div class="item item-sub has-detail item-icon-left icon-left-md">
+                <i class="icon md-icon">
+                  <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+                </i>
+                {{wallet.name || wallet.id}}
+                <div class="item-detail">
+                  <span ng-if="!wallet.balanceHidden">{{wallet.status.totalBalanceStr}}</span>
+                  <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
+                  <span ng-if="wallet.n > 1">&middot; {{wallet.m}}-of-{{wallet.n}}</span>
+                </div>
+                <div class="item-note assertive" ng-if="wallet.error">{{wallet.error}}</div>
+              </div>
+            <i ng-if="!singleWallet" class="icon arrow-right"></i>
+          </ion-item>
+        </div>
+      </ion-list>
+    </div>
+    <button class="button button-standard button-primary m20t" ui-sref="tabs.scan" ng-if="scanComplete && (balanceAtomic == 0)">
+      <span translate>Scan another key</span>
+    </button>
+    <slide-to-accept-success show="sendStatus === 'success'" on-confirm="onSuccessConfirm()" hide-on-confirm="true">
+      <span translate>Funds transferred</span>
+    </slide-to-accept-success>
+  </ion-content>
+  <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets.value" on-select="onWalletSelect">
+  </wallet-menu>
+</ion-view>

@@ -1,0 +1,29 @@
+<ion-modal-view id="tx-search" class="ows" ng-style="{'background': wallet.background}">
+  <ion-header-bar align-title="center" class="bar bar-header">
+    <button class="button button-clear" ng-click="close()" translate>
+      Close
+    </button>
+    <div class="title" translate>
+      Search Transactions
+    </div>
+  </ion-header-bar>
+  <ion-content ng-controller="TxSearchCtrl" ng-init="search = ''">
+    <ion-list>
+      <ion-item class="item-input item-icon-left icon-left-sm">
+        <i class="icon ion-ios-search sm-icon"></i>
+        <input type="search" ng-model="search" ng-init="search = ''" ng-change="updateSearchInput(search)"
+          placeholder="{{'Search transactions' | translate}}">
+      </ion-item>
+    </ion-list>
+    <ion-list ng-show="txHistory[0]">
+      <div ng-repeat="btx in txHistorySearchResults track by $index" ng-click="openTx(btx)">
+        <span ng-include="'views/wallet/partials/history/history.html'"></span>
+      </div>
+      <ion-item class="item-fh item-no-bg text-center" ng-if="txHistoryShowMore">
+        <div>{{filteredTxHistory.length - txHistorySearchResults.length}} more</div>
+        <i class="icon ion-chevron-down"></i>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll ng-if="txHistoryShowMore" on-infinite="moreSearchResults()" distance="1%"></ion-infinite-scroll>
+  </ion-content>
+</ion-modal-view>

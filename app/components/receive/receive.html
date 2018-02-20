@@ -1,0 +1,80 @@
+<ion-view id="receive" class="ows" show-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Receive' | translate}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+      <button class="button-share ng-hide" ng-show="wallets[0] && showShareButton" ng-click="shareAddress()">
+        <i class="icon"
+          ng-class="{'ion-ios-upload-outline': showShareButton == 'iOS', 'ion-android-share-alt': showShareButton != 'iOS'}"></i>
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content scroll="false">
+    <ion-list>
+      <ion-item class="has-click item-icon-right compact" ng-if="wallets[0] && wallet && wallet.isComplete() && wallet.needsBackup"
+        ng-click="openBackupNeededModal()">
+        <div translate>
+          <i class="ion-alert-circled"></i>
+          Wallet not backed up
+        </div>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+    </ion-list>
+    <div ng-if="!hasWallets" ng-include="'views/receive/tips/start-receiving/start-receiving.html'"></div>
+    <div class="address" ng-if="wallets[0]">
+      <div class="address-info" class="text-center" ng-if="wallet && !wallet.isComplete()">
+        <div class="incomplete">
+          <div class="title">
+            <span translate>Incomplete wallet</span>
+          </div>
+          <div class="subtitle">
+            <span translate>
+              All signing devices must be added to this multisignature wallet before digital currency addresses can be created.
+            </span>
+          </div>
+          <button class="button button-standard button-primary" ng-click="goCopayers()" translate>Open wallet</button>
+        </div>
+      </div>
+      <div class="address-info has-action-selector" ng-if="wallet && wallet.isComplete()">
+        <div class="text-center" copy-to-clipboard="{{addr}}">
+          <span ng-show="shouldShowReceiveAddressFromHardware()">
+            <button class="button button-standard button-primary" ng-click="showReceiveAddressFromHardware()">
+              <span translate>Show address</span>
+            </button>
+          </span>
+          <qrcode ng-if="addr" size="220" data="{{protocol}}{{addr}}" color="#444455"></qrcode>
+          <div class="address-label">
+            <span class="ellipsis">{{addr}}</span>
+            <ion-spinner ng-show="!addr" icon="ios"></ion-spinner>
+          </div>
+        </div>
+        <ion-list>
+          <ion-item class="has-detail item-icon-left icon-left-md item-icon-right" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet"
+            ng-class="{'no-arrow': wallets.length <= 1}">
+            <i class="icon md-icon">
+              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+            </i>
+            <div>{{wallet.name || wallet.id}}</div>
+            <div class="item-detail">
+              <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr}} </span>
+              <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
+              <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
+              <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
+            </div>
+            <i class="icon arrow-right"></i>
+          </ion-item>
+          <ion-item ng-show="addr" class="item-icon-right" ng-click="requestSpecificAmount()">
+            <div translate>Request Specific Amount</div>
+            <i class="icon arrow-right"></i>
+          </ion-item>
+          <ion-item class="item-divider"></ion-item>
+          <ion-item ng-show="addr" class="has-click is-button" ng-click="setAddress(true)">
+            <div translate>Generate New Address</div>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+  </ion-content>
+  <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"
+    on-select="onWalletSelect">
+  </wallet-menu>
+</ion-view>

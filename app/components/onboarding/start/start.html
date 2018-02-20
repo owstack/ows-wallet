@@ -1,0 +1,20 @@
+<ion-view id="onboard-start" class="ows onboarding">
+  <ion-content ng-init="createProfile()" scroll="false">
+    <img src='img/onboarding/start.svg'>
+    <div class="onboard-text">
+      <div class="onboard-topic light" translate>
+        Welcome to the digital currency revolution.
+      </div>
+    </div>
+    <div id="cta-buttons">
+        <button class="button button-standard button-primary" id="get-started" href ui-sref="onboarding.tour" translate-context="button"
+          translate>
+          Get started
+        </button>
+        <button class="button button-standard button-secondary button-clear" id="restore" href
+          ui-sref="onboarding.import({'fromOnboarding':true})" translate>
+          Restore from backup
+        </button>
+    </div>
+  </ion-content>
+</ion-view>

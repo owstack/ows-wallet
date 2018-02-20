@@ -1,0 +1,55 @@
+<ion-view id="copayers-invitation" class="ows" hide-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+    <ion-nav-title>{{wallet.name}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+      <button class="button-share ng-hide" ng-show="isCordova && secret" ng-click="shareSecret()">
+        <i class="icon" ng-class="{'ion-ios-upload-outline': shareIcon == 'iOS', 'ion-android-share-alt': shareIcon != 'iOS'}"></i>
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-show="!wallet.notAuthorized">
+      <ion-list class="text-center">
+        <ion-item class="item-divider has-label" translate>
+          Share this invitation with your copayers
+        </ion-item>
+        <ion-item class="item-fh text-center" copy-to-clipboard="{{secret}}">
+          <qrcode size="220" error-correction-level="L" data="{{secret}}" color="#444455"></qrcode>
+          <div ng-show="!secret" style="position:relative; top:-226px; height:0px">
+            <div style="height:220px; width:220px; margin:auto; background: white">
+              <ion-spinner icon="ios"></ion-spinner>
+            </div>
+          </div>
+          <div class="copayers-secret">
+            {{secret || ('Loading...' | translate)}}
+          </div>
+        </ion-item>
+        <ion-item class="item-divider"></ion-item>
+        <ion-item class="has-click is-button assertive" ng-if="secret" ng-click="showDeletePopup()">
+          <span translate>Cancel invitation</span>
+        </ion-item>
+      </ion-list>
+      <div ng-show="secret">
+        <div class="box-notification warning" ng-show="wallet.notAuthorized">
+          <h2 translate>Wallet incomplete and broken</h2>
+          <p translate>Delete it and create a new one.</p>
+        </div>
+        <div class="card">
+          <ion-item class="item-heading">
+            <span translate>Waiting for copayers</span>
+            <span class="text-disabled right" translate>[ {{wallet.m}}-of-{{wallet.n}} ]</span>
+          </ion-item>
+          <ion-list>
+            <div ng-include="'views/wallet/copayers/partials/copayers.html'"></div>
+            <ion-item ng-if="!wallet.isComplete()" class="item-icon-left">
+              <i class="icon ion-loop"></i>
+              {{'Waiting...'|translate}}
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

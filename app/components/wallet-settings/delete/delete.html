@@ -1,0 +1,20 @@
+<ion-view id="preferences-delete" class="ows" how-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Delete Wallet' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-include="'views/wallet-settings/partials/wallet-item/wallet-item.html'"></div>
+    <ion-list>
+      <ion-item class="item-fh text-center">
+        <h1 class="text-danger" translate>Warning!</h1>
+        <div translate>Permanently delete this wallet.</div>
+        <div translate>THIS ACTION CANNOT BE REVERSED.</div>
+      </ion-item>
+    </ion-list>
+    <button class="button button-standard button-assertive m20t" ng-click="showDeletePopup()">
+      {{'Delete' | translate}} {{walletName}}
+    </button>
+  </ion-content>
+</ion-view>

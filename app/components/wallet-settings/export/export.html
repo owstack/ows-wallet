@@ -1,0 +1,20 @@
+<ion-view id="export" class="ows" show-tabs>
+  <ion-nav-bar class="bar bar-header">
+    <ion-nav-title>{{'Export wallet' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div ng-include="'views/wallet-settings/partials/wallet-item/wallet-item.html'"></div>
+    <div class="row text-center top-tabs">
+      <div class="col" ng-click="file.value = true" ng-style="file.value && {'border-bottom-style': 'solid'}">
+        <span class="" translate>File/Text</span>
+      </div>
+      <div class="col" ng-click="generateQrCode();" ng-style="!file.value && {'border-bottom-style': 'solid'}">
+        <span class="" translate>QR Code</span>
+      </div>
+    </div>
+    <div ng-include="'views/wallet-settings/export/file/file.html'" ng-if="file.value"></div>
+    <div ng-include="'views/wallet-settings/export/qr-code/qr-code.html'" ng-if="!file.value"></div>
+  </ion-content>
+</ion-view>
