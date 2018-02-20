@@ -34,7 +34,7 @@
           <button class="button button-standard button-primary" ng-click="goCopayers()" translate>Open wallet</button>
         </div>
       </div>
-      <div class="address-info has-action-selector" ng-if="wallet && wallet.isComplete()">
+      <div class="address-info" ng-if="wallet && wallet.isComplete()">
         <div class="text-center" copy-to-clipboard="{{addr}}">
           <span ng-show="shouldShowReceiveAddressFromHardware()">
             <button class="button button-standard button-primary" ng-click="showReceiveAddressFromHardware()">

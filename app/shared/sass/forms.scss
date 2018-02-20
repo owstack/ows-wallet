@@ -296,48 +296,6 @@ p {
 }
 
 /*
- *  Action selector is used to present an action sheet
- */
-
-.action-selector {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: $v-action-selector-height;
-  background: $v-action-selector-bg !important;
-  padding: 0;
-  z-index: 2;
-  cursor: pointer;
-  cursor: hand;
-
-  &.no-arrow:before {
-    content: "";
-  }
-
-  &:before {
-    content: "\f3d8";
-    font-family: "Ionicons";
-    font-size: 24px;
-    opacity: 0.4;
-    right: 15px;
-    z-index: 3;
-    @include absolute-vertical-center();
-  }
-
-  &.list .item {
-    background: none !important;
-
-    &:before {
-      background: none !important;
-    }
-  }
-}
-
-.has-action-selector {
-  padding-bottom: $v-action-selector-height;
-}
-
-/*
  * Transaction detail header
  */
 

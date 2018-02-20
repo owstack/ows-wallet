@@ -217,7 +217,7 @@ For more information regarding how addresses are generated using this procedure,
 
 The wallet uses BIP39 mnemonics for backing up wallets.  The BIP44 standard is used for wallet address derivation. Multisig wallets use P2SH addresses, while non-multisig wallets use P2PKH.
 
-Information about backup and recovery procedures is available at: https://github.com/owstack/ows-wallet/blob/master/backupRecovery.md
+Information about backup and recovery procedures is available at: https://github.com/owstack/ows-wallet/blob/master/doc/backupRecovery.md
 
 It is possible to recover funds from a wallet without using the wallet app or the wallet service, check the [OWS Wallet Recovery Tool](https://github.com/owstack/ows-wallet-recovery).
 
@@ -270,7 +270,7 @@ When creating or joining a wallet, the app will ask for two public keys for the 
 
 Every time you need to sign a transaction, the device will be needed to perform the signature. Follow the on screen instructions after clicking the `send` or `accept` buttons.
 
-Finally, in case you lose the device and you have the 24 word seed for the device, you can recover access to your funds using the wallet, see: https://github.com/owstack/ows-wallet/blob/master/backupRecovery.md#hardware-wallets
+Finally, in case you lose the device and you have the 24 word seed for the device, you can recover access to your funds using the wallet, see: https://github.com/owstack/ows-wallet/blob/master/doc/backupRecovery.md#hardware-wallets
 
 ## Translations
 The app uses standard gettext PO files for translations and [Crowdin](https://crowdin.com/project/ows-wallet) as the front-end tool for translators.  To join our team of translators, please create an account at [Crowdin](https://crowdin.com) and translate the documentation and application text into your native language.
