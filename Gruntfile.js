@@ -302,9 +302,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', [
     'nggettext_compile',
-    'exec:appConfig',
     'sass',
-    'concat',
+    'exec:appConfig',
     'copy:app_root',
     'copy:app_views',
     'copy:app_shared',
@@ -312,7 +311,8 @@ module.exports = function(grunt) {
     'copy:app_imgs',
     'copy:ionic_fonts',
     'copy:ionic_js',
-    'browserify'
+    'browserify',
+    'concat'
   ]);
 
   grunt.registerTask('prod', ['default', 'uglify']);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function($scope, $state, $log, $ionicConfig, $ionicNativeTransitions, profileService, uxLanguageService, $stateParams, startupService) {
+angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function($scope, $state, $log, $ionicConfig, $ionicModal, /*$ionicNativeTransitions,*/ profileService, uxLanguageService, $stateParams, startupService) {
 
   $scope.$on("$ionicView.afterEnter", function() {
     startupService.ready();
@@ -16,7 +16,6 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
     };
     $scope.backedUp = ($stateParams.backedUp == 'false' ? false : true);
     $scope.resume = $stateParams.resume || false;
-    $scope.shrinkView = false;
   });
 
   $scope.$on("$ionicView.enter", function() {
@@ -41,16 +40,24 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
     });
   };
 
-  $scope.toggleTerms = function() {
-    $scope.shrinkView = !$scope.shrinkView;
-  }
+  $scope.openTermsModal = function() {
+    $ionicModal.fromTemplateUrl('views/onboarding/disclaimer/terms-of-use/terms-of-use.html', {
+      scope: $scope,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.termsOfUseModal = modal;
+      $scope.termsOfUseModal.show();
+    });
+  };
 
   $scope.goBack = function() {
-    $ionicNativeTransitions.stateGo('onboarding.backup-request', {
+//    $ionicNativeTransitions.stateGo('onboarding.backup-request', {
+    $state.go('onboarding.backup-request', {
       walletId: $stateParams.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'right'
+//    }, {}, {
+//      type: 'slide',
+//      direction: 'right'
     });
   }
 

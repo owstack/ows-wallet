@@ -33,7 +33,9 @@ ion-tabs.ion-tabs-transparent {
   background: none transparent;
 }
 
-ion-nav-bar.hide { display: block !important; }
+ion-nav-bar.hide {
+  display: block !important;
+}
 
 // .placeholder-icon padding cannot be modified by a variable.
 $placeholder-icon-padding: 10px;
@@ -54,4 +56,9 @@ $placeholder-icon-padding: 10px;
 // We'd like to diverge from the standard ionic formula for left-right card margins.
 .card {
   margin: ($content-padding * 2) 14px;
+}
+
+// Move nav bar right side buttons away from the edge.
+.bar .buttons-right span {
+  margin-right: 10px;
 }

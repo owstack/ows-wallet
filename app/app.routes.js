@@ -14,7 +14,7 @@ if (window && window.navigator) {
 }
 
 //Setting up route
-angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
+angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, /*$ionicNativeTransitionsProvider*/) {
     $urlRouterProvider.otherwise('/starting');
 
     // NO CACHE
@@ -23,7 +23,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     // TABS BOTTOM
     $ionicConfigProvider.tabs.position('bottom');
 
-    // NAV TITTLE CENTERED
+    // NAV TITLE CENTERED
     $ionicConfigProvider.navBar.alignTitle('center');
 
     // NAV BUTTONS ALIGMENT
@@ -39,7 +39,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
     // USE NATIVE SCROLLING
     $ionicConfigProvider.scrolling.jsScrolling(false);
-
+/*
     $ionicNativeTransitionsProvider.setDefaultOptions({
       duration: 200, // in milliseconds (ms), default 400,
       slowdownfactor: 2, // overlap views (higher number is more) or no overlap (1), default 4
@@ -50,7 +50,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
       triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option
       backInOppositeDirection: true // Takes over default back transition and state back transition to use the opposite direction transition to go back
     });
-
+*/
     $logProvider.debugEnabled(true);
     $provide.decorator('$log', ['$delegate', 'platformInfoService',
       function($delegate, platformInfoService) {
@@ -246,14 +246,14 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
        */
 
       .state('tabs', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/tabs',
         abstract: true,
         controller: 'TabsCtrl',
         templateUrl: 'views/layout/tabs/tabs.html'
       })
       .state('tabs.home', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/home/:fromOnboarding',
         views: {
           'tab-home': {
@@ -267,7 +267,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         }
       })
       .state('tabs.receive', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/receive/:walletId',
         views: {
           'tab-receive': {
@@ -277,7 +277,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         }
       })
       .state('tabs.scan', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/scan',
         views: {
           'tab-scan': {
@@ -287,7 +287,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         }
       })
       .state('scanner', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/scanner',
         params: {
           passthroughMode: null,
@@ -296,7 +296,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         templateUrl: 'views/scan/scan.html'
       })
       .state('tabs.send', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/send/:walletId',
         views: {
           'tab-send': {
@@ -306,7 +306,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         }
       })
       .state('tabs.settings', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/settings',
         views: {
           'tab-settings': {
@@ -816,7 +816,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         template: '<ion-nav-view name="onboarding"></ion-nav-view>'
       })
       .state('onboarding.start', {
-        nativeTransitions: null,
+//        nativeTransitions: null,
         url: '/onboarding/start',
         views: {
           'onboarding': {
@@ -1005,6 +1005,11 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     uxLanguageService.init();
 
     $ionicPlatform.ready(function() {
+//      ionic.Platform.fullScreen();
+//      if (window.StatusBar) {
+//        StatusBar.hide();
+//      }
+
       if (screen.width < 768 && platformInfoService.isCordova)
         screen.lockOrientation('portrait');
 

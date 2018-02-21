@@ -146,7 +146,6 @@ $v-button-assertive-outline-active-color:            $v-white-color !default;
 
 /* Onboarding */
 
-$v-onboarding-pane-bg:                               $v-primary-color !default;
 $v-onboarding-bg:                                    radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
 $v-onboarding-color:                                 $v-white-color !default;
 $v-onboarding-bar-header-color:                      $v-bar-header-color !default;
@@ -322,10 +321,7 @@ $v-popup-head-border:                                none !default;
 $v-popup-title-color:                                $v-dark-gray !default;
 $v-popup-sub-title-color:                            $v-dark-gray !default;
 
-/* Action selector and action sheet */
-
-$v-action-selector-bg:                               linear-gradient(to bottom, $v-accent-2-color 0%, $v-black-color 100%) !default;
-$v-action-selector-height:                           80px !default;
+/* Action sheet */
 
 $v-action-sheet-bg:                                  $v-black-transparent-darker !default;
 $v-action-sheet-border-color:                        $v-white-transparent-light !default;

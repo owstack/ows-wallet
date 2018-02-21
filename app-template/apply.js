@@ -96,6 +96,11 @@ fs.writeFileSync('../app.config.json', configBlob, 'utf8');
 fs.copySync(configDir + '/GoogleService-Info.plist', '../GoogleService-Info.plist');
 fs.copySync(configDir + '/google-services.json', '../google-services.json');
 
+// Create www directory
+if (!fs.existsSync('../www')) {
+  fs.mkdirSync('../www');
+}
+
 // Move assets
 copyDir(configDir + '/sass', '../app/shared/sass/overrides');
 copyDir('../resources/' + configDir + '/img', '../app/assets/img');

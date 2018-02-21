@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, $ionicNativeTransitions, addressBookService, profileService, lodash, $state, walletService, incomingDataService, popupService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, /*$ionicNativeTransitions,*/ addressBookService, profileService, lodash, $state, walletService, incomingDataService, popupService, gettextCatalog, networkService) {
 
   var originalList;
   var CONTACTS_SHOW_LIMIT;
@@ -234,11 +234,12 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
     // main settings view being shown when using tab bar).
     delete $ionicHistory.viewHistory().histories[$ionicHistory.currentHistoryId()];
 
-    $ionicNativeTransitions.stateGo('tabs.wallet', {
+//    $ionicNativeTransitions.stateGo('tabs.wallet', {
+    $state.go('tabs.wallet', {
       walletId: $scope.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'right'
+//    }, {}, {
+//      type: 'slide',
+//      direction: 'right'
     });
   };
 

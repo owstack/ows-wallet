@@ -62,7 +62,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     };
 
     function openConfirmBackupModal() {
-      $ionicModal.fromTemplateUrl('views/backup//confirm-backup/confirm-backup.html', {
+      $ionicModal.fromTemplateUrl('views/backup/confirm-backup/confirm-backup.html', {
         scope: $scope,
         backdropClickToClose: false,
         hardwareBackButtonClose: false

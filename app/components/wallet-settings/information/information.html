@@ -1,5 +1,5 @@
 <ion-view id="preferences-information" class="ows" show-tabs>
-  <ion-nav-bar class="bar bar-header">
+  <ion-nav-bar class="bar">
     <ion-nav-title>{{'Wallet Information' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
@@ -8,27 +8,25 @@
     <ion-list>
       <div ng-include="'views/wallet-settings/partials/wallet-item/wallet-item.html'"></div>
       <ion-item>
-        <div translate>
-          Wallet Name (at creation)
-        </div>
+        <div translate>Name (at creation)</div>
         <div class="item-note">
           {{walletName}}
         </div>
       </ion-item>
       <ion-item class="has-click" copy-to-clipboard="{{walletId}}">
-        <div translate>Wallet Id</div>
+        <div translate>Id</div>
         <div class="item-note">
           {{walletId}}
         </div>
       </ion-item>
       <ion-item>
-        <div translate>Wallet Configuration (m-n)</div>
+        <div translate>Configuration (m-n)</div>
         <div class="item-note">
           {{M}}-{{N}}
         </div>
       </ion-item>
       <ion-item>
-        <div translate>Wallet Network</div>
+        <div translate>Network</div>
         <div class="item-note">
           {{networkLabel}}
         </div>

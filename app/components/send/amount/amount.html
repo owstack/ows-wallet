@@ -1,12 +1,10 @@
 <ion-view id="amount" class="ows" hide-tabs>
-  <ion-nav-bar class="bar bar-header">
+  <ion-nav-bar class="bar">
     <ion-nav-title>{{'Enter amount' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
-      <button class="button button-nav-bar button-clear" ng-click="openOptionsMenu()" ng-if="allowOptionsMenu">
-        <i class="icon ion-ios-more"></i>
-      </button>
+      <button class="button button-nav-bar button-menu" ng-click="openOptionsMenu()" ng-if="allowOptionsMenu"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">

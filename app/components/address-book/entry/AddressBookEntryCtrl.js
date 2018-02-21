@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', function($rootScope, $scope, $state, $log, $timeout, $ionicHistory, $ionicNativeTransitions, lodash, addressBookService, popupService, gettextCatalog, networkService, profileService) {
+angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', function($rootScope, $scope, $state, $log, $timeout, $ionicHistory, /*$ionicNativeTransitions,*/ lodash, addressBookService, popupService, gettextCatalog, networkService, profileService) {
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     addressBookService.get(data.stateParams.id, function(err, entry) {
@@ -41,11 +41,12 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', fu
   };
 
   $scope.edit = function() {
-    $ionicNativeTransitions.stateGo('tabs.address-book.edit', {
+//    $ionicNativeTransitions.stateGo('tabs.address-book.edit', {
+    $state.go('tabs.address-book.edit', {
       id: $scope.addressbookEntry.id
-    }, {}, {
-      type: 'slide',
-      direction: 'up'
+//    }, {}, {
+//      type: 'slide',
+//      direction: 'up'
     });
   };
 

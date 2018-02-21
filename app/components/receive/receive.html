@@ -1,14 +1,13 @@
 <ion-view id="receive" class="ows" show-tabs>
-  <ion-nav-bar class="bar bar-header">
+  <ion-nav-bar class="bar">
     <ion-nav-title>{{'Receive' | translate}}</ion-nav-title>
     <ion-nav-buttons side="secondary">
-      <button class="button-share ng-hide" ng-show="wallets[0] && showShareButton" ng-click="shareAddress()">
-        <i class="icon"
-          ng-class="{'ion-ios-upload-outline': showShareButton == 'iOS', 'ion-android-share-alt': showShareButton != 'iOS'}"></i>
+      <button class="button button-nav-bar" ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share': showShareButton != 'iOS'}"
+        ng-show="wallets[0] && showShareButton" ng-click="shareAddress()">
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content scroll="false">
+  <ion-content>
     <ion-list>
       <ion-item class="has-click item-icon-right compact" ng-if="wallets[0] && wallet && wallet.isComplete() && wallet.needsBackup"
         ng-click="openBackupNeededModal()">

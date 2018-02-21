@@ -1,13 +1,11 @@
 <ion-modal-view id="tx-details" class="ows" ng-controller="TxpDetailsCtrl" ng-init="init()">
   <ion-header-bar align-title="center" class="bar bar-header">
-    <button class="button button-clear" ng-click="close()">
-      Close
+    <div class="title" translate>Payment Proposal</div>
+    <button class="button button-nav-bar" ng-click="close()">
+      {{'Close' | translate}}
     </button>
-    <div class="title" translate>
-      Payment Proposal
-    </div>
-    <button class="button button-clear" ng-click="reject()" ng-disabled="loading" ng-if="isShared && tx.pendingForUs">
-      Reject
+    <button class="button button-nav-bar" ng-click="reject()" ng-disabled="loading" ng-if="isShared && tx.pendingForUs">
+      {{'Reject' | translate}}
     </button>
   </ion-header-bar>
   <ion-content ng-init="updateCopayerList()" ng-class="{'add-bottom-for-cta': tx.pendingForUs && canSign && !paymentExpired}">

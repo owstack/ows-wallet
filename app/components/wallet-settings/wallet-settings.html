@@ -1,12 +1,10 @@
 <ion-view id="preferences-wallet" class="ows" ng-attr-show-tabs="{{hideTabs || undefined}}" ng-attr-hide-tabs="{{!hideTabs || undefined}}">
-  <ion-nav-bar class="bar bar-header">
+  <ion-nav-bar class="bar">
     <ion-nav-title>{{'Wallet Settings' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="primary">
-      <button class="button button-nav-bar button-clear" ng-show="showBackButton" ng-click="goBackToWallet()">
-        <i class="icon ion-ios-arrow-left"></i>
-      </button>
+      <button class="button button-nav-bar button-back" ng-show="showBackButton" ng-click="goBackToWallet()"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>

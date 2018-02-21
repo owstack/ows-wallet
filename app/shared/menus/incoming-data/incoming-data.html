@@ -1,6 +1,7 @@
 <action-sheet id="incoming-data-menu" class="ows" show="showMenu">
+  <!-- URL -->
   <div ng-if="type === 'url'">
-    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <i class="button-close" ng-click="hide()"></i>
     <div class="header" translate>Website</div>
       <ion-list>
         <ion-item class="item-icon-left">
@@ -20,8 +21,9 @@
       </ion-list>
     </div>
   </div>
+  <!-- Address -->
   <div ng-if="type === 'cryptoAddress'">
-    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <i class="button-close" ng-click="hide()"></i>
     <div class="header">{{currencyLabel}} address</div>
       <ion-list>
         <ion-item class="item-icon-left">
@@ -53,8 +55,9 @@
       </ion-list>
     </div>
   </div>
+  <!-- Plain text -->
   <div ng-if="type === 'text'">
-    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <i class="button-close" ng-click="hide()"></i>
     <div class="header">Text</div>
       <ion-list>
         <ion-item>
@@ -69,8 +72,9 @@
       </ion-list>
     </div>
   </div>
+  <!-- Private key (WIP) -->
   <div ng-if="type === 'privateKey'">
-    <i class="close-button ion-ios-close-empty" ng-click="hide()"></i>
+    <i class="button-close" ng-click="hide()"></i>
     <div class="header">Private Key</div>
       <ion-list>
         <ion-item>

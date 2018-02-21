@@ -66,8 +66,9 @@
     <plugin name="cordova-plugin-ionic-webview" spec="1.1.16" />
     <plugin name="cordova-custom-config" spec="4.0.2" />
     <plugin name="cordova-plugin-fcm" spec="https://github.com/cmgustavo/cordova-plugin-fcm.git" />
+<!--
     <plugin name="com.telerik.plugins.nativepagetransitions" source="npm" />
-
+-->
     <!-- Supported Platforms -->
     <engine name="ios" spec="4.5.3" />
     <engine name="android" spec="6.4.0" />

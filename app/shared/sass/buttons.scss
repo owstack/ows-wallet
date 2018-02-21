@@ -6,11 +6,63 @@
   display: block;
 }
 
-.button-nav-bar {
-  border: 0;
+.bar.bar-header .button {
+  color: $v-bar-header-button-color !important;
+  background: none;
+  border: none;
+
   .icon:before {
-    color: $v-bar-header-button-color;
     font-size: 32px !important;
+  }
+
+  &.button-nav-bar {
+    // For modal header bars
+    &.button-right {
+      position: absolute;
+      right: 5px;
+    }
+
+    &.button-back:before {
+      content: "\f3d2";
+      font-family: "Ionicons";
+      font-size: 32px;
+    }
+
+    &.button-close:before {
+      content: "\f404";
+      font-family: "Ionicons";
+      font-size: 42px;
+    }
+
+    &.button-menu:before {
+      content: "\f46a";
+      font-family: "Ionicons";
+      font-size: 42px;
+    }
+
+    &.button-share:before {
+      content: "\f3ac";
+      font-family: "Ionicons";
+      font-size: 42px;
+    }
+
+    &.button-share-ios:before {
+      content: "\f4ca";
+      font-family: "Ionicons";
+      font-size: 32px;
+    }
+
+    &.button-refresh:before {
+      content: "\f49a";
+      font-family: "Ionicons";
+      font-size: 42px;
+    }
+
+    &.button-search:before {
+      content: "\f4a4";
+      font-family: "Ionicons";
+      font-size: 42px;
+    }
   }
 }
 

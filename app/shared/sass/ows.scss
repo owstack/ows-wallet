@@ -421,6 +421,10 @@
 	      }
 	    }
 	  }
+
+	  .item-checkbox {
+			padding-left: 60px;
+		}
 	}
 
   /*
@@ -516,10 +520,6 @@
     .checkbox-icon:before {
       background: $v-checkbox-bg;
     }
-  }
-
-  .item-checkbox .item-content {
-  	padding-left: 38px;
   }
 
 	.item-radio {

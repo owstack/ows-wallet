@@ -1,18 +1,10 @@
 <ion-modal-view id="wallet-balance" class="ows" ng-style="{'background': wallet.background}">
   <ion-header-bar align-title="center">
-    <button class="button button-clear" ng-click="close()" translate>
-      Close
+    <div class="title">{{wallet.name}}</div>
+    <button class="button button-nav-bar" ng-click="close()">
+      {{'Close' | translate}}
     </button>
-    <div class="title">
-      {{wallet.name}}
-    </div>
-    <div class="buttons buttons-right header-item">
-      <span class="secondary-buttons">
-        <button class="button button-clear" ng-click="updateAll(true)">
-          <i class="icon ion-ios-refresh-empty"></i>
-        </button>
-    </span>
-  </div>
+    <button class="button button-nav-bar button-refresh button-right" ng-click="updateAll(true)"></button>
   </ion-header-bar>
   <ion-content>
     <div class="card">
