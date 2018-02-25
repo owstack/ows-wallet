@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('HomeCtrl',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService, $ionicSideMenuDelegate, navigationService) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -43,6 +43,8 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     });
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
+      $scope.usingSideMenu = navigationService.usingSideMenu;
+
       if (!$scope.homeTip) {
         storageService.getHomeTipAccepted(function(error, value) {
           $scope.homeTip = (value == 'accepted') ? false : true;
@@ -167,7 +169,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       wallet = profileService.getWallet(n.walletId);
 
       if (n.txid) {
-        $state.transitionTo('tabs.wallet.tx-details', {
+        $state.transitionTo($rootScope.sref('wallet.tx-details'), {
           txid: n.txid,
           walletId: n.walletId
         });
@@ -194,22 +196,22 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
 
     $scope.openWallet = function(wallet) {
       if (!wallet.isComplete()) {
-        return $state.go('tabs.copayers', {
+        return $state.go($rootScope.sref('copayers'), {
           walletId: wallet.credentials.walletId
         });
       }
 
-      $state.go('tabs.wallet', {
+      $state.go($rootScope.sref('wallet'), {
         walletId: wallet.credentials.walletId
       });
     };
 
     $scope.goToAddWallet = function() {
-      $state.go('tabs.add');
+      $state.go($rootScope.sref('add'));
     };
 
     $scope.goToAllWallets = function() {
-      $state.go('tabs.home.all-wallets', {
+      $state.go($rootScope.sref('home.all-wallets'), {
         wallets: $scope.wallets,
         openWallet: $scope.openWallet
       });
@@ -336,6 +338,10 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
 
     $scope.isTestnet = function(networkURI) {
       return networkService.isTestnet(networkURI);
+    };
+
+    $scope.toggleSideBar = function() {
+      $ionicSideMenuDelegate.toggleLeft();
     };
 
     $scope.toggleLayout = function() {

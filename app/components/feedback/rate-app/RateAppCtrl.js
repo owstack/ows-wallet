@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($scope, $state, $stateParams, $window, lodash, externalLinkService, platformInfoService, feedbackService, ongoingProcessService, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($rootScope, $scope, $state, $stateParams, $window, lodash, externalLinkService, platformInfoService, feedbackService, ongoingProcessService, configService, appConfigService) {
   $scope.score = parseInt($stateParams.score);
   var isAndroid = platformInfoService.isAndroid;
   var isIOS = platformInfoService.isIOS;
@@ -23,14 +23,14 @@ angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($s
         $log.warn('Could not send feedback.');
       }
     });
-    $state.go('tabs.rate.complete', {
+    $state.go($rootScope.sref('rate.complete'), {
       score: $stateParams.score,
       skipped: true
     });
   };
 
   $scope.sendFeedback = function() {
-    $state.go('tabs.rate.send', {
+    $state.go($rootScope.sref('rate.send'), {
       score: $scope.score
     });
   };
@@ -44,7 +44,7 @@ angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($s
     }
 
     externalLinkService.open(url);
-    $state.go('tabs.rate.complete', {
+    $state.go($rootScope.sref('rate.complete'), {
       score: $stateParams.score,
       skipped: true,
       rated: true

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, $ionicModal, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService) {
+angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, $ionicModal, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;
@@ -11,7 +11,6 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
   function resetValues() {
     $scope.loading = false;
     $scope.showInfo = false;
-    $scope.allAddressesView = false;
     $scope.latestUnused = $scope.latestWithBalance = null;
     $scope.viewAll = {
       value: false
@@ -129,9 +128,9 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
     var fromView = $ionicHistory.currentStateName();
     var path;
     if (fromView.indexOf('settings') !== -1) {
-      path = 'tabs.settings.all-addresses';
+      path = $rootScope.sref('settings.all-addresses');
     } else {
-      path = 'tabs.wallet.all-addresses';
+      path = $rootScope.sref('wallet.all-addresses');
     }
     $state.go(path, {
       walletId: $scope.wallet.id
@@ -193,13 +192,18 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
   };
 
   function isCachedWallet(walletId) {
-    if (cachedWallet && cachedWallet == walletId) return true;
-    else return false;
+    if (cachedWallet && cachedWallet == walletId) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   $scope.$on("$ionicView.afterEnter", function(event, data) {
-    $scope.allAddressesView = data.stateName == 'tabs.receive.allAddresses' ? true : false;
-    if (!isCachedWallet($stateParams.walletId)) $scope.init();
-    else $log.debug('Addresses cached for Wallet:', $stateParams.walletId);
+    if (!isCachedWallet($stateParams.walletId)) {
+      $scope.init();
+    } else {
+      $log.debug('Addresses cached for Wallet:', $stateParams.walletId);
+    }
   });
 });

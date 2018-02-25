@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', function($scope, /*$ionicNativeTransitions,*/ $timeout, $stateParams, $ionicModal) {
+angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', function($rootScope, $scope, $ionicNativeTransitions, $timeout, $state, $stateParams, $ionicModal) {
 
   $scope.walletId = $stateParams.walletId;
-  $scope.fromState = $stateParams.from == 'onboarding' ? $stateParams.from + '.backupRequest' : $stateParams.from;
+  $scope.fromState = $stateParams.from == 'onboarding' ? $stateParams.from + '.backup-request' : $stateParams.from;
   $scope.toState = $stateParams.from + '.backup';
 
   $scope.openPopup = function() {
@@ -19,24 +19,24 @@ angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', funct
     $scope.close = function() {
       $scope.warningModal.remove();
       $timeout(function() {
-//        $ionicNativeTransitions.stateGo($scope.toState, {
-        $state.go($scope.toState, {
+        $ionicNativeTransitions.stateGo($rootScope.sref($scope.toState), {
+//        $state.go($scope.toState, {
           walletId: $scope.walletId
-//        }, {}, {
-//          type: 'slide',
-//          direction: 'right'
+        }, {}, {
+          type: 'slide',
+          direction: 'right'
         });
       }, 200);
     };
   }
 
   $scope.goBack = function() {
-//    $ionicNativeTransitions.stateGo($scope.fromState, {
-    $state.go($scope.fromState, {
+    $ionicNativeTransitions.stateGo($rootScope.sref($scope.fromState), {
+//    $state.go($scope.fromState, {
       walletId: $scope.walletId
-//    }, {}, {
-//      type: 'slide',
-//      direction: 'right'
+    }, {}, {
+      type: 'slide',
+      direction: 'right'
     });
   };
 

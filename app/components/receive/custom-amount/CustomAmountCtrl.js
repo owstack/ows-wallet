@@ -13,15 +13,13 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
   }
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    var walletId = data.stateParams.id;
-
+    var walletId = data.stateParams.walletId;
     if (!walletId) {
       showErrorAndBack('Error', 'No wallet selected');
       return;
     }
       
     $scope.showShareButton = platformInfoService.isCordova ? (platformInfoService.isIOS ? 'iOS' : 'Android') : null;
-
     $scope.wallet = profileService.getWallet(walletId);
 
     setProtocol();

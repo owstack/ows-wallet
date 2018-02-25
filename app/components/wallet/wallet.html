@@ -1,4 +1,4 @@
-<ion-view id="wallet-details" class="ows" hide-tabs ng-style="{'background': wallet.background}">
+<ion-view id="wallet" class="ows" hide-tabs ng-style="{'background': wallet.background}">
   <ion-nav-bar>
     <ion-nav-title>{{wallet.name}}</ion-nav-title>
     <ion-nav-back-button>
@@ -32,13 +32,13 @@
       </div>
       <ion-list>
         <ion-item class="has-click item-icon-right compact" ng-if="wallet.needsBackup"
-          ui-sref="tabs.wallet.backup-warning({from: 'tabs.wallet'})">
+          ui-sref="{{sref('wallet.backup-warning')}}({from: 'wallet', walletId: wallet.id})">
           <i class="ion-alert-circled"></i>
           <span translate>Wallet not backed up</span>
           <i class="icon arrow-right"></i>
         </ion-item>
         <ion-item class="has-click item-icon-right compact" ng-if="lowUtxosWarning"
-          ui-sref="tabs.wallet.addresses({walletId:wallet.id,from: 'tabs.wallet'})">
+          ui-sref="{{sref('wallet.addresses')}}({walletId: wallet.id, from: 'wallet'})">
           <i class="ion-alert-circled"></i>
           <span translate>High fee required to spend this balance</span>
           <i class="icon arrow-right"></i>

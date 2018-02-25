@@ -5,7 +5,7 @@
   <ion-content>
     <ion-list>
       <ion-item class="item-divider"></ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="tabs.address-book">
+      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('address-book')}}">
         <i class="icon list-icon">
           <img src="img/icon-contacts.svg" class="bg"/>
         </i>
@@ -13,21 +13,21 @@
         <div class="item-detail">{{addressbookEntryCount}} entries</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="help">
+      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('help')}}">
         <i class="icon list-icon">
           <img src="img/icon-help-support.svg" class="bg"/>
         </i>
         <div>{{'Get Help' | translate }}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="tabs.feedback">
+      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('feedback')}}">
         <i class="icon list-icon">
           <img src="img/icon-send-feedback.svg" class="bg"/>
         </i>
         <div>{{'Give Feedback' | translate}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item ng-if="isCordova" class="has-click item-icon-left item-icon-right" ui-sref="tabs.share-app({score: 4, skipped: true, fromSettings: true})">
+      <ion-item ng-if="isCordova" class="has-click item-icon-left item-icon-right" ui-sref="{{sref('share-app')}}({score: 4, skipped: true, fromSettings: true})">
         <i class="icon list-icon">
           <img src="img/icon-heart.svg" class="bg"/>
         </i>
@@ -37,7 +37,7 @@
       <ion-item class="item-divider has-label">
         {{'Preferences' | translate}}
       </ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="tabs.notifications">
+      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('notifications')}}">
         <i class="icon list-icon">
           <img src="img/icon-notifications.svg" class="bg"/>
         </i>
@@ -48,7 +48,7 @@
         </div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="tabs.networks">
+      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('networks')}}">
         <i class="icon list-icon">
           <img src="img/icon-network.svg" class="bg"/>
         </i>
@@ -56,7 +56,7 @@
         <div class="item-detail">{{availableNetworks.length}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="tabs.language">
+      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('language')}}">
         <i class="icon list-icon">
           <img src="img/icon-language.svg" class="bg"/>
         </i>
@@ -64,7 +64,7 @@
         <div class="item-detail">{{currentLanguageName|translate}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="tabs.app-lock" ng-if="isCordova || isDevel">
+      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('app-lock')}}" ng-if="isCordova || isDevel">
         <i class="icon list-icon">
           <img src="img/icon-locked.svg" class="bg"/>
         </i>
@@ -73,7 +73,7 @@
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="item-divider has-label" ng-show="wallets[0]">{{'Wallets' | translate}}</ion-item>
-      <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="tabs.preferences({'walletId': item.id})"
+      <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('preferences')}}({'walletId': item.id})"
         ng-repeat="item in wallets track by $index">
         <i class="icon sm-icon custom">
           <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
@@ -85,14 +85,14 @@
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="item-divider"></ion-item>
-      <ion-item class="has-click item-icon-right item-icon-left" href ui-sref="tabs.advanced">
+      <ion-item class="has-click item-icon-right item-icon-left" href ui-sref="{{sref('advanced')}}">
         <i class="icon list-icon">
           <img src="img/icon-advanced.svg" class="bg"/>
         </i>
         <div>{{'Advanced' | translate}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="tabs.about">
+      <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('about')}}">
         <i class="icon list-icon">
           <img src="img/icon-about.svg" class="bg"/>
         </i>

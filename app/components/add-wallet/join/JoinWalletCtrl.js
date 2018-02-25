@@ -210,13 +210,13 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
             $ionicHistory.nextViewOptions({
               disableAnimate: true
             });
-            $state.go('tabs.home');
+            $state.go($rootScope.sref('home'));
             $timeout(function() {
-              $state.transitionTo('tabs.copayers', {
+              $state.transitionTo($rootScope.sref('copayers'), {
                 walletId: client.credentials.walletId
               });
             });
-          } else $state.go('tabs.home');
+          } else $state.go($rootScope.sref('home'));
         });
       });
     };

@@ -44,7 +44,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
         historyRoot: true
       });
       $ionicHistory.clearHistory();
-      $state.go('tabs.send');
+      $state.go($rootScope.sref('send'));
     });
   };
 
@@ -577,9 +577,9 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
       disableAnimate: true,
       historyRoot: true
     });
-    $state.go('tabs.send').then(function() {
+    $state.go($rootScope.sref('send')).then(function() {
       $ionicHistory.clearHistory();
-      $state.transitionTo('tabs.home');
+      $state.transitionTo($rootScope.sref('home'));
     });
   };
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('BackupCtrl',
-  function($scope, $timeout, $log, $state, $stateParams, $ionicHistory, lodash, profileService, walletService, ongoingProcessService, popupService, gettextCatalog, $ionicModal, networkService, configService) {
+  function($rootScope, $scope, $timeout, $log, $state, $stateParams, $ionicHistory, lodash, profileService, walletService, ongoingProcessService, popupService, gettextCatalog, $ionicModal, networkService, configService) {
     $scope.wallet = profileService.getWallet($stateParams.walletId);
     $scope.viewTitle = $scope.wallet.name || $scope.wallet.credentials.walletName;
     $scope.n = $scope.wallet.n;
@@ -91,7 +91,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
       profileService.isDisclaimerAccepted(function(val) {
         if (val) {
           $ionicHistory.removeBackView();
-          $state.go('tabs.home');
+          $state.go($rootScope.sref('home'));
         } else $state.go('onboarding.disclaimer', {
           walletId: $stateParams.walletId,
           backedUp: true

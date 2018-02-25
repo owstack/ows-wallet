@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('DeleteWalletCtrl',
-  function($scope, $ionicHistory, gettextCatalog, lodash, profileService, $state, ongoingProcessService, popupService, pushNotificationsService) {
+  function($rootScope, $scope, $ionicHistory, gettextCatalog, lodash, profileService, $state, ongoingProcessService, popupService, pushNotificationsService) {
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       if (!data.stateParams || !data.stateParams.walletId) {
@@ -41,8 +41,8 @@ angular.module('owsWalletApp.controllers').controller('DeleteWalletCtrl',
             historyRoot: true
           });
           $ionicHistory.clearHistory();
-          $state.go('tabs.settings').then(function() {
-            $state.transitionTo('tabs.home');
+          $state.go($rootScope.sref('settings')).then(function() {
+            $state.transitionTo($rootScope.sref('home'));
           });
         }
       });

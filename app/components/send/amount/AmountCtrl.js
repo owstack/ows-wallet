@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService) {
-  var _id;
+angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($rootScope, $scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService) {
   var atomicUnitToUnit;
   var atomicUnitDecimals;
   var unitToAtomicUnit;
@@ -15,13 +14,11 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($sc
   });
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    // Go to...
-    _id = data.stateParams.id; // Optional wallet ID
     $scope.nextStep = data.stateParams.nextStep;
     $scope.currency = data.stateParams.currency;
     $scope.forceCurrency = data.stateParams.forceCurrency;
 
-    $scope.allowOptionsMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == 'tabs.send';
+    $scope.allowOptionsMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == $rootScope.sref('send');
     $scope.recipientType = data.stateParams.recipientType || null;
     $scope.walletId = data.stateParams.walletId;
     $scope.networkURI = data.stateParams.networkURI || configService.getSync().currencyNetworks.default;
@@ -283,7 +280,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($sc
 
     if ($scope.nextStep) {
       $state.transitionTo($scope.nextStep, {
-        id: _id,
+        walletId: $scope.walletId,
         amount: $scope.useSendMax ? null : _amount,
         currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
         useSendMax: $scope.useSendMax
@@ -299,7 +296,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($sc
         } else {
           var amount = $scope.showAlternativeAmount ? fromFiat(_amount) : _amount;
 
-          $state.transitionTo('tabs.send.confirm', {
+          $state.transitionTo($rootScope.sref('send.confirm'), {
             walletId: $scope.walletId,
             networkURI: $scope.networkURI,
             recipientType: $scope.recipientType,

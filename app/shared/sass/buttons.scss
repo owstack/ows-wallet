@@ -6,62 +6,78 @@
   display: block;
 }
 
-.bar.bar-header .button {
-  color: $v-bar-header-button-color !important;
-  background: none;
-  border: none;
+.bar.bar-header {
 
-  .icon:before {
-    font-size: 32px !important;
+  // Match left position of ionic placed <ion-nav-back-button>
+  .primary-buttons {
+    .button.button-nav-bar {
+      padding-left: 2px;
+    }
   }
 
-  &.button-nav-bar {
-    // For modal header bars
-    &.button-right {
-      position: absolute;
-      right: 5px;
+  .button {
+    color: $v-bar-header-button-color !important;
+    background: none;
+    border: none;
+
+    .icon:before {
+      font-size: 32px !important;
     }
 
-    &.button-back:before {
-      content: "\f3d2";
-      font-family: "Ionicons";
-      font-size: 32px;
-    }
+    &.button-nav-bar {
+      // For modal header bars
+      &.button-right {
+        position: absolute;
+        right: 5px;
+      }
 
-    &.button-close:before {
-      content: "\f404";
-      font-family: "Ionicons";
-      font-size: 42px;
-    }
+      &.button-back:before {
+        content: "\f3d2";
+        font-family: "Ionicons";
+        font-size: 32px;
+      }
 
-    &.button-menu:before {
-      content: "\f46a";
-      font-family: "Ionicons";
-      font-size: 42px;
-    }
+      &.button-close:before {
+        content: "\f404";
+        font-family: "Ionicons";
+        font-size: 42px;
+      }
 
-    &.button-share:before {
-      content: "\f3ac";
-      font-family: "Ionicons";
-      font-size: 42px;
-    }
+      &.button-menu:before {
+        content: "\f46a";
+        font-family: "Ionicons";
+        font-size: 42px;
+      }
 
-    &.button-share-ios:before {
-      content: "\f4ca";
-      font-family: "Ionicons";
-      font-size: 32px;
-    }
+      &.button-share:before {
+        content: "\f3ac";
+        font-family: "Ionicons";
+        font-size: 42px;
+      }
 
-    &.button-refresh:before {
-      content: "\f49a";
-      font-family: "Ionicons";
-      font-size: 42px;
-    }
+      &.button-share-ios:before {
+        content: "\f4ca";
+        font-family: "Ionicons";
+        font-size: 32px;
+      }
 
-    &.button-search:before {
-      content: "\f4a4";
-      font-family: "Ionicons";
-      font-size: 42px;
+      &.button-refresh:before {
+        content: "\f49a";
+        font-family: "Ionicons";
+        font-size: 42px;
+      }
+
+      &.button-search:before {
+        content: "\f4a4";
+        font-family: "Ionicons";
+        font-size: 42px;
+      }
+
+      &.button-navicon:before {
+        content: "\f20e";
+        font-family: "Ionicons";
+        font-size: 32px;
+      }
     }
   }
 }
@@ -116,7 +132,7 @@
   }
 }
 
-#wallet-details .button-action {
+#wallet .button-action {
   @include button-style($v-wallet-action-button-bg, $v-wallet-action-button-border, $v-wallet-action-button-active-bg, $v-wallet-action-button-active-border, $v-wallet-action-button-color);
   @include button-clear($v-wallet-action-button-clear-color);
   @include button-outline($v-wallet-action-button-outline-color);

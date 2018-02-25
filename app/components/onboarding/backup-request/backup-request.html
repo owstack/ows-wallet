@@ -10,7 +10,7 @@
       </div>
     </div>
     <div id="cta-buttons">
-      <button class="button button-standard button-primary" ui-sref="onboarding.backup-warning({from: 'onboarding', walletId: walletId})" translate>
+      <button class="button button-standard button-primary" ui-sref="{{sref('onboarding.backup-warning')}}({from: 'onboarding', walletId: walletId})" translate>
         Backup wallet
       </button>
       <button class="button button-standard button-secondary button-clear" ng-click="openPopup()" translate>

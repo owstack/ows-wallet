@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletHistorySettingsCtrl',
-  function($scope, $log, $stateParams, $timeout, $state, $ionicHistory, storageService, platformInfoService, profileService, lodash, appConfigService, walletService, networkService) {
+  function($rootScope, $scope, $log, $stateParams, $timeout, $state, $ionicHistory, storageService, platformInfoService, profileService, lodash, appConfigService, walletService, networkService, gettextCatalog, popupService) {
     $scope.wallet = profileService.getWallet($stateParams.walletId);
     $scope.csvReady = false;
     $scope.isCordova = platformInfoService.isCordova;
     $scope.appName = appConfigService.nameCase;
-
 
     // TODO-AJP: move this to walletService.
     $scope.csvHistory = function(cb) {
@@ -129,21 +128,15 @@ angular.module('owsWalletApp.controllers').controller('WalletHistorySettingsCtrl
       $log.info('Removing Transaction history ' + $scope.wallet.id);
 
       walletService.clearTxHistory($scope.wallet, function(err) {
-
         if (err) {
           $log.error(err);
           return;
         }
 
         $log.info('Transaction history cleared for :' + $scope.wallet.id);
-
-        $ionicHistory.removeBackView();
-        $state.go('tabs.home');
-        $timeout(function() {
-          $state.transitionTo('tabs.wallet', {
-            walletId: $scope.wallet.id
-          });
-        }, 100);
+        popupService.showAlert(
+          gettextCatalog.getString('Transaction History Cleared'),
+          gettextCatalog.getString('Return to the wallet to reload transactions from the wallet service.'));
       });
     };
 

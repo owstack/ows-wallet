@@ -1,9 +1,9 @@
 <ion-tabs class="tabs-icon-top tabs-color-active-positive ion-tabs-transparent {{$root.hideTabs}}">
-  <ion-tab title="{{'Home'|translate}}" icon-off="icon-home" icon-on="icon-home-selected" ui-sref="tabs.home">
+  <ion-tab title="{{'Home'|translate}}" icon-off="icon-home" icon-on="icon-home-selected" ui-sref="{{sref('home')}}">
     <ion-nav-view name="tab-home"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="{{'Receive'|translate}}" icon-off="icon-receive" icon-on="icon-receive-selected" ui-sref="tabs.receive">
+  <ion-tab title="{{'Receive'|translate}}" icon-off="icon-receive" icon-on="icon-receive-selected" ui-sref="{{sref('receive')}}">
     <ion-nav-view name="tab-receive"></ion-nav-view>
   </ion-tab>
 
@@ -11,11 +11,11 @@
     <ion-nav-view name="tab-scan"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="{{'Send'|translate}}" icon-off="icon-send" icon-on="icon-send-selected" ui-sref="tabs.send">
+  <ion-tab title="{{'Send'|translate}}" icon-off="icon-send" icon-on="icon-send-selected" ui-sref="{{sref('send')}}">
     <ion-nav-view name="tab-send"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="{{'Settings'|translate}}" icon-off="icon-settings" icon-on="icon-settings-selected" ui-sref="tabs.settings">
+  <ion-tab title="{{'Settings'|translate}}" icon-off="icon-settings" icon-on="icon-settings-selected" ui-sref="{{sref('settings')}}">
     <ion-nav-view name="tab-settings"></ion-nav-view>
   </ion-tab>
 </ion-tabs>

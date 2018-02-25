@@ -4,7 +4,7 @@
     </ion-nav-back-button>
     <ion-nav-title>{{'Address Book' | translate}}</ion-nav-title>
     <ion-nav-buttons side="secondary">
-      <button class="button button-back button-clear ng-hide" ng-show="showAddIcon" ui-sref="tabs.address-book.add">
+      <button class="button button-back button-clear ng-hide" ng-show="showAddIcon" ui-sref="{{sref('address-book.add')}}">
         <i class="icon ion-ios-plus-empty"></i>
       </button>
     </ion-nav-buttons>
@@ -18,7 +18,7 @@
         <div class="zero-state-heading" translate>No contacts yet</div>
         <div class="zero-state-description" translate>Get started by adding your first one.</div>
         <div class="zero-state-cta">
-          <button class="button button-standard button-primary" ui-sref="tabs.address-book.add" translate>Add Contact</button>
+          <button class="button button-standard button-primary" ui-sref="{{sref('address-book.add')}}" translate>Add Contact</button>
         </div>
       </div>
     </span>
@@ -31,7 +31,7 @@
       </ion-list>
       <ion-list>
         <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
-          ui-sref="tabs.address-book.entry({id: addressbookEntry.id})">
+          ui-sref="{{sref('address-book.entry')}}({id: addressbookEntry.id})">
           <i class="icon lg-icon">
             <gravatar class="send-gravatar" width="40" name="{{addressbookEntry.name}}" email="{{addressbookEntry.email}}"></gravatar>
           </i>

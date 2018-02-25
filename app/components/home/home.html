@@ -1,8 +1,11 @@
 <ion-view id="home" class="ows" show-tabs>
   <ion-nav-bar class="bar">
     <ion-nav-title><img class="tab-home__logo" src="img/brand/logo.svg"></ion-nav-title>
+    <ion-nav-buttons side="primary">
+      <button class="button button-nav-bar button-navicon button-clear" ng-click="toggleSideBar()" ng-if="usingSideMenu"></button>
+    </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
-      <button class="button button-back button-clear" ng-click="toggleLayout()" ng-if="experimental">
+      <button class="button button-nav-bar button-back button-clear" ng-click="toggleLayout()" ng-if="experimental">
         <img class="icon-nav" ng-src="img/icon-{{layout.next}}.svg"/>
       </button>
     </ion-nav-buttons>
@@ -18,7 +21,7 @@
     <div ng-show="tipWalletReady" ng-include="'views/home/tips/wallet-ready/wallet-ready.html'"></div>
     <!-- Payment proposals -->
     <div class="card" ng-hide="!txps[0]">
-      <ion-item class="item-heading has-click item-icon-right" ui-sref="tabs.proposals">
+      <ion-item class="item-heading has-click item-icon-right" ui-sref="{{sref('proposals')}}">
         <span translate>Payment Proposals</span>
         <i class="icon arrow-right"></i>
         <span class="item-note badge badge-assertive" ng-show="txpsN > 3"> {{txpsN}}</span>
@@ -29,7 +32,7 @@
     </div>
     <!-- Recent transactions --> 
     <div class="card" ng-if="notifications[0] && recentTransactionsEnabled">
-      <ion-item class="item-heading has-click item-icon-right" ui-sref="tabs.activity">
+      <ion-item class="item-heading has-click item-icon-right" ui-sref="{{sref('activity')}}">
         <span translate>Recent Transactions</span>
         <i class="icon arrow-right"></i>
         <span class="badge badge-assertive m5t m10r" ng-show="notificationsN > 3"> {{notificationsN}}</span>
@@ -40,10 +43,10 @@
     <div class="card" ng-if="layout.current == 'list'">
       <ion-item class="item-heading item-icon-right">
         <span translate>Wallets</span>
-        <a ui-sref="tabs.add" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
+        <a ui-sref="{{sref('add')}}" ng-if="wallets[0]"><i class="icon ion-ios-plus-empty list-add-button"></i></a>
       </ion-item>
       <ion-list>
-        <ion-item ng-if="!wallets[0]" ui-sref="tabs.add" class="item-icon-left icon-left-lg item-icon-right has-click">
+        <ion-item ng-if="!wallets[0]" ui-sref="{{sref('add')}}" class="item-icon-left icon-left-lg item-icon-right has-click">
           <i class="icon lg-icon">
             <div class="bg wallet-icon icon-create-wallet"></div>
           </i>

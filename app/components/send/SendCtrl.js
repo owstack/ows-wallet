@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, /*$ionicNativeTransitions,*/ addressBookService, profileService, lodash, $state, walletService, incomingDataService, popupService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, $ionicNativeTransitions, addressBookService, profileService, lodash, $state, walletService, incomingDataService, popupService, gettextCatalog, networkService) {
 
   var originalList;
   var CONTACTS_SHOW_LIMIT;
@@ -119,7 +119,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
   };
 
   $scope.openScanner = function() {
-    $state.go('tabs.scan');
+    $state.go($rootScope.sref('scan'));
   };
 
   $scope.showMore = function() {
@@ -195,7 +195,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
             } else {
               // Single address.  Just select it, no need to require user to select from UI.
               $log.debug('Got toAddress:' + addr.address + ' | ' + entry.name);
-              return $state.transitionTo('tabs.send.amount', {
+              return $state.transitionTo($rootScope.sref('send.amount'), {
                 recipientType: item.recipientType,
                 networkURI: addr.networkURI,
                 toAddress: addr.address,
@@ -215,7 +215,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
           }
 
           $log.debug('Got toAddress:' + addr + ' | ' + item.name);
-          return $state.transitionTo('tabs.send.amount', {
+          return $state.transitionTo($rootScope.sref('send.amount'), {
             recipientType: item.recipientType,
             walletId: $scope.walletId,
             networkURI: item.networkURI,
@@ -229,32 +229,15 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
     });
   };
 
-  $scope.goBackToWallet = function() {
-    // Reset (clear) history in the send tab for subsequent deterministic navigation (results in
-    // main settings view being shown when using tab bar).
-    delete $ionicHistory.viewHistory().histories[$ionicHistory.currentHistoryId()];
-
-//    $ionicNativeTransitions.stateGo('tabs.wallet', {
-    $state.go('tabs.wallet', {
-      walletId: $scope.walletId
-//    }, {}, {
-//      type: 'slide',
-//      direction: 'right'
-    });
-  };
-
   // This could probably be enhanced refactoring the routes abstract states
   $scope.createWallet = function() {
-    $state.go('tabs.home').then(function() {
-      $state.go('tabs.add.create-personal');
+    $state.go($rootScope.sref('home')).then(function() {
+      $state.go($rootScope.sref('add.create-personal'));
     });
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     $scope.walletId = data.stateParams.walletId;
-    $scope.showBackButton = ($scope.walletId ? true : false);
-    $scope.hideTabs = !lodash.isEmpty(data.stateParams.walletId);
-
     $scope.checkingBalance = true;
     $scope.formData = {
       search: null

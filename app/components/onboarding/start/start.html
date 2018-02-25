@@ -7,12 +7,11 @@
       </div>
     </div>
     <div id="cta-buttons">
-        <button class="button button-standard button-primary" id="get-started" href ui-sref="onboarding.tour" translate-context="button"
-          translate>
+        <button class="button button-standard button-primary" id="get-started" href ui-sref="{{sref('onboarding.tour')}}" translate>
           Get started
         </button>
         <button class="button button-standard button-secondary button-clear" id="restore" href
-          ui-sref="onboarding.import({'fromOnboarding':true})" translate>
+          ui-sref="{{sref('onboarding.import')}}({'fromOnboarding':true})" translate>
           Restore from backup
         </button>
     </div>

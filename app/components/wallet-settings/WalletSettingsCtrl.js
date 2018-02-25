@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
-  function($scope, $rootScope, $timeout, $log, $ionicHistory, /*$ionicNativeTransitions,*/ lodash, configService, profileService, fingerprintService, walletService) {
-    var wallet;
-    var walletId;
+  function($scope, $rootScope, $timeout, $log, $ionicHistory, $ionicNativeTransitions, lodash, configService, profileService, fingerprintService, walletService) {
 
     $scope.hiddenBalanceChange = function() {
       var opts = {
@@ -11,18 +9,20 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
           enabled: $scope.hiddenBalance.value
         }
       };
-      profileService.toggleHideBalanceFlag(walletId, function(err) {
+      profileService.toggleHideBalanceFlag($scope.walletId, function(err) {
         if (err) $log.error(err);
       });
     };
 
     $scope.encryptChange = function() {
-      if (!wallet) return;
+      if (!$scope.wallet) {
+        return;
+      }
       var val = $scope.encryptEnabled.value;
 
-      if (val && !walletService.isEncrypted(wallet)) {
-        $log.debug('Encrypting private key for', wallet.name);
-        walletService.encrypt(wallet, function(err) {
+      if (val && !walletService.isEncrypted($scope.wallet)) {
+        $log.debug('Encrypting private key for', $scope.wallet.name);
+        walletService.encrypt($scope.wallet, function(err) {
           if (err) {
             $log.warn(err);
 
@@ -33,13 +33,13 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
             });
             return;
           }
-          profileService.updateCredentials(JSON.parse(wallet.export()), function() {
+          profileService.updateCredentials(JSON.parse($scope.wallet.export()), function() {
             $log.debug('Wallet encrypted');
             return;
           });
         })
-      } else if (!val && walletService.isEncrypted(wallet)) {
-        walletService.decrypt(wallet, function(err) {
+      } else if (!val && walletService.isEncrypted($scope.wallet)) {
+        walletService.decrypt($scope.wallet, function(err) {
           if (err) {
             $log.warn(err);
 
@@ -50,7 +50,7 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
             });
             return;
           }
-          profileService.updateCredentials(JSON.parse(wallet.export()), function() {
+          profileService.updateCredentials(JSON.parse($scope.wallet.export()), function() {
             $log.debug('Wallet decrypted');
             return;
           });
@@ -60,7 +60,7 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
 
     $scope.touchIdChange = function() {
       var newStatus = $scope.touchIdEnabled.value;
-      walletService.setTouchId(wallet, !!newStatus, function(err) {
+      walletService.setTouchId($scope.wallet, !!newStatus, function(err) {
         if (err) {
           $scope.touchIdEnabled.value = !newStatus;
           $timeout(function() {
@@ -72,31 +72,16 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
       });
     };
 
-    $scope.goBackToWallet = function() {
-      // Reset (clear) history in the settings tab for subsequent deterministic navigation (results in
-      // main settings view being shown when using tab bar).
-      delete $ionicHistory.viewHistory().histories[$ionicHistory.currentHistoryId()];
-
-//      $ionicNativeTransitions.stateGo('tabs.wallet', {
-      $state.go('tabs.wallet', {
-        walletId: walletId
-//      }, {}, {
-//        type: 'slide',
-//        direction: 'right'
-      });
-    };
-
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.hideTabs = data.stateParams.fromWallet || undefined;
-      $scope.showBackButton = data.stateParams.fromWallet || false;
-
-      wallet = profileService.getWallet(data.stateParams.walletId);
-      walletId = wallet.credentials.walletId;
-      $scope.wallet = wallet;
+      $scope.walletId = data.stateParams.walletId;
+      $scope.wallet = profileService.getWallet($scope.walletId);
       $scope.externalSource = null;
 
-      if (!wallet)
+      if (!$scope.wallet) {
         return $ionicHistory.goBack();
+      }
+
+      $scope.walletCanSign = $scope.wallet.canSign();
 
       var config = configService.getSync();
 
@@ -105,16 +90,16 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
       };
 
       $scope.encryptEnabled = {
-        value: walletService.isEncrypted(wallet)
+        value: walletService.isEncrypted($scope.wallet)
       };
 
       $scope.touchIdAvailable = fingerprintService.isAvailable();
       $scope.touchIdEnabled = {
-        value: config.touchIdFor ? config.touchIdFor[walletId] : null
+        value: config.touchIdFor ? config.touchIdFor[$scope.walletId] : null
       };
 
       $scope.deleted = false;
-      if (wallet.credentials && !wallet.credentials.mnemonicEncrypted && !wallet.credentials.mnemonic) {
+      if ($scope.wallet.credentials && !$scope.wallet.credentials.mnemonicEncrypted && !$scope.wallet.credentials.mnemonic) {
         $scope.deleted = true;
       }
     });

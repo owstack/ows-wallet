@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, $state, $stateParams, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, $ionicViewSwitcher, helpService) {
+angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, /*$ionicNativeTransitions,*/ $state, $stateParams, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;
@@ -133,7 +133,7 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   $scope.openTxModal = function(btx) {
     $scope.btx = lodash.cloneDeep(btx);
     $scope.walletId = $scope.wallet.id;
-    $state.transitionTo('tabs.wallet.tx-details', {
+    $state.transitionTo($rootScope.sref('wallet.tx-details'), {
       txid: $scope.btx.txid,
       walletId: $scope.walletId
     });
@@ -351,27 +351,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       $scope.isCollapsing = collapsibleItemHeight < HEADER_MAX_HEIGHT;
       $scope.$digest();
       getScrollPosition();
-    });
-  };
-
-  $scope.sendFrom = function() {
-    if ($scope.hasBalance) {
-      $state.go('tabs.send', {
-        walletId: $scope.walletId
-      });
-    }
-  };
-
-  $scope.receiveTo = function() {
-    $state.go('tabs.receive', {
-      walletId: $scope.walletId
-    });
-  };
-
-  $scope.settingsFor = function() {
-    $state.transitionTo('tabs.preferences', {
-      walletId: $scope.walletId,
-      fromWallet: true
     });
   };
 

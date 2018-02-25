@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletActivityCtrl',
-  function($timeout, $scope, $log, lodash, txpModalService, profileService, walletService, ongoingProcessService, popupService, gettextCatalog, $state) {
+  function($rootScope, $timeout, $scope, $log, lodash, txpModalService, profileService, walletService, ongoingProcessService, popupService, gettextCatalog, $state) {
     $scope.openTxpModal = txpModalService.open;
     $scope.fetchingNotifications = true;
 
@@ -26,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('WalletActivityCtrl',
 
     $scope.openNotificationModal = function(n) {
       if (n.txid) {
-        $state.transitionTo('tabs.wallet.tx-details', {
+        $state.transitionTo($rootScope.sref('wallet.tx-details'), {
           txid: n.txid,
           walletId: n.walletId
         });

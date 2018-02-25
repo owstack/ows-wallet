@@ -1,4 +1,4 @@
-#wallet-details {
+#wallet {
   color: $v-wallet-color;
 
   .bar.bar-header {
@@ -25,6 +25,7 @@
 
     .scroll {
       min-height: 300px;
+      overflow-y: scroll;
     }
   }
 

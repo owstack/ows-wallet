@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function($scope, $state, $timeout, $log, gettextCatalog, platformInfoService, storageService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function($rootScope, $scope, $state, $timeout, $log, gettextCatalog, platformInfoService, storageService, appConfigService) {
 
   $scope.isCordova = platformInfoService.isCordova;
   $scope.score = 0;
@@ -9,11 +9,11 @@ angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function
   $scope.goFeedbackFlow = function() {
     $scope.hideCard();
     if ($scope.isCordova && $scope.score == 5) {
-      $state.go('tabs.rate.rate-app', {
+      $state.go($rootScope.sref('rate.rate-app'), {
         score: $scope.score
       });
     } else {
-      $state.go('tabs.rate.send', {
+      $state.go($rootScope.sref('rate.send'), {
         score: $scope.score
       });
     }

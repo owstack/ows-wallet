@@ -1,12 +1,12 @@
-<div class="wallet-actions">
+<div class="wallet-actions" ng-controller="WalletActionsCtrl as actions" ng-if="shouldShowActions">
 	<div class="action-group">
-		<button class="button button-action" ng-class="{'disabled': !hasBalance}" ng-click="sendFrom()" translate>
+		<button class="button button-action" ng-class="{'disabled': !hasBalance}" ng-click="actions.sendFrom()" translate>
 			Send
 	  </button>
-		<button class="button button-action" ng-click="receiveTo()" translate>
+		<button class="button button-action" ng-click="actions.receiveTo()" translate>
 			Receive
 	  </button>
-		<button class="button button-action" ng-click="settingsFor()" translate>
+		<button class="button button-action" ng-click="actions.settingsFor()" translate>
 			<i class="icon ion-ios-gear-outline"></i>
 	  </button>
 	</div>

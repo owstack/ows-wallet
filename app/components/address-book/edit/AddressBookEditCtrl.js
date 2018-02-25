@@ -130,7 +130,7 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEditCtrl', fun
   function goScan() {
     $ionicHistory.goBack();
     $timeout(function() {
-      $state.go('tabs.scan');
+      $state.go($rootScope.sref('scan'));
     });
   };
 

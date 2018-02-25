@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function($scope, $state, $log, $ionicConfig, $ionicModal, /*$ionicNativeTransitions,*/ profileService, uxLanguageService, $stateParams, startupService) {
+angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function($rootScope, $scope, $state, $log, $ionicConfig, $ionicModal, $ionicNativeTransitions, profileService, uxLanguageService, $stateParams, startupService) {
 
   $scope.$on("$ionicView.afterEnter", function() {
     startupService.ready();
@@ -33,7 +33,7 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
       if (err) {
         $log.error(err);
       } else {
-        $state.go('tabs.home', {
+        $state.go($rootScope.sref('home'), {
           fromOnboarding: true
         });
       }
@@ -52,12 +52,12 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
   };
 
   $scope.goBack = function() {
-//    $ionicNativeTransitions.stateGo('onboarding.backup-request', {
-    $state.go('onboarding.backup-request', {
+    $ionicNativeTransitions.stateGo('onboarding.backup-request', {
+//    $state.go('onboarding.backup-request', {
       walletId: $stateParams.walletId
-//    }, {}, {
-//      type: 'slide',
-//      direction: 'right'
+    }, {}, {
+      type: 'slide',
+      direction: 'right'
     });
   }
 

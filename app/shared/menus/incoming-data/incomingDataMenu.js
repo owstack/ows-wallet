@@ -32,9 +32,9 @@ angular.module('owsWalletApp.directives')
         };
         scope.sendPaymentToAddress = function(networkURI, address) {
           scope.showMenu = false;
-          $state.go('tabs.send').then(function() {
+          $state.go($rootScope.sref('send')).then(function() {
             $timeout(function() {
-              $state.transitionTo('tabs.send.amount', {
+              $state.transitionTo($rootScope.sref('send.amount'), {
                 networkURI: networkURI,
                 toAddress: address
               });
@@ -44,9 +44,9 @@ angular.module('owsWalletApp.directives')
         scope.addToAddressBook = function(networkURI, address) {
           scope.showMenu = false;
           $timeout(function() {
-            $state.go('tabs.settings').then(function() {
+            $state.go($rootScope.sref('settings')).then(function() {
               $timeout(function() {
-                $state.transitionTo('tabs.address-book.add', {
+                $state.transitionTo($rootScope.sref('address-book.add'), {
                   networkURI: networkURI,
                   address: address,
                   from: 'scan'
@@ -57,9 +57,9 @@ angular.module('owsWalletApp.directives')
         };
         scope.scanPaperWallet = function(privateKey) {
           scope.showMenu = false;
-          $state.go('tabs.home').then(function() {
+          $state.go($rootScope.sref('home')).then(function() {
             $timeout(function() {
-              $state.transitionTo('tabs.home.paper-wallet', {
+              $state.transitionTo($rootScope.sref('home.paper-wallet'), {
                 privateKey: privateKey
               });
             }, 50);

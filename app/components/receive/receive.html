@@ -1,6 +1,8 @@
 <ion-view id="receive" class="ows" show-tabs>
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Receive' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
       <button class="button button-nav-bar" ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share': showShareButton != 'iOS'}"
         ng-show="wallets[0] && showShareButton" ng-click="shareAddress()">

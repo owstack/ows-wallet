@@ -20,7 +20,7 @@
         Create {{network.getFriendlyNetLabel()}} wallet
       </button>
       <button class="button button-standard button-secondary button-clear" id="restore" href
-        ui-sref="onboarding.import({'fromOnboarding':true})" translate>
+        ui-sref="{{sref('onboarding.import')}}({'fromOnboarding':true})" translate>
         Restore from backup
       </button>
     </div>

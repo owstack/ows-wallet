@@ -39,8 +39,8 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
           $scope.wallet.openWallet(function(err, status) {
             if (err) $log.error(err);
             $scope.clearNextView();
-            $state.go('tabs.home').then(function() {
-              $state.transitionTo('tabs.wallet', {
+            $state.go($rootScope.sref('home')).then(function() {
+              $state.transitionTo($rootScope.sref('wallet'), {
                 walletId: $scope.wallet.credentials.walletId
               });
             });
@@ -68,7 +68,7 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
         } else {
           pushNotificationsService.unsubscribe($scope.wallet);
           $scope.clearNextView();
-          $state.go('tabs.home');
+          $state.go($rootScope.sref('home'));
         }
       });
     };

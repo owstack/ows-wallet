@@ -23,7 +23,7 @@ angular.module('owsWalletApp.controllers').controller('TabsCtrl', function($root
   };
 
   $scope.chooseScanner = function() {
-    $state.go('tabs.scan');
+    $state.go($rootScope.sref('scan'));
   };
 
 });

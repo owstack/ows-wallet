@@ -19,7 +19,7 @@ angular.module('owsWalletApp.services')
         // Go home reloading the application
         if (isNW) {
           $ionicHistory.removeBackView();
-          $state.go('tabs.home');
+          $state.go($rootScope.sref('home'));
           $timeout(function() {
             var win = require('nw.gui').Window.get();
             win.reload(3);

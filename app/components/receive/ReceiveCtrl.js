@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, platformInfoService, walletService, profileService, lodash, gettextCatalog, popupService, networkService) {
+angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, $ionicNativeTransitions, platformInfoService, walletService, profileService, lodash, gettextCatalog, popupService, networkService) {
 
   var listeners = [];
   $scope.isCordova = platformInfoService.isCordova;
   $scope.isNW = platformInfoService.isNW;
 
   $scope.requestSpecificAmount = function() {
-    $state.go('tabs.payment-request.amount', {
-      networkURI: $scope.wallet.networkURI,
-      id: $scope.wallet.credentials.walletId
+    $state.go($rootScope.sref('payment-request.amount'), {
+      walletId: $scope.wallet.credentials.walletId,
+      networkURI: $scope.wallet.networkURI
     });
   };
 
@@ -37,9 +37,9 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
     $ionicHistory.nextViewOptions({
       disableAnimate: true
     });
-    $state.go('tabs.home');
+    $state.go($rootScope.sref('home'));
     $timeout(function() {
-      $state.transitionTo('tabs.copayers', {
+      $state.transitionTo($rootScope.sref('copayers'), {
         walletId: $scope.wallet.credentials.walletId
       });
     }, 100);
@@ -67,8 +67,8 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
   };
 
   $scope.goToBackupFlow = function() {
-    $state.go('tabs.receive.backup-warning', {
-      from: 'tabs.receive',
+    $state.go($rootScope.sref('receive.backup-warning'), {
+      from: 'receive',
       walletId: $scope.wallet.credentials.walletId
     });
   };
@@ -158,8 +158,8 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
   };
 
   $scope.createWallet = function() {
-    $state.go('tabs.home').then(function() {
-      $state.go('tabs.add.create-personal');
+    $state.go($rootScope.sref('home')).then(function() {
+      $state.go($rootScope.sref('add.create-personal'));
     });
   };
 

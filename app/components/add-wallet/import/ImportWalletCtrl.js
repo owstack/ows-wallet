@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
-  function($scope, $timeout, $log, $state, $stateParams, $ionicHistory, $ionicScrollDelegate, profileService, configService, ledgerService, trezorService, derivationPathService, platformInfoService, ongoingProcessService, walletService, popupService, gettextCatalog, hwWalletService, networkService, helpService) {
+  function($rootScope, $scope, $timeout, $log, $state, $stateParams, $ionicHistory, $ionicScrollDelegate, profileService, configService, ledgerService, trezorService, derivationPathService, platformInfoService, ongoingProcessService, walletService, popupService, gettextCatalog, hwWalletService, networkService, helpService) {
 
     var reader = new FileReader();
     var defaults = configService.getDefaults();
@@ -188,7 +188,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
              });
            }
 
-          $state.go('tabs.home');
+          $state.go($rootScope.sref('home'));
         });
       }, 100);
     };
@@ -402,7 +402,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         });
       }
       $ionicHistory.removeBackView();
-      $state.go('tabs.home', {
+      $state.go($rootScope.sref('home'), {
         fromOnboarding: $stateParams.fromOnboarding
       });
     };

@@ -915,7 +915,7 @@ angular.module('owsWalletApp.services')
 
           notification.action = function() {
             // TODO-AJP: ?
-            // $state.go('tabs.wallet', {
+            // $state.go($rootScope.sref('wallet'), {
             //   walletId: notification.walletId,
             //   txpId: notification.txpId,
             //   txid: notification.txid,

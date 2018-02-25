@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', function($scope, $state, $log, $timeout, $stateParams, $ionicNavBarDelegate, $ionicHistory, $ionicConfig, $window, gettextCatalog, popupService, configService, lodash, feedbackService, ongoingProcessService, platformInfoService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', function($rootScope, $scope, $state, $log, $timeout, $stateParams, $ionicNavBarDelegate, $ionicHistory, $ionicConfig, $window, gettextCatalog, popupService, configService, lodash, feedbackService, ongoingProcessService, platformInfoService, appConfigService) {
 
   $scope.sendFeedback = function(feedback, goHome) {
 
@@ -35,11 +35,11 @@ angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', functi
         }, gettextCatalog.getString('Finish'));
         return;
       }
-      $state.go('tabs.rate.complete', {
+      $state.go($rootScope.sref('rate.complete'), {
         score: $stateParams.score
       });
     });
-    if (goHome) $state.go('tabs.home');
+    if (goHome) $state.go($rootScope.sref('home'));
   };
 
   $scope.$on("$ionicView.beforeLeave", function(event, data) {

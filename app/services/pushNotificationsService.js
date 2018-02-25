@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($log, $state, $ionicHistory, platformInfoService, lodash, appConfigService, profileService, configService, networkService) {
+angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($rootScope, $log, $state, $ionicHistory, platformInfoService, lodash, appConfigService, profileService, configService, networkService) {
   var root = {};
   var isIOS = platformInfoService.isIOS;
   var isAndroid = platformInfoService.isAndroid;
@@ -90,12 +90,12 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
     if (!wallet) return;
     
     if (!wallet.isComplete()) {
-      return $state.go('tabs.copayers', {
+      return $state.go($rootScope.sref('copayers'), {
         walletId: wallet.id 
       });
     }
 
-    $state.go('tabs.wallet', {
+    $state.go($rootScope.sref('wallet'), {
       walletId: wallet.id
     });
   };
@@ -121,9 +121,9 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
           historyRoot: true
         });
         $ionicHistory.clearHistory();
-        $state.go('tabs.home', {}, {
+        $state.go($rootScope.sref('home'), {}, {
           'reload': true,
-          'notify': $state.current.name == 'tabs.home' ? false : true
+          'notify': $state.current.name == $rootScope.sref('home') ? false : true
         }).then(function() {
           _openWallet(walletIdHashed);
         });

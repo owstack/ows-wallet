@@ -52,21 +52,21 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     }
 
     function goSend(addr, amount, message, networkURI) {
-      $state.go('tabs.send', {}, {
+      $state.go($rootScope.sref('send'), {}, {
         'reload': true,
-        'notify': $state.current.name == 'tabs.send' ? false : true
+        'notify': $state.current.name == $rootScope.sref('send') ? false : true
       });
       // Timeout is required to enable the "Back" button
       $timeout(function() {
         if (amount) {
-          $state.transitionTo('tabs.send.confirm', {
+          $state.transitionTo($rootScope.sref('send.confirm'), {
             toAmount: amount,
             toAddress: addr,
             description: message,
             networkURI: networkURI
           });
         } else {
-          $state.transitionTo('tabs.send.amount', {
+          $state.transitionTo($rootScope.sref('send.amount'), {
             toAddress: addr,
             networkURI: networkURI
           });
@@ -228,7 +228,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     } else if (btcLib.Address.isValid(data, 'livenet') || btcLib.Address.isValid(data, 'testnet')) {
       var addrNetwork = btcLib.Address(data).network;
       var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-      if ($state.includes('tabs.scan')) {
+      if ($state.includes($rootScope.sref('scan'))) {
         var network = networkService.getNetworkByURI(networkURI);
         root.showMenu({
           networkURI: networkURI,
@@ -244,7 +244,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     } else if (bchLib.Address.isValid(data, 'livenet') || bchLib.Address.isValid(data, 'testnet')) {
       var addrNetwork = bchLib.Address(data).network;
       var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-      if ($state.includes('tabs.scan')) {
+      if ($state.includes($rootScope.sref('scan'))) {
         root.showMenu({
           networkURI: networkURI,
           currency: networkService.getNetworkByURI(networkURI).currency,
@@ -256,11 +256,11 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       }
     // Join
     } else if (data && data.match(joinMatchRE)) {
-      $state.go('tabs.home', {}, {
+      $state.go($rootScope.sref('home'), {}, {
         'reload': true,
-        'notify': $state.current.name == 'tabs.home' ? false : true
+        'notify': $state.current.name == $rootScope.sref('home') ? false : true
       }).then(function() {
-        $state.transitionTo('tabs.add.join', {
+        $state.transitionTo($rootScope.sref('add.join'), {
           url: data
         });
       });
@@ -268,11 +268,11 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
     // Old join
     } else if (data && data.match(/^[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
-      $state.go('tabs.home', {}, {
+      $state.go($rootScope.sref('home'), {}, {
         'reload': true,
-        'notify': $state.current.name == 'tabs.home' ? false : true
+        'notify': $state.current.name == $rootScope.sref('home') ? false : true
       }).then(function() {
-        $state.transitionTo('tabs.add.join', {
+        $state.transitionTo($rootScope.sref('add.join'), {
           url: data
         });
       });
@@ -287,8 +287,8 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
     //
     } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
-      $state.go('tabs.home').then(function() {
-        $state.transitionTo('tabs.add.import', {
+      $state.go($rootScope.sref('home')).then(function() {
+        $state.transitionTo($rootScope.sref('add.import'), {
           code: data
         });
       });
@@ -296,7 +296,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
     // Text
     } else {
-      if ($state.includes('tabs.scan')) {
+      if ($state.includes($rootScope.sref('scan'))) {
         root.showMenu({
           data: data,
           type: 'text'
@@ -308,12 +308,12 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
   };
 
   function goToAmountPage(toAddress, networkURI) {
-    $state.go('tabs.send', {}, {
+    $state.go($rootScope.sref('send'), {}, {
       'reload': true,
-      'notify': $state.current.name == 'tabs.send' ? false : true
+      'notify': $state.current.name == $rootScope.sref('send') ? false : true
     });
     $timeout(function() {
-      $state.transitionTo('tabs.send.amount', {
+      $state.transitionTo($rootScope.sref('send.amount'), {
         networkURI: networkURI,
         toAddress: toAddress
       });
@@ -329,12 +329,12 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       paypro: payProDetails
     };
     scannerService.pausePreview();
-    $state.go('tabs.send', {}, {
+    $state.go($rootScope.sref('send'), {}, {
       'reload': true,
-      'notify': $state.current.name == 'tabs.send' ? false : true
+      'notify': $state.current.name == $rootScope.sref('send') ? false : true
     }).then(function() {
       $timeout(function() {
-        $state.transitionTo('tabs.send.confirm', stateParams);
+        $state.transitionTo($rootScope.sref('send.confirm'), stateParams);
       });
     });
   }

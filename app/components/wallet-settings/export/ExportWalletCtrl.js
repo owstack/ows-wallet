@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
-  function($scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, profileService, platformInfoService, gettextCatalog, $state, $stateParams, popupService, appConfigService, helpService, addressBookService) {
+  function($rootScope, $scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, profileService, platformInfoService, gettextCatalog, $state, $stateParams, popupService, appConfigService, helpService, addressBookService) {
     var wallet = profileService.getWallet($stateParams.walletId);
     $scope.wallet = wallet;
 
@@ -127,7 +127,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
               return;
             }
             $ionicHistory.removeBackView();
-            $state.go('tabs.home');
+            $state.go($rootScope.sref('home'));
           });
         });
       });

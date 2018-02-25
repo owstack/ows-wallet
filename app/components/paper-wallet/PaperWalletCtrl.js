@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
-  function($scope, $timeout, $log, $ionicHistory, feeService, popupService, gettextCatalog, configService, profileService, $state, ongoingProcessService, txFormatService, $stateParams, walletService, networkService) {
+  function($rootScope, $scope, $timeout, $log, $ionicHistory, feeService, popupService, gettextCatalog, configService, profileService, $state, ongoingProcessService, txFormatService, $stateParams, walletService, networkService) {
 
     function _scanFunds(cb) {
       function getPrivateKey(scannedKey, isPkEncrypted, passphrase, cb) {
@@ -95,7 +95,7 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
         ongoingProcessService.set('scanning', false);
         if (err) {
           popupService.showAlert(gettextCatalog.getString('Error Scanning For Funds'), err || err.toString());
-          $state.go('tabs.home');
+          $state.go($rootScope.sref('home'));
 
         } else {
           var networkURI = network.getURI();
@@ -185,7 +185,7 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
     };
 
     $scope.onSuccessConfirm = function() {
-      $state.go('tabs.home');
+      $state.go($rootScope.sref('home'));
     };
 
     $scope.onWalletSelect = function(wallet) {

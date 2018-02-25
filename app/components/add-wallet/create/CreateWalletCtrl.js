@@ -24,7 +24,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.formData = {};
       var defaults = configService.getDefaults();
-      var tc = $state.current.name == 'tabs.add.create-personal' ? 1 : defaults.wallet.totalCopayers;
+      var tc = $state.current.name == $rootScope.sref('add.create-personal') ? 1 : defaults.wallet.totalCopayers;
       $scope.formData.account = 1;
       $scope.TCValues = lodash.range(2, defaults.limits.totalCopayers + 1);
 
@@ -237,13 +237,13 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
             $ionicHistory.nextViewOptions({
               disableAnimate: true
             });
-            $state.go('tabs.home');
+            $state.go($rootScope.sref('home'));
             $timeout(function() {
-              $state.transitionTo('tabs.copayers', {
+              $state.transitionTo($rootScope.sref('copayers'), {
                 walletId: client.credentials.walletId
               });
             }, 100);
-          } else $state.go('tabs.home');
+          } else $state.go($rootScope.sref('home'));
         });
       }, 300);
     };

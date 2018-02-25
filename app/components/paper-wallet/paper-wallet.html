@@ -57,7 +57,7 @@
         </div>
       </ion-list>
     </div>
-    <button class="button button-standard button-primary m20t" ui-sref="tabs.scan" ng-if="scanComplete && (balanceAtomic == 0)">
+    <button class="button button-standard button-primary m20t" ui-sref="{{sref('scan')}}" ng-if="scanComplete && (balanceAtomic == 0)">
       <span translate>Scan another key</span>
     </button>
     <slide-to-accept-success show="sendStatus === 'success'" on-confirm="onSuccessConfirm()" hide-on-confirm="true">

@@ -1,9 +1,8 @@
-<ion-view id="send" class="ows" hide-tabs="{{hideTabs}}">
+<ion-view id="send" class="ows" show-tabs>
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Send' | translate}}</ion-nav-title>
-    <ion-nav-buttons side="primary">
-      <button class="button button-nav-bar button-back" ng-show="showBackButton" ng-click="goBackToWallet()"></button>
-    </ion-nav-buttons>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
     <div ng-if="hasFunds">
@@ -23,7 +22,7 @@
     <div class="card" ng-if="hasContacts && hasWallets && hasFunds">
       <ion-item class="item-icon-right item-heading">
         <span translate>Contacts</span>
-        <a ng-if="hasContacts" ui-sref="tabs.send.address-book">
+        <a ng-if="hasContacts" ui-sref="{{sref('send.address-book')}}">
           <i class="icon ion-ios-plus-empty list-add-button"></i>
         </a>
       </ion-item>
