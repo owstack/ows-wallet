@@ -1,0 +1,25 @@
+<ion-view id="experiments-settings" class="ows" show-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{'Experiments' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <ion-list>
+			<ion-item class="item-divider"></ion-item>
+      <ion-item class="item-input item-select">
+        <span class="input-label" translate>
+          App Navigation
+        </span>
+        <select ng-model="appNavigation.scheme" ng-change="onAppNavigationSchemeChange()"
+          ng-options="scheme as schemeLabelFor(scheme) for scheme in availableAppNavigationSchemes">
+        </select>
+      </ion-item>
+      <ion-toggle ng-model="experiments.walletLayout.enabled" toggle-class="toggle-positive" ng-change="onNavigationSchemeChange()">
+        <span class="toggle-label" translate>
+          Wallet Layout
+        </span>
+      </ion-toggle>
+    </ion-list>
+  </ion-content>
+</ion-view>

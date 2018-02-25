@@ -14,8 +14,8 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     $scope.hideNextSteps = {
       value: config.hideNextSteps.enabled
     };
-    $scope.experimental = {
-      value: config.experimental.enabled
+    $scope.showExperimentsMenu = {
+      value: config.experiments.showMenu
     };
   };
 
@@ -26,7 +26,9 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
       }
     };
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
     });
   };
 
@@ -37,7 +39,9 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
       },
     };
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
     });
   };
 
@@ -48,18 +52,25 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
       }
     };
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
     });
   };
 
-  $scope.experimentalChange = function() {
+  $scope.toggleExperimentsMenu = function() {
+    $scope.showExperimentsMenu.value = !$scope.showExperimentsMenu.value;
+
     var opts = {
-      experimental: {
-        enabled: $scope.experimental.value
-      },
+      experiments: {
+        showMenu: $scope.showExperimentsMenu.value
+      }
     };
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
+      $log.info('Experiments menu ' + ($scope.showExperimentsMenu.value ? 'enabled' : 'disabled'));
     });
   };
 

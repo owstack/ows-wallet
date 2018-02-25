@@ -1,23 +1,54 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('navigationService', function($rootScope, appConfigService, tabRoutes, sideMenuRoutes) {
+angular.module('owsWalletApp.services').factory('navigationService', function($rootScope, configService, tabRoutes, sideMenuRoutes) {
   var root = {};
 
   // List of recognized navigation routing schemes.
-  var routing = {
-    'side-menu': sideMenuRoutes,
-    'tabs': tabRoutes
+  var schemes = {
+    'side-menu': {
+      label: "Side Menu",
+      routes: sideMenuRoutes
+    },
+    'tabs': {
+      label: "Tabs",
+      routes: tabRoutes
+    }
   };
 
-  root.usingSideMenu = (appConfigService.appNavigation == 'side-menu');
-  root.usingTabs = (appConfigService.appNavigation == 'tabs');
+  // Ensure a default scheme is used if configuration fails.
+  var currentScheme = schemes['tabs'];
+
+  // Read the configured app navigation scheme.
+  configService.get(function(err, config) {
+    if (err) {
+      $log.warn('Failed to read app config while setting up app navigation scheme: ' + err);
+      return;
+    }
+    currentScheme = config.appNavigation.scheme;
+  });
+
+  root.usingSideMenu = function() {
+    return currentScheme == 'side-menu';
+  };
+
+  root.usingTabs = function() {
+    return currentScheme == 'tabs';
+  }
+
+  root.getSchemes = function() {
+    return Object.keys(schemes);
+  };
+
+  root.schemeLabelFor = function(scheme) {
+    return schemes[scheme].label;
+  };
 
   root.init = function(stateProvider) {
-    // Select the routing scheme.
-    var routes = routing[appConfigService.appNavigation];
+    // Select the scheme routing.
+    var routes = schemes[currentScheme].routes;
 
     if (!routes) {
-      throw ('Error: app navigation routing scheme not found: ' + appConfigService.appNavigation);
+      throw ('Error: app navigation scheme not found: ' + currentScheme);
     }
 
     // Provide global access to map the specified state name and create a valid ui-sref string.
@@ -366,6 +397,13 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       views: getViews('advanced', [{
         controller: 'AdvancedAppSettingsCtrl',
         templateUrl: 'views/app-settings/advanced/advanced.html'
+      }])
+    })
+    .state($rootScope.sref('advanced.experiments'), {
+      url: '/experiments',
+      views: getViews('advanced.experiments', [{
+        controller: 'ExperimentsAppSettingsCtrl',
+        templateUrl: 'views/app-settings/experiments/experiments.html'
       }])
     })
     .state($rootScope.sref('app-lock'), {

@@ -4,8 +4,6 @@ angular.module('owsWalletApp.controllers').controller('WalletActionsCtrl', funct
 
   var self = this;
   // $scope inherited from parent
-
-  self.shouldShowActions = navigationService.usingSideMenu;
   
   self.sendFrom = function() {
     if ($scope.hasBalance) {

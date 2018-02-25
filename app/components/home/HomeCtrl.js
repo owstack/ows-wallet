@@ -43,7 +43,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     });
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.usingSideMenu = navigationService.usingSideMenu;
+      $scope.usingSideMenu = navigationService.usingSideMenu();
 
       if (!$scope.homeTip) {
         storageService.getHomeTipAccepted(function(error, value) {
@@ -136,7 +136,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
 
         pushNotificationsService.init();
 
-        $scope.experimental = config.experimental.enabled;
+        $scope.showLayoutButton = config.experiments.walletLayout.enabled;
 
         $timeout(function() {
           $ionicScrollDelegate.resize();

@@ -36,6 +36,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function() {
     'address-book.edit':              { stateName: 'main.address-book/edit',              viewNames: ['side-menu-content'] },
     'address-book.entry':             { stateName: 'main.address-book/entry',             viewNames: ['side-menu-content'] },
     'advanced':                       { stateName: 'main.advanced',                       viewNames: ['side-menu-content'] },
+    'advanced.experiments':           { stateName: 'main.advanced-experiments',           viewNames: ['side-menu-content'] },
     'alternative-currency':           { stateName: 'main.alternative-currency',           viewNames: ['side-menu-content'] },
     'app-lock':                       { stateName: 'main.app-lock',                       viewNames: ['side-menu-content'] },
     'copayers':                       { stateName: 'main.copayers',                       viewNames: ['side-menu-content'] },

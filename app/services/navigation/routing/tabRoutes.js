@@ -37,6 +37,7 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function() {
     'address-book.edit':              { stateName: 'tabs.address-book.edit',              viewNames: ['tab-settings@tabs'] },
     'address-book.entry':             { stateName: 'tabs.address-book.entry',             viewNames: ['tab-settings@tabs'] },
     'advanced':                       { stateName: 'tabs.advanced',                       viewNames: ['tab-settings@tabs'] },
+    'advanced.experiments':           { stateName: 'tabs.advanced-experiments',           viewNames: ['tab-settings@tabs'] },
     'alternative-currency':           { stateName: 'tabs.alternative-currency',           viewNames: ['tab-settings@tabs'] },
     'app-lock':                       { stateName: 'tabs.app-lock',                       viewNames: ['tab-settings@tabs'] },
     'copayers':                       { stateName: 'tabs.copayers',                       viewNames: ['tab-home'] },

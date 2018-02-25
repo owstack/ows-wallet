@@ -58,5 +58,5 @@
 </div>
 <!-- Action buttons -->
 <div ng-style="{opacity: elementOpacity}">
-  <span ng-include="'views/wallet/partials/actions/actions.html'"></span>
+  <span ng-include="'views/wallet/partials/actions/actions.html'" ng-if="shouldShowActions"></span>
 </div>

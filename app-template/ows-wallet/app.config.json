@@ -26,7 +26,7 @@
   "pushSenderId": "1036948132229",
   "gappEmailCollectionUrl": "https://script.google.com/macros/s/AKfycby3hCPtYxHrsXfR-rIhnJAWmQ4tRkIufrZjaOs_fk-xsNibaJn7/exec",
   "gappFeedbackUrl": "https://script.google.com/macros/s/AKfycbyMCHddiidfqLGWOmtNqTGakmUEsYpbGCL0uA6Agtl1eUIWVKnO/exec",
-  "appNavigation": "tabs",
+  "appNavigationScheme": "tabs",
   "appUri": "owswallet",
   "statusBarColor": "#000000",
   "bch": {

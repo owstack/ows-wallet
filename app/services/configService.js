@@ -56,11 +56,18 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     },
 
     log: {
-      filter: 'debug',
+      filter: 'debug'
     },
 
-    experimental: {
-      enabled: false
+    appNavigation: {
+      scheme: appConfigService.appNavigationScheme
+    },
+
+    experiments: {
+      showMenu: false,
+      walletLayout: {
+        enabled: false
+      }
     }
   };
 
@@ -106,8 +113,11 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         if (!configCache.walletPreferences) {
           configCache.walletPreferences = defaultConfig.walletPreferences;
         }
-        if (!configCache.experimental) {
-          configCache.experimental = defaultConfig.experimental;
+        if (!configCache.appNavigation) {
+          configCache.appNavigation = defaultConfig.appNavigation;
+        }
+        if (!configCache.experiments) {
+          configCache.experiments = defaultConfig.experiments;
         }
 
       } else {
