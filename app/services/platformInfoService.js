@@ -31,14 +31,19 @@ angular.module('owsWalletApp.services').factory('platformInfoService', function(
     ua: ua,
     isCordova: !!$window.cordova,
     isNW: isNodeWebkit(),
-    isIPhoneX: ($window.device.model == 'iPhone10,3') || ($window.device.model == 'iPhone10,6')
   };
 
   ret.isMobile = ret.isAndroid || ret.isIOS;
   ret.isDevel = !ret.isMobile && !ret.isNW;
 
+  // Detect specific devices
   ret.supportsLedger = false;
   ret.supportsTrezor = ret.isDevel;
+
+  ret.isIPhoneX = false;
+  if ($window.device) {
+    ret.isIPhoneX = ($window.device.model == 'iPhone10,3') || ($window.device.model == 'iPhone10,6');
+  }
 
   return ret;
 });

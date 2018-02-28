@@ -130,8 +130,9 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     uxLanguageService.init();
 
     $ionicPlatform.ready(function() {
-      if (screen.width < 768 && platformInfoService.isCordova)
+      if (screen.width < 768 && platformInfoService.isCordova) {
         screen.lockOrientation('portrait');
+      }
 
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);

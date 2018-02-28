@@ -1,4 +1,17 @@
 #side-menu {
+
+	////////////
+	//
+	// Set background to transparent to allow the scanner video to be shown.
+	//
+  background-color: transparent;
+
+  #main-content-nav-view {
+	  background-color: transparent;
+  }
+	//
+	////////////
+
 	ion-side-menu > div {
 		height: 100%;
 	}

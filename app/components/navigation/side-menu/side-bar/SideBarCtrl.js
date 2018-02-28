@@ -3,10 +3,6 @@
 angular.module('owsWalletApp.controllers').controller('SideBarCtrl',
 	function($rootScope, $scope, $state, $timeout) {
 
-	// These settings fixed - could use sass?
-  angular.element(document.querySelector('#side-menu'))[0].style.backgroundColor = 'transparent';
-  angular.element(document.querySelector('#main-content-nav-view'))[0].style.backgroundColor = 'transparent';
-
   $scope.currentState = 'home';
 
   $scope.goToState = function(stateName) {
