@@ -1,6 +1,9 @@
-<ion-view id="scan" class="ows" show-tabs>
+<ion-view id="scan" class="ows" show-tabs ng-class="{'solid-bg': usingSideMenu}">
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Scan' | translate}}</ion-nav-title>
+    <ion-nav-buttons side="primary">
+      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+    </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
       <button class="button button-nav-bar button-close ng-hide" ng-click="goBack()" ng-show="canGoBack()"></button>
     </ion-nav-buttons>
@@ -40,5 +43,4 @@
       </div>
     </div>
   </ion-content>
-
 </ion-view>

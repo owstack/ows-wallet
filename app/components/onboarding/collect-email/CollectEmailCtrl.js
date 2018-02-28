@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', function($scope, $state, $log, $timeout, $window, $http, $httpParamSerializer, $ionicConfig, profileService, appConfigService, emailService) {
+angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', function($rootScope, $scope, $state, $log, $timeout, $window, $http, $httpParamSerializer, $ionicConfig, profileService, appConfigService, emailService) {
 
   var wallet;
   var walletId;
@@ -69,7 +69,7 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
   };
 
   $scope.goNextView = function() {
-    $state.go('onboarding.backup-request', {
+    $state.go($rootScope.sref('onboarding.backup-request'), {
       walletId: walletId
     });
   };

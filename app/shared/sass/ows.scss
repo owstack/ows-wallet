@@ -152,6 +152,15 @@
 			  	}
 
 			  	&-sm {
+					  padding-left: 55px;
+
+					  i.sm-icon {
+					  	font-size: 24px;
+					  }
+			  	}
+
+			  	// Used when an icon should appear inline with an input field; e.g., search icon.
+			  	&-input {
 					  padding-left: 40px;
 
 					  i.sm-icon {
@@ -238,7 +247,7 @@
 		  	}
 		  }
 
-			&.item-no-line  {
+			&.item-no-border  {
 		  	&:before {
 		  		background: none;
 		  	}
@@ -275,6 +284,16 @@
 		    line-height: 1.2rem;
 		    padding-bottom: 16px;
 		  }
+
+	    &.item-marker:after {
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      height: 100%;
+	      width: 3px;
+	      background: $v-accent-1-color;
+			  content: '';
+	    }
 
 	    &.append {
 		    padding-top: 0;
@@ -362,15 +381,6 @@
 		      color: $v-list-item-color;
 		    }
 		  }
-
-	    .item-marker {
-	      position: absolute;
-	      top: 0;
-	      left: 0;
-	      height: 100%;
-	      width: 3px;
-	      background: $v-warning-color;
-	    }
 
 		  .item-delete .button.icon {
 		    color: $v-assertive-color !important;

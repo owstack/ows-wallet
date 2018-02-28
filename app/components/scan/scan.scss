@@ -3,6 +3,13 @@
   color: $v-white-color;
   text-align: center;
 
+  // When navigation is using a side menu the background must be solid so that a transparent
+  // view is not animated with the side menu (which is visually unappealing).  The transparent
+  // background is set by the side bar controller when state transition starts.
+  &.solid-bg {
+    background: $v-black-color;
+  }
+
   .bar-header {
     opacity: .9;
   }

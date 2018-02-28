@@ -14,7 +14,7 @@ if (window && window.navigator) {
 }
 
 //Setting up route
-angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, navigationServiceProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
+angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, navigationServiceProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider, configServiceProvider) {
     $urlRouterProvider.otherwise('/starting');
 
     // NO CACHE
@@ -41,7 +41,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     $ionicConfigProvider.scrolling.jsScrolling(false);
 
     $ionicNativeTransitionsProvider.setDefaultOptions({
-      duration: 200, // in milliseconds (ms), default 400,
+      duration: 300, // in milliseconds (ms), default 400,
       slowdownfactor: 2, // overlap views (higher number is more) or no overlap (1), default 4
       iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1
       androiddelay: -1, // same as above but for Android, default -1
@@ -107,8 +107,16 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     ]);
 
     // Configure routing for the selected app navigation scheme.
-    var navigationService = navigationServiceProvider.$get();
-    navigationService.init($stateProvider);
+    var configService = configServiceProvider.$get();
+    configService.get(function(err, config) {
+      if (err) {
+        $log.warn('Failed to read app config while setting up app navigation scheme: ' + err);
+        return;
+      }
+
+      var navigationService = navigationServiceProvider.$get();
+      navigationService.init(config.appNavigation, $stateProvider);
+    });
 
   })
   .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfigService, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService) {
@@ -199,14 +207,14 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         if (err) {
           if (err.message && err.message.match('NOPROFILE')) {
             $log.debug('No profile... redirecting');
-            $state.go('onboarding.start');
+            $state.go($rootScope.sref('onboarding.start'));
           } else if (err.message && err.message.match('NONAGREEDDISCLAIMER')) {
             if (lodash.isEmpty(profileService.getWallets())) {
               $log.debug('No wallets and no disclaimer... redirecting');
-              $state.go('onboarding.start');
+              $state.go($rootScope.sref('onboarding.start'));
             } else {
               $log.debug('Display disclaimer... redirecting');
-              $state.go('onboarding.disclaimer', {
+              $state.go($rootScope.sref('onboarding.disclaimer'), {
                 resume: true
               });
             }
@@ -218,7 +226,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
           $log.debug('Profile loaded ... Starting UX.');
           scannerService.gentleInitialize();
           // Reload tab-home if necessary (from root path: starting)
-          $state.go('starting', {}, {
+          $state.go($rootScope.sref('starting'), {}, {
             'reload': true,
             'notify': $state.current.name == 'starting' ? false : true
           }).then(function() {
@@ -226,8 +234,6 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
               disableAnimate: true,
               historyRoot: true
             });
-//            $state.transitionTo('tabs.home').then(function() {
-//            $state.transitionTo($rootScope.sref('home')).then(function() {
             $state.transitionTo($rootScope.sref('home')).then(function() {
 
               // Clear history

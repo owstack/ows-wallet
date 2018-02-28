@@ -1,2 +1,44 @@
 #side-bar {
+  background: $v-side-bar-bg;
+  color: $v-side-bar-color;
+  height: 100%;
+
+  .list {
+    margin-top: -5px;
+  }
+
+  .side-bar-logo {
+    height: 35px;
+    width: 100%;
+  }
+
+  .side-bar-header {
+    background: $v-side-bar-logo-bg;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  // For iPhone X
+  @media screen and (width: 375px) and (height: 812px) {
+    .side-bar-header {
+      padding-top: 48px;
+    }
+  }
+
+	.item-side-bar {
+		font-size: 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: $v-side-bar-item-bg;
+
+    &:before {
+      background: $v-side-bar-item-border-bg;
+    }
+
+    &.selected {
+      background: $v-side-bar-item-selected-bg;
+    }
+  }
 }

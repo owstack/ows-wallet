@@ -52,8 +52,9 @@ angular.module('owsWalletApp.services').factory('derivationPathService', functio
     };
 
     var match = arr[3].match(/(\d+)'/);
-    if (!match)
+    if (!match) {
       return false;
+    }
     ret.account = +match[1]
 
     return ret;

@@ -1,8 +1,11 @@
 <ion-view id="home" class="ows" show-tabs>
   <ion-nav-bar class="bar">
-    <ion-nav-title><img class="tab-home__logo" src="img/brand/logo.svg"></ion-nav-title>
+    <ion-nav-title>
+      <img ng-if="shouldShowLogo" class="tab-home__logo" src="img/brand/logo.svg"/>
+      <span ng-if="!shouldShowLogo">{{'Dashboard' | translate}}</span>
+    </ion-nav-title>
     <ion-nav-buttons side="primary">
-      <button class="button button-nav-bar button-navicon button-clear" ng-click="toggleSideBar()" ng-if="usingSideMenu"></button>
+      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
       <button class="button button-nav-bar button-back button-clear" ng-click="toggleLayout()" ng-if="showLayoutButton">

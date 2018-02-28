@@ -92,7 +92,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
         if (val) {
           $ionicHistory.removeBackView();
           $state.go($rootScope.sref('home'));
-        } else $state.go('onboarding.disclaimer', {
+        } else $state.go($rootScope.sref('onboarding.disclaimer'), {
           walletId: $stateParams.walletId,
           backedUp: true
         });

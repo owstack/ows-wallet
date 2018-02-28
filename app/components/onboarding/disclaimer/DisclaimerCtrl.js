@@ -52,7 +52,7 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
   };
 
   $scope.goBack = function() {
-    $ionicNativeTransitions.stateGo('onboarding.backup-request', {
+    $ionicNativeTransitions.stateGo($rootScope.sref('onboarding.backup-request'), {
 //    $state.go('onboarding.backup-request', {
       walletId: $stateParams.walletId
     }, {}, {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('BackupRequestCtrl', function($scope, $state, $stateParams, $ionicConfig, popupService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('BackupRequestCtrl', function($rootScope, $scope, $state, $stateParams, $ionicConfig, popupService, gettextCatalog) {
 
   $scope.walletId = $stateParams.walletId;
 
@@ -26,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('BackupRequestCtrl', funct
         var cancelText = gettextCatalog.getString('Go back');
         popupService.showConfirm(title, message, okText, cancelText, function(val) {
           if (val) {
-            $state.go('onboarding.disclaimer', {
+            $state.go($rootScope.sref('onboarding.disclaimer'), {
               walletId: $scope.walletId,
               backedUp: false
             });

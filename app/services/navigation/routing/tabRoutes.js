@@ -3,7 +3,7 @@
 angular.module('owsWalletApp.services').factory('tabRoutes', function() {
   var root = {};
 
-  root.set = function(stateProvider) {
+  root.init = function(stateProvider) {
     stateProvider.state('tabs', {
       nativeTransitions: null,
       url: '/tabs',

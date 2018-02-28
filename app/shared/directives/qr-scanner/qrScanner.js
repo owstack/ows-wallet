@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('qrScanner', function($state, $rootScope, $log, $ionicHistory) {
+  .directive('qrScanner', function($rootScope, $state, $log, $ionicHistory) {
     return {
       restrict: 'E',
       scope: {
@@ -20,7 +20,7 @@ angular.module('owsWalletApp.directives')
           $ionicHistory.nextViewOptions({
             disableAnimate: true
           });
-          $state.go('scanner', {
+          $state.go($rootScope.sref('scanner'), {
             passthroughMode: 1
           });
         };

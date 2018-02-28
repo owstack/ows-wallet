@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('sideMenuRoutes', function() {
+angular.module('owsWalletApp.services').factory('sideMenuRoutes', function($rootScope, $ionicSideMenuDelegate) {
   var root = {};
 
-  root.set = function(stateProvider) {
+  root.init = function(stateProvider) {
     stateProvider.state('main', {
       url: '/main',
       abstract: true,
@@ -42,8 +42,8 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function() {
     'copayers':                       { stateName: 'main.copayers',                       viewNames: ['side-menu-content'] },
     'fee':                            { stateName: 'main.fee',                            viewNames: ['side-menu-content'] },
     'feedback':                       { stateName: 'main.feedback',                       viewNames: ['side-menu-content'] },
-    'help':                           { stateName: 'help',                                viewNames: ['side-menu-content'] },
-    'help.tour':                      { stateName: 'help.tour',                           viewNames: ['side-menu-content'] },
+    'help':                           { stateName: 'main.help',                           viewNames: ['side-menu-content'] },
+    'help.tour':                      { stateName: 'main.help-tour',                      viewNames: ['side-menu-content'] },
     'home':                           { stateName: 'main.home',                           viewNames: ['side-menu-content'] },
     'home.all-wallets':               { stateName: 'main.home-all-wallets',               viewNames: ['side-menu-content'] },
     'home.paper-wallet':              { stateName: 'main.home-paper-wallet',              viewNames: ['side-menu-content'] },
@@ -86,7 +86,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function() {
     'receive.backup':                 { stateName: 'main.receive-backup',                 viewNames: ['side-menu-content'] },
     'receive.backup-warning':         { stateName: 'main.receive-backup-warning',         viewNames: ['side-menu-content'] },
     'scan':                           { stateName: 'main.scan',                           viewNames: ['side-menu-content'] },
-    'scanner':                        { stateName: 'scanner',                             viewNames: null },
+    'scanner':                        { stateName: 'main.scanner',                        viewNames: null },
     'send':                           { stateName: 'main.send',                           viewNames: ['side-menu-content'] },
     'send.address-book':              { stateName: 'main.send-address-book',              viewNames: ['side-menu-content'] },
     'send.amount':                    { stateName: 'main.send-amount',                    viewNames: ['side-menu-content'] },

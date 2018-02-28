@@ -64,6 +64,11 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
   });
 
   function activate() {
+    // Ensure that the scan view background is transparent (allows video to be visible). It may have a
+    if (angular.element(document.querySelector('#scan'))[0]) {
+      angular.element(document.querySelector('#scan'))[0].style.backgroundColor = 'transparent';
+    }
+
     scannerService.activate(function() {
       _updateCapabilities();
       _handleCapabilities();

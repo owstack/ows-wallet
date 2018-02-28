@@ -128,11 +128,11 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
     var fromView = $ionicHistory.currentStateName();
     var path;
     if (fromView.indexOf('settings') !== -1) {
-      path = $rootScope.sref('settings.all-addresses');
+      path = 'settings.all-addresses';
     } else {
-      path = $rootScope.sref('wallet.all-addresses');
+      path = 'wallet.all-addresses';
     }
-    $state.go(path, {
+    $state.go($rootScope.sref(path), {
       walletId: $scope.wallet.id
     });
   };

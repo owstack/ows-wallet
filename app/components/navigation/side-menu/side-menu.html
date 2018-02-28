@@ -1,13 +1,13 @@
 <ion-side-menus id="side-menu">
 
   <!-- Left menu -->
-  <ion-side-menu side="left" expose-aside-when="large">
+  <ion-side-menu id="side-menu-left" side="left" expose-aside-when="large" respond-to-side-menu-slide>
     <div ng-include="'views/navigation/side-menu/side-bar/side-bar.html'"></div>
   </ion-side-menu>
 
   <!-- Main content -->
-  <ion-pane ion-side-menu-content drag-content="isCordova">
-    <ion-nav-view name="side-menu-content" animation="slide-left-right"></ion-nav-view>
+  <ion-pane id="main-content-pane" ion-side-menu-content drag-content="isCordova">
+    <ion-nav-view id="main-content-nav-view" name="side-menu-content" animation="slide-left-right"></ion-nav-view>
   </ion-pane>
 
 </ion-side-menus>

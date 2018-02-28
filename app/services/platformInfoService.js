@@ -31,6 +31,7 @@ angular.module('owsWalletApp.services').factory('platformInfoService', function(
     ua: ua,
     isCordova: !!$window.cordova,
     isNW: isNodeWebkit(),
+    isIPhoneX: ($window.device.model == 'iPhone10,3') || ($window.device.model == 'iPhone10,6')
   };
 
   ret.isMobile = ret.isAndroid || ret.isIOS;

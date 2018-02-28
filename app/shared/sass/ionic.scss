@@ -7,6 +7,13 @@
 //
 // Please include a description of the problem solved by the workaround.
 
+// Add bottom margin to tabbar for iPhone X
+@media screen and (width: 375px) and (height: 812px) {
+  .tabbar {
+    margin-bottom: 44px;
+  }
+}
+
 // Defeat the Ionic styling when an ion-item includes ui-sref class.
 .item-complex .item-content {
   position: initial;

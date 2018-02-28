@@ -1,47 +1,81 @@
-.tabs .tab-item {
-  .icon {
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 6px 0 2px;
-    &.icon-home {
-      background-image: $v-tab-home-icon;
-      background-size: contain;
+#tabs {
+
+  .tabs {
+    background: $v-tabs-bg;
+  }
+
+  .tabs .tab-item {
+    background: $v-tabs-inactive-bg;
+    color: $v-tabs-inactive-color;
+    opacity: 1.0;
+
+    &.tab-item-active {
+      background: $v-tabs-active-bg;
+      color: $v-tabs-active-color;
     }
-    &.icon-home-selected {
-      background-image: $v-tab-home-selected-icon;
-      background-size: contain;
+  }
+
+  .tabs .tab-item {
+    .tab-title {
+      @if $v-tabs-show-labels == false {
+        display: none;
+      }
     }
-    &.icon-receive {
-      background-image: $v-tab-receive-icon;
+
+    .icon {
+      background-repeat: no-repeat;
+      background-position: center;
       background-size: contain;
-    }
-    &.icon-receive-selected {
-      background-image: $v-tab-receive-selected-icon;
-      background-size: contain;
-    }
-    &.icon-settings {
-      background-image: $v-tab-settings-icon;
-      background-size: contain;
-    }
-    &.icon-settings-selected {
-      background-image: $v-tab-settings-selected-icon;
-      background-size: contain;
-    }
-    &.icon-scan {
-      background-image: $v-tab-scan-icon;
-      background-size: contain;
-    }
-    &.icon-scan-selected {
-      background-image: $v-tab-scan-selected-icon;
-      background-size: contain;
-    }
-    &.icon-send {
-      background-image: $v-tab-send-icon;
-      background-size: contain;
-    }
-    &.icon-send-selected {
-      background-image: $v-tab-send-selected-icon;
-      background-size: contain;
+
+      @if $v-tabs-show-labels == false {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      @else {
+        margin: 6px 0 2px;
+      }
+
+      &.icon-home {
+        background-image: url('../img/tab-icons/icon-home.svg');
+      }
+
+      &.icon-home-selected {
+        background-image: url('../img/tab-icons/icon-home-selected.svg');
+      }
+
+      &.icon-receive {
+        background-image: url('../img/tab-icons/icon-receive.svg');
+      }
+
+      &.icon-receive-selected {
+        background-image: url('../img/tab-icons/icon-receive-selected.svg');
+      }
+
+      &.icon-settings {
+        background-image: url('../img/tab-icons/icon-settings.svg');
+      }
+
+      &.icon-settings-selected {
+        background-image: url('../img/tab-icons/icon-settings-selected.svg');
+      }
+
+      &.icon-scan {
+        background-image: url('../img/tab-icons/icon-scan.svg');
+      }
+
+      &.icon-scan-selected {
+        background-image: url('../img/tab-icons/icon-scan-selected.svg');
+      }
+
+      &.icon-send {
+        background-image: url('../img/tab-icons/icon-send.svg');
+      }
+
+      &.icon-send-selected {
+        background-image: url('../img/tab-icons/icon-send-selected.svg');
+      }
     }
   }
 }
+

@@ -1,2 +1,11 @@
 #side-menu {
+	ion-side-menu > div {
+		height: 100%;
+	}
+
+	ion-pane.menu-content {
+		box-shadow: $v-side-bar-shadow;
+	}
 }
+
+@import "side-bar/side-bar";

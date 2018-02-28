@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('HomeCtrl',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService, $ionicSideMenuDelegate, navigationService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService, $ionicSideMenuDelegate) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -43,7 +43,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     });
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.usingSideMenu = navigationService.usingSideMenu();
+      $scope.shouldShowLogo = $rootScope.usingTabs;
 
       if (!$scope.homeTip) {
         storageService.getHomeTipAccepted(function(error, value) {
@@ -338,10 +338,6 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
 
     $scope.isTestnet = function(networkURI) {
       return networkService.isTestnet(networkURI);
-    };
-
-    $scope.toggleSideBar = function() {
-      $ionicSideMenuDelegate.toggleLeft();
     };
 
     $scope.toggleLayout = function() {

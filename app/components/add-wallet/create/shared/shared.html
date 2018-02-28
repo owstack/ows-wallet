@@ -79,7 +79,7 @@
                 The recovery phrase may require a password to be imported
               </div>
             </ion-item>
-            <ion-item class="item-input item-stacked-label item-no-line append prepend" ng-show="encrypt">
+            <ion-item class="item-input item-stacked-label item-no-border append prepend" ng-show="encrypt">
               <input type="password" ng-show="formData.seedSource.id == 'new'" placeholder="{{'Password'|translate}}"
                 autocapitalize="off" name="createPassphrase" ng-model="formData.createPassphrase"
                 ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"
@@ -88,7 +88,7 @@
                 name="passphrase" ng-model="formData.passphrase" ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
                 ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
             </ion-item>
-            <ion-item class="item-input item-stacked-label item-no-line append" ng-show="encrypt">
+            <ion-item class="item-input item-stacked-label item-no-border append" ng-show="encrypt">
               <input type="password" ng-show="formData.seedSource.id == 'new'" placeholder="{{'Repeat password'|translate}}"
                 autocapitalize="off" ng-model="formData.repeatPassword"
                 ng-change="checkPassword(formData.createPassphrase, formData.repeatPassword)"
@@ -97,10 +97,10 @@
                 autocapitalize="off" ng-model="formData.repeatPassword" ng-change="checkPassword(formData.passphrase, formData.repeatPassword)"
                 ng-class="{'correct': result == 'correct', 'incorrect': result == 'incorrect'}">
             </ion-item>
-            <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive item-no-line" ng-show="encrypt && result == 'correct'">
+            <ion-checkbox ng-model="formData.passwordSaved" class="checkbox-positive item-no-border" ng-show="encrypt && result == 'correct'">
               <span class="toggle-label" translate>I have written it down</span>
             </ion-checkbox>
-            <ion-item class="item-fh item-no-line append prepend"
+            <ion-item class="item-fh item-no-border append prepend"
               ng-show="(formData.seedSource.id =='new' || formData.seedSource.id =='set') && encrypt">
               <div class="box-notification error">
                 <h2 translate>Backup Your Password</h2>

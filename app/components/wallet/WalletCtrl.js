@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, /*$ionicNativeTransitions,*/ $state, $stateParams, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService, navigationService) {
+angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, /*$ionicNativeTransitions,*/ $state, $stateParams, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;
@@ -11,7 +11,7 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   $scope.isCordova = platformInfoService.isCordova;
   $scope.isAndroid = platformInfoService.isAndroid;
   $scope.isIOS = platformInfoService.isIOS;
-  $scope.shouldShowActions = navigationService.usingSideMenu();
+  $scope.shouldShowActions = $rootScope.usingSideMenu;
 
   $scope.headerIsCollapsible = !$scope.isAndroid;
 //  $scope.headerIsCollapsible = false;

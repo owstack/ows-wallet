@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.controllers').controller('AppTourCtrl',
-  function($scope, $state, $ionicModal, $location, $ionicScrollDelegate, helpService) {
+  function($rootScope, $scope, $state, $ionicModal, $location, $ionicScrollDelegate, helpService) {
 
     $scope.tourTopics = helpService.getTourTopics();
 
@@ -33,9 +33,9 @@ angular.module('owsWalletApp.controllers').controller('AppTourCtrl',
       if ($scope.slide.index != 0) {
         $scope.slider.slidePrev();
       } else if ($scope.fromOnboarding) {
-        $state.go('onboarding.start');
+        $state.go($rootScope.sref('onboarding.start'));
       } else {
-        $state.go('help');
+        $state.go($rootScope.sref('help'));
       }
     }
 
@@ -49,9 +49,9 @@ angular.module('owsWalletApp.controllers').controller('AppTourCtrl',
       if ($scope.slide.index != $scope.tourTopics.length-1) {
         $scope.slider.slideNext();
       } else if ($scope.fromOnboarding) {
-        $state.go('onboarding.create-first-wallet');
+        $state.go($rootScope.sref('onboarding.create-first-wallet'));
       } else {
-        $state.go('help');
+        $state.go($rootScope.sref('help'));
       }
     }
 

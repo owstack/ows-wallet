@@ -1,5 +1,36 @@
-<div id="side-bar" ng-controller="SideBarCtrl">
-	<div>
-		Hello
+<div id="side-bar" class="ows" ng-controller="SideBarCtrl">
+	<div class="side-bar-header">
+	  <img class="side-bar-logo" src="img/brand/logo.svg">
 	</div>
+  <ion-list>
+    <ion-item class="item-side-bar item-fh item-icon-left icon-left-sm has-click" ng-class="{'selected item-marker': currentState == 'home'}"
+    	ng-click="goToState('home')" menu-close>
+    	<i class="icon ion-speedometer sm-icon"></i>
+      <div translate>Dashboard</div>
+    </ion-item>
+    <ion-item class="item-side-bar item-fh item-icon-left icon-left-sm has-click" ng-class="{'selected item-marker': currentState == 'scan'}"
+    	ng-click="goToState('scan')" menu-close>
+    	<i class="icon ion-qr-scanner sm-icon"></i>
+      <div translate>Scan</div>
+    </ion-item>
+    <ion-item class="item-side-bar item-fh item-icon-left icon-left-sm has-click" ng-class="{'selected item-marker': currentState == 'address-book'}"
+    	ng-click="goToState('address-book')" menu-close>
+    	<i class="icon sm-icon">
+    		<img src="img/icon-contacts.svg" class="bg"/>
+    	</i>
+      <div translate>Address Book</div>
+    </ion-item>
+    <ion-item class="item-side-bar item-fh item-icon-left icon-left-sm has-click" ng-class="{'selected item-marker': currentState == 'settings'}"
+    	ng-click="goToState('settings')" menu-close>
+    	<i class="icon ion-ios-gear-outline sm-icon"></i>
+      <div translate>Settings</div>
+    </ion-item>
+    <ion-item class="item-side-bar item-fh item-icon-left icon-left-sm has-click" ng-class="{'selected item-marker': currentState == 'help'}"
+    	ng-click="goToState('help')" menu-close>
+    	<i class="icon sm-icon">
+    		<img src="img/icon-help-support.svg" class="bg"/>
+    	</i>
+      <div translate>Help</div>
+    </ion-item>
+  </ion-list>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('CreateFirstWalletCtrl',
-  function($scope, $state, $log, $timeout, ongoingProcessService, profileService, popupService, gettextCatalog, configService, networkService, platformInfoService) {
+  function($rootScope, $scope, $state, $log, $timeout, ongoingProcessService, profileService, popupService, gettextCatalog, configService, networkService, platformInfoService) {
 
     $scope.isCordova = platformInfoService.isCordova;
     var retryCount = 0;
@@ -47,7 +47,7 @@ angular.module('owsWalletApp.controllers').controller('CreateFirstWalletCtrl',
           var wallet = walletClient;
           var walletId = wallet.credentials.walletId;
 
-          $state.go('onboarding.collect-email', {
+          $state.go($rootScope.sref('onboarding.collect-email'), {
             walletId: walletId
           });
         });

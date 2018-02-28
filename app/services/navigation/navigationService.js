@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('navigationService', function($rootScope, configService, tabRoutes, sideMenuRoutes) {
+angular.module('owsWalletApp.services').factory('navigationService', function($rootScope, $log, configService, tabRoutes, sideMenuRoutes) {
   var root = {};
 
   // List of recognized navigation routing schemes.
@@ -16,24 +16,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
   };
 
   // Ensure a default scheme is used if configuration fails.
-  var currentScheme = schemes['tabs'];
-
-  // Read the configured app navigation scheme.
-  configService.get(function(err, config) {
-    if (err) {
-      $log.warn('Failed to read app config while setting up app navigation scheme: ' + err);
-      return;
-    }
-    currentScheme = config.appNavigation.scheme;
-  });
-
-  root.usingSideMenu = function() {
-    return currentScheme == 'side-menu';
-  };
-
-  root.usingTabs = function() {
-    return currentScheme == 'tabs';
-  }
+  var currentScheme = 'tabs';
 
   root.getSchemes = function() {
     return Object.keys(schemes);
@@ -43,13 +26,20 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
     return schemes[scheme].label;
   };
 
-  root.init = function(stateProvider) {
+  root.init = function(appNavigation, stateProvider) {
+    currentScheme = appNavigation.scheme;
+
     // Select the scheme routing.
     var routes = schemes[currentScheme].routes;
 
     if (!routes) {
       throw ('Error: app navigation scheme not found: ' + currentScheme);
     }
+    $log.info('Using app navigations scheme: ' + root.schemeLabelFor(currentScheme));
+
+    // Provide global access to configuration.
+    $rootScope.usingSideMenu = (currentScheme == 'side-menu');
+    $rootScope.usingTabs = (currentScheme == 'tabs');
 
     // Provide global access to map the specified state name and create a valid ui-sref string.
     $rootScope.sref = function(stateName, arg) {
@@ -70,8 +60,8 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       return views;
     };
 
-    // Set the app base routing scheme.
-    routes.set(stateProvider);
+    // Initialize the app base routing scheme.
+    routes.init(stateProvider);
 
     // Set the app routes using state names from the configured app navigation scheme.
     stateProvider
