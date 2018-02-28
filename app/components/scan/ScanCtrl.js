@@ -55,6 +55,10 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
     _refreshScanView();
   });
 
+  $scope.$on("$ionicView.beforeEnter", function() {
+    $scope.shouldShowSideMenuButton = ($state.params.passthroughMode == null);
+  });
+
   $scope.$on("$ionicView.afterEnter", function() {
     // try initializing and refreshing status any time the view is entered
     if(!scannerService.isInitialized()) {

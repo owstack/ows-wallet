@@ -209,7 +209,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/scan/scan.html',
       }])
     })
-    .state('scanner', {
+    .state($rootScope.sref('scanner'), {
 //        nativeTransitions: null,
       url: '/scanner',
       params: {

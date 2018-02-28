@@ -86,7 +86,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function($root
     'receive.backup':                 { stateName: 'main.receive-backup',                 viewNames: ['side-menu-content'] },
     'receive.backup-warning':         { stateName: 'main.receive-backup-warning',         viewNames: ['side-menu-content'] },
     'scan':                           { stateName: 'main.scan',                           viewNames: ['side-menu-content'] },
-    'scanner':                        { stateName: 'main.scanner',                        viewNames: null },
+    'scanner':                        { stateName: 'scanner',                             viewNames: null },
     'send':                           { stateName: 'main.send',                           viewNames: ['side-menu-content'] },
     'send.address-book':              { stateName: 'main.send-address-book',              viewNames: ['side-menu-content'] },
     'send.amount':                    { stateName: 'main.send-amount',                    viewNames: ['side-menu-content'] },

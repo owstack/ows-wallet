@@ -2,7 +2,9 @@
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Scan' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
-      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+      <div ng-if="usingSideMenu && shouldShowSideMenuButton"
+        ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'">
+      </div>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
       <button class="button button-nav-bar button-close ng-hide" ng-click="goBack()" ng-show="canGoBack()"></button>
