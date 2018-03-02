@@ -117,7 +117,7 @@
       </ion-item>
       <ion-toggle ng-show="!btx.confirmations || btx.confirmations == 0" ng-model="txNotification.value" toggle-class="toggle-positive"
         ng-change="txConfirmNotificationChange()" ng-if="txsUnsubscribedForNotifications">
-        <span translate>Notify me if confirmed</span>
+        <span class="toggle-label" translate>Notify me if confirmed</span>
       </ion-toggle>
       <!-- Timeline -->
       <div ng-if="actionList[0]">

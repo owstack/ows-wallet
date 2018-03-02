@@ -14,7 +14,7 @@ if (window && window.navigator) {
 }
 
 //Setting up route
-angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, navigationServiceProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider, configServiceProvider) {
+angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, navigationServiceProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, configServiceProvider) {
     $urlRouterProvider.otherwise('/starting');
 
     // NO CACHE
@@ -39,17 +39,6 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
     // USE NATIVE SCROLLING
     $ionicConfigProvider.scrolling.jsScrolling(false);
-
-    $ionicNativeTransitionsProvider.setDefaultOptions({
-      duration: 300, // in milliseconds (ms), default 400,
-      slowdownfactor: 2, // overlap views (higher number is more) or no overlap (1), default 4
-      iosdelay: -1, // ms to wait for the iOS webview to update before animation kicks in, default -1
-      androiddelay: -1, // same as above but for Android, default -1
-      fixedPixelsTop: 0, // the number of pixels of your fixed header, default 0 (iOS and Android)
-      fixedPixelsBottom: 0, // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
-      triggerTransitionEvent: '$ionicView.afterEnter', // internal ionic-native-transitions option
-      backInOppositeDirection: true // Takes over default back transition and state back transition to use the opposite direction transition to go back
-    });
 
     $logProvider.debugEnabled(true);
     $provide.decorator('$log', ['$delegate', 'platformInfoService',
@@ -134,14 +123,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         screen.lockOrientation('portrait');
       }
 
-      if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
-        cordova.plugins.Keyboard.disableScroll(true);
-      }
-
-      window.addEventListener('native.keyboardshow', function() {
-        document.body.classList.add('keyboard-open');
-      });
+      Keyboard.hideFormAccessoryBar(false);
 
       $ionicPlatform.registerBackButtonAction(function(e) {
         //from root tabs view
@@ -229,7 +211,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
           // Reload tab-home if necessary (from root path: starting)
           $state.go($rootScope.sref('starting'), {}, {
             'reload': true,
-            'notify': $state.current.name == 'starting' ? false : true
+            'notify': $state.current.name == $rootScope.sref('starting') ? false : true
           }).then(function() {
             $ionicHistory.nextViewOptions({
               disableAnimate: true,

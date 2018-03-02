@@ -55,8 +55,8 @@
               name="privateKey" ng-model="formData.privateKey">
           </ion-item>
           <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
-            <ion-toggle class="item-fh" ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
-              <div translate>Add a password</div>
+            <ion-toggle ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
+              <span class="toggle-label" translate>Add a password</span>
             </ion-toggle>
             <ion-item class="item-comment append">
               <div ng-show="formData.seedSource.id == 'new'" translate>

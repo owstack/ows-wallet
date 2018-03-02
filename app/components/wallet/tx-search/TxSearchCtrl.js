@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('TxSearchCtrl', function($scope, $interval, $timeout, $log, $ionicPopover, $state, $stateParams, $ionicScrollDelegate, lodash, gettext, gettextCatalog, platformInfoService, uxLanguageService, addressBookService) {
+angular.module('owsWalletApp.controllers').controller('TxSearchCtrl', function($scope, $interval, $timeout, $log, $ionicPopover, $ionicScrollDelegate, lodash, gettext, gettextCatalog, platformInfoService, uxLanguageService, addressBookService) {
 
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;

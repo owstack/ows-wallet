@@ -26,20 +26,13 @@
       <ion-toggle ng-model="emailNotifications.value" toggle-class="toggle-positive" ng-change="emailNotificationsChange()">
         <span class="toggle-label" translate>Enable email notifications</span>
       </ion-toggle>
-      <ion-item class="item-comment append">
-        
-      <div class="box-notification info clear" ng-if="emailNotifications.value">
-        <p class="notice" translate>
-          You'll receive email notifications about payments sent and received from your wallets.
-        </p>
-      </div>
+      <ion-item class="item-comment append prepend" ng-if="emailNotifications.value">
+        <div class="box-notification info clear">
+          <p class="notice" translate>
+            You'll receive email notifications about payments sent and received from your wallets.
+          </p>
+        </div>
       </ion-item>
-
-<!--
-      <ion-item class="item-comment append" ng-if="emailNotifications.value" translate>
-        You'll receive email notifications about payments sent and received from your wallets.
-      </ion-item>
--->
       <div ng-if="emailNotifications.value">
         <form name="emailForm" ng-submit="save()" novalidate>
           <ion-item class="item-input item-stacked-label">

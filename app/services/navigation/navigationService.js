@@ -182,7 +182,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
      *
      */
     .state($rootScope.sref('home'), {
-//        nativeTransitions: null,
       url: '/home/:fromOnboarding',
       views: getViews('home', [{
         controller: 'HomeCtrl',
@@ -194,7 +193,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }
     })
     .state($rootScope.sref('receive'), {
-//        nativeTransitions: null,
       url: '/receive/:walletId',
       views: getViews('receive', [{
         controller: 'ReceiveCtrl',
@@ -202,7 +200,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
     .state($rootScope.sref('scan'), {
-//        nativeTransitions: null,
       url: '/scan',
       views: getViews('scan', [{
         controller: 'ScanCtrl',
@@ -210,7 +207,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
     .state($rootScope.sref('scanner'), {
-//        nativeTransitions: null,
       url: '/scanner',
       params: {
         passthroughMode: null,
@@ -219,7 +215,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       templateUrl: 'views/scan/scan.html'
     })
     .state($rootScope.sref('send'), {
-//        nativeTransitions: null,
       url: '/send/:walletId',
       views: getViews('send', [{
         controller: 'SendCtrl',
@@ -227,7 +222,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
     .state($rootScope.sref('settings'), {
-//        nativeTransitions: null,
       url: '/settings',
       views: getViews('settings', [{
         controller: 'AppSettingsCtrl',
@@ -647,7 +641,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       template: '<ion-nav-view name="onboarding"></ion-nav-view>'
     })
     .state($rootScope.sref('onboarding.start'), {
-      nativeTransitions: null,
       url: '/onboarding/start',
       views: getViews('onboarding.start', [{
         controller: 'StartCtrl',

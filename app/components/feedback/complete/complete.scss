@@ -1,9 +1,12 @@
 #complete {
-  background-color: $v-white-color;
+  background: $v-settings-bg;
+  color: $v-settings-color;
+
   .complete-layout {
     display: flex;
     flex-direction: column;
     height: 100%;
+
     &__expand {
       display: flex;
       flex-direction: column;
@@ -13,44 +16,52 @@
       text-align: center;
       opacity: 0;
       transition: opacity .3s;
+
       &.fade-in {
         opacity: 1;
       }
     }
   }
+
   .share-the-love-illustration {
     width: 5rem;
     margin: 1rem;
   }
+
   .feedback-title {
     font-size: 20px;
     font-weight: bold;
-    color: $v-dark-gray;
     margin: 20px 10px;
     text-align: center;
+    color: $v-list-item-color;
   }
+
   .subtitle {
     padding: 10px 30px 20px;
     text-align: center;
-    color: $v-mid-gray;
+    color: $v-list-item-secondary-color;
   }
+
   .icon-svg > img {
     height: 16rem;
     width: 16rem;
     margin: 10px;
   }
+
   .socialsharing-icon {
     display: inline-block;
     width: 60px;
   }
+
   .addressbook-icon-svg {
     display: inline-block;
     width: 50px;
     height: 50px;
   }
+
   .share-buttons {
     padding: 50px 10px 30px;
-    background-color: $v-subtle-gray;
+    background-color: $v-list-item-bg;
     text-align: center;
     -webkit-transform: translateY(100%);
     transform: translateY(100%);
@@ -61,9 +72,10 @@
     animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
     animation-delay: .2s;
   }
+
   .share-buttons__action {
     display: inline-block;
-    color: $v-mid-gray;
+    color: $v-list-item-secondary-color;
     font-size: .9rem;
     width: 90px;
     height: 90px;

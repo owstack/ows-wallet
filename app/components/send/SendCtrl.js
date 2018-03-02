@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, $ionicNativeTransitions, addressBookService, profileService, lodash, $state, walletService, incomingDataService, popupService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scope, $rootScope, $log, $timeout, $ionicScrollDelegate, $ionicHistory, addressBookService, profileService, lodash, $state, walletService, incomingDataService, popupService, gettextCatalog, networkService) {
 
   var originalList;
   var CONTACTS_SHOW_LIMIT;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletHistorySettingsCtrl',
-  function($rootScope, $scope, $log, $stateParams, $timeout, $state, $ionicHistory, storageService, platformInfoService, profileService, lodash, appConfigService, walletService, networkService, gettextCatalog, popupService) {
+  function($rootScope, $scope, $log, $stateParams, $timeout, $ionicHistory, storageService, platformInfoService, profileService, lodash, appConfigService, walletService, networkService, gettextCatalog, popupService) {
     $scope.wallet = profileService.getWallet($stateParams.walletId);
     $scope.csvReady = false;
     $scope.isCordova = platformInfoService.isCordova;

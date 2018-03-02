@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('openUrlService', function($rootScope, $ionicHistory, $document, $log, $state, platformInfoService, lodash, profileService, incomingDataService, appConfigService, networkService) {
+angular.module('owsWalletApp.services').factory('openUrlService', function($rootScope, $ionicHistory, $document, $log, platformInfoService, lodash, profileService, incomingDataService, appConfigService, networkService) {
   var root = {};
 
   var handleOpenURL = function(args) {

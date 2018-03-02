@@ -15,7 +15,7 @@
         <input type="number" ng-model="formData.account" ignore-mouse-wheel>
       </ion-item>
       <ion-toggle ng-show="formData.seedSource.id == 'trezor'" ng-model="formData.isMultisig" toggle-class="toggle-positive">
-        <span translate>Shared Wallet</span>
+        <span class="toggle-label" translate>Shared Wallet</span>
       </ion-toggle>
       <ion-item class="item-divider"></ion-item>
       <ion-item class="has-click" ng-click="showAdvChange()">

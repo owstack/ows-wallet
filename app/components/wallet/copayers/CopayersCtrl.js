@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
-  function($scope, $log, $timeout, $stateParams, $state, $rootScope, $ionicHistory, appConfigService, lodash, profileService, walletService, popupService, walletClientErrorService, platformInfoService, gettextCatalog, ongoingProcessService, pushNotificationsService) {
+  function($scope, $log, $timeout, $state, $rootScope, $ionicHistory, appConfigService, lodash, profileService, walletService, popupService, walletClientErrorService, platformInfoService, gettextCatalog, ongoingProcessService, pushNotificationsService) {
 
     var listener;
     var appName = appConfigService.userVisibleName;

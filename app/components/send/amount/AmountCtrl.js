@@ -25,7 +25,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     $scope.toAddress = data.stateParams.toAddress;
     $scope.toName = data.stateParams.toName || gettextCatalog.getString('Digital currency address');
     $scope.toEmail = data.stateParams.toEmail;
-    $scope.showAlternativeAmount = !!$scope.nextStep;
+    $scope.showAlternativeAmount = data.stateParams.initWithAlt || false;
     $scope.toColor = data.stateParams.toColor;
     $scope.showOptionsMenu = false;
 

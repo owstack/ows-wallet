@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
-  function($scope, $rootScope, $timeout, $log, $ionicHistory, $ionicNativeTransitions, lodash, configService, profileService, fingerprintService, walletService) {
+  function($scope, $rootScope, $timeout, $log, $ionicHistory, lodash, configService, profileService, fingerprintService, walletService) {
 
     $scope.hiddenBalanceChange = function() {
       var opts = {

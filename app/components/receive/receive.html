@@ -49,8 +49,7 @@
           </div>
         </div>
         <ion-list>
-          <ion-item class="has-detail item-icon-left icon-left-md item-icon-right" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet"
-            ng-class="{'no-arrow': wallets.length <= 1}">
+          <ion-item class="has-detail item-icon-left icon-left-md item-icon-right" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
             <i class="icon md-icon">
               <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
             </i>
@@ -61,7 +60,7 @@
               <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
               <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
             </div>
-            <i class="icon arrow-right"></i>
+            <i class="icon arrow-right" ng-show="wallets.length > 1"></i>
           </ion-item>
           <ion-item ng-show="addr" class="item-icon-right" ng-click="requestSpecificAmount()">
             <div translate>Request Specific Amount</div>

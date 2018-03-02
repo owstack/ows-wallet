@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletInformationCtrl',
-  function($scope, $log, $ionicHistory, platformInfoService, lodash, profileService, $stateParams, $state, walletService, networkService) {
+  function($scope, $log, $ionicHistory, platformInfoService, lodash, profileService, $stateParams, walletService, networkService) {
     var wallet = profileService.getWallet($stateParams.walletId);
     var walletId = wallet.id;
 

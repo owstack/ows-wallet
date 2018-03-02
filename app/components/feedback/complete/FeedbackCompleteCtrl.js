@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', function($scope, $stateParams, $timeout, $log, $ionicHistory, $state, $ionicNavBarDelegate, $ionicConfig, platformInfoService, storageService, lodash, appConfigService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', function($scope, $timeout, $log, $ionicHistory, $ionicNavBarDelegate, $ionicConfig, platformInfoService, storageService, lodash, appConfigService, gettextCatalog) {
   $scope.isCordova = platformInfoService.isCordova;
   $scope.title = gettextCatalog.getString("Share {{appName}}", {
     appName: appConfigService.nameCase

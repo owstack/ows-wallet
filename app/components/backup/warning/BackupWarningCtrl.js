@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', function($rootScope, $scope, $ionicNativeTransitions, $timeout, $state, $stateParams, $ionicModal) {
+angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', function($rootScope, $scope, $timeout, $state, $stateParams, $ionicModal) {
 
   $scope.walletId = $stateParams.walletId;
   $scope.fromState = $stateParams.from == 'onboarding' ? $stateParams.from + '.backup-request' : $stateParams.from;
@@ -19,8 +19,7 @@ angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', funct
     $scope.close = function() {
       $scope.warningModal.remove();
       $timeout(function() {
-        $ionicNativeTransitions.stateGo($rootScope.sref($scope.toState), {
-//        $state.go($scope.toState, {
+        $state.go($rootScope.sref($scope.toState), {
           walletId: $scope.walletId
         }, {}, {
           type: 'slide',
@@ -31,8 +30,7 @@ angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', funct
   }
 
   $scope.goBack = function() {
-    $ionicNativeTransitions.stateGo($rootScope.sref($scope.fromState), {
-//    $state.go($scope.fromState, {
+    $state.go($rootScope.sref($scope.fromState), {
       walletId: $scope.walletId
     }, {}, {
       type: 'slide',

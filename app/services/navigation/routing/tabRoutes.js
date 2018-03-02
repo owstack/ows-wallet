@@ -5,7 +5,6 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function() {
 
   root.init = function(stateProvider) {
     stateProvider.state('tabs', {
-      nativeTransitions: null,
       url: '/tabs',
       abstract: true,
       controller: 'TabsCtrl',

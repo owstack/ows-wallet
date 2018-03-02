@@ -1,14 +1,13 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletActionsCtrl', function($rootScope, $scope, $ionicNativeTransitions, navigationService) {
+angular.module('owsWalletApp.controllers').controller('WalletActionsCtrl', function($rootScope, $scope, $state, navigationService) {
 
   var self = this;
   // $scope inherited from parent
   
   self.sendFrom = function() {
     if ($scope.hasBalance) {
-//      $state.go('tabs.send', {
-    $ionicNativeTransitions.stateGo($rootScope.sref('send'), {
+    $state.go($rootScope.sref('send'), {
         walletId: $scope.walletId
     }, {}, {
       type: 'slide',
@@ -18,8 +17,7 @@ angular.module('owsWalletApp.controllers').controller('WalletActionsCtrl', funct
   };
 
   self.receiveTo = function() {
-//    $state.go('tabs.receive', {
-    $ionicNativeTransitions.stateGo($rootScope.sref('receive'), {
+    $state.go($rootScope.sref('receive'), {
       walletId: $scope.walletId
     }, {}, {
       type: 'slide',
@@ -28,16 +26,8 @@ angular.module('owsWalletApp.controllers').controller('WalletActionsCtrl', funct
   };
 
   self.settingsFor = function() {
-/*
     $state.transitionTo($rootScope.sref('preferences'), {
       walletId: $scope.walletId
-    });
-*/
-    $ionicNativeTransitions.stateGo($rootScope.sref('preferences'), {
-      walletId: $scope.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'left'
     });
   };
 

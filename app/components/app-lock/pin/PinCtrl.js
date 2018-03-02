@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('PinCtrl', function($state, $interval, $stateParams, $ionicHistory, $timeout, $scope, $log, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('PinCtrl', function($interval, $ionicHistory, $timeout, $scope, $log, configService, appConfigService) {
   var ATTEMPT_LIMIT = 3;
   var ATTEMPT_LOCK_OUT_TIME = 5 * 60;
   var currentPin;

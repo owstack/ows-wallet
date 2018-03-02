@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', function($state, $rootScope, $scope, $timeout, $log, configService, gettextCatalog, fingerprintService, profileService, lodash, applicationService, networkService) {
+angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', function($rootScope, $scope, $timeout, $log, configService, gettextCatalog, fingerprintService, profileService, lodash, applicationService, networkService) {
 
   function init() {
     $scope.options = [

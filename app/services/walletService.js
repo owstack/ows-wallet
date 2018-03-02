@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezorService, ledgerService, storageService, configService, rateService, uxLanguageService, $filter, gettextCatalog, walletClientErrorService, $ionicPopup, fingerprintService, ongoingProcessService, gettext, $rootScope, txFormatService, $state, popupService, networkService, feeService) {
+angular.module('owsWalletApp.services').factory('walletService', function($log, $timeout, lodash, trezorService, ledgerService, storageService, configService, rateService, uxLanguageService, $filter, gettextCatalog, walletClientErrorService, $ionicPopup, fingerprintService, ongoingProcessService, gettext, $rootScope, txFormatService, popupService, networkService, feeService) {
 
   // Ratio low amount warning (fee/amount) in incoming TX 
   var LOW_AMOUNT_RATIO = 0.15; 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($rootScope, $scope, $interval, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfoService, lodash, configService, $stateParams, $window, $state, $log, profileService, txFormatService, ongoingProcessService, $ionicModal, popupService, $ionicHistory, $ionicConfig, feeService, walletClientErrorService, txConfirmNotificationService, networkService) {
+angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($rootScope, $scope, $interval, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfoService, lodash, configService, $window, $state, $log, profileService, txFormatService, ongoingProcessService, $ionicModal, popupService, $ionicHistory, $ionicConfig, feeService, walletClientErrorService, txConfirmNotificationService, networkService) {
 
   var countDown = null;
   var CONFIRM_LIMIT_USD = 20;

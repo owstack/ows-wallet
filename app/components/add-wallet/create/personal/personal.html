@@ -9,8 +9,7 @@
       <ion-list>
         <ion-item class="item-input item-stacked-label">
           <span class="input-label" translate>Wallet name</span>
-          <input type="text" placeholder="{{'Family vacation funds'|translate}}" ng-model="formData.walletName" ng-required="true"
-            ng-focus="formFocus('wallet-name')" ng-blur="formFocus(false)" required>
+          <input type="text" placeholder="{{'Family vacation funds'|translate}}" ng-model="formData.walletName" ng-required="true" required>
         </ion-item>
         <ion-item class="item-input item-select">
           <span class="input-label" translate>
@@ -47,8 +46,8 @@
               ng-model="formData.privateKey">
           </ion-item>
           <div ng-show="formData.seedSource.id == 'new' || formData.seedSource.id == 'set'">
-            <ion-toggle class="item-fh" ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
-              <div translate>Add a password</div>
+            <ion-toggle ng-model="encrypt" toggle-class="toggle-positive" ng-change="resizeView()">
+              <span class="toggle-label" translate>Add a password</span>
             </ion-toggle>
             <ion-item class="item-comment append">
               <div ng-show="formData.seedSource.id == 'new'" translate>
@@ -92,10 +91,10 @@
             <input type="text" placeholder="{{'BIP32 path for address derivation'|translate}}" ng-model="formData.derivationPath">
           </ion-item>
           <ion-toggle ng-show="formData.testnetSupported" ng-model="formData.testnetSelected" toggle-class="toggle-positive">
-            <div translate>Testnet</div>
+            <span class="toggle-label" translate>Testnet</span>
           </ion-toggle>
-          <ion-toggle class="item-fh" ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
-            <div translate>Single Address Wallet</div>
+          <ion-toggle class="has-detail" ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
+            <span class="toggle-label" translate>Single Address Wallet</span>
             <div class="item-detail" translate>For audit purposes</div>
           </ion-toggle>
         </div>

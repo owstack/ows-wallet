@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, $ionicNativeTransitions, platformInfoService, walletService, profileService, lodash, gettextCatalog, popupService, networkService) {
+angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($rootScope, $scope, $timeout, $log, $ionicModal, $state, $ionicHistory, $ionicPopover, platformInfoService, walletService, profileService, lodash, gettextCatalog, popupService, networkService) {
 
   var listeners = [];
   $scope.isCordova = platformInfoService.isCordova;
