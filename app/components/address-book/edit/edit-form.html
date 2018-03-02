@@ -14,29 +14,27 @@
         <i class="icon ion-android-more-vertical"></i>
       </div>
     </ion-item>
-    <ion-list show-delete="showDeleteAddress">
-      <ion-item class="item-fh" ng-repeat="a in addressbookEntry.addresses track by $index">
-        <ion-delete-button class="ion-minus-circled" ng-click="deleteAddress($index)"></ion-delete-button>
-        <div class="item item-sub item-input item-icon-right icon-right-md">
-          <div>
-            <input type="text" placeholder="{{'Label (optional)' | translate}}" ng-model="a.label">
-          </div>
-            <i class="icon icon-scanner">
-              <qr-scanner ng-click="onQrCodeScanFor({{$index}})" on-scan="onQrCodeScanned(data)"
-                on-cancel="onQrCodeCancel()"></qr-scanner>
-            </i>
-        </div>
-        <div class="item item-sub item-input item-icon-left icon-left-md">
-          <i class="icon md-icon" ng-if="a.networkURI">
-            <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
-          </i>
-          <div>
-            <input type="text" id="{{'dca' + $index}}" name="{{'dca' + $index}}" placeholder="{{'Digital currency address' | translate}}"
-              ng-model="a.address" ng-class="{'correct': a.address.length > 0 && !form.addressbookForm.dca{{$index}}.$invalid, 'incorrect': a.address.length > 0 && form.addressbookForm.dca{{$index}}.$invalid}" ng-change="addressChanged(a)" valid-address required>
-          </div>
-        </div>
-      </ion-item>
-    </ion-list>
+  </ion-list>
+  <ion-list show-delete="showDeleteAddress">
+    <ion-item class="item-fh" ng-repeat="a in addressbookEntry.addresses track by $index">
+      <ion-delete-button class="ion-minus-circled" ng-click="deleteAddress($index)"></ion-delete-button>
+      <div class="item item-sub item-input item-icon-right icon-right-md">
+        <input type="text" id="{{'label' + $index}}" placeholder="{{'Label (optional)' | translate}}" ng-model="a.label">
+        <i class="icon icon-scanner">
+          <qr-scanner ng-click="onQrCodeScanFor({{$index}})" on-scan="onQrCodeScanned(data)" on-cancel="onQrCodeCancel()"></qr-scanner>
+        </i>
+      </div>
+      <div class="item item-sub item-input item-icon-left icon-left-md">
+        <i class="icon md-icon" ng-if="a.networkURI">
+          <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
+        </i>
+        <input type="text" id="{{'dca' + $index}}" name="{{'dca' + $index}}" placeholder="{{'Digital currency address' | translate}}"
+          ng-class="{'correct': a.address.length > 0 && !form.addressbookForm.dca{{$index}}.$invalid, 'incorrect': a.address.length > 0 && form.addressbookForm.dca{{$index}}.$invalid}"
+          ng-model="a.address" ng-change="addressChanged(a)" valid-address required>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-list>
     <ion-item class="item-divider"></ion-item>
     <ion-item class="has-click is-button" ng-click="addAddress()">
       <span translate>Add Address</span>
