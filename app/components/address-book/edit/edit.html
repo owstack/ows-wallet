@@ -16,7 +16,7 @@
   <ion-content>
     <div class="gravatar-content">
       <gravatar name="{{addressbookEntry.name}}" width="80" email="{{addressbookEntry.email}}"></gravatar>
-      <div>{{addressbookEntry.name}}</div>
+      <div>{{addressbookEntry.name || '\u00A0'}}</div>
     </div>
     <div ng-include="'views/address-book/edit/edit-form.html'"></div>
   </ion-content>
