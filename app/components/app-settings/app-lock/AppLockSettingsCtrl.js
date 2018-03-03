@@ -10,8 +10,8 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
         disabled: false,
       },
       {
-        method: 'pin',
-        label: gettextCatalog.getString('Lock by PIN'),
+        method: 'passcode',
+        label: gettextCatalog.getString('Lock by Passcode'),
         needsBackup: false,
         disabled: false,
       },
@@ -52,18 +52,6 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
     lodash.each($scope.options, function(o) {
       o.disabled = false;
     });
-
-    // HACK: Disable until we allow to change between methods directly
-    if (fingerprintService.isAvailable()) {
-      switch (savedMethod) {
-        case 'pin':
-          disable('fingerprint');
-          break;
-        case 'fingerprint':
-          disable('pin');
-          break;
-      }
-    }
 
     $scope.currentOption = lodash.find($scope.options, {
       method: savedMethod
@@ -114,7 +102,9 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
 
   $scope.select = function(selectedMethod) {
     var savedMethod = getSavedMethod();
-    if (savedMethod == selectedMethod) return;
+    if (savedMethod == selectedMethod) {
+      return;
+    }
 
     if (selectedMethod == 'none') {
       disableMethod(savedMethod);
@@ -125,13 +115,22 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
 
   function disableMethod(method) {
     switch (method) {
-      case 'pin':
-        applicationService.pinModal('disable');
+      case 'passcode':
+        applicationService.passcodeModal('disable', function(success) {
+          if (!success) {
+            init();
+          } else {
+            saveConfig('none');
+          }
+        });
         break;
       case 'fingerprint':
         fingerprintService.check('unlockingApp', function(err) {
-          if (err) init();
-          else saveConfig('none');
+          if (err) {
+            init();
+          } else {
+            saveConfig('none');
+          }
         });
         break;
     }
@@ -139,8 +138,10 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
 
   function enableMethod(method) {
     switch (method) {
-      case 'pin':
-        applicationService.pinModal('setup');
+      case 'passcode':
+        applicationService.passcodeModal('setup', function(success) {
+          init();
+        });
         break;
       case 'fingerprint':
         saveConfig('fingerprint');
@@ -157,13 +158,11 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
     };
 
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
       initMethodSelector();
     });
   };
-
-  $rootScope.$on('pinModalClosed', function() {
-    init()
-  });
 
 });

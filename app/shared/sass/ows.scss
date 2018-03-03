@@ -237,6 +237,10 @@
 				&.has-label {
 	    		height: 44px;
 		    }
+
+				&:first-child:before {
+		  		background: none;
+		  	}
 	    }
 
 		  &.item-no-bg {
@@ -433,6 +437,7 @@
 		  .item-content {
 		  	color: inherit;
 				padding-right: initial;
+				padding-left: 0;
 		  	white-space: initial;
 		    text-align: left;
 		  }

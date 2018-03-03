@@ -3,7 +3,7 @@ angular.module('owsWalletApp.services')
   .factory('applicationService', function($rootScope, $timeout, $ionicHistory, $ionicModal, platformInfoService, fingerprintService, configService, $state) {
     var root = {};
 
-    root.isPinModalOpen = false;
+    root.isPasscodeModalOpen = false;
 
     var isNW = platformInfoService.isNW;
 
@@ -66,40 +66,50 @@ angular.module('owsWalletApp.services')
       }
     };
 
-    root.pinModal = function(action) {
+    root.passcodeModal = function(action, cb) {
       var scope = $rootScope.$new(true);
       scope.action = action;
 
-      $ionicModal.fromTemplateUrl('omponents/app-lock/pin/pin.html', {
+      $ionicModal.fromTemplateUrl('views/app-lock/passcode/passcode.html', {
         scope: scope,
-        animation: 'none',
+        animation: (action == 'start' ? 'none' : 'slide-in-up'),
         backdropClickToClose: false,
         hardwareBackButtonClose: false
       }).then(function(modal) {
-        scope.pinModal = modal;
+        scope.passcodeModal = modal;
         root.isModalOpen = true;
         scope.openModal();
       });
 
       scope.openModal = function() {
-        scope.pinModal.show();
+        scope.passcodeModal.show();
       };
 
-      scope.hideModal = function() {
-        scope.$emit('pinModalClosed');
+      scope.hideModal = function(success) {
+        if (cb) {
+          cb(success);
+        }
         root.isModalOpen = false;
-        scope.pinModal.hide();
+        scope.passcodeModal.hide();
       };
     };
 
     root.appLockModal = function(action) {
-      if (root.isModalOpen) return;
+      if (root.isModalOpen) {
+        return;
+      }
 
       configService.whenAvailable(function(config) {
         var lockMethod = config.lock && config.lock.method;
-        if (!lockMethod || lockMethod == 'none') return;
-        if (lockMethod == 'fingerprint' && fingerprintService.isAvailable()) root.fingerprintModal();
-        if (lockMethod == 'pin') root.pinModal(action);
+        if (!lockMethod || lockMethod == 'none') {
+          return;
+        }
+        if (lockMethod == 'fingerprint' && fingerprintService.isAvailable()) {
+          root.fingerprintModal();
+        }
+        if (lockMethod == 'passcode') {
+          root.passcodeModal(action);
+        }
       });
     }
     return root;

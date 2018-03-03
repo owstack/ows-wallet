@@ -1,0 +1,84 @@
+<ion-modal-view id="passcode" class="ows" ng-controller="PasscodeCtrl">
+  <ion-header-bar align-title="center" class="bar bar-header" ng-if="(action != 'check') && (action != 'start') && (attemptsRemaining > 0)">
+    <button class="button button-nav-bar button-close button-right" ng-click="hideModal(false)"></button>
+  </ion-header-bar>
+  <ion-content>
+    <div class="block-text row">
+      <div class="box-notification clear center no-icon" ng-if="!confirmPasscode && !multipleAttempts && !error">
+        <h1 translate>
+          Enter your {{appName}} passcode
+        </h1>
+      </div>
+      <div class="box-notification clear center no-icon" ng-if="confirmPasscode && !error">
+        <h1 translate>
+          Confirm your passcode
+        </h1>
+      </div>
+      <div class="box-notification error clear center no-icon" ng-if="multipleAttempts && (attemptsRemaining > 0)">
+        <h1 translate>
+          {{attemptsRemaining}} attempt{{attemptsRemaining == 1 ? '' : 's'}} remaining
+        </h1>
+      </div>
+      <div class="box-notification error clear center no-icon" ng-if="error && expires">
+        <h1 translate>
+          {{appName}} is disabled
+        </h1>
+        <p translate>
+          try again in {{expires}}
+        </p>
+      </div>
+    </div>
+    <div class="block-code" ng-if="(attemptsRemaining > 0)">
+      <div class="row">
+        <div class="col circle-passcode" ng-class="getFilledClass(1)"></div>
+        <div class="col circle-passcode" ng-class="getFilledClass(2)"></div>
+        <div class="col circle-passcode" ng-class="getFilledClass(3)"></div>
+        <div class="col circle-passcode" ng-class="getFilledClass(4)"></div>
+      </div>
+    </div>
+    <div class="block-buttons" ng-if="(attemptsRemaining > 0)">
+      <div class="row">
+        <div class="col" ng-click="updatePasscode('1')">
+          <div class="keyboard">1</div>
+        </div>
+        <div class="col" ng-click="updatePasscode('2')">
+          <div class="keyboard">2</div>
+        </div>
+        <div class="col" ng-click="updatePasscode('3')">
+          <div class="keyboard">3</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" ng-click="updatePasscode('4')">
+          <div class="keyboard">4</div>
+        </div>
+        <div class="col" ng-click="updatePasscode('5')">
+          <div class="keyboard">5</div>
+        </div>
+        <div class="col" ng-click="updatePasscode('6')">
+          <div class="keyboard">6</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" ng-click="updatePasscode('7')">
+          <div class="keyboard">7</div>
+        </div>
+        <div class="col" ng-click="updatePasscode('8')">
+          <div class="keyboard">8</div>
+        </div>
+        <div class="col" ng-click="updatePasscode('9')">
+          <div class="keyboard">9</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"></div>
+        <div class="col" ng-click="updatePasscode('0')">
+          <div class="">0</div>
+        </div>
+        <div class="col" ng-click="delete()">
+          <div class="keyboard icon ion-backspace"></div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

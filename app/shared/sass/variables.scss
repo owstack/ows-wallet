@@ -343,12 +343,15 @@ $v-slide-tip-bg:                                     $v-accent-2-color !default;
 $v-slide-color:                                      $v-white-color !default;
 $v-slide-shadow:                                     2px 0 3px $v-black-transparent-light !default;
 
-/* PIN */
+/* App lock */
 
-$v-pin-bg:                                           radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
-$v-pin-color:                                        $v-white-color !default;
-$v-pin-circle-color:                                 $v-white-color !default;
-$v-pin-buttons-color:                                $v-white-color !default;
+$v-fingerprint-bg:                                   radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-fingerprint-color:                                $v-white-color !default;
+
+$v-passcode-bg:                                      radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-passcode-color:                                   $v-white-color !default;
+$v-passcode-circle-color:                            $v-white-color !default;
+$v-passcode-buttons-color:                           $v-white-color !default;
 
 /* Controls */
 

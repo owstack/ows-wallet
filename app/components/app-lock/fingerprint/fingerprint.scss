@@ -1,0 +1,24 @@
+#fingerprint {
+  background: $v-fingerprint-bg;
+  color: $v-fingerprint-color;
+
+  .box-notification {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+
+    h1 {
+      color: $v-fingerprint-color;
+      font-size: 20px;
+      font-weight: normal;
+    }
+  }
+
+  img {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

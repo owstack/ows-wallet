@@ -1,13 +1,10 @@
-<ion-modal-view id="pin" class="ows">
-  <div class="content">
-    <div class="block-text row">
-      <div class="message" translate="">Verify your identity</div>
+<ion-modal-view id="fingerprint" class="ows">
+  <ion-content ng-click="checkFingerprint()">
+    <img src="img/icon-touch-id.svg">
+    <div class="box-notification clear center no-icon">
+      <h1 translate>
+        Tap screen to unlock
+      </h1>
     </div>
-    <div class="block-image">
-      <img src="img/icon-touch-id.svg">
-    </div>
-    <button class="button button-standard button-primary button-scan-again" ng-click="checkFingerprint()" translate="">
-    	Scan again
-    </button>
-  </div>
+  </ion-content>
 </ion-modal-view>

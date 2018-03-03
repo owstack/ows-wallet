@@ -27,10 +27,10 @@ angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', functio
 
       var locked = config.lock && config.lock.method;
 
-      if (!locked || locked == 'none'){
+      if (!locked || locked == 'none') {
         $scope.appLockMethod = gettextCatalog.getString('Disabled');
       } else {
-        $scope.appLockMethod = $scope.locked.charAt(0).toUpperCase() + config.lock.method.slice(1);
+        $scope.appLockMethod = config.lock.method.charAt(0).toUpperCase() + config.lock.method.slice(1);
       }
     });
   };

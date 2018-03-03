@@ -1,0 +1,70 @@
+#passcode {
+  background: $v-passcode-bg;
+  color: $v-passcode-color;
+
+  .bar.bar-header {
+    background: transparent;
+  }
+
+  .box-notification {
+    h1 {
+      color: $v-passcode-color;
+      font-size: 20px;
+      font-weight: normal;
+    }
+  }
+
+  .circle-passcode {
+    border-radius: 50%;
+    transition: background-color .2s ease-in-out;
+    padding: 4%;
+    margin: 8%;
+    border: 1px solid $v-passcode-circle-color;
+  }
+
+  .filled-passcode {
+    background-color: $v-passcode-circle-color;
+  }
+
+  .block-text {
+    position: absolute;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .block-code {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 50%;
+    margin: auto;
+    transform: translateX(-50%);
+
+    @media(min-width: 480px) {
+      width: 25%;
+    }
+  }
+
+  .block-buttons {
+    position: absolute;
+    bottom: 3%;
+    left: 5%;
+    width: 90%;
+    font-size: 1.7rem;
+    font-family: $v-font-family-light;
+    color: $v-passcode-buttons-color;
+    text-align: center;
+    cursor: pointer;
+
+    @media(min-width: 480px) {
+      left: 15%;
+      width: 70%;
+      max-height: 55%;
+    }
+
+    .col {
+      padding: 5%;
+    }
+  }
+}

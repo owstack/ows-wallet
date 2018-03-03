@@ -117,6 +117,10 @@ p {
   margin: 10px;
   box-shadow: $v-subtle-box-shadow;
 
+  &.center {
+    width: 100%;
+  }
+
   h1, h2 {
     color: $v-notification-color;
     font-weight: bold;
@@ -154,21 +158,17 @@ p {
     margin-bottom: 0;
   }
 
+  &.clear {
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+  }
+
   &.info {
     border: $v-notification-info-border;
     background: $v-notification-info-bg;
 
-    &.clear {
-      border: none;
-      background: none;
-      box-shadow: none;
-
-      a {
-        color: $v-link-color;
-      }
-    }
-
-    h1, h2,
+    &:not(.no-icon) h1, &:not(.no-icon) h2,
     .notice {
       &:before {
         content: "\f44c";
@@ -190,18 +190,8 @@ p {
   &.warning {
     border: $v-notification-warning-border;
     background: $v-notification-warning-bg;
-
-    &.clear {
-      border: none;
-      background: none;
-      box-shadow: none;
-
-      a {
-        color: $v-link-color;
-      }
-    }
     
-    h1, h2,
+    &:not(.no-icon) h1, &:not(.no-icon) h2,
     .notice {
       &:before {
         content: "\f100";
@@ -223,18 +213,8 @@ p {
   &.error {
     border: $v-notification-error-border;
     background: $v-notification-error-bg;
-
-    &.clear {
-      border: none;
-      background: none;
-      box-shadow: none;
-
-      a {
-        color: $v-link-color;
-      }
-    }
     
-    h1, h2,
+    &:not(.no-icon) h1, &:not(.no-icon) h2,
     .notice {
       &:before {
         content: "\f405";

@@ -397,11 +397,11 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/app-settings/app-lock/app-lock.html',
       }])
     })
-    .state($rootScope.sref('pin'), {
-      url: '/pin/:action',
-      views: getViews('pin', [{
-        controller: 'PinCtrl',
-        templateUrl: 'views/app-settings/app-lock/pin/pin.html',
+    .state($rootScope.sref('passcode'), {
+      url: '/passcode/:action',
+      views: getViews('passcode', [{
+        controller: 'PasscodeCtrl',
+        templateUrl: 'views/app-settings/app-lock/passcode/passcode.html',
         cache: false
       }])
     })

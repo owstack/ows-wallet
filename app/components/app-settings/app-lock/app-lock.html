@@ -10,6 +10,7 @@
       <p>{{error.message}}</p>
     </div>
     <ion-list>
+      <ion-item class="item-divider"></ion-item>
       <ion-radio ng-repeat="opt in options" ng-value="opt" ng-model="currentOption" ng-click="select(opt.method)"
         ng-disabled="opt.needsBackup || opt.disabled">
         <span ng-class="{'text-disabled': opt.needsBackup || opt.disabled}">{{opt.label}}</span>

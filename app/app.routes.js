@@ -127,30 +127,30 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
       $ionicPlatform.registerBackButtonAction(function(e) {
         //from root tabs view
-        var matchHome = $ionicHistory.currentStateName() == 'tabs.home' ? true : false;
-        var matchReceive = $ionicHistory.currentStateName() == 'tabs.receive' ? true : false;
-        var matchScan = $ionicHistory.currentStateName() == 'tabs.scan' ? true : false;
-        var matchSend = $ionicHistory.currentStateName() == 'tabs.send' ? true : false;
-        var matchSettings = $ionicHistory.currentStateName() == 'tabs.settings' ? true : false;
+        var matchHome = $ionicHistory.currentStateName() == $rootScope.sref('home') ? true : false;
+        var matchReceive = $ionicHistory.currentStateName() == $rootScope.sref('receive') ? true : false;
+        var matchScan = $ionicHistory.currentStateName() == $rootScope.sref('scan') ? true : false;
+        var matchSend = $ionicHistory.currentStateName() == $rootScope.sref('send') ? true : false;
+        var matchSettings = $ionicHistory.currentStateName() == $rootScope.sref('settings') ? true : false;
 
         var fromTabs = matchHome | matchReceive | matchScan | matchSend | matchSettings;
 
         //onboarding with no back views
-        var matchStart = $ionicHistory.currentStateName() == 'onboarding.start' ? true : false;
-        var matchCollectEmail = $ionicHistory.currentStateName() == 'onboarding.collect-email' ? true : false;
-        var matchBackupRequest = $ionicHistory.currentStateName() == 'onboarding.backup-request' ? true : false;
-        var backedUp = $ionicHistory.backView().stateName == 'onboarding.backup' ? true : false;
-        var noBackView = $ionicHistory.backView().stateName == 'starting' ? true : false;
-        var matchDisclaimer = $ionicHistory.currentStateName() == 'onboarding.disclaimer' && (backedUp || noBackView) ? true : false;
+        var matchStart = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.start') ? true : false;
+        var matchCollectEmail = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.collect-email') ? true : false;
+        var matchBackupRequest = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.backup-request') ? true : false;
+        var backedUp = $ionicHistory.backView().stateName == $rootScope.sref('onboarding.backup') ? true : false;
+        var noBackView = $ionicHistory.backView().stateName == $rootScope.sref('starting') ? true : false;
+        var matchDisclaimer = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.disclaimer') && (backedUp || noBackView) ? true : false;
 
         var fromOnboarding = matchCollectEmail | matchBackupRequest | matchStart | matchDisclaimer;
 
         //views with disable backbutton
-        var matchComplete = $ionicHistory.currentStateName() == 'tabs.rate.complete' ? true : false;
-        var matchLockedView = $ionicHistory.currentStateName() == 'lockedView' ? true : false;
-        var matchPin = $ionicHistory.currentStateName() == 'pin' ? true : false;
+        var matchComplete = $ionicHistory.currentStateName() == $rootScope.sref('rate.complete') ? true : false;
+        var matchLockedView = $ionicHistory.currentStateName() == $rootScope.sref('app-lock') ? true : false;
+        var matchPasscode = $ionicHistory.currentStateName() == $rootScope.sref('passcode') ? true : false;
 
-        if ($ionicHistory.backView() && !fromTabs && !fromOnboarding && !matchComplete && !matchPin && !matchLockedView) {
+        if ($ionicHistory.backView() && !fromTabs && !fromOnboarding && !matchComplete && !matchPasscode && !matchLockedView) {
           $ionicHistory.goBack();
 
         } else if ($rootScope.backButtonPressedOnceToExit) {
@@ -174,7 +174,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
       });
 
       $ionicPlatform.on('resume', function() {
-        applicationService.appLockModal('check');
+        applicationService.appLockModal('start');
       });
 
       $ionicPlatform.on('menubutton', function() {
@@ -222,7 +222,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
               // Clear history
               $ionicHistory.clearHistory();
             });
-            applicationService.appLockModal('check');
+            applicationService.appLockModal('start');
           });
         };
         // After everything have been loaded

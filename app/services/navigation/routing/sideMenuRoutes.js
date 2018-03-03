@@ -64,7 +64,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function($root
     'payment-request':                { stateName: 'main.payment-request',                viewNames: null },
     'payment-request.amount':         { stateName: 'main.payment-request-amount',         viewNames: ['side-menu-content'] },
     'payment-request.confirm':        { stateName: 'main.payment-request-confirm',        viewNames: ['side-menu-content'] },
-    'pin':                            { stateName: 'main.pin',                            viewNames: ['side-menu-content'] },
+    'passcode':                       { stateName: 'main.passcode',                       viewNames: ['side-menu-content'] },
     'preferences':                    { stateName: 'main.preferences',                    viewNames: ['side-menu-content'] },
     'preferences.advanced':           { stateName: 'main.preferences-advanced',           viewNames: ['side-menu-content'] },
     'preferences.alias':              { stateName: 'main.preferences-alias',              viewNames: ['side-menu-content'] },

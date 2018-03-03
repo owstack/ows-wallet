@@ -1,22 +1,25 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('PinCtrl', function($interval, $ionicHistory, $timeout, $scope, $log, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($interval, $ionicHistory, $timeout, $scope, $log, configService, appConfigService) {
   var ATTEMPT_LIMIT = 3;
   var ATTEMPT_LOCK_OUT_TIME = 5 * 60;
-  var currentPin;
-  currentPin = $scope.confirmPin = '';
+  var currentPasscode;
+  currentPasscode = $scope.confirmPasscode = '';
 
-  $scope.match = $scope.error = $scope.disableButtons = false;
-  $scope.currentAttempts = 0;
-  $scope.appName = appConfigService.name;
+  $scope.match = $scope.error = false;
+  $scope.attemptsRemaining = ATTEMPT_LIMIT;
+  $scope.multipleAttempts = false;
+  $scope.appName = appConfigService.nameCase;
 
   configService.whenAvailable(function(config) {
-    if (!config.lock) return;
+    if (!config.lock) {
+      return;
+    }
     $scope.bannedUntil = config.lock.bannedUntil || null;
     if ($scope.bannedUntil) {
       var now = Math.floor(Date.now() / 1000);
       if (now < $scope.bannedUntil) {
-        $scope.error = $scope.disableButtons = true;
+        $scope.error = true;
         lockTimeControl($scope.bannedUntil);
       }
     }
@@ -24,33 +27,40 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
 
   function getSavedMethod() {
     var config = configService.getSync();
-    if (config.lock) return config.lock.method;
+    if (config.lock) {
+      return config.lock.method;
+    }
     return 'none';
   };
 
   function checkAttempts() {
-    $scope.currentAttempts += 1;
-    $log.debug('Attempts to unlock:', $scope.currentAttempts);
-    if ($scope.currentAttempts === ATTEMPT_LIMIT) {
-      $scope.currentAttempts = 0;
+    $scope.attemptsRemaining -= 1;
+    $scope.multipleAttempts = ($scope.attemptsRemaining < ATTEMPT_LIMIT);
+    $log.debug('Attempts to unlock:', ATTEMPT_LIMIT - $scope.attemptsRemaining);
+    if ($scope.attemptsRemaining === 0) {
       var bannedUntil = Math.floor(Date.now() / 1000) + ATTEMPT_LOCK_OUT_TIME;
       saveFailedAttempt(bannedUntil);
     }
   };
 
   function lockTimeControl(bannedUntil) {
+    var countDown;
     setExpirationTime();
 
-    var countDown = $interval(function() {
-      setExpirationTime();
-    }, 1000);
+    // Start on next digest, allows UI to update immediatley.
+    $timeout(function() {
+      countDown = $interval(function() {
+        setExpirationTime();
+      }, 1000);
+    });
 
     function setExpirationTime() {
       var now = Math.floor(Date.now() / 1000);
       if (now > bannedUntil) {
-        if (countDown) reset();
+        if (countDown) {
+          reset();
+        }
       } else {
-        $scope.disableButtons = true;
         var totalSecs = bannedUntil - now;
         var m = Math.floor(totalSecs / 60);
         var s = totalSecs % 60;
@@ -59,8 +69,9 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
     };
 
     function reset() {
-      $scope.expires = $scope.error = $scope.disableButtons = null;
-      currentPin = $scope.confirmPin = '';
+      $scope.expires = $scope.error = $scope.multipleAttempts = false;
+      $scope.attemptsRemaining = ATTEMPT_LIMIT;
+      currentPasscode = $scope.confirmPasscode = '';
       $interval.cancel(countDown);
       $timeout(function() {
         $scope.$apply();
@@ -70,28 +81,29 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
   };
 
   $scope.getFilledClass = function(limit) {
-    return currentPin.length >= limit ? 'filled-pin' : null;
+    return currentPasscode.length >= limit ? 'filled-passcode' : null;
   };
 
   $scope.delete = function() {
-    if ($scope.disableButtons) return;
-    if (currentPin.length > 0) {
-      currentPin = currentPin.substring(0, currentPin.length - 1);
+    if (currentPasscode.length > 0) {
+      currentPasscode = currentPasscode.substring(0, currentPasscode.length - 1);
       $scope.error = false;
-      $scope.updatePin();
+      $scope.updatePasscode();
     }
   };
 
   $scope.isComplete = function() {
-    if (currentPin.length < 4) return false;
-    else return true;
+    if (currentPasscode.length < 4) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
-  $scope.updatePin = function(value) {
-    if ($scope.disableButtons) return;
+  $scope.updatePasscode = function(value) {
     $scope.error = false;
     if (value && !$scope.isComplete()) {
-      currentPin = currentPin + value;
+      currentPasscode = currentPasscode + value;
       $timeout(function() {
         $scope.$apply();
       });
@@ -99,30 +111,33 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
     $scope.save();
   };
 
-  function isMatch(pin) {
+  function isMatch(passcode) {
     var config = configService.getSync();
-    return config.lock.value == pin;
+    return config.lock.value == passcode;
   };
 
   $scope.save = function() {
-    if (!$scope.isComplete()) return;
+    if (!$scope.isComplete()) {
+      return;
+    }
     var savedMethod = getSavedMethod();
 
     switch ($scope.action) {
       case 'setup':
-        applyAndCheckPin();
+        applyAndCheckPasscode();
         break;
       case 'disable':
-        if (isMatch(currentPin)) {
-          deletePin();
+        if (isMatch(currentPasscode)) {
+          deletePasscode();
         } else {
           showError();
           checkAttempts();
         }
         break;
       case 'check':
-        if (isMatch(currentPin)) {
-          $scope.hideModal();
+      case 'start':
+        if (isMatch(currentPasscode)) {
+          $scope.hideModal(true);
           return;
         }
         showError();
@@ -133,27 +148,26 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
 
   function showError() {
     $timeout(function() {
-      $scope.confirmPin = currentPin = '';
+      $scope.confirmPasscode = currentPasscode = '';
       $scope.error = true;
-    }, 200);
+    });
 
     $timeout(function() {
       $scope.$apply();
     });
   };
 
-  function applyAndCheckPin() {
-    if (!$scope.confirmPin) {
+  function applyAndCheckPasscode() {
+    if (!$scope.confirmPasscode) {
       $timeout(function() {
-        $scope.confirmPin = currentPin;
-        currentPin = '';
-      }, 200);
+        $scope.confirmPasscode = currentPasscode;
+        currentPasscode = '';
+      });
     } else {
-      if ($scope.confirmPin == currentPin)
-        savePin($scope.confirmPin);
-      else {
-        $scope.confirmPin = currentPin = '';
-        $scope.error = true;
+      if ($scope.confirmPasscode == currentPasscode) {
+        savePasscode($scope.confirmPasscode);
+      } else {
+        $scope.confirmPasscode = currentPasscode = '';
       }
     }
     $timeout(function() {
@@ -161,7 +175,7 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
     });
   };
 
-  function deletePin() {
+  function deletePasscode() {
     var opts = {
       lock: {
         method: 'none',
@@ -171,22 +185,26 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
     };
 
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
       $scope.hideModal();
     });
   };
 
-  function savePin(value) {
+  function savePasscode(value) {
     var opts = {
       lock: {
-        method: 'pin',
+        method: 'passcode',
         value: value,
         bannedUntil: null,
       }
     };
 
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
       $scope.hideModal();
     });
   };
@@ -199,7 +217,9 @@ angular.module('owsWalletApp.controllers').controller('PinCtrl', function($inter
     };
 
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
       lockTimeControl(bannedUntil);
     });
   };
