@@ -13,7 +13,6 @@ if (window && window.navigator) {
   }
 }
 
-//Setting up route
 angular.module('owsWalletApp').config(function(historicLogServiceProvider, $provide, $logProvider, $stateProvider, navigationServiceProvider, $urlRouterProvider, $compileProvider, $ionicConfigProvider, configServiceProvider) {
     $urlRouterProvider.otherwise('/starting');
 
@@ -126,7 +125,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
       Keyboard.hideFormAccessoryBar(false);
 
       $ionicPlatform.registerBackButtonAction(function(e) {
-        //from root tabs view
+        // From root tabs view
         var matchHome = $ionicHistory.currentStateName() == $rootScope.sref('home') ? true : false;
         var matchReceive = $ionicHistory.currentStateName() == $rootScope.sref('receive') ? true : false;
         var matchScan = $ionicHistory.currentStateName() == $rootScope.sref('scan') ? true : false;
@@ -135,7 +134,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
         var fromTabs = matchHome | matchReceive | matchScan | matchSend | matchSettings;
 
-        //onboarding with no back views
+        // Onboarding with no back views
         var matchStart = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.start') ? true : false;
         var matchCollectEmail = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.collect-email') ? true : false;
         var matchBackupRequest = $ionicHistory.currentStateName() == $rootScope.sref('onboarding.backup-request') ? true : false;
@@ -145,7 +144,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
         var fromOnboarding = matchCollectEmail | matchBackupRequest | matchStart | matchDisclaimer;
 
-        //views with disable backbutton
+        // Views with disable backbutton
         var matchComplete = $ionicHistory.currentStateName() == $rootScope.sref('rate.complete') ? true : false;
         var matchLockedView = $ionicHistory.currentStateName() == $rootScope.sref('app-lock') ? true : false;
         var matchPasscode = $ionicHistory.currentStateName() == $rootScope.sref('passcode') ? true : false;

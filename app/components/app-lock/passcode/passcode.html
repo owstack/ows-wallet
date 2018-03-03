@@ -28,7 +28,7 @@
         </p>
       </div>
     </div>
-    <div class="block-code" ng-if="(attemptsRemaining > 0)">
+    <div class="block-code" ng-if="(attemptsRemaining > 0) && !expires">
       <div class="row">
         <div class="col circle-passcode" ng-class="getFilledClass(1)"></div>
         <div class="col circle-passcode" ng-class="getFilledClass(2)"></div>
@@ -36,7 +36,7 @@
         <div class="col circle-passcode" ng-class="getFilledClass(4)"></div>
       </div>
     </div>
-    <div class="block-buttons" ng-if="(attemptsRemaining > 0)">
+    <div class="block-buttons" ng-if="(attemptsRemaining > 0) && !expires">
       <div class="row">
         <div class="col" ng-click="updatePasscode('1')">
           <div class="keyboard">1</div>
