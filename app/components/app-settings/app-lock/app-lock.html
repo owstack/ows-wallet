@@ -5,15 +5,15 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <div class="box-notification info clear" ng-if="error">
+    <div class="box-notification info clear prepend" ng-if="error">
       <h2 class="notice">{{error.title}}</h2>
       <p>{{error.message}}</p>
     </div>
     <ion-list>
       <ion-item class="item-divider"></ion-item>
-      <ion-radio ng-repeat="opt in options" ng-value="opt" ng-model="currentOption" ng-click="select(opt.method)"
-        ng-disabled="opt.needsBackup || opt.disabled">
-        <span ng-class="{'text-disabled': opt.needsBackup || opt.disabled}">{{opt.label}}</span>
+      <ion-radio ng-repeat="opt in options track by opt.method" ng-value="opt.method" ng-model="currentOption.value" ng-click="select(opt.method)"
+        ng-disabled="opt.disabled">
+        <span ng-class="{'text-disabled': opt.disabled}">{{opt.label}}</span>
       </ion-radio>
     </ion-list>
   </ion-content>

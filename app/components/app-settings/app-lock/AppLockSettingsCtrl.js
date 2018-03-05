@@ -1,19 +1,24 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', function($rootScope, $scope, $timeout, $log, configService, gettextCatalog, fingerprintService, profileService, lodash, applicationService, networkService) {
+angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', function($scope, $timeout, $log, configService, gettextCatalog, fingerprintService, profileService, lodash, applicationService, networkService) {
 
-  function init() {
+  $scope.$on("$ionicView.beforeEnter", function(event) {
     $scope.options = [
       {
         method: 'none',
-        label: gettextCatalog.getString('Disabled'),
-        disabled: false,
+        label: gettextCatalog.getString('Disabled')
       },
       {
         method: 'passcode',
         label: gettextCatalog.getString('Lock by Passcode'),
-        needsBackup: false,
-        disabled: false,
+        disabled: true,
+        backupRequiredForUse: true
+      },
+      {
+        method: 'pattern',
+        label: gettextCatalog.getString('Lock by Pattern'),
+        disabled: true,
+        backupRequiredForUse: true
       },
     ];
 
@@ -21,41 +26,29 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
       $scope.options.push({
         method: 'fingerprint',
         label: gettextCatalog.getString('Lock by Fingerprint'),
-        needsBackup: false,
-        disabled: false,
+        disabled: true,
+        backupRequiredForUse: true
       });
     }
 
     initMethodSelector();
     processWallets();
-  };
-
-  $scope.$on("$ionicView.beforeEnter", function(event) {
-    init();
   });
 
   function getSavedMethod() {
     var config = configService.getSync();
-    if (config.lock && config.lock.method) return config.lock.method;
+    if (config.lock && config.lock.method) {
+      return lodash.clone(config.lock.method);
+    }
     return 'none';
   };
 
   function initMethodSelector() {
-    function disable(method) {
-      lodash.find($scope.options, {
-        method: method
-      }).disabled = true;
+    var savedMethod = getSavedMethod();
+    $scope.currentOption = {
+      value: savedMethod
     };
 
-    var savedMethod = getSavedMethod();
-
-    lodash.each($scope.options, function(o) {
-      o.disabled = false;
-    });
-
-    $scope.currentOption = lodash.find($scope.options, {
-      method: savedMethod
-    });
     $timeout(function() {
       $scope.$apply();
     });
@@ -86,21 +79,33 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
     }
 
     function enableOptsAfterBackup() {
-      $scope.options[1].needsBackup = false;
-      if ($scope.options[2]) $scope.options[2].needsBackup = false;
+      lodash.forEach($scope.options, function(opt) {
+        if (opt.backupRequiredForUse) {
+          opt.disabled = false;
+        }
+      });
     };
 
     function disableOptsUntilBackup() {
-      $scope.options[1].needsBackup = true;
-      if ($scope.options[2]) $scope.options[2].needsBackup = true;
+      lodash.forEach($scope.options, function(opt) {
+        if (opt.backupRequiredForUse) {
+          opt.disabled = true;
+        }
+      });
     };
+  };
 
-    $timeout(function() {
-      $scope.$apply();
-    });
+  function optionIsDisabled(optionId) {
+    return lodash.find($scope.options, function(opt) {
+      return opt.method == optionId;
+    }).disabled;
   };
 
   $scope.select = function(selectedMethod) {
+    if (optionIsDisabled(selectedMethod)) {
+      return;
+    }
+
     var savedMethod = getSavedMethod();
     if (savedMethod == selectedMethod) {
       return;
@@ -109,29 +114,50 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
     if (selectedMethod == 'none') {
       disableMethod(savedMethod);
     } else {
-      enableMethod(selectedMethod);
+      disableMethod(savedMethod, function(success) {
+        if (success) {
+          enableMethod(selectedMethod);
+        }
+      });
     }
   };
 
-  function disableMethod(method) {
+  function disableMethod(method, cb) {
     switch (method) {
       case 'passcode':
         applicationService.passcodeModal('disable', function(success) {
-          if (!success) {
-            init();
-          } else {
-            saveConfig('none');
+          initMethodSelector();
+          if (cb) {
+            cb(success);
           }
         });
         break;
       case 'fingerprint':
-        fingerprintService.check('unlockingApp', function(err) {
-          if (err) {
-            init();
+        fingerprintService.check('unlock', function(err) {
+          if (!err) {
+            saveConfig('none', function() {
+              initMethodSelector();
+            });
           } else {
-            saveConfig('none');
+            initMethodSelector();            
+          }
+          if (cb) {
+            cb(err ? false : true);
           }
         });
+        break;
+      case 'pattern':
+        applicationService.patternModal('disable', function(success) {
+          initMethodSelector();
+          if (cb) {
+            cb(success);
+          }
+        });
+        break;
+      default:
+        if (cb) {
+          cb(true);
+        }
         break;
     }
   };
@@ -140,20 +166,27 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
     switch (method) {
       case 'passcode':
         applicationService.passcodeModal('setup', function(success) {
-          init();
+          initMethodSelector();
         });
         break;
       case 'fingerprint':
-        saveConfig('fingerprint');
+        saveConfig('fingerprint', function(err) {
+          initMethodSelector();
+        });
+        break;
+      case 'pattern':
+        applicationService.patternModal('setup', function(success) {
+          initMethodSelector();
+        });
         break;
     }
   };
 
-  function saveConfig(method) {
+  function saveConfig(method, cb) {
     var opts = {
       lock: {
         method: method,
-        value: null,
+        value: null
       }
     };
 
@@ -161,7 +194,9 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
       if (err) {
         $log.debug(err);
       }
-      initMethodSelector();
+      if (cb) {
+        cb(err);
+      }
     });
   };
 

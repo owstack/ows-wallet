@@ -353,6 +353,13 @@ $v-passcode-color:                                   $v-white-color !default;
 $v-passcode-circle-color:                            $v-white-color !default;
 $v-passcode-buttons-color:                           $v-white-color !default;
 
+$v-pattern-bg:                                       radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-pattern-color:                                    $v-white-color !default;
+$v-pattern-dot-color:                                $v-white-color !default;
+$v-pattern-selected-dot-color:                       $v-accent-1-color !default;
+$v-pattern-error-color:                              $v-error-color !default;
+$v-pattern-path-color:                               $v-white-transparent-mid !default;
+
 /* Controls */
 
 $v-input-bg:                                         $v-white-transparent-subtle !default;

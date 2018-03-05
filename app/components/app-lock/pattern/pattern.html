@@ -1,0 +1,37 @@
+<ion-modal-view id="pattern" class="ows" ng-controller="PatternCtrl">
+  <ion-header-bar align-title="center" class="bar bar-header" ng-if="(action != 'check') && (action != 'start') && (attemptsRemaining > 0)">
+    <button class="button button-nav-bar button-close button-right" ng-click="hideModal(false)"></button>
+  </ion-header-bar>
+  <ion-content class="center">
+     <div class="block-text row">
+      <div ng-if="action == 'setup'">
+	      <div class="box-notification clear center no-icon">
+	        <h1 ng-if="setupState == 'draw'" translate>Draw your {{appName}} pattern</h1>
+	        <h1 ng-if="setupState == 'confirm'" translate>Draw to confirm your pattern</h1>
+	        <h1 ng-if="setupState == 'done'" translate>Your pattern has been set</h1>
+	        <h1 ng-if="setupState == 'try-again'" translate>Incorrect pattern</h1>
+	      </div>
+	    </div>
+      <div ng-if="action != 'setup'">
+	      <div class="box-notification clear center no-icon" ng-if="!confirmPattern && !multipleAttempts && !error">
+	        <h1 translate>Draw your {{appName}} pattern</h1>
+	      </div>
+	      <div class="box-notification clear center no-icon" ng-if="confirmPattern && !error">
+	        <h1 translate>Draw to confirm your pattern</h1>
+	      </div>
+	      <div class="box-notification error clear center no-icon" ng-if="multipleAttempts && (attemptsRemaining > 0)">
+	        <h1 translate>Incorrect pattern</h1>
+	        <p translate>{{attemptsRemaining}} attempt{{attemptsRemaining == 1 ? '' : 's'}} remaining</p>
+	      </div>
+	      <div class="box-notification error clear center no-icon" ng-if="error && expires">
+	        <h1 translate>{{appName}} is disabled</h1>
+	        <p translate>try again in {{expires}}</p>
+	      </div>
+	    </div>
+    </div>
+    <div class="block-pattern" ng-show="(attemptsRemaining > 0) && !expires">
+      <pattern-lock class="pattern-holder patt-holder" ng-class="{'patt-success': success}" on-init="setLock(lock)"
+      	on-draw="updatePattern" matrix="[4,4]"></pattern-lock>
+    </div>
+  </ion-content>
+</ion-modal-view>

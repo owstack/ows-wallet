@@ -129,12 +129,12 @@ module.exports = function(grunt) {
           'bower_components/angular-gettext/dist/angular-gettext.js',
           'bower_components/ng-csv/build/ng-csv.js',
           'bower_components/ionic-toast/dist/ionic-toast.bundle.min.js',
-          'bower_components/ionic-native-transitions/dist/ionic-native-transitions.js',
           'bower_components/angular-clipboard/angular-clipboard.js',
           'bower_components/angular-md5/angular-md5.js',
           'bower_components/angular-mocks/angular-mocks.js',
           'bower_components/ngtouch/src/ngTouch.js',
           'bower_components/angular-gridster/dist/angular-gridster.min.js',
+          'bower_components/pattern-lock/angular-pattern-lock.min.js',
           'angular-bitauth/angular-bitauth.js',
           'angular-bch-wallet-client/angular-bch-wallet-client.js',
           'angular-btc-wallet-client/angular-btc-wallet-client.js'

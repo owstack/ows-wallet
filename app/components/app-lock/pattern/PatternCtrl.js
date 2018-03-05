@@ -1,14 +1,22 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($interval, $timeout, $scope, $log, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($scope, $state, $interval, $timeout, $log, configService, appConfigService) {
+ 
   var ATTEMPT_LIMIT = 3;
   var ATTEMPT_LOCK_OUT_TIME = 5 * 60;
-  var currentPasscode;
-  currentPasscode = $scope.confirmPasscode = '';
+  var FIRST_DRAW_LINGER_TIME = 1000; // ms
+  var CONFIRMED_SET_LINGER_TIME = 3000;
+  var INCORRECT_LINGER_TIME = 1000;
+  var UNLOCKED_LINGER_TIME = 1000;
 
-  $scope.match = $scope.error = false;
+  var patternLock;
+  var currentPattern;
+  currentPattern = $scope.confirmPattern = '';
+
+  $scope.success = $scope.error = false;
   $scope.attemptsRemaining = ATTEMPT_LIMIT;
   $scope.multipleAttempts = false;
+  $scope.setupState = 'draw';
   $scope.appName = appConfigService.nameCase;
 
   configService.whenAvailable(function(config) {
@@ -25,6 +33,10 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
     }
   });
 
+  $scope.setLock = function(lock) {
+    patternLock = lock;
+  };
+
   function getSavedMethod() {
     var config = configService.getSync();
     if (config.lock) {
@@ -40,6 +52,10 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
     if ($scope.attemptsRemaining === 0) {
       var bannedUntil = Math.floor(Date.now() / 1000) + ATTEMPT_LOCK_OUT_TIME;
       saveFailedAttempt(bannedUntil);
+    } else {
+      $timeout(function() {
+        patternLock.reset();
+      }, INCORRECT_LINGER_TIME);
     }
   };
 
@@ -69,10 +85,12 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
     };
 
     function reset() {
+      patternLock.reset();
       $scope.expires = $scope.error = $scope.multipleAttempts = false;
       $scope.attemptsRemaining = ATTEMPT_LIMIT;
-      currentPasscode = $scope.confirmPasscode = '';
+      currentPattern = $scope.confirmPattern = '';
       $interval.cancel(countDown);
+
       $timeout(function() {
         $scope.$apply();
       });
@@ -80,55 +98,37 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
     };
   };
 
-  $scope.getFilledClass = function(limit) {
-    return currentPasscode.length >= limit ? 'filled-passcode' : null;
-  };
-
-  $scope.delete = function() {
-    if (currentPasscode.length > 0) {
-      currentPasscode = currentPasscode.substring(0, currentPasscode.length - 1);
-      $scope.error = false;
-      $scope.updatePasscode();
-    }
-  };
-
-  $scope.isComplete = function() {
-    if (currentPasscode.length < 4) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  $scope.updatePasscode = function(value) {
+  $scope.updatePattern = function(pattern) {
     $scope.error = false;
-    if (value && !$scope.isComplete()) {
-      currentPasscode = currentPasscode + value;
-      $timeout(function() {
-        $scope.$apply();
-      });
-    }
+    currentPattern = pattern;
     $scope.save();
   };
 
-  function isMatch(passcode) {
+  function isMatch(pattern) {
     var config = configService.getSync();
-    return config.lock.value == passcode;
+    return config.lock.value == pattern;
   };
 
   $scope.save = function() {
-    if (!$scope.isComplete()) {
-      return;
-    }
     var savedMethod = getSavedMethod();
 
     switch ($scope.action) {
       case 'setup':
-        applyAndCheckPasscode();
+        applyAndCheckPattern();
         break;
       case 'disable':
-        if (isMatch(currentPasscode)) {
-          deletePasscode();
+        if (isMatch(currentPattern)) {
+          $scope.success = true;
+          $timeout(function() {
+            $scope.$apply();
+          });
+
+          // Show unlock pattern for some time before before deleting it and closing modal.
+          $timeout(function() {
+            deletePattern(function(err) {
+              $scope.hideModal(err ? false : true);
+            });
+          }, UNLOCKED_LINGER_TIME);
         } else {
           showError();
           checkAttempts();
@@ -136,8 +136,16 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
         break;
       case 'check':
       case 'start':
-        if (isMatch(currentPasscode)) {
-          $scope.hideModal(true);
+        if (isMatch(currentPattern)) {
+          $scope.success = true;
+          $timeout(function() {
+            $scope.$apply();
+          });
+
+          // Show unlock pattern for some time before hiding the modal.
+          $timeout(function() {
+            $scope.hideModal(true);
+          }, UNLOCKED_LINGER_TIME);
           return;
         }
         showError();
@@ -147,27 +155,61 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
   };
 
   function showError() {
-    $timeout(function() {
-      $scope.confirmPasscode = currentPasscode = '';
-      $scope.error = true;
-    });
+    $scope.confirmPattern = currentPattern = '';
+    $scope.error = true;
+    patternLock.error();
 
     $timeout(function() {
       $scope.$apply();
     });
   };
 
-  function applyAndCheckPasscode() {
-    if (!$scope.confirmPasscode) {
+  function applyAndCheckPattern() {
+    if (!$scope.confirmPattern) {
+      $scope.confirmPattern = currentPattern;
+      currentPattern = '';
+      $scope.setupState = 'draw';
+      patternLock.disable();
+
       $timeout(function() {
-        $scope.confirmPasscode = currentPasscode;
-        currentPasscode = '';
-      });
+        patternLock.enable();
+        patternLock.reset();
+        $scope.setupState = 'confirm';
+
+        $timeout(function() {
+          $scope.$apply();
+        });
+      }, FIRST_DRAW_LINGER_TIME);
     } else {
-      if ($scope.confirmPasscode == currentPasscode) {
-        savePasscode($scope.confirmPasscode);
+      if ($scope.confirmPattern == currentPattern) {
+        $scope.setupState = 'done';
+        patternLock.disable();
+        savePattern($scope.confirmPattern);
+
+        $scope.success = true;
+        $timeout(function() {
+          $scope.$apply();
+        });
+
+        // Show the confirmed pattern for a time before closing the modal.
+        $timeout(function() {
+          $scope.hideModal(true);
+        }, CONFIRMED_SET_LINGER_TIME);
       } else {
-        $scope.confirmPasscode = currentPasscode = '';
+        $scope.setupState = 'try-again';
+        patternLock.disable();
+        showError();
+
+        // Show incorrect pattern for some time before resetting for next attempt.
+        $timeout(function() {
+          patternLock.enable();
+          patternLock.reset();
+          $scope.setupState = 'Draw';
+
+          $timeout(function() {
+            $scope.$apply();
+          });
+        }, INCORRECT_LINGER_TIME);
       }
     }
     $timeout(function() {
@@ -175,12 +217,12 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
     });
   };
 
-  function deletePasscode() {
+  function deletePattern(cb) {
     var opts = {
       lock: {
         method: 'none',
         value: null,
-        bannedUntil: null,
+        bannedUntil: null
       }
     };
 
@@ -188,16 +230,16 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
       if (err) {
         $log.debug(err);
       }
-      $scope.hideModal(err ? false : true);
+      cb(err);
     });
   };
 
-  function savePasscode(value) {
+  function savePattern(value) {
     var opts = {
       lock: {
-        method: 'passcode',
+        method: 'pattern',
         value: value,
-        bannedUntil: null,
+        bannedUntil: null
       }
     };
 
@@ -205,7 +247,6 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
       if (err) {
         $log.debug(err);
       }
-      $scope.hideModal(err ? false : true);
     });
   };
 

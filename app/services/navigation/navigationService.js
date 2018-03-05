@@ -405,6 +405,14 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         cache: false
       }])
     })
+    .state($rootScope.sref('pattern'), {
+      url: '/pattern',
+      views: getViews('pattern', [{
+        controller: 'PatternCtrl',
+        templateUrl: 'views/app-settings/app-lock/pattern/pattern.html',
+        cache: false
+      }])
+    })
 
     /*
      *

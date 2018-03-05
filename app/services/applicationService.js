@@ -53,12 +53,14 @@ angular.module('owsWalletApp.services')
 
       scope.hideModal = function() {
         root.isModalOpen = false;
-        scope.fingerprintCheckModal.hide();
+        scope.fingerprintCheckModal.remove();
       };
 
       scope.checkFingerprint = function() {
-        fingerprintService.check('unlockingApp', function(err) {
-          if (err) return;
+        fingerprintService.check('unlock', function(err) {
+          if (err) {
+            return;
+          }
           $timeout(function() {
             scope.hideModal();
           }, 200);
@@ -86,11 +88,43 @@ angular.module('owsWalletApp.services')
       };
 
       scope.hideModal = function(success) {
-        if (cb) {
-          cb(success);
-        }
         root.isModalOpen = false;
-        scope.passcodeModal.hide();
+        scope.passcodeModal.remove();
+        $timeout(function() {
+          if (cb) {
+            cb(success);
+          }
+        });
+      };
+    };
+
+    root.patternModal = function(action, cb) {
+      var scope = $rootScope.$new(true);
+      scope.action = action;
+
+      $ionicModal.fromTemplateUrl('views/app-lock/pattern/pattern.html', {
+        scope: scope,
+        animation: (action == 'start' ? 'none' : 'slide-in-up'),
+        backdropClickToClose: false,
+        hardwareBackButtonClose: false
+      }).then(function(modal) {
+        scope.patternModal = modal;
+        root.isModalOpen = true;
+        scope.openModal();
+      });
+
+      scope.openModal = function() {
+        scope.patternModal.show();
+      };
+
+      scope.hideModal = function(success) {
+        root.isModalOpen = false;
+        scope.patternModal.remove();
+        $timeout(function() {
+          if (cb) {
+            cb(success);
+          }
+        });
       };
     };
 
@@ -109,6 +143,9 @@ angular.module('owsWalletApp.services')
         }
         if (lockMethod == 'passcode') {
           root.passcodeModal(action);
+        }
+        if (lockMethod == 'pattern') {
+          root.patternModal(action);
         }
       });
     }

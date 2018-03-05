@@ -65,6 +65,7 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function() {
     'payment-request.amount':         { stateName: 'tabs.payment-request.amount',         viewNames: ['tab-receive@tabs'] },
     'payment-request.confirm':        { stateName: 'tabs.payment-request.confirm',        viewNames: ['tab-receive@tabs'] },
     'passcode':                       { stateName: 'tabs.passcode',                       viewNames: ['tab-settings@tabs'] },
+    'pattern':                        { stateName: 'tabs.pattern',                        viewNames: ['tab-settings@tabs'] },
     'preferences':                    { stateName: 'tabs.preferences',                    viewNames: ['tab-settings@tabs'] },
     'preferences.advanced':           { stateName: 'tabs.preferences.advanced',           viewNames: ['tab-settings@tabs'] },
     'preferences.alias':              { stateName: 'tabs.preferences.alias',              viewNames: ['tab-settings@tabs'] },

@@ -12,6 +12,7 @@ var modules = [
   'ngCsv',
   'angular-md5',
   'gridster',
+  'angular-pattern-lock',
   'bchWalletClientModule',
   'btcWalletClientModule',
   'bitauthModule',

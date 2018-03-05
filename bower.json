@@ -12,9 +12,8 @@
     "angular-gettext": "2.2.1",
     "angular-gridster": "0.13.5",
     "angular-moment": "0.10.1",
-    "angular-qrcode": "bitpay/angular-qrcode#~6.3.0",
-    "ionic": "https://github.com/ionic-team/ionic-v1.git#eefba1331b",
-    "ionic-native-transitions": "shprink/ionic-native-transitions#v1.0.3",
+    "angular-qrcode": "https://github.com/owstack/angular-qrcode#~6.3.0",
+    "ionic": "https://github.com/ionic-team/ionic-v1.git#eefba1331bc9206767c651912db71e9ed34850d5",
     "moment": "2.10.3",
     "ng-lodash": "0.2.3",
     "qrcode-decoder-js": "*",
@@ -23,7 +22,8 @@
     "ionic-toast": "^0.4.1",
     "angular-clipboard": "^1.4.2",
     "angular-md5": "^0.1.10",
-    "ngtouch": "^1.0.1"
+    "ngtouch": "^1.0.1",
+    "pattern-lock": "https://github.com/owstack/patternLock.git#b42b903a1cfda4b239d0c6517e837e7bd18cec75"
   },
   "resolutions": {
     "angular": "1.5.3",

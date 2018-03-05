@@ -14,8 +14,9 @@ angular.module('owsWalletApp.services').factory('fingerprintService', function($
       function(msg) {
         FingerprintAuth.isAvailable(function(result) {
 
-          if (result.isAvailable)
+          if (result.isAvailable) {
             _isAvailable = 'ANDROID';
+          }
 
         }, function() {
           _isAvailable = false;
@@ -70,8 +71,12 @@ angular.module('owsWalletApp.services').factory('fingerprintService', function($
   };
 
   var isNeeded = function(client) {
-    if (!_isAvailable) return false;
-    if (client === 'unlockingApp') return true;
+    if (!_isAvailable) {
+      return false;
+    }
+    if (client === 'unlock') {
+      return true;
+    }
 
     var config = configService.getSync();
     config.touchIdFor = config.touchIdFor || {};
