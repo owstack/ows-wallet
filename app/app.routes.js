@@ -118,11 +118,12 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     uxLanguageService.init();
 
     $ionicPlatform.ready(function() {
-      if (screen.width < 768 && platformInfoService.isCordova) {
-        screen.lockOrientation('portrait');
+      if (platformInfoService.isCordova) {
+        if (screen.width < 768) {
+          screen.lockOrientation('portrait');
+        }
+        Keyboard.hideFormAccessoryBar(false);
       }
-
-      Keyboard.hideFormAccessoryBar(false);
 
       $ionicPlatform.registerBackButtonAction(function(e) {
         // From root tabs view

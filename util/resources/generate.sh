@@ -1,6 +1,8 @@
+#!/bin/sh
+
 # This script requires Sketch on macOS – see readme.md for details
 
-function postprocess {
+postprocess() {
   echo "Beginning image postprocessing in $1"
 
   echo "Postprocessing assets for macOS..."
@@ -27,7 +29,7 @@ function postprocess {
   rm -r $1/img/brand/favicon/* && rmdir $1/img/brand/favicon
 }
 
-function iconset {
+iconset() {
   echo "Converting $1/$2 iconset to icns..."
   iconutil --convert icns $1/mac/$2.iconset --output $1/mac/$2.icns
   echo "Removing $1/$2 iconset..."
