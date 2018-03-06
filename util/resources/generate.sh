@@ -56,7 +56,7 @@ echo "Processing resources for $1"
 # remove existing resources
 rm -fr $RESOURCES_PATH
 
-if hash xsketchtool 2>/dev/null; then
+if hash sketchtool 2>/dev/null; then
 
   # export all slices marked for export to the proper directory
   echo "Exporting all assets from $TEMPLATE_PATH/resources.sketch"
