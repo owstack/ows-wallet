@@ -6,7 +6,7 @@ OWS Wallet
 
 This is a secure wallet platform for both desktop and mobile devices. The wallet uses the following wallet services for peer synchronization and network interfacing.
 
-* [BCH Wallet Service](https://github.com/owstack/bcc-wallet-service) (BCH)
+* [BCH Wallet Service](https://github.com/owstack/bch-wallet-service) (BCH)
 * [BTC Wallet Service](https://github.com/owstack/btc-wallet-service) (BTC)
 
 Binary versions of this wallet are available for download at [OpenWalletStack.com](https://openwalletstack.com/#download). Binaries are signed with the key `wallet@openwalletstack.com` – See the section [`How to Verify Wallet Signatures`](https://github.com/owstack/ows-wallet#how-to-verify-wallet-signatures) for details.
@@ -25,7 +25,7 @@ For a list of frequently asked questions please visit the [Wallet FAQ](https://g
 - Push notifications (only available for ios and android versions)
 - Customizable wallet naming and background colors
 - Multiple languages supported
-- Available for iOS, Android, Windows Phone, Chrome App, Linux, Windows, and OSX devices
+- Available for iOS, Android, Linux, Windows, and OSX devices
 
 ## Bitcoin Features
 
@@ -97,28 +97,6 @@ npm run apply:ows-wallet
 npm run start:ios
 ```
 
-### Windows Phone
-
-Follow the [Cordova Windows Phone Platform Guide](https://cordova.apache.org/docs/en/latest/guide/platforms/win8/index.html) to set up your development environment.
-
-When your developement enviroment is ready, follow this instructions:
-
-- Go to app-template folder, search for config-template.xml and then remove this line:
-```sh
-<plugin name="cordova-plugin-qrscanner" spec="~2.5.0" />
-```
-and then enable this one:
-```sh
-<plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/phonegap/phonegap-plugin-barcodescanner.git" />
-```
-- Run:
-```sh
-npm run clean-all
-npm run apply:ows-wallet
-npm run start:windows
-```
-- Then open the project file with VS inside cordova/platform/windows/
-
 ### Desktop (Linux, macOS, and Windows)
 
 The desktop version currently uses NW.js, an app runtime based on Chromium. To get started, first install NW.js on your system from [the NW.js website](https://nwjs.io/).
@@ -152,53 +130,12 @@ npm run apply:ows-wallet
 npm run final:ios
 ```
 
-### Windows Phone
-
-- Install Visual Studio 2015 (or newer)
-- Go to app-template folder, search for config-template.xml and then remove this line:
-```sh
-<plugin name="cordova-plugin-qrscanner" spec="~2.5.0" />
-```
-and then enable this one:
-```sh
-<plugin name="phonegap-plugin-barcodescanner" spec="https://github.com/phonegap/phonegap-plugin-barcodescanner.git" />
-```
-- Run:
-```sh
-npm run clean-all
-npm run apply:ows-wallet
-npm run final:windows
-```
-- Then open the project file with VS inside cordova/platform/windows/
-
 ### Desktop (Linux, macOS, and Windows)
 
 ```sh
 npm run clean-all
 npm run apply:ows-wallet
 npm run final:desktop
-```
-
-### Google Chrome App
-
-> cd chrome-app/
-
-```sh
-npm run apply:ows-wallet
-grunt
-make
-```
-
-On success, the Chrome extension will be located at: `browser-extensions/chrome/ows-wallet-chrome-extension`.  To install it go to `chrome://extensions/` in your browser and ensure you have the 'developer mode' option enabled in the settings.  Then click on "Load unpacked chrome extension" and choose the directory mentioned above.
-
-## Configuration
-
-### Enable External Services
-
-To enable external services, set the `WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION` environment variable to the location of your configuration before running the `apply` task.
-
-```sh
-WALLET_EXTERNAL_SERVICES_CONFIG_LOCATION="~/.ows-wallet/externalServices.json" npm run apply:ows-wallet
 ```
 
 ## About OWS Wallet
