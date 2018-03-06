@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="94px" height="55px" viewBox="0 0 94 55" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-scan</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-scan" stroke="#FFFFFF">
+            <g id="icon-scan" transform="translate(-1.000000, 0.000000)">
+                <g transform="translate(1.000000, 1.000000)">
+                    <path d="M30.0018865,0.12820416 L16.5526054,0.12820416 M15.5527648,0.12820416 L15.5527648,13.1517251" id="Line-Copy-2" stroke-width="5" stroke-linejoin="round"></path>
+                    <path d="M63.3998876,0.12820416 L76.8491688,0.12820416 M77.8490096,0.12820416 L77.8490096,13.1517251" id="Line-Copy-3" stroke-width="5" stroke-linejoin="round"></path>
+                    <path d="M30.0018865,52.5215068 L16.5526054,52.5215068 M15.5527648,52.5215068 L15.5527648,39.4979856" id="Line-Copy-5" stroke-width="5" stroke-linejoin="round"></path>
+                    <path d="M63.3998876,52.5215068 L76.8491688,52.5215068 M77.8490096,52.5215068 L77.8490096,39.4979856" id="Line-Copy-4" stroke-width="5" stroke-linejoin="round"></path>
+                    <path d="M0.173331932,25.894752 L93.5066656,25.894752" id="Line" stroke-width="5"></path>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-223.000000, -2430.000000)"></g>
+    </g>
+</svg>

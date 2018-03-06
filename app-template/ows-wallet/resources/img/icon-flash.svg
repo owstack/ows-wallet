@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="100px" viewBox="0 0 50 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-flash</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-flash" fill="#FFFFFF" opacity="0.8">
+            <g id="icon-flash">
+                <g id="bolt">
+                    <polygon fill-rule="nonzero" points="0 57 23 57 15 100 50 43 27 43 35 0"></polygon>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-128.000000, -2430.000000)"></g>
+    </g>
+</svg>

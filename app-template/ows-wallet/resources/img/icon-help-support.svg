@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="102px" height="102px" viewBox="0 0 102 102" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-help-support</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-help-support" stroke="#FFFFFF">
+            <g id="icon-help-support" transform="translate(2.000000, 1.000000)">
+                <g>
+                    <circle id="Oval" stroke-width="3" cx="50" cy="50" r="50"></circle>
+                    <path d="M50,59.0909089 L50,54.5454546 C57.2727272,54.5454546 63.6363639,48.1818182 63.6363639,40.9090909 C63.6363639,33.6363636 57.2727272,27.2727273 50,27.2727273 C44.5454546,27.2727273 39.5454546,31.3636364 37.2727273,35.9090909" id="Shape" stroke-width="3"></path>
+                    <path d="M50,72.7272728 L50,77.2727272" id="Shape" stroke-width="3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

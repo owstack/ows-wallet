@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="95px" height="101px" viewBox="0 0 95 101" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-contacts</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-contacts" stroke="#FFFFFF">
+            <g id="icon-contacts" transform="translate(1.000000, 1.000000)">
+                <g>
+                    <path d="M0.159198006,98.5593007 L0.159198006,0.064665887 L74.8165436,0.064665887 C79.9492361,0.064665887 84.1487116,4.09399186 84.1487116,9.01872361 L84.1487116,89.6052431 C84.1487116,94.5299746 79.9492361,98.5593007 74.8165436,98.5593007 L0.159198006,98.5593007 L0.159198006,98.5593007 Z" id="Shape" stroke-width="3"></path>
+                    <path d="M93.4808801,13.4957524 L93.4808801,22.4498102" id="Shape" stroke-width="3"></path>
+                    <path d="M93.4808801,35.8808967 L93.4808801,44.8349544" id="Shape" stroke-width="3"></path>
+                    <g id="icon-user" transform="translate(22.446429, 24.980000)" stroke-width="3">
+                        <path d="M19.3207922,47.2594082 C33.0529846,47.2594082 38.4964067,48.2413943 38.4964067,41.1602935 C38.4964067,33.1338177 29.9516274,24.4100971 19.2418827,24.4100971 C8.53213799,24.4100971 0.145177655,33.7854362 0.145177655,41.1602935 C0.145177655,48.1220251 5.58859981,47.2594082 19.3207922,47.2594082 Z" id="Oval"></path>
+                        <ellipse id="Oval" cx="19.3207922" cy="12.3250726" rx="11.8912413" ry="12.0850245"></ellipse>
+                    </g>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-145.000000, -638.000000)"></g>
+    </g>
+</svg>

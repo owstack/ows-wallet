@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="95px" viewBox="0 0 96 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-language</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-language" stroke="#FFFFFF">
+            <g id="icon-language" transform="translate(0.000000, 1.000000)">
+                <g id="Shape">
+                    <path d="M83.6502833,68.7069772 C90.4723794,61.2900972 94.7361894,52.0189974 94.7361894,41.8207877 C94.7361894,18.6430384 73.84352,0.100838889 47.8342781,0.100838889 C21.8250363,0.100838889 0.932366667,18.6430384 0.932366667,41.8207877 C0.932366667,64.9985372 21.8250363,83.5407367 47.8342781,83.5407367 C52.5244692,83.5407367 56.7882794,83.0771817 61.0520894,81.6865167 L86.2085689,92.8118361 L83.6502833,68.7069772 L83.6502833,68.7069772 Z" stroke-width="3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

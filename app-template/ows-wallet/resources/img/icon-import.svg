@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="98px" viewBox="0 0 100 98" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-import</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-import" stroke="#FFFFFF">
+            <g id="icon-import-white" transform="translate(1.000000, 0.000000)">
+                <g id="Shape">
+                    <path d="M0.826923077,67.3269231 L0.826923077,81.75 C0.826923077,89.7156452 7.28515385,96.1730769 15.2221255,96.1730769 L82.5855668,96.1730769 C90.5358178,96.1730769 96.9807692,89.699437 96.9807692,81.75 L96.9807692,67.3269231" stroke-width="5"></path>
+                    <path d="M48.9038462,0.0192307692 L48.9038462,72.1346154" stroke-width="5"></path>
+                    <polyline stroke-width="5" points="20.0576923 43.2884615 48.9038462 72.1346154 77.75 43.2884615"></polyline>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-141.000000, -937.000000)"></g>
+    </g>
+</svg>

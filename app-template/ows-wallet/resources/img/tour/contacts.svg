@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375px" height="270px" viewBox="0 0 375 270" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/tour/contacts</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Add-contacts" transform="translate(0.000000, -80.000000)" stroke="#FFFFFF" stroke-width="2">
+            <g id="exportable" transform="translate(0.000000, 80.000000)">
+                <g id="graphic" transform="translate(114.407733, 74.802072)">
+                    <g id="address-book" transform="translate(0.092267, 0.000000)">
+                        <rect id="Rectangle-4" x="0.0844542892" y="0" width="129.442639" height="168" rx="3"></rect>
+                        <path d="M18.3349754,0.375 L18.3349754,167.625" id="Line-4" stroke-linecap="square"></path>
+                        <path d="M137.766472,7.5 L143.004926,7.5 C144.65906,7.5 146,8.84314575 146,10.5 L146,32.25 C146,33.9068542 144.65906,35.25 143.004926,35.25 L137.971213,35.25" id="Rectangle-5"></path>
+                        <path d="M137.763547,55.5 L143.002001,55.5 C144.656135,55.5 145.997075,56.8431458 145.997075,58.5 L145.997075,80.25 C145.997075,81.9068542 144.656135,83.25 143.002001,83.25 L137.968288,83.25" id="Rectangle-5"></path>
+                        <path d="M137.763547,103.5 L143.002001,103.5 C144.656135,103.5 145.997075,104.843146 145.997075,106.5 L145.997075,128.25 C145.997075,129.906854 144.656135,131.25 143.002001,131.25 L137.968288,131.25" id="Rectangle-5"></path>
+                        <g id="user" transform="translate(41.921182, 48.750000)">
+                            <path d="M32.3994559,77.9014139 C49.5224605,77.9014139 63.6453202,79.7922999 63.6453202,67.0117937 C63.6453202,54.2312876 49.5224605,41.2075472 32.3994559,41.2075472 C15.2764514,41.2075472 -6.59488241e-14,54.2312876 0,67.0117937 C-6.59488241e-14,79.7922999 15.2764514,77.9014139 32.3994559,77.9014139 Z" id="Oval-2"></path>
+                            <ellipse id="Oval-2" cx="32.562722" cy="20.6037736" rx="20.7217322" ry="20.6037736"></ellipse>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

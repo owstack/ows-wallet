@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="88px" height="93px" viewBox="0 0 88 93" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-notifications</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-notifications" stroke="#FFFFFF">
+            <g id="icon-notifications" transform="translate(0.000000, 1.000000)">
+                <g>
+                    <path d="M32.4003463,66.6271715 C32.639705,73.244128 37.7800311,78.543476 44.1249985,78.543476 C50.4699659,78.543476 55.59852,73.244128 55.841803,66.6271715" id="Shape" stroke-width="3"></path>
+                    <path d="M87.288042,78.543476 C87.288042,70.848476 83.2424875,55.8260845 71.59239,49.6304324 L71.59239,28.9782585 C71.59239,13.0099976 59.2948465,0.065215 44.1249985,0.065215 C28.9551506,0.065215 16.6576071,13.0099976 16.6576071,28.9782585 L16.6576071,49.6304324 C4.88586804,55.954128 0.961955,70.848476 0.961955,78.543476" id="Shape" stroke-width="3"></path>
+                    <ellipse id="Oval" stroke-width="3" cx="44.1249985" cy="78.543476" rx="43.1630435" ry="12.3913044"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

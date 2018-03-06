@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/social-icons/icon-social-facebook</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/social-icons/icon-social-facebook" fill="#FFFFFF">
+            <g id="icon-social-facebook">
+                <g id="Shape">
+                    <path d="M49.8924731,0 C22.3655914,0 0,22.3655914 0,49.8924731 C0,77.4193548 22.3655914,99.7849462 49.8924731,99.7849462 C77.4193548,99.7849462 99.7849462,77.4193548 99.7849462,49.8924731 C99.7849462,22.3655914 77.4193548,0 49.8924731,0 Z M63.8709677,31.5053763 L57.8494624,31.5053763 C55.1612903,31.5053763 53.8709677,33.0107527 53.8709677,35.5913978 L53.8709677,42.9032258 L63.2258065,42.9032258 L61.827957,52.1505376 L53.7634409,52.1505376 L53.7634409,77.0967742 L43.9784946,77.0967742 L43.9784946,52.1505376 L35.9139785,52.1505376 L35.9139785,42.9032258 L43.9784946,42.9032258 L43.9784946,34.9462366 C43.9784946,27.6344086 48.3870968,22.7956989 57.2043011,22.7956989 C61.0752688,22.7956989 63.7634409,23.2258065 63.7634409,23.2258065 L63.7634409,31.5053763 L63.8709677,31.5053763 Z" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-145.000000, -4213.000000)"></g>
+    </g>
+</svg>

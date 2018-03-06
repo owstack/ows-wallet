@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="108px" height="107px" viewBox="0 0 108 107" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-receive-tip</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-receive-tip" fill="#FFFFFF">
+            <g id="icon-receive-tip" transform="translate(5.000000, 4.000000)">
+                <g>
+                    <path d="M44.0909091,42.3272727 L0,42.3272727 L0,0 L44.0909091,0 L44.0909091,42.3272727 Z M5.45454545,37.0909091 L38.6363636,37.0909091 L38.6363636,5.23636364 L5.45454545,5.23636364 L5.45454545,37.0909091 Z" id="Shape" fill-rule="nonzero"></path>
+                    <path d="M100,42.3272727 L55.9090909,42.3272727 L55.9090909,0 L100,0 L100,42.3272727 Z M61.3636364,37.0909091 L94.5454545,37.0909091 L94.5454545,5.23636364 L61.3636364,5.23636364 L61.3636364,37.0909091 Z" id="Shape" fill-rule="nonzero"></path>
+                    <path d="M44.0909091,96 L0,96 L0,53.6727273 L44.0909091,53.6727273 L44.0909091,96 Z M5.45454545,90.7636364 L38.6363636,90.7636364 L38.6363636,58.9090909 L5.45454545,58.9090909 L5.45454545,90.7636364 Z" id="Shape" fill-rule="nonzero"></path>
+                    <polygon id="Shape" fill-rule="nonzero" points="100 76.8 94.5454545 76.8 94.5454545 58.9090909 82.7272727 58.9090909 82.7272727 71.1272727 60 71.1272727 60 56.2909091 65.4545455 56.2909091 65.4545455 65.8909091 77.2727273 65.8909091 77.2727273 53.6727273 100 53.6727273"></polygon>
+                    <polygon id="Shape" fill-rule="nonzero" points="97.2727273 96 60 96 60 85.0909091 65.4545455 85.0909091 65.4545455 90.7636364 97.2727273 90.7636364"></polygon>
+                    <rect id="Rectangle-path" fill-rule="nonzero" x="17.2727273" y="16.5818182" width="10" height="9.6"></rect>
+                    <rect id="Rectangle-path" fill-rule="nonzero" x="72.7272727" y="16.5818182" width="10" height="9.6"></rect>
+                    <rect id="Rectangle-path" fill-rule="nonzero" x="17.2727273" y="69.8181818" width="10" height="9.6"></rect>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-153.000000, -3922.000000)"></g>
+    </g>
+</svg>

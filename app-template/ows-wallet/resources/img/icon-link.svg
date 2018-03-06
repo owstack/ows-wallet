@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="96px" viewBox="0 0 96 96" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-link</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-link" stroke="#FFFFFF">
+            <g id="icon-link" transform="translate(1.000000, 1.000000)">
+                <g id="Shape">
+                    <path d="M42.6573559,18.9479996 L54.4998557,7.10549984 C63.5001555,-1.89479996 78.6585551,-1.89479996 87.6588549,7.10549984 L87.6588549,7.10549984 C96.6591547,16.1057996 96.6591547,31.2641993 87.6588549,40.2644991 L75.8163552,52.1069988" stroke-width="5"></path>
+                    <path d="M52.1313557,75.7919983 L40.288856,87.634498 C31.2885562,96.6347978 16.1301565,96.6347978 7.12985674,87.634498 L7.12985674,87.634498 C-1.87044305,78.6341982 -1.87044305,63.4757986 7.12985674,54.4754988 L18.9723565,42.632999" stroke-width="5"></path>
+                    <path d="M33.1833562,61.5809986 L61.6053555,33.1589993" stroke-width="5"></path>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-147.000000, -3343.000000)"></g>
+    </g>
+</svg>

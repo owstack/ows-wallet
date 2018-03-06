@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="93px" height="105px" viewBox="0 0 93 105" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-tour</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-tour" stroke="#FFFFFF">
+            <g id="globe" transform="translate(2.000000, 2.000000)">
+                <g>
+                    <path d="M77.9723799,72.5220554 C84.5529372,64.8414384 88.5245902,54.8838108 88.5245902,44.0039678 C88.5245902,19.7012474 68.7076856,0 44.2622951,0 C19.8169045,0 0,19.7012474 0,44.0039678 C0,66.5502689 17.0559787,85.1361824 39.040366,87.704918" id="Oval-3" stroke-width="3"></path>
+                    <path d="M61.7892999,59.8360656 C62.6449192,54.87697 63.1147541,49.4769552 63.1147541,43.8272598 C63.1147541,19.6221326 54.4907308,0 43.852459,0 C33.2141872,0 24.5901639,19.6221326 24.5901639,43.8272598 C24.5901639,47.2008172 24.7576858,50.4853498 25.0748345,53.6401417" id="Oval-4" stroke-width="3"></path>
+                    <path d="M3.54570228,28.2786885 L85.1358127,28.2786885" id="Line-2" stroke-width="3" stroke-linecap="square"></path>
+                    <path d="M61.9110252,60.2459016 L84.5657988,60.2459016" id="Line-3" stroke-width="3" stroke-linecap="square"></path>
+                    <path d="M0,41.8032787 C6.5678468,55.078029 19.6284439,62.4846573 39.1817912,64.0231636 L39.1817912,51.3854129 L72.1311475,75.6575968 L39.1817912,100 L39.1817912,86.0103098" id="Path-11" stroke-width="3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

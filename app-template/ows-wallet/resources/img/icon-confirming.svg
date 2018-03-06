@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-confirming</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-confirming">
+            <g id="icon-confirming">
+                <g>
+                    <path d="M50,100 C77.6142376,100 100,77.6142376 100,50 C100,22.3857625 77.6142376,0 50,0 C22.3857625,0 0,22.3857625 0,50 C0,77.6142376 22.3857625,100 50,100 Z" id="Oval-204" fill="#F2F2F2" fill-rule="nonzero" opacity="0.8"></path>
+                    <g id="Group" transform="translate(24.242424, 22.727273)" stroke="#BDBDBD" stroke-width="5">
+                        <path d="M0,27.2727273 C0,12.2727273 11.5440115,0 25.653359,0 C35.6581691,0 44.3803109,6 48.4848485,15" id="Shape"></path>
+                        <path d="M51.5151515,27.2727273 C51.5151515,42.2727273 39.97114,54.5454545 25.8617925,54.5454545 C15.8569825,54.5454545 7.13484045,48.5454545 3.03030303,39.5454545" id="Shape"></path>
+                        <polyline id="Shape" points="51.5151515 0 49.3761139 15.1515152 33.3333333 13.0970724"></polyline>
+                        <polyline id="Shape" points="0 54.5454545 2.13903743 39.3939394 18.1818182 41.4483821"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(-149.000000, -1533.000000)"></g>
+    </g>
+</svg>

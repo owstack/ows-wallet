@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/social-icons/icon-social-email</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/social-icons/icon-social-email" fill="#FFFFFF">
+            <g id="icon-social-email">
+                <g id="Shape">
+                    <path d="M49.8924731,0 C22.3655914,0 0,22.3655914 0,49.8924731 C0,77.4193548 22.3655914,99.7849462 49.8924731,99.7849462 C77.4193548,99.7849462 99.7849462,77.4193548 99.7849462,49.8924731 C99.7849462,22.3655914 77.4193548,0 49.8924731,0 Z M73.3333333,65.8064516 C73.3333333,67.5268817 71.9354839,68.8172043 70.3225806,68.8172043 L27.9569892,68.8172043 C26.2365591,68.8172043 24.9462366,67.4193548 24.9462366,65.8064516 L24.9462366,40.9677419 L49.1397849,59.1397849 L73.3333333,40.9677419 L73.3333333,65.8064516 Z M49.1397849,53.655914 L24.9462366,35.483871 C24.9462366,33.7634409 26.344086,32.4731183 27.9569892,32.4731183 L70.3225806,32.4731183 C72.0430108,32.4731183 73.3333333,33.8709677 73.3333333,35.483871 L49.1397849,53.655914 Z" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(0.000000, -4213.000000)"></g>
+    </g>
+</svg>

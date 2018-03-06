@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="84px" height="100px" viewBox="0 0 84 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/tab-icons/icon-home-selected</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/tab-icons/icon-home-selected" fill="#00AFFF">
+            <g id="icon-home-selected">
+                <g id="Shape">
+                    <polygon fill-opacity="0.101251132" fill-rule="nonzero" points="41.6666667 3.75 2.91666667 39.1666667 2.91666667 97.0833333 28.75 97.0833333 28.75 65.8333333 54.5833333 65.8333333 54.5833333 97.0833333 80.4166667 97.0833333 80.4166667 39.1666667"></polygon>
+                    <path d="M83.3333333,100 L52.0833333,100 L52.0833333,68.75 L31.25,68.75 L31.25,100 L0,100 L0,37.9166667 L41.6666667,0 L83.3333333,37.9166667 L83.3333333,100 Z M57.5,94.1666667 L77.5,94.1666667 L77.5,40.4166667 L41.6666667,7.91666667 L5.83333333,40.4166667 L5.83333333,94.1666667 L25.8333333,94.1666667 L25.8333333,62.9166667 L57.5,62.9166667 L57.5,94.1666667 Z" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(0.000000, -367.000000)"></g>
+    </g>
+</svg>

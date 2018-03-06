@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-users</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-users" stroke="#FFFFFF">
+            <g id="icon-users">
+                <g transform="translate(1.510204, 2.000000)">
+                    <g id="icon-user2" transform="translate(48.685714, 0.000000)" stroke-width="2.4" stroke-linecap="round">
+                        <path d="M29.0817593,76.464171 C42.1405678,76.4541823 47.5655945,75.4460301 47.5655945,66.5308938 C47.5655945,53.5570163 33.5288598,39.4561224 15.9356794,39.4561224" id="Oval"></path>
+                        <path d="M16.0653061,39.4561224 C26.8536674,39.4561224 35.5993622,30.7104276 35.5993622,19.9220663 C35.5993622,9.13370503 26.8536674,0.388010204 16.0653061,0.388010204 C10.4302246,0.388010204 5.35244026,2.77408342 1.78717723,6.59100586 C1.46607547,6.93477307 1.15724256,7.29014663 0.861376331,7.65642872" id="Oval"></path>
+                    </g>
+                    <g id="icon-user1" transform="translate(0.489796, 9.600000)" stroke-width="2.7">
+                        <path d="M35.7061224,85.9380899 C61.0841369,85.9380899 71.1439468,87.7237664 71.1439468,74.8472555 C71.1439468,60.2516433 55.3526204,44.3881378 35.5602924,44.3881378 C15.7679644,44.3881378 0.268298064,61.4365682 0.268298064,74.8472555 C0.268298064,87.5067013 10.328108,85.9380899 35.7061224,85.9380899 Z" id="Oval"></path>
+                        <circle id="Oval" cx="35.7061224" cy="22.4123246" r="21.9758131"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-list</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-list" fill="#FFFFFF">
+            <g id="icon-list">
+                <g id="Rectangle-5">
+                    <rect x="0" y="0" width="16" height="15.3846154"></rect>
+                    <rect x="28" y="0" width="72" height="15.3846154"></rect>
+                    <rect x="0" y="84.6153846" width="16" height="15.3846154"></rect>
+                    <rect x="28" y="84.6153846" width="72" height="15.3846154"></rect>
+                    <rect x="0" y="28.2051282" width="16" height="15.3846154"></rect>
+                    <rect x="28" y="28.2051282" width="72" height="15.3846154"></rect>
+                    <rect x="0" y="56.4102564" width="16" height="15.3846154"></rect>
+                    <rect x="28" y="56.4102564" width="72" height="15.3846154"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="96px" height="100px" viewBox="0 0 96 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-user-add</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-user-add" stroke="#FFFFFF">
+            <g id="icon-user-add">
+                <g transform="translate(2.908163, 1.500000)">
+                    <path d="M64.4661614,58.7741637 C57.6572314,53.3847304 48.8170966,49.8339047 39.0998585,49.8339047 C17.3374609,49.8339047 0.295003658,68.9739249 0.295003658,84.0299049 C0.295003658,98.2424772 11.1957918,96.4553223 39.0998585,96.4553223 C49.9216364,96.4553223 58.3376933,96.6021553 64.4577877,96.1358776" id="Oval" stroke-width="3" stroke-linecap="round"></path>
+                    <ellipse id="Oval" stroke-width="3" cx="39.2602041" cy="25.1619848" rx="24.1632205" ry="24.6719198"></ellipse>
+                    <path d="M72.409078,62.6869796 L72.409078,96.3400408" id="Line-4" stroke-width="3" stroke-linecap="round"></path>
+                    <path d="M88.8886698,79.5135102 L55.9294861,79.5135102" id="Line-4" stroke-width="3" stroke-linecap="round"></path>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(0.000000, -937.000000)"></g>
+    </g>
+</svg>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="104px" height="92px" viewBox="0 0 104 92" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-bug</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-bug" stroke="#FFFFFF">
+            <g id="icon-bug" transform="translate(2.000000, 2.000000)">
+                <g>
+                    <path d="M27.5162235,25.7686492 C22.2412109,27.4075416 21.5087891,29.5752741 20.5645161,31.2161353 C20.0608776,33.2236013 18.2912519,34.1785062 19.4450132,54.2571037 C20.4329952,69.4245369 31.7390688,83.297631 49.76531,87.0605469" id="Path-6" stroke-width="3"></path>
+                    <path d="M58.5646106,25.7686492 C53.289598,27.4075416 52.5571762,29.5752741 51.6129032,31.2161353 C51.1092647,33.2236013 49.339639,34.1785062 50.4934003,54.2571037 C51.4813823,69.4245369 62.7874559,83.297631 80.8136971,87.0605469" id="Path-6" stroke-width="3" transform="translate(65.461805, 56.414598) scale(-1, 1) translate(-65.461805, -56.414598) "></path>
+                    <path d="M50.1555412,37.4724357 L50.1555412,87.6110446" id="Path-7" stroke-width="3"></path>
+                    <path d="M19.2725397,51.5656502 L0.085842994,51.5656502" id="Path-8" stroke-width="3" stroke-linecap="round"></path>
+                    <path d="M4.59732548,18.496015 C4.59732548,24.2711221 7.83848916,31.7705708 19.1926033,35.6547694" id="Path-9" stroke-width="3" stroke-linecap="round"></path>
+                    <path d="M21.7741935,65.719506 C11.8395077,68.2871829 6.07621388,74.7952369 4.484312,85.2436681" id="Path-10" stroke-width="3" stroke-linecap="round"></path>
+                    <path d="M99.917701,51.5656502 L80.7310043,51.5656502" id="Path-8" stroke-width="3" stroke-linecap="round" transform="translate(90.324353, 51.565650) scale(-1, 1) translate(-90.324353, -51.565650) "></path>
+                    <path d="M81.0086158,18.496015 C81.0086158,24.2711221 84.2497795,31.7705708 95.6038936,35.6547694" id="Path-9" stroke-width="3" stroke-linecap="round" transform="translate(88.306255, 27.075392) scale(-1, 1) translate(-88.306255, -27.075392) "></path>
+                    <path d="M95.5645161,65.719506 C85.6298303,68.2871829 79.8665365,74.7952369 78.2746346,85.2436681" id="Path-10" stroke-width="3" stroke-linecap="round" transform="translate(86.919575, 75.481587) scale(-1, 1) translate(-86.919575, -75.481587) "></path>
+                    <path d="M50.2016129,37.2519216 C70.7621913,37.2519216 72.983871,31.9383191 72.983871,22.7822581 C72.983871,13.6261971 63.563193,8.35827243 50.2016129,8.35827243 C36.8400328,8.35827243 27.4193548,13.8222971 27.4193548,22.7822581 C27.4193548,31.742219 29.6410345,37.2519216 50.2016129,37.2519216 Z" id="Oval-5" stroke-width="3"></path>
+                    <path d="M61.9792323,10.4037191 C61.1558252,4.52437887 56.1062753,0 50,0 C43.7923464,0 38.6767975,4.67585639 37.9832654,10.6976572" id="Oval-6" stroke-width="3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

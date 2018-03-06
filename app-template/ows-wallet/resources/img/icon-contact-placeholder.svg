@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="83px" height="100px" viewBox="0 0 83 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-contact-placeholder</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-contact-placeholder" stroke="#FFFFFF">
+            <g id="icon-user" transform="translate(0.500000, 1.000000)">
+                <g transform="translate(2.328091, 1.470000)" id="Oval">
+                    <path d="M38.6719088,94.551792 C66.1578465,94.551792 77.0532344,96.5164494 77.0532344,82.3493068 C77.0532344,66.2907548 59.9502645,48.8372266 38.5139659,48.8372266 C17.0776674,48.8372266 0.29058317,67.5944464 0.29058317,82.3493068 C0.29058317,96.2776277 11.185971,94.551792 38.6719088,94.551792 Z" stroke-width="3"></path>
+                    <ellipse stroke-width="3" cx="38.6719088" cy="24.6587451" rx="23.8011462" ry="24.1784814"></ellipse>
+                </g>
+            </g>
+        </g>
+        <g id="Text" transform="translate(0.000000, -1862.000000)"></g>
+    </g>
+</svg>
