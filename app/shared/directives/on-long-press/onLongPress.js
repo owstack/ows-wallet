@@ -5,7 +5,10 @@ angular.module('owsWalletApp.directives')
 		return {
 			restrict: 'A',
 			link: function($scope, $elm, $attrs) {
-				$elm.bind('touchstart', function(evt) {
+				$elm.on('touchstart mousedown', startHandler);
+				$elm.on('touchend mouseup', endHandler);
+
+				function startHandler(event) {
 					// Locally scoped variable that will keep track of the long press
 					$scope.longPress = true;
 					var duration = $attrs.longPressDuration || 1000; // milliseconds
@@ -20,9 +23,9 @@ angular.module('owsWalletApp.directives')
 							});
 						}
 					}, duration);
-				});
+				};
 
-				$elm.bind('touchend', function(evt) {
+				function endHandler(event) {
 					// Prevent the onLongPress event from firing
 					$scope.longPress = false;
 					// If there is an on-touch-end function attached to this element, apply it
@@ -31,7 +34,7 @@ angular.module('owsWalletApp.directives')
 							$scope.$eval($attrs.onTouchEnd)
 						});
 					}
-				});
+				};
 			}
 		};
 	});
