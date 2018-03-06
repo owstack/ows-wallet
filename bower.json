@@ -23,7 +23,7 @@
     "angular-clipboard": "^1.4.2",
     "angular-md5": "^0.1.10",
     "ngtouch": "^1.0.1",
-    "pattern-lock": "https://github.com/owstack/patternLock.git#b42b903a1cfda4b239d0c6517e837e7bd18cec75"
+    "pattern-lock": "https://github.com/owstack/pattern-lock.git#b42b903a1cfda4b239d0c6517e837e7bd18cec75"
   },
   "resolutions": {
     "angular": "1.5.3",
