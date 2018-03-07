@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('HomeCtrl',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService, $ionicSideMenuDelegate) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService) {
     var wallet;
     var listeners = [];
     var notifications = [];

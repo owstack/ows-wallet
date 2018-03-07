@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('SideMenuCtrl', function($rootScope, $scope, $timeout, $ionicSideMenuDelegate, $ionicHistory, platformInfoService) {
-	$scope.isCordova = platformInfoService.isCordova;
 
   $scope.toggleSideMenu = function() {
 		// Scan view pushed for side menu open, hide video and display side menu.
