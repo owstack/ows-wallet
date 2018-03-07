@@ -4,6 +4,9 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function($root
   var root = {};
 
   root.init = function(stateProvider) {
+    // Prevent user from dragging to open and close the side menu.
+    $ionicSideMenuDelegate.canDragContent(false);
+
     stateProvider.state('main', {
       url: '/main',
       abstract: true,
@@ -65,7 +68,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function($root
     'payment-request.amount':         { stateName: 'main.payment-request-amount',         viewNames: ['side-menu-content'] },
     'payment-request.confirm':        { stateName: 'main.payment-request-confirm',        viewNames: ['side-menu-content'] },
     'passcode':                       { stateName: 'main.passcode',                       viewNames: ['side-menu-content'] },
-    'pattern':                        { stateName: 'tabs.pattern',                        viewNames: ['side-menu-content'] },
+    'pattern':                        { stateName: 'main.pattern',                        viewNames: ['side-menu-content'] },
     'preferences':                    { stateName: 'main.preferences',                    viewNames: ['side-menu-content'] },
     'preferences.advanced':           { stateName: 'main.preferences-advanced',           viewNames: ['side-menu-content'] },
     'preferences.alias':              { stateName: 'main.preferences-alias',              viewNames: ['side-menu-content'] },
