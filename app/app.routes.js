@@ -108,7 +108,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
   })
   .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfigService, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService) {
-    // The following services injected that need to run at startup.
+    // The following injected services need to run at startup.
     //
     //   fingerprintService
     //   startupService
@@ -248,8 +248,9 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     }
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-      $log.debug('Route change from:', fromState.name || '-', ' to:', toState.name);
+      $log.debug('Route change start from:', fromState.name || '-', ' to:', toState.name);
       //$log.debug('            toParams:' + JSON.stringify(toParams || {}));
       //$log.debug('            fromParams:' + JSON.stringify(fromParams || {}));
     });
+
   });

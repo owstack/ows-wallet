@@ -4,9 +4,6 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function($root
   var root = {};
 
   root.init = function(stateProvider) {
-    // Prevent user from dragging to open and close the side menu.
-    $ionicSideMenuDelegate.canDragContent(false);
-
     stateProvider.state('main', {
       url: '/main',
       abstract: true,
