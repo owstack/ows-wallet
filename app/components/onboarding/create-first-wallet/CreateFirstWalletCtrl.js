@@ -6,7 +6,7 @@ angular.module('owsWalletApp.controllers').controller('CreateFirstWalletCtrl',
     $scope.isCordova = platformInfoService.isCordova;
     var retryCount = 0;
 
-    $scope.$on("$ionicView.enter", function(event, data) {
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
       var config = configService.getSync();
       $scope.data = {
         networkURI: config.currencyNetworks.default

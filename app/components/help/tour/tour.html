@@ -5,11 +5,11 @@
       <button class="button button-nav-bar button-back" ng-click="goBack()"></button>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
-      <button class="button button-nav-bar button-clear" ui-sref="{{sref('onboarding.create-first-wallet')}}"
+      <button class="button button-nav-bar button-clear ng-hide" ui-sref="{{sref('onboarding.create-first-wallet')}}"
         ng-show="fromOnboarding && slide.index == 0">
         {{'Skip' | translate}}
       </button>
-      <button class="button button-nav-bar button-clear" ng-click="learnMore()" ng-show="!fromOnboarding">
+      <button class="button button-nav-bar button-clear ng-hide" ng-click="learnMore()" ng-show="!fromOnboarding">
         {{'Learn more' | translate}}
       </button>
     </ion-nav-buttons>

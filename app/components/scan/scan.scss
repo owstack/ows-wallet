@@ -11,7 +11,7 @@
   }
 
   .bar-header {
-    opacity: .9;
+    background-color: $v-black-transparent-dark;
   }
 
   svg#QR-scanner-guides path.st1 {
@@ -62,11 +62,12 @@
       transform: scale(2);
     }
 
-    .icon-flash, .icon-camera-toggle {
+    .icon-flash,
+    .icon-camera-toggle {
       border-radius: 50%;
       width: 4em;
       height: 4em;
-      background-color: $v-dark-gray;
+      background-color: $v-black-transparent-dark;
       background-repeat: no-repeat;
       background-clip: padding-box;
       background-size: 100%;

@@ -50,6 +50,12 @@ ion-nav-bar.hide {
   display: block !important;
 }
 
+// Kill the default nav bar background to allow us to use semi-transparent nav bars (e.g., on the scan view).
+ion-nav-bar.bar.nav-bar-container {
+  background-color: transparent;
+  background-image: none;
+}
+
 // .placeholder-icon padding cannot be modified by a variable.
 $placeholder-icon-padding: 10px;
 .placeholder-icon {

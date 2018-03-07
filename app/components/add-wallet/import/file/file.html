@@ -14,8 +14,7 @@
     </ion-item>
     <ion-item class="item-divider"></ion-item>
     <ion-item class="has-click" ng-click="showAdvChange()">
-      <span translate ng-show="!showAdv">Show advanced options</span>
-      <span translate ng-show="showAdv">Hide advanced options</span>
+      <span translate>{{showAdv ? 'Hide' : 'Show'}} advanced options</span>
       <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
     </ion-item>
     <div ng-show="showAdv">

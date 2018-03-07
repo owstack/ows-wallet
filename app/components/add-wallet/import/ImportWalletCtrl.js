@@ -29,8 +29,9 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       $scope.importErr = false;
       $scope.fromHardwareWallet = { value: false };
 
-      if ($stateParams.code)
+      if ($stateParams.code) {
         $scope.processWalletInfo($stateParams.code);
+      }
 
       $scope.seedOptions = [];
 
@@ -49,7 +50,6 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         $scope.formData.seedSource = $scope.seedOptions[0];
       }
 
-
       $scope.seedOptionsAll = [];
 
       $scope.seedOptionsAll.push({
@@ -62,10 +62,6 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         label: walletService.externalSource.trezor.longName,
       });
       $scope.formData.seedSourceAll = $scope.seedOptionsAll[0];
-
-      $timeout(function() {
-        $scope.$apply();
-      });
     };
 
     $scope.onNetworkChange = function() {
@@ -427,7 +423,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       helpService.learnMore($scope, locationPrefix, topicId);
     };
 
-    $scope.$on("$ionicView.afterEnter", function(event, data) {
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.showAdv = false;
       $scope.init();
     });

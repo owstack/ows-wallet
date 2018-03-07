@@ -75,7 +75,9 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
   };
 
   $scope.confirm = function(emailForm) {
-    if (emailForm.$invalid) return;
+    if (emailForm.$invalid) {
+      return;
+    }
     $scope.confirmation = true;
   };
 

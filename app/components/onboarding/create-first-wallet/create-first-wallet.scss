@@ -32,10 +32,19 @@
     max-width: 300px;
 
     > .button {
-      border: none;
       font-size: 12px;
       line-height: 32px;
       min-height: 0;
+
+      background: $v-button-primary-bg;
+      border-color: $v-button-primary-bg;
+      color: $v-button-primary-color;
+
+      &.button-positive {
+        background: transparent;
+        border-color: $v-button-primary-bg;
+        color: $v-button-primary-color;
+      }
     }
 
     > .button:first-child {
