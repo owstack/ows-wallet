@@ -102,8 +102,9 @@ if (!fs.existsSync('../www')) {
 }
 
 // Move assets
-copyDir(configDir + '/sass', '../app/shared/sass/overrides');
 copyDir('../resources/' + configDir + '/img', '../app/assets/img');
+copyDir(configDir + '/sass', '../app/shared/sass/overrides');
+copyDir(configDir + '/includes', '../app/includes');
 
 // Done
 console.log("apply.js finished. \n\n");

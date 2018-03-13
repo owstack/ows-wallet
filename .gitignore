@@ -12,10 +12,6 @@ cache
 webkitbuilds/*
 !webkitbuilds/README.md
 
-# chrome extensions
-chrome-app/build/*
-chrome-app/*zip
-
 # Logs
 logs
 *.log
@@ -94,7 +90,7 @@ www/*
 /app.config.json
 app/app.config.js
 app/index.html
-chrome-app/manifest.json
+app/includes
 
 # Generated resources
 resources/*

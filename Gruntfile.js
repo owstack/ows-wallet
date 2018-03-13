@@ -23,9 +23,6 @@ module.exports = function(grunt) {
       coveralls: {
         command: 'cat  coverage/report-lcov/lcov.info |./node_modules/coveralls/bin/coveralls.js'
       },
-      chrome: {
-        command: 'make -C chrome-app '
-      },
       wpinit: {
         command: 'make -C cordova wp-init',
       },
@@ -233,6 +230,13 @@ module.exports = function(grunt) {
         src: '**/*',
         dest: 'www/img/'
       },
+      app_includes: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/includes',
+        src: '**/*.html',
+        dest: 'www/includes/'
+      },
       ionic_fonts: {
         expand: true,
         flatten: true,
@@ -307,6 +311,7 @@ module.exports = function(grunt) {
     'copy:app_root',
     'copy:app_views',
     'copy:app_shared',
+    'copy:app_includes',
     'copy:app_fonts',
     'copy:app_imgs',
     'copy:ionic_fonts',
