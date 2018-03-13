@@ -2,13 +2,13 @@
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Settings' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
-      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+      <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
     <ion-list>
       <ion-item class="item-divider"></ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('address-book')}}">
+      <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('address-book')}}" hide-if-nav-side-menu>
         <i class="icon list-icon">
           <img src="img/icon-contacts.svg" class="bg"/>
         </i>
@@ -16,7 +16,7 @@
         <div class="item-detail">{{addressbookEntryCount}} entries</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('help')}}">
+      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('help')}}" hide-if-nav-side-menu>
         <i class="icon list-icon">
           <img src="img/icon-help-support.svg" class="bg"/>
         </i>
@@ -79,7 +79,7 @@
       <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('preferences')}}({'walletId': item.id})"
         ng-repeat="item in wallets track by $index">
         <i class="icon sm-icon custom">
-          <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
+          <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
         </i>
         <span>{{item.name || item.id}}</span>
         <span class="item-note assertive" ng-show="!item.isComplete()">{{'Incomplete' | translate}}</span>

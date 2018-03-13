@@ -14,13 +14,15 @@
       <div>{{addressbookEntry.name || '\u00A0'}}</div>
     </div>
     <ion-list>
-      <ion-item class="has-label item-icon-right has-click">
-        <span class="input-label" translate>Email</span>
-        <div class="item item-sub" copy-to-clipboard="{{addressbookEntry.address}}">
-          <div class="ellipsis">{{addressbookEntry.email}}</div>
-        </div>
-        <i class="icon arrow-right"></i>
-      </ion-item>
+      <a href="mailto:{{addressbookEntry.email}}?subject={{email.subject}} &body={{enail.body}}">
+        <ion-item class="has-label item-icon-right has-click">
+          <span class="input-label" translate>Email</span>
+          <div class="item item-sub" XXXcopy-to-clipboard="{{addressbookEntry.address}}">
+            <div class="ellipsis">{{addressbookEntry.email}}</div>
+          </div>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+      </a>
       <ion-item class="item-divider has-label" ng-if="addressbookEntry.addresses.length > 0" translate>
         Addresses
       </ion-item>
@@ -28,7 +30,7 @@
         ng-repeat="a in addressbookEntry.addresses track by $index">
         <span class="input-label" translate>{{addressLabelFor(a)}}</span>
         <div class="item item-sub item-icon-left icon-left-md">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
           </i>
           <div class="ellipsis">{{a.address}}</div>

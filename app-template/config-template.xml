@@ -12,6 +12,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <access origin="mailto:*" launch-external="yes"/>
 
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="iosPersistentFileLocation" value="Library" />

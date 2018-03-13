@@ -25,6 +25,15 @@
         If enabled, the Recent Transactions card - a list of transactions occuring across all wallets - will appear in the Home tab.
       </ion-item>
       <ion-item class="item-divider"></ion-item>
+      <ion-toggle ng-model="useAdvancedKeypad.value" toggle-class="toggle-positive" ng-change="useAdvancedKeypadChange()">
+        <span class="toggle-label" translate>
+          Use Advanced Keypad
+        </span>
+      </ion-toggle>
+      <ion-item class="item-comment append" translate>
+        If enabled, the keypad used to enter amounts will include calculator operations.
+      </ion-item>
+      <ion-item class="item-divider"></ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('advanced.experiments')}}" ng-if="showExperimentsMenu.value">
         <i class="icon ion-erlenmeyer-flask"></i>
         <span translate>

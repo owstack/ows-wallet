@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', function($scope, $log, $timeout, addressBookService, lodash) {
+angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', function($scope, $log, $timeout, $ionicScrollDelegate, $location, addressBookService, lodash) {
   
   var contacts;
 
@@ -12,7 +12,7 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
       contacts = ab;
 
       $scope.isEmptyList = lodash.isEmpty(ab);
-      $scope.showAddIcon = !$scope.isEmptyList;
+      $scope.showAddButton = !$scope.isEmptyList;
       $scope.addressbook = lodash.clone(ab);
 
       $timeout(function() {
@@ -39,7 +39,11 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
   };
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.showAddIcon = false;
+    $scope.showAddButton = false;
+
+    // Position to first entry
+    $ionicScrollDelegate.scrollTo(0, 64);
+
     $scope.addrSearch = { value: null };
     initAddressbook();
   });

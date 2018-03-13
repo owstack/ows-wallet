@@ -46,7 +46,7 @@
       <ion-list>
         <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="hasWallets && item.recipientType == 'wallet'" ng-click="goToAmount(item)">
           <i class="icon md-icon" ng-if="item.recipientType == 'wallet'">
-            <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
+            <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
           </i>
           {{item.name}}
           <i class="icon arrow-right"></i>

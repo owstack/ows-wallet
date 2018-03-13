@@ -2,8 +2,8 @@
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Scan' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
-      <div ng-if="usingSideMenu && shouldShowSideMenuButton"
-        ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'">
+      <div ng-if="usingSideMenu && canShowSideMenuButton"
+        ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'">
       </div>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
@@ -11,23 +11,10 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">
-    <div class="ng-hide zero-state" id="scan-has-problems" ng-show="currentState === scannerStates.unauthorized || currentState === scannerStates.denied || currentState === scannerStates.unavailable">
-      <i class="icon zero-state-icon">
-        <img src="img/tab-icons/icon-receive.svg"/>
-      </i>
-      <div class="zero-state-heading" translate>Scan QR Codes</div>
-      <div class="zero-state-description" translate>You can scan digital currency addresses, payment requests, paper wallets, and more.</div>
-      <div class="zero-state-cta">
-        <div class="ng-hide zero-state-tldr" ng-show="currentState === scannerStates.unauthorized" translate>Enable the camera to get started.</div>
-        <div class="ng-hide zero-state-tldr" ng-show="currentState === scannerStates.denied" translate>Enable camera access in your device settings to get started.</div>
-        <div class="ng-hide zero-state-tldr" ng-show="currentState === scannerStates.unavailable" translate>Please connect a camera to get started.</div>
-        <button ng-show="currentState === scannerStates.unauthorized" class="ng-hide button button-standard button-primary" ng-click="authorize()" translate>Allow Camera Access</button>
-        <button ng-show="currentState === scannerStates.denied && canOpenSettings" class="ng-hide button button-standard button-primary" ng-click="openSettings()" translate>Open Settings</button>
-        <button ng-show="currentState === scannerStates.unavailable" class="ng-hide button button-standard button-primary" ng-click="attemptToReactivate()" translate>Retry Camera</button>
-      </div>
-    </div>
-    <div class="ng-show" id="scan-loading-camera" ng-show="currentState === scannerStates.loading"></div>
-    <div class="ng-hide" id="scan-camera-ready" ng-show="currentState === scannerStates.visible">
+    <div ng-show="currentState === scannerStates.unauthorized" class="has-problems ng-hide" ng-include="'views/scan/tips/unauthorized/unauthorized.html'"></div>
+    <div ng-show="currentState === scannerStates.denied" class="has-problems ng-hide" ng-include="'views/scan/tips/denied/denied.html'"></div>
+    <div ng-show="currentState === scannerStates.unavailable" class="has-problems ng-hide" ng-include="'views/scan/tips/unavailable/unavailable.html'"></div>
+    <div ng-show="currentState === scannerStates.visible" class="camera-ready scan-overlay ng-hide">
       <div class="guides">
         <img class="svg qr-scan-guides" src="img/qr-scan-guides.svg">
       </div>

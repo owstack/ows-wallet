@@ -28,6 +28,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     $scope.showAlternativeAmount = data.stateParams.initWithAlt || false;
     $scope.toColor = data.stateParams.toColor;
     $scope.showOptionsMenu = false;
+    $scope.useAdvancedKeypad = configService.getSync().advancedKeypad.enabled;
 
     if (!$scope.nextStep && !data.stateParams.toAddress) {
       $log.error('Bad params at amount')

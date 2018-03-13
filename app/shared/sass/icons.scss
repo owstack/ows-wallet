@@ -5,48 +5,74 @@
  *   Shaped icon:
  *
  *   <i class="icon lg-icon">
- *     <div class="bg wallet-icon"></div>
+ *     <div class="bg icon-wallet"></div>
  *   </i>
  *
- *   img tag icon:
+ *   Shaped icon with div tag:
+ *
+ *   <i class="icon lg-icon">
+ *     <div class="bg" style="background-color: red; background-image: url(img/icon-user-add.svg);"></div>
+ *   </i>
+ *
+ *   Non-shaped img tag icon (does not render background shape):
  *
  *   <i class="icon md-icon">
- *     <img class="bg" ng-src="img/my-icon.svg">
+ *     <img class="bg" src="img/my-icon.svg">
  *   </i>
  *
  **********/
 
 /*
- * Shaped icon image assignments. Each icon entry defines a new icon for use in views.
+ * Icon image assignments. Each icon entry defines a new icon for use in views.
  */
 
 .bg {
-  &.wallet-icon {
-    @include icon-image('../img/icon-wallet.svg', 60%);
+  &.icon-wallet {
+    @include icon-image('../img/icon-wallet.svg');
   }
 
-  &.wallet-add-icon {
-    @include icon-image('../img/icon-user-add.svg', 60%);
+  &.icon-wallet-add {
+    @include icon-image('../img/icon-user-add.svg');
   }
 
-  &.wallet-import-icon {
-    @include icon-image('../img/icon-import.svg', 60%);
+  &.icon-wallet-import {
+    @include icon-image('../img/icon-import.svg');
   }
 
-  &.user-icon {
-    @include icon-image('../img/icon-contact-placeholder.svg', 60%);
+  &.icon-user {
+    @include icon-image('../img/icon-contact-placeholder.svg');
+  }
+
+  &.icon-user-add {
+    @include icon-image('../img/icon-user-add.svg');
+  }
+
+  &.icon-update {
+    @include icon-image('../img/icon-update.svg');
+  }
+
+  &.icon-scan-tip {
+    @include icon-image('../img/icon-scan-tip.svg');
+  }
+
+  &.icon-send-tip {
+    @include icon-image('../img/icon-send-tip.svg');
+  }
+
+  &.icon-receive-tip {
+    @include icon-image('../img/icon-receive-tip.svg');
   }
 }
 
 /*
  * Draw an icon background using the icon-shape().
  * Must provide a background-color for the shape to be visible.
- * Classes also usable with explicit img tags.
  *
- * Used for large shaped (wallet) and img icon
+ * Classes also usable with explicit <img> and <div> tags.  If an <img> tag is used then the background shape will not be rendered properly
+ * since shape rendering depends on pseudo :before.
  */
 
-.lg-icon {
+%base-icon {
   padding: 0 7px;
 
   .center {
@@ -55,7 +81,11 @@
 
   // Icon with shape
   .bg {
-    @include icon-shape(40px, 40px);
+    // Allow scaling for creating icon sizes.
+    transform: inherit;
+
+    // Provide a default color.
+    @include icon-shape(40px, 40px, $v-icon-color);
 
     &.success {
       background: $v-success-color;
@@ -70,9 +100,21 @@
     }
   }
 
-  // Icon with explicit img
-  > img.bg {
+  // Icon with a specified image.
+  > div.bg {
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: auto;
+  }
+
+  // Icon with an img tag.
+  > img {
     height: 40px;
+
+    &.bg {
+      background: none;
+    }
   }
 
   &.wide-icon > img.bg {
@@ -87,75 +129,28 @@
   }
 }
 
-/*
- * Used for medium shaped (wallet) and img icon
- */
-
-.md-icon {
-  padding: 0 7px;
-
-  > .center {
-    margin: 0 auto !important;
-  }
-
-  // Icon with shape
-  > .bg {
-    @include icon-shape(30px, 30px);
-  }
-
-  // Icon with explicit img
-  > img.bg {
-    height: 20px;
-  }
-
-  &.wide-icon > img.bg {
-    width: 40px;
-    margin-left: -8px;
-  }
-
-  &.shadow {
-    > .bg {
-      @include icon-shape(30px, 30px, $v-hovering-box-shadow);
-    }
-  }
+.xl-icon {
+  @extend %base-icon;
+  transform: scale(1.33);
 }
 
-/*
- * Used for small shaped (wallet) and img icon
- */
+.lg-icon {
+  @extend %base-icon;
+  transform: scale(1.0);
+}
+
+.md-icon {
+  @extend %base-icon;
+  transform: scale(0.92);
+}
 
 .sm-icon {
-  padding: 0 7px;
-
-  > .center {
-    margin: 0 auto !important;
-  }
-
-  // Icon with shape
-  > .bg {
-    @include icon-shape(20px, 20px);
-  }
-
-  // Icon with explicit img
-  > img.bg {
-    height: 18px;
-  }
-  
-  &.wide-icon > img.bg {
-    width: 25px;
-    margin-left: -3px;
-  }
-
-  &.shadow {
-    > .bg {
-      @include icon-shape(20px, 20px, $v-hovering-box-shadow);
-    }
-  }
+  @extend %base-icon;
+  transform: scale(0.80);
 }
 
 /*
  * Used for list icons (e.g., for settings icons on left)
- * Will show the shape if background-color is specified.
  */
 
 .list-icon {
@@ -168,6 +163,14 @@
   > .bg {
     @include icon-shape(20px, 20px);
     border-radius: 0 !important;
+  }
+
+  // Icon with a specified image.
+  > div.bg {
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: auto;
   }
 
   &.wide-icon > img.bg {

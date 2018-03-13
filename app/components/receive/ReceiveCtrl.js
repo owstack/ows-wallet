@@ -15,7 +15,9 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
 
   $scope.setAddress = function(newAddr) {
     $scope.addr = null;
-    if (!$scope.wallet || $scope.generatingAddress || !$scope.wallet.isComplete()) return;
+    if (!$scope.wallet || $scope.generatingAddress || !$scope.wallet.isComplete()) {
+      return;
+    }
     $scope.generatingAddress = true;
     walletService.getAddress($scope.wallet, newAddr, function(err, addr) {
       $scope.generatingAddress = false;

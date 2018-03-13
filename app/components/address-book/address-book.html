@@ -1,38 +1,23 @@
 <ion-view id="addressbook" class="ows" hide-tabs="usingSideMenu">
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Address Book' | translate}}</ion-nav-title>
-    <ion-nav-back-button ng-if="!usingSideMenu">
+    <ion-nav-back-button hide-if-nav-side-menu>
     </ion-nav-back-button>
     <ion-nav-buttons side="primary">
-      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+      <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
-      <button class="button button-back button-clear ng-hide" ng-show="showAddIcon" ui-sref="{{sref('address-book.add')}}">
-        <i class="icon ion-ios-plus-empty"></i>
-      </button>
+      <button class="button button-nav-bar button-plus" ng-show="showAddButton" ui-sref="{{sref('address-book.add')}}"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content>
-    <span ng-show="isEmptyList">
-      <div class="zero-state">
-        <i class="icon zero-state-icon">
-          <img src="img/icon-user-add.svg"/>
-        </i>
-        <div class="zero-state-heading" translate>No contacts yet</div>
-        <div class="zero-state-description" translate>Get started by adding your first one.</div>
-        <div class="zero-state-cta">
-          <button class="button button-standard button-primary" ui-sref="{{sref('address-book.add')}}" translate>Add Contact</button>
-        </div>
-      </div>
-    </span>
-    <span ng-show="!isEmptyList">
+  <ion-content ng-class="{'kill-header-top': !isEmptyList}">
+    <div ng-show="isEmptyList" ng-include="'views/address-book/tips/add-contacts/add-contacts.html'"></div>
+    <div ng-show="!isEmptyList">
       <ion-list>
         <ion-item class="item-input item-icon-left icon-left-sm">
           <i class="icon ion-ios-search sm-icon"></i>
           <input type="search" placeholder="Search" ng-model="addrSearch.value" ng-change="findAddressbook(addrSearch.value)" ng-model-onblur>
         </ion-item>
-      </ion-list>
-      <ion-list>
         <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
           ui-sref="{{sref('address-book.entry')}}({id: addressbookEntry.id})">
           <i class="icon lg-icon">
@@ -42,6 +27,6 @@
           <i class="icon arrow-right"></i>
         </ion-item>
       </ion-list>
-    </span>
+    </div>
   </ion-content>
 </ion-view>

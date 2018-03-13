@@ -33,7 +33,7 @@
         <!-- Wallet -->
         <div class="item item-sub has-detail item-fh item-icon-left icon-left-md" ng-if="tx.recipientType == 'wallet'">
           <i class="icon md-icon">
-            <div class="bg wallet-icon" ng-style="{'background-color': tx.toColor}"></div>
+            <div class="bg icon-wallet" ng-style="{'background-color': tx.toColor}"></div>
           </i>
           <div copy-to-clipboard="{{tx.toAddress}}">
             <span ng-if="tx.toName">{{tx.toName}}</span>
@@ -75,13 +75,13 @@
         <div class="item item-sub item-icon-left icon-left-md">
           <div ng-if="wallet">
             <i class="icon md-icon">
-              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+              <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>
           <div ng-if="!wallet">
             <i class="icon md-icon">
-              <div class="bg wallet-icon" ng-style="{'background-color': 'grey'}"></div>
+              <div class="bg icon-wallet" ng-style="{'background-color': 'grey'}"></div>
             </i>
             <div>...</div>
           </div>

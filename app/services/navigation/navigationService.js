@@ -42,12 +42,17 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
     $rootScope.usingTabs = (currentScheme == 'tabs');
 
     // Provide global access to map the specified state name and create a valid ui-sref string.
-    $rootScope.sref = function(stateName, arg) {
+    $rootScope.sref = function(stateName, params) {
       var sref = routes.sref(stateName);
-      if (arg) {
-        sref += '(' + JSON.stringify(arg) + ')';
+      if (params) {
+        sref += '(' + JSON.stringify(params) + ')';
       }
       return sref;
+    };
+
+    // Given a $state name, return the app state id (this is a reverse lookup when compared with sref).
+    $rootScope.stateId = function(stateName) {
+      return routes.stateId(stateName);
     };
 
     // Construct the views for a specified state.

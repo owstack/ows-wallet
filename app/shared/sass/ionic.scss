@@ -77,7 +77,11 @@ $placeholder-icon-padding: 10px;
   margin: ($content-padding * 2) 14px;
 }
 
-// Move nav bar right side buttons away from the edge.
+// Move nav bar buttons away from the edges a bit.
+.bar .buttons-left span {
+  margin-left: 3px;
+}
+
 .bar .buttons-right span {
-  margin-right: 10px;
+  margin-right: 3px;
 }

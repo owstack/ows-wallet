@@ -14,7 +14,7 @@
       </ion-item>
       <ion-item class="has-detail item-icon-left icon-left-md">
         <i class="icon md-icon" ng-if="recipientType == 'wallet'">
-          <div class="bg wallet-icon" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
+          <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
         </i>
         <span ng-if="recipientType == 'contact'">
           <i class="icon md-icon">
@@ -23,7 +23,7 @@
         </span>
         <span ng-if="!recipientType">
           <i class="icon md-icon">
-            <div class="bg user-icon"></div>
+            <div class="bg icon-user"></div>
           </i>
         </span>
         <span ng-if="toName">
@@ -76,7 +76,8 @@
     </div>
     <div class="keypad">
       <div class="row">
-        <div class="col col-25 col-offset-75 operation-send" ng-show="allowSend" ng-click="finish()">
+        <div ng-class="{'col-25 col-offset-75': useAdvancedKeypad, 'col-33 col-offset-66': !useAdvancedKeypad}"
+          class="col operation-send" ng-show="allowSend" ng-click="finish()">
           <i class="icon ion-ios-arrow-thin-right"></i>
         </div>
       </div>
@@ -84,25 +85,25 @@
         <div class="col digit" ng-click="pushDigit('7')">7</div>
         <div class="col digit" ng-click="pushDigit('8')">8</div>
         <div class="col digit" ng-click="pushDigit('9')">9</div>
-        <div class="col operation" ng-click="pushOperation('/')">&divide;</div>
+        <div class="col operation" ng-click="pushOperation('/')" ng-if="useAdvancedKeypad">&divide;</div>
       </div>
       <div class="row">
         <div class="col digit" ng-click="pushDigit('4')">4</div>
         <div class="col digit" ng-click="pushDigit('5')">5</div>
         <div class="col digit" ng-click="pushDigit('6')">6</div>
-        <div class="col operation" ng-click="pushOperation('x')">&times;</div>
+        <div class="col operation" ng-click="pushOperation('x')" ng-if="useAdvancedKeypad">&times;</div>
       </div>
       <div class="row">
         <div class="col digit" ng-click="pushDigit('1')">1</div>
         <div class="col digit" ng-click="pushDigit('2')">2</div>
         <div class="col digit" ng-click="pushDigit('3')">3</div>
-        <div class="col operation" ng-click="pushOperation('+')">&plus;</div>
+        <div class="col operation" ng-click="pushOperation('+')" ng-if="useAdvancedKeypad">&plus;</div>
       </div>
       <div class="row">
         <div class="col digit" ng-click="pushDigit('.')">.</div>
         <div class="col digit" ng-click="pushDigit('0')">0</div>
         <div class="col digit icon ion-backspace-outline" ng-click="removeDigit()"></div>
-        <div class="col operation" ng-click="pushOperation('-')">&minus;</div>
+        <div class="col operation" ng-click="pushOperation('-')" ng-if="useAdvancedKeypad">&minus;</div>
       </div>
     </div>
   </ion-content>

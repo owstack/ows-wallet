@@ -2,6 +2,11 @@
 
 angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', function($rootScope, $scope, $state, $log, $timeout, $ionicHistory, lodash, addressBookService, popupService, gettextCatalog, networkService, profileService) {
 
+  $scope.email = {
+    subject: '',
+    body: ''
+  };
+
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     addressBookService.get(data.stateParams.id, function(err, entry) {
       if (err || !entry) {
@@ -43,9 +48,6 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', fu
   $scope.edit = function() {
     $state.go($rootScope.sref('address-book.edit'), {
       id: $scope.addressbookEntry.id
-    }, {}, {
-      type: 'slide',
-      direction: 'up'
     });
   };
 

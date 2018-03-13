@@ -85,9 +85,6 @@ $v-unmistakable-radius:                              12px !default;
 
 /* Theme */
 
-$v-scanner-bg-color:                                 $v-primary-color !default;
-$v-scanner-guide-color:                              $v-accent-1-color !default;
-
 $v-top-tabs-color:                                   $v-accent-1-color !default;
 
 $v-icon-color:                                       $v-accent-1-color !default;
@@ -273,6 +270,15 @@ $v-home-secondary-color:                             $v-white-transparent-mid !d
 $v-receive-bg:                                       radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
 $v-receive-color:                                    $v-white-color !default;
 $v-receive-secondary-color:                          $v-white-transparent-mid !default;
+
+/* Scan */
+
+$v-scan-bg:                                          radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-scan-color:                                       $v-white-color !default;
+$v-scan-cover-bg-color:                              $v-black-color !default;
+$v-scan-header-bg-color:                             $v-black-color !default;
+$v-scan-controls-bg-color:                           $v-black-transparent-dark !default;
+$v-scan-guide-color:                                 $v-accent-1-color !default;
 
 /* Send */
 

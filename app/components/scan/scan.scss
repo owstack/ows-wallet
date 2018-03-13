@@ -1,32 +1,29 @@
 #scan {
   background: transparent none;
-  color: $v-white-color;
+  color: $v-scan-color;
   text-align: center;
 
   .bar-header {
-    background-color: $v-black-transparent-dark;
+    background-color: $v-scan-header-bg-color;
   }
 
   svg#QR-scanner-guides path.st1 {
-    stroke: $v-scanner-guide-color;
+    stroke: $v-scan-guide-color;
   }
 
-  .zero-state-cta {
-    padding-bottom: 6vh;
+  .has-problems,
+  .loading-camera {
+    background: $v-scan-bg;
+    height: 100%;
   }
 
-  &-has-problems,
-  &-loading-camera {
-    background-color: $v-scanner-bg-color;
-  }
-
-  &-loading-camera {
+  .loading-camera {
     height: 100%;
     width: 100%
   }
 
-  &-camera-ready {
-    // view background is transparent to show video preview
+  .camera-ready {
+    // View background is transparent to show video preview.
     background: none transparent;
     
     .scanner-controls {
@@ -34,6 +31,8 @@
       text-align: center;
       bottom: 0;
       position: absolute;
+
+      @include fade-in(200ms);
     }
 
     .guides {
@@ -45,6 +44,8 @@
       justify-content: center;
       top: 0;
       left: 0;
+
+      @include fade-in(200ms);
     }
 
     .qr-scan-guides {
@@ -60,7 +61,7 @@
       border-radius: 50%;
       width: 4em;
       height: 4em;
-      background-color: $v-black-transparent-dark;
+      background-color: $v-scan-controls-bg-color;
       background-repeat: no-repeat;
       background-clip: padding-box;
       background-size: 100%;
@@ -68,7 +69,7 @@
       margin: 2em 1em;
       cursor: pointer;
 
-      // hover for desktop only
+      // Hover for desktop only.
       body:not(.platform-cordova) &:hover {
         background-color: $v-accent-2-color;
       }
@@ -94,5 +95,7 @@
 
 #cordova-plugin-qrscanner-still,
 #cordova-plugin-qrscanner-video-preview {
-  background-color: $v-scanner-bg-color !important;
+  background-color: $v-scan-cover-bg-color !important;
 }
+
+@import "tips/tips";

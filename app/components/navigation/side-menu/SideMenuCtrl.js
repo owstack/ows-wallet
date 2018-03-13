@@ -3,10 +3,14 @@
 angular.module('owsWalletApp.controllers').controller('SideMenuCtrl', function($rootScope, $scope, $timeout, $ionicSideMenuDelegate, $ionicHistory, platformInfoService) {
 
   $scope.toggleSideMenu = function() {
-		// Scan view pushed for side menu open, hide video and display side menu.
-		hideScanner();
+    $rootScope.$emit('Local/SideMenuBeforeEnter');
 
-    $ionicSideMenuDelegate.toggleLeft();
+    $timeout(function() {
+      // Scan view pushed for side menu open, hide video and display side menu.
+      hideScanner();
+
+      $ionicSideMenuDelegate.toggleLeft();      
+    });
   };
 
   // Prevent the scanner from being shown before the side menu completes its close animation. We use a timeout

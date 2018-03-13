@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('tabRoutes', function() {
+angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
   var root = {};
 
   root.init = function(stateProvider) {
@@ -14,6 +14,12 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function() {
 
   root.sref = function(id) {
     return map[id].stateName;
+  };
+
+  root.stateId = function(stateName) {
+    return lodash.findKey(map, function(entry) {
+      return entry.stateName == stateName;
+    });
   };
 
   root.vref = function(id, index) {

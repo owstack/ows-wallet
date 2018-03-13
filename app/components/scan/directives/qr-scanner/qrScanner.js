@@ -17,6 +17,7 @@ angular.module('owsWalletApp.directives')
 
         scope.openScanner = function() {
           $log.debug('Opening scanner by directive...');
+
           $ionicHistory.nextViewOptions({
             disableAnimate: true
           });

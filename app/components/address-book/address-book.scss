@@ -12,10 +12,20 @@
     padding-left: 50px;
   }
 
-  .zero-state-cta {
-    padding-bottom: 3vh;
+  // Kills the has-header offset and sets a margin equal to item height.
+  // Allows the search bar to hide behind the header.
+  //
+  .kill-header-top {
+    top: 0 !important;
   }
+
+  .list {
+    margin-top: 64px;
+  }
+  //
+  //////////
 }
 
 @import "edit/edit";
 @import "entry/entry";
+@import "tips/tips";

@@ -71,6 +71,12 @@
       &.button-search:before {
         content: "\f4a4";
         font-family: "Ionicons";
+        font-size: 28px;
+      }
+
+      &.button-plus:before {
+        content: "\f489";
+        font-family: "Ionicons";
         font-size: 42px;
       }
 

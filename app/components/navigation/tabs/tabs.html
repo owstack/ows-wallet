@@ -7,7 +7,7 @@
     <ion-nav-view name="tab-receive"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="{{'Scan'|translate}}" icon-off="icon-scan" icon-on="icon-scan-selected" ng-click="chooseScanner()">
+  <ion-tab title="{{'Scan'|translate}}" icon-off="icon-scan" icon-on="icon-scan-selected" ui-sref="{{sref('scan')}}" on-deselect="removeScanOverlay()">
     <ion-nav-view name="tab-scan"></ion-nav-view>
   </ion-tab>
 

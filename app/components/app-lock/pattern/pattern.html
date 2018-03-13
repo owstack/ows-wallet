@@ -1,5 +1,6 @@
 <ion-modal-view id="pattern" class="ows" ng-controller="PatternCtrl">
   <ion-header-bar align-title="center" class="bar bar-header" ng-if="(action != 'check') && (action != 'start') && (attemptsRemaining > 0)">
+    <div class="title">{{'Create Pattern' | translate}}</div>
     <button class="button button-nav-bar button-close button-right" ng-click="hideModal(false)"></button>
   </ion-header-bar>
   <ion-content class="center">
@@ -31,7 +32,7 @@
     </div>
     <div class="block-pattern" ng-show="(attemptsRemaining > 0) && !expires">
       <pattern-lock class="pattern-holder patt-holder" ng-class="{'patt-success': success}" on-init="setLock(lock)"
-      	on-draw="updatePattern" matrix="[4,4]"></pattern-lock>
+      	on-draw="updatePattern" matrix="[3,3]"></pattern-lock>
     </div>
   </ion-content>
 </ion-modal-view>

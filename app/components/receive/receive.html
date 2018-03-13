@@ -42,16 +42,16 @@
               <span translate>Show address</span>
             </button>
           </span>
-          <qrcode ng-if="addr" size="220" data="{{protocol}}{{addr}}" color="#444455"></qrcode>
+          <qrcode size="220" data="{{protocol}}{{addr}}" color="#444455"></qrcode>
           <div class="address-label">
-            <span class="ellipsis">{{addr}}</span>
+            <span class="ellipsis">{{addr || 'Generating new address'}}</span>
             <ion-spinner ng-show="!addr" icon="ios"></ion-spinner>
           </div>
         </div>
         <ion-list>
           <ion-item class="has-detail item-icon-left icon-left-md item-icon-right" ng-click="showWalletSelector()" ng-if="wallets[0] && wallet">
             <i class="icon md-icon">
-              <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+              <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name || wallet.id}}</div>
             <div class="item-detail">
@@ -62,12 +62,12 @@
             </div>
             <i class="icon arrow-right" ng-show="wallets.length > 1"></i>
           </ion-item>
-          <ion-item ng-show="addr" class="item-icon-right" ng-click="requestSpecificAmount()">
+          <ion-item class="item-icon-right" ng-click="requestSpecificAmount()">
             <div translate>Request Specific Amount</div>
             <i class="icon arrow-right"></i>
           </ion-item>
           <ion-item class="item-divider"></ion-item>
-          <ion-item ng-show="addr" class="has-click is-button" ng-click="setAddress(true)">
+          <ion-item class="has-click is-button" ng-click="setAddress(true)">
             <div translate>Generate New Address</div>
           </ion-item>
           <ion-item class="item-divider"></ion-item>

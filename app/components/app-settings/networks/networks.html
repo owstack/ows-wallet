@@ -14,9 +14,7 @@
         </i>
         <div>{{network.getFriendlyNetLabel()}}</div>
         <div class="item-detail">
-          {{networkSettings[network.getURI()].unitName}}
-          {{(networkSettings[network.getURI()].isLivenet ? ', ' + networkSettings[network.getURI()].selectedAlternative.name : '')}}
-          {{', ' + networkSettings[network.getURI()].currentFeeLevel}}
+          {{networkSettings[network.getURI()].unitName}}{{(networkSettings[network.getURI()].isLivenet ? ', ' + networkSettings[network.getURI()].selectedAlternative.name : '')}}{{', ' + networkSettings[network.getURI()].currentFeeLevel}}
         </div>
         <i class="icon arrow-right"></i>
       </ion-item>

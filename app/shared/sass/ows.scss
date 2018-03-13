@@ -8,6 +8,11 @@
     background: $v-card-bg;
     color: $v-card-color;
 
+    // Kill top margin to prevent unnecessary scroll when few items, replace with top offset.
+    margin-top: 0;
+		position: relative;
+		top: 20px;
+
     & > .item-heading {
       border: none;
       font-weight: bold;
@@ -131,32 +136,40 @@
 			// item-complex appears on some ion-item's, e.g., when using ui-sref attribute.
 			//
 
+
 		  &.item-icon-left:not(.item-complex) {
 	  		padding-left: 50px;
+
+			  i.left-icon {
+					right: inherit;
+			  }
+
+			  i.lg-icon {
+			  	font-size: 40px;
+			  	left: 11px;
+			  }
+
+			  i.md-icon {
+			  	font-size: 30px;
+			  	left: 6px;
+			  }
+
+			  i.sm-icon {
+			  	font-size: 24px;
+			  	left: 2px;
+			  }
 
 		  	&.icon-left {
 			  	&-lg {
 					  padding-left: 70px;
-
-					  i.lg-icon {
-					  	font-size: 40px;
-					  }
 			  	}
 
 			  	&-md {
 					  padding-left: 60px;
-
-					  i.md-icon {
-					  	font-size: 30px;
-					  }
 			  	}
 
 			  	&-sm {
 					  padding-left: 55px;
-
-					  i.sm-icon {
-					  	font-size: 24px;
-					  }
 			  	}
 
 			  	// Used when an icon should appear inline with an input field; e.g., search icon.
@@ -174,20 +187,37 @@
 		  &.item-complex.item-icon-left {
 		  	.item-content {
 		  		padding-left: 34px;
+		  		border-radius: 0;
 		  	}
+
+			  i.left-icon {
+					right: inherit;
+			  }
+
+			  i.lg-icon {
+			  	left: 11px;
+			  }
+
+			  i.md-icon {
+			  	left: 6px;
+			  }
+
+			  i.sm-icon {
+			  	left: 2px;
+			  }
 
 		  	&.icon-left {
 			  	&-lg .item-content {
 					  padding-left: 54px;
-			  	}
+				  }
 
 			  	&-md .item-content {
 					  padding-left: 44px;
-			  	}
+				  }
 
 			  	&-sm .item-content {
 					  padding-left: 34px;
-			  	}
+				  }
 		  	}
 		  }
 
@@ -494,7 +524,9 @@
 	}
 
 	input[type="search"] {
+		line-height: 1.428571429; // 20/14
 	  width: 100%;
+	  height: 28px;
 	}
 
 	textarea {

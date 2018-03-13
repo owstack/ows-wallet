@@ -41,6 +41,10 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       enabled: false
     },
 
+    advancedKeypad: {
+      enabled: false
+    },
+
     release: {
       url: appConfigService.gitHubRepoApiLatestReleases
     },
@@ -103,6 +107,9 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         }
         if (!configCache.hideNextSteps) {
           configCache.hideNextSteps = defaultConfig.hideNextSteps;
+        }
+        if (!configCache.advancedKeypad) {
+          configCache.advancedKeypad = defaultConfig.advancedKeypad;
         }
         if (!configCache.recentTransactions) {
           configCache.recentTransactions = defaultConfig.recentTransactions;

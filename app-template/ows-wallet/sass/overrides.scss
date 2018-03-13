@@ -4,7 +4,7 @@
  * See src/sass/variable.scss for variables that can be overriden with definitions in this file.
  */
 
-@mixin icon-shape($width, $height, $shadow: none) {
+@mixin icon-shape($width, $height, $color: transparent, $shadow: none) {
   position: relative;
 	width: calc(#{$width} * 0.93);
   height: $height;
@@ -13,6 +13,7 @@
   text-align: center;
   text-indent: .1em;
 	box-shadow: $shadow;
+	background-color: $color;
 
 	&:before {
 	  content: '';

@@ -5,7 +5,7 @@
       <span ng-if="!shouldShowLogo">{{'Dashboard' | translate}}</span>
     </ion-nav-title>
     <ion-nav-buttons side="primary">
-      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+      <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
       <button class="button button-nav-bar button-back button-clear" ng-click="toggleLayout()" ng-if="showLayoutButton">
@@ -51,7 +51,7 @@
       <ion-list>
         <ion-item ng-if="!wallets[0]" ui-sref="{{sref('add')}}" class="item-icon-left icon-left-lg item-icon-right has-click">
           <i class="icon lg-icon">
-            <div class="bg wallet-icon icon-create-wallet"></div>
+            <div class="bg icon-wallet icon-create-wallet"></div>
           </i>
           <span translate>Add wallet</span>
           <i class="icon arrow-right"></i>
@@ -59,7 +59,7 @@
         <ion-item class="has-detail item-h-md item-icon-left icon-left-lg item-icon-right" ng-click="openWallet(wallet)"
           ng-repeat="wallet in wallets | filter:{layout: {group: {id:'favorite'}}}:strict | orderBy:'layout.group.ordinal' track by $index">
           <i class="icon lg-icon shadow">
-            <div class="bg wallet-icon" ng-style="{'background-color': wallet.color}"></div>
+            <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
           </i>
           <span class=ellipsis>
             {{wallet.name || wallet.id}}

@@ -1,8 +1,9 @@
+@import "variables";
 @import "mixins/mixins";
 @import "overrides/overrides";
-@import "variables";
 @import "ionic";
 @import "fonts";
+@import "animations";
 @import "ows";
 @import "forms";
 @import "icons";
@@ -10,7 +11,6 @@
 @import "helpers";
 @import "popup-modal";
 @import "wallet-colors";
-@import "zero-state";
 @import "../directives/directives";
 @import "../partials/partials";
 @import "../menus/menus";

@@ -1,10 +1,10 @@
 <ion-view id="get-help" class="ows" show-tabs>
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Get Help' | translate}}</ion-nav-title>
-    <ion-nav-back-button ng-if="!usingSideMenu">
+    <ion-nav-back-button hide-if-nav-side-menu>
     </ion-nav-back-button>
     <ion-nav-buttons side="primary">
-      <div ng-if="usingSideMenu" ng-include="'shared/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+      <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>

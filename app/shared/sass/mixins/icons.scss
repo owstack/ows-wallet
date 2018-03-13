@@ -2,23 +2,21 @@
  * Provides the icon background shape.
  */
 
-@mixin icon-shape($width, $height, $shadow: none) {
+@mixin icon-shape($width, $height, $color: transparent, $shadow: none) {
 	border-radius: $v-icon-border-radius;
 	width: $width;
 	height: $height;
 	box-shadow: $shadow;
 	background-repeat: no-repeat;
 	background-clip: padding-box;
+	background-color: $color;
 }
 
 /*
  * Provides the icon foreground image.
  */
 
-@mixin icon-image($image, $size, $shadow: none) {
+@mixin icon-image($image, $shadow: none) {
   background-image: url($image);
-  background-size: $size;
-  background-repeat: no-repeat;
-  background-position: center;
 	box-shadow: $shadow;
 }

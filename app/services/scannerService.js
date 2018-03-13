@@ -273,5 +273,6 @@ angular.module('owsWalletApp.services').service('scannerService', function($log,
         callback(error);
       }
     );
-  }
+  };
+
 });

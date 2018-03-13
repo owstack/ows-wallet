@@ -11,7 +11,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   $scope.isCordova = platformInfoService.isCordova;
   $scope.isAndroid = platformInfoService.isAndroid;
   $scope.isIOS = platformInfoService.isIOS;
-  $scope.shouldShowActions = $rootScope.usingSideMenu;
 
   $scope.headerIsCollapsible = !$scope.isAndroid;
 //  $scope.headerIsCollapsible = false;

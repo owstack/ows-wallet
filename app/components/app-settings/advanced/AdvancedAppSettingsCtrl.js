@@ -17,6 +17,9 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     $scope.showExperimentsMenu = {
       value: config.experiments.showMenu
     };
+    $scope.useAdvancedKeypad = {
+      value: config.advancedKeypad.enabled
+    };
   };
 
   $scope.spendUnconfirmedChange = function() {
@@ -50,6 +53,19 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
       recentTransactions: {
         enabled: $scope.recentTransactionsEnabled.value
       }
+    };
+    configService.set(opts, function(err) {
+      if (err) {
+        $log.debug(err);
+      }
+    });
+  };
+
+  $scope.useAdvancedKeypadChange = function() {
+    var opts = {
+      advancedKeypad: {
+        enabled: $scope.useAdvancedKeypad.value
+      },
     };
     configService.set(opts, function(err) {
       if (err) {

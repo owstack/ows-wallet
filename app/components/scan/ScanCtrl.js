@@ -2,6 +2,8 @@
 
 angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scope, $log, $timeout, scannerService, incomingDataService, $state, $ionicHistory, $rootScope) {
 
+  var passthroughMode = false;
+
   var scannerStates = {
     unauthorized: 'unauthorized',
     denied: 'denied',
@@ -24,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
 
   function _handleCapabilities() {
     // always update the view
-    $timeout(function(){
+    $timeout(function() {
       if(!scannerService.isInitialized()) {
         $scope.currentState = scannerStates.loading;
       } else if(!$scope.scannerIsAvailable){
@@ -56,7 +58,8 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
   });
 
   $scope.$on("$ionicView.beforeEnter", function() {
-    $scope.shouldShowSideMenuButton = ($state.params.passthroughMode == null);
+    passthroughMode = $state.params.passthroughMode;
+    $scope.canShowSideMenuButton = (passthroughMode == null);
   });
 
   $scope.$on("$ionicView.afterEnter", function() {
@@ -64,6 +67,14 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
     if(!scannerService.isInitialized()) {
       scannerService.gentleInitialize();
     }
+    activate();
+  });
+
+  $scope.$on("$ionicView.afterLeave", function() {
+    scannerService.deactivate();
+  });
+
+  $rootScope.$on('incomingDataMenu.menuHidden', function() {
     activate();
   });
 
@@ -78,21 +89,21 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
       _handleCapabilities();
       $log.debug('Scanner activated, setting to visible...');
       $scope.currentState = scannerStates.visible;
-        // pause to update the view
-        $timeout(function() {
-          scannerService.scan(function(err, contents) {
-          if(err){
+
+      $timeout(function() {
+        scannerService.scan(function(err, contents) {
+          if(err) {
             $log.debug('Scan canceled.');
-          } else if ($state.params.passthroughMode) {
+          } else if (passthroughMode) {
             $rootScope.scanResult = contents;
             goBack();
           } else {
             handleSuccessfulScan(contents);
           }
           });
-          // resume preview if paused
-          scannerService.resumePreview();
-        });
+        // resume preview if paused
+        scannerService.resumePreview();
+      });
     });
   }
   $scope.activate = activate;
@@ -103,19 +114,11 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
     });
   };
 
-  $scope.$on("$ionicView.afterLeave", function() {
-    scannerService.deactivate();
-  });
-
   function handleSuccessfulScan(contents) {
     $log.debug('Scan returned: "' + contents + '"');
     scannerService.pausePreview();
     incomingDataService.redir(contents);
-  }
-
-  $rootScope.$on('incomingDataMenu.menuHidden', function() {
-    activate();
-  });
+  };
 
   $scope.openSettings = function() {
     scannerService.openSettings();
@@ -144,7 +147,7 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
   };
 
   $scope.canGoBack = function() {
-    return $state.params.passthroughMode;
+    return passthroughMode;
   };
 
   function goBack() {
