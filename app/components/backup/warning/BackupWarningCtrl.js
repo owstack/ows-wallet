@@ -1,9 +1,8 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', function($rootScope, $scope, $timeout, $state, $stateParams, $ionicModal) {
+angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', function($rootScope, $scope, $timeout, $state, $stateParams, $ionicModal, $ionicHistory) {
 
   $scope.walletId = $stateParams.walletId;
-  $scope.fromState = $stateParams.from == 'onboarding' ? $stateParams.from + '.backup-request' : $stateParams.from;
   $scope.toState = $stateParams.from + '.backup';
 
   $scope.openPopup = function() {
@@ -21,21 +20,13 @@ angular.module('owsWalletApp.controllers').controller('BackupWarningCtrl', funct
       $timeout(function() {
         $state.go($rootScope.sref($scope.toState), {
           walletId: $scope.walletId
-        }, {}, {
-          type: 'slide',
-          direction: 'right'
         });
       }, 200);
     };
   }
 
   $scope.goBack = function() {
-    $state.go($rootScope.sref($scope.fromState), {
-      walletId: $scope.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'right'
-    });
+    $ionicHistory.goBack();
   };
 
 });

@@ -54,9 +54,6 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
   $scope.goBack = function() {
     $state.go($rootScope.sref('onboarding.backup-request'), {
       walletId: $stateParams.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'right'
     });
   }
 

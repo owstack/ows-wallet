@@ -7,21 +7,15 @@ angular.module('owsWalletApp.controllers').controller('WalletActionsCtrl', funct
   
   self.sendFrom = function() {
     if ($scope.hasBalance) {
-    $state.go($rootScope.sref('send'), {
+      $state.go($rootScope.sref('send'), {
         walletId: $scope.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'left'
-    });
+      });
     }
   };
 
   self.receiveTo = function() {
     $state.go($rootScope.sref('receive'), {
       walletId: $scope.walletId
-    }, {}, {
-      type: 'slide',
-      direction: 'left'
     });
   };
 

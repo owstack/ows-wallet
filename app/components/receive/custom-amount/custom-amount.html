@@ -15,7 +15,7 @@
   <ion-content scroll="false">
     <div class="address" ng-if="address && amountStandard">
       <div class="qr-code" copy-to-clipboard="{{copyToClipboard()}}">
-        <qrcode size="220" data="{{protocol}}{{address + '?amount=' + amountStandard}}" color="#444455"></qrcode>
+        <qrcode size="220" data="{{protocol}}:{{address + '?amount=' + amountStandard}}" color="#444455"></qrcode>
         <div class="address-label">
           <span class="ellipsis">{{address}}</span>
           <ion-spinner ng-show="!address" icon="ios"></ion-spinner>

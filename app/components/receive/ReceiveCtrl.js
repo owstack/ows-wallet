@@ -47,17 +47,6 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
     }, 100);
   };
 
-  $scope.openBackupNeededModal = function() {
-    $ionicModal.fromTemplateUrl('views/backup/backup-needed/backup-needed.html', {
-      scope: $scope,
-      backdropClickToClose: false,
-      hardwareBackButtonClose: false
-    }).then(function(modal) {
-      $scope.BackupNeededModal = modal;
-      $scope.BackupNeededModal.show();
-    });
-  };
-
   $scope.close = function() {
     $scope.BackupNeededModal.hide();
     $scope.BackupNeededModal.remove();

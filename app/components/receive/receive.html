@@ -12,11 +12,9 @@
   <ion-content>
     <ion-list>
       <ion-item class="has-click item-icon-right compact" ng-if="wallets[0] && wallet && wallet.isComplete() && wallet.needsBackup"
-        ng-click="openBackupNeededModal()">
-        <div translate>
-          <i class="ion-alert-circled"></i>
-          Wallet not backed up
-        </div>
+        ui-sref="{{sref('receive.backup-warning')}}({from: 'receive', walletId: wallet.id})">
+        <i class="ion-alert-circled"></i>
+        <span translate>Wallet not backed up</span>
         <i class="icon arrow-right"></i>
       </ion-item>
     </ion-list>
@@ -42,7 +40,7 @@
               <span translate>Show address</span>
             </button>
           </span>
-          <qrcode size="220" data="{{protocol}}{{addr}}" color="#444455" class="delayed-fade-in-300"></qrcode>
+          <qrcode size="220" data="{{protocol}}:{{addr}}" color="#444455" class="delayed-fade-in-300"></qrcode>
           <div class="address-label delayed-fade-in-300">
             <span class="ellipsis">{{addr || 'Generating new address'}}</span>
             <ion-spinner ng-show="!addr" icon="ios"></ion-spinner>
