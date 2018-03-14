@@ -123,6 +123,7 @@
         ng-disabled="setupForm.$invalid || ((encrypt && !formData.passwordSaved) || encrypt && ((formData.seedSource.id == 'new' && !formData.createPassphrase) || (formData.seedSource.id == 'set' && !formData.passphrase)))">
         <span translate>Create {{formData.requiredCopayers}}-of-{{formData.totalCopayers}} wallet</span>
       </button>
+      &nbsp; <!-- allow button bottom margin to take up space -->
     </form>
   </ion-content>
 </ion-view>
