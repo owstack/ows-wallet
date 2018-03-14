@@ -85,6 +85,7 @@ app/shared/sass/overrides
 www/*
 
 # templates
+.ows-dist
 /config.xml
 /ionic.config.json
 /app.config.json

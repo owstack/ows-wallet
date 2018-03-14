@@ -1,15 +1,15 @@
-
 {
   "name": "distribution-not-selected",
-  "description": "Choose a distribution by setting an env 'npm set ows_dist <app-template>' and running 'npm run apply'.",
+  "description": "Choose a distribution by running 'npm run set-dist <app-template>' followed by 'npm run apply'.",
   "primary-package-json": "See the tempate in app-template/package.json",
   "pre-commit": "unstage-package",
   "changes": "changes to this file can be commited with the --no-verify option",
   "scripts": {
-    "postinstall":     "npm run apply && echo && echo \"Repo configured for ${npm_config_ows_dist} distribution.\" && echo",
-    "start":           "echo && echo \"Choose a distribution by setting an env 'npm set ows_dist <app-template>' and running 'npm run apply'.\" && echo",
-    "apply":           "npm i fs-extra@0.30 && cd app-template && node apply.js ${npm_config_ows_dist} && cd .. && npm i",
-    "which-dist":      "echo ${npm_config_ows_dist}",
+    "postinstall":     "npm run apply && echo && npm run which-dist && echo",
+    "start":           "echo && echo \"Choose a distribution by running 'npm run set-dist <app-template>' followed by 'npm run apply'.\" && echo",
+    "apply":           "npm i fs-extra@0.30 && cd app-template && node apply.js $(cat ../.ows-dist) && cd .. && npm i",
+    "set-dist":        "echo $1 > ./.ows-dist",
+    "which-dist":      "printf 'Distribution set for: ' && cat ./.ows-dist",
     "unstage-package": "git reset package.json",
     "clean-all":       "git clean -dfx"
   },
