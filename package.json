@@ -1,16 +1,16 @@
 
 {
   "name": "distribution-not-selected",
-  "description": "Choose a distribution by running 'npm run apply:ows-wallet'.",
+  "description": "Choose a distribution by setting an env 'npm set ows-target <app-template>' and running 'npm run apply'.",
   "primary-package-json": "See the tempate in app-template/package.json",
   "pre-commit": "unstage-package",
   "changes": "changes to this file can be commited with the --no-verify option",
   "scripts": {
-    "postinstall": "npm run apply:ows-wallet && echo && echo \"Repo configured for standard OWS wallet distribution.\" && echo",
-    "start": "echo && echo \"Choose a distribution by running 'npm run apply:ows-wallet'.\" && echo",
-    "apply:ows-wallet": "npm i fs-extra@0.30 && cd app-template && node apply.js ows-wallet && cd .. && npm i",
+    "postinstall":     "npm run apply && echo && echo \"Repo configured for ${npm-config-ows-target} distribution.\" && echo",
+    "start":           "echo && echo \"Choose a distribution by setting an env 'npm set ows-target <app-template>' and running 'npm run apply'.\" && echo",
+    "apply":           "npm i fs-extra@0.30 && cd app-template && node apply.js ${npm-config-ows-target} && cd .. && npm i",
     "unstage-package": "git reset package.json",
-    "clean-all": "git clean -dfx"
+    "clean-all":       "git clean -dfx"
   },
   "dependencies": {
     "pre-commit": "^1.1.3"
