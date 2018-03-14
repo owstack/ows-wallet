@@ -51,12 +51,20 @@
             <i class="icon md-icon">
               <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
             </i>
-            <div>{{wallet.name || wallet.id}}</div>
+            <span class="ellipsis">
+              {{wallet.name || wallet.id}}
+            </span>
             <div class="item-detail">
-              <span ng-if="!wallet.balanceHidden"> {{wallet.status.totalBalanceStr}} </span>
-              <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
-              <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
-              <span ng-if="wallet.error" class="item-note assertive">{{wallet.error}}</span>
+              <span class="text-error" ng-show="wallet.error">{{wallet.error}}</span>
+              <span ng-show="!wallet.error">
+                <span class="text-danger" ng-show="!wallet.isComplete()">{{'Incomplete' | translate}}</span>
+                <span class="text-danger" ng-show="wallet.isComplete() && wallet.needsBackup">{{'Backup needed' | translate}}</span>
+                <span ng-if="wallet.isComplete() && !wallet.needsBackup">
+                  <span ng-if="!wallet.balanceHidden">{{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
+                  <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
+                  <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
+                </span>
+              </span>
             </div>
             <i class="icon arrow-right" ng-show="wallets.length > 1"></i>
           </ion-item>

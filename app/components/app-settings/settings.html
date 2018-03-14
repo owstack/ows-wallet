@@ -76,15 +76,23 @@
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="item-divider has-label" ng-show="wallets[0]">{{'Wallets' | translate}}</ion-item>
-      <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('preferences')}}({'walletId': item.id})"
-        ng-repeat="item in wallets track by $index">
+      <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('preferences')}}({'walletId': wallet.id})"
+        ng-class="{'has-detail': wallet.error || !wallet.isComplete() || wallet.needsBackup || wallet.n > 1}"
+        ng-repeat="wallet in wallets track by $index">
         <i class="icon sm-icon custom">
-          <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !item.color}" ng-style="{'background-color': item.color}"></div>
+          <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
         </i>
-        <span>{{item.name || item.id}}</span>
-        <span class="item-note assertive" ng-show="!item.isComplete()">{{'Incomplete' | translate}}</span>
-        <span class="item-note assertive" ng-show="item.isComplete() && item.needsBackup">{{'Backup needed' | translate}}</span>
-        <div class="item-detail" ng-show="item.n > 1">{{item.m}}-of-{{item.n}}</div>
+        <span>{{wallet.name || wallet.id}}</span>
+        <div class="item-detail">
+          <span class="text-error" ng-show="wallet.error">{{wallet.error}}</span>
+          <span ng-show="!wallet.error">
+            <span class="text-danger" ng-show="!wallet.isComplete()">{{'Incomplete' | translate}}</span>
+            <span class="text-danger" ng-show="wallet.isComplete() && wallet.needsBackup">{{'Backup needed' | translate}}</span>
+            <span ng-if="wallet.isComplete() && !wallet.needsBackup">
+              <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
+            </span>
+          </span>
+        </div>
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="item-divider"></ion-item>

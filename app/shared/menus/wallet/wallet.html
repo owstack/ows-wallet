@@ -3,19 +3,26 @@
   <div class="header">{{title}}</div>
   <ion-list>
     <ion-item class="has-detail item-icon-left icon-left-lg item-icon-right"
-      ng-repeat="w in wallets track by $index" ng-click="selectWallet(w)">
+      ng-repeat="wallet in wallets track by $index" ng-click="selectWallet(wallet)">
       <i class="icon lg-icon">
-        <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !w.color}" ng-style="{'background-color': w.color}"></div>
+        <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
       </i>
-      {{w.name}}
-      <div ng-if="!w.isComplete()" class="item-detail assertive" translate>
-        Incomplete
+      <span class="ellipsis">
+        {{wallet.name || wallet.id}}
+      </span>
+      <div class="item-detail">
+        <span class="text-error" ng-show="wallet.error">{{wallet.error}}</span>
+        <span ng-show="!wallet.error">
+          <span class="text-danger" ng-show="!wallet.isComplete()">{{'Incomplete' | translate}}</span>
+          <span class="text-danger" ng-show="wallet.isComplete() && wallet.needsBackup">{{'Backup needed' | translate}}</span>
+          <span ng-if="wallet.isComplete() && !wallet.needsBackup">
+            <span ng-if="!wallet.balanceHidden">{{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
+            <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
+            <span ng-if="wallet.n > 1"> &middot; {{wallet.m}}-of-{{wallet.n}}</span>
+          </span>
+        </span>
       </div>
-      <div ng-if="w.isComplete()" class="item-detail">
-        <div ng-if="!w.balanceHidden">{{w.status.availableBalanceStr}}</div>
-        <div ng-if="w.balanceHidden" translate>Balance Hidden</div>
-      </div>
-      <i class="icon check ion-ios-checkmark-empty" ng-show="selectedWallet === w"></i>
+      <i class="icon check ion-ios-checkmark-empty" ng-show="selectedWallet === wallet"></i>
     </ion-item>
   </ion-list>
 </action-sheet>
