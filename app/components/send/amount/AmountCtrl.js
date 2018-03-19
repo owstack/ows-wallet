@@ -97,7 +97,9 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
       return;
     }
     var value = nodeWebkitService.readFromClipboard();
-    if (value && evaluate(value) > 0) paste(evaluate(value));
+    if (value && evaluate(value) > 0) {
+      paste(evaluate(value));
+    }
   };
 
   $scope.openOptionsMenu = function() {
@@ -111,7 +113,9 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   };
 
   $scope.toggleAlternative = function() {
-    if ($scope.forceCurrency) return;
+    if ($scope.forceCurrency) {
+      return;
+    }
     $scope.showAlternativeAmount = !$scope.showAlternativeAmount;
 
     if ($scope.amount && isExpression($scope.amount)) {
@@ -129,9 +133,15 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   };
 
   $scope.pushDigit = function(digit) {
-    if ($scope.amount && $scope.amount.length >= LENGTH_EXPRESSION_LIMIT) return;
-    if ($scope.amount.indexOf('.') > -1 && digit == '.') return;
-    if ($scope.showAlternativeAmount && $scope.amount.indexOf('.') > -1 && $scope.amount[$scope.amount.indexOf('.') + 2]) return;
+    if ($scope.amount && $scope.amount.length >= LENGTH_EXPRESSION_LIMIT) {
+      return;
+    }
+    if ($scope.amount.indexOf('.') > -1 && digit == '.') {
+      return;
+    }
+    if ($scope.showAlternativeAmount && $scope.amount.indexOf('.') > -1 && $scope.amount[$scope.amount.indexOf('.') + 2]) {
+      return;
+    }
 
     $scope.amount = ($scope.amount + digit).replace('..', '.');
     checkFontSize();
@@ -139,7 +149,9 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   };
 
   $scope.pushOperation = function(operation) {
-    if (!$scope.amount || $scope.amount.length == 0) return;
+    if (!$scope.amount || $scope.amount.length == 0) {
+      return;
+    }
     $scope.amount = _pushOperation($scope.amount);
 
     function _pushOperation(val) {
@@ -185,10 +197,11 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   };
 
   function processResult(val) {
-    if ($scope.showAlternativeAmount)
+    if ($scope.showAlternativeAmount) {
       return $filter('formatFiatAmount')(val);
-    else
+    } else {
       return txFormatService.formatAmount($scope.networkURI, val.toFixed(unitDecimals) * unitToAtomicUnit, true);
+    }
   };
 
   function fromFiat(val) {
@@ -206,15 +219,18 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     } catch (e) {
       return 0;
     }
-    if (!lodash.isFinite(result)) return 0;
+    if (!lodash.isFinite(result)) {
+      return 0;
+    }
     return result;
   };
 
   function format(val) {
     var result = val.toString();
 
-    if (isOperation(lodash.last(val)))
+    if (isOperation(lodash.last(val))) {
       result = result.slice(0, -1);
+    }
 
     return result.replace('x', '*');
   };
