@@ -8,7 +8,7 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">
-    <ion-list ng-if="!customAmount && !nextStep">
+    <ion-list ng-if="!nextStep">
       <ion-item class="item-divider has-label" translate>
         Recipient
       </ion-item>
@@ -34,7 +34,7 @@
         </div>
       </ion-item>
     </ion-list>
-    <div ng-class="{'amount-pane-recipient': !customAmount && !nextStep, 'amount-pane-no-recipient': customAmount || nextStep}">
+    <div ng-class="{'amount-pane-recipient': !nextStep, 'amount-pane-no-recipient': nextStep}">
       <div class="amount-bar oh">
         <div class="title">
           <span translate>
@@ -43,36 +43,25 @@
         </div>
       </div>
       <div class="amount">
-        <div class="amount__editable" ng-class="{'amount__editable--minimize': smallFont, 'amount__editable--standard': !smallFont, 'amount__editable--placeholder': !amount}">
-          <span>
-            {{amount || "0.00" }}
-          </span>
-          <a class="amount__currency-toggle" ng-click="toggleAlternative()" ng-show="showAlternativeAmount">
-            {{alternativeIsoCode}}
-          </a>
-          <a class="amount__currency-toggle" ng-click="toggleAlternative()" ng-show="!showAlternativeAmount">
-            {{unitName}}
+        <div ng-class="{'amount__editable--minimize': smallFont, 'amount__editable--standard': !smallFont, 'amount__editable--placeholder': !amount}">
+          {{amount || "0.00" }}
+          <a class="amount__currency-toggle" ng-click="toggleAlternative()">
+            <span ng-show="showAlternativeAmount">{{alternativeIsoCode}}</span>
+            <span ng-show="!showAlternativeAmount">{{unitName}}</span>
           </a>
         </div>
-        <div ng-class="{'amount__results--minimize': smallFont, 'amount__results--standard': !smallFont, 'amount__results--placeholder': !amountResult}"
-          ng-show="!showAlternativeAmount">
+        <div ng-class="{'amount__results--minimize': smallFont, 'amount__results--standard': !smallFont, 'amount__results--placeholder': !amountResult}">
           <div class="amount__result" ng-show="globalResult">
-            {{globalResult}} {{unitName}}
+            {{globalResult}}
+            <span ng-show="!showAlternativeAmount"> {{unitName}}</span>
+            <span ng-show="showAlternativeAmount"> {{alternativeIsoCode}}</span>
           </div>
           <div class="amount__result-equiv">
-            &asymp; {{amountResult || '0.00'}} {{alternativeIsoCode}}
+            <span ng-show="!showAlternativeAmount">&asymp; {{amountResult || '0.00'}} {{alternativeIsoCode}}</span>
+            <span ng-show="showAlternativeAmount">&asymp; {{alternativeResult || '0.00'}} {{unitName}}</span>
           </div>
         </div>
-        <div ng-class="{'amount__results--minimize': smallFont, 'amount__results--standard': !smallFont, 'amount__results--placeholder': !amountResult}"
-          ng-show="showAlternativeAmount">
-          <div class="amount__result" ng-show="globalResult">
-            {{globalResult}} {{alternativeIsoCode}}
-          </div>
-          <div class="amount__result-equiv">
-            &asymp; {{alternativeResult || '0.00'}} {{unitName}}
-          </div>
-        </div>
-      </div>
+      </div>      
     </div>
     <div class="keypad">
       <div class="row">

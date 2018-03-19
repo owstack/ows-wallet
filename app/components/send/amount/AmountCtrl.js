@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($rootScope, $scope, $filter, $timeout, $ionicScrollDelegate, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService) {
+angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($rootScope, $scope, $filter, $timeout, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService) {
   var atomicUnitToUnit;
   var atomicUnitDecimals;
   var unitToAtomicUnit;
@@ -14,6 +14,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   });
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    $scope.isCordova = platformInfoService.isCordova;
     $scope.nextStep = data.stateParams.nextStep;
     $scope.currency = data.stateParams.currency;
     $scope.forceCurrency = data.stateParams.forceCurrency;
@@ -73,7 +74,6 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
       $scope.alternativeIsoCode = configNetwork.alternativeIsoCode;
     }
     $scope.specificAmount = $scope.specificAlternativeAmount = '';
-    $scope.isCordova = platformInfoService.isCordova;
     $scope.resetAmount();
 
     // in atomicUnit ALWAYS
@@ -82,10 +82,6 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     }
 
     processAmount();
-
-    $timeout(function() {
-      $ionicScrollDelegate.resize();
-    }, 10);
   });
 
   function paste(value) {
@@ -97,7 +93,9 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   };
 
   function processClipboard() {
-    if (!isNW) return;
+    if (!isNW) {
+      return;
+    }
     var value = nodeWebkitService.readFromClipboard();
     if (value && evaluate(value) > 0) paste(evaluate(value));
   };

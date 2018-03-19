@@ -16,7 +16,7 @@
     .amount-bar {
       padding: 24px 0;
       font-size: 18px;
-  
+
       @media(max-height: 480px) {
         padding: 0px;
       }
@@ -24,17 +24,17 @@
       @media(max-width: 320px) {
         padding: 0px;
       }
-  
+
       .title {
         float: left;
         padding-top: 20px;
         font-weight: bold;
-  
+
         @media(max-height: 480px) {
           padding: 0px;
         }
       }
-  
+
       @media(max-height: 480px) {
         padding-top: 3px;
       }
@@ -99,6 +99,7 @@
 
       &--standard {
         font-size: 42px;
+
         @media(max-height: 480px) {
           font-size: 26px;
           padding-top: 10px;

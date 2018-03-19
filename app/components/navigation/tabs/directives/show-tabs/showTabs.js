@@ -5,14 +5,11 @@ angular.module('owsWalletApp.directives')
   return {
     link: function(scope, elem, attrs, ctrl) {
       scope.$on("$ionicView.beforeEnter", function(event, data) {
-        $timeout(function() {
-          if (!attrs.showTabs || (attrs.showTabs == 'true')) {
-            $rootScope.hideTabs = '';
-          } else {
-            $rootScope.hideTabs = 'tabs-item-hide';
-          }
-          $rootScope.$apply();
-        });
+        if (!attrs.showTabs || (attrs.showTabs == 'true')) {
+          $rootScope.hideTabs = '';
+        } else {
+          $rootScope.hideTabs = 'tabs-item-hide';
+        }
       });
     }
   };
