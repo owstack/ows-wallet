@@ -56,8 +56,9 @@ angular.module('owsWalletApp.services').factory('ongoingProcessService', functio
 
     var name;
     root.any = lodash.any(ongoingProcessService, function(isOn, processName) {
-      if (isOn)
+      if (isOn) {
         name = name || processName;
+      }
       return isOn;
     });
     // The first one
@@ -71,7 +72,6 @@ angular.module('owsWalletApp.services').factory('ongoingProcessService', functio
       if (isCordova) {
         window.plugins.spinnerDialog.show(null, showName, root.clear);
       } else {
-
         var tmpl = '<div class="item-icon-left">' + showName + '<ion-spinner class="spinner-stable" icon="lines"></ion-spinner></div>';
         $ionicLoading.show({
           template: tmpl

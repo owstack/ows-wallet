@@ -2,16 +2,18 @@
   background: $v-receive-bg;
   color: $v-receive-color;
 
-  .button-share {
-    color: $v-bar-header-button-color;
-    box-shadow: none;
-    border-color: transparent;
-    background: transparent;
-    padding: 0 10px;
+  .hidden {
+    visibility: hidden;
+  }
 
-    .icon:before {
-      font-size: 26px;
-    }
+  .qr-backdrop {
+    background: white;
+    width: 260px;
+    height: 260px;
+    transform: translateX(-50%);
+    position: relative;
+    left: 50%;
+    border-radius: 3px;
   }
 
   .address {
@@ -22,7 +24,6 @@
 
       .address-label {
         font-size: 14px;
-        line-height: 2;
         margin: 20px 0;
       }
     }

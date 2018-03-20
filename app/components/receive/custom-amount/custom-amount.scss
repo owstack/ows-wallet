@@ -2,15 +2,30 @@
   background: $v-receive-bg;
   color: $v-receive-color;
 
-  .address {
-    .qr-code {
-      text-align: center;
-      margin-top: 50px;
-    }
+  .hidden {
+    visibility: hidden;
+  }
 
-    .address-label {
-      font-size: 14px;
-      margin: 20px 0;
+  .qr-backdrop {
+    background: white;
+    width: 260px;
+    height: 260px;
+    transform: translateX(-50%);
+    position: relative;
+    left: 50%;
+    border-radius: 3px;
+  }
+
+  .address {
+    height: 100%;
+
+    &-info {
+      padding-top: 50px;
+
+      .address-label {
+        font-size: 14px;
+        margin: 20px 0;
+      }
     }
   }
 }

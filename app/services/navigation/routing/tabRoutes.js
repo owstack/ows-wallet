@@ -69,7 +69,6 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'onboarding.tour':                { stateName: 'onboarding.tour',                     viewNames: ['onboarding'] },
     'payment-request':                { stateName: 'tabs.payment-request',                viewNames: null },
     'payment-request.amount':         { stateName: 'tabs.payment-request.amount',         viewNames: ['tab-receive@tabs'] },
-    'payment-request.confirm':        { stateName: 'tabs.payment-request.confirm',        viewNames: ['tab-receive@tabs'] },
     'passcode':                       { stateName: 'tabs.passcode',                       viewNames: ['tab-settings@tabs'] },
     'pattern':                        { stateName: 'tabs.pattern',                        viewNames: ['tab-settings@tabs'] },
     'preferences':                    { stateName: 'tabs.preferences',                    viewNames: ['tab-settings@tabs'] },

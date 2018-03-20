@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($rootScope, $scope, $filter, $timeout, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService) {
+angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($rootScope, $scope, $filter, $timeout, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService, $ionicModal) {
   var atomicUnitToUnit;
   var atomicUnitDecimals;
   var unitToAtomicUnit;
@@ -293,13 +293,40 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   $scope.finish = function() {
     var _amount = evaluate(format($scope.amount));
 
-    if ($scope.nextStep) {
+    if ($scope.nextStep && $scope.nextStep.indexOf('/') < 0) {
+
+      // No dir separator in the nextStep; nextStep is a state name.
       $state.transitionTo($scope.nextStep, {
         walletId: $scope.walletId,
         amount: $scope.useSendMax ? null : _amount,
         currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
         useSendMax: $scope.useSendMax
       });
+
+    } else if ($scope.nextStep && $scope.nextStep.indexOf('/') >= 0) {
+
+      // Dir separator in the nextStep; nextStep is a modal path.
+      $scope.topScope = $scope;
+      $ionicModal.fromTemplateUrl($scope.nextStep, {
+        scope: $scope,
+        backdropClickToClose: false,
+        hardwareBackButtonClose: false
+      }).then(function(modal) {
+        $scope.nextStepModal = modal;
+        $scope.nextStepModal.show();
+      });
+
+      $scope.closeModal = function() {
+        // Land on the receive view; back up from the amount entry view then remove the modal.
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true
+        });
+        $ionicHistory.goBack();
+
+        $timeout(function() {
+          $scope.nextStepModal.remove();
+        });
+      };
 
     } else {
       // Avoid a view transition followed by an insufficient funds message; check and present an error here.

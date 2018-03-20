@@ -1,3 +1,7 @@
+/*
+ * Fade In
+ */
+
  @keyframes fadeIn {
   0% { opacity: 0; }
   100% { opacity: 1; }
@@ -18,30 +22,5 @@
  }
 
 .fade-in-300 {
-  @include fade-in(300ms);
-}
-
- @keyframes fadeInDelayed {
-  0% { opacity: 0; }
-  28% { opacity: 0; }
-  100% { opacity: 1; }
- }
-
-@-webkit-keyframes fadeInDelayed {
-  0% { opacity: 0; }
-  28% { opacity: 0; }
-  100% { opacity: 1; }
- }
-  
-@mixin fade-in($duration: 1s) {
-  animation-name: fadeInDelayed;
-  animation-duration: $duration;
-  animation-fill-mode: both;
-  -webkit-animation-name: fadeInDelayed;
-  -webkit-animation-duration: $duration;
-  -webkit-animation-fill-mode: both;
- }
-
-.delayed-fade-in-300 {
   @include fade-in(300ms);
 }

@@ -6,6 +6,7 @@
   </ion-nav-bar>
   <ion-content>
     <ion-list>
+      <ion-item class="item-divider"></ion-item>
       <ion-radio ng-repeat="unit in unitList" ng-value="unit.code" ng-model="currentUnit" ng-click="save(unit)">
         {{unit.shortName}}
       </ion-radio>

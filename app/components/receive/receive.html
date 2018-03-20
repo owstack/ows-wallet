@@ -40,10 +40,11 @@
               <span translate>Show address</span>
             </button>
           </span>
-          <qrcode size="220" data="{{protocol}}:{{addr}}" color="#444455" class="delayed-fade-in-300"></qrcode>
-          <div class="address-label delayed-fade-in-300">
-            <span class="ellipsis">{{addr || 'Generating new address'}}</span>
-            <ion-spinner ng-show="!addr" icon="ios"></ion-spinner>
+          <div class="qr-backdrop">
+            <qrcode size="220" data="{{protocol}}:{{addr}}" color="#444455" ng-class="{'hidden': !addr, 'fade-in-300': addr}"></qrcode>
+          </div>
+          <div class="address-label" ng-class="{'hidden': !addr, 'fade-in-300': addr}">
+            <span class="ellipsis">{{addr}}&nbsp;</span>
           </div>
         </div>
         <ion-list>

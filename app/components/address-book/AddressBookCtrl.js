@@ -4,7 +4,13 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
   
   var contacts;
 
-  var initAddressbook = function() {
+  $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    $scope.showAddButton = false;
+    $scope.addrSearch = { value: null };
+    initAddressbook();
+  });
+
+  function initAddressbook() {
     addressBookService.list(function(err, ab) {
       if (err) {
         $log.error(err.message);
@@ -16,6 +22,9 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
       $scope.addressbook = lodash.clone(ab);
 
       $timeout(function() {
+        // Position to first entry (hide the search bar behind header).
+        $location.hash('entry0');
+        $ionicScrollDelegate.$getByHandle('addressBookScroll').anchorScroll(true);
         $scope.$apply();
       });
     });
@@ -37,15 +46,5 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
 
     $scope.addressbook = result;
   };
-
-  $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.showAddButton = false;
-
-    // Position to first entry
-    $ionicScrollDelegate.scrollTo(0, 64);
-
-    $scope.addrSearch = { value: null };
-    initAddressbook();
-  });
 
 });

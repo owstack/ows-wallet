@@ -1,7 +1,12 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl', function($scope, $log, $timeout, appConfigService, lodash, configService, platformInfoService, pushNotificationsService, emailService) {
-  var updateConfig = function() {
+
+  $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    updateConfig();
+  });
+
+  function updateConfig() {
     var config = configService.getSync();
     $scope.appName = appConfigService.nameCase;
     $scope.PNEnabledByUser = true;
@@ -87,7 +92,4 @@ angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl
     });
   };
 
-  $scope.$on("$ionicView.enter", function(event, data) {
-    updateConfig();
-  });
 });

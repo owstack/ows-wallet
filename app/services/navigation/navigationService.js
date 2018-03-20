@@ -596,15 +596,8 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/send/amount/amount.html'
       }]),
       params: {
-        nextStep: $rootScope.sref('payment-request.confirm')
+        nextStep: 'views/receive/custom-amount/custom-amount.html'
       }
-    })
-    .state($rootScope.sref('payment-request.confirm'), {
-      url: '/confirm/:walletId/:amount/:currency',
-      views: getViews('payment-request.confirm', [{
-        controller: 'CustomAmountCtrl',
-        templateUrl: 'views/receive/custom-amount/custom-amount.html'
-      }])
     })
 
     /*

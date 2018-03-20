@@ -1,19 +1,14 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', function($scope, $ionicHistory, txFormatService, platformInfoService, configService, profileService, walletService, popupService, networkService) {
+angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', function($scope, txFormatService, platformInfoService, configService, profileService, walletService, popupService, networkService) {
 
-  var showErrorAndBack = function(title, msg) {
-    popupService.showAlert(title, msg, function() {
-      $scope.close();
-    });
-  };
+  var amount = $scope.topScope.amount;
+  var currency = $scope.topScope.currency;
+  var walletId = $scope.topScope.walletId;
 
-  var setProtocol = function() {
-    $scope.protocol = networkService.getNetworkByURI($scope.wallet.networkURI).protocol;
-  }
+  init();
 
-  $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    var walletId = data.stateParams.walletId;
+  function init() {
     if (!walletId) {
       showErrorAndBack('Error', 'No wallet selected');
       return;
@@ -21,49 +16,40 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
       
     $scope.showShareButton = platformInfoService.isCordova ? (platformInfoService.isIOS ? 'iOS' : 'Android') : null;
     $scope.wallet = profileService.getWallet(walletId);
+    $scope.protocol = networkService.getNetworkByURI($scope.wallet.networkURI).protocol;
 
-    setProtocol();
+    var standardUnit = networkService.getStandardUnit($scope.wallet.networkURI);
+    var parsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amount, currency);
+    amount = parsedAmount.amount;
+    currency = parsedAmount.currency;
+
+    $scope.amountUnitStr = parsedAmount.amountUnitStr;
+
+    if (currency != standardUnit.shortName) {
+      // Convert to standard units
+      var config = configService.getSync().currencyNetworks[$scope.wallet.networkURI];
+
+      var amountAtomic = txFormatService.atomicToUnit($scope.wallet.networkURI, parsedAmount.amountAtomic);
+      var standardParsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amountAtomic, config.unitName);
+      
+      $scope.amountStandard = standardParsedAmount.amount;
+      $scope.altAmountStr = standardParsedAmount.amountUnitStr;
+    } else {
+      $scope.amountStandard = amount;
+      $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.networkURI, parsedAmount.amountAtomic);
+    }
 
     walletService.getAddress($scope.wallet, false, function(err, addr) {
       if (!addr) {
         showErrorAndBack('Error', 'Could not get the address');
         return;
       }
-      
       $scope.address = addr;
-    
-      var parsedAmount = txFormatService.parseAmount(
-        $scope.wallet.networkURI,
-        data.stateParams.amount, 
-        data.stateParams.currency);
-
-      var amount = parsedAmount.amount;
-      var currency = parsedAmount.currency;
-      $scope.amountUnitStr = parsedAmount.amountUnitStr;
-
-      var standardUnit = networkService.getStandardUnit($scope.wallet.networkURI);
-
-      if (currency != standardUnit.shortName) {
-        // Convert to standard units
-        var config = configService.getSync().currencyNetworks[$scope.wallet.networkURI];
-
-        var amountAtomic = txFormatService.atomicToUnit($scope.wallet.networkURI, parsedAmount.amountAtomic);
-        var standardParsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amountAtomic, config.unitName);
-        
-        $scope.amountStandard = standardParsedAmount.amount;
-        $scope.altAmountStr = standardParsedAmount.amountUnitStr;
-      } else {
-        $scope.amountStandard = amount;
-        $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.networkURI, parsedAmount.amountAtomic);
-      }
     });
-  });
+  };
 
-  $scope.close = function() {
-    $ionicHistory.nextViewOptions({
-      disableAnimate: true
-    });
-    $ionicHistory.goBack(-2);
+  $scope.closeModal = function() {
+    $scope.topScope.closeModal();
   };
 
   $scope.shareAddress = function() {
@@ -74,6 +60,12 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
 
   $scope.copyToClipboard = function() {
     return $scope.protocol + ':' + $scope.address + '?amount=' + $scope.amountStandard;
+  };
+
+  function showErrorAndBack(title, msg) {
+    popupService.showAlert(title, msg, function() {
+      $scope.close();
+    });
   };
 
 });

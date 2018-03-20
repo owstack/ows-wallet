@@ -3,6 +3,38 @@
 angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
   function($scope, $rootScope, $timeout, $log, $ionicHistory, lodash, configService, profileService, fingerprintService, walletService) {
 
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
+      $scope.walletId = data.stateParams.walletId;
+      $scope.wallet = profileService.getWallet($scope.walletId);
+      $scope.externalSource = null;
+
+      if (!$scope.wallet) {
+        return $ionicHistory.goBack();
+      }
+
+      $scope.walletCanSign = $scope.wallet.canSign();
+
+      var config = configService.getSync();
+
+      $scope.hiddenBalance = {
+        value: $scope.wallet.balanceHidden
+      };
+
+      $scope.encryptEnabled = {
+        value: walletService.isEncrypted($scope.wallet)
+      };
+
+      $scope.touchIdAvailable = fingerprintService.isAvailable();
+      $scope.touchIdEnabled = {
+        value: config.touchIdFor ? config.touchIdFor[$scope.walletId] : null
+      };
+
+      $scope.deleted = false;
+      if ($scope.wallet.credentials && !$scope.wallet.credentials.mnemonicEncrypted && !$scope.wallet.credentials.mnemonic) {
+        $scope.deleted = true;
+      }
+    });
+    
     $scope.hiddenBalanceChange = function() {
       var opts = {
         balance: {
@@ -72,35 +104,4 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
       });
     };
 
-    $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.walletId = data.stateParams.walletId;
-      $scope.wallet = profileService.getWallet($scope.walletId);
-      $scope.externalSource = null;
-
-      if (!$scope.wallet) {
-        return $ionicHistory.goBack();
-      }
-
-      $scope.walletCanSign = $scope.wallet.canSign();
-
-      var config = configService.getSync();
-
-      $scope.hiddenBalance = {
-        value: $scope.wallet.balanceHidden
-      };
-
-      $scope.encryptEnabled = {
-        value: walletService.isEncrypted($scope.wallet)
-      };
-
-      $scope.touchIdAvailable = fingerprintService.isAvailable();
-      $scope.touchIdEnabled = {
-        value: config.touchIdFor ? config.touchIdFor[$scope.walletId] : null
-      };
-
-      $scope.deleted = false;
-      if ($scope.wallet.credentials && !$scope.wallet.credentials.mnemonicEncrypted && !$scope.wallet.credentials.mnemonic) {
-        $scope.deleted = true;
-      }
-    });
   });

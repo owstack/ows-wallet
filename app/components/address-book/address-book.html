@@ -10,16 +10,16 @@
       <button class="button button-nav-bar button-plus" ng-show="showAddButton" ui-sref="{{sref('address-book.add')}}"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content ng-class="{'kill-header-top': !isEmptyList}">
-    <div ng-show="isEmptyList" ng-include="'views/address-book/tips/add-contacts/add-contacts.html'"></div>
+  <ion-content ng-class="{'kill-header-top': !isEmptyList}" delegate-handle="addressBookScroll">
+    <div ng-show="isEmptyList" class="ng-hide" ng-include="'views/address-book/tips/add-contacts/add-contacts.html'"></div>
     <div ng-show="!isEmptyList">
       <ion-list>
-        <ion-item class="item-input item-icon-left icon-left-sm">
-          <i class="icon ion-ios-search sm-icon"></i>
+        <ion-item class="item-input item-icon-left icon-left-input">
+          <i class="icon ion-ios-search"></i>
           <input type="search" placeholder="Search" ng-model="addrSearch.value" ng-change="findAddressbook(addrSearch.value)" ng-model-onblur>
         </ion-item>
-        <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook"
-          ui-sref="{{sref('address-book.entry')}}({id: addressbookEntry.id})">
+        <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook track by $index"
+          id="{{'entry' + $index}}" ui-sref="{{sref('address-book.entry')}}({id: addressbookEntry.id})">
           <i class="icon lg-icon">
             <gravatar class="send-gravatar" width="40" name="{{addressbookEntry.name}}" email="{{addressbookEntry.email}}"></gravatar>
           </i>

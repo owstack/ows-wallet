@@ -4,6 +4,20 @@ angular.module('owsWalletApp.controllers').controller('NetworkUnitSettingsCtrl',
 
   var config = configService.getSync();
 
+  $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    $scope.networkURI = data.stateParams.networkURI;
+    if (!$scope.networkURI) {
+      return;
+    }
+
+    var network = networkService.getNetworkByURI($scope.networkURI);
+    $scope.unitList = lodash.filter(network.units, function(n) {
+      return n.userSelectable;
+    });
+
+    $scope.currentUnit = config.currencyNetworks[network.getURI()].unitCode;
+  });
+
   $scope.save = function(newUnit) {
     var opts = {
       currencyNetworks: {}
@@ -24,17 +38,4 @@ angular.module('owsWalletApp.controllers').controller('NetworkUnitSettingsCtrl',
     });
   };
 
-  $scope.$on("$ionicView.enter", function(event, data) {
-    $scope.networkURI = data.stateParams.networkURI;
-    if (!$scope.networkURI) {
-      return;
-    }
-
-    var network = networkService.getNetworkByURI($scope.networkURI);
-    $scope.unitList = lodash.filter(network.units, function(n) {
-      return n.userSelectable;
-    });
-
-    $scope.currentUnit = config.currencyNetworks[network.getURI()].unitCode;
-  });
 });
