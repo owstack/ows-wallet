@@ -3,31 +3,31 @@
     <ion-nav-title>{{'Alternative Currency' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-nav-bar button-search" ng-show="allowSearch" ng-click="toggleSearch()"></button>
+    </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
     <ion-list>
-      <ion-item class="item-input item-icon-left icon-left-input">
+      <ion-item class="item-input item-icon-left icon-left-input" ng-show="showSearch && allowSearch">
         <i class="icon ion-ios-search"></i>
-        <input type="search" ng-init="searchedAltCurrency = ''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)"
-          placeholder="Search your currency" class="ng-pristine ng-untouched ng-valid ng-empty" style="">
+        <input type="search" ng-init="searchedAltCurrency=''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)"
+          placeholder="Search your currency" class="ng-pristine ng-untouched ng-valid ng-empty">
       </ion-item>
-    </ion-list>
-    <div ng-if="lastUsedAltCurrencyList[0]">
-      <ion-list ng-if="lastUsedAltCurrencyList[0]">
-        <ion-item class="item-divider has-label" translate>
+      <div ng-if="lastUsedAltCurrencyList[0]">
+        <ion-item id="entry0" class="item-divider has-label" translate>
           Recently Used
         </ion-item>
         <ion-radio ng-repeat="lastUsedAltCurrency in lastUsedAltCurrencyList" ng-value="lastUsedAltCurrency.isoCode" ng-model="currentCurrency"
-          ng-click="save(lastUsedAltCurrency)">{{lastUsedAltCurrency.name}}
+          ng-click="save(lastUsedAltCurrency)">
+          {{lastUsedAltCurrency.name}}
         </ion-radio>
-      </ion-list>
-    </div>
-    <ion-list>
-      <ion-item class="item-divider has-label" translate>
+      </div>
+      <ion-item id="{{lastUsedAltCurrencyList[0] ? 'entry1' : 'entry0'}}" class="item-divider has-label" translate>
         All Currencies
       </ion-item>
-      <ion-radio ng-repeat="altCurrency in altCurrencyList" ng-value="altCurrency.isoCode" ng-model="currentCurrency"
-        ng-click="save(altCurrency)">{{altCurrency.name}}
+      <ion-radio ng-repeat="altCurrency in altCurrencyList" ng-value="altCurrency.isoCode" ng-model="currentCurrency" ng-click="save(altCurrency)">
+        {{altCurrency.name}}
       </ion-radio>
     </ion-list>
     <ion-infinite-scroll ng-if="!listComplete" on-infinite="loadMore()" distance="50%"></ion-infinite-scroll>

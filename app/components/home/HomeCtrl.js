@@ -260,7 +260,9 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
 
     var updateAllWallets = function() {
       $scope.wallets = profileService.getWallets();
-      if (lodash.isEmpty($scope.wallets)) return;
+      if (lodash.isEmpty($scope.wallets)) {
+        return;
+      }
 
       var i = $scope.wallets.length;
       var j = 0;

@@ -7,14 +7,15 @@
       <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
     </ion-nav-buttons>
     <ion-nav-buttons side="secondary">
+      <button class="button button-nav-bar button-search" ng-show="!isEmptyList" ng-click="toggleSearch()"></button>
       <button class="button button-nav-bar button-plus" ng-show="showAddButton" ui-sref="{{sref('address-book.add')}}"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content ng-class="{'kill-header-top': !isEmptyList}" delegate-handle="addressBookScroll">
+  <ion-content ng-class="{'kill-header-top': !isEmptyList}">
     <div ng-show="isEmptyList" class="ng-hide" ng-include="'views/address-book/tips/add-contacts/add-contacts.html'"></div>
     <div ng-show="!isEmptyList">
       <ion-list>
-        <ion-item class="item-input item-icon-left icon-left-input">
+        <ion-item class="item-input item-icon-left icon-left-input" ng-show="showSearch">
           <i class="icon ion-ios-search"></i>
           <input type="search" placeholder="Search" ng-model="addrSearch.value" ng-change="findAddressbook(addrSearch.value)" ng-model-onblur>
         </ion-item>

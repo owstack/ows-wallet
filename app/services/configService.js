@@ -32,9 +32,12 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       bannedUntil: null
     },
 
-    // External services
     recentTransactions: {
       enabled: true
+    },
+
+    featureWeight: {
+      value: 0
     },
 
     hideNextSteps: {
@@ -113,6 +116,9 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         }
         if (!configCache.recentTransactions) {
           configCache.recentTransactions = defaultConfig.recentTransactions;
+        }
+        if (!configCache.featureWeight) {
+          configCache.featureWeight = defaultConfig.featureWeight;
         }
         if (!configCache.pushNotifications) {
           configCache.pushNotifications = defaultConfig.pushNotifications;

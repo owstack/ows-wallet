@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl', function($scope, $log, configService) {
+angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl', function($scope, $log, configService, featureService) {
 
   var updateConfig = function() {
     var config = configService.getSync();
@@ -20,6 +20,10 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     $scope.useAdvancedKeypad = {
       value: config.advancedKeypad.enabled
     };
+    $scope.availableFeatureLevels = featureService.getLevels();
+    $scope.selectedFeatureLevel = {
+      value: featureService.getLevel()
+    }
   };
 
   $scope.spendUnconfirmedChange = function() {
@@ -59,6 +63,10 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
         $log.debug(err);
       }
     });
+  };
+
+  $scope.featureLevelChange = function() {
+    featureService.setLevel($scope.selectedFeatureLevel.value);
   };
 
   $scope.useAdvancedKeypadChange = function() {

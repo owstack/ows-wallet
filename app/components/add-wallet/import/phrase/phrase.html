@@ -22,7 +22,7 @@
       <textarea ng-model="formData.words" rows="5" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
     </ion-item>
     <ion-item class="item-input item-select">
-      <span class="input-label" translate>Currency</span>
+      <span translate>Currency</span>
       <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
         ng-change=" onNetworkChange(); resizeView();"></select>
     </ion-item>

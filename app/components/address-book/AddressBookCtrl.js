@@ -6,6 +6,7 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     $scope.showAddButton = false;
+    $scope.showSearch = false;
     $scope.addrSearch = { value: null };
     initAddressbook();
   });
@@ -20,14 +21,11 @@ angular.module('owsWalletApp.controllers').controller('AddressBookCtrl', functio
       $scope.isEmptyList = lodash.isEmpty(ab);
       $scope.showAddButton = !$scope.isEmptyList;
       $scope.addressbook = lodash.clone(ab);
-
-      $timeout(function() {
-        // Position to first entry (hide the search bar behind header).
-        $location.hash('entry0');
-        $ionicScrollDelegate.$getByHandle('addressBookScroll').anchorScroll(true);
-        $scope.$apply();
-      });
     });
+  };
+
+  $scope.toggleSearch = function() {
+    $scope.showSearch = !$scope.showSearch;
   };
 
   $scope.findAddressbook = function(search) {

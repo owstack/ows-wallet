@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', function($timeout, $scope, appConfigService, uxLanguageService, platformInfoService, profileService, configService, gettextCatalog, networkService, addressBookService) {
+angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', function($timeout, $scope, appConfigService, uxLanguageService, platformInfoService, profileService, configService, gettextCatalog, networkService, addressBookService, featureService) {
 
   var setScope = function() {
     $scope.isCordova = platformInfoService.isCordova;
@@ -16,7 +16,12 @@ angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', functio
         }
       });
 
-      $scope.availableNetworks = networkService.getNetworks();
+      if (featureService.isAvailable('testnet')) {
+        $scope.availableNetworks = networkService.getNetworks();
+      } else {
+        $scope.availableNetworks = networkService.getLiveNetworks();      
+      }
+
       $scope.pushNotificationsEnabled = config.pushNotificationsEnabled;
 
       $scope.unitName = config.wallet.settings.unitName;
@@ -40,7 +45,7 @@ angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', functio
   });
 
   $scope.$on("$ionicView.enter", function(event, data) {
-    setScope();
+//    setScope();
   });
 
 });

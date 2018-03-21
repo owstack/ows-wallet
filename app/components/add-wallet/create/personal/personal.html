@@ -12,7 +12,7 @@
           <input type="text" placeholder="{{'Family vacation funds'|translate}}" ng-model="formData.walletName" ng-required="true" required>
         </ion-item>
         <ion-item class="item-input item-select">
-          <span class="input-label" translate>
+          <span translate>
             Currency
           </span>
           <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
@@ -29,7 +29,7 @@
             <input type="text" ng-model="formData.walletServiceUrl" placeholder="https://btcws.openwalletstack.com/btcws/api">
           </ion-item>
           <ion-item class="item-input item-select">
-            <span class="input-label" translate>
+            <span translate>
               Wallet Key
             </span>
             <select ng-model="formData.seedSource" ng-options="seed as seed.label for seed in seedOptions"

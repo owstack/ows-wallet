@@ -17,14 +17,14 @@
             ng-disabled="formData.totalCopayers == 1">
         </ion-item>
         <ion-item class="item-input item-select">
-          <span class="input-label" translate>
+          <span translate>
             Currency
           </span>
           <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
             ng-change="onNetworkChange(); resizeView();"></select>
         </ion-item>
         <ion-item class="item-input item-select">
-          <span class="input-label" translate>
+          <span translate>
             Total number of copayers
           </span>
           <select ng-model="formData.totalCopayers" ng-options="totalCopayers as totalCopayers for totalCopayers in TCValues"
@@ -32,7 +32,7 @@
           </select>
         </ion-item>
         <ion-item class="item-input item-select">
-          <span class="input-label" translate>
+          <span translate>
             Required number of signatures
           </span>
           <select ng-model="formData.requiredCopayers" ng-options="requiredCopayers as requiredCopayers for requiredCopayers in RCValues"
@@ -50,7 +50,7 @@
             <input type="text" ng-model="formData.walletServiceUrl">
           </ion-item>
           <ion-item class="item-input item-select">
-            <span class="input-label" translate>
+            <span translate>
               Wallet Key
             </span>
             <select ng-model="formData.seedSource" ng-options="seed as seed.label for seed in seedOptions"

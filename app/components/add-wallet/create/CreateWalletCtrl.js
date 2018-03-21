@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
-  function($scope, $rootScope, $timeout, $log, lodash, $state, $ionicScrollDelegate, $ionicHistory, profileService, configService, gettextCatalog, ledgerService, trezorService, derivationPathService, ongoingProcessService, walletService, popupService, pushNotificationsService, networkService) {
+  function($scope, $rootScope, $timeout, $log, lodash, $state, $ionicScrollDelegate, $ionicHistory, profileService, configService, gettextCatalog, ledgerService, trezorService, derivationPathService, ongoingProcessService, walletService, popupService, pushNotificationsService, networkService, featureService) {
 
     /* For compressed keys, m*73 + n*34 <= 496 */
     var COPAYER_PAIR_LIMITS = {
@@ -20,6 +20,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
     };
 
     var configNetwork = configService.getSync().currencyNetworks;
+    var testnetFeature = featureService.isAvailable('testnet');
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.formData = {};
@@ -31,7 +32,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
       $scope.availableNetworks = networkService.getLiveNetworks();
-      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency);
+      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency) && testnetFeature;
       $scope.formData.testnetSelected = false;
 
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
@@ -45,7 +46,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
       $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
-      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency);
+      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency) && testnetFeature;
       $scope.formData.testnetSelected = $scope.formData.testnetSelected && $scope.formData.testnetSupported;
     };
 

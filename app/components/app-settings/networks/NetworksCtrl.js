@@ -1,9 +1,15 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('NetworksCtrl',
-  function($scope, lodash, networkService, configService, feeService, gettextCatalog) {
+  function($scope, lodash, networkService, configService, feeService, gettextCatalog, featureService) {
 
-    $scope.availableNetworks = networkService.getNetworks();
+    var testnetFeature = featureService.isAvailable('testnet');
+
+    if (testnetFeature) {
+      $scope.availableNetworks = networkService.getNetworks();
+    } else {
+      $scope.availableNetworks = networkService.getLiveNetworks();      
+    }
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.networkURI = data.stateParams.networkURI;

@@ -1,11 +1,27 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySettingsCtrl',
-  function($scope, $log, $timeout, $ionicHistory, configService, rateService, lodash, profileService, walletService, storageService, networkService) {
+  function($scope, $log, $timeout, $ionicHistory, configService, rateService, lodash, profileService, walletService, storageService, networkService, $ionicScrollDelegate, $location) {
 
     var next = 10;
     var completeAlternativeList = [];
     var config = configService.getSync();
+
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
+      $scope.networkURI = data.stateParams.networkURI;
+      if (!$scope.networkURI) {
+        return;
+      }
+
+      var network = networkService.getNetworkByURI($scope.networkURI);
+      $scope.currentCurrency = config.currencyNetworks[network.getURI()].alternativeIsoCode;
+      $scope.showSearch = false;
+
+      storageService.getLastCurrencyUsed($scope.networkURI, function(err, lastUsedAltCurrency) {
+        $scope.lastUsedAltCurrencyList = lastUsedAltCurrency ? JSON.parse(lastUsedAltCurrency) : [];
+        init();
+      });
+    });
 
     function init() {
       var unusedCurrencyList = [{
@@ -23,7 +39,6 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
       });
 
       rateService.whenAvailable(function() {
-
         $scope.listComplete = false;
 
         var idx = lodash.indexBy(unusedCurrencyList, 'isoCode');
@@ -34,12 +49,17 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
         });
 
         $scope.altCurrencyList = completeAlternativeList.slice(0, 10);
+        $scope.allowSearch = completeAlternativeList.length > 10;
 
         $timeout(function() {
           $scope.$apply();
         });
       });
     }
+
+    $scope.toggleSearch = function() {
+      $scope.showSearch = !$scope.showSearch;
+    };
 
     $scope.loadMore = function() {
       $timeout(function() {
@@ -51,7 +71,9 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
     };
 
     $scope.findCurrency = function(search) {
-      if (!search) init();
+      if (!search) {
+        init();
+      }
       $scope.altCurrencyList = lodash.filter(completeAlternativeList, function(item) {
         var val = item.name;
         return lodash.includes(val.toLowerCase(), search.toLowerCase());
@@ -88,18 +110,4 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
       storageService.setLastCurrencyUsed(JSON.stringify($scope.lastUsedAltCurrencyList), $scope.networkURI, function() {});
     };
 
-    $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.networkURI = data.stateParams.networkURI;
-      if (!$scope.networkURI) {
-        return;
-      }
-
-      var network = networkService.getNetworkByURI($scope.networkURI);
-      $scope.currentCurrency = config.currencyNetworks[network.getURI()].alternativeIsoCode;
-
-      storageService.getLastCurrencyUsed($scope.networkURI, function(err, lastUsedAltCurrency) {
-        $scope.lastUsedAltCurrencyList = lastUsedAltCurrency ? JSON.parse(lastUsedAltCurrency) : [];
-        init();
-      });
-    });
   });
