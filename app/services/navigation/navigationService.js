@@ -211,14 +211,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/scan/scan.html',
       }])
     })
-    .state($rootScope.sref('scanner'), {
-      url: '/scanner',
-      params: {
-        passthroughMode: null,
-      },
-      controller: 'ScanCtrl',
-      templateUrl: 'views/scan/scan.html'
-    })
     .state($rootScope.sref('send'), {
       url: '/send/:walletId',
       views: getViews('send', [{
@@ -232,6 +224,21 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         controller: 'AppSettingsCtrl',
         templateUrl: 'views/app-settings/settings.html',
       }])
+    })
+
+    /*
+     *
+     * Pass through scan
+     *
+     */
+
+    .state($rootScope.sref('scanner'), {
+      url: '/scanner',
+      params: {
+        passthroughMode: true
+      },
+      controller: 'ScanCtrl',
+      templateUrl: 'views/scan/scan.html'
     })
 
     /*

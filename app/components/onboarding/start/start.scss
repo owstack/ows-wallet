@@ -1,17 +1,2 @@
-#onboard-start {
-  img {
-    position: relative;
-    top: 44px;
-    max-height: 45%;
-    width: 100%;
-
-    @media(max-height: 480px) {
-      height: 45%;
-      top: 45%;
-    }
-  }
-  #cta-buttons {
-    @extend %cta-buttons;
-    padding-bottom: 2vh;
-  }
+#onboard-start {  
 }

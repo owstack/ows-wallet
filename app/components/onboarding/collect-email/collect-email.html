@@ -1,6 +1,13 @@
 <ion-view id="onboarding-collect-email" class="ows onboarding">
+  <ion-nav-bar class="bar">
+    <ion-nav-buttons side="secondary">
+      <button class="button button-clear" ng-click="goNextView()" translate>
+        Skip
+      </button>
+    </ion-nav-buttons>
+  </ion-nav-bar>
   <ion-content>
-    <div id="success-container">
+    <div class="success-container">
       <i class="ion-checkmark-circled"></i>
       <div class="success-text">
         <div class="success-title" translate>
@@ -11,15 +18,15 @@
         </div>
       </div>
     </div>
-    <div id="collect-email-container">
-      <div id="collect-email-inner" ng-if="!confirmation">
+    <div class="collect-email-container">
+      <div ng-if="!confirmation">
         <div class="heading" translate>
           Notifications by email
         </div>
         <div class="prompt" translate>
           Where would you like to receive email notifications about payments?
         </div>
-        <form id="email-form" name="emailForm" ng-submit="confirm(emailForm)" novalidate>
+        <form class="email-form" name="emailForm" ng-submit="confirm(emailForm)" novalidate>
           <ion-list>
             <ion-item class="item-input item-no-bg prepend">
               <input type="email" name="email" ng-model="data.email" placeholder="{{'Email'|translate}}" required>
@@ -35,14 +42,14 @@
           </ion-list>
         </form>
       </div>
-      <div id="collect-email-confirm" ng-if="confirmation">
+      <div class="collect-email-confirm" ng-if="confirmation">
         <p class="confirm" translate>
           Confirm email address
         </p>
         <p class="user-email">
           {{data.email}}
         </p>
-        <div id="cta-buttons">
+        <div class="cta-buttons">
           <button class="button button-standard button-primary" ng-click="save()" ng-disabled="disableButton" translate-context="button"
             translate>
             Confirm
@@ -53,10 +60,6 @@
         </div>
       </div>
     </div>
-    <div class="overlay collect-overlay">
-      <button class="button button-stable button-clear" ng-click="goNextView()" translate>
-        Skip
-      </button>
-    </div>
+    <div class="overlay collect-overlay"></div>
   </ion-content>
 </ion-view>

@@ -21,12 +21,10 @@ angular.module('owsWalletApp.directives')
           $ionicHistory.nextViewOptions({
             disableAnimate: true
           });
-          $state.go($rootScope.sref('scanner'), {
-            passthroughMode: 1
-          });
+          $state.go($rootScope.sref('scanner'));
         };
 
-        var afterEnter = $rootScope.$on('$ionicView.afterEnter', function() {
+        var removeListenerAfterEnter = $rootScope.$on('$ionicView.afterEnter', function() {
           if ($rootScope.scanResult) {
             scope.onScan({
               data: $rootScope.scanResult
@@ -37,7 +35,7 @@ angular.module('owsWalletApp.directives')
 
         // Destroy event
         scope.$on('$destroy', function() {
-          afterEnter();
+          removeListenerAfterEnter();
         });
       }
     }

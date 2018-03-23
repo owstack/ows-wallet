@@ -28,13 +28,13 @@
     height: calc(100vh - 210px);
   }
 
-  #disclaimer-topic {
+  .disclaimer-topic {
     margin: 0 1rem;
     font-size: 18px;
     font-weight: bold;
   }
 
-  #disclaimer-description {
+  .disclaimer-description {
     margin: 1rem 1rem 2rem;
 
     @media(max-height: 480px) {
@@ -79,11 +79,13 @@
   color: $v-onboarding-tou-color;
   background: $v-onboarding-tou-bg;
   padding: 1rem 0 1rem 0;
-  position: absolute;
-  bottom: 0;
   width: 100%;
   z-index: 10;
   box-shadow: 0 1px 10px $v-black-transparent-light;
+  position: absolute;
+  bottom: 0;
+  bottom: calc(constant(safe-area-inset-bottom));
+  bottom: calc(env(safe-area-inset-bottom));
 
   &-content {
     max-width: 450px;
@@ -122,3 +124,6 @@
     float: left;
   }
 }
+
+@import "disclaimer-tou/disclaimer-tou";
+

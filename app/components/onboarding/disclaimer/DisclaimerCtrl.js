@@ -41,7 +41,7 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
   };
 
   $scope.openTermsModal = function() {
-    $ionicModal.fromTemplateUrl('views/onboarding/disclaimer/terms-of-use/terms-of-use.html', {
+    $ionicModal.fromTemplateUrl('views/onboarding/disclaimer/disclaimer-tou/disclaimer-tou.html', {
       scope: $scope,
       backdropClickToClose: false,
       hardwareBackButtonClose: false

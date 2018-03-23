@@ -11,11 +11,11 @@
       <button class="button button-nav-bar button-plus" ng-show="showAddButton" ui-sref="{{sref('address-book.add')}}"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content ng-class="{'kill-header-top': !isEmptyList}">
+  <ion-content>
     <div ng-show="isEmptyList" class="ng-hide" ng-include="'views/address-book/tips/add-contacts/add-contacts.html'"></div>
     <div ng-show="!isEmptyList">
       <ion-list>
-        <ion-item class="item-input item-icon-left icon-left-input" ng-show="showSearch">
+        <ion-item class="item-input item-icon-left icon-left-input" ng-if="showSearch">
           <i class="icon ion-ios-search"></i>
           <input type="search" placeholder="Search" ng-model="addrSearch.value" ng-change="findAddressbook(addrSearch.value)" ng-model-onblur>
         </ion-item>

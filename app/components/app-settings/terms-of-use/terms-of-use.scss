@@ -1,56 +1,14 @@
 #terms-of-use {
   background: $v-settings-bg;
   color: $v-settings-color;
-
   font-size: 14px;
   width: 100%;
   height: 100%;
   overflow: scroll;
 
-  // When included from onboarding flow.
-  
-  &.disclaimer {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    transition: top 0.5s ease;
-    transition-delay: .25s;
-    z-index: 10;
-
-    &.slideUp {
-      top:0;
-    }
-
-    ion-nav-bar {
-      position: fixed;
-      width: 100%;
-      z-index: 15;
-    }
-
-    .has-header {
-      width:100%;
-      overflow-y: scroll;
-      position: relative;
-    }
-
-    .terms {
-      margin-bottom: 210px;
-    }
+  ion-content {
+    bottom: $tabs-height;
+    bottom: calc(constant(safe-area-inset-bottom) + #{$tabs-height});
+    bottom: calc(env(safe-area-inset-bottom) + #{$tabs-height});
   }
-
-  // TOU content style.
-
-  .terms {
-    margin: 15px;
-
-    &__heading {
-      font-weight: bold;
-    }
-
-    p {
-      font-size: 14px;
-      margin-bottom: 1rem;
-    }
-  }
-
 }

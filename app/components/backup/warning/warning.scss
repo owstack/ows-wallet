@@ -1,16 +1,6 @@
 #backup-warning {
-  img {
-    width: 100%;
-    max-height: 45%;
-
-    @media(max-height: 480px) {
-      height: 45%;
-      top: 45%;
-    }
-  }
-
-  #cta-buttons {
+  .cta-buttons {
     @extend %cta-buttons;
-    padding-bottom: calc(2vh + 57px + 16px);
+    padding-bottom: calc(57px + 16px);
   }
 }

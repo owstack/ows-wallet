@@ -230,12 +230,12 @@ module.exports = function(grunt) {
         src: '**/*',
         dest: 'www/img/'
       },
-      app_includes: {
+      app_content: {
         expand: true,
         flatten: false,
-        cwd: 'app/includes',
+        cwd: 'app/content',
         src: '**/*.html',
-        dest: 'www/includes/'
+        dest: 'www/content/'
       },
       ionic_fonts: {
         expand: true,
@@ -311,7 +311,7 @@ module.exports = function(grunt) {
     'copy:app_root',
     'copy:app_views',
     'copy:app_shared',
-    'copy:app_includes',
+    'copy:app_content',
     'copy:app_fonts',
     'copy:app_imgs',
     'copy:ionic_fonts',

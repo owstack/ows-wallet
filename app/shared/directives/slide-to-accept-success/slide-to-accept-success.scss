@@ -19,6 +19,8 @@ slide-to-accept-success {
       width: 10vmax;
       background: $v-slide-tip-bg;
       bottom: 0;
+      bottom: calc(constant(safe-area-inset-bottom));
+      bottom: calc(env(safe-area-inset-bottom));
       position: absolute;
       left: calc(50% - 5vmax);
       border-radius: 50%;
@@ -74,6 +76,8 @@ slide-to-accept-success {
       position: absolute;
       left: 0;
       bottom: 0;
+      bottom: calc(constant(safe-area-inset-bottom));
+      bottom: calc(env(safe-area-inset-bottom));
       padding: 0 1.75rem;
       width: 100%;
       -webkit-transform: translateY(5rem);

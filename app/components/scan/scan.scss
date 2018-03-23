@@ -29,8 +29,10 @@
     .scanner-controls {
       width: 100%;
       text-align: center;
-      bottom: 0;
       position: absolute;
+      bottom: 0;
+      bottom: calc(constant(safe-area-inset-bottom));
+      bottom: calc(env(safe-area-inset-bottom));
 
       @include fade-in(200ms);
     }

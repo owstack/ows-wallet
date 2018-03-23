@@ -6,18 +6,17 @@
   }
 
   .w-content {
-    position: relative;
     height: 100%;
-
-    &.status-bar {
-      margin-top: 20px;
-    }
+    position: relative;
+    top: $bar-height;
   }
 
   ion-content {
     padding-top: 0;
     top: 0;
     bottom: 0;
+    bottom: calc(constant(safe-area-inset-bottom));
+    bottom: calc(env(safe-area-inset-bottom));
 
     &.collapsible {
       margin-top: 210px;

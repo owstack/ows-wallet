@@ -172,8 +172,10 @@
     font-size: 24px;
     font-weight: lighter;
     position: absolute;
-    bottom: 0;
     width: 100%;
+    bottom: 0;
+    bottom: calc(constant(safe-area-inset-bottom));
+    bottom: calc(env(safe-area-inset-bottom));
 
     .row {
       padding: 0 !important;

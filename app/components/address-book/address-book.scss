@@ -11,19 +11,6 @@
     left: -15px;
     padding-left: 50px;
   }
-
-  // Kills the has-header offset and sets a margin equal to item height.
-  // Allows the search bar to hide behind the header.
-  //
-  .kill-header-top {
-    top: 0 !important;
-  }
-
-  .list {
-    margin-top: 64px;
-  }
-  //
-  //////////
 }
 
 @import "edit/edit";

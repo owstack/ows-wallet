@@ -1,10 +1,15 @@
 #onboarding-collect-email {
   $v-relish-success: 1.3s;
 
-  #success-container {
-    top: 41vh;
+  // Force the ion-content container to start at the top of the viewport so the header-bar gets the collect-overlay.
+  .has-header {
+    top: 0;
+  }
+
+  .success-container {
     position: relative;
-    animation-name: emailCollectSlideUp;
+    top: 35vh;
+    animation-name: successSlideUp;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: .5s;
@@ -37,19 +42,24 @@
     height: 100%;
     background: $v-black-transparent-mid;
     z-index: 4;
-    animation-name: emailCollectOpacity;
+    opacity: 0;
+    animation-name: overlayOpacity;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: .2s;
     animation-delay: $v-relish-success;
     animation-fill-mode: forwards;
-    opacity: 0;
+  }
 
-    button {
-      position: absolute;
-      right: 0;
-      top: 15px;
-    }
+  // Buttons fade in with overlay.
+  .bar.bar-header .button {
+    opacity: 0;
+    animation-name: overlayOpacity;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: .2s;
+    animation-delay: $v-relish-success;
+    animation-fill-mode: forwards;
   }
 
   .heading {
@@ -62,30 +72,31 @@
     margin: 1rem 1.5rem;
   }
 
-  #collect-email-container {
+  .collect-email-container {
     background: $v-onboarding-email-bg;
     color: $v-onboarding-email-color;
-
-    animation-name: topBottom;
+    width: 100%;
+    margin-top: 0;
+    z-index: 5;
+    position: absolute;
+    bottom: -100%;
+    bottom: calc(constant(safe-area-inset-bottom) - 100%);
+    bottom: calc(env(safe-area-inset-bottom) - 100%);
+    animation-name: emailCollectSlideUp;
     animation-iteration-count: 1;
     animation-timing-function: ease-in;
     animation-duration: .4s;
     animation-delay: $v-relish-success + .2s;
     animation-fill-mode: forwards;
-    width: 100%;
-    position: absolute;
-    bottom: -100%;
-    margin-top: 0;
-    z-index: 5;
   }
 
-  #email-form {
+  .email-form {
     button {
       margin-bottom: 20px;
     }
   }
 
-  #collect-email-confirm {
+  .collect-email-confirm {
     p.confirm {
       margin: 2rem 0 1rem;
       font-size: 18px;
@@ -94,16 +105,6 @@
     p.user-email {
       margin-bottom: 2rem;
     }
-  }
-
-  #cta-buttons {
-    @extend %cta-buttons;
-    position: initial;
-    padding-bottom: 2vh;
-  }
-
-  #news-updates {
-    padding-top: 0;
   }
 
   .checkbox input:before,
@@ -123,17 +124,25 @@
   }
 }
 
-@keyframes topBottom {
-  0% { bottom: -100%; }
-  100% { bottom: 0; }
+@keyframes emailCollectSlideUp {
+  0% {
+    bottom: -100%;
+    bottom: calc(constant(safe-area-inset-bottom) - 100%);
+    bottom: calc(env(safe-area-inset-bottom) - 100%);
+  }
+  100% {
+    bottom: 2vh;
+    bottom: calc(constant(safe-area-inset-bottom) + 2vh);
+    bottom: calc(env(safe-area-inset-bottom) + 2vh);
+    }
 }
 
-@keyframes emailCollectOpacity {
+@keyframes overlayOpacity {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
-@keyframes emailCollectSlideUp {
-  0% { top: 41vh; }
-  100% { top: calc((100vh - 20rem) / 2 - 11vh);}
+@keyframes successSlideUp {
+  0% { top: 35vh; }
+  100% { top: calc(35vh - 15vh); }
 }

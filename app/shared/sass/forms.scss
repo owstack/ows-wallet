@@ -4,6 +4,16 @@
   color: $v-bar-header-color;
 }
 
+.cta-buttons,
+%cta-buttons {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 2vh;
+  bottom: calc(constant(safe-area-inset-bottom) + 2vh);
+  bottom: calc(env(safe-area-inset-bottom) + 2vh);
+}
+
 .spinner svg {
   width: 18px;
   height: 18px;

@@ -12,8 +12,9 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     $scope.credentialsEncrypted = $scope.wallet.isPrivKeyEncrypted();
 
     var isDeletedSeed = function() {
-      if (!$scope.wallet.credentials.mnemonic && !$scope.wallet.credentials.mnemonicEncrypted)
+      if (!$scope.wallet.credentials.mnemonic && !$scope.wallet.credentials.mnemonicEncrypted) {
         return true;
+      }
 
       return false;
     };
@@ -30,7 +31,9 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     };
 
     $scope.setFlow = function(step) {
-      if (!keys) return;
+      if (!keys) {
+        return;
+      }
 
       var words = keys.mnemonic;
       $scope.data = {};
@@ -100,9 +103,13 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     };
 
     $scope.copyRecoveryPhrase = function() {
-      if (networkService.isLivenet($scope.wallet.networkURI)) return null;
-      else if (!$scope.wallet.credentials.mnemonic) return null;
-      else return $scope.wallet.credentials.mnemonic;
+      if (networkService.isLivenet($scope.wallet.networkURI)) {
+        return null;
+      } else if (!$scope.wallet.credentials.mnemonic) {
+        return null;
+      } else {
+        return $scope.wallet.credentials.mnemonic;
+      }
     };
 
     var confirm = function(cb) {
@@ -162,18 +169,22 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     };
 
     $scope.goToStep = function(n) {
-      if (n == 1)
+      if (n == 1) {
         $scope.setFlow();
-      if (n == 2)
-        $scope.step = 2;
-      if (n == 3) {
-        if (!$scope.mnemonicHasPassphrase)
-          finalStep();
-        else
-          $scope.step = 3;
       }
-      if (n == 4)
+      if (n == 2) {
+        $scope.step = 2;
+      }
+      if (n == 3) {
+        if (!$scope.mnemonicHasPassphrase) {
+          finalStep();
+        } else {
+          $scope.step = 3;
+        }
+      }
+      if (n == 4) {
         finalStep();
+      }
     };
 
     $scope.addButton = function(index, item) {
@@ -187,17 +198,20 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     };
 
     $scope.removeButton = function(index, item) {
-      if ($scope.loading) return;
+      if ($scope.loading) {
+        return;
+      }
       $scope.customWords.splice(index, 1);
       $scope.shuffledMnemonicWords[item.prevIndex].selected = false;
       $scope.shouldContinue();
     };
 
     $scope.shouldContinue = function() {
-      if ($scope.customWords.length == $scope.shuffledMnemonicWords.length)
+      if ($scope.customWords.length == $scope.shuffledMnemonicWords.length) {
         $scope.selectComplete = true;
-      else
+      } else {
         $scope.selectComplete = false;
+      }
     };
 
     $scope.$on("$ionicView.enter", function(event, data) {

@@ -96,7 +96,7 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
             $log.debug('Scan canceled.');
           } else if (passthroughMode) {
             $rootScope.scanResult = contents;
-            goBack();
+            $scope.goBack();
           } else {
             handleSuccessfulScan(contents);
           }
@@ -150,12 +150,11 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
     return passthroughMode;
   };
 
-  function goBack() {
+  $scope.goBack = function() {
     $ionicHistory.nextViewOptions({
       disableAnimate: true
     });
-    $ionicHistory.backView().go();
+    $ionicHistory.goBack();
   };
-  $scope.goBack = goBack;
 
 });

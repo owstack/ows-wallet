@@ -14,7 +14,7 @@
         </div>
     </div>
     <!-- STEP 1 -->
-    <div id="backup-phrase-step-1" class="ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
+    <div class="backup-phrase-step-1" class="ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
       <div class="backup-phrase" copy-to-clipboard="{{copyRecoveryPhrase()}}">
         <div class="backup-phrase-content">
           <span class="backup-phrase-content-word-readonly" ng-repeat="word in mnemonicWords track by $index">
@@ -44,7 +44,7 @@
       </div>
     </div>
     <!-- STEP 2 -->
-    <div id="backup-phrase-step-2" class="ng-hide" ng-show="step == 2">
+    <div class="backup-phrase-step-2" class="ng-hide" ng-show="step == 2">
       <div class="backup-phrase">
         <div class="backup-phrase-content">
           <span ng-repeat="cword in customWords track by $index" ng-show="customWords[$index]">
@@ -65,8 +65,8 @@
           Is this correct?
         </div>
       </div>
-      <div id="select-phrase">
-        <div id="select-phrase-content">
+      <div class="select-phrase">
+        <div class="select-phrase-content">
           <span ng-show="!selectComplete" ng-repeat="shuffledWord in shuffledMnemonicWords track by $index">
             <button class="button select-word" ng-click="addButton($index, shuffledWord)"
             ng-disabled="shuffledWord.selected">
@@ -85,7 +85,7 @@
       </div>
     </div>
     <!-- STEP 3 -->
-    <div id="wallet-backup-phrase-step-3" class="ng-hide" ng-show="step == 3">
+    <div class="wallet-backup-phrase-step-3" class="ng-hide" ng-show="step == 3">
       <h3 translate>
         Enter your password
       </h3>
@@ -95,7 +95,7 @@
             In order to verify your wallet backup, please type your password.
           </div>
           <div class="input">
-            <input type="password" id="passphrase" ng-model="data.passphrase" autocapitalize="off" spellcheck="false" autofocus/>
+            <input type="password" ng-model="data.passphrase" autocapitalize="off" spellcheck="false" autofocus/>
           </div>
         </div>
       </div>

@@ -1,12 +1,14 @@
 <ion-view id="onboard-start" class="ows onboarding">
+  <ion-nav-bar class="bar">
+  </ion-nav-bar>
   <ion-content ng-init="createProfile()" scroll="false">
-    <img src='img/onboarding/start.svg'>
+    <img class="onboard-image" src='img/onboarding/start.svg'>
     <div class="onboard-text">
       <div class="onboard-topic light" translate>
         Welcome to the digital currency revolution.
       </div>
     </div>
-    <div id="cta-buttons">
+    <div class="cta-buttons">
         <button class="button button-standard button-primary" id="get-started" href ui-sref="{{sref('onboarding.tour')}}" translate>
           Get started
         </button>

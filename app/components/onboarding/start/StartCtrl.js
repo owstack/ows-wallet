@@ -17,7 +17,9 @@ angular.module('owsWalletApp.controllers').controller('StartCtrl', function($sco
   $scope.createProfile = function() {
     $log.debug('Creating profile');
     profileService.createProfile(function(err) {
-      if (err) $log.warn(err);
+      if (err) {
+        $log.warn(err);
+      }
     });
   };
 

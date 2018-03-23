@@ -5,8 +5,8 @@
     <desc>Created with sketchtool.</desc>
     <defs></defs>
     <g id="Design" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Share-wallets" transform="translate(0.000000, -80.000000)">
-            <g id="exportable" transform="translate(0.000000, 80.000000)">
+        <g id="Share-wallets" transform="translate(0.000000, -64.000000)">
+            <g id="exportable" transform="translate(0.000000, 64.000000)">
                 <g id="graphic" transform="translate(68.407733, 27.802072)">
                     <path d="M155.27369,189.547026 C203.795522,179.356111 239,148.983225 239,113.098964 C239,92.2353172 227.099359,73.2347545 207.59985,58.9806855 M170.323055,40.584175 C154.90045,35.719371 137.674011,33 119.5,33 C100.814016,33 83.1297433,35.8747418 67.377866,41.0004035 M24.4983029,64.5025688 C9.12959191,77.9804743 8.52651283e-14,94.8250855 8.52651283e-14,113.098964 C8.52651283e-14,148.831294 34.9070019,179.098818 83.1107122,189.416498" id="network" stroke="#C0C0C0" stroke-width="2" stroke-dasharray="2,4"></path>
                     <g id="wallet-user" transform="translate(86.000000, 120.000000)">

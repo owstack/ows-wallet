@@ -1,15 +1,17 @@
 <ion-view id="onboard-backup-request" class="ows onboarding">
+  <ion-nav-bar class="bar">
+  </ion-nav-bar>
   <ion-content scroll="false">
-    <img ng-src="img/onboarding/backup-request.svg" />
+    <img class="onboard-image" src="img/onboarding/backup-request.svg" />
     <div class="onboard-text">
       <div class="onboard-topic" translate>
         No backup, no loss recovery
       </div>
       <div class="onboard-description" translate>
-        Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or this device is lost. <b><u>Your wallet is never saved to cloud storage or standard device backups.</u></b>
+        Since only you control your money, you’ll need to save your backup phrase in case this app is deleted or this device is lost. <b>Your wallet is never saved to cloud storage or standard device backups.</b>
       </div>
     </div>
-    <div id="cta-buttons">
+    <div class="cta-buttons">
       <button class="button button-standard button-primary" ui-sref="{{sref('onboarding.backup-warning')}}({from: 'onboarding', walletId: walletId})" translate>
         Backup wallet
       </button>

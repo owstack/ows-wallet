@@ -27,6 +27,8 @@
   }
 
   .tour-text {
+    position: relative;
+    top: 4vh;
     margin: auto;
     width: 100%;
 
@@ -64,7 +66,7 @@
 
   .cta-buttons {
     @extend %cta-buttons;
-    padding-bottom: calc(2vh + 57px + 16px);
+    padding-bottom: calc(57px + 16px);
   }
 
   .swiper-pagination {
@@ -74,5 +76,11 @@
         background: $v-tour-swiper-pagination-bg;
       }
     }
+  }
+
+  .swiper-container-horizontal > .swiper-pagination {
+    bottom: 16px;
+    bottom: calc(constant(safe-area-inset-bottom) + 16px);
+    bottom: calc(env(safe-area-inset-bottom) + 16px);
   }
 }

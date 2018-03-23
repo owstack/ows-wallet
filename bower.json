@@ -13,7 +13,7 @@
     "angular-gridster": "0.13.5",
     "angular-moment": "0.10.1",
     "angular-qrcode": "https://github.com/owstack/angular-qrcode.git#~6.3.0",
-    "ionic": "https://github.com/owstack/ionic-v1.git#8aebc63715c233f677fe5ad745376c3b9e79cec2",
+    "ionic": "https://github.com/owstack/ionic-v1.git#ows-release-2",
     "moment": "2.10.3",
     "ng-lodash": "0.2.3",
     "qrcode-decoder-js": "*",

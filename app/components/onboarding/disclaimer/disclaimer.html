@@ -1,20 +1,20 @@
 <ion-pane>
   <ion-view id="onboard-disclaimer" class="ows onboarding">
-    <ion-nav-bar xclass="bar bar-header">
+    <ion-nav-bar>
       <ion-nav-title></ion-nav-title>
       <ion-nav-buttons side="primary">
         <button class="button button-nav-bar button-back" ng-click="goBack()" ng-if="!backedUp"></button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-content scroll="false">
-      <div id="onboarding-disclaimer-container">
-        <div ng-show="resume" class="onboarding-topic" id="disclaimer-topic" translate>
+      <div class="onboarding-disclaimer-container">
+        <div ng-show="resume" class="onboarding-topic disclaimer-topic" translate>
           Quick review!
         </div>
-        <div ng-show="!resume" class="onboarding-topic" id="disclaimer-topic" translate>
+        <div ng-show="!resume" class="onboarding-topic disclaimer-topic" translate>
           Almost done! Let's review
         </div>
-        <div class="onboarding-description" id="disclaimer-description" translate>
+        <div class="onboarding-description disclaimer-description" translate>
           Digital currency cannot be safely held by a bank or web service.
         </div>
         <ion-list>
@@ -33,7 +33,7 @@
     </ion-content>
   </ion-view>
   <div id="agree-to-terms" class="ows" ng-if="accepted.first && accepted.second" ng-class="{'header-present': !backedUp}">
-    <div id="agree-to-terms-content">
+    <div class="agree-to-terms-content">
       <ion-list>
         <!-- ion-checkbox with *link* in the label does not work (checkbox click-blocks), use ion-item and plain html checkbox -->
         <ion-item class="item-checkbox item-fh item-no-bg">

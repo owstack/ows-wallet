@@ -1,6 +1,15 @@
 <ion-view id="onboard-create-first-wallet" class="ows onboarding">
-  <ion-content scroll="false" ng-class="{'status-bar': isCordova}">
-    <img ng-src="img/onboarding/create-{{network.currency}}.svg" />
+  <ion-nav-bar class="bar">
+    <ion-nav-buttons>
+      <div class="button-bar">
+        <a grouped-radio="n.getURI()" ng-model="data.networkURI" ng-repeat="n in availableNetworks">
+          {{n.getCurrencyLongLabel()}}
+        </a>
+      </div>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content scroll="false">
+    <img class="onboard-image" ng-src="img/onboarding/create-{{network.currency}}.svg"/>
     <div class="onboard-text">
       <div class="onboard-topic" translate>
         Create your initial wallet
@@ -9,12 +18,7 @@
         Choose which kind of wallet to create now. You can always create more wallets later. If you have a backup of an existing wallet you can choose to restore your backup instead.
       </div>
     </div>
-		<div class="button-bar padding">
-      <a grouped-radio="n.getURI()" ng-model="data.networkURI" ng-repeat="n in availableNetworks">
-        {{n.getCurrencyLongLabel()}}
-      </a>
-    </div>
-    <div id="cta-buttons">
+    <div class="cta-buttons">
       <button class="button button-standard button-primary" id="get-started" ng-click="createFirstWallet()" translate-context="button"
         translate>
         Create {{network.getFriendlyNetLabel()}} wallet
