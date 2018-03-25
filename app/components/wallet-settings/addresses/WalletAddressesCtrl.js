@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, $ionicModal, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService) {
+angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;

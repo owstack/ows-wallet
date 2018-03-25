@@ -2,24 +2,42 @@
 
 angular.module('owsWalletApp.controllers').controller('BackupCtrl',
   function($rootScope, $scope, $timeout, $log, $state, $stateParams, $ionicHistory, lodash, profileService, walletService, ongoingProcessService, popupService, gettextCatalog, $ionicModal, networkService, configService) {
-    $scope.wallet = profileService.getWallet($stateParams.walletId);
-    $scope.viewTitle = $scope.wallet.name || $scope.wallet.credentials.walletName;
-    $scope.n = $scope.wallet.n;
 
     var configNetwork = configService.getSync().currencyNetworks;
     var keys;
 
-    $scope.credentialsEncrypted = $scope.wallet.isPrivKeyEncrypted();
+    $scope.$on("$ionicView.beforeEnter", function(event, data) {
+      $scope.wallet = profileService.getWallet($stateParams.walletId);
+      $scope.viewTitle = $scope.wallet.name || $scope.wallet.credentials.walletName;
+      $scope.n = $scope.wallet.n;
+      $scope.credentialsEncrypted = $scope.wallet.isPrivKeyEncrypted();
 
-    var isDeletedSeed = function() {
+      $scope.deleted = isDeletedSeed();
+      if ($scope.deleted) {
+        $log.debug('no mnemonics');
+        return;
+      }
+
+      walletService.getKeys($scope.wallet, function(err, k) {
+        if (err || !k) {
+          $log.error('Could not get keys: ', err);
+          $ionicHistory.goBack();
+          return;
+        }
+        $scope.credentialsEncrypted = false;
+        keys = k;
+        $scope.setFlow();
+      });
+    });
+
+    function isDeletedSeed() {
       if (!$scope.wallet.credentials.mnemonic && !$scope.wallet.credentials.mnemonicEncrypted) {
         return true;
       }
-
       return false;
     };
 
-    var shuffledWords = function(words) {
+    function shuffledWords(words) {
       var sort = lodash.sortBy(words);
 
       return lodash.map(sort, function(w) {
@@ -37,7 +55,6 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
 
       var words = keys.mnemonic;
       $scope.data = {};
-
       $scope.mnemonicWords = words.split(/[\u3000\s]+/);
       $scope.shuffledMnemonicWords = shuffledWords($scope.mnemonicWords);
       $scope.mnemonicHasPassphrase = $scope.wallet.mnemonicHasPassphrase();
@@ -54,7 +71,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
       }, 10);
     };
 
-    var backupError = function(err) {
+    function backupError(err) {
       ongoingProcessService.set('validatingWords', false);
       $log.debug('Failed to verify backup: ', err);
       $scope.backupError = true;
@@ -75,7 +92,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
       });
     };
 
-    var showBackupResult = function() {
+    function showBackupResult() {
       if ($scope.backupError) {
         var title = gettextCatalog.getString('Uh oh...');
         var message = gettextCatalog.getString("It's important that you write your backup phrase down correctly. If something happens to your wallet, you'll need this backup to recover your money. Please review your backup and try again.");
@@ -112,7 +129,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
       }
     };
 
-    var confirm = function(cb) {
+    function confirm(cb) {
       $scope.backupError = false;
 
       var customWordList = lodash.pluck($scope.customWords, 'word');
@@ -154,7 +171,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
       }, 1);
     };
 
-    var finalStep = function() {
+    function finalStep() {
       ongoingProcessService.set('validatingWords', true);
       confirm(function(err) {
         ongoingProcessService.set('validatingWords', false);
@@ -213,24 +230,5 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
         $scope.selectComplete = false;
       }
     };
-
-    $scope.$on("$ionicView.enter", function(event, data) {
-      $scope.deleted = isDeletedSeed();
-      if ($scope.deleted) {
-        $log.debug('no mnemonics');
-        return;
-      }
-
-      walletService.getKeys($scope.wallet, function(err, k) {
-        if (err || !k) {
-          $log.error('Could not get keys: ', err);
-          $ionicHistory.goBack();
-          return;
-        }
-        $scope.credentialsEncrypted = false;
-        keys = k;
-        $scope.setFlow();
-      });
-    });
 
   });

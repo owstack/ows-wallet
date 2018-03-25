@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.controllers').controller('AppTourCtrl',
-  function($rootScope, $scope, $state, $ionicModal, $location, $ionicScrollDelegate, helpService) {
+  function($rootScope, $scope, $state, $location, helpService) {
 
     $scope.tourTopics = helpService.getTourTopics();
 

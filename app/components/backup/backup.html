@@ -14,7 +14,7 @@
         </div>
     </div>
     <!-- STEP 1 -->
-    <div class="backup-phrase-step-1" class="ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
+    <div class="backup-phrase-step-1 ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
       <div class="backup-phrase" copy-to-clipboard="{{copyRecoveryPhrase()}}">
         <div class="backup-phrase-content">
           <span class="backup-phrase-content-word-readonly" ng-repeat="word in mnemonicWords track by $index">
@@ -44,7 +44,7 @@
       </div>
     </div>
     <!-- STEP 2 -->
-    <div class="backup-phrase-step-2" class="ng-hide" ng-show="step == 2">
+    <div class="backup-phrase-step-2 ng-hide" ng-show="step == 2">
       <div class="backup-phrase">
         <div class="backup-phrase-content">
           <span ng-repeat="cword in customWords track by $index" ng-show="customWords[$index]">
@@ -85,7 +85,7 @@
       </div>
     </div>
     <!-- STEP 3 -->
-    <div class="wallet-backup-phrase-step-3" class="ng-hide" ng-show="step == 3">
+    <div class="wallet-backup-phrase-step-3 ng-hide" ng-show="step == 3">
       <h3 translate>
         Enter your password
       </h3>
