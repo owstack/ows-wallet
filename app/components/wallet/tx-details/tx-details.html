@@ -39,7 +39,7 @@
         <span class="input-label" translate>To</span>
         <ion-item class="item-sub item-fh item-icon-left icon-left-md">
           <i class="icon md-icon left-icon">
-            <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
+            <img ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
           </i>
           <span ng-if="toName" class="ellipsis">{{toName}}</span>
           <span ng-if="!toName" class="ellipsis">{{btx.addressTo}}</span>
@@ -124,7 +124,7 @@
         <ion-item class="item-divider has-label" translate>Timeline</ion-item>
         <ion-item class="item-icon-left icon-left-md" ng-repeat="a in actionList track by $index" ng-class="{'has-detail': a.by}">
           <i class="icon md-icon left-icon event-icon timeline" ng-if="a.type === 'broadcasted'">
-            <img class="bg" src="img/icon-broadcasted.svg">
+            <img src="img/icon-broadcasted.svg">
           </i>
           <i class="icon md-icon left-icon" ng-if="a.type !== 'broadcasted'">
             <div class="event-icon draw timeline action-created" ng-if="a.type !== 'reject'">

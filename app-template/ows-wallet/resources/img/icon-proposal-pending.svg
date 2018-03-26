@@ -5,11 +5,11 @@
     <desc>Created with sketchtool.</desc>
     <defs></defs>
     <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="img/icon-proposal-pending">
+        <g id="img/icon-proposal-pending" stroke="#FFFFFF">
             <g id="icon-proposal-pending">
                 <g>
-                    <path d="M50,100 C77.6142376,100 100,77.6142376 100,50 C100,22.3857625 77.6142376,0 50,0 C22.3857625,0 0,22.3857625 0,50 C0,77.6142376 22.3857625,100 50,100 Z" id="Oval-204" fill="#FFF6EF" fill-rule="nonzero"></path>
-                    <g id="icon-user-ok" transform="translate(25.799999, 20.700001)" stroke="#F6A623" stroke-width="3">
+                    <path d="M50,97.5 C76.2335257,97.5 97.5,76.2335257 97.5,50 C97.5,23.7664744 76.2335257,2.5 50,2.5 C23.7664744,2.5 2.5,23.7664744 2.5,50 C2.5,76.2335257 23.7664744,97.5 50,97.5 Z" id="Oval-204" stroke-width="5" fill-rule="nonzero"></path>
+                    <g id="icon-user-ok" transform="translate(25.799999, 20.700001)" stroke-width="5">
                         <path d="M38.5737123,34.4427608 C34.4995484,31.284452 29.2100011,29.2036016 23.3956337,29.2036016 C10.3739732,29.2036016 0.176517199,40.4200119 0.176517199,49.2430982 C0.176517199,57.5719318 6.6990688,56.5246255 23.3956337,56.5246255 C29.870909,56.5246255 34.9067069,56.6106724 38.5687019,56.337425" id="Oval" stroke-linecap="round"></path>
                         <circle id="Oval" cx="23.4915774" cy="14.7453944" r="14.4582072"></circle>
                         <polyline id="Shape" stroke-linecap="round" points="35.2669144 42.9479126 40.470682 48.1516801 53.4801008 35.1422611"></polyline>

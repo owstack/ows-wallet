@@ -11,12 +11,12 @@
   <!-- Icon -->
   <i class="icon lg-icon left-icon">
     <span ng-if="isUnconfirmed(btx)">
-      <img class="bg" src="img/icon-confirming.svg">
+      <img src="img/icon-confirming.svg">
     </span>
     <span ng-if="!isUnconfirmed(btx)">
-      <img class="bg" src="img/icon-tx-received-outline.svg" ng-if="btx.action == 'received'">
-      <img class="bg" src="img/icon-tx-sent-outline.svg" ng-if="btx.action == 'sent'">
-      <img class="bg" src="img/icon-tx-moved-outline.svg" ng-if="btx.action == 'moved'">
+      <img src="img/icon-tx-received-outline.svg" ng-if="btx.action == 'received'">
+      <img src="img/icon-tx-sent-outline.svg" ng-if="btx.action == 'sent'">
+      <img src="img/icon-tx-moved-outline.svg" ng-if="btx.action == 'moved'">
     </span>
   </i>
   <!-- Amount (right side) -->

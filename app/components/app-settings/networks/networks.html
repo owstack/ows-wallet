@@ -10,7 +10,7 @@
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ng-repeat="network in availableNetworks"
         ui-sref="{{sref('network-settings')}}({'networkURI': network.getURI()})">
         <i class="icon list-icon wide-icon">
-          <img ng-src="img/currency-icons/icon-{{network.currency}}.svg" class="bg"/>
+          <img ng-src="img/currency-icons/icon-{{network.currency}}.svg"/>
         </i>
         <div>{{network.getFriendlyNetLabel()}}</div>
         <div class="item-detail">
@@ -23,7 +23,7 @@
       <ion-item class="item-divider"></ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('unit')}}({'networkURI': networkURI})">
         <i class="icon list-icon">
-          <img src="img/icon-unit.svg" class="bg"/>
+          <img src="img/icon-unit.svg"/>
         </i>
         <div>{{'Unit' | translate}}</div>
         <div class="item-detail">{{networkSettings[networkURI].unitName}}</div>
@@ -32,7 +32,7 @@
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ng-show="networkSettings[networkURI].isLivenet"
         ui-sref="{{sref('alternative-currency')}}({'networkURI': networkURI})">
         <i class="icon list-icon">
-          <img src="img/icon-alternative-currency.svg" class="bg"/>
+          <img src="img/icon-alternative-currency.svg"/>
         </i>
         <div>{{'Alternative Currency' | translate}}</div>
         <div class="item-detail">{{networkSettings[networkURI].selectedAlternative.name}}</div>
@@ -40,7 +40,7 @@
       </ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('fee')}}({'networkURI': networkURI})">
         <i class="icon list-icon">
-          <img src="img/icon-network.svg" class="bg"/>
+          <img src="img/icon-network.svg"/>
         </i>
         <div>{{'Network Fee Policy' | translate}}</div>
         <div class="item-detail">{{networkSettings[networkURI].currentFeeLevel}}</div>

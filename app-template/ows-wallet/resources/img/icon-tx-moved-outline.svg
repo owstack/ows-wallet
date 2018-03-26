@@ -7,11 +7,11 @@
     <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="img/icon-tx-moved-outline" stroke="#FFFFFF">
             <g id="icon-tx-moved-outline">
-                <g id="Group-2">
-                    <g transform="translate(48.500000, 48.000000) rotate(90.000000) translate(-48.500000, -48.000000) translate(0.500000, -0.500000)" stroke-width="5">
-                        <g id="Received" transform="translate(48.340737, 48.525686) scale(-1, 1) translate(-48.340737, -48.525686) translate(0.840737, 0.525686)">
-                            <path d="M47.5063671,95.1179771 C73.5426483,95.1179771 94.6492243,74.0114011 94.6492243,47.97512 C94.6492243,21.9388391 73.5426483,0.832262989 47.5063671,0.832262989 C21.4700861,0.832262989 0.363509971,21.9388391 0.363509971,47.97512 C0.363509971,74.0114011 21.4700861,95.1179771 47.5063671,95.1179771 Z" id="Oval-204" opacity="0.8"></path>
-                            <path d="M29.5724774,48.5027054 L66.5874957,48.5027054 M43.1912389,65.4658557 L26.5714274,48.74407 L42.6133931,32.2857154" id="Line" stroke-linecap="round" stroke-linejoin="round" transform="translate(46.579462, 48.875786) scale(-1, 1) rotate(90.000000) translate(-46.579462, -48.875786) "></path>
+                <g transform="translate(-0.970000, -0.960000)" id="Group-2">
+                    <g transform="translate(49.470000, 48.960000) rotate(90.000000) translate(-49.470000, -48.960000) " stroke-width="3">
+                        <g id="Received" transform="translate(49.800515, 48.984658) scale(-1, 1) translate(-49.800515, -48.984658) translate(0.815515, 0.504658)">
+                            <path d="M49.315515,94.9553417 C75.276358,94.9553417 96.315515,74.1330831 96.315515,48.4553416 C96.315515,22.7776003 75.2763579,1.95534171 49.315515,1.95534171 C23.3546722,1.95534171 2.31551503,22.7776003 2.31551503,48.4553416 C2.31551503,74.1330831 23.3546721,94.9553417 49.315515,94.9553417 Z" id="Oval-204"></path>
+                            <path d="M33.5353031,50.4025972 L69.4398708,50.4025972 M46.7455017,66.6872215 L30.6242846,50.6343072 L46.1849913,34.8342868" id="Line" stroke-linecap="round" stroke-linejoin="round" transform="translate(50.032078, 50.760754) scale(-1, 1) rotate(90.000000) translate(-50.032078, -50.760754) "></path>
                         </g>
                     </g>
                 </g>

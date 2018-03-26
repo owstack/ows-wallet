@@ -1,7 +1,7 @@
 <ion-modal-view id="wallet-balance" class="ows" ng-style="{'background': wallet.background}">
   <ion-header-bar align-title="center">
     <div class="title">{{wallet.name}}</div>
-    <button class="button button-nav-bar" ng-click="close()">
+    <button class="button button-clear" ng-click="close()">
       {{'Close' | translate}}
     </button>
     <button class="button button-nav-bar button-refresh button-right" ng-click="updateAll(true)"></button>
@@ -9,9 +9,9 @@
   <ion-content>
     <div class="card">
       <ion-list>
-        <ion-item class="item-icon-left icon-left-md">
-          <i class="icon md-icon left-icon">
-            <img class="bg" src="img/icon-sigma.svg">
+        <ion-item class="item-icon-left icon-left-sm">
+          <i class="icon sm-icon left-icon">
+            <img src="img/icon-sigma.svg">
           </i>
           <span translate>Total</span>
           <span class="item-note">
@@ -19,8 +19,8 @@
             <div>{{status.totalBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
-        <ion-item class="item-icon-left icon-left-md">
-          <i class="icon md-icon left-icon ion-ios-checkmark-outline">
+        <ion-item class="item-icon-left icon-left-sm">
+          <i class="icon sm-icon left-icon ion-ios-checkmark-outline">
           </i>
           <span translate>Available</span>
           <span class="item-note">
@@ -28,9 +28,9 @@
             <div>{{status.spendableBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
-        <ion-item class="item-icon-left icon-left-md">
-          <i class="icon md-icon left-icon">
-            <img class="bg" src="img/icon-confirming.svg">
+        <ion-item class="item-icon-left icon-left-sm">
+          <i class="icon sm-icon left-icon">
+            <img src="img/icon-confirming.svg">
           </i>
           <span translate>Confirming</span>
           <span class="item-note">
@@ -38,9 +38,9 @@
             <div>{{status.pendingBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
-        <ion-item class="item-icon-left icon-left-md">
-          <i class="icon md-icon left-icon">
-            <img class="bg" src="img/icon-locked.svg">
+        <ion-item class="item-icon-left icon-left-sm">
+          <i class="icon sm-icon left-icon">
+            <img src="img/icon-locked.svg">
           </i>
           <span translate>Locked</span>
           <span class="item-note">

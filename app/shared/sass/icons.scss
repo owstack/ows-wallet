@@ -23,7 +23,7 @@
  **********/
 
 /*
- * Icon image assignments. Each icon entry defines a new icon for use in views.
+ * Icon with background shape image assignments. Each icon entry defines a new icon for use in views.
  */
 
 .bg {
@@ -110,9 +110,6 @@
 
   // Icon with an img tag.
   > img {
-    width: 40px;
-    height: 40px;
-
     &.bg {
       background: none;
     }
@@ -133,21 +130,41 @@
 .xl-icon {
   @extend %base-icon;
   transform: scale(1.33);
+
+  img {
+    width: 45px;
+    height: 45px;
+  }
 }
 
 .lg-icon {
   @extend %base-icon;
   transform: scale(1.0);
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .md-icon {
   @extend %base-icon;
   transform: scale(0.92);
+
+  img {
+    width: 35px;
+    height: 35px;
+  }
 }
 
 .sm-icon {
   @extend %base-icon;
   transform: scale(0.80);
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 /*
@@ -161,20 +178,20 @@
     margin: 0 auto !important;
   }
 
-  > .bg {
+  > img {
     @include icon-shape(20px, 20px);
     border-radius: 0 !important;
   }
 
   // Icon with a specified image.
-  > div.bg {
+  > div.img {
     background-size: 80%;
     background-repeat: no-repeat;
     background-position: center;
     margin: auto;
   }
 
-  &.wide-icon > img.bg {
+  &.wide-icon > img {
     width: 30px;
     margin-left: -5px;
   }

@@ -10,7 +10,7 @@
       <ion-item class="item-divider"></ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('address-book')}}" hide-if-nav-side-menu>
         <i class="icon list-icon">
-          <img src="img/icon-contacts.svg" class="bg"/>
+          <img src="img/icon-contacts.svg"/>
         </i>
         <div>{{'Address Book' | translate}}</div>
         <div class="item-detail">{{addressbookEntryCount}} entries</div>
@@ -18,21 +18,21 @@
       </ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('help')}}" hide-if-nav-side-menu>
         <i class="icon list-icon">
-          <img src="img/icon-help-support.svg" class="bg"/>
+          <img src="img/icon-help-support.svg"/>
         </i>
         <div>{{'Get Help' | translate }}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('feedback')}}">
         <i class="icon list-icon">
-          <img src="img/icon-send-feedback.svg" class="bg"/>
+          <img src="img/icon-send-feedback.svg"/>
         </i>
         <div>{{'Give Feedback' | translate}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item ng-if="isCordova" class="has-click item-icon-left item-icon-right" ui-sref="{{sref('share-app')}}({score: 4, skipped: true, fromSettings: true})">
         <i class="icon list-icon">
-          <img src="img/icon-heart.svg" class="bg"/>
+          <img src="img/icon-heart.svg"/>
         </i>
         <div translate>Share {{appName}}</div>
         <i class="icon arrow-right"></i>
@@ -42,7 +42,7 @@
       </ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('notifications')}}">
         <i class="icon list-icon">
-          <img src="img/icon-notifications.svg" class="bg"/>
+          <img src="img/icon-notifications.svg"/>
         </i>
         <div>{{'Notifications' | translate}}</div>
         <div class="item-detail">
@@ -53,7 +53,7 @@
       </ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('networks')}}">
         <i class="icon list-icon">
-          <img src="img/icon-network.svg" class="bg"/>
+          <img src="img/icon-network.svg"/>
         </i>
         <div>{{'Currency Networks' | translate}}</div>
         <div class="item-detail">{{availableNetworks.length}}</div>
@@ -61,7 +61,7 @@
       </ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('language')}}">
         <i class="icon list-icon">
-          <img src="img/icon-language.svg" class="bg"/>
+          <img src="img/icon-language.svg"/>
         </i>
         <div>{{'Language' | translate}}</div>
         <div class="item-detail">{{currentLanguageName|translate}}</div>
@@ -69,7 +69,7 @@
       </ion-item>
       <ion-item class="has-click has-detail item-icon-left item-icon-right" ui-sref="{{sref('app-lock')}}" ng-if="isCordova || isDevel">
         <i class="icon list-icon">
-          <img src="img/icon-locked.svg" class="bg"/>
+          <img src="img/icon-locked.svg"/>
         </i>
         <div>{{'App Lock' | translate}}</div>
         <div class="item-detail">{{appLockMethod}}</div>
@@ -98,14 +98,14 @@
       <ion-item class="item-divider"></ion-item>
       <ion-item class="has-click item-icon-right item-icon-left" href ui-sref="{{sref('advanced')}}">
         <i class="icon list-icon">
-          <img src="img/icon-advanced.svg" class="bg"/>
+          <img src="img/icon-advanced.svg"/>
         </i>
         <div>{{'Advanced' | translate}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
       <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('about')}}">
         <i class="icon list-icon">
-          <img src="img/icon-about.svg" class="bg"/>
+          <img src="img/icon-about.svg"/>
         </i>
         <div>{{'About' | translate}}  {{appName}}</div>
         <i class="icon arrow-right"></i>

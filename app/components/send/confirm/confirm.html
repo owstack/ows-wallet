@@ -53,7 +53,7 @@
         <!-- Unknown / Address / Paypro -->
         <div class="item item-sub has-click item-icon-left icon-left-md" ng-if="!tx.recipientType" ng-class="{'has-detail': tx.toName}">
           <i class="icon md-icon left-icon">
-            <img class="bg" ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
+            <img ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
           </i>
           <div copy-to-clipboard="{{tx.toAddress}}" ng-if="!tx.paypro" class="ellipsis">
             <span ng-if="tx.toName">{{tx.toName}}</span>

@@ -7,7 +7,7 @@
   <ion-list ng-show="!hide">
     <ion-item class="item-icon-left icon-left-lg item-icon-right" ng-repeat="service in services track by $index" ui-sref="{{sref(service.sref)}}">
       <i class="icon lg-icon left-icon">
-        <div class="bg {{service.icon}}"></div>
+        <div class="{{service.icon}}"></div>
       </i>
       <span>{{service.title ||  service.name}}</span>
       <i class="icon arrow-right"></i>

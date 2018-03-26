@@ -5,13 +5,13 @@
     <div class="check-bar-bg">
       <div ng-include="'shared/partials/check-bar/check-bar.html'"></div>
     </div>
-    <ion-item class="item-icon-left icon-left-lg" ng-click="hide()" copy-to-clipboard="{{onCopy()}}">
+    <ion-item class="item-icon-left icon-left-sm" ng-click="hide()" copy-to-clipboard="{{onCopy()}}">
         <i class="icon ion-clipboard"></i>
         <span translate>
           Copy to clipboard
         </span>
     </ion-item>
-    <ion-item class="item-icon-left icon-left-lg" ng-show="isCordova" ng-click="onSend(); hide();">
+    <ion-item class="item-icon-left icon-left-sm" ng-show="isCordova" ng-click="onSend(); hide();">
       <i class="icon ion-ios-email-outline"></i>
       {{'Send by email' | translate}}
     </ion-item>

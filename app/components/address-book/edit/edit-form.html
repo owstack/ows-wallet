@@ -24,9 +24,9 @@
           <qr-scanner ng-click="onQrCodeScanFor({{$index}})" on-scan="onQrCodeScanned(data)" on-cancel="onQrCodeCancel()"></qr-scanner>
         </i>
       </div>
-      <div class="item item-sub item-input item-icon-left icon-left-md">
-        <i class="icon md-icon left-icon" ng-if="a.networkURI">
-          <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
+      <div class="item item-sub item-input item-icon-left icon-left-sm">
+        <i class="icon sm-icon left-icon" ng-if="a.networkURI">
+          <img ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
         </i>
         <input type="text" id="{{'dca' + $index}}" name="{{'dca' + $index}}" placeholder="{{'Digital currency address' | translate}}"
           ng-class="{'correct': a.address.length > 0 && !form.addressbookForm.dca{{$index}}.$invalid, 'incorrect': a.address.length > 0 && form.addressbookForm.dca{{$index}}.$invalid}"

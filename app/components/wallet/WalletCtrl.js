@@ -83,7 +83,7 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
           $scope.walletNotRegistered = true;
         } else {
           $scope.updateStatusError = {
-            message: gettextCatalog.getString('Could not update wallet.'),
+            message: gettextCatalog.getString('Could not update wallet'),
             detail: walletClientErrorService.msg(err)
           }
         }

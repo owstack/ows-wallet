@@ -8,7 +8,7 @@
         <g id="img/icon-help" stroke="#FFFFFF">
             <g id="icon-help" transform="translate(1.000000, 1.000000)">
                 <g>
-                    <circle id="Oval" stroke-width="3" cx="50" cy="50" r="50"></circle>
+                    <circle id="Oval" stroke-width="3" cx="50" cy="50" r="48.5"></circle>
                     <path d="M50,59.0909089 L50,54.5454546 C57.2727272,54.5454546 63.6363639,48.1818182 63.6363639,40.9090909 C63.6363639,33.6363636 57.2727272,27.2727273 50,27.2727273 C44.5454546,27.2727273 39.5454546,31.3636364 37.2727273,35.9090909" id="Shape" stroke-width="3"></path>
                     <path d="M50,72.7272728 L50,77.2727272" id="Shape" stroke-width="3"></path>
                 </g>

@@ -5,11 +5,13 @@
     <desc>Created with sketchtool.</desc>
     <defs></defs>
     <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="img/icon-broadcasted">
+        <g id="img/icon-broadcasted" stroke="#0EC286">
             <g id="icon-broadcasted" transform="translate(2.000000, 2.000000)">
-                <g>
-                    <path d="M50,100 C77.6142376,100 100,77.6142376 100,50 C100,22.3857625 77.6142376,0 50,0 C22.3857625,0 0,22.3857625 0,50 C0,77.6142376 22.3857625,100 50,100 Z" id="Oval-2-Copy-3" stroke="#0EC286" stroke-width="3" fill="#0EC286" fill-rule="nonzero"></path>
-                    <path d="M23.1262735,51.3045438 L83.9562921,51.3045438 M45.5071758,79.1721462 L18.1943853,51.7010657 L44.5575514,24.6627582" id="Line" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" transform="translate(51.075339, 51.917452) scale(-1, 1) rotate(45.000000) translate(-51.075339, -51.917452) "></path>
+                <g transform="translate(51.000000, 51.000000) rotate(225.000000) translate(-51.000000, -51.000000) " id="Received">
+                    <g transform="translate(51.340737, 51.025686) scale(-1, 1) translate(-51.340737, -51.025686) translate(0.840737, 0.525686)" stroke-width="3">
+                        <path d="M50.840737,98.9743141 C77.6265474,98.9743141 99.340737,77.2601246 99.340737,50.4743141 C99.340737,23.6885039 77.6265474,1.97431429 50.840737,1.97431429 C24.0549266,1.97431429 2.34073697,23.6885039 2.34073697,50.4743141 C2.34073697,77.2601245 24.0549266,98.9743141 50.840737,98.9743141 Z" id="Oval-204"></path>
+                        <path d="M34.5724774,49.5027054 L71.5874957,49.5027054 M48.1912389,66.4658557 L31.5714274,49.74407 L47.6133931,33.2857154" id="Line" stroke-linecap="round" stroke-linejoin="round" transform="translate(51.579462, 49.875786) scale(-1, 1) rotate(270.000000) translate(-51.579462, -49.875786) "></path>
+                    </g>
                 </g>
             </g>
         </g>

@@ -5,11 +5,11 @@
     <desc>Created with sketchtool.</desc>
     <defs></defs>
     <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="img/icon-confirming">
+        <g id="img/icon-confirming" stroke="#FFFFFF">
             <g id="icon-confirming">
                 <g>
-                    <path d="M50,100 C77.6142376,100 100,77.6142376 100,50 C100,22.3857625 77.6142376,0 50,0 C22.3857625,0 0,22.3857625 0,50 C0,77.6142376 22.3857625,100 50,100 Z" id="Oval-204" fill="#F2F2F2" fill-rule="nonzero" opacity="0.8"></path>
-                    <g id="Group" transform="translate(24.242424, 22.727273)" stroke="#BDBDBD" stroke-width="5">
+                    <path d="M50,98.5 C76.7858105,98.5 98.5,76.7858105 98.5,50 C98.5,23.2141896 76.7858104,1.5 50,1.5 C23.2141896,1.5 1.5,23.2141896 1.5,50 C1.5,76.7858104 23.2141896,98.5 50,98.5 Z" id="Oval-204" stroke-width="3" fill-rule="nonzero"></path>
+                    <g id="Group" transform="translate(24.242424, 22.727273)" stroke-width="3">
                         <path d="M0,27.2727273 C0,12.2727273 11.5440115,0 25.653359,0 C35.6581691,0 44.3803109,6 48.4848485,15" id="Shape"></path>
                         <path d="M51.5151515,27.2727273 C51.5151515,42.2727273 39.97114,54.5454545 25.8617925,54.5454545 C15.8569825,54.5454545 7.13484045,48.5454545 3.03030303,39.5454545" id="Shape"></path>
                         <polyline id="Shape" points="51.5151515 0 49.3761139 15.1515152 33.3333333 13.0970724"></polyline>
