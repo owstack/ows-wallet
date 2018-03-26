@@ -29,7 +29,7 @@
       <ion-list>
         <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list"
           ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <gravatar class="send-gravatar" width="30" name="{{item.name}}" email="{{item.email}}"></gravatar>
           </i>
           {{item.name}}
@@ -47,7 +47,7 @@
       <ion-list>
         <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-class="{'has-detail': wallet.error || wallet.needsBackup}"
           ng-repeat="wallet in list" ng-if="hasWallets && wallet.recipientType == 'wallet'" ng-click="goToAmount(wallet)">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
           </i>
           <span class="ellipsis">

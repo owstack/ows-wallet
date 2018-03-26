@@ -50,7 +50,7 @@
       </ion-item>
       <ion-list>
         <ion-item ng-if="!wallets[0]" ui-sref="{{sref('add')}}" class="item-icon-left icon-left-lg item-icon-right has-click">
-          <i class="icon lg-icon">
+          <i class="icon lg-icon left-icon">
             <div class="bg icon-wallet icon-create-wallet"></div>
           </i>
           <span translate>Add wallet</span>
@@ -58,7 +58,7 @@
         </ion-item>
         <ion-item class="has-detail item-h-md item-icon-left icon-left-lg item-icon-right" ng-click="openWallet(wallet)"
           ng-repeat="wallet in wallets | filter:{layout: {group: {id:'favorite'}}}:strict | orderBy:'layout.group.ordinal' track by $index">
-          <i class="icon lg-icon shadow">
+          <i class="icon lg-icon left-icon shadow">
             <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
           </i>
           <span class="ellipsis">

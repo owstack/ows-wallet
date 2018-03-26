@@ -13,16 +13,16 @@
         Recipient
       </ion-item>
       <ion-item class="has-detail item-icon-left icon-left-md">
-        <i class="icon md-icon" ng-if="recipientType == 'wallet'">
+        <i class="icon md-icon left-icon" ng-if="recipientType == 'wallet'">
           <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !toColor}" ng-style="{'background-color': toColor}"></div>
         </i>
         <span ng-if="recipientType == 'contact'">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <gravatar class="send-gravatar" name="{{toName}}" height="30" width="30" email="{{toEmail}}"></gravatar>
           </i>
         </span>
         <span ng-if="!recipientType">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <div class="bg icon-user"></div>
           </i>
         </span>

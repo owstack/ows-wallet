@@ -4,7 +4,7 @@
   <ion-list>
     <ion-item class="has-detail item-icon-left icon-left-lg item-icon-right"
       ng-repeat="wallet in wallets track by $index" ng-click="selectWallet(wallet)">
-      <i class="icon lg-icon">
+      <i class="icon lg-icon left-icon">
         <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
       </i>
       <span class="ellipsis">

@@ -21,7 +21,7 @@
         </ion-item>
         <ion-item class="has-click item-icon-left icon-left-lg item-icon-right" ng-repeat="addressbookEntry in addressbook track by $index"
           id="{{'entry' + $index}}" ui-sref="{{sref('address-book.entry')}}({id: addressbookEntry.id})">
-          <i class="icon lg-icon">
+          <i class="icon lg-icon left-icon">
             <gravatar class="send-gravatar" width="40" name="{{addressbookEntry.name}}" email="{{addressbookEntry.email}}"></gravatar>
           </i>
           <div class="name">{{addressbookEntry.name}}</div>

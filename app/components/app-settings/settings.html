@@ -79,7 +79,7 @@
       <ion-item class="has-click item-icon-left item-icon-right" href ui-sref="{{sref('preferences')}}({'walletId': wallet.id})"
         ng-class="{'has-detail': wallet.error || !wallet.isComplete() || wallet.needsBackup || wallet.n > 1}"
         ng-repeat="wallet in wallets track by $index">
-        <i class="icon sm-icon custom">
+        <i class="icon sm-icon left-icon custom">
           <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
         </i>
         <span>{{wallet.name || wallet.id}}</span>

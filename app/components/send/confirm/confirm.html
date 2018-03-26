@@ -32,7 +32,7 @@
         <span class="input-label" translate>To</span>
         <!-- Wallet -->
         <div class="item item-sub has-detail item-fh item-icon-left icon-left-md" ng-if="tx.recipientType == 'wallet'">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <div class="bg icon-wallet" ng-style="{'background-color': tx.toColor}"></div>
           </i>
           <div copy-to-clipboard="{{tx.toAddress}}">
@@ -42,7 +42,7 @@
         </div>
         <!-- Contact -->
         <div class="item item-sub has-detail item-icon-left icon-left-md" ng-if="tx.recipientType == 'contact'">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <gravatar class="send-gravatar" name="{{tx.toName}}" height="30" width="30" email="{{tx.toEmail}}"></gravatar>
           </i>
           <div copy-to-clipboard="{{tx.toAddress}}">
@@ -52,7 +52,7 @@
         </div>
         <!-- Unknown / Address / Paypro -->
         <div class="item item-sub has-click item-icon-left icon-left-md" ng-if="!tx.recipientType" ng-class="{'has-detail': tx.toName}">
-          <i class="icon md-icon">
+          <i class="icon md-icon left-icon">
             <img class="bg" ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
           </i>
           <div copy-to-clipboard="{{tx.toAddress}}" ng-if="!tx.paypro" class="ellipsis">
@@ -74,13 +74,13 @@
         <span class="input-label" translate>From</span>
         <div class="item item-sub item-icon-left icon-left-md">
           <div ng-if="wallet">
-            <i class="icon md-icon">
+            <i class="icon md-icon left-icon">
               <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
             </i>
             <div>{{wallet.name}}</div>
           </div>
           <div ng-if="!wallet">
-            <i class="icon md-icon">
+            <i class="icon md-icon left-icon">
               <div class="bg icon-wallet" ng-style="{'background-color': 'grey'}"></div>
             </i>
             <div>...</div>

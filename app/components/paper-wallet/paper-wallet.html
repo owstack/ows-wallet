@@ -27,7 +27,7 @@
           <span class="input-label" translate>From</span>
           <div class="item item-sub item-icon-left icon-left-md">
             <span class="ellipsis">{{address}}</span>
-            <i class="icon md-icon">
+            <i class="icon md-icon left-icon">
               <img class="bg" ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
             </i>
           </div>
@@ -41,7 +41,7 @@
             ng-click="showWalletSelector()">
             <span class="input-label" translate>To</span>
               <div class="item item-sub has-detail item-icon-left icon-left-md">
-                <i class="icon md-icon">
+                <i class="icon md-icon left-icon">
                   <div class="bg icon-wallet" ng-style="{'background-color': wallet.color}"></div>
                 </i>
                 {{wallet.name || wallet.id}}

@@ -113,7 +113,7 @@
 		    height: $v-list-item-md-height !important;
 		  }
 
-		  // Specific height may be set on individual items.
+		  // Specific height can be set on individual items.
 		  &.item-h {
 		  	&-md {
 		  		height: $v-list-item-md-height !important;
@@ -226,6 +226,11 @@
 			//
 			///////////
 
+			///////////
+			//
+			// Set right position of icon.
+			//
+
 		  &.item-icon-right {
     		padding-right: 44px;
 		    cursor: pointer;
@@ -239,6 +244,11 @@
 		    	right: 44px;
 		    }
 		  }
+
+			//
+			//
+			//
+			///////////
 
 	    &.has-detail:not(.item-h-lg) {
 	      padding-top: 0.65rem;
@@ -364,15 +374,15 @@
 
 			  &.item-icon-left.icon-left {
 			  	&-lg {
-					  padding-left: 64px;
+					  padding-left: 70px;
 			  	}
 
 			  	&-md {
-					  padding-left: 54px;
+					  padding-left: 60px;
 			  	}
 
 			  	&-sm {
-					  padding-left: 34px;
+					  padding-left: 55px;
 			  	}
 			  }
 

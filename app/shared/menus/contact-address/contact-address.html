@@ -4,7 +4,7 @@
   <ion-list>
     <ion-item class="item-icon-left icon-left-lg item-icon-right" ng-class="{'has-detail': a.label.length > 0}"
       ng-repeat="a in contact.addresses track by $index" ng-click="selectAddress($index)">
-      <i class="icon lg-icon">
+      <i class="icon lg-icon left-icon">
         <img class="bg" ng-src="img/currency-icons/icon-{{currencyFor(a.networkURI)}}.svg">
       </i>
       <div ng-if="a.label">
