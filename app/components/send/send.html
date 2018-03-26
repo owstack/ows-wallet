@@ -7,9 +7,9 @@
   <ion-content>
     <div ng-if="hasFunds">
       <ion-list>
-        <ion-item class="item-input item-icon-left icon-left-sm item-icon-right">
-          <i class="icon ion-ios-search sm-icon"></i>
-          <input type="text" placeholder="{{'Search or recipient address' | translate}}" ng-model="formData.search"
+        <ion-item class="item-input item-icon-left icon-left-input item-icon-right">
+          <i class="icon ion-ios-search"></i>
+          <input type="search" placeholder="{{'Search or recipient address' | translate}}" ng-model="formData.search"
             ng-change="findContact(formData.search)" ng-model-onblur ng-focus="searchInFocus()" ng-blur="searchBlurred()">
           <i class="icon icon-svg" on-tap="openScanner()">
             <img src="img/icon-scan.svg">
