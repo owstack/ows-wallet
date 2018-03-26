@@ -8,6 +8,8 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
     var appUrl = appConfigService.url;
 
     $scope.isCordova = platformInfoService.isCordova;
+    $scope.showShareButton = platformInfoService.isCordova ? (platformInfoService.isIOS ? 'iOS' : 'Android') : null;
+
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.wallet = profileService.getWallet(data.stateParams.walletId);
       updateWallet();

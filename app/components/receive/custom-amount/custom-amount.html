@@ -4,8 +4,8 @@
     <button class="button button-nav-bar button-clear" ng-click="closeModal()">
       {{'Close' | translate}}
     </button>
-    <button class="button button-nav-bar button-right" ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share': showShareButton != 'iOS'}"
-      ng-show="showShareButton" ng-click="shareAddress()">
+    <button class="button button-nav-bar button-right" ng-show="showShareButton" ng-click="shareAddress()"
+      ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share-android': showShareButton == 'Android'}">
     </button>
   </ion-header-bar>
   <ion-content scroll="false">

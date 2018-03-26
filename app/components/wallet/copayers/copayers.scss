@@ -6,18 +6,6 @@
     color: $v-success-color !important;
   }
 
-  .button-share {
-    color: $v-bar-header-button-color;
-    box-shadow: none;
-    border-color: transparent;
-    background: transparent;
-    padding: 0 10px;
-
-    .icon:before {
-      font-size: 26px;
-    }
-  }
-
   .copayers-secret {
     text-align: center;
     font-size: 14px;

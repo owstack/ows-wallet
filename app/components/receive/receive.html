@@ -4,8 +4,8 @@
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
-      <button class="button button-nav-bar" ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share': showShareButton != 'iOS'}"
-        ng-show="wallets[0] && showShareButton" ng-click="shareAddress()">
+      <button class="button button-nav-bar" ng-show="wallets[0] && showShareButton" ng-click="shareAddress()"
+        ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share-android': showShareButton != 'Android'}">
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>

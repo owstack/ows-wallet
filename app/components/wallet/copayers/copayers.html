@@ -4,8 +4,8 @@
     </ion-nav-back-button>
     <ion-nav-title>{{wallet.name}}</ion-nav-title>
     <ion-nav-buttons side="secondary">
-      <button class="button button-nav-bar" ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share': showShareButton != 'iOS'}"
-        ng-show="isCordova && secret" ng-click="shareSecret()">
+      <button class="button button-nav-bar" ng-show="isCordova && secret" ng-click="shareSecret()"
+        ng-class="{'button-share-ios': showShareButton == 'iOS', 'button-share-android': showShareButton == 'Android'}">
       </button>
     </ion-nav-buttons>
   </ion-nav-bar>
@@ -31,7 +31,7 @@
           <span translate>Cancel invitation</span>
         </ion-item>
       </ion-list>
-      <div ng-show="secret">
+      <div class="p20b" ng-show="secret">
         <div class="box-notification warning" ng-show="wallet.notAuthorized">
           <h2 translate>Wallet incomplete and broken</h2>
           <p translate>Delete it and create a new one.</p>
@@ -49,6 +49,7 @@
             </ion-item>
           </ion-list>
         </div>
+        &nbsp; <!-- allow card bottom margin to take up space -->
       </div>
     </div>
   </ion-content>
