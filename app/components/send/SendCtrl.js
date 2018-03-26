@@ -47,6 +47,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
           color: w.color,
           name: w.name,
           recipientType: 'wallet',
+          needsBackup: w.needsBackup,
           getAddress: function(cb) {
             walletService.getAddress(w, false, cb);
           },

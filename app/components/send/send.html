@@ -27,7 +27,8 @@
         </a>
       </ion-item>
       <ion-list>
-        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list" ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
+        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-repeat="item in list"
+          ng-if="!item.isWallet && item.recipientType != 'wallet'" ng-click="goToAmount(item)">
           <i class="icon md-icon">
             <gravatar class="send-gravatar" width="30" name="{{item.name}}" email="{{item.email}}"></gravatar>
           </i>
@@ -44,7 +45,8 @@
         <span translate>Transfer to Wallet</span>
       </ion-item>
       <ion-list>
-        <ion-item class="has-detail has-click item-icon-left icon-left-md item-icon-right" ng-repeat="wallet in list" ng-if="hasWallets && wallet.recipientType == 'wallet'" ng-click="goToAmount(wallet)">
+        <ion-item class="has-click item-icon-left icon-left-md item-icon-right" ng-class="{'has-detail': wallet.error || wallet.needsBackup}"
+          ng-repeat="wallet in list" ng-if="hasWallets && wallet.recipientType == 'wallet'" ng-click="goToAmount(wallet)">
           <i class="icon md-icon">
             <div class="bg icon-wallet" ng-class="{'wallet-background-color-default': !wallet.color}" ng-style="{'background-color': wallet.color}"></div>
           </i>
@@ -53,19 +55,7 @@
           </span>
           <div class="item-detail">
             <span class="text-error" ng-if="wallet.error">{{wallet.error}}</span>
-            <span ng-show="!wallet.error">
-              <span class="text-danger" ng-show="!wallet.isComplete()">{{'Incomplete' | translate}}</span>
-              <span class="text-danger" ng-show="wallet.isComplete() && wallet.needsBackup">{{'Backup needed' | translate}}</span>
-              <span ng-if="wallet.isComplete() && !wallet.needsBackup">
-                <span ng-if="!wallet.balanceHidden">{{wallet.status.totalBalanceStr ? wallet.status.totalBalanceStr : ( wallet.cachedBalance ? wallet.cachedBalance   + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn  * 1000 | amTimeAgo) : '') : ''  ) }} </span>
-                <span ng-if="wallet.balanceHidden" translate>Balance Hidden</span>
-                <span class="tab-home__wallet__multisig-number" ng-if="wallet.n > 1">
-                  {{wallet.m}}-of-{{wallet.n}}
-                </span>
-                <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)"
-                  class="tab-home__wallet__status-icon ion-ios-timer-outline"></i>
-              </span>
-            </span>
+            <span class="text-danger" ng-show="!wallet.error && wallet.needsBackup">{{'Backup needed' | translate}}</span>
           </div>
           <i class="icon arrow-right"></i>
         </ion-item>
