@@ -112,7 +112,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
 
         addressBookService.list(function(err, localAddressBook) {
           if (err) {
-            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export'));
+            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export.'));
             return;
           }
           var opts = {
@@ -123,7 +123,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
 
           backupService.walletDownload($scope.formData.password, opts, function(err) {
             if (err) {
-              popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export'));
+              popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export.'));
               return;
             }
             $ionicHistory.removeBackView();
@@ -142,7 +142,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
 
         addressBookService.list(function(err, localAddressBook) {
           if (err) {
-            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export'));
+            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export.'));
             return cb(null);
           }
           var opts = {
@@ -153,7 +153,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
 
           var ew = backupService.walletExport($scope.formData.password, opts);
           if (!ew) {
-            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export'));
+            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Failed to export.'));
           }
           return cb(ew);
         });

@@ -127,7 +127,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
     $scope.loading = true;
     walletService.publishAndSign($scope.wallet, $scope.tx, function(err, txp) {
       $scope.$emit('UpdateTx');
-      if (err) return setError(err, gettextCatalog.getString('Could not send payment'));
+      if (err) return setError(err, gettextCatalog.getString('Could not send payment.'));
       success();
     }, onSendStatusChange);
   };
@@ -141,7 +141,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
 
         walletService.reject($scope.wallet, $scope.tx, function(err, txpr) {
           if (err)
-            return setError(err, gettextCatalog.getString('Could not reject payment'));
+            return setError(err, gettextCatalog.getString('Could not reject payment.'));
 
           $scope.close();
         });
@@ -161,7 +161,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
           // Hacky: request tries to parse an empty response
           if (err && !(err.message && err.message.match(/Unexpected/))) {
             $scope.$emit('UpdateTx');
-            return setError(err, gettextCatalog.getString('Could not delete payment proposal'));
+            return setError(err, gettextCatalog.getString('Could not delete payment proposal.'));
           }
 
           $scope.close();
@@ -179,7 +179,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
         ongoingProcessService.set('broadcastingTx', false);
 
         if (err) {
-          return setError(err, gettextCatalog.getString('Could not broadcast payment'));
+          return setError(err, gettextCatalog.getString('Could not broadcast payment.'));
         }
 
         $scope.close();
@@ -190,7 +190,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
   var updateTxInfo = function(eventName) {
     $scope.wallet.getTx($scope.tx.id, function(err, tx) {
       if (err) {
-        if (err.message && err.message == 'Transaction proposal not found' &&
+        if (err.message && err.message == 'Transaction proposal not found.' &&
           (eventName == 'transactionProposalRemoved' || eventName == 'TxProposalRemoved')) {
           $scope.tx.removed = true;
           $scope.tx.canBeRemoved = false;

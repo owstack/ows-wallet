@@ -159,7 +159,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         } else {
           $rootScope.backButtonPressedOnceToExit = true;
           $rootScope.$apply(function() {
-            ionicToast.show(gettextCatalog.getString('Press again to exit'), 'bottom', false, 1000);
+            ionicToast.show(gettextCatalog.getString('Press again to exit.'), 'bottom', false, 1000);
           });
 
           $timeout(function() {

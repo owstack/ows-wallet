@@ -29,7 +29,7 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
       $log.debug('Updating wallet:' + $scope.wallet.name)
       walletService.getStatus($scope.wallet, {}, function(err, status) {
         if (err) {
-          return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet')));
+          return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet.')));
         }
         $scope.wallet.status = status;
         $scope.copayers = $scope.wallet.status.wallet.copayers;
@@ -84,7 +84,7 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
 
     $scope.shareSecret = function() {
       if ($scope.isCordova) {
-        var message = gettextCatalog.getString('Join my {{appName}} Wallet. Here is the invitation code: {{secret}} You can download {{appName}} for your phone or desktop at {{appUrl}}', {
+        var message = gettextCatalog.getString('Join my {{appName}} Wallet. Here is the invitation code: {{secret}} You can download {{appName}} for your phone or desktop at {{appUrl}}.', {
           secret: $scope.secret,
           appName: appName,
           appUrl: appUrl

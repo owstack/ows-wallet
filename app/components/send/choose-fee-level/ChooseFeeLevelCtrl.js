@@ -109,7 +109,9 @@ angular.module('owsWalletApp.controllers').controller('ChooseFeeLevelCtrl', func
   $scope.networkLabel = networkService.getNetworkByURI($scope.networkURI).getFriendlyNetLabel();
   $scope.atomicUnit = networkService.getAtomicUnit($scope.networkURI);
 
-  if (lodash.isEmpty($scope.feeLevel)) showErrorAndClose(null, gettextCatalog.getString('Fee level is not defined') );
+  if (lodash.isEmpty($scope.feeLevel)) {
+    showErrorAndClose(null, gettextCatalog.getString('Fee level is not defined.') );
+  }
   $scope.selectedFee = { value: $scope.feeLevel };
 
   $scope.feeOpts = feeService.getFeeOpts($scope.networkURI);
@@ -123,7 +125,7 @@ angular.module('owsWalletApp.controllers').controller('ChooseFeeLevelCtrl', func
     }
 
     if (lodash.isEmpty(levels)) {
-      showErrorAndClose(null, gettextCatalog.getString('Could not get fee levels'));
+      showErrorAndClose(null, gettextCatalog.getString('Could not get fee levels.'));
       return;
     }
 

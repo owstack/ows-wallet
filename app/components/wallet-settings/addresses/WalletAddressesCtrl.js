@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService) {
+angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService, networkService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;
@@ -24,7 +24,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
     walletService.getMainAddresses($scope.wallet, {}, function(err, addresses) {
       if (err) {
         $scope.loading = false;
-        return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet')));
+        return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet.')));
       }
 
       var allAddresses = addresses;
@@ -32,7 +32,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
       walletService.getBalance($scope.wallet, {}, function(err, resp) {
         if (err) {
           $scope.loading = false;
-          return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet')));
+          return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet.')));
         }
 
         withBalance = resp.byAddress;
@@ -67,15 +67,18 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
     });
 
     walletService.getLowUtxos($scope.wallet, function(err, resp) {
-      if (err || !resp) return;
+      if (err || !resp) {
+        return;
+      }
       if (resp.allUtxos && resp.allUtxos.length) {
-        var allSum = lodash.sum(resp.allUtxos || 0, 'satoshis');
+        var atomicUnit = networkService.getAtomicUnit($scope.wallet.networkURI).shortName;
+        var allSum = lodash.sum(resp.allUtxos || 0, atomicUnit);
         var per = (resp.minFee / allSum) * 100;
 
         $scope.lowWarning = resp.warning;
         $scope.lowUtxosNb = resp.lowUtxos.length;
         $scope.allUtxosNb = resp.allUtxos.length;
-        $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, lodash.sum(resp.lowUtxos || 0, 'satoshis'));
+        $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, lodash.sum(resp.lowUtxos || 0, atomicUnit));
         $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, allSum);
         $scope.minFee = txFormatService.formatAmountStr($scope.wallet.networkURI, resp.minFee || 0);
         $scope.minFeePer = per.toFixed(2) + '%';

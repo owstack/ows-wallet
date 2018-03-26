@@ -42,7 +42,7 @@ angular.module('owsWalletApp.controllers').controller('WalletActivityCtrl',
             ongoingProcessService.set('loadingTxInfo', false);
             if (err) {
               $log.warn('No txp found');
-              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not found'));
+              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not found.'));
             }
             txpModalService.open(_txp);
           });

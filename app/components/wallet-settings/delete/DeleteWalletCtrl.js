@@ -5,14 +5,14 @@ angular.module('owsWalletApp.controllers').controller('DeleteWalletCtrl',
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       if (!data.stateParams || !data.stateParams.walletId) {
-        popupService.showAlert(null, gettextCatalog.getString('No wallet selected'), function() {
+        popupService.showAlert(null, gettextCatalog.getString('No wallet selected.'), function() {
           $ionicHistory.goBack();
         });
         return;
       }
       $scope.wallet = profileService.getWallet(data.stateParams.walletId);
       if (!$scope.wallet) {
-        popupService.showAlert(null, gettextCatalog.getString('No wallet found'), function() {
+        popupService.showAlert(null, gettextCatalog.getString('No wallet found.'), function() {
           $ionicHistory.goBack();
         });
         return;

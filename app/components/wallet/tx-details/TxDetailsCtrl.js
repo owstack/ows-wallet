@@ -105,7 +105,7 @@ angular.module('owsWalletApp.controllers').controller('TxDetailsCtrl', function(
       if (err) {
         $log.warn('Error getting transaction: ' + err);
         $ionicHistory.goBack();
-        return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not available at this time'));
+        return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not available at this time.'));
       }
 
       $scope.btx = txFormatService.processTx(tx, $scope.wallet.networkURI);

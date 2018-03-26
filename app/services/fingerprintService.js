@@ -54,7 +54,7 @@ angular.module('owsWalletApp.services').factory('fingerprintService', function($
   var requestTouchId = function(cb) {
     try {
       window.plugins.touchid.verifyFingerprint(
-        gettextCatalog.getString('Scan your fingerprint please'),
+        gettextCatalog.getString('Scan your fingerprint please.'),
         function(msg) {
           $log.debug('Touch ID OK');
           return cb();

@@ -202,13 +202,13 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
     // TODO-AJP: use a credential's (or fc's) function for this
     if (tx.description && !wallet.credentials.sharedEncryptingKey) {
-      var msg = gettextCatalog.getString('Could not add message to imported wallet without shared encrypting key');
+      var msg = gettextCatalog.getString('Could not add message to imported wallet without shared encrypting key.');
       $log.warn(msg);
       return setSendError(msg);
     }
 
     if (tx.toAmount > Number.MAX_SAFE_INTEGER) {
-      var msg = gettextCatalog.getString('Amount too big');
+      var msg = gettextCatalog.getString('Amount too big.');
       $log.warn(msg);
       return setSendError(msg);
     }
@@ -284,7 +284,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
       getSendMaxInfo(lodash.clone(tx), wallet, function(err, sendMaxInfo) {
         if (err) {
-          var msg = gettextCatalog.getString('Error getting SendMax information');
+          var msg = gettextCatalog.getString('Error getting wallet information.');
           return setSendError(msg);
         }
 
@@ -504,7 +504,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
           return cb();
         }
 
-        var message = gettextCatalog.getString('Sending {{amountStr}} from your {{name}} wallet', {
+        var message = gettextCatalog.getString('Sending {{amountStr}} from your {{name}} wallet.', {
           amountStr: tx.amountStr,
           name: wallet.name
         });

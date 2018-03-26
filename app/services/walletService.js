@@ -863,7 +863,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       wallet.savePreferences(prefs, function(err) {
 
         if (err) {
-          popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not save preferences on the server')));
+          popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not save preferences on the server.')));
           return next(err);
         }
 
@@ -947,7 +947,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     wallet.createAddress({}, function(err, addr) {
       if (err) {
-        var prefix = gettextCatalog.getString('Could not create address');
+        var prefix = gettextCatalog.getString('Could not create address.');
         var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
         if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
           $log.warn(err);
@@ -1039,9 +1039,9 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         return cb('');
       }
 
+      var atomicUnit = networkService.getAtomicUnit($scope.wallet.networkURI).shortName;
       var minFee = root.getMinFee(wallet, resp.length);
-
-      var balance = lodash.sum(resp, 'satoshis');
+      var balance = lodash.sum(resp, atomicUnit);
 
       // for 2 outputs
       var lowAmount = root.getLowAmount(wallet);
@@ -1049,7 +1049,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         return x.satoshis < lowAmount;
       });
 
-      var totalLow = lodash.sum(lowUtxos, 'satoshis');
+      var totalLow = lodash.sum(lowUtxos, atomicUnit);
 
       return cb(err, {
         allUtxos:  resp || [],
@@ -1100,7 +1100,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       });
       var err = null;
       if (!addrObj) {
-        err = 'Error: specified address not in wallet';
+        err = 'Error: specified address not in wallet.';
       }
       return cb(err, addrObj);
     });
@@ -1137,13 +1137,13 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
 
   root.encrypt = function(wallet, cb) {
-    var title = gettextCatalog.getString('Enter new spending password');
+    var title = gettextCatalog.getString('Enter Password');
     var warnMsg = gettextCatalog.getString('Your wallet key will be encrypted. The Spending Password cannot be recovered. Be sure to write it down.');
     askPassword(warnMsg, title, function(password) {
       if (!password) {
         return cb('no password');
       }
-      title = gettextCatalog.getString('Confirm your new spending password');
+      title = gettextCatalog.getString('Confirm Password');
       askPassword(warnMsg, title, function(password2) {
         if (!password2 || password != password2) {
           return cb('password mismatch');
@@ -1160,7 +1160,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     $log.debug('Disabling private key encryption for' + wallet.name);
     askPassword(null, gettextCatalog.getString('Enter Spending Password'), function(password) {
       if (!password) {
-        return cb('no password');
+        return cb('No password.');
       }
 
       try {
@@ -1179,10 +1179,10 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     askPassword(wallet.name, gettextCatalog.getString('Enter Spending Password'), function(password) {
       if (!password) {
-        return cb('No password');
+        return cb('No password.');
       }
       if (!wallet.checkPassword(password)) {
-        return cb('Wrong password');
+        return cb('Wrong password.');
       }
 
       return cb(null, password);
@@ -1270,7 +1270,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
             $log.warn('sign error:' + err);
             var msg = err && err.message ?
               err.message :
-              gettextCatalog.getString('The payment was created but could not be completed. Please try again from home screen');
+              gettextCatalog.getString('The payment was created but could not be completed. Please try again from home screen.');
 
             $rootScope.$emit('Local/TxAction', wallet.id);
             return cb(msg);
@@ -1305,7 +1305,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
     // not supported yet
     if (wallet.credentials.derivationStrategy != 'BIP44' || !wallet.canSign()) {
-      return cb(gettextCatalog.getString('Exporting via QR not supported for this wallet'));
+      return cb(gettextCatalog.getString('Exporting via QR not supported for this wallet.'));
     }
 
     var keys = root.getKeysWithPassword(wallet, password);

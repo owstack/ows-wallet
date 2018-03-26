@@ -213,8 +213,9 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
       if (!$scope.isPkEncrypted) {
         $scope.scanFunds();
       } else {
-        var message = gettextCatalog.getString('Private key encrypted. Enter password');
-        popupService.showPrompt(null, message, null, function(res) {
+        var title = gettextCatalog.getString('Password Required');
+        var message = gettextCatalog.getString('Private key encrypted. Enter password.');
+        popupService.showPrompt(title, message, null, function(res) {
           $scope.passphrase = res;
           $scope.scanFunds();
         });

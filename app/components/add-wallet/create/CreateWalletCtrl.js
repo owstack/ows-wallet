@@ -160,7 +160,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
 
         var pathData = derivationPathService.parse($scope.formData.derivationPath, $scope.formData.network);
         if (!pathData) {
-          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path'));
+          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path.'));
           return;
         }
 
@@ -172,13 +172,13 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
         opts.passphrase = $scope.formData.createPassphrase;
       }
       if (setSeed && !opts.mnemonic && !opts.extendedPrivateKey) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the wallet recovery phrase'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the wallet recovery phrase.'));
         return;
       }
       if ($scope.formData.seedSource.id == walletService.externalSource.ledger.id || $scope.formData.seedSource.id == walletService.externalSource.trezor.id) {
         var account = $scope.formData.account;
         if (!account || account < 1) {
-          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number'));
+          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number.'));
           return;
         }
 
@@ -197,7 +197,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
             service = trezorService;
             break;
           default:
-            popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id');
+            popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id.');
             return;
         }
         service.getInfoForNewWallet(opts.n > 1, account, opts.networkURI, function(err, lopts) {

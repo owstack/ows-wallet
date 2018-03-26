@@ -83,7 +83,7 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
           $scope.walletNotRegistered = true;
         } else {
           $scope.updateStatusError = {
-            message: gettextCatalog.getString('Could not update wallet'),
+            message: gettextCatalog.getString('Could not update wallet.'),
             detail: walletClientErrorService.msg(err)
           }
         }
@@ -413,13 +413,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   $scope.$on("$ionicView.afterEnter", function(event, data) {
     $scope.updateAll();
     refreshAmountSection();
-  });
-
-  $scope.$on("$ionicView.afterLeave", function(event, data) {
-    if ($window.StatusBar) {
-      var statusBarColor = '#192c3a';
-      $window.StatusBar.backgroundColorByHexString(statusBarColor);
-    }
   });
 
   $scope.$on("$ionicView.leave", function(event, data) {

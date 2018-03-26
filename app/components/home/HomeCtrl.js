@@ -186,7 +186,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
             ongoingProcessService.set('loadingTxInfo', false);
             if (err) {
               $log.warn('No txp found');
-              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not found'));
+              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not found.'));
             }
             txpModalService.open(_txp);
           });
@@ -271,7 +271,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       lodash.each($scope.wallets, function(wallet) {
         walletService.getStatus(wallet, {}, function(err, status) {
           if (err) {
-            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered') : walletClientErrorService.msg(err);
+            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered.') : walletClientErrorService.msg(err);
             $log.error(err);
           } else {
             wallet.error = null;

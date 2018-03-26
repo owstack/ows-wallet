@@ -330,14 +330,14 @@ angular.module('owsWalletApp.services')
 
         } catch (ex) {
           $log.info(ex);
-          return cb(gettextCatalog.getString('Could not create: Invalid wallet recovery phrase'));
+          return cb(gettextCatalog.getString('Could not create: Invalid wallet recovery phrase.'));
         }
       } else if (opts.extendedPrivateKey) {
         try {
           walletClient.seedFromExtendedPrivateKey(opts.extendedPrivateKey);
         } catch (ex) {
           $log.warn(ex);
-          return cb(gettextCatalog.getString('Could not create using the specified extended private key'));
+          return cb(gettextCatalog.getString('Could not create using the specified extended private key.'));
         }
       } else if (opts.extendedPublicKey) {
         try {
@@ -348,7 +348,7 @@ angular.module('owsWalletApp.services')
           walletClient.credentials.hwInfo = opts.hwInfo;
         } catch (ex) {
           $log.warn("Creating wallet from Extended Public Key Arg:", ex, opts);
-          return cb(gettextCatalog.getString('Could not create using the specified extended public key'));
+          return cb(gettextCatalog.getString('Could not create using the specified extended public key.'));
         }
       } else {
         var lang = uxLanguageService.getCurrentLanguage();
@@ -397,7 +397,7 @@ angular.module('owsWalletApp.services')
             singleAddress: opts.singleAddress,
             walletPrivKey: opts.walletPrivKey,
           }, function(err, secret) {
-            if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Error creating wallet'), cb);
+            if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Error creating wallet.'), cb);
             return cb(null, walletClient, secret);
           });
         });
@@ -428,11 +428,11 @@ angular.module('owsWalletApp.services')
         if (lodash.find(root.profile.credentials, {
             'walletId': walletData.walletId
           })) {
-          return cb(gettextCatalog.getString('Cannot join the same wallet more that once'));
+          return cb(gettextCatalog.getString('Cannot join the same wallet more that once from the same device.'));
         }
       } catch (ex) {
         $log.debug(ex);
-        return cb(gettextCatalog.getString('Bad wallet invitation'));
+        return cb(gettextCatalog.getString('Bad wallet invitation.'));
       }
 
       $log.debug('Joining Wallet:', opts);
@@ -441,7 +441,7 @@ angular.module('owsWalletApp.services')
         if (err) return cb(err);
 
         walletClient.joinWallet(opts.secret, opts.myName || 'me', {}, function(err) {
-          if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Could not join wallet'), cb);
+          if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Could not join wallet.'), cb);
           addAndBindWalletClient(walletClient, {
             walletServiceUrl: opts.walletServiceUrl
           }, cb);
@@ -465,7 +465,7 @@ angular.module('owsWalletApp.services')
       });
 
       if (!network) {
-        return cb(gettextCatalog.getString('Bad wallet invitation'));
+        return cb(gettextCatalog.getString('Bad wallet invitation.'));
       }
       return cb(null, network);
     };
@@ -514,12 +514,12 @@ angular.module('owsWalletApp.services')
     // Adds and bind a new client to the profile
     var addAndBindWalletClient = function(client, opts, cb) {
       if (!client || !client.credentials)
-        return cb(gettextCatalog.getString('Could not access wallet'));
+        return cb(gettextCatalog.getString('Could not access wallet.'));
 
       var walletId = client.credentials.walletId
 
       if (!root.profile.addWallet(JSON.parse(client.export())))
-        return cb(gettextCatalog.getString("Wallet already in {{appName}}", {
+        return cb(gettextCatalog.getString("Wallet already in {{appName}}.", {
           appName: appConfigService.nameCase
         }));
 
@@ -587,7 +587,7 @@ angular.module('owsWalletApp.services')
         str = JSON.stringify(c);
         commonClient.import(str); // TODO-AJP: this just sets credentials on the client; consider in refactor
       } catch (err) {
-        return cb(gettextCatalog.getString('Could not import. Check input file and spending password'));
+        return cb(gettextCatalog.getString('Could not import. Check input file and spending password.'));
       }
 
       str = JSON.parse(str);
@@ -627,7 +627,7 @@ angular.module('owsWalletApp.services')
           if (err instanceof errors.NOT_AUTHORIZED)
             return cb(err);
 
-          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import.'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
@@ -663,7 +663,7 @@ angular.module('owsWalletApp.services')
           if (err instanceof errors.NOT_AUTHORIZED)
             return cb(err);
 
-          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import.'), cb);
         }
 
         addAndBindWalletClient(walletClient, {
@@ -688,7 +688,7 @@ angular.module('owsWalletApp.services')
           if (err instanceof errors.NOT_AUTHORIZED)
             err.name = 'WALLET_DOES_NOT_EXIST';
 
-          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import'), cb);
+          return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import.'), cb);
         }
 
         addAndBindWalletClient(walletClient, {

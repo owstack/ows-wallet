@@ -82,7 +82,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
       if (parsedCode.length != 5) {
         /// Trying to import a malformed wallet export QR code
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Incorrect code format'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Incorrect code format.'));
         return;
       }
 
@@ -95,7 +95,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       };
 
       if (info.type == 1 && info.hasPassphrase)
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Password required. Make sure to enter your password in advanced options'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Password required. Make sure to enter your password in advanced options.'));
 
       $scope.formData.derivationPath = info.derivationPath;
 
@@ -117,7 +117,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         ////////////
         str2 = networkService.walletClientFor('livenet/btc').getSJCL().decrypt($scope.formData.password, str);
       } catch (e) {
-        err = gettextCatalog.getString('Could not decrypt file, check your password');
+        err = gettextCatalog.getString('Could not decrypt file, check your password.');
         $log.warn(e);
       };
 
@@ -227,7 +227,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
     $scope.importBlob = function(form) {
       if (form.$invalid) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('There is an error in the form'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('There is an error in the form.'));
         return;
       }
 
@@ -236,7 +236,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       var password = $scope.formData.password;
 
       if (!backupFile && !backupText) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please, select your backup file'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please select your backup file.'));
         return;
       }
 
@@ -251,7 +251,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
     $scope.importMnemonic = function(form) {
       if (form.$invalid) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('There is an error in the form'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('There is an error in the form.'));
         return;
       }
 
@@ -267,7 +267,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
       var pathData = derivationPathService.parse($scope.formData.derivationPath, network);
       if (!pathData) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path.'));
         return;
       }
 
@@ -278,7 +278,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       var words = $scope.formData.words || null;
 
       if (!words) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the recovery phrase'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the recovery phrase.'));
         return;
       } else if (words.indexOf('xprv') == 0 || words.indexOf('tprv') == 0) {
         return _importExtendedPrivateKey(words, opts);
@@ -334,7 +334,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
     $scope.importHW = function(form) {
       if (form.$invalid || $scope.formData.account < 0) {
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('There is an error in the form'));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('There is an error in the form.'));
         return;
       }
 
@@ -344,7 +344,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
       if ($scope.formData.seedSource.id == walletService.externalSource.trezor.id) {
         if (account < 1) {
-          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number'));
+          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number.'));
           return;
         }
         account = account - 1;

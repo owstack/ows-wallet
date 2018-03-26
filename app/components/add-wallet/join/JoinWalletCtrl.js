@@ -132,7 +132,7 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
 
           var pathData = derivationPathService.parse($scope.formData.derivationPath, opts.network);
           if (!pathData || (pathData.networkURI != opts.network.getURI())) {
-            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path'));
+            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid derivation path.'));
             return;
           }
 
@@ -145,14 +145,14 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
         opts.walletPrivKey = $scope._walletPrivKey; // Only for testing
 
         if (setSeed && !opts.mnemonic && !opts.extendedPrivateKey) {
-          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the wallet recovery phrase'));
+          popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Please enter the wallet recovery phrase.'));
           return;
         }
 
         if ($scope.formData.seedSource.id == walletService.externalSource.ledger.id || $scope.formData.seedSource.id == walletService.externalSource.trezor.id) {
           var account = $scope.formData.account;
           if (!account || account < 1) {
-            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number'));
+            popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Invalid account number.'));
             return;
           }
 
@@ -173,7 +173,7 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
               service = trezorService;
               break;
             default:
-              popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id');
+              popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id.');
               return;
           }
 
