@@ -46,17 +46,17 @@
         <div ng-class="{'amount__editable--minimize': smallFont, 'amount__editable--standard': !smallFont, 'amount__editable--placeholder': !amount}">
           {{amount || "0.00" }}
           <a class="amount__currency-toggle" ng-click="toggleAlternative()">
-            <span>{{showAlternativeAmount ? alternativeIsoCode : unitName}}</span>
+            <span>{{enteringAlternativeAmount ? alternativeIsoCode : unitName}}</span>
           </a>
         </div>
         <div ng-class="{'amount__results--minimize': smallFont, 'amount__results--standard': !smallFont, 'amount__results--placeholder': !amountResult}">
           <div class="amount__result" ng-show="globalResult">
             {{globalResult}}
-            <span>{{showAlternativeAmount ? alternativeIsoCode : unitName}}</span>
+            <span>{{enteringAlternativeAmount ? alternativeIsoCode : unitName}}</span>
           </div>
-          <div class="amount__result-equiv">
-            <span ng-if="!showAlternativeAmount">&asymp; {{amountResult || '0.00'}} {{alternativeIsoCode}}</span>
-            <span ng-if="showAlternativeAmount">&asymp; {{alternativeResult || '0.00'}} {{unitName}}</span>
+          <div class="amount__result-equiv" ng-if="showAlternativeAmount">
+            <span ng-if="!enterAlternativeAmount">&asymp; {{amountResult || '0.00'}} {{alternativeIsoCode}}</span>
+            <span ng-if="enterAlternativeAmount">&asymp; {{alternativeResult || '0.00'}} {{unitName}}</span>
           </div>
         </div>
       </div>      

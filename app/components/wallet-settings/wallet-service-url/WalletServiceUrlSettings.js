@@ -7,6 +7,7 @@ angular.module('owsWalletApp.controllers').controller('WalletServiceUrlSettingsC
     var walletId = wallet.credentials.walletId;
     var defaults = configService.getDefaults();
 
+    $scope.form = {};
     $scope.wallet = wallet;
     $scope.appName = appConfigService.nameCase;
     $scope.success = null;
@@ -26,6 +27,7 @@ angular.module('owsWalletApp.controllers').controller('WalletServiceUrlSettingsC
 
     $scope.resetDefaultUrl = function() {
       $scope.walletServiceUrl.value = defaults.currencyNetworks[wallet.networkURI].walletService.url;
+      $scope.form.urlForm.$setDirty();
     };
 
     $scope.save = function() {

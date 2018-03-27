@@ -5,7 +5,7 @@ angular.module('owsWalletApp.services')
 
     // This service applies to all network Wallet Clients.
 
-    root.msg = function(err, prefix) {
+    root.msg = function(err, opts) {
       if (!err) {
         return 'Unknown error';
       }
@@ -23,7 +23,7 @@ angular.module('owsWalletApp.services')
       }
 
       var body = '';
-      prefix = prefix || '';
+      var prefix = opts.prefix || '';
 
       if (name) {
         switch (name) {
@@ -157,6 +157,11 @@ angular.module('owsWalletApp.services')
         body = err.message;
       } else {
         body = err;
+      }
+
+      if (opts.clean) {
+        // Remove trailing period.
+        body = body.replace(/\.\s*$/, '');
       }
 
       var msg = prefix + (body ? (prefix ? ': ' : '') + body : '');

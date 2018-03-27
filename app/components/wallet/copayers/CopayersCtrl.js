@@ -29,7 +29,7 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
       $log.debug('Updating wallet:' + $scope.wallet.name)
       walletService.getStatus($scope.wallet, {}, function(err, status) {
         if (err) {
-          return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet.')));
+          return popupService.showAlert(walletClientErrorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
         }
         $scope.wallet.status = status;
         $scope.copayers = $scope.wallet.status.wallet.copayers;

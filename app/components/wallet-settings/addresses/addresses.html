@@ -53,7 +53,7 @@
             <a ng-click="learnMore()" translate>Learn more</a>
           </div>
           <ion-item class="has-click has-detail" ng-repeat="u in latestUnused track by $index" copy-to-clipboard="{{u.address}}">
-            <span>
+            <span class="ellipsis">
               {{u.address}}
             </span>
             <div class="item-detail">

@@ -120,7 +120,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
   var setError = function(err, prefix) {
     $scope.sendStatus = '';
     $scope.loading = false;
-    popupService.showAlert(gettextCatalog.getString('Error'), walletClientErrorService.msg(err, prefix));
+    popupService.showAlert(gettextCatalog.getString('Error'), walletClientErrorService.msg(err, {prefix: prefix}));
   };
 
   $scope.sign = function(onSendStatusChange) {

@@ -490,7 +490,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       function getNewTxs(newTxs, skip, next) {
         getTxsFromServer(wallet, skip, endingTxid, requestLimit, function(err, res, shouldContinue) {
           if (err) {
-            $log.warn(walletClientErrorService.msg(err, 'Server Error')); // TODO-AJP
+            $log.warn(walletClientErrorService.msg(err, {prefix: 'Server Error'})); // TODO-AJP
             var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
             if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
               $log.info('Retrying history download in 5 secs...');
@@ -863,7 +863,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       wallet.savePreferences(prefs, function(err) {
 
         if (err) {
-          popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not save preferences on the server.')));
+          popupService.showAlert(walletClientErrorService.msg(err, {prefix: gettextCatalog.getString('Could not save preferences on the server')}));
           return next(err);
         }
 
@@ -1039,7 +1039,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
         return cb('');
       }
 
-      var atomicUnit = networkService.getAtomicUnit($scope.wallet.networkURI).shortName;
+      var atomicUnit = networkService.getAtomicUnit(wallet.networkURI).shortName;
       var minFee = root.getMinFee(wallet, resp.length);
       var balance = lodash.sum(resp, atomicUnit);
 

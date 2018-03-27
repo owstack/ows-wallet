@@ -24,7 +24,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
     walletService.getMainAddresses($scope.wallet, {}, function(err, addresses) {
       if (err) {
         $scope.loading = false;
-        return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet.')));
+        return popupService.showAlert(walletClientErrorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
       }
 
       var allAddresses = addresses;
@@ -32,7 +32,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
       walletService.getBalance($scope.wallet, {}, function(err, resp) {
         if (err) {
           $scope.loading = false;
-          return popupService.showAlert(walletClientErrorService.msg(err, gettextCatalog.getString('Could not update wallet.')));
+          return popupService.showAlert(walletClientErrorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
         }
 
         withBalance = resp.byAddress;

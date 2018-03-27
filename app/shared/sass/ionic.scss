@@ -28,12 +28,6 @@
   background-color: initial;
 }
 
-// Prevent scrolling when collapsed margins are in play. Default setting is {overflow-y: visible}.
-// See https://stackoverflow.com/questions/19718634/how-to-disable-margin-collapsing
-ion-content .scroll {
-//  overflow-y: scroll;  
-}
-
 // When placing a link in the label of a checkbox, this pulls the click overlay to the right allowing
 // click through to the link in the label.
 .item-checkbox .checkbox {

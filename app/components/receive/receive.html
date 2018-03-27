@@ -20,21 +20,9 @@
     </ion-list>
     <div ng-if="!hasWallets" ng-include="'views/receive/tips/start-receiving/start-receiving.html'"></div>
     <div class="address" ng-if="wallets[0]">
-      <div class="address-info" class="text-center" ng-if="wallet && !wallet.isComplete()">
-        <div class="incomplete">
-          <div class="title">
-            <span translate>Incomplete wallet</span>
-          </div>
-          <div class="subtitle">
-            <span translate>
-              All signing devices must be added to this multisignature wallet before digital currency addresses can be created.
-            </span>
-          </div>
-          <button class="button button-standard button-primary" ng-click="goCopayers()" translate>Open wallet</button>
-        </div>
-      </div>
-      <div class="address-info" ng-if="wallet && wallet.isComplete()">
-        <div class="text-center" copy-to-clipboard="{{addr}}">
+      <div ng-if="wallet && !wallet.isComplete()" ng-include="'views/receive/tips/incomplete-wallet/incomplete-wallet.html'"></div>
+      <div class="address-info" ng-if="wallet">
+        <div class="text-center" copy-to-clipboard="{{addr}}" ng-if="wallet.isComplete()">
           <span ng-show="shouldShowReceiveAddressFromHardware()">
             <button class="button button-standard button-primary" ng-click="showReceiveAddressFromHardware()">
               <span translate>Show address</span>
@@ -69,15 +57,17 @@
             </div>
             <i class="icon arrow-right" ng-show="wallets.length > 1"></i>
           </ion-item>
-          <ion-item class="item-icon-right" ng-click="requestSpecificAmount()">
-            <div translate>Request Specific Amount</div>
-            <i class="icon arrow-right"></i>
-          </ion-item>
-          <ion-item class="item-divider"></ion-item>
-          <ion-item class="has-click is-button" ng-click="setAddress(true)">
-            <div translate>Generate New Address</div>
-          </ion-item>
-          <ion-item class="item-divider"></ion-item>
+          <div ng-if="wallet.isComplete()">
+            <ion-item class="item-icon-right" ng-click="requestSpecificAmount()">
+              <div translate>Request Specific Amount</div>
+              <i class="icon arrow-right"></i>
+            </ion-item>
+            <ion-item class="item-divider"></ion-item>
+            <ion-item class="has-click is-button" ng-click="setAddress(true)">
+              <div translate>Generate New Address</div>
+            </ion-item>
+            <ion-item class="item-divider"></ion-item>
+          </div>
         </ion-list>
       </div>
     </div>

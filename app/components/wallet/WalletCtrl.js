@@ -5,15 +5,14 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   var HISTORY_SHOW_LIMIT = 10;
   var currentTxHistoryPage = 0;
   var listeners = [];
+
   $scope.txps = [];
   $scope.completeTxHistory = [];
   $scope.openTxpModal = txpModalService.open;
   $scope.isCordova = platformInfoService.isCordova;
   $scope.isAndroid = platformInfoService.isAndroid;
   $scope.isIOS = platformInfoService.isIOS;
-
   $scope.headerIsCollapsible = !$scope.isAndroid;
-//  $scope.headerIsCollapsible = false;
   $scope.listTxHistoryPaddingBottom = $window.screen.height * 0.9 + 'px';
 
   $scope.openExternalLink = function(url, target) {
@@ -284,23 +283,9 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
 
   var prevPos;
 
-  function getScrollPosition() {
-    var scrollPosition = $ionicScrollDelegate.getScrollPosition();
-    if (!scrollPosition) {
-      $window.requestAnimationFrame(function() {
-        getScrollPosition();
-      });
-      return;
-    }
-    var pos = scrollPosition.top;
-    if (pos === prevPos) {
-      $window.requestAnimationFrame(function() {
-        getScrollPosition();
-      });
-      return;
-    }
-    prevPos = pos;
-    refreshAmountSection(pos);
+  $scope.getScrollPosition = function() {
+    var position = $ionicScrollDelegate.$getByHandle('walletScroll').getScrollPosition().top;
+    refreshAmountSection(position);
   };
 
   function refreshAmountSection(scrollPos) {
@@ -350,7 +335,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       $scope.headerScale = 'scale3d(' + headerScale + ',' + headerScale + ',' + headerScale + ') translateY(' + headerTop + 'px)';
       $scope.isCollapsing = collapsibleItemHeight < HEADER_MAX_HEIGHT;
       $scope.$digest();
-      getScrollPosition();
     });
   };
 

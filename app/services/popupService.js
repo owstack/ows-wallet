@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, $timeout, platformInfoService, gettextCatalog) {
+angular.module('owsWalletApp.services').service('popupService', function($log, $ionicPopup, $timeout, platformInfoService, gettextCatalog, lodash) {
 
   var isCordova = platformInfoService.isCordova;
 
@@ -92,8 +92,11 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
    * @param {Callback} Function (optional)
    */
 
-  this.showAlert = function(title, msg, cb, okText) {
-    var message = (msg && msg.message) ? msg.message : msg;
+  this.showAlert = function(title, message, cb, okText) {
+    title = (lodash.isEmpty(title) ? '' : title);
+    message = (lodash.isEmpty(message) ? '' : message);
+
+    var msg = (message && message.message) ? message.message : msg;
     $log.warn(title ? (title + ': ' + message) : message);
 
     if (isCordova) {
@@ -115,6 +118,9 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
    */
 
   this.showConfirm = function(title, message, okText, cancelText, cb) {
+    title = (lodash.isEmpty(title) ? '' : title);
+    message = (lodash.isEmpty(message) ? '' : message);
+
     $log.warn(title ? (title + ': ' + message) : message);
 
     if (isCordova) {
@@ -135,8 +141,10 @@ angular.module('owsWalletApp.services').service('popupService', function($log, $
    */
 
   this.showPrompt = function(title, message, opts, cb) {
-    $log.warn(title ? (title + ': ' + message) : message);
+    title = (lodash.isEmpty(title) ? '' : title);
+    message = (lodash.isEmpty(message) ? '' : message);
 
+    $log.warn(title ? (title + ': ' + message) : message);
     opts = opts ||  {};
 
     if (isCordova && !opts.forceHTMLPrompt) {

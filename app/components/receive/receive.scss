@@ -25,20 +25,6 @@
       .address-label {
         font-size: 14px;
         margin: 20px 0;
-      }
-    }
-
-    .incomplete {
-      .title {
-        padding-top: 10%;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: center;
-      }
-
-      .subtitle {
-        padding: 20px;
-        margin-top: 10%;
         text-align: center;
       }
     }
@@ -64,32 +50,6 @@
         float: right;
         opacity: 1;
       }
-    }
-  }
-
-  .receiveTip {
-    text-align: center;
-    padding-top: 62px;
-
-    img {
-      margin-left: -1px;
-    }
-
-    & > .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin: 20px 10px;
-    }
-
-    & > .subtitle {
-      font-size: 1rem;
-      line-height: 1.5em;
-      font-weight: 300;
-      margin: 20px 1em 2.5em;
-    }
-
-    button {
-      margin-top: 1rem;
     }
   }
 }

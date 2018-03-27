@@ -159,7 +159,7 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     var atomicUnit = networkService.getAtomicUnit(networkURI);
     var standardUnit = networkService.getStandardUnit(networkURI);
 
-    if (!networkUnit) { // Alternate currency
+    if (!networkUnit && currency) { // Alternate currency
       amountAtomic = rateService.fromFiat(networkURI, amount, currency).toFixed(atomicUnit.decimals);
       amountUnitStr = $filter('formatFiatAmount')(amount) + ' ' + currency;
 

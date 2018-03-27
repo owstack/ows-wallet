@@ -2,6 +2,7 @@
 
 angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', function($scope, txFormatService, platformInfoService, configService, profileService, walletService, popupService, networkService) {
 
+  // topScope is AmountCtrl
   var amount = $scope.topScope.amount;
   var currency = $scope.topScope.currency;
   var walletId = $scope.topScope.walletId;
@@ -60,6 +61,10 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
 
   $scope.copyToClipboard = function() {
     return $scope.protocol + ':' + $scope.address + '?amount=' + $scope.amountStandard;
+  };
+
+  $scope.isTestnet = function(networkURI) {
+    return networkService.isTestnet(networkURI);
   };
 
   function showErrorAndBack(title, msg) {

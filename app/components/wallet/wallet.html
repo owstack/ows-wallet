@@ -12,7 +12,8 @@
     <div class="head-wrapper" ng-show="wallet && wallet.isComplete() && headerIsCollapsible">
       <span ng-include="'views/wallet/partials/header/header.html'"></span>
     </div>
-    <ion-content ng-style="{'margin-top': contentMargin}" ng-class="{'collapsible': headerIsCollapsible}">
+    <ion-content delegate-handle="walletScroll" on-scroll="getScrollPosition()"
+      ng-style="{'margin-top': contentMargin}" ng-class="{'collapsible': headerIsCollapsible}">
       <ion-refresher ng-if="isAndroid" pulling-icon="ion-ios-refresh" spinner="ios-small" on-refresh="onRefresh()">
       </ion-refresher>
       <!-- -->

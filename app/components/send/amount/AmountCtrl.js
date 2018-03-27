@@ -26,7 +26,8 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     $scope.toAddress = data.stateParams.toAddress;
     $scope.toName = data.stateParams.toName || gettextCatalog.getString('Digital currency address');
     $scope.toEmail = data.stateParams.toEmail;
-    $scope.showAlternativeAmount = data.stateParams.initWithAlt || false;
+    $scope.enterAlternativeAmount = data.stateParams.initWithAlt || false;
+    $scope.showAlternativeAmount = !networkService.isTestnet($scope.networkURI); // No alternative amount for testnet
     $scope.toColor = data.stateParams.toColor;
     $scope.showOptionsMenu = false;
     $scope.useAdvancedKeypad = configService.getSync().advancedKeypad.enabled;
@@ -116,7 +117,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     if ($scope.forceCurrency) {
       return;
     }
-    $scope.showAlternativeAmount = !$scope.showAlternativeAmount;
+    $scope.enterAlternativeAmount = !$scope.enterAlternativeAmount;
 
     if ($scope.amount && isExpression($scope.amount)) {
       var amount = evaluate(format($scope.amount));
@@ -139,7 +140,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     if ($scope.amount.indexOf('.') > -1 && digit == '.') {
       return;
     }
-    if ($scope.showAlternativeAmount && $scope.amount.indexOf('.') > -1 && $scope.amount[$scope.amount.indexOf('.') + 2]) {
+    if ($scope.enterAlternativeAmount && $scope.amount.indexOf('.') > -1 && $scope.amount[$scope.amount.indexOf('.') + 2]) {
       return;
     }
 
@@ -197,7 +198,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   };
 
   function processResult(val) {
-    if ($scope.showAlternativeAmount) {
+    if ($scope.enterAlternativeAmount) {
       return $filter('formatFiatAmount')(val);
     } else {
       return txFormatService.formatAmount($scope.networkURI, val.toFixed(unitDecimals) * unitToAtomicUnit, true);
@@ -299,7 +300,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
       $state.transitionTo($scope.nextStep, {
         walletId: $scope.walletId,
         amount: $scope.useSendMax ? null : _amount,
-        currency: $scope.showAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
+        currency: $scope.enterAlternativeAmount ? $scope.alternativeIsoCode : $scope.unitName,
         useSendMax: $scope.useSendMax
       });
 
@@ -336,7 +337,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
         if (err) {
           popupService.showAlert(gettextCatalog.getString('Insufficent Funds'), err);
         } else {
-          var amount = $scope.showAlternativeAmount ? fromFiat(_amount) : _amount;
+          var amount = $scope.enterAlternativeAmount ? fromFiat(_amount) : _amount;
 
           $state.transitionTo($rootScope.sref('send.confirm'), {
             walletId: $scope.walletId,

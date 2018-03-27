@@ -271,7 +271,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       lodash.each($scope.wallets, function(wallet) {
         walletService.getStatus(wallet, {}, function(err, status) {
           if (err) {
-            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered.') : walletClientErrorService.msg(err);
+            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered.') : walletClientErrorService.msg(err, {clean: true});
             $log.error(err);
           } else {
             wallet.error = null;
@@ -290,7 +290,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     };
 
     var updateWallet = function(wallet) {
-      $log.debug('Updating wallet:' + wallet.name)
+      $log.debug('Updating wallet: ' + wallet.name)
       walletService.getStatus(wallet, {}, function(err, status) {
         if (err) {
           $log.error(err);
