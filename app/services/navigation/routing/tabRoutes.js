@@ -57,7 +57,7 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'network-settings':               { stateName: 'tabs.network-settings',               viewNames: ['tab-settings@tabs'] },
     'networks':                       { stateName: 'tabs.networks',                       viewNames: ['tab-settings@tabs'] },
     'notifications':                  { stateName: 'tabs.notifications',                  viewNames: ['tab-settings@tabs'] },
-    'onboarding':                     { stateName: 'onboarding',                          viewNames: ['onboarding'] },
+    'onboarding':                     { stateName: 'onboarding',                          viewNames: null }, // Abstract state
     'onboarding.backup':              { stateName: 'onboarding.backup',                   viewNames: ['onboarding'] },
     'onboarding.backup-request':      { stateName: 'onboarding.backup-request',           viewNames: ['onboarding'] },
     'onboarding.backup-warning':      { stateName: 'onboarding.backup-warning',           viewNames: ['onboarding'] },
@@ -67,7 +67,7 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'onboarding.import':              { stateName: 'onboarding.import',                   viewNames: ['onboarding'] },
     'onboarding.start':               { stateName: 'onboarding.start',                    viewNames: ['onboarding'] },
     'onboarding.tour':                { stateName: 'onboarding.tour',                     viewNames: ['onboarding'] },
-    'payment-request':                { stateName: 'tabs.payment-request',                viewNames: null },
+    'payment-request':                { stateName: 'tabs.payment-request',                viewNames: null }, // Abstract state
     'payment-request.amount':         { stateName: 'tabs.payment-request.amount',         viewNames: ['tab-receive@tabs'] },
     'passcode':                       { stateName: 'tabs.passcode',                       viewNames: ['tab-settings@tabs'] },
     'pattern':                        { stateName: 'tabs.pattern',                        viewNames: ['tab-settings@tabs'] },
@@ -84,14 +84,14 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'preferences.information':        { stateName: 'tabs.preferences.information',        viewNames: ['tab-settings@tabs'] },
     'preferences.wallet-service-url': { stateName: 'tabs.preferences.wallet-service-url', viewNames: ['tab-settings@tabs'] },
     'proposals':                      { stateName: 'tabs.proposals',                      viewNames: ['tab-home@tabs'] },
-    'rate':                           { stateName: 'tabs.rate',                           viewNames: null },
+    'rate':                           { stateName: 'tabs.rate',                           viewNames: null }, // Abstract state
     'rate.complete':                  { stateName: 'tabs.rate.complete',                  viewNames: ['tab-home@tabs'] },
     'rate.rate-app':                  { stateName: 'tabs.rate.rate-app',                  viewNames: ['tab-home@tabs'] },
     'rate.send':                      { stateName: 'tabs.rate.send',                      viewNames: ['tab-home@tabs'] },
     'receive':                        { stateName: 'tabs.receive',                        viewNames: ['tab-receive'] },
     'receive.backup':                 { stateName: 'tabs.receive.backup',                 viewNames: ['tab-receive@tabs'] },
     'receive.backup-warning':         { stateName: 'tabs.receive.backup-warning',         viewNames: ['tab-receive@tabs'] },
-    'scan':                           { stateName: 'tabs.scan',                           viewNames: ['tab-scan'] },
+    'scan':                           { stateName: 'tabs.scan',                           viewNames: ['tab-scan@tabs'] },
     'scanner':                        { stateName: 'scanner',                             viewNames: null },
     'send':                           { stateName: 'tabs.send',                           viewNames: ['tab-send'] },
     'send.address-book':              { stateName: 'tabs.send.address-book',              viewNames: ['tab-send@tabs'] },
@@ -101,9 +101,9 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'settings.addresses':             { stateName: 'tabs.settings.addresses',             viewNames: ['tab-settings@tabs'] },
     'settings.all-addresses':         { stateName: 'tabs.settings.all-addresses',         viewNames: ['tab-settings@tabs'] },
     'share-app':                      { stateName: 'tabs.share-app',                      viewNames: ['tab-settings@tabs'] },
-    'starting':                       { stateName: 'starting',                            viewNames: null },
+    'starting':                       { stateName: 'starting',                            viewNames: null }, // Body
     'unit':                           { stateName: 'tabs.unit',                           viewNames: ['tab-settings@tabs'] },
-    'unsupported':                    { stateName: 'unsupported',                         viewNames: null },
+    'unsupported':                    { stateName: 'unsupported',                         viewNames: null }, // Body
     'uri':                            { stateName: 'uri',                                 viewNames: ['tab-home'] },
     'wallet':                         { stateName: 'tabs.wallet',                         viewNames: ['tab-home'] },
     'wallet.addresses':               { stateName: 'tabs.wallet.addresses',               viewNames: ['tab-home@tabs'] },
@@ -111,7 +111,7 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'wallet.backup':                  { stateName: 'tabs.wallet.backup',                  viewNames: ['tab-home@tabs'] },
     'wallet.backup-warning':          { stateName: 'tabs.wallet.backup-warning',          viewNames: ['tab-home@tabs'] },
     'wallet.tx-details':              { stateName: 'tabs.wallet.tx-details',              viewNames: ['tab-home@tabs'] }
-  };
+  };  
 
   return root;
 

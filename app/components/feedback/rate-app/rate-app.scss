@@ -40,7 +40,5 @@
     padding: 30px 0 15px;
     position: absolute;
     bottom: 0;
-    bottom: calc(constant(safe-area-inset-bottom));
-    bottom: calc(env(safe-area-inset-bottom));
   }
 }

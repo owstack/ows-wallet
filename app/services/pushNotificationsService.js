@@ -122,7 +122,6 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
         });
         $ionicHistory.clearHistory();
         $state.go($rootScope.sref('home'), {}, {
-          'reload': true,
           'notify': $state.current.name == $rootScope.sref('home') ? false : true
         }).then(function() {
           _openWallet(walletIdHashed);

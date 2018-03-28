@@ -30,7 +30,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       newUri.replace('://', ':');
 
       return newUri;
-    }
+    };
 
     function getParameterByName(name, url) {
       if (!url) return;
@@ -40,7 +40,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       if (!results) return null;
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
+    };
 
     function checkPrivateKey(privateKey) {
       try {
@@ -49,11 +49,10 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         return false;
       }
       return true;
-    }
+    };
 
     function goSend(addr, amount, message, networkURI) {
       $state.go($rootScope.sref('send'), {}, {
-        'reload': true,
         'notify': $state.current.name == $rootScope.sref('send') ? false : true
       });
       // Timeout is required to enable the "Back" button
@@ -72,7 +71,8 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
           });
         }
       }, 100);
-    }
+    };
+
     // Data extensions for Payment Protocol with non-backwards-compatible request.
     // TODO-AJP: does not support detecting testnets.
     if ((/^bitcoin(cash)?:\?r=[\w+]/).exec(data)) {
@@ -257,7 +257,6 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     // Join
     } else if (data && data.match(joinMatchRE)) {
       $state.go($rootScope.sref('home'), {}, {
-        'reload': true,
         'notify': $state.current.name == $rootScope.sref('home') ? false : true
       }).then(function() {
         $state.transitionTo($rootScope.sref('add.join'), {
@@ -269,7 +268,6 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     // Old join
     } else if (data && data.match(/^[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
       $state.go($rootScope.sref('home'), {}, {
-        'reload': true,
         'notify': $state.current.name == $rootScope.sref('home') ? false : true
       }).then(function() {
         $state.transitionTo($rootScope.sref('add.join'), {
@@ -309,7 +307,6 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
   function goToAmountPage(toAddress, networkURI) {
     $state.go($rootScope.sref('send'), {}, {
-      'reload': true,
       'notify': $state.current.name == $rootScope.sref('send') ? false : true
     });
     $timeout(function() {
@@ -330,7 +327,6 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     };
     scannerService.pausePreview();
     $state.go($rootScope.sref('send'), {}, {
-      'reload': true,
       'notify': $state.current.name == $rootScope.sref('send') ? false : true
     }).then(function() {
       $timeout(function() {
