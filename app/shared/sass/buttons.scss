@@ -1,8 +1,8 @@
 %button-standard {
-  width: 85%;
-  max-width: 300px;
-  margin-left: auto;
-  margin-right: auto;
+  width: $v-button-width;
+  max-width: $v-button-max-width;
+  min-height: $v-button-min-height;
+  margin: auto;
   display: block;
 }
 
@@ -91,6 +91,13 @@
 
 .button-clear {
   background: none !important;
+}
+
+.button {
+  &.button-margin {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
 }
 
 .button,

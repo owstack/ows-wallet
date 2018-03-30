@@ -14,9 +14,12 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
   };
 
   // This is only to show the starter message, it does not have any other function
-  var updateHasFunds = function() {
-    $scope.hasFunds = profileService.hasFunds();
-    $scope.checkingBalance = false;
+  var updateHasFunds = function(cb) {
+    profileService.hasFunds({}, function(hasFunds) {
+      $scope.hasFunds = hasFunds;
+      $scope.checkingBalance = false;
+      cb();
+    });
   };
 
   var updateWalletsList = function() {
@@ -254,10 +257,12 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
       $scope.checkingBalance = false;
       return;
     }
-    updateHasFunds();
-    updateWalletsList();
-    updateContactsList(function() {
-      updateList();
+
+    updateHasFunds(function() {
+      updateWalletsList();
+      updateContactsList(function() {
+        updateList();
+      });
     });
   });
 });

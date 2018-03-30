@@ -23,9 +23,7 @@
   }
 
   .backup-text {
-    position: relative;
-    top: 4vh;
-    margin: auto;
+    margin: 1rem auto;
     width: 100%;
 
     @media(max-height: 480px) {
@@ -114,6 +112,7 @@
     width: 85%;
     max-width: 500px;
     height: 270px;
+    max-height: 45%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,11 +145,6 @@
       > img {
         width: 100%;
         max-width: 500px;
-      }
-
-      .cta-buttons {
-        @extend %cta-buttons;
-        padding-bottom: calc(57px + 16px);
       }
     }
 

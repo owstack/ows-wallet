@@ -42,12 +42,6 @@
 
     .balance-wrapper {
       padding-left: 30px;
-    }
-
-    .make-collapsible {
-      transform-origin: left top;
-      -webkit-transform: scale3d(1, 1, 1) translateY(20px);
-      transform: scale3d(1, 1, 1) translateY(20px);
 
       .balance-value {
         font-size: 38px;
@@ -68,18 +62,10 @@
       }
     }
 
-    &-alternative {
-      line-height: 36px;
-
-      .value {
-        font-size: 14px;
-        font-weight: bold;
-      }
-
-      .unit {
-        font-size: 14px;
-        font-family: $v-font-family-light;
-      }
+    .make-collapsible {
+      transform-origin: left top;
+      -webkit-transform: scale3d(1, 1, 1) translateY(20px);
+      transform: scale3d(1, 1, 1) translateY(20px);
     }
   }
 

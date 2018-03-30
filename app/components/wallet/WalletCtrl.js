@@ -289,6 +289,10 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   };
 
   function refreshAmountSection(scrollPos) {
+    if (!$scope.headerIsCollapsible) {
+      return;
+    }
+
     if ($scope.status) {
       $scope.showAvailableBalance = ($scope.status.totalBalanceAtomic != $scope.status.spendableAmount);
     } else {

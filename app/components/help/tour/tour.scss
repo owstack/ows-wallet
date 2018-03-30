@@ -27,9 +27,7 @@
   }
 
   .tour-text {
-    position: relative;
-    top: 4vh;
-    margin: auto;
+    margin: 1rem auto;
     width: 100%;
 
     @media(max-height: 480px) {
@@ -66,7 +64,9 @@
 
   .cta-buttons {
     @extend %cta-buttons;
-    padding-bottom: calc(57px + 16px);
+    bottom: calc(#{$v-button-bottom} + #{$v-button-min-height} / 2);
+    bottom: calc(constant(safe-area-inset-bottom) + #{$v-button-bottom} + #{$v-button-min-height} / 2);
+    bottom: calc(env(safe-area-inset-bottom) + #{$v-button-bottom} + #{$v-button-min-height} / 2);
   }
 
   .swiper-pagination {
@@ -79,8 +79,8 @@
   }
 
   .swiper-container-horizontal > .swiper-pagination {
-    bottom: 16px;
-    bottom: calc(constant(safe-area-inset-bottom) + 16px);
-    bottom: calc(env(safe-area-inset-bottom) + 16px);
+    bottom: 2vh;
+    bottom: calc(constant(safe-area-inset-bottom) + 2vh);
+    bottom: calc(env(safe-area-inset-bottom) + 2vh);
   }
 }

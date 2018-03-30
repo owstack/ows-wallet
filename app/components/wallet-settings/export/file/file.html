@@ -43,24 +43,24 @@
       </div>
     </ion-list>
     <div ng-show="!isCordova">
-      <button class="button button-standard button-primary m20t m20b" ng-click="downloadWalletBackup()"
+      <button class="button button-standard button-primary button-margin" ng-click="downloadWalletBackup()"
         ng-disabled="(!formData.password || formData.password != formData.repeatpassword)" ng-show="!isSafari">
         <i class="fi-download"></i>
         <span translate>Download</span>
       </button>
-      <button class="button button-standard button-primary m20t m20b" ng-click="viewWalletBackup()"
+      <button class="button button-standard button-primary button-margin" ng-click="viewWalletBackup()"
         ng-disabled="(!formData.password || formData.password != formData.repeatpassword)" ng-show="isSafari">
         <i class="fi-eye"></i>
         <span translate>View</span>
       </button>
     </div>
     <div ng-show="isCordova">
-      <button class="button button-standard button-primary m20t m20b"
+      <button class="button button-standard button-primary button-margin"
         ng-disabled="(!formData.password || formData.password != formData.repeatpassword)" ng-click="copyWalletBackup()">
         <i class="fi-clipboard-pencil"></i>
         <span translate>Copy to clipboard</span>
       </button>
-      <button class="button button-standard button-primary m20b"
+      <button class="button button-standard button-primary button-margin"
         ng-disabled="(!formData.password || formData.password != formData.repeatpassword)" ng-click="sendWalletBackup()">
         <i class="fi-mail"></i>
         <span translate>Send by email</span>

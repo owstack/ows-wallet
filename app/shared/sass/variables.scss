@@ -104,6 +104,15 @@ $v-notification-warning-bg:                          $v-warning-color !default;
 $v-notification-error-border:                        $v-error-color !default;
 $v-notification-error-bg:                            $v-error-color !default;
 
+$v-button-height:                                    52px !default;
+$v-button-width:                                     85% !default;
+$v-button-max-width:                                 300px !default;
+$v-button-min-height:                                $v-button-height + 5px !default;
+$v-button-border-radius:                             $v-subtle-radius !default;
+$v-button-padding:                                   16px !default;
+$v-button-bottom:                                    2vh !default;
+$v-button-stacked-space:                             16px !default;
+
 $v-button-primary-bg:                                $v-accent-1-color !default;
 $v-button-primary-color:                             $v-white-color !default;
 $v-button-primary-border:                            transparent !default;
@@ -396,9 +405,9 @@ $font-family-bold-sans-serif:                        $v-font-family-bold !defaul
 
 $link-color:                                         $v-link-color !default;
 
-$button-border-radius:                               $v-subtle-radius !default;
-$button-height:                                      52px !default;
-$button-padding:                                     16px !default;
+$button-border-radius:                               $v-button-border-radius !default;
+$button-height:                                      $v-button-height !default;
+$button-padding:                                     $v-button-padding !default;
 
 $base-background-color:                              $v-subtle-gray !default;
 

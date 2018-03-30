@@ -98,7 +98,7 @@
           </ion-toggle>
         </div>
       </ion-list>
-      <button type="submit" class="button button-standard button-primary m20t m20b"
+      <button type="submit" class="button button-standard button-primary button-margin"
         ng-disabled="setupForm.$invalid || ((encrypt && !formData.passwordSaved) || encrypt && ((formData.seedSource.id == 'new' && !formData.createPassphrase) || (formData.seedSource.id == 'set' && !formData.passphrase)))">
         <span translate>Create new wallet</span>
       </button>

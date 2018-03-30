@@ -1012,7 +1012,7 @@ angular.module('owsWalletApp.services')
     };
 
     // Check to see if at least one wallet has funds.
-    root.hasFunds = function(opts) {
+    root.hasFunds = function(opts, cb) {
       opts = opts || {};
       opts.networkURI = opts.networkURI || null;
       var hasFunds = false;
@@ -1033,7 +1033,7 @@ angular.module('owsWalletApp.services')
           }
         });
       });
-      return hasFunds;
+      cb(hasFunds);
     };
 
     return root;

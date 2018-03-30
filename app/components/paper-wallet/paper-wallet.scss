@@ -5,6 +5,8 @@
   .button.button-standard.button-primary {
 	  position: absolute;
     bottom: 30px;
+    bottom: calc(constant(safe-area-inset-bottom) + 30px);
+    bottom: calc(env(safe-area-inset-bottom) + 30px);
     left: 50%;
     transform: translateX(-50%);
   }

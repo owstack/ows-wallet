@@ -32,17 +32,16 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', fu
   $scope.sendTo = function(index) {
     $ionicHistory.removeBackView();
     $state.go($rootScope.sref('send'));
-    if (profileService.hasFunds()) {
-      $timeout(function() {
-        $state.transitionTo($rootScope.sref('send.amount'), {
-          networkURI: $scope.addressbookEntry.addresses[index].networkURI,
-          toAddress: $scope.addressbookEntry.addresses[index].address,
-          toName: $scope.addressbookEntry.name + ($scope.addressbookEntry.addresses[index].label ? ' - ' + $scope.addressbookEntry.addresses[index].label : ''),
-          toEmail: $scope.addressbookEntry.email,
-          recipientType: 'contact'
-        });
-      }, 100);
-    }
+    
+    $timeout(function() {
+      $state.transitionTo($rootScope.sref('send.amount'), {
+        networkURI: $scope.addressbookEntry.addresses[index].networkURI,
+        toAddress: $scope.addressbookEntry.addresses[index].address,
+        toName: $scope.addressbookEntry.name + ($scope.addressbookEntry.addresses[index].label ? ' - ' + $scope.addressbookEntry.addresses[index].label : ''),
+        toEmail: $scope.addressbookEntry.email,
+        recipientType: 'contact'
+      });
+    }, 100);
   };
 
   $scope.edit = function() {

@@ -12,8 +12,8 @@
   .button-bar {
     margin: auto;
     padding-top: 5px;
-    width: 85%;
-    max-width: 300px;
+    width: $v-button-width;
+    max-width: $v-button-max-width;
 
     > .button {
       font-size: 12px;

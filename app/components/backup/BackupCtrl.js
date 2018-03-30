@@ -120,6 +120,11 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     };
 
     $scope.copyRecoveryPhrase = function() {
+      // Some devices complete the DOM load and interpolation prior to $ionicView.beforeEnter event being fired.
+      if (!$scope.wallet) {
+        return;
+      }
+
       if (networkService.isLivenet($scope.wallet.networkURI)) {
         return null;
       } else if (!$scope.wallet.credentials.mnemonic) {
