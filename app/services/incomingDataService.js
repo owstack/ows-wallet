@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfigService, popupService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfigService, popupService, gettextCatalog, networkService, profileService) {
 
   var root = {};
   var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO-AJP: make this extensible
@@ -51,26 +51,63 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       return true;
     };
 
-    function goSend(addr, amount, message, networkURI) {
-      $state.go($rootScope.sref('send'), {}, {
-        'notify': $state.current.name == $rootScope.sref('send') ? false : true
-      });
-      // Timeout is required to enable the "Back" button
-      $timeout(function() {
-        if (amount) {
+    function goSend(networkURI, address, amount, message) {
+      scannerService.pausePreview();
+
+      if (amount) {
+        $state.go($rootScope.sref('send'), {}, {
+          'notify': $state.current.name == $rootScope.sref('send') ? false : true
+        });
+
+        // Timeout is required to enable the "Back" button
+        $timeout(function() {
           $state.transitionTo($rootScope.sref('send.confirm'), {
             toAmount: amount,
-            toAddress: addr,
+            toAddress: address,
             description: message,
             networkURI: networkURI
           });
+        }, 100);
+
+      } else {
+
+        if (!profileService.hasFunds({networkURI: networkURI})) {
+          // No funds available, alert and redirect to home.
+          popupService.showAlert(
+            gettextCatalog.getString('Insufficient Funds'),
+            gettextCatalog.getString('Cannot make payment from any wallet.'));
+
+          return $state.go($rootScope.sref('home'));
+
         } else {
+
+          // Greater than zero funds available.
           $state.transitionTo($rootScope.sref('send.amount'), {
-            toAddress: addr,
+            toAddress: address,
             networkURI: networkURI
           });
         }
-      }, 100);
+      }
+    };
+
+    function handlePayPro(payProDetails) {
+      scannerService.pausePreview();
+
+      var stateParams = {
+        toAmount: payProDetails.amount,
+        toAddress: payProDetails.toAddress,
+        description: payProDetails.memo,
+        networkURI: payProDetails.networkURI,
+        paypro: payProDetails
+      };
+
+      $state.go($rootScope.sref('send'), {}, {
+        'notify': $state.current.name == $rootScope.sref('send') ? false : true
+      }).then(function() {
+        $timeout(function() {
+          $state.transitionTo($rootScope.sref('send.confirm'), stateParams);
+        });
+      });
     };
 
     // Data extensions for Payment Protocol with non-backwards-compatible request.
@@ -134,7 +171,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         payproService.getPayProDetails(parsed.r, function(err, details) {
           if (err) {
             if (addr && amount) {
-              goSend(addr, amount, message);
+              goSend('', addr, amount, message);
             } else {
               popupService.showAlert(gettextCatalog.getString('Error'), err);
             }
@@ -154,7 +191,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         if (btcLib.Address.isValid(addr, 'livenet') || btcLib.Address.isValid(addr, 'testnet')) {
           addrNetwork = btcLib.Address(addr).network;
           var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-          goSend(addr, amount, message, networkURI);
+          goSend(networkURI, addr, amount, message);
         } else {
           return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
         }
@@ -173,7 +210,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         payproService.getPayProDetails(parsed.r, function(err, details) {
           if (err) {
             if (addr && amount) {
-              goSend(addr, amount, message);
+              goSend('', addr, amount, message);
             } else {
               popupService.showAlert(gettextCatalog.getString('Error'), err);
             }
@@ -192,7 +229,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         if (bchLib.Address.isValid(addr, 'livenet')) {
           addrNetwork = bchLib.Address(addr).network;
           var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-          goSend(addr, amount, message, networkURI);
+          goSend(networkURI, addr, amount, message);
         } else {
           return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
         }
@@ -238,7 +275,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
           type: 'cryptoAddress'
         });
       } else {
-        goToAmountPage(data, networkURI);
+        goSend(networkURI, data);
       }
     // Plain bitcoincash address
     } else if (bchLib.Address.isValid(data, 'livenet') || bchLib.Address.isValid(data, 'testnet')) {
@@ -252,7 +289,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
           type: 'cryptoAddress'
         });
       } else {
-        goToAmountPage(data, networkURI);
+        goSend(networkURI, data);
       }
     // Join
     } else if (data && data.match(joinMatchRE)) {
@@ -304,36 +341,6 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
     return false;
   };
-
-  function goToAmountPage(toAddress, networkURI) {
-    $state.go($rootScope.sref('send'), {}, {
-      'notify': $state.current.name == $rootScope.sref('send') ? false : true
-    });
-    $timeout(function() {
-      $state.transitionTo($rootScope.sref('send.amount'), {
-        networkURI: networkURI,
-        toAddress: toAddress
-      });
-    }, 100);
-  }
-
-  function handlePayPro(payProDetails) {
-    var stateParams = {
-      toAmount: payProDetails.amount,
-      toAddress: payProDetails.toAddress,
-      description: payProDetails.memo,
-      networkURI: payProDetails.networkURI,
-      paypro: payProDetails
-    };
-    scannerService.pausePreview();
-    $state.go($rootScope.sref('send'), {}, {
-      'notify': $state.current.name == $rootScope.sref('send') ? false : true
-    }).then(function() {
-      $timeout(function() {
-        $state.transitionTo($rootScope.sref('send.confirm'), stateParams);
-      });
-    });
-  }
 
   return root;
 });

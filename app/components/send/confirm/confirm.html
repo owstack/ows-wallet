@@ -17,18 +17,23 @@
           <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '...'}}</div>
         </div>
       </ion-item>
+      <!-- No wallet -->
+      <div class="box-notification warning" ng-if="!wallet">
+        <h2 translate>No Wallet</h2>
+        <p translate>There is no wallet available to make this payment.</p>
+      </div>
       <!-- Paypro time -->
-      <ion-item ng-if="tx.paypro">
+      <ion-item ng-if="tx.paypro" >
         <div ng-if="!paymentExpired">
           <span translate>This payment expires in</span>
           <span class="text-warning" ng-if="!paymentExpired">{{remainingTimeStr}}</span>
         </div>
-        <div ng-if="!paymentExpired">
+        <div ng-if="paymentExpired">
           <span class="text-warning" translate>This payment has expired.</span>
         </div>
       </ion-item>
       <!-- To -->
-      <ion-item class="has-label" ng-class="{'item-icon-right': tx.paypro}">
+      <ion-item class="has-label" ng-class="{'item-icon-right': tx.paypro}" ng-click="onToItemClick()">
         <span class="input-label" translate>To</span>
         <!-- Wallet -->
         <div class="item item-sub has-detail item-fh item-icon-left icon-left-md" ng-if="tx.recipientType == 'wallet'">
@@ -50,27 +55,36 @@
             <div class="item-detail ellipsis">{{tx.toAddress}}</div>
           </div>
         </div>
-        <!-- Unknown / Address / Paypro -->
-        <div class="item item-sub has-click item-icon-left icon-left-md" ng-if="!tx.recipientType" ng-class="{'has-detail': tx.toName}">
+        <!-- Paypro -->
+        <div class="item item-sub has-click item-icon-left icon-left-md" ng-if="!tx.recipientType &&tx.paypro"
+          ng-class="{'has-detail': tx.toName}">
           <i class="icon md-icon left-icon">
             <img ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
           </i>
-          <div copy-to-clipboard="{{tx.toAddress}}" ng-if="!tx.paypro" class="ellipsis">
+          <div ng-if="tx.paypro">
+            <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked text-success"></i>
+            <i ng-show="!tx.paypro.caTrusted" class="ion-unlocked text-danger"></i>
+            <span class="ellipsis">{{tx.paypro.domain || tx.paypro.toAddress}}</span>
+            <div class="item-detail" ng-show="tx.toName">{{tx.toName}}</div>
+          </div>
+        </div>
+        <!-- Unknown / Address -->
+        <div class="item item-sub has-click item-icon-left icon-left-md" ng-if="!tx.recipientType && !tx.paypro"
+          ng-class="{'has-detail': tx.toName}">
+          <i class="icon md-icon left-icon">
+            <img ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
+          </i>
+          <div copy-to-clipboard="{{tx.toAddress}}" class="ellipsis">
             <span ng-if="tx.toName">{{tx.toName}}</span>
             <span ng-if="!tx.toName">{{tx.toAddress}}</span>
             <div class="item-detail" ng-if="tx.toName">{{tx.toAddress}}</div>
           </div>
-          <div ng-if="tx.paypro" ng-click="openPPModal(tx.paypro)">
-            <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked text-success"></i>
-            <i ng-show="!tx.paypro.caTrusted" class="ion-unlocked text-danger"></i>
-            <span class="ellipsis">conduitpay.com{{tx.paypro.domain || tx.paypro.toAddress}}</span>
-            <div class="item-detail" ng-show="tx.toName">{{tx.toName}}</div>
-          </div>
         </div>
+        <!-- Navigation arrow -->
         <i class="icon arrow-right" ng-if="tx.paypro"></i>
       </ion-item>
       <!-- From -->
-      <ion-item class="has-label item-icon-right" ng-hide="!wallet" ng-click="showWalletSelector()">
+      <ion-item class="has-label item-icon-right" ng-if="wallet" ng-click="showWalletSelector()">
         <span class="input-label" translate>From</span>
         <div class="item item-sub item-icon-left icon-left-md">
           <div ng-if="wallet">

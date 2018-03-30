@@ -1012,18 +1012,24 @@ angular.module('owsWalletApp.services')
     };
 
     // Check to see if at least one wallet has funds.
-    root.hasFunds = function() {
+    root.hasFunds = function(opts) {
+      opts = opts || {};
+      opts.networkURI = opts.networkURI || null;
       var hasFunds = false;
       var index = 0;
+
       lodash.each(Object.keys(root.wallet), function(walletId) {
         walletService.getStatus(root.wallet[walletId], {}, function(err, status) {
           ++index;
           if (err && !status) {
             $log.error(err);
-            // Error updating the wallet. Probably a network error, do not show starter message
-            hasFunds = false;
+
           } else if (status.availableBalanceAtomic > 0) {
-            hasFunds = true;
+
+            if (opts.networkURI && opts.networkURI == root.wallet[walletId].networkURI) {
+              hasFunds = true;
+              return false; // Break out of loop
+            }
           }
         });
       });

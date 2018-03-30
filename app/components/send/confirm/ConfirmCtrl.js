@@ -21,7 +21,6 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     }, 1);
   }
 
-
   $scope.showWalletSelector = function() {
     $scope.walletSelector = true;
     refresh();
@@ -34,7 +33,6 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
   $scope.$on("$ionicView.enter", function(event, data) {
     $ionicConfig.views.swipeBackEnabled(false);
   });
-
 
   function exitWithError(err) {
     $log.info('Error setting wallet selector:' + err);
@@ -71,7 +69,6 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
       });
 
       if (!$scope.wallets || !$scope.wallets.length) {
-        popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('There are no wallets with an available balance to create a transaction.'));
         return cb();
       }
 
@@ -87,21 +84,16 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
             walletsUpdated++;
             w.status = status;
 
-            if (!status.availableBalanceAtomic)
-              $log.debug('No balance available in: ' + w.name);
-
             if (status.availableBalanceAtomic > minAmount) {
               filteredWallets.push(w);
             }
           }
 
           if (++index == $scope.wallets.length) {
-            if (!walletsUpdated)
+            if (!walletsUpdated) {
               return cb('Could not update any wallet');
-
-            if (lodash.isEmpty(filteredWallets)) {
-              popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds to create a transaction from any wallet.'));
             }
+
             $scope.wallets = lodash.clone(filteredWallets);
             return cb();
           }
@@ -137,6 +129,10 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     $scope.isCordova = isCordova;
     $scope.showAddress = false;
 
+    if (tx.paypro) {
+      _paymentTimeControl(tx.paypro.expires);
+    }
+
     updateTx(tx, null, {}, function() {
       $scope.walletSelectorTitle = gettextCatalog.getString('Send from');
 
@@ -145,7 +141,13 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
           return exitWithError('Could not update wallets');
         }
 
-        if (!desiredWalletId) {
+        if ($scope.wallets.length == 0) {
+
+          popupService.showAlert(
+            gettextCatalog.getString('Insufficient Funds'),
+            gettextCatalog.getString('There are no wallets available to make a payment.'));
+
+        } else if (!desiredWalletId) {
 
           // Either show the wallet selector or choose the one wallet found.
           if ($scope.wallets.length > 1) {
@@ -156,6 +158,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
         } else {
 
+          // Desired wallet is set.
           if ($scope.wallets.length > 1) {
 
             var desiredWallet = lodash.find($scope.wallets, function(w) {
@@ -176,13 +179,14 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
             // The one wallet found may not be the desiredWallet (we select it anyway); if it's not then let the user
             // know that we could not select the desired wallet to send from.
             if ($scope.wallets[0].credentials.walletId != desiredWalletId) {
-              popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds for fee in selected wallet. Choose another wallet.'));
+              popupService.showAlert(
+                gettextCatalog.getString('Insufficient Funds'),
+                gettextCatalog.getString('Cannot make payment from selected wallet.'));
             }
             setWallet($scope.wallets[0], tx);
           }
         }
       });
-
     });
   });
 
@@ -292,7 +296,9 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
           $log.debug('Send max info', sendMaxInfo);
 
           if (tx.sendMax && sendMaxInfo.amount == 0) {
-            popupService.showAlert(gettextCatalog.getString('Insufficient Funds'), gettextCatalog.getString('Not enough funds available to pay the network fee.'));
+            popupService.showAlert(
+              gettextCatalog.getString('Insufficient Funds'),
+              gettextCatalog.getString('Not enough funds available to pay the network fee.'));
             return cb('no_funds');
           }
 
@@ -441,10 +447,6 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
     setButtonText(wallet.credentials.m > 1, !!tx.paypro);
 
-    if (tx.paypro) {
-      _paymentTimeControl(tx.paypro.expires);
-    }
-
     updateTx(tx, wallet, {
       dryRun: true
     }, function(err) {
@@ -463,24 +465,32 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     popupService.showAlert(gettextCatalog.getString('Error at confirm'), walletClientErrorService.msg(msg));
   };
 
-  $scope.openPPModal = function() {
-    $ionicModal.fromTemplateUrl('views/send/confirm/payment-protocol/payment-protocol.html', {
-      scope: $scope
-    }).then(function(modal) {
-      $scope.payproModal = modal;
-      $scope.payproModal.show();
-    });
+  $scope.onToItemClick = function() {
+    function openPPModal() {
+      $ionicModal.fromTemplateUrl('views/send/confirm/payment-protocol/payment-protocol.html', {
+        scope: $scope
+      }).then(function(modal) {
+        $scope.payproModal = modal;
+        $scope.payproModal.show();
+      });
+    };
+
+    if (tx.paypro) {
+      openPPModal();
+    }
   };
 
   $scope.cancel = function() {
-    $scope.payproModal.hide();
+    $scope.payproModal.remove();
   };
 
   $scope.approve = function(tx, wallet, onSendStatusChange) {
     if (!tx || !wallet) return;
 
     if ($scope.paymentExpired) {
-      popupService.showAlert(gettextCatalog.getString('Payment Request Expired'), gettextCatalog.getString('This payment request has expired.'));
+      popupService.showAlert(
+        gettextCatalog.getString('Payment Request Expired'),
+        gettextCatalog.getString('This payment request has expired.'));
       $scope.sendStatus = '';
       $timeout(function() {
         $scope.$apply();
