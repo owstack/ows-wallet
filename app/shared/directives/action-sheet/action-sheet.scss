@@ -14,13 +14,18 @@ action-sheet {
       padding-top: 1.75rem;
       padding-left: 1.25rem;
       padding-right: 1.25rem;
-      padding-bottom: 7px;
+      padding-bottom: 0;
+      padding-bottom: calc(constant(safe-area-inset-bottom));
+      padding-bottom: calc(env(safe-area-inset-bottom));
+
       max-width: 550px;
       max-height: 100vh;
       overflow: scroll;
 
       &.has-tab-bar {
-        padding-bottom: 56px; // 49(tab bar height) + 7
+        padding-bottom: $tabs-height;
+        padding-bottom: calc(constant(safe-area-inset-bottom) + #{$tabs-height});
+        padding-bottom: calc(env(safe-area-inset-bottom) + #{$tabs-height});
       }
 
       &.slide-up {
