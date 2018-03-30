@@ -14,6 +14,8 @@ angular.module('owsWalletApp.directives')
         onSelect: '=onSelect'
       },
       link: function(scope, element, attrs) {
+        scope.hasTabs = (attrs.hasTabs != undefined || (attrs.hasTabs == 'true') ? true : false);
+
         scope.hide = function() {
           scope.show = false;
         };

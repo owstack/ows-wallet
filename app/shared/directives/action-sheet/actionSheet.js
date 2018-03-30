@@ -8,6 +8,7 @@ angular.module('owsWalletApp.directives')
       transclude: true,
       scope: {
         show: '=show',
+        hasTabs: '=hasTabs'
       },
       link: function(scope, element, attrs) {
         scope.$watch('show', function() {
@@ -19,6 +20,7 @@ angular.module('owsWalletApp.directives')
             scope.revealMenu = false;
           }
         });
+
         scope.hide = function() {
           scope.show = false;
           $rootScope.$broadcast('incomingDataMenu.menuHidden');

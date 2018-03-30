@@ -6,6 +6,8 @@ angular.module('owsWalletApp.directives')
       restrict: 'E',
       templateUrl: 'shared/menus/incoming-data/incoming-data.html',
       link: function(scope, element, attrs) {
+        scope.hasTabs = (attrs.hasTabs != undefined || (attrs.hasTabs == 'true') ? true : false);
+
         $rootScope.$on('incomingDataMenu.showMenu', function(event, data) {
           $timeout(function() {
             scope.networkURI = data.networkURI;
@@ -23,13 +25,16 @@ angular.module('owsWalletApp.directives')
             }
           });
         });
+
         scope.hide = function() {
           scope.showMenu = false;
           $rootScope.$broadcast('incomingDataMenu.menuHidden');
         };
+
         scope.goToUrl = function(url) {
           externalLinkService.open(url);
         };
+
         scope.sendPaymentToAddress = function(networkURI, address) {
           scope.showMenu = false;
           $state.go($rootScope.sref('send')).then(function() {
@@ -41,6 +46,7 @@ angular.module('owsWalletApp.directives')
             }, 50);
           });
         };
+
         scope.addToAddressBook = function(networkURI, address) {
           scope.showMenu = false;
           $timeout(function() {
@@ -55,6 +61,7 @@ angular.module('owsWalletApp.directives')
             });
           }, 100);
         };
+
         scope.scanPaperWallet = function(privateKey) {
           scope.showMenu = false;
           $state.go($rootScope.sref('home')).then(function() {

@@ -16,6 +16,7 @@ angular.module('owsWalletApp.directives')
       },
       link: function(scope, element, attrs) {
         scope.isCordova = platformInfoService.isCordova;
+        scope.hasTabs = (attrs.hasTabs != undefined || (attrs.hasTabs == 'true') ? true : false);
 
         scope.hide = function() {
           scope.show = false;

@@ -1026,7 +1026,7 @@ angular.module('owsWalletApp.services')
 
           } else if (status.availableBalanceAtomic > 0) {
 
-            if (opts.networkURI && opts.networkURI == root.wallet[walletId].networkURI) {
+            if (opts.networkURI == null || (opts.networkURI && opts.networkURI == root.wallet[walletId].networkURI)) {
               hasFunds = true;
               return false; // Break out of loop
             }

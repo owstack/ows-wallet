@@ -54,40 +54,29 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     function goSend(networkURI, address, amount, message) {
       scannerService.pausePreview();
 
-      if (amount) {
-        $state.go($rootScope.sref('send'), {}, {
-          'notify': $state.current.name == $rootScope.sref('send') ? false : true
-        });
+      $state.go($rootScope.sref('send'), {}, {
+        'notify': $state.current.name == $rootScope.sref('send') ? false : true
+      });
 
-        // Timeout is required to enable the "Back" button
-        $timeout(function() {
-          $state.transitionTo($rootScope.sref('send.confirm'), {
+      // Timeout is required to enable the "Back" button (set ionic back view)
+      $timeout(function() {
+        if (amount) {
+
+           $state.transitionTo($rootScope.sref('send.confirm'), {
             toAmount: amount,
             toAddress: address,
             description: message,
             networkURI: networkURI
           });
-        }, 100);
-
-      } else {
-
-        if (!profileService.hasFunds({networkURI: networkURI})) {
-          // No funds available, alert and redirect to home.
-          popupService.showAlert(
-            gettextCatalog.getString('Insufficient Funds'),
-            gettextCatalog.getString('Cannot make payment from any wallet.'));
-
-          return $state.go($rootScope.sref('home'));
 
         } else {
 
-          // Greater than zero funds available.
           $state.transitionTo($rootScope.sref('send.amount'), {
             toAddress: address,
             networkURI: networkURI
           });
         }
-      }
+      });
     };
 
     function handlePayPro(payProDetails) {

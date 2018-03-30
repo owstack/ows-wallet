@@ -10,6 +10,7 @@ angular.module('owsWalletApp.services')
         return 'Unknown error';
       }
 
+      opts = opts || {};
       var name;
 
       if (err.name) {
