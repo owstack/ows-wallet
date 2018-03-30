@@ -122,7 +122,10 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         if (screen.width < 768) {
           screen.lockOrientation('portrait');
         }
-        Keyboard.hideFormAccessoryBar(false);
+
+        if (platformInfoService.isIOS) {
+          Keyboard.hideFormAccessoryBar(false);
+        }
       }
 
       $ionicPlatform.registerBackButtonAction(function(e) {
