@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('collectEmailMenu', function(appConfigService) {
     return {
       restrict: 'E',
-      templateUrl: 'shared/menus/collect-email/collect-email.html',
+      templateUrl: 'views/onboarding/collect-email/collect-email-menu/collect-email-menu.html',
       transclude: true,
       scope: {
         show: '=show',

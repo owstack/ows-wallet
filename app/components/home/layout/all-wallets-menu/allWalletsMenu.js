@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('allWalletsMenu', function() {
     return {
       restrict: 'E',
-      templateUrl: 'shared/menus/all-wallets/all-wallets.html',
+      templateUrl: 'views/home/layout/all-wallets-menu/all-wallets-menu.html',
       transclude: true,
       scope: {
         show: '=show',

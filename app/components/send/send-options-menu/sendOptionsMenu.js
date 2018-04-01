@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('sendOptionsMenu', function() {
     return {
       restrict: 'E',
-      templateUrl: 'shared/menus/send-options/send-options.html',
+      templateUrl: 'views/send/send-options-menu/send-options-menu.html',
       transclude: true,
       scope: {
         show: '=show',

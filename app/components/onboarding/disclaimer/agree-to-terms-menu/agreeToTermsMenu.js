@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('agreeToTermsMenu', function() {
     return {
       restrict: 'E',
-      templateUrl: 'shared/menus/agree-to-terms/agree-to-terms.html',
+      templateUrl: 'views/onboarding/disclaimer/agree-to-terms-menu/agree-to-terms-menu.html',
       transclude: true,
       scope: {
         show: '=show',

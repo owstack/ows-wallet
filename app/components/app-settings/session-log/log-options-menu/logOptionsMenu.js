@@ -4,7 +4,7 @@ angular.module('owsWalletApp.directives')
   .directive('logOptionsMenu', function(platformInfoService) {
     return {
       restrict: 'E',
-      templateUrl: 'shared/menus/log-options/log-options.html',
+      templateUrl: 'views/app-settings/session-log/log-options-menu/log-options-menu.html',
       transclude: true,
       scope: {
         show: '=show',
