@@ -1,0 +1,19 @@
+<action-sheet id="agree-to-terms-menu" class="ows" show="show" has-tabs="hasTabs" close-on-backdrop-click="false">
+  <div class="agree-to-terms-content">
+    <ion-list>
+      <!-- ion-checkbox with *link* in the label does not work (checkbox click-blocks), use ion-item and plain html checkbox -->
+      <ion-item class="item-checkbox item-fh item-no-bg">
+        <label class="checkbox">
+          <input type="checkbox" ng-model="data.termsAccepted" class="ng-hide">
+          <i class="checkbox-icon"></i>
+        </label>
+          I have read, understood, and agree to the <a href ng-click="openTerms()">Terms of Use.</a>
+      </ion-item>
+    </ion-list>
+    <div class="cta-buttons">
+      <button ng-disabled="!data.termsAccepted" class="button button-standard button-primary" ng-click="confirm()" translate>
+        Confirm &amp; Finish
+      </button>
+    </div>
+  </div>
+</action-sheet>

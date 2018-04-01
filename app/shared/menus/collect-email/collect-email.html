@@ -1,0 +1,41 @@
+<action-sheet id="collect-email-menu" class="ows" show="show" has-tabs="hasTabs" close-on-backdrop-click="false">
+  <div ng-show="!confirmation">
+    <div class="heading" translate>
+      Notifications by email
+    </div>
+    <div class="prompt" translate>
+      Where would you like to receive email notifications about payments?
+    </div>
+    <form class="email-form" name="emailForm" ng-submit="confirm(emailForm)" novalidate>
+      <ion-list>
+        <ion-item class="item-input item-no-bg prepend">
+          <input type="email" name="email" ng-model="data.email" placeholder="{{'Email'|translate}}" required>
+        </ion-item>
+        <ion-checkbox class="has-detail item-no-bg" ng-model="data.news">
+          <span translate>
+            Get news and updates from {{author}}
+          </span>
+        </ion-checkbox>
+        <button class="button button-standard button-primary m20t" ng-disabled="emailForm.$invalid" translate>
+          Continue
+        </button>
+      </ion-list>
+    </form>
+  </div>
+  <div class="collect-email-confirm" ng-show="confirmation">
+    <p class="confirm" translate>
+      Confirm email address
+    </p>
+    <p class="user-email">
+      {{data.email}}
+    </p>
+    <div class="cta-buttons">
+      <button class="button button-standard button-primary" ng-click="save()" ng-disabled="disableButton" translate>
+        Confirm
+      </button>
+      <button class="button button-standard button-secondary button-clear" ng-click="cancel()" translate>
+        Edit
+      </button>
+    </div>
+  </div>
+</action-sheet>

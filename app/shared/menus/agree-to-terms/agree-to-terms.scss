@@ -1,0 +1,30 @@
+#agree-to-terms-menu {
+  color: $v-onboarding-tou-color;
+  text-align: left;
+
+  .w-action-sheet__sheet {
+    padding: 0;
+  }
+
+  .cta-buttons {
+    @extend %cta-buttons;
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .checkbox input:before,
+  .checkbox .checkbox-icon:before {
+    border-color: $v-onboarding-checkbox-off-border;
+    background: transparent;
+  }
+
+  .checkbox input:after,
+  .checkbox .checkbox-icon:after {
+    border-color: $v-onboarding-checkbox-on-border;
+  }
+
+  .checkbox input:checked:before,
+  .checkbox input:checked + .checkbox-icon:before {
+    border-color: $v-onboarding-checkbox-on-border;
+  }
+}

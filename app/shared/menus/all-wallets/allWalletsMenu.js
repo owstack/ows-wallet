@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('allWalletsMenu', function($timeout) {
+  .directive('allWalletsMenu', function() {
     return {
       restrict: 'E',
       templateUrl: 'shared/menus/all-wallets/all-wallets.html',

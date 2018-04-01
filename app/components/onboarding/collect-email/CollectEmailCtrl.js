@@ -2,10 +2,19 @@
 
 angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', function($rootScope, $scope, $state, $log, $timeout, $window, $http, $httpParamSerializer, $ionicConfig, profileService, appConfigService, emailService) {
 
-  var wallet;
   var walletId;
-  $scope.data = {};
-  $scope.author = appConfigService.author;
+
+  $scope.$on("$ionicView.beforeLeave", function() {
+    $ionicConfig.views.swipeBackEnabled(true);
+  });
+
+  $scope.$on("$ionicView.enter", function() {
+    $ionicConfig.views.swipeBackEnabled(false);
+  });
+
+  $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    walletId = data.stateParams.walletId;
+  });
 
   // Get more info: https://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
   var _post = function(dataSrc) {
@@ -19,28 +28,14 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
     };
   };
 
-  $scope.$on("$ionicView.beforeLeave", function() {
-    $ionicConfig.views.swipeBackEnabled(true);
-  });
-
-  $scope.$on("$ionicView.enter", function() {
-    $ionicConfig.views.swipeBackEnabled(false);
-  });
-
-  $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    walletId = data.stateParams.walletId;
-    wallet = profileService.getWallet(walletId);
-    $scope.data.news = true;
-  });
-
-  var collectEmail = function() {
+  var collectEmail = function(email, opts) {
     var dataSrc = {
       "App": appConfigService.nameCase,
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
       "DeviceVersion": ionic.Platform.version(),
-      "Email": $scope.data.email,
-      "News": $scope.data.news ? 'yes' : 'no'
+      "Email": email,
+      "News": opts.news ? 'yes' : 'no'
     };
 
     $http(_post(dataSrc)).then(function() {
@@ -50,17 +45,15 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
     });
   };
 
-  $scope.save = function() {
-    $scope.disableButton = true;
+  $scope.acceptEmail = function(email, opts) {
+    opts = opts || {};
     $timeout(function() {
-      var enabled = true; // Set enabled email: true
-
       emailService.updateEmail({
-        enabled: enabled,
-        email: enabled ? $scope.data.email : null
+        enabled: true,
+        email: email
       });
           
-      collectEmail();
+      collectEmail(email, opts);
 
       $timeout(function() {
         $scope.goNextView();
@@ -73,19 +66,4 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
       walletId: walletId
     });
   };
-
-  $scope.confirm = function(emailForm) {
-    if (emailForm.$invalid) {
-      return;
-    }
-    $scope.confirmation = true;
-  };
-
-  $scope.cancel = function() {
-    $scope.confirmation = false;
-    $timeout(function() {
-      $scope.$digest();
-    }, 1);
-  };
-
 });

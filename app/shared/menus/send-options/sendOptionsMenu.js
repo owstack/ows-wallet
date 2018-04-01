@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('sendOptionsMenu', function($timeout) {
+  .directive('sendOptionsMenu', function() {
     return {
       restrict: 'E',
       templateUrl: 'shared/menus/send-options/send-options.html',

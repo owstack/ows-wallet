@@ -1,20 +1,12 @@
 #onboarding-collect-email {
-  $v-relish-success: 1.3s;
 
-  // Force the ion-content container to start at the top of the viewport so the header-bar gets the collect-overlay.
-  .has-header {
-    top: 0;
+  .in-front-of-action-sheet-backdrop {
+    z-index: 100;
   }
 
   .success-container {
     position: relative;
-    top: 35vh;
-    animation-name: successSlideUp;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: .5s;
-    animation-delay: $v-relish-success;
-    animation-fill-mode: forwards;
+    top: 15vh;
 
     >i {
       font-size: 64px;
@@ -33,116 +25,4 @@
       }
     }
   }
-
-  .collect-overlay {
-    position: absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height: 100%;
-    background: $v-black-transparent-mid;
-    z-index: 4;
-    opacity: 0;
-    animation-name: overlayOpacity;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: .2s;
-    animation-delay: $v-relish-success;
-    animation-fill-mode: forwards;
-  }
-
-  // Buttons fade in with overlay.
-  .bar.bar-header .button {
-    opacity: 0;
-    animation-name: overlayOpacity;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: .2s;
-    animation-delay: $v-relish-success;
-    animation-fill-mode: forwards;
-  }
-
-  .heading {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 2rem 0 1rem;
-  }
-
-  .prompt {
-    margin: 1rem 1.5rem;
-  }
-
-  .collect-email-container {
-    background: $v-onboarding-email-bg;
-    color: $v-onboarding-email-color;
-    width: 100%;
-    margin-top: 0;
-    z-index: 5;
-    position: absolute;
-    bottom: -100%;
-    bottom: calc(constant(safe-area-inset-bottom) - 100%);
-    bottom: calc(env(safe-area-inset-bottom) - 100%);
-    animation-name: emailCollectSlideUp;
-    animation-iteration-count: 1;
-    animation-timing-function: ease-in;
-    animation-duration: .4s;
-    animation-delay: $v-relish-success + .2s;
-    animation-fill-mode: forwards;
-  }
-
-  .email-form {
-    button {
-      margin-bottom: 20px;
-    }
-  }
-
-  .collect-email-confirm {
-    p.confirm {
-      margin: 2rem 0 1rem;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    p.user-email {
-      margin-bottom: 2rem;
-    }
-  }
-
-  .checkbox input:before,
-  .checkbox .checkbox-icon:before {
-    border-color: $v-onboarding-checkbox-off-border;
-    background: transparent;
-  }
-
-  .checkbox input:after,
-  .checkbox .checkbox-icon:after {
-    border-color: $v-onboarding-checkbox-on-border;
-  }
-
-  .checkbox input:checked:before,
-  .checkbox input:checked + .checkbox-icon:before {
-    border-color: $v-onboarding-checkbox-on-border;
-  }
-}
-
-@keyframes emailCollectSlideUp {
-  0% {
-    bottom: -100%;
-    bottom: calc(constant(safe-area-inset-bottom) - 100%);
-    bottom: calc(env(safe-area-inset-bottom) - 100%);
-  }
-  100% {
-    bottom: 2vh;
-    bottom: calc(constant(safe-area-inset-bottom) + 2vh);
-    bottom: calc(env(safe-area-inset-bottom) + 2vh);
-    }
-}
-
-@keyframes overlayOpacity {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-@keyframes successSlideUp {
-  0% { top: 35vh; }
-  100% { top: calc(35vh - 15vh); }
 }

@@ -1,6 +1,6 @@
 <ion-pane>
   <ion-view id="onboard-disclaimer" class="ows onboarding">
-    <ion-nav-bar>
+    <ion-nav-bar class="bar in-front-of-action-sheet-backdrop">
       <ion-nav-title></ion-nav-title>
       <ion-nav-buttons side="primary">
         <button class="button button-nav-bar button-back" ng-click="goBack()" ng-if="!backedUp"></button>
@@ -31,23 +31,7 @@
         </ion-list>
       </div>
     </ion-content>
+    <agree-to-terms-menu show="accepted.first && accepted.second" on-open-terms="openTermsModal" on-confirm="confirm">
+    </agree-to-terms-menu>
   </ion-view>
-  <div id="agree-to-terms" class="ows" ng-if="accepted.first && accepted.second" ng-class="{'header-present': !backedUp}">
-    <div class="agree-to-terms-content">
-      <ion-list>
-        <!-- ion-checkbox with *link* in the label does not work (checkbox click-blocks), use ion-item and plain html checkbox -->
-        <ion-item class="item-checkbox item-fh item-no-bg">
-          <label class="checkbox">
-            <input type="checkbox" ng-model="terms.accepted" class="ng-hide">
-            <i class="checkbox-icon"></i>
-          </label>
-            I have read, understood, and agree to the <a href ng-click="openTermsModal()">Terms of Use.</a>
-        </ion-item>
-      </ion-list>
-      <button ng-disabled="!accepted.first || !accepted.second || !terms.accepted" class="button button-standard button-primary"
-        ng-click="confirm()" translate>
-        Confirm &amp; Finish
-      </button>
-    </div>
-  </div>
 </ion-pane>

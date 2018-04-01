@@ -11,8 +11,7 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
     $scope.terms = {};
     $scope.accepted = {
       first: false,
-      second: false,
-      third: false
+      second: false
     };
     $scope.backedUp = ($stateParams.backedUp == 'false' ? false : true);
     $scope.resume = $stateParams.resume || false;
@@ -56,5 +55,4 @@ angular.module('owsWalletApp.controllers').controller('DisclaimerCtrl', function
       walletId: $stateParams.walletId
     });
   }
-
 });
