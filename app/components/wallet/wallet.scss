@@ -2,7 +2,13 @@
   color: $v-wallet-color;
 
   .bar.bar-header {
-    background: transparent;
+    background: $v-wallet-bar-header-bg;
+    border: $v-wallet-bar-header-border;
+    color: $v-wallet-bar-header-color;
+
+    button {
+      color: $v-wallet-bar-header-button-color;
+    }
   }
 
   .w-content {

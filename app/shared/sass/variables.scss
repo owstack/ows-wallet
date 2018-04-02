@@ -303,6 +303,11 @@ $v-settings-secondary-color:                         $v-white-transparent-mid !d
 
 /* Wallet */
 
+$v-wallet-bar-header-bg:                             transparent !default;
+$v-wallet-bar-header-border:                         none !default;
+$v-wallet-bar-header-color:                          $v-white-color !default;
+$v-wallet-bar-header-button-color:                   $v-white-color !default;
+
 $v-wallet-color:                                     $v-white-color !default;
 $v-wallet-secondary-color:                           $v-white-transparent-mid !default;
 $v-wallet-vanity-bg:                                 $v-default-wallet-vanity-bg !default;
