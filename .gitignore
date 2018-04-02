@@ -94,11 +94,12 @@ www/*
 /app.config.json
 app/app.config.js
 app/index.html
-app/includes
 
-# Generated resources
+# Generated resources and assets
 resources/*
 app/assets/img
+app/assets/fonts
+app/content
 
 # Firebase
 /GoogleService-Info.plist

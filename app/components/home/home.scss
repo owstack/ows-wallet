@@ -45,6 +45,7 @@
   .tab-home {
     &__logo {
       height: 80%;
+      max-width: 50%;
       @include relative-vertical-center();
     }
 

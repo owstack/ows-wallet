@@ -110,6 +110,7 @@ if (!fs.existsSync('../www')) {
 copyDir('../resources/' + configDir + '/img', '../app/assets/img');
 copyDir(configDir + '/sass', '../app/shared/sass/overrides');
 copyDir(configDir + '/content', '../app/content');
+copyDir(configDir + '/fonts', '../app/assets/fonts');
 
 // Done
 console.log("apply.js finished. \n\n");
