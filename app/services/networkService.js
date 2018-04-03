@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, btcLivenet, btcTestnet) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, /*bchTestnet,*/ btcLivenet, btcTestnet /*, ltcLivenet, ltcTestnet*/) {
   var root = {};
 
   var defaultNetwork;
@@ -9,8 +9,11 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   var init = function() {
     // Add networks to the service
     addNetwork(bchLivenet);
+//    addNetwork(bchTestnet);
     addNetwork(btcLivenet, { default: true });
     addNetwork(btcTestnet);
+//    addNetwork(ltcLivenet);
+//    addNetwork(ltcTestnet);
   };
 
   var addNetwork = function(network, opts) {

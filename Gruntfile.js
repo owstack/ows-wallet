@@ -134,7 +134,8 @@ module.exports = function(grunt) {
           'bower_components/pattern-lock/angular-pattern-lock.min.js',
           'angular-bitauth/angular-bitauth.js',
           'angular-bch-wallet-client/angular-bch-wallet-client.js',
-          'angular-btc-wallet-client/angular-btc-wallet-client.js'
+          'angular-btc-wallet-client/angular-btc-wallet-client.js',
+//          'angular-ltc-wallet-client/angular-ltc-wallet-client.js'
         ],
         dest: 'www/lib/angular-components.js'
       },
@@ -295,6 +296,7 @@ module.exports = function(grunt) {
         files: {
           'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
           'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
+//          'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js'],
           'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js']
         },
         options: {

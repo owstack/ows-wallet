@@ -15,6 +15,7 @@ var modules = [
   'angular-pattern-lock',
   'bchWalletClientModule',
   'btcWalletClientModule',
+//  'ltcWalletClientModule',
   'bitauthModule',
   'owsWalletApp.filters',
   'owsWalletApp.services',
