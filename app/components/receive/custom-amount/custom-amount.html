@@ -1,6 +1,6 @@
 <ion-modal-view id="custom-amount" class="ows" ng-controller="CustomAmountCtrl" hide-tabs>
   <ion-header-bar align-title="center" class="bar bar-header">
-    <div class="title">{{'Custom Amount' | translate}}</div>
+    <div class="title">{{'Payment Request' | translate}}</div>
     <button class="button button-nav-bar button-clear" ng-click="closeModal()">
       {{'Close' | translate}}
     </button>
@@ -33,7 +33,7 @@
           <ion-item>
             <span class="label" translate>Amount</span>
             <span class="item-note">
-              {{amountUnitStr}}<span ng-if="altAmountStr"> - {{altAmountStr}}</span>
+              {{amountUnitStr}}<span ng-if="!isTestnet(wallet.networkURI) && altAmountStr"> - {{altAmountStr}}</span>
             </span>
           </ion-item>
         </ion-list>

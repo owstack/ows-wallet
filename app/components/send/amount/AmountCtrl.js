@@ -16,6 +16,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     $scope.isCordova = platformInfoService.isCordova;
     $scope.nextStep = data.stateParams.nextStep;
+    $scope.nextStepTitle = data.stateParams.nextStepTitle || null;
     $scope.currency = data.stateParams.currency;
     $scope.forceCurrency = data.stateParams.forceCurrency;
 

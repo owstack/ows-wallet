@@ -16,34 +16,37 @@ angular.module('owsWalletApp.directives')
 		    }		
 			};
 
-      // Run in the next scope digest.
-      $timeout(function() {
-
-        $scope.$watch(function() {
-          return $ionicSideMenuDelegate.getOpenRatio();
-        }, function(ratio) {
-        	// When the menu is in transition hide the scanner. This is only useful when side menu content dragging is enabled.
-        	if (ratio > 0 && ratio <= 1) {
-        		hideScanner();
-        	}
-        });
-
-        var shouldHideStatusBar = !platformInfoService.isIPhoneX;
-
-        if (platformInfoService.isCordova && shouldHideStatusBar) {
-          $scope.$watch(function() {
-            return $ionicSideMenuDelegate.isOpenLeft();
-          }, function(isOpen) {
-            if (isOpen) {
-              StatusBar.hide();
-            } else {
-              StatusBar.show();      
-            }
-          });
-        }
-
+      $scope.$watch(function() {
+        return $ionicSideMenuDelegate.getOpenRatio();
+      }, function(ratio) {
+      	// When the menu is in transition hide the scanner. This is only useful when side menu content dragging is enabled.
+      	if (ratio > 0 && ratio <= 1) {
+      		hideScanner();
+      	}
       });
 
+      var shouldHideStatusBar = !platformInfoService.isIPhoneX;
+
+      if (platformInfoService.isCordova && shouldHideStatusBar) {
+        $scope.$watch(function() {
+          return $ionicSideMenuDelegate.isOpenLeft();
+        }, function(isOpen) {
+          if (isOpen) {
+            // Remove status bar and add a 20px top offset.
+            StatusBar.hide();
+            ionic.requestAnimationFrame(function() {
+              angular.element(document.querySelector('#main-content-nav-view'))[0].style.marginTop = '20px';
+            });
+          } else {
+            // Add status bar and remove the top offset.
+            StatusBar.show();
+            ionic.requestAnimationFrame(function() {
+              angular.element(document.querySelector('#main-content-nav-view'))[0].style.marginTop = '0';
+            });
+          }
+        });
+      }
+      
     }
   }
 });

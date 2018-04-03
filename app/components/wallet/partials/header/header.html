@@ -34,17 +34,17 @@
         <!-- Balance messages -->
         <div ng-show="wallet.balanceHidden && !wallet.scanning">
           <span class="balance-message">
-            Balance Hidden
+            {{'Balance Hidden' | translate}}
             <div class="balance-message-tip" ng-style="{opacity: elementOpacity}">
-              Tap and hold to show
+              {{'Tap and hold to show' | translate}}
             </div>
           </span>
         </div>
         <div ng-show="wallet.scanning">
           <span class="balance-message">
-            Updating...
+            {{'Updating...' | translate}}
             <div class="balance-message-tip" ng-style="{opacity: elementOpacity}">
-              Scanning for funds
+              {{'Scanning for funds' | translate}}
             </div>
           </span>
         </div>

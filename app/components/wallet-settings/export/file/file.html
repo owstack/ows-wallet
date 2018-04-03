@@ -26,18 +26,11 @@
             <span class="toggle-label" translate>Do not include private key</span>
           </ion-checkbox>
         </div>
-        <div class="box-notification warning" ng-show="formData.noSignEnabled">
-          <h2 translate>Private Key Not Available</h2>
-          <p translate>
-            Without including the private key you can only check the wallet balance, transaction history, and create spend proposals from the export. You cannot approve (sign) spend proposals, so <b>funds will not be accessible from the export</b>.
-          </p>
-          <a ng-click="learnMore()" translate>Learn more</a>
-        </div>
       </div>
-      <div class="box-notification warning" ng-show="!canSign">
-        <h2 translate>Private Key Not Available</h2>
+      <div class="box-notification warning" ng-show="!canSign || (canSign && formData.noSignEnabled)">
+        <h2 translate>Private Key Not Exported</h2>
         <p translate>
-          Without including the private key you can only check the wallet balance, transaction history, and create spend proposals from the export. You cannot approve (sign) spend proposals, so <b>funds will not be accessible from the export</b>.
+          Without including the private key you can only check the wallet balance, transaction history, and create spend proposals from the export. You cannot approve (sign) spend proposals, so <b>funds will not be spendable from the export</b>.
         </p>
         <a ng-click="learnMore()" translate>Learn more</a>
       </div>

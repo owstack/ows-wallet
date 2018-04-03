@@ -603,7 +603,8 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/send/amount/amount.html'
       }]),
       params: {
-        nextStep: 'views/receive/custom-amount/custom-amount.html'
+        nextStep: 'views/receive/custom-amount/custom-amount.html',
+        nextStepTitle: 'Payment Request Amount'
       }
     })
 

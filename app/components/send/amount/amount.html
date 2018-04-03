@@ -1,6 +1,6 @@
 <ion-view id="amount" class="ows" hide-tabs>
   <ion-nav-bar class="bar">
-    <ion-nav-title>{{'Enter amount' | translate}}</ion-nav-title>
+    <ion-nav-title>{{'Enter Amount' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
     <ion-nav-buttons side="secondary">
@@ -37,9 +37,7 @@
     <div ng-class="{'amount-pane-recipient': !nextStep, 'amount-pane-no-recipient': nextStep}">
       <div class="amount-bar oh">
         <div class="title">
-          <span translate>
-            Amount
-          </span>
+          {{nextStepTitle || 'Amount' | translate}}
         </div>
       </div>
       <div class="amount">
