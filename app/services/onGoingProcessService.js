@@ -33,7 +33,8 @@ angular.module('owsWalletApp.services').factory('ongoingProcessService', functio
     'sendingFeedback': gettext('Sending feedback...'),
     'generatingNewAddress': gettext('Generating new address...'),
     'sendingByEmail': gettext('Preparing addresses...'),
-    'sending2faCode': gettext('Sending 2FA code...')
+    'sending2faCode': gettext('Sending 2FA code...'),
+    'updatingTxHistory': gettext('Loading transactions...')
   };
 
   root.clear = function() {

@@ -1,7 +1,7 @@
 .ows {
 
   /*
-   *  By default all lists include bottom padding for safe-area-inset.
+   *  Some lists need bottom padding for safe-area-inset.
    */
    
 	ion-list {
@@ -9,7 +9,7 @@
 			padding: 0;
 		}
 
-		&:not(.zero-pad) > .list {
+		&.pad > .list {
 			padding: 0 0 calc(env(safe-area-inset-bottom)) 0;
 		}
 	}

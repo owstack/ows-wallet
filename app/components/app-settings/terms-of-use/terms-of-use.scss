@@ -5,10 +5,4 @@
   width: 100%;
   height: 100%;
   overflow: scroll;
-
-  ion-content {
-    bottom: $tabs-height;
-    bottom: calc(constant(safe-area-inset-bottom) + #{$tabs-height});
-    bottom: calc(env(safe-area-inset-bottom) + #{$tabs-height});
-  }
 }

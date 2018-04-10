@@ -41,19 +41,22 @@
             </ion-list>
           </div>
           <!-- Transaction history -->
-          <div class="box-notification info clear" ng-show="!txHistory[0] && !updateStatusError">
+          <div class="box-notification info clear" ng-show="!updatingTxHistory && !txHistory[0] && !updateStatusError">
             <h2 translate>No Transactions Yet</h2>
             <p translate>Your transaction history will be shown here.</p>
           </div>
-          <div class="box-notification error clear" ng-show="!txHistory[0] && updateTxHistoryError">
+          <div class="box-notification error clear" ng-show="!updatingTxHistory && !txHistory[0] && updateTxHistoryError">
             <h2 translate>Transaction History</h2>
             <p translate>Could not update transaction history.</p>
           </div>
-          <div class="box-notification info clear" ng-show="updatingTxHistory && updatingTxHistoryProgress > 5">
+<!--
+          <div class="box-notification info clear" ng-show="updatingTxHistory && updatingTxHistoryProgress > 0">
+-->
+          <div class="box-notification info clear" ng-show="updatingTxHistory">
             <h2 translate>Updating Transaction History</h2>
             <p translate>{{updatingTxHistoryProgress}} transactions downloaded.</p>
           </div>
-          <ion-list>
+          <ion-list class="pad">
             <div ng-repeat="btx in txHistory track by $index" ng-click="openTxModal(btx)">
               <span ng-include="'views/wallet/partials/history/history.html'"></span>
             </div>

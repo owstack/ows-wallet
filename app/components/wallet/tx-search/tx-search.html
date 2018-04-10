@@ -10,7 +10,7 @@
         <input type="search" placeholder="{{'Search transactions' | translate}}" ng-model="search" ng-change="updateSearchInput(search)">
       </ion-item>
     </ion-list>
-    <ion-list ng-show="txHistory[0]">
+    <ion-list  class="pad" ng-show="txHistory[0]">
       <div ng-repeat="btx in txHistorySearchResults track by $index" ng-click="openTx(btx)">
         <span ng-include="'views/wallet/partials/history/history.html'"></span>
       </div>

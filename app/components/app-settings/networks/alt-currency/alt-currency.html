@@ -8,14 +8,14 @@
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
-    <ion-list>
+    <ion-list class="pad">
       <ion-item class="item-input item-icon-left icon-left-input" ng-show="showSearch && allowSearch">
         <i class="icon ion-ios-search"></i>
         <input type="search" ng-init="searchedAltCurrency=''" ng-model="searchedAltCurrency" ng-change="findCurrency(searchedAltCurrency)"
           placeholder="Search your currency" class="ng-pristine ng-untouched ng-valid ng-empty">
       </ion-item>
       <div ng-if="lastUsedAltCurrencyList[0]">
-        <ion-item id="entry0" class="item-divider has-label" translate>
+        <ion-item id="entry0" class="item-divider has-label item-no-border" translate>
           Recently Used
         </ion-item>
         <ion-radio ng-repeat="lastUsedAltCurrency in lastUsedAltCurrencyList" ng-value="lastUsedAltCurrency.isoCode" ng-model="currentCurrency"
@@ -23,7 +23,7 @@
           {{lastUsedAltCurrency.name}}
         </ion-radio>
       </div>
-      <ion-item id="{{lastUsedAltCurrencyList[0] ? 'entry1' : 'entry0'}}" class="item-divider has-label" translate>
+      <ion-item id="{{lastUsedAltCurrencyList[0] ? 'entry1' : 'entry0'}}" class="item-divider has-label item-no-border" translate>
         All Currencies
       </ion-item>
       <ion-radio ng-repeat="altCurrency in altCurrencyList" ng-value="altCurrency.isoCode" ng-model="currentCurrency" ng-click="save(altCurrency)">

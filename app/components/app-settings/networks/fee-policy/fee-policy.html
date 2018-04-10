@@ -16,7 +16,7 @@
         {{feeWarning}}
       </div>
     </div>
-    <ion-list>
+    <ion-list class="pad">
       <ion-radio class="has-detail" ng-repeat="fl in feeLevels" ng-if="fl.level != 'custom'" ng-value="fl.level"
         ng-model="currentFeeLevel" ng-click="save(fl.level)">
         {{fl.name|translate}}

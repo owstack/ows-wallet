@@ -5,7 +5,7 @@
     </ion-nav-back-button>
   </ion-nav-bar>
   <ion-content>
-    <ion-list>
+    <ion-list class="pad">
       <ion-item class="item-divider"></ion-item>
       <div ng-if="loading" class="updating">
         <ion-spinner icon="ios"></ion-spinner>
@@ -32,7 +32,6 @@
           {{a.balanceStr}}
         </div>
       </ion-item>
-      <ion-item class="item-divider"></ion-item>
     </ion-list>
   </ion-content>
 </ion-view>

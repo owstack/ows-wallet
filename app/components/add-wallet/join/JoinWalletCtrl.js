@@ -10,6 +10,7 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
       $scope.formData = {};
       $scope.formData.account = 1;
       $scope.formData.secret = null;
+      $scope.showAdv = false;
       resetPasswordFields();
       updateSeedSourceSelect();
     });

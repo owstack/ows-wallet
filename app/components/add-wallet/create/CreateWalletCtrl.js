@@ -39,6 +39,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
 
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
       $scope.setTotalCopayers(tc);
+      $scope.showAdv = false;
       updateRCSelect(tc);
       resetPasswordFields();
     });

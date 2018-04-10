@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, $state, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService, uiService) {
+angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, $state, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService, uiService, ongoingProcessService) {
 
   // Constants for managing collapsible view.
   var NAV_BAR_HEIGHT = 44; // app nav bar content height
@@ -44,8 +44,8 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
 
     // Getting info from cache.
     if (clearCache) {
-      $scope.txHistory = null;
-      $scope.status = null;
+      $scope.txHistory = [];
+      $scope.status = {};
     } else {
       $scope.status = $scope.wallet.cachedStatus;
       if ($scope.wallet.completeHistory) {
@@ -238,7 +238,9 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
     if (!cb) {
       cb = function() {};
     }
-    $scope.updatingTxHistory = true;
+
+    ongoingProcessService.set('updatingTxHistory', true);
+//    $scope.updatingTxHistory = true;
     $scope.updateTxHistoryError = false;
     $scope.updatingTxHistoryProgress = 0;
 
@@ -255,7 +257,8 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
     walletService.getTxHistory($scope.wallet, {
       progressFn: progressFn
     }, function(err, txHistory) {
-      $scope.updatingTxHistory = false;
+//      $scope.updatingTxHistory = false;
+      ongoingProcessService.set('updatingTxHistory', false);
       if (err) {
         $scope.txHistory = null;
         $scope.updateTxHistoryError = true;
