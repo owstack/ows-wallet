@@ -1,6 +1,20 @@
 .ows {
 
   /*
+   *  By default all lists include bottom padding for safe-area-inset.
+   */
+   
+	ion-list {
+		> .list {
+			padding: 0;
+		}
+
+		&:not(.zero-pad) > .list {
+			padding: 0 0 calc(env(safe-area-inset-bottom)) 0;
+		}
+	}
+
+  /*
    *  A card
    */
 
@@ -27,7 +41,6 @@
     // Kill the background/border coming from an embedded list, redefine the border
     .list {
     	background: none;
-    	padding: 0;
 
     	.item {
     		background: none;
@@ -87,7 +100,6 @@
 
 	.list {
 	  background: $v-list-bg;
-    padding: 0;
 
 	  .item {
 	    background: $v-list-item-bg;

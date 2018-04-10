@@ -4,7 +4,8 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
 
   // Constants for managing collapsible view.
   var NAV_BAR_HEIGHT = 44; // app nav bar content height
-  var CONTENT_INSET_TOP = uiService.getSafeAreaInsetTop() + NAV_BAR_HEIGHT;
+  var CONTENT_INSET_TOP = uiService.getSafeAreaInsets().top + NAV_BAR_HEIGHT;
+  var CONTENT_INSET_BOTTOM = uiService.getSafeAreaInsets().bottom;
   var HEADER_MAX_HEIGHT = 165; // Maximum total height of header
   var HEADER_MIN_HEIGHT = 44; // Minimum (collapsed) height of header
   var HEADER_TOP = 20; // Initial top position of the scaled content inside the header

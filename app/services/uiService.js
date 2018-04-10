@@ -3,6 +3,8 @@
 angular.module('owsWalletApp.services').factory('uiService', function(lodash) {
   var root = {};
 
+  var safeAreaInsets;
+
   var builtinWalletGroups = [{
     id: 'favorite',
     label: 'Favorite Wallets'
@@ -25,17 +27,31 @@ angular.module('owsWalletApp.services').factory('uiService', function(lodash) {
     };
   };
 
-  // Returns the safe-area-inset-top value (typ. used on iPhone X); includes the status bar height.
-  root.getSafeAreaInsetTop = function() {
-    if (CSS.supports('padding-top: env(safe-area-inset-top)')) {
-      var div = document.createElement('div');
-      div.style.paddingTop = 'env(safe-area-inset-top)';
-      document.body.appendChild(div);
-      var calculatedPadding =  parseInt(window.getComputedStyle(div).paddingTop);
-      document.body.removeChild(div);
-      return calculatedPadding;
+  // Returns the safe-area-inset values (typ. used on iPhone X).
+  root.getSafeAreaInsets = function() {
+    if (!safeAreaInsets) {
+      // Cache values.
+      safeAreaInsets = {
+        top: 0,
+        bottom: 0
+      };
+
+      if (CSS.supports('padding-top: env(safe-area-inset-top)')) {
+        var div = document.createElement('div');
+        div.style.paddingTop = 'env(safe-area-inset-top)';
+        document.body.appendChild(div);
+        safeAreaInsets.top =  parseInt(window.getComputedStyle(div).paddingTop);
+        document.body.removeChild(div);
+      }
+      if (CSS.supports('padding-bottom: env(safe-area-inset-bottom)')) {
+        var div = document.createElement('div');
+        div.style.paddingBottom = 'env(safe-area-inset-bottom)';
+        document.body.appendChild(div);
+        safeAreaInsets.bottom =  parseInt(window.getComputedStyle(div).paddingBottom);
+        document.body.removeChild(div);
+      }
     }
-    return false;
+    return safeAreaInsets;
   };
 
   // Creates a wallet group object.
