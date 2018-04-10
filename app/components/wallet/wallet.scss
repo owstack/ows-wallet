@@ -1,7 +1,14 @@
 #wallet {
   color: $v-wallet-color;
 
-  $header-height: 165px;
+  //////////
+  //
+  // Values must match those in WalletCtrl.
+  //
+  $header-max-height: 165px;
+  $nav-bar-height: 44px;
+  //
+  //////////
 
   .bar.bar-header {
     background: $v-wallet-bar-header-bg;
@@ -21,12 +28,12 @@
   ion-content {
     padding-top: 0;
     top: 0;
-    bottom: 0;
-    bottom: calc(constant(safe-area-inset-bottom));
-    bottom: calc(env(safe-area-inset-bottom));
+    bottom: calc(0 + #{$nav-bar-height});
+    bottom: calc(constant(safe-area-inset-bottom) + constant(safe-area-inset-top) + #{$nav-bar-height});
+    bottom: calc(env(safe-area-inset-bottom) + env(safe-area-inset-top) + #{$nav-bar-height});
 
     &.collapsible {
-      margin-top: $header-height;
+      margin-top: $header-max-height;
     }
 
     .scroll {
@@ -44,7 +51,7 @@
 
   .head-content {
     width: 100%;
-    height: $header-height;
+    height: $header-max-height;
     padding-top: 10px;
 
     &.is-collapsing {
@@ -73,7 +80,7 @@
       }
     }
 
-    .make-collapsible {
+    .scalable {
       transform-origin: left top;
       -webkit-transform: scale3d(1, 1, 1) translateY(20px);
       transform: scale3d(1, 1, 1) translateY(20px);

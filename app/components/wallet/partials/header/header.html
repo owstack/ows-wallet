@@ -15,8 +15,7 @@
   <!-- No status error -->
   <div ng-show="!updateStatusError">
     <div class="balance-wrapper">
-      <div ng-click="updateAll(true)" on-long-press="hideToggle()" ng-style="{'transform': collapsibleItemScale}"
-        ng-class="{'make-collapsible': headerIsCollapsible}">
+      <div ng-click="updateAll(true)" on-long-press="hideToggle()" ng-style="{'transform': collapsibleItemScale}" class="scalable">
         <!-- Not updating -->
         <div ng-show="!wallet.scanning" ng-switch="wallet.balanceHidden">
           <!-- Balance -->

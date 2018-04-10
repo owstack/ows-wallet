@@ -3,13 +3,15 @@
 angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $interval, $timeout, $log, $ionicModal, $ionicPopover, $state, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService, uiService) {
 
   // Constants for managing collapsible view.
-  var NAV_BAR_HEIGHT = uiService.getSafeAreaInsetTop() + 44; // 44 = app nav bar content height
+  var NAV_BAR_HEIGHT = 44; // app nav bar content height
+  var CONTENT_INSET_TOP = uiService.getSafeAreaInsetTop() + NAV_BAR_HEIGHT;
   var HEADER_MAX_HEIGHT = 165; // Maximum total height of header
   var HEADER_MIN_HEIGHT = 44; // Minimum (collapsed) height of header
   var HEADER_TOP = 20; // Initial top position of the scaled content inside the header
   var HEADER_TOP_FINAL = 15; // Final top position of the scaled content inside the header
   var HEADER_CONTENT_MIN_SCALE = 0.5; // Smallest scaling of fullsize content
-  var PADDING_MAX = $window.screen.height - 64 - HEADER_MIN_HEIGHT; // The most padding necessary to allow for header collapse when there is no wallet content.
+  var PADDING_MAX = $window.screen.height - CONTENT_INSET_TOP - HEADER_MIN_HEIGHT; // The most padding necessary to allow for header collapse when there is no wallet content.
+
   var lastScrollPos = undefined;
 
   var HISTORY_SHOW_LIMIT = 10;
@@ -408,7 +410,7 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
     // Apply results to view.
     $window.requestAnimationFrame(function() {
       $scope.collapsibleItemHeight = collapsibleItemHeight + 'px';
-      $scope.contentHeight = $window.screen.height - NAV_BAR_HEIGHT - contentMargin + 'px';
+      $scope.contentHeight = $window.screen.height - CONTENT_INSET_TOP - contentMargin + 'px';
 
       // Apply bottom margin to the scroll container to prevent the scroll container from moving down on resize events (margin takes up the space).
       // Only apply if the content is larger than the visible space.

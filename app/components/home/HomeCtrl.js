@@ -141,7 +141,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
         $timeout(function() {
           $ionicScrollDelegate.resize();
           $scope.$apply();
-        }, 10);
+        }, 200); // Enough time for the tab bar to animate in
       });
     });
 
