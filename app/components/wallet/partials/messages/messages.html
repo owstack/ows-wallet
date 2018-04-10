@@ -1,0 +1,42 @@
+<div class="wallet-messages">
+  <!-- Wallet not registered -->
+  <div class="box-notification error clear" ng-show="walletNotRegistered">
+    <h2 translate>Wallet Not Registered</h2>
+    <p translate>This wallet is not registered at the specified Wallet Service. You can recreate it from the local information.</p>
+    <a ng-click="learnMore()" translate>Learn more</a>
+  </div>
+  <!-- Wallet key problem -->
+  <div class="box-notification warning clear" ng-show="wallet && wallet.incorrectDerivation">
+    <h2 translate>Wallet Key Problem</h2>
+    <p translate>Key derivation is not working on this device or wallet. Actions cannot be performed on this wallet.</p>
+    <a ng-click="learnMore()" translate>Learn more</a>
+  </div>
+  <ion-list>
+    <!-- Wallet not backed up -->
+    <ion-item class="has-click item-icon-right compact" ng-if="wallet.needsBackup"
+      ui-sref="{{sref('wallet.backup-warning')}}({from: 'wallet', walletId: wallet.id})">
+      <i class="ion-alert-circled"></i>
+      <span translate>Wallet not backed up</span>
+      <i class="icon arrow-right"></i>
+    </ion-item>
+    <!-- Fee warning -->
+    <ion-item class="has-click item-icon-right compact" ng-if="lowUtxosWarning"
+      ui-sref="{{sref('wallet.addresses')}}({walletId: wallet.id, from: 'wallet'})">
+      <i class="ion-alert-circled"></i>
+      <span translate>High fee required to spend this balance</span>
+      <i class="icon arrow-right"></i>
+    </ion-item>
+    <!-- Available balance -->
+    <ion-item class="has-click item-icon-right compact" ng-if="!wallet.balanceHidden && !wallet.scanning && showAvailableBalance"
+      ng-click="openBalanceModal()">
+      <span>
+        <i class="ion-alert-circled"></i>
+        <span translate>Available balance</span>
+      </span>
+      <div class="item-note">
+        {{status.spendableBalanceStr}}
+      </div>
+      <i class="icon arrow-right"></i>
+    </ion-item>
+  </ion-list>
+</div>

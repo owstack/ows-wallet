@@ -7,94 +7,60 @@
       <button class="button button-nav-bar button-search" ng-click="startSearch(); openSearchModal()" ng-if="txHistory.length > 4"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
-  <div class="w-content" ng-class="{'status-bar': isCordova}">
+  <div class="w-content has-header">
     <!-- Header -->
-    <div class="head-wrapper" ng-show="wallet && wallet.isComplete() && headerIsCollapsible">
+    <div class="head-wrapper ng-hide" ng-show="wallet && wallet.isComplete() && headerIsCollapsible">
       <span ng-include="'views/wallet/partials/header/header.html'"></span>
     </div>
-    <ion-content delegate-handle="walletScroll" on-scroll="getScrollPosition()"
-      ng-style="{'margin-top': contentMargin}" ng-class="{'collapsible': headerIsCollapsible}">
-      <ion-refresher ng-if="isAndroid" pulling-icon="ion-ios-refresh" spinner="ios-small" on-refresh="onRefresh()">
-      </ion-refresher>
-      <!-- -->
-      <!-- -->
-      <!-- Start header duplicate (for Android compatibility) -->
-      <div class="head-wrapper" ng-show="wallet && wallet.isComplete() && !headerIsCollapsible">
-        <span ng-include="'views/wallet/partials/header/header.html'"></span>
-      </div>
-      <!-- End header duplicate (for Android compatibility) -->
-      <!-- -->
-      <!-- -->
-      <!-- Wallet warnings and information -->
-      <div class="box-notification error clear" ng-show="walletNotRegistered">
-        <h2 translate>Wallet Not Registered</h2>
-        <p translate>This wallet is not registered at the specified Wallet Service. You can recreate it from the local information.</p>
-        <a ng-click="learnMore()" translate>Learn more</a>
-      </div>
-      <ion-list>
-        <ion-item class="has-click item-icon-right compact" ng-if="wallet.needsBackup"
-          ui-sref="{{sref('wallet.backup-warning')}}({from: 'wallet', walletId: wallet.id})">
-          <i class="ion-alert-circled"></i>
-          <span translate>Wallet not backed up</span>
-          <i class="icon arrow-right"></i>
-        </ion-item>
-        <ion-item class="has-click item-icon-right compact" ng-if="lowUtxosWarning"
-          ui-sref="{{sref('wallet.addresses')}}({walletId: wallet.id, from: 'wallet'})">
-          <i class="ion-alert-circled"></i>
-          <span translate>High fee required to spend this balance</span>
-          <i class="icon arrow-right"></i>
-        </ion-item>
-        <ion-item class="has-click item-icon-right compact" ng-if="!wallet.balanceHidden && !wallet.scanning && showAvailableBalance"
-          ng-click="openBalanceModal()">
-          <span>
-            <i class="ion-alert-circled"></i>
-            <span translate>Available balance</span>
-          </span>
-          <div class="item-note">
-            {{status.spendableBalanceStr}}
+    <ion-content delegate-handle="walletScroll" on-scroll="getScrollPosition()" ng-style="{'margin-top': contentMargin, 'height': contentHeight}"
+      ng-class="{'collapsible': headerIsCollapsible}" class="ion-content-wallet">
+      <div class="scrollable-wallet-content" ng-style="{'transform': contentTransform, 'padding-bottom': contentPaddingBottom}">
+        <ion-refresher ng-if="isAndroid" pulling-icon="ion-ios-refresh" spinner="ios-small" on-refresh="onRefresh()">
+        </ion-refresher>
+        <!-- -->
+        <!-- -->
+        <!-- Start header duplicate (for Android compatibility) -->
+        <div class="head-wrapper ng-hide" ng-show="wallet && wallet.isComplete() && !headerIsCollapsible">
+          <span ng-include="'views/wallet/partials/header/header.html'"></span>
+        </div>
+        <!-- End header duplicate (for Android compatibility) -->
+        <!-- -->
+        <!-- -->
+        <!-- Wallet warnings and information -->
+        <span ng-include="'views/wallet/partials/messages/messages.html'"></span>
+        <!-- Complete wallet -->
+        <div ng-if="wallet &&  wallet.isComplete() && !walletNotRegistered">
+          <!-- Transaction proposals -->
+          <div ng-if="txps[0]">
+            <ion-list>
+              <ion-item class="item-divider has-label">
+                <span ng-show="requiresMultipleSignatures" translate>Proposals</span>
+                <span ng-show="!requiresMultipleSignatures" translate>Unsent transactions</span>              
+              </ion-item>
+              <div ng-include="'shared/partials/txp-item/txp-item.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></div>
+            </ion-list>
           </div>
-          <i class="icon arrow-right"></i>
-        </ion-item>
-      </ion-list>
-      <!-- Complete wallet -->
-      <div ng-if="wallet &&  wallet.isComplete() && !walletNotRegistered">
-        <div class="box-notification warning clear" ng-show="wallet.incorrectDerivation">
-          <h2 translate>Wallet Key Problem</h2>
-          <p translate>Key derivation is not working on this device or wallet. Actions cannot be performed on this wallet.</p>
-          <a ng-click="learnMore()" translate>Learn more</a>
-        </div>
-        <!-- Transaction proposals -->
-        <div ng-if="txps[0]">
+          <!-- Transaction history -->
+          <div class="box-notification info clear" ng-show="!txHistory[0] && !updateStatusError">
+            <h2 translate>No Transactions Yet</h2>
+            <p translate>Your transaction history will be shown here.</p>
+          </div>
+          <div class="box-notification error clear" ng-show="!txHistory[0] && updateTxHistoryError">
+            <h2 translate>Transaction History</h2>
+            <p translate>Could not update transaction history.</p>
+          </div>
+          <div class="box-notification info clear" ng-show="updatingTxHistory && updatingTxHistoryProgress > 5">
+            <h2 translate>Updating Transaction History</h2>
+            <p translate>{{updatingTxHistoryProgress}} transactions downloaded.</p>
+          </div>
           <ion-list>
-            <ion-item class="item-divider has-label">
-              <span ng-show="requiresMultipleSignatures" translate>Proposals</span>
-              <span ng-show="!requiresMultipleSignatures" translate>Unsent transactions</span>              
-            </ion-item>
-            <div ng-include="'shared/partials/txp-item/txp-item.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></div>
-          </ion-list>
-        </div>
-        <!-- Transaction history -->
-        <div class="box-notification info clear" ng-show="showNoTransactionsYetMsg && !updateStatusError">
-          <h2 translate>No Transactions Yet</h2>
-          <p translate>Your transaction history will be shown here.</p>
-        </div>
-        <div class="box-notification error clear" ng-show="!txHistory[0] && updateTxHistoryError">
-          <h2 translate>Transaction History</h2>
-          <p translate>Could not update transaction history.</p>
-        </div>
-        <div class="box-notification info clear" ng-show="updatingTxHistory && updatingTxHistoryProgress > 5">
-          <h2 translate>Updating Transaction History</h2>
-          <p translate>{{updatingTxHistoryProgress}} transactions downloaded.</p>
-        </div>
-        <ion-list class="list-fun" ng-show="txHistory[0]">
-          <div ng-style="{'padding-bottom': listTxHistoryPaddingBottom}">
             <div ng-repeat="btx in txHistory track by $index" ng-click="openTxModal(btx)">
               <span ng-include="'views/wallet/partials/history/history.html'"></span>
             </div>
-          </div>
-        </ion-list>
-        <ion-infinite-scroll ng-if="txHistory[0] && txHistoryShowMore" on-infinite="showMore()" distance="1%">
-        </ion-infinite-scroll>
+          </ion-list>
+          <ion-infinite-scroll ng-if="txHistory[0] && txHistoryShowMore" on-infinite="showMore()" distance="1%">
+          </ion-infinite-scroll>
+        </div>
       </div>
     </ion-content>
   </div>

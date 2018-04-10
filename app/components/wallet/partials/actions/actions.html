@@ -1,13 +1,26 @@
 <div class="wallet-actions" ng-controller="WalletActionsCtrl as actions">
-	<div class="action-group">
-		<button class="button button-action" ng-class="{'disabled': !hasBalance}" ng-click="actions.sendFrom()" translate>
+	<!-- Non-collapsed buttons -->
+	<div class="action-group" ng-style="{opacity: elementOpacity}">
+		<button class="button button-action" ng-class="{'disabled': !hasBalance || actions.buttonActionsDisabled}" ng-click="actions.sendFrom()" translate>
 			Send
 	  </button>
-		<button class="button button-action" ng-click="actions.receiveTo()" translate>
+		<button class="button button-action" ng-class="{'disabled': actions.buttonActionsDisabled}" ng-click="actions.receiveTo()" translate>
 			Receive
 	  </button>
-		<button class="button button-action" ng-click="actions.settingsFor()" translate>
-			<i class="icon ion-ios-gear-outline"></i>
+		<button class="button button-action" ng-class="{'disabled': actions.buttonActionsDisabled}" ng-click="actions.settingsFor()" translate>
+			<img src="img/tab-icons/icon-settings.svg">
 	  </button>
+	</div>
+	<!-- Collapsed buttons -->
+	<div class="action-group-collapsed" ng-style="{opacity: elementOpacityInverse}">
+		<button class="button button-action button-clear" ng-class="{'disabled': !hasBalance || actions.iconsActionsDisabled}" ng-click="actions.sendFrom()">
+			<img src="img/tab-icons/icon-send.svg">
+		</button>
+		<button class="button button-action button-clear" ng-class="{'disabled': actions.iconActionsDisabled}" ng-click="actions.receiveTo()">
+			<img src="img/tab-icons/icon-receive.svg">
+		</button>
+		<button class="button button-action button-clear" ng-class="{'disabled': actions.iconActionsDisabled}" ng-click="actions.settingsFor()">
+			<img src="img/tab-icons/icon-settings.svg">
+		</button>
 	</div>
 </div>

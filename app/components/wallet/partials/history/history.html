@@ -1,4 +1,4 @@
-<ion-item class="item-divider item-no-border" ng-class="{'has-label': isDateInCurrentMonth(getDate(btx.time))}"
+<ion-item class="item-divider item-no-border has-label"
   ng-if="!isSearching ? isFirstInGroup($index) : false">
   <span ng-if="isDateInCurrentMonth(getDate(btx.time))" translate>
     Recent
@@ -20,7 +20,7 @@
     </span>
   </i>
   <!-- Amount (right side) -->
-  <div class="item-note ">
+  <div class="item-note">
     <span ng-class="{'tx-amount-recent': btx.recent, 'tx-amount-received': btx.action == 'received', 'tx-amount-sent': btx.action == 'sent',
       'tx-amount-moved': btx.action == 'moved'}">
       <span ng-if="btx.action == 'sent'">–</span>

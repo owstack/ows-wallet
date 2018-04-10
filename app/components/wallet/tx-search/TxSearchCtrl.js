@@ -11,12 +11,13 @@ angular.module('owsWalletApp.controllers').controller('TxSearchCtrl', function($
   $scope.txHistorySearchResults = $scope.txHistory;
 
   $scope.updateSearchInput = function(search) {
-    if (isCordova)
+    if (isCordova) {
       window.plugins.toast.hide();
+    }
     currentTxHistoryPage = 0;
     throttleSearch(search);
     $timeout(function() {
-      $ionicScrollDelegate.resize();
+      $ionicScrollDelegate.$getByHandle('txSearchScroll').resize();
     }, 10);
   }
 

@@ -1,6 +1,8 @@
 #wallet {
   color: $v-wallet-color;
 
+  $header-height: 165px;
+
   .bar.bar-header {
     background: $v-wallet-bar-header-bg;
     border: $v-wallet-bar-header-border;
@@ -14,7 +16,6 @@
   .w-content {
     height: 100%;
     position: relative;
-    top: $bar-height;
   }
 
   ion-content {
@@ -25,12 +26,16 @@
     bottom: calc(env(safe-area-inset-bottom));
 
     &.collapsible {
-      margin-top: 210px;
+      margin-top: $header-height;
     }
 
     .scroll {
       min-height: 300px;
     }
+  }
+
+  .scrollable-wallet-content {
+    position: relative;
   }
 
   .head-wrapper {
@@ -39,8 +44,8 @@
 
   .head-content {
     width: 100%;
-    height: 210px;
-    padding-top: 55px;
+    height: $header-height;
+    padding-top: 10px;
 
     &.is-collapsing {
       box-shadow: $v-hovering-box-shadow;
@@ -79,22 +84,6 @@
     background: $v-black-transparent-subtle;
   }
 
-  // Some fun!
-  .list-fun {
-    > .list {
-      &:after {
-        content: '\f272';
-        font-family: "Ionicons";
-        font-size: 36px;
-        color: $v-white-transparent-mid;
-        width: 100%;
-        text-align: center;
-        position: absolute;
-        bottom: 30px;
-      }
-    }
-  }
-
   .tx-amount {
     &-recent {
       font-weight: bold;
@@ -110,43 +99,6 @@
 
     &-moved {
       color: $v-text-color;
-    }
-  }
-
-  .wallet-actions {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 20px 30px;
-
-    .action-group {
-      display: flex;
-    }
-
-    .button-action {
-      border-radius: 3px;
-      padding: 7px 15px;
-      margin-right: 20px;
-      min-width: 40px;
-      min-height: 36px;
-      max-height: 36px;
-      font-size: 14px;
-      text-align: center;
-      line-height: 14px;
-      color: $v-white-color;
-
-      i {
-        font-size: 24px;
-
-        &:before {
-          line-height: 21px;
-        }
-      }
-
-      &.disabled {
-        color: $v-white-transparent-dark;
-        background: none !important;
-      }
     }
   }
 
@@ -195,6 +147,8 @@
 
 @import "balance/balance";
 @import "copayers/copayers";
+@import "partials/actions/actions";
+@import "partials/messages/messages";
 @import "tx-details/tx-details";
 @import "tx-search/tx-search";
 @import "txp-details/txp-details";

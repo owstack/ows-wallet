@@ -1,7 +1,13 @@
 <div class="head-content" ng-style="{'height': collapsibleItemHeight}"
   ng-class="{'collapsible': headerIsCollapsible, 'is-collapsing': isCollapsing}">
+  <!-- Wallet information decoration -->
+  <div ng-style="{opacity: elementOpacity}">
+    <span ng-include="'views/wallet/partials/info/info.html'"></span>
+  </div>
+  <!-- Action buttons -->
+  <span ng-include="'views/wallet/partials/actions/actions.html'" show-if-nav-side-menu></span>
   <!-- Status error -->
-  <div class="box-notification error clear compact make-collapsible" ng-style="{'transform': headerScale}"
+  <div class="box-notification error clear compact make-collapsible" ng-style="{'transform': collapsibleItemScale}"
     ng-show="updateStatusError">
     <h2>{{updateStatusError.message}}</h2>
     <p>{{updateStatusError.detail}}</p>
@@ -9,37 +15,41 @@
   <!-- No status error -->
   <div ng-show="!updateStatusError">
     <div class="balance-wrapper">
-      <div ng-click="updateAll(true)" on-hold="hideToggle()" ng-style="{'transform': headerScale}"
+      <div ng-click="updateAll(true)" on-long-press="hideToggle()" ng-style="{'transform': collapsibleItemScale}"
         ng-class="{'make-collapsible': headerIsCollapsible}">
-        <!-- Balance -->
-        <div ng-show="!wallet.balanceHidden && !wallet.scanning">
-          <span class="balance-value">
-            {{status.totalBalanceValueStr}}
-          </span>
-          &nbsp;
-          <span class="balance-unit">
-            {{status.totalBalanceUnitStr}}
-          </span>
-          <div class="amount-alternative" ng-if="status.totalBalanceAlternative && isLivenet(wallet.networkURI)"
-            ng-style="{opacity: elementOpacity}">
-            <span class="value">
-              {{status.totalBalanceAlternative}}
+        <!-- Not updating -->
+        <div ng-show="!wallet.scanning" ng-switch="wallet.balanceHidden">
+          <!-- Balance -->
+          <div ng-switch-when="false">
+            <span class="balance-value">
+              {{status.totalBalanceValueStr}}
             </span>
             &nbsp;
-            <span class="unit">
-              {{status.alternativeIsoCode}}
+            <span class="balance-unit">
+              {{status.totalBalanceUnitStr}}
+            </span>
+            <div class="amount-alternative" ng-if="status.totalBalanceAlternative && isLivenet(wallet.networkURI)"
+              ng-style="{opacity: elementOpacity}">
+              <span class="value">
+                {{status.totalBalanceAlternative}}
+              </span>
+              &nbsp;
+              <span class="unit">
+                {{status.alternativeIsoCode}}
+              </span>
+            </div>
+          </div>
+          <!-- Balance messages -->
+          <div ng-switch-when="true">
+            <span class="balance-message">
+              {{'Balance Hidden' | translate}}
+              <div class="balance-message-tip" ng-style="{opacity: elementOpacity}">
+                {{'Tap and hold to show' | translate}}
+              </div>
             </span>
           </div>
         </div>
-        <!-- Balance messages -->
-        <div ng-show="wallet.balanceHidden && !wallet.scanning">
-          <span class="balance-message">
-            {{'Balance Hidden' | translate}}
-            <div class="balance-message-tip" ng-style="{opacity: elementOpacity}">
-              {{'Tap and hold to show' | translate}}
-            </div>
-          </span>
-        </div>
+        <!-- Updating -->
         <div ng-show="wallet.scanning">
           <span class="balance-message">
             {{'Updating...' | translate}}
@@ -51,12 +61,4 @@
       </div>
     </div>
   </div>
-</div>
-<!-- Wallet information decoration -->
-<div ng-style="{opacity: elementOpacity}">
-  <span ng-include="'views/wallet/partials/info/info.html'"></span>
-</div>
-<!-- Action buttons -->
-<div ng-style="{opacity: elementOpacity}">
-  <span ng-include="'views/wallet/partials/actions/actions.html'" show-if-nav-side-menu></span>
 </div>

@@ -75,7 +75,7 @@ $v-default-wallet-vanity-bg:                         radial-gradient(circle at c
 /* Shadows */
 
 $v-subtle-box-shadow:                                0 1px 2px $v-black-transparent-light !default;
-$v-hovering-box-shadow:                              0px 6px 12px 0px $v-black-transparent-light !default;
+$v-hovering-box-shadow:                              0px 12px 12px 0px $v-black-transparent-light !default;
 
 /* Corners */
 
@@ -253,6 +253,7 @@ $v-list-item-bg:                                     $v-white-transparent-subtle
 $v-list-item-color:                                  $v-white-color !default;
 $v-list-item-secondary-color:                        $v-white-transparent-mid !default;
 $v-list-item-link-color:                             $v-link-color !default;
+$v-list-item-divider-color:                          $v-white-transparent-mid !default;
 $v-list-item-border-color:                           $v-white-transparent-subtle !default;
 $v-list-item-lg-height:                              80px !default;
 $v-list-item-md-height:                              64px !default;

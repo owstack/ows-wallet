@@ -25,6 +25,19 @@ angular.module('owsWalletApp.services').factory('uiService', function(lodash) {
     };
   };
 
+  // Returns the safe-area-inset-top value (typ. used on iPhone X); includes the status bar height.
+  root.getSafeAreaInsetTop = function() {
+    if (CSS.supports('padding-top: env(safe-area-inset-top)')) {
+      var div = document.createElement('div');
+      div.style.paddingTop = 'env(safe-area-inset-top)';
+      document.body.appendChild(div);
+      var calculatedPadding =  parseInt(window.getComputedStyle(div).paddingTop);
+      document.body.removeChild(div);
+      return calculatedPadding;
+    }
+    return false;
+  };
+
   // Creates a wallet group object.
   root.newWalletGroup = function(groupIdOrLabel, ordinal) {
     // Check for a request to use a builtin group first.
