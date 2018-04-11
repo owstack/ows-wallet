@@ -1,16 +1,4 @@
 <div class="wallet-messages">
-  <!-- Wallet not registered -->
-  <div class="box-notification error clear" ng-show="walletNotRegistered">
-    <h2 translate>Wallet Not Registered</h2>
-    <p translate>This wallet is not registered at the specified Wallet Service. You can recreate it from the local information.</p>
-    <a ng-click="learnMore()" translate>Learn more</a>
-  </div>
-  <!-- Wallet key problem -->
-  <div class="box-notification warning clear" ng-show="wallet && wallet.incorrectDerivation">
-    <h2 translate>Wallet Key Problem</h2>
-    <p translate>Key derivation is not working on this device or wallet. Actions cannot be performed on this wallet.</p>
-    <a ng-click="learnMore()" translate>Learn more</a>
-  </div>
   <ion-list>
     <!-- Wallet not backed up -->
     <ion-item class="has-click item-icon-right compact" ng-if="wallet.needsBackup"
@@ -39,4 +27,16 @@
       <i class="icon arrow-right"></i>
     </ion-item>
   </ion-list>
+  <!-- Wallet not registered -->
+  <div class="box-notification error clear" ng-if="walletNotRegistered">
+    <h2 translate>Wallet Not Registered</h2>
+    <p translate>This wallet is not registered at the specified Wallet Service. You can recreate it from the local information.</p>
+    <a ng-click="learnMore()" translate>Learn more</a>
+  </div>
+  <!-- Wallet key problem -->
+  <div class="box-notification warning clear" ng-if="wallet && wallet.incorrectDerivation">
+    <h2 translate>Wallet Key Problem</h2>
+    <p translate>Key derivation is not working on this device or wallet. Actions cannot be performed on this wallet.</p>
+    <a ng-click="learnMore()" translate>Learn more</a>
+  </div>
 </div>

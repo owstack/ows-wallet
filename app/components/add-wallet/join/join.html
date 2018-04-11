@@ -33,7 +33,7 @@
           <span translate>{{showAdv ? 'Hide' : 'Show'}} advanced options</span>
           <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
         </ion-item>
-        <div ng-show="showAdv">
+        <div ng-show="showAdv" class="ng-hide">
           <ion-item class="item-input item-stacked-label">
             <span class="input-label" translate>Wallet Service URL</span>
             <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="formData.walletServiceUrl"

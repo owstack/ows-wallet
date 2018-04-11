@@ -7,21 +7,24 @@
   <!-- Action buttons -->
   <span ng-include="'views/wallet/partials/actions/actions.html'" show-if-nav-side-menu></span>
   <!-- Status error -->
-  <div class="box-notification error clear compact make-collapsible" ng-style="{'transform': collapsibleItemScale}"
-    ng-show="updateStatusError">
-    <h2>{{updateStatusError.message}}</h2>
-    <p>{{updateStatusError.detail}}</p>
+  <div class="error-wrapper scalable" ng-style="{'transform': collapsibleItemScale}" ng-show="updateStatusError">
+    <span class="error-message">
+      {{updateStatusError.message}}
+      <div class="error-message-detail" ng-style="{opacity: elementOpacity}">
+        {{updateStatusError.detail}}
+      </div>
+    </span>
   </div>
   <!-- No status error -->
   <div ng-show="!updateStatusError">
     <div class="balance-wrapper">
-      <div ng-click="updateAll(true)" on-long-press="hideToggle()" ng-style="{'transform': collapsibleItemScale}" class="scalable">
+      <div class="scalable" ng-click="updateAll(true)" on-long-press="hideToggle()" ng-style="{'transform': collapsibleItemScale}">
         <!-- Not updating -->
         <div ng-show="!wallet.scanning" ng-switch="wallet.balanceHidden">
           <!-- Balance -->
           <div ng-switch-when="false">
             <span class="balance-value">
-              {{status.totalBalanceValueStr}}
+              {{status.totalBalanceValueStr || '\xB7\xB7\xB7'}}
             </span>
             &nbsp;
             <span class="balance-unit">
@@ -30,7 +33,7 @@
             <div class="amount-alternative" ng-if="status.totalBalanceAlternative && isLivenet(wallet.networkURI)"
               ng-style="{opacity: elementOpacity}">
               <span class="value">
-                {{status.totalBalanceAlternative}}
+                {{status.totalBalanceAlternative || '\xB7\xB7\xB7'}}
               </span>
               &nbsp;
               <span class="unit">

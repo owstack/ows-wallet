@@ -21,7 +21,7 @@
           <span translate>{{showAdv ? 'Hide' : 'Show'}} advanced options</span>
           <i class="icon arrow-down" ng-class="showAdv ? 'arrow-up' : 'arrow-down'"></i>
         </ion-item>
-        <div ng-show="showAdv">
+        <div ng-show="showAdv" class="ng-hide">
           <ion-checkbox ng-model="formData.noSignEnabled" class="checkbox-positive" ng-change="noSignEnabledChange(); resizeView()">
             <span class="toggle-label" translate>Do not include private key</span>
           </ion-checkbox>

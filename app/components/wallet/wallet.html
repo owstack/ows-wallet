@@ -33,28 +33,21 @@
           <!-- Transaction proposals -->
           <div ng-if="txps[0]">
             <ion-list>
-              <ion-item class="item-divider has-label">
+              <ion-item class="item-divider has-label item-no-border">
                 <span ng-show="requiresMultipleSignatures" translate>Proposals</span>
-                <span ng-show="!requiresMultipleSignatures" translate>Unsent transactions</span>              
+                <span ng-show="!requiresMultipleSignatures" translate>Transactions not sent</span>
               </ion-item>
               <div ng-include="'shared/partials/txp-item/txp-item.html'" ng-repeat="tx in txps" ng-click="openTxpModal(tx)"></div>
             </ion-list>
           </div>
           <!-- Transaction history -->
-          <div class="box-notification info clear" ng-show="!updatingTxHistory && !txHistory[0] && !updateStatusError">
+          <div class="box-notification info clear" ng-show="!updatingTxHistory && !txHistory[0] && !updateTxHistoryError && !updateStatusError">
             <h2 translate>No Transactions Yet</h2>
             <p translate>Your transaction history will be shown here.</p>
           </div>
-          <div class="box-notification error clear" ng-show="!updatingTxHistory && !txHistory[0] && updateTxHistoryError">
+          <div class="box-notification error clear" ng-show="!updatingTxHistory && !txHistory[0] && updateTxHistoryError && !updateStatusError">
             <h2 translate>Transaction History</h2>
             <p translate>Could not update transaction history.</p>
-          </div>
-<!--
-          <div class="box-notification info clear" ng-show="updatingTxHistory && updatingTxHistoryProgress > 0">
--->
-          <div class="box-notification info clear" ng-show="updatingTxHistory">
-            <h2 translate>Updating Transaction History</h2>
-            <p translate>{{updatingTxHistoryProgress}} transactions downloaded.</p>
           </div>
           <ion-list class="pad">
             <div ng-repeat="btx in txHistory track by $index" ng-click="openTxModal(btx)">

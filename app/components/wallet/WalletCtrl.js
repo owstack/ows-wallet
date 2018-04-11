@@ -150,9 +150,13 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       if (err) {
         if (err === 'WALLET_NOT_REGISTERED') {
           $scope.walletNotRegistered = true;
+          $scope.updateStatusError = {
+            message: gettextCatalog.getString('Status Error'),
+            detail: gettextCatalog.getString('Wallet not registered')
+          }
         } else {
           $scope.updateStatusError = {
-            message: gettextCatalog.getString('Could not update wallet'),
+            message: gettextCatalog.getString('Status Error'),
             detail: walletClientErrorService.msg(err)
           }
         }
@@ -239,11 +243,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       cb = function() {};
     }
 
-    ongoingProcessService.set('updatingTxHistory', true);
-//    $scope.updatingTxHistory = true;
-    $scope.updateTxHistoryError = false;
-    $scope.updatingTxHistoryProgress = 0;
-
     var progressFn = function(txs, newTxs) {
       if (newTxs > 5) {
         $scope.txHistory = null;
@@ -254,11 +253,17 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       });
     };
 
+    $scope.updateTxHistoryError = false;
+    $scope.updatingTxHistoryProgress = 0;
+    $scope.updatingTxHistory = true;
+    ongoingProcessService.set('updatingTxHistory', true);
+
     walletService.getTxHistory($scope.wallet, {
       progressFn: progressFn
     }, function(err, txHistory) {
-//      $scope.updatingTxHistory = false;
       ongoingProcessService.set('updatingTxHistory', false);
+      $scope.updatingTxHistory = false;
+
       if (err) {
         $scope.txHistory = null;
         $scope.updateTxHistoryError = true;

@@ -19,8 +19,8 @@
             <span translate>Sweeping balance</span>
           </div>
           <div class="tx-amount-wrapper">
-            <div class="tx-amount">{{balanceStr || '...'}}</div>
-            <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{balanceAlternativeStr || '...'}}</div>
+            <div class="tx-amount">{{balanceStr || '\xB7\xB7\xB7'}}</div>
+            <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{balanceAlternativeStr || '\xB7\xB7\xB7'}}</div>
           </div>
         </ion-item>
         <ion-item class="has-label" copy-to-clipboard="{{address}}">

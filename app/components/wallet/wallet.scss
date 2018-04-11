@@ -58,6 +58,19 @@
       box-shadow: $v-hovering-box-shadow;
     }
 
+    .error-wrapper {
+      padding-left: 30px;
+
+      .error-message {
+        font-size: 38px;
+        font-family: $v-font-family-light;
+
+        &-detail {
+          font-size: 16px;
+        }
+      }
+    }
+
     .balance-wrapper {
       padding-left: 30px;
 
