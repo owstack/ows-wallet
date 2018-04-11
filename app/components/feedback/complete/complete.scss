@@ -1,6 +1,6 @@
 #complete {
-  background: $v-settings-bg;
-  color: $v-settings-color;
+  background: $v-feedback-bg;
+  color: $v-feedback-color;
 
   .complete-layout {
     display: flex;
@@ -23,40 +23,14 @@
     }
   }
 
-  .share-the-love-illustration {
+  .illustration {
     width: 5rem;
-    margin: 1rem;
-  }
-
-  .feedback-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 20px 10px;
-    text-align: center;
-    color: $v-list-item-color;
-  }
-
-  .subtitle {
-    padding: 10px 30px 20px;
-    text-align: center;
-    color: $v-list-item-secondary-color;
-  }
-
-  .icon-svg > img {
-    height: 16rem;
-    width: 16rem;
-    margin: 10px;
+    margin-bottom: 1rem;
   }
 
   .socialsharing-icon {
     display: inline-block;
     width: 60px;
-  }
-
-  .addressbook-icon-svg {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
   }
 
   .share-buttons {

@@ -2,35 +2,37 @@
   <ion-nav-bar class="bar">
     <ion-nav-title>{{'Give Feedback' | translate}}</ion-nav-title>
     <ion-nav-buttons side="secondary">
-      <button ng-show="score" class="button button-nav-bar button-close" ng-click="sendFeedback(null, true)"></button>
+      <button ng-show="score" class="button button-nav-bar button-close ng-hide" ng-click="sendFeedback(null, true)"></button>
     </ion-nav-buttons>
     <ion-nav-buttons side="primary">
-      <button ng-show="!score || fromSettings" class="button button-nav-bar button-back" ng-click="goBack()"></button>
+      <button ng-show="!score || fromSettings" class="button button-nav-bar button-back ng-hide" ng-click="goBack()"></button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header" scroll="false">
     <ion-list>
-      <ion-item class="item-no-bg row" ng-if="!justFeedback">
-        <div class="col col-50">
+      <ion-item class="item-no-bg" ng-if="!justFeedback">
+        <div class="box-notification info clear no-icon compact stretch row">
           <h1>
             {{reaction}}
           </h1>
-        </div>
-        <div class="col col-50 rating" ng-if="score">
-          <img class="star" ng-if="1 <= score" src="img/icon-star-filled.svg"/>
-          <img class="star" ng-if="1 > score" src="img/icon-star.svg"/>
-          <img class="star" ng-if="2 <= score" src="img/icon-star-filled.svg"/>
-          <img class="star" ng-if="2 > score" src="img/icon-star.svg"/>
-          <img class="star" ng-if="3 <= score" src="img/icon-star-filled.svg"/>
-          <img class="star" ng-if="3 > score" src="img/icon-star.svg"/>
-          <img class="star" ng-if="4 <= score" src="img/icon-star-filled.svg"/>
-          <img class="star" ng-if="4 > score" src="img/icon-star.svg"/>
-          <img class="star" ng-if="5 ==  score" src="img/icon-star-filled.svg"/>
-          <img class="star" ng-if="5 > score" src="img/icon-star.svg"/>
+          <div class="col rating" ng-if="score">
+            <img class="star" ng-if="1 <= score" src="img/icon-star-filled.svg"/>
+            <img class="star" ng-if="1 > score" src="img/icon-star.svg"/>
+            <img class="star" ng-if="2 <= score" src="img/icon-star-filled.svg"/>
+            <img class="star" ng-if="2 > score" src="img/icon-star.svg"/>
+            <img class="star" ng-if="3 <= score" src="img/icon-star-filled.svg"/>
+            <img class="star" ng-if="3 > score" src="img/icon-star.svg"/>
+            <img class="star" ng-if="4 <= score" src="img/icon-star-filled.svg"/>
+            <img class="star" ng-if="4 > score" src="img/icon-star.svg"/>
+            <img class="star" ng-if="5 ==  score" src="img/icon-star-filled.svg"/>
+            <img class="star" ng-if="5 > score" src="img/icon-star.svg"/>
+          </div>
         </div>
       </ion-item>
-      <div class="box-notification info clear">
-        {{comment}}
+      <div class="box-notification info clear no-icon">
+        <p>
+          {{comment}}
+        </p>
       </div>
       <ion-item class="item-fh">
         <textarea ng-model="feedback.value" rows="10" placeholder="{{'Your ideas, feedback, or comments' | translate}}"></textarea>

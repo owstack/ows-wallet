@@ -39,8 +39,7 @@
             <span class="input-label" translate>Email Address</span>
             <input type="email" id="email" name="email" placeholder="{{'Email'|translate}}" ng-model="newEmail.value" required>
           </ion-item>
-          <ion-item class="item-divider"></ion-item>
-          <button type="submit" class="button button-standard button-primary"
+          <button type="submit" class="button button-standard button-primary button-margin"
             ng-disabled="emailForm.$invalid || (newEmail.value == latestEmail.value)" translate>Save
           </button>
         </form>

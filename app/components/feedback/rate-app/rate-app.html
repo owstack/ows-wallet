@@ -1,20 +1,30 @@
-<ion-view id="rate-app" class="ows" hide-tabs>
-  <ion-content scroll="false">
-    <a class="skip-rating" ng-click="skip()" translate>Not now</a>
-    <div class="feedback-title" translate>Thank you!</div>
-    <img src="img/icon-positive-feedback.svg" class="share-the-love-illustration"/>
-    <div class="subtitle">
-        <span translate>5-star ratings help us get {{appName}} into more hands, and more users means more resources can be committed to the app!</span>
-    </div>
-    <div class="subtitle">
-      <span class="text-bold" translate>Would you be willing to rate {{appName}} in the app store?</span>
-    </div>
-    <div class="rate-buttons">
-      <button type="submit" class="button button-standard button-primary" ng-click="goAppStore()">
-        <span translate>Rate on the app store</span>
+<ion-view id="rate-app" class="ows feedback" hide-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{'Thank you!' | translate}}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+      <button class="button button-nav-bar button-clear" ng-click="skip()" translate>
+        Skip
       </button>
-      <button type="submit" class="button button-standard button-secondary button-clear" ng-click="sendFeedback()">
-        <span translate>Send us feedback instead</span>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="has-header" scroll="false">
+    <img src="img/icon-positive-feedback.svg" class="illustration"/>
+    <div class="box-notification info clear no-icon">
+      <p translate>
+        5-star ratings help us get {{appName}} into more hands, and more users means more features and value for you!
+      </p>
+    </div>
+    <div class="box-notification info clear no-icon at-bottom">
+      <h2 translate>
+        Would you be willing to rate {{appName}} in the app store?
+      </h2>
+    </div>
+    <div class="cta-buttons">
+      <button class="button button-standard button-primary button-margin" ng-click="goAppStore()" translate>
+        Rate on the app store
+      </button>
+      <button class="button button-standard button-secondary button-clear button-margin" ng-click="sendFeedback()" translate>
+        Send us feedback instead
       </button>
     </div>
   </ion-content>

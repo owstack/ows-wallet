@@ -237,6 +237,21 @@ $v-backup-button-secondary-clear-color:              $v-accent-1-color !default;
 $v-backup-button-secondary-outline-bg:               transparent !default;
 $v-backup-button-secondary-outline-color:            $v-accent-1-color !default;
 
+/* Feedback */
+
+$v-feedback-bg:                                      radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-feedback-color:                                   $v-white-color !default;
+
+$v-feedback-button-secondary-bg:                     $v-white-transparent-subtle !default;
+$v-feedback-button-secondary-color:                  $v-accent-1-color !default;
+$v-feedback-button-secondary-border:                 transparent !default;
+$v-feedback-button-secondary-active-bg:              $v-white-transparent-light !default;
+$v-feedback-button-secondary-active-border:          transparent !default;
+$v-feedback-button-secondary-clear-bg:               transparent !default;
+$v-feedback-button-secondary-clear-color:            $v-accent-1-color !default;
+$v-feedback-button-secondary-outline-bg:             transparent !default;
+$v-feedback-button-secondary-outline-color:          $v-accent-1-color !default;
+
 /* Cards and lists */
 
 $v-card-bg:                                          $v-white-transparent-subtle !default;

@@ -1,6 +1,6 @@
 #send-feedback {
-  background: $v-settings-bg;
-  color: $v-settings-color;
+  background: $v-feedback-bg;
+  color: $v-feedback-color;
 
   .rating {
     text-align: right;
@@ -9,5 +9,8 @@
   .star {
     height: 1rem;
     margin-left: 5px;
+		position: relative;
+    top: 50%;
+		transform: translateY(-50%);
   }
 }

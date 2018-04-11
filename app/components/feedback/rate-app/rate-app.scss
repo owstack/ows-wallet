@@ -1,44 +1,18 @@
 #rate-app {
-  background-color: $v-white-color;
+  background: $v-feedback-bg;
+  color: $v-feedback-color;
   text-align: center;
 
-  .skip-rating {
-    color: $v-dark-gray;
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    padding: 15px;
-  }
-
-  .icon-svg > img {
-    width: 80px;
-    height: 80px;
-    margin-top: 15px;
-  }
-
-  .feedback-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: $v-dark-gray;
-    margin: 80px 50px 10px;
-    text-align: center;
-  }
-
-  .share-the-love-illustration {
+  .illustration {
     width: 5rem;
-    margin: 1rem;
+    margin-top: 33%;
+    margin-bottom: 1rem;
   }
 
-  .subtitle {
-    padding: 10px 30px 20px 40px;
-    color: $v-mid-gray;
-  }
-
-  .rate-buttons {
-    width: 100%;
-    background-color: $v-subtle-gray;
-    padding: 30px 0 15px;
+  .at-bottom {
     position: absolute;
-    bottom: 0;
+    bottom: 22vh;
+    bottom: calc(constant(safe-area-inset-bottom) + 22vh);
+    bottom: calc(env(safe-area-inset-bottom) + 22vh);
   }
 }

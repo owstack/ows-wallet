@@ -5,11 +5,12 @@ angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($r
   var isAndroid = platformInfoService.isAndroid;
   var isIOS = platformInfoService.isIOS;
 
-  var config = configService.getConfig();
-
+  var config = configService.getSync();
+  $scope.appName = appConfigService.nameCase;
+  
   $scope.skip = function() {
     var dataSrc = {
-      "App": appConfigService.nameCase,
+      "App": $scope.appName,
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
       "DeviceVersion": ionic.Platform.version(),
@@ -17,12 +18,14 @@ angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($r
       "Feedback": ' ',
       "Score": $stateParams.score
     };
+
     feedbackService.send(dataSrc, function(err) {
       if (err) {
-        // try to send, but not essential, since the user didn't add a message
+        // Try to send, but not essential, since the user didn't add a message.
         $log.warn('Could not send feedback.');
       }
     });
+
     $state.go($rootScope.sref('rate.complete'), {
       score: $stateParams.score,
       skipped: true

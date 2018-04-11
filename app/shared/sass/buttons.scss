@@ -107,7 +107,8 @@
 .button,
 .backup .button,
 .onboarding .button,
-.tour .button {
+.tour .button,
+.feedback .button {
   &.button-primary {
     @include button-style($v-button-primary-bg, $v-button-primary-border, $v-button-primary-active-bg, $v-button-primary-active-border, $v-button-primary-color);
     @include button-clear($v-button-primary-clear-color);
@@ -147,6 +148,14 @@
     @include button-style($v-tour-button-secondary-bg, $v-tour-button-secondary-border, $v-tour-button-secondary-active-bg, $v-tour-button-secondary-active-border, $v-tour-button-secondary-color);
     @include button-clear($v-tour-button-secondary-clear-color);
     @include button-outline($v-tour-button-secondary-outline-color);
+  }
+}
+
+.feedback .button {
+  &.button-secondary {
+    @include button-style($v-feedback-button-secondary-bg, $v-feedback-button-secondary-border, $v-feedback-button-secondary-active-bg, $v-feedback-button-secondary-active-border, $v-feedback-button-secondary-color);
+    @include button-clear($v-feedback-button-secondary-clear-color);
+    @include button-outline($v-feedback-button-secondary-outline-color);
   }
 }
 

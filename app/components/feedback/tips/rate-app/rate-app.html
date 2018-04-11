@@ -1,4 +1,4 @@
-<div class="card" id="rate-card" ng-controller="RateAppTipCtrl">
+<div class="card" id="rate-app-tip" ng-controller="RateAppTipCtrl">
   <ion-item class="item-heading item-icon-right">
     <span translate>How do you like {{appName}}?</span>
     <a ng-click="hideRateCard()">
@@ -39,7 +39,7 @@
       </div>
     </ion-item>
   </ion-list>
-  <button type="submit" class="button button-standard button-primary m20b" ng-if="button_title" ng-click="goFeedbackFlow()">
+  <button type="submit" class="button button-standard button-primary button-margin" ng-if="button_title" ng-click="goFeedbackFlow()">
     {{button_title}}
   </button>
 </div>

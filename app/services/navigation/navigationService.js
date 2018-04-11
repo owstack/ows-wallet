@@ -767,7 +767,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       url: '/feedback/rate-app/:score',
       views: getViews('rate.rate-app', [{
         controller: 'RateAppCtrl',
-        templateUrl: 'views/feedback/rate-app/rat-app.html'
+        templateUrl: 'views/feedback/rate-app/rate-app.html'
       }])
     })
 
