@@ -5,14 +5,17 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     var wallet;
     var listeners = [];
     var notifications = [];
+
     $scope.openTxpModal = txpModalService.open;
     $scope.version = $window.version;
     $scope.name = appConfigService.nameCase;
-    $scope.homeTip = $stateParams.fromOnboarding;
+    $scope.tipNewRelease = false;
+    $scope.tipRateApp = false;
+    $scope.tipWalletReady = $stateParams.fromOnboarding;
+
     $scope.isCordova = platformInfoService.isCordova;
     $scope.isAndroid = platformInfoService.isAndroid;
     $scope.isNW = platformInfoService.isNW;
-    $scope.showRateCard = {};
 
     $scope.layout = {
       current: 'list',
@@ -45,9 +48,9 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.shouldShowLogo = $rootScope.usingTabs;
 
-      if (!$scope.homeTip) {
-        storageService.getHomeTipAccepted(function(error, value) {
-          $scope.homeTip = (value == 'accepted') ? false : true;
+      if (!$scope.tipWalletReady) {
+        storageService.getTipWalletReadyAccepted(function(error, value) {
+          $scope.tipWalletReady = (value == 'accepted') ? false : true;
         });
       }
 
@@ -81,7 +84,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
           }
           var now = moment().unix();
           var timeExceeded = (now - feedbackInfo.time) >= 24 * 7 * 60 * 60;
-          $scope.showRateCard.value = timeExceeded && !feedbackInfo.sent;
+          $scope.tipRateApp = timeExceeded && !feedbackInfo.sent;
           $timeout(function() {
             $scope.$apply();
           });
@@ -94,7 +97,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
         feedbackInfo.version = $scope.version;
         feedbackInfo.sent = false;
         storageService.setFeedbackInfo(JSON.stringify(feedbackInfo), function() {
-          $scope.showRateCard.value = false;
+          $scope.tipRateApp = false;
         });
       };
     });
@@ -318,17 +321,17 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       });
     };
 
-    $scope.hideHomeTip = function() {
-      storageService.setHomeTipAccepted('accepted', function() {
-        $scope.homeTip = false;
+    $scope.hideTipWalletReady = function() {
+      storageService.setTipWalletReadyAccepted('accepted', function() {
+        $scope.tipWalletReady = false;
         $timeout(function() {
           $scope.$apply();
         })
       });
     };
 
-    $scope.hideRateCard = function() {
-      $scope.showRateCard = {};
+    $scope.hideTipRateApp = function() {
+      $scope.tipRateApp = false;
     };
 
     $scope.onRefresh = function() {

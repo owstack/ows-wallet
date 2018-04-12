@@ -1,15 +1,11 @@
-<div class="card tip" id="wallet-ready-tip" ng-if="homeTip">
+<div class="card tip">
   <ion-item class="item-heading item-icon-right">
-    <a ng-click="hideHomeTip()">
-      <i class="icon ion-ios-close-empty close-home-tip"></i>
-    </a>
+    <div class="icon close-tip" ng-click="hideTipWalletReady()"></div>
   </ion-item>
   <ion-item>
-    <div class="lg-icon">
-      <div class="bg success center">
-        <i class="ion-checkmark"></i>
-      </div>
-    </div>
+    <i class="icon xl-icon">
+      <div class="bg icon-ion-checkmark"></div>
+    </i>
     <div class="title" translate>
       Your wallet is ready!
     </div>

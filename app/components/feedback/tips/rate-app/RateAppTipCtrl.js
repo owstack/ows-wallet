@@ -2,13 +2,14 @@
 
 angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function($rootScope, $scope, $state, $timeout, $log, gettextCatalog, platformInfoService, storageService, appConfigService) {
 
-  $scope.isCordova = platformInfoService.isCordova;
+  var isCordova = platformInfoService.isCordova;
+
   $scope.score = 0;
   $scope.appName = appConfigService.nameCase;
 
   $scope.goFeedbackFlow = function() {
-    $scope.hideCard();
-    if ($scope.isCordova && $scope.score == 5) {
+    $scope.hideTipRateApp();
+    if (isCordova && $scope.score == 5) {
       $state.go($rootScope.sref('rate.rate-app'), {
         score: $scope.score
       });
@@ -42,19 +43,5 @@ angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function
       $scope.$apply();
     });
   };
-
-  $scope.hideCard = function() {
-    $log.debug('Feedback card dismissed.')
-    storageService.getFeedbackInfo(function(error, info) {
-      var feedbackInfo = JSON.parse(info);
-      feedbackInfo.sent = true;
-      storageService.setFeedbackInfo(JSON.stringify(feedbackInfo), function() {
-        $scope.showRateCard.value = false;
-        $timeout(function() {
-          $scope.$apply();
-        }, 100);
-      });
-    });
-  }
 
 });

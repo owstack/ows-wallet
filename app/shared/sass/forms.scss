@@ -265,11 +265,13 @@ p {
  *  Used with .card to present an informative message in a view
  */
 
-.tip {
+.ows .card.tip {
   text-align: center;
   padding: 0 20px 20px;
 
-  & .item-heading {
+  .item-heading {
+    position: absolute;
+    right: 11px;
     margin-top: 10px;
     background: 0 none;
   }
@@ -278,13 +280,23 @@ p {
     border-style: none;
   }
 
-  & .title {
+  .icon.close-tip {
+    right: 0;
+
+    &:before {
+      content: "\f404";
+      font-family: "Ionicons";
+      font-size: 42px;
+    }
+  }
+
+  .title {
     font-size: 20px;
     font-weight: bold;
     margin: 20px 10px;
   }
 
-  & .subtitle {
+  .subtitle {
     font-size: 16px;
     line-height: 1.5em;
     font-weight: 300;

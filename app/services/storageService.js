@@ -211,12 +211,12 @@ angular.module('owsWalletApp.services')
       storage.remove('config', cb);
     };
 
-    root.getHomeTipAccepted = function(cb) {
-      storage.get('homeTip', cb);
+    root.getTipWalletReadyAccepted = function(cb) {
+      storage.get('tipWalletReady', cb);
     };
 
-    root.setHomeTipAccepted = function(val, cb) {
-      storage.set('homeTip', val, cb);
+    root.setTipWalletReadyAccepted = function(val, cb) {
+      storage.set('tipWalletReady', val, cb);
     };
 
     root.setHideBalanceFlag = function(walletId, val, cb) {

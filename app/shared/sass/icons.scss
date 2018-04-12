@@ -27,6 +27,11 @@
  */
 
 .bg {
+
+  /*
+   * Image based icons.
+   */
+
   &.icon-wallet {
     @include icon-image('../img/icon-wallet.svg');
   }
@@ -61,6 +66,19 @@
 
   &.icon-receive-tip {
     @include icon-image('../img/icon-receive-tip.svg');
+  }
+
+  /*
+   * Font based icons.
+   */
+
+  &.icon-ion-checkmark {
+    &:before {
+      content: '\f122' !important;
+      font-family: 'Ionicons';
+      font-size: 22px;
+      line-height: 32px;
+    }
   }
 }
 
