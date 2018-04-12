@@ -106,7 +106,7 @@
     "run:android":             "cordova run android --device",
     "run:android-release":     "cordova run android --device --release",
     "log:android":             "adb logcat | grep chromium",
-    "sign:android":            "rm -f platforms/android/build/outputs/apk/android-release-signed-aligned.apk; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../app.keystore -signedjar platforms/android/build/outputs/apk/android-release-signed.apk  platforms/android/build/outputs/apk/android-release-unsigned.apk app_play && ../android-sdk-macosx/build-tools/25.0.3/zipalign -v 4 platforms/android/build/outputs/apk/android-release-signed.apk platforms/android/build/outputs/apk/android-release-signed-aligned.apk",
+    "sign:android":            "rm -f platforms/android/build/outputs/apk/release/android-release-signed-aligned.apk; jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ../.keystore -signedjar platforms/android/build/outputs/apk/release/android-release-signed.apk  platforms/android/build/outputs/apk/release/android-release-unsigned.apk app_play && zipalign -v 4 platforms/android/build/outputs/apk/release/android-release-signed.apk platforms/android/build/outputs/apk/release/android-release-signed-aligned.apk",
     "apply":                   "npm i fs-extra && cd app-template && node apply.js $(cat ../.ows-dist) && npm i && cordova prepare",
     "set-dist":                "echo $1 > ./.ows-dist",
     "which-dist":              "printf 'Distribution set for: ' && cat ./.ows-dist",
