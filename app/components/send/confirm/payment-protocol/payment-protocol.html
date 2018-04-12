@@ -11,8 +11,8 @@
           <span translate>Sending</span>
         </div>
         <div class="tx-amount-wrapper">
-          <div class="tx-amount">{{tx.amountValueStr || '\xB7\xB7\xB7'}} <span class="tx-unit">{{tx.amountAtomicStr}}</span></div>
-          <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '\xB7\xB7\xB7'}}</div>
+          <div class="tx-amount">{{tx.amountValueStr || '&middot;&middot;&middot;'}} <span class="tx-unit">{{tx.amountAtomicStr}}</span></div>
+          <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '&middot;&middot;&middot;'}}</div>
         </div>
       </ion-item>
       <ion-item class="has-label" ng-if="tx.paypro.domain">

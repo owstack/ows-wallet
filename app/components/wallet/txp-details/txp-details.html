@@ -98,9 +98,9 @@
         <span translate>Fee</span>
         <div class="item-note">
           {{tx.feeLevelStr | translate}}
-          <span>{{tx.feeStr || '\xB7\xB7\xB7'}}</span>
+          <span>{{tx.feeStr || '&middot;&middot;&middot;'}}</span>
           <div class="item-detail">
-            {{tx.feeFiatStr || '\xB7\xB7\xB7'}}&nbsp;
+            {{tx.feeFiatStr || '&middot;&middot;&middot;'}}&nbsp;
             <span class="fee-rate" ng-if="tx.feeRateStr" translate>
               - {{tx.feeRateStr}} of the transaction
             </span>

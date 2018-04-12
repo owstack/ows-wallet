@@ -24,7 +24,7 @@
           <!-- Balance -->
           <div ng-switch-when="false">
             <span class="balance-value">
-              {{status.totalBalanceValueStr || '\xB7\xB7\xB7'}}
+              {{status.totalBalanceValueStr || '&middot;&middot;&middot;'}}
             </span>
             &nbsp;
             <span class="balance-unit">
@@ -33,7 +33,7 @@
             <div class="amount-alternative" ng-if="status.totalBalanceAlternative && isLivenet(wallet.networkURI)"
               ng-style="{opacity: elementOpacity}">
               <span class="value">
-                {{status.totalBalanceAlternative || '\xB7\xB7\xB7'}}
+                {{status.totalBalanceAlternative || '&middot;&middot;&middot;'}}
               </span>
               &nbsp;
               <span class="unit">

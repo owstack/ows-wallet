@@ -82,9 +82,9 @@
       <!-- Fee -->
       <ion-item class="has-detail" ng-if="btx.action != 'received'">
         <span translate>Fee</span>
-        <span class="item-note">{{btx.feeStr || '\xB7\xB7\xB7'}}</span>
+        <span class="item-note">{{btx.feeStr || '&middot;&middot;&middot;'}}</span>
         <div class="item-detail">
-          {{btx.feeFiatStr || '\xB7\xB7\xB7'}}&nbsp;
+          {{btx.feeFiatStr || '&middot;&middot;&middot;'}}&nbsp;
             <span class="fee-rate" ng-if="btx.feeRateStr" translate>- {{btx.feeRateStr}} of the transaction</span>
         </div>
       </ion-item>
