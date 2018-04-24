@@ -84,7 +84,7 @@ module.exports = function(grunt) {
           'app/services/**/*.js',
           'app/model/*.js',
           'app/components/**/*.js',
-          'app/plugin-framework/**/*.js'
+          'app/plugin-subsystem/**/*.js'
         ],
         tasks: ['concat:js']
       },
@@ -154,7 +154,7 @@ module.exports = function(grunt) {
           'app/model/*.js',
           'app/services/**/*.js',
           'app/components/**/*.js',
-          'app/plugin-framework/**/*.js',
+          'app/plugin-subsystem/**/*.js',
           'app/app.init.js',
           'app/IndexCtrl.js',
           'bower_components/trezor-connect/connect.js',

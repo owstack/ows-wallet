@@ -107,7 +107,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     });
 
   })
-  .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfig, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService, themeService, pluginService) {
+  .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfig, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService, pluginSubsystem) {
     // The following injected services need to run at startup.
     //
     //   fingerprintService
@@ -266,10 +266,8 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     };
 
     function initializeSubsystems(callback) {
-      themeService.init(function() {
-        pluginService.init(function() {
-          callback();
-        });
+      pluginSubsystem.init(function() {
+        callback();
       });
     };
 
