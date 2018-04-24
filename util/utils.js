@@ -43,7 +43,7 @@ var getAllFilesByExpr = function(matchExpr, path) {
 
 var removeFilesByTypeRecursive = function(rootDir, type) {
   var cmd = 'find ' + rootDir + ' -name \\\*.' + type + ' -type f -delete';
-  shell.exec(cmd);
+  shell.exec(cmd, {silent: true});
 };
 
 module.exports = {

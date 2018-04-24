@@ -16,7 +16,13 @@ angular.module('owsWalletApp.pluginModel').factory('PluginStates', function ($lo
 
   // Constructor
   //
-  function PluginStates(cb) {
+  function PluginStates() {
+    throw new Error('PluginStates is a singleton class, call create()');
+  };
+
+  // Static methods
+  //
+  PluginStates.create = function(cb) {
     var self = this;
     get(function(err, states) {
       lodash.assign(self, states);
@@ -25,8 +31,6 @@ angular.module('owsWalletApp.pluginModel').factory('PluginStates', function ($lo
     });
   };
 
-  // Static methods
-  //
   PluginStates.getInstance = function() {
     if (!_instance) {
       throw new Error('PluginStates has not been created, call create() before getInstance()');
@@ -47,11 +51,12 @@ angular.module('owsWalletApp.pluginModel').factory('PluginStates', function ($lo
       var statesCache;
       if (storedStates) {
         statesCache = JSON.parse(storedStates);
+        $log.debug('Plugin states read:', statesCache);
       } else {
         $log.debug('Initializing plugin states from default');
         statesCache = lodash.clone(defaultStates);
+        return set(defaultStates, cb);
       }
-      $log.debug('Plugin states read:', statesCache);
       return cb(err, statesCache);
     });
   };
@@ -60,7 +65,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginStates', function ($lo
     var states = lodash.cloneDeep(defaultStates);
 
     storageService.getPluginStates(function(err, oldStates) {
-      if (lodash.isString(oldstates)) {
+      if (lodash.isString(oldStates)) {
         if (oldStates.length == 0)
           oldStates = '{}';
         oldStates = JSON.parse(oldStates);

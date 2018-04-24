@@ -254,9 +254,9 @@ module.exports = function(grunt) {
       app_themes: {
         files: [{
           expand: true,
-          cwd: 'app/themes/',
+          cwd: 'app/theme-catalog/',
           src: ['**', '!**/*.json'], // Don't bring configuration files into the app
-          dest: 'www/themes/'
+          dest: 'www/theme-catalog/'
         }]
       },
       ionic_fonts: {

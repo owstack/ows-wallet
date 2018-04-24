@@ -98,7 +98,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     var configService = configServiceProvider.$get();
     configService.get(function(err, config) {
       if (err) {
-        $log.warn('Failed to read app config while setting up app navigation scheme: ' + err);
+        $log.error('Failed to read app config at startup: ' + err);
         return;
       }
 
@@ -265,11 +265,9 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
       pluginService.finalize();
     };
 
-    // Presentation must be initialized prior to showing any views.
     function initializeSubsystems(callback) {
       themeService.init(function() {
         pluginService.init(function() {
-          $rootScope.$emit('Local/ThemeUpdated');
           callback();
         });
       });

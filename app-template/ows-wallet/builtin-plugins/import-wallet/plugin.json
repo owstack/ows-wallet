@@ -38,8 +38,5 @@
     "<plugin-path>/img/preview.png",
     "<plugin-path>/img/icon.png",
     "<plugin-path>/img/splash.png"
-  ],
-  "mainView": "index.html",
-  "skins": {},
-  "dependencies": {}
+  ]
 }

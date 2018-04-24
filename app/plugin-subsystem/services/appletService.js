@@ -12,8 +12,8 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   var APPLET_IDENTIFIER_BUILTIN_PREFIX = 'org.openwalletstack.wallet.plugin.applet.builtin';
   var APPLET_IDENTIFIER_WALLET_PREFIX = 'org.openwalletstack.wallet.plugin.applet.builtin.wallet';
 
-  root.appletsWithStateCache = [];
-  root.activeCategory = {};
+  var appletsWithStateCache = [];
+  var activeCategory = {};
 
   var builtinCapabilities = [
     { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.createpersonal', stateName: 'add.create-personal' },
@@ -25,18 +25,17 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
   var ctx;
 
+  // Set our context (plugins and states)
   root.init = function(context, callback) {
     $log.debug('Initializing applet service');
 
     ctx = context;
 
-    apiService.init(function() {
-      publishAppletServices();
+    publishAppletServices();
 
-      root.getAppletsWithState({}, function(applets) {
-        $log.debug('Applet service initialized');
-        callback();
-      });
+    root.getAppletsWithState({}, function(applets) {
+      $log.debug('Applet service initialized');
+      callback();
     });
   };
 
@@ -112,13 +111,11 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
         // Visible - whether or not the applet is displayed in the UI.
         applet.preferences.visible = (!lodash.isUndefined(state.preferences.visible) ? state.preferences.visible : DEFAULT_APPLET_PREFS_VISIBLE);
 
-        // Category - the user assigned category (defaults to marketing category or unknown).
+        // Category - the user assigned category (defaults to store category or unknown).
         if (!lodash.isUndefined(state.preferences.category) && !lodash.isEmpty(state.preferences.category)) {
           applet.preferences.category = state.preferences.category;
-        } else if (!lodash.isUndefined(applet.category) && !lodash.isEmpty(applet.category)) {
-          applet.preferences.category = applet.category.primary;
-        } else if (!lodash.isUndefined(applet.skin.header.category) && !lodash.isEmpty(applet.skin.header.category)) {
-          applet.preferences.category = applet.skin.header.category.primary;
+        } else if (!lodash.isUndefined(applet.store.category.primary) && !lodash.isEmpty(applet.store.category.primary)) {
+          applet.preferences.category = applet.store.category.primary;
         } else {
           applet.preferences.category = DEFAULT_APPLET_PREFS_CATEGORY;
         }
@@ -138,7 +135,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   root.getAppletsWithStateSync = function(filter) {
-    return filterApplets(root.appletsWithStateCache, filter);
+    return filterApplets(appletsWithStateCache, filter);
   };
 
   // Return the collection of all in-use applet categories.
@@ -357,11 +354,11 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   root.getActiveCategory = function() {
-    return root.activeCategory;
+    return activeCategory;
   };
 
   root.setActiveCategory = function(category) {
-    root.activeCategory = category;
+    activeCategory = category;
     $rootScope.$emit('Local/AppletCategoryUpdated', category);
   };
 
@@ -377,7 +374,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   root.clearActiveCategory = function() {
-    root.activeCategory = {};
+    activeCategory = {};
     $rootScope.$emit('Local/AppletCategoryCleared');
   };
 
@@ -489,7 +486,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     var configNetwork = config.currencyNetworks[wallet.networkURI];
     var network = networkService.getNetworkByURI(wallet.networkURI);
 
-    var schema = ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX];
+    var schema = lodash.cloneDeep(ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX]);
     schema.header.id += '.' + wallet.id;
     schema.header.name = wallet.alias || wallet.name;
     schema.flags = Applet.FLAGS_ALL;
@@ -512,9 +509,9 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       profileService.getWallets({status: true}, function(wallets) {
 
         var walletApplets = lodash.map(wallets, function(w) {
-          var walletApplet = new Applet(createWalletAppletSchema(w), null);
-          $rootScope.$emit('Local/WalletAppletUpdated', walletApplet, w.walletId);
-          return lodash.cloneDeep(walletApplet);
+          var applet = new Applet(createWalletAppletSchema(w));
+          $rootScope.$emit('Local/WalletAppletUpdated', applet, w.walletId);
+          return lodash.cloneDeep(applet);
         });
 
         resolve(lodash.sortBy(walletApplets, 'header.name'));
@@ -527,7 +524,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     var schema;
 
     lodash.forEach(builtinCapabilities, function(capability) {
-      schema = ctx.applets[capability.id];
+      schema = lodash.cloneDeep(ctx.applets[capability.id]);
       if (schema) {
         schema.flags = Applet.FLAGS_ALL | Applet.FLAGS_MAY_NOT_HIDE;
         schema.model = {};
@@ -630,7 +627,16 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       // Wallet applets.
       getWalletsAsApplets().then(function(walletApplets) {
 
-        // Some built-in capabilities are exposed as applets.
+        // External applets.
+        var applets = lodash.filter(ctx.applets, function(applet) {
+          return !applet.header.id.includes(APPLET_IDENTIFIER_BUILTIN_PREFIX);
+        });
+
+        applets = lodash.map(applets, function(applet) {
+          return new Applet(applet);
+        });
+
+        // Some builtin capabilities are exposed as applets.
         var builtinApplets = getBuiltinApplets();
 
         // Return a comprehensive list of all applets.
@@ -643,9 +649,9 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   function cacheAppletsWithState(applets) {
-    root.appletsWithStateCache = lodash.cloneDeep(applets);
-    $rootScope.$emit('Local/AppletsWithStateUpdated', root.appletsWithStateCache);
-    $log.debug('Applets cached');
+    appletsWithStateCache = lodash.cloneDeep(applets);
+    $rootScope.$emit('Local/AppletsWithStateUpdated', appletsWithStateCache);
+    $log.debug('Applets cached: ' + applets.length);
   };
 
   return root;

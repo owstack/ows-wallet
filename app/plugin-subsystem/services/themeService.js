@@ -359,12 +359,14 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
     return root.initialized;
   };
 */
-  // init() - construct the theme catalog and publish the initial presentation.
+  // Read the theme catalog and reconcile any upgrades or changes.
+  // Store catalog catalog if any.
+  // Set the current theme.
   // 
   root.init = function(callback) {
     $log.debug('Initializing theme service');
 
-    new ThemeCatalog(function(err, catalog) {
+    ThemeCatalog.create(function(err, catalog) {
       if (err) {
         $log.debug('Error reading theme catalog');
         $rootScope.$emit('Local/DeviceError', err);
@@ -382,11 +384,13 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
             $log.debug(err);
           }
           currentThemeId = configService.getSync().theme.id;
+          $rootScope.$emit('Local/ThemeUpdated');
 
           return callback();
         });
       } else {
         currentThemeId = config.theme.id;
+        $rootScope.$emit('Local/ThemeUpdated');
       }
 
       return callback();

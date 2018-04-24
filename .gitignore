@@ -93,18 +93,18 @@ www/*
 /config.xml
 /ionic.config.json
 /app.config.json
-app/app.config.js
-app/index.html
 
 # Generated resources and assets
 resources/*
 app/assets/img
 app/assets/fonts
+app/builtin-plugins
 app/content
+app/index.html
+app/theme-catalog
+app/app.config.js
 app/app.plugincatalog.js
 app/app.themecatalog.js
-app/builtin-plugins
-app/themes
 
 # Firebase
 /GoogleService-Info.plist

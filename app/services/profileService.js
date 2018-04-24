@@ -14,34 +14,44 @@ angular.module('owsWalletApp.services')
 
     root.setBackupFlag = function(walletId) {
       storageService.setBackupFlag(walletId, function(err) {
-        if (err) $log.error(err);
+        if (err) {
+          $log.error(err);
+        }
         $log.debug('Backup flag stored');
         root.wallet[walletId].needsBackup = false;
       });
     };
 
     function _requiresBackup(wallet) {
-      if (wallet.isPrivKeyExternal()) return false;
-      if (!wallet.credentials.mnemonic) return false;
-      if (networkService.isTestnet(wallet.networkURI)) return false;
-
+      if (wallet.isPrivKeyExternal() ||
+        !wallet.credentials.mnemonic ||
+        networkService.isTestnet(wallet.networkURI)) {
+        return false;
+      }
       return true;
     };
 
     function _needsBackup(wallet, cb) {
-      if (!_requiresBackup(wallet))
+      if (!_requiresBackup(wallet)) {
         return cb(false);
+      }
 
       storageService.getBackupFlag(wallet.credentials.walletId, function(err, val) {
-        if (err) $log.error(err);
-        if (val) return cb(false);
+        if (err) {
+          $log.error(err);
+        }
+        if (val) {
+          return cb(false);
+        }
         return cb(true);
       });
     };
 
     function _balanceIsHidden(wallet, cb) {
       storageService.getHideBalanceFlag(wallet.credentials.walletId, function(err, shouldHideBalance) {
-        if (err) $log.error(err);
+        if (err) {
+          $log.error(err);
+        }
         var hideBalance = (shouldHideBalance == 'true') ? true : false;
         return cb(hideBalance);
       });
@@ -127,8 +137,9 @@ angular.module('owsWalletApp.services')
         }
         wallet.setNotificationsInterval(UPDATE_PERIOD);
         wallet.openWallet(function(err) {
-          if (wallet.status !== true)
+          if (wallet.status !== true) {
             $log.debug('Wallet + ' + walletId + ' status:' + wallet.status)
+          }
         });
       });
 
@@ -147,17 +158,21 @@ angular.module('owsWalletApp.services')
     }, 10000);
 
     var newWalletServiceEvent = function(n, wallet) {
-      if (wallet.cachedStatus)
+      if (wallet.cachedStatus) {
         wallet.cachedStatus.isValid = false;
+      }
 
-      if (wallet.completeHistory)
+      if (wallet.completeHistory) {
         wallet.completeHistory.isValid = false;
+      }
 
-      if (wallet.cachedActivity)
+      if (wallet.cachedActivity) {
         wallet.cachedActivity.isValid = false;
+      }
 
-      if (wallet.cachedTxps)
+      if (wallet.cachedTxps) {
         wallet.cachedTxps.isValid = false;
+      }
 
       $rootScope.$emit('walletServiceEvent', wallet.id, n.type, n);
     };
@@ -214,8 +229,9 @@ angular.module('owsWalletApp.services')
 
     // Used when reading wallets from the profile
     root.bindWallet = function(credentials, cb) {
-      if (!credentials.walletId || !credentials.m)
+      if (!credentials.walletId || !credentials.m) {
         return cb('bindWallet should receive credentials JSON');
+      }
 
       // Create the client
       var networkURI = _getNetworkURI(credentials);
@@ -224,8 +240,9 @@ angular.module('owsWalletApp.services')
       });
 
       var skipKeyValidation = shouldSkipValidation(credentials.walletId);
-      if (!skipKeyValidation)
+      if (!skipKeyValidation) {
         root.runValidation(client, 500);
+      }
 
       $log.info('Binding wallet:' + credentials.walletId + ' Validating?:' + !skipKeyValidation);
       return cb(null, root.bindWalletClient(client));
@@ -235,15 +252,17 @@ angular.module('owsWalletApp.services')
       root.profile = profile;
 
       configService.get(function(err) {
-        $log.debug('Preferences read');
-        if (err) return cb(err);
-
+        if (err) {
+          return cb(err);
+        }
         function bindWallets(cb) {
           var l = root.profile.credentials.length;
           var i = 0,
             totalBound = 0;
 
-          if (!l) return cb();
+          if (!l) {
+            return cb();
+          }
 
           lodash.each(root.profile.credentials, function(credentials) {
             root.bindWallet(credentials, function(err, bound) {
@@ -370,14 +389,20 @@ angular.module('owsWalletApp.services')
     // Creates a wallet on the walletService
     var doCreateWallet = function(opts, cb) {
       var showOpts = lodash.clone(opts);
-      if (showOpts.extendedPrivateKey) showOpts.extendedPrivateKey = '[hidden]';
-      if (showOpts.mnemonic) showOpts.mnemonic = '[hidden]';
+      if (showOpts.extendedPrivateKey) {
+        showOpts.extendedPrivateKey = '[hidden]';
+      }
+      if (showOpts.mnemonic) {
+        showOpts.mnemonic = '[hidden]';
+      }
 
       $log.debug('Creating Wallet:', showOpts);
       
       $timeout(function() {
         seedWallet(opts, function(err, walletClient) {
-          if (err) return cb(err);
+          if (err) {
+            return cb(err);
+          }
 
           var name = opts.name || gettextCatalog.getString('Personal Wallet');
           var myName = opts.myName || gettextCatalog.getString('me');
@@ -387,7 +412,9 @@ angular.module('owsWalletApp.services')
             singleAddress: opts.singleAddress,
             walletPrivKey: opts.walletPrivKey,
           }, function(err, secret) {
-            if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Error creating wallet.'), cb);
+            if (err) {
+              return walletClientErrorService.cb(err, gettextCatalog.getString('Error creating wallet.'), cb);
+            }
             return cb(null, walletClient, secret);
           });
         });
@@ -397,7 +424,9 @@ angular.module('owsWalletApp.services')
     // create and store a wallet
     root.createWallet = function(opts, cb) {
       doCreateWallet(opts, function(err, walletClient, secret) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         addAndBindWalletClient(walletClient, {
           walletServiceUrl: opts.walletServiceUrl
@@ -428,10 +457,14 @@ angular.module('owsWalletApp.services')
       $log.debug('Joining Wallet:', opts);
 
       seedWallet(opts, function(err, walletClient) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
 
         walletClient.joinWallet(opts.secret, opts.myName || 'me', {}, function(err) {
-          if (err) return walletClientErrorService.cb(err, gettextCatalog.getString('Could not join wallet.'), cb);
+          if (err) {
+            return walletClientErrorService.cb(err, gettextCatalog.getString('Could not join wallet.'), cb);
+          }
           addAndBindWalletClient(walletClient, {
             walletServiceUrl: opts.walletServiceUrl
           }, cb);
@@ -477,11 +510,15 @@ angular.module('owsWalletApp.services')
       delete root.wallet[walletId];
 
       storageService.removeAllWalletData(walletId, function(err) {
-        if (err) $log.warn(err);
+        if (err) {
+          $log.warn(err);
+        }
       });
 
       storageService.storeProfile(root.profile, function(err) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
         return cb();
       });
     };
@@ -503,20 +540,22 @@ angular.module('owsWalletApp.services')
 
     // Adds and bind a new client to the profile
     var addAndBindWalletClient = function(client, opts, cb) {
-      if (!client || !client.credentials)
+      if (!client || !client.credentials) {
         return cb(gettextCatalog.getString('Could not access wallet.'));
+      }
 
       var walletId = client.credentials.walletId
 
-      if (!root.profile.addWallet(JSON.parse(client.export())))
+      if (!root.profile.addWallet(JSON.parse(client.export()))) {
         return cb(gettextCatalog.getString("Wallet already in {{appName}}.", {
           appName: appConfig.nameCase
         }));
-
+      }
 
       var skipKeyValidation = shouldSkipValidation(walletId);
-      if (!skipKeyValidation)
+      if (!skipKeyValidation) {
         root.runValidation(client);
+      }
 
       root.bindWalletClient(client);
 
@@ -548,10 +587,14 @@ angular.module('owsWalletApp.services')
       if (root.profile.dirty) {
         storageService.storeProfile(root.profile, function(err) {
           $log.debug('Saved modified Profile');
-          if (cb) return cb(err);
+          if (cb) {
+            return cb(err);
+          }
         });
       } else {
-        if (cb) return cb();
+        if (cb) {
+          return cb();
+        }
       };
     };
 
@@ -597,9 +640,13 @@ angular.module('owsWalletApp.services')
       addAndBindWalletClient(walletClient, {
         walletServiceUrl: opts.walletServiceUrl
       }, function(err, walletId) {
-        if (err) return cb(err);
+        if (err) {
+          return cb(err);
+        }
         root.setMetaData(walletClient, addressBook, function(error) {
-          if (error) $log.warn(error);
+          if (error) {
+            $log.warn(error);
+          }
           return cb(err, walletClient);
         });
       });
@@ -614,8 +661,9 @@ angular.module('owsWalletApp.services')
       walletClient.importFromExtendedPrivateKey(xPrivKey, opts, function(err) {
         if (err) {
           var errors = networkService.walletClientFor(opts.networkURI).getErrors();
-          if (err instanceof errors.NOT_AUTHORIZED)
+          if (err instanceof errors.NOT_AUTHORIZED) {
             return cb(err);
+          }
 
           return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import.'), cb);
         }
@@ -627,7 +675,9 @@ angular.module('owsWalletApp.services')
     };
 
     root._normalizeMnemonic = function(words) {
-      if (!words || !words.indexOf) return words;
+      if (!words || !words.indexOf) {
+        return words;
+      }
       var isJA = words.indexOf('\u3000') > -1;
       var wordList = words.split(/[\u3000\s]+/);
 
@@ -650,8 +700,9 @@ angular.module('owsWalletApp.services')
       }, function(err) {
         if (err) {
           var errors = networkService.walletClientFor(opts.networkURI).getErrors();
-          if (err instanceof errors.NOT_AUTHORIZED)
+          if (err instanceof errors.NOT_AUTHORIZED) {
             return cb(err);
+          }
 
           return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import.'), cb);
         }
@@ -675,8 +726,9 @@ angular.module('owsWalletApp.services')
           var errors = networkService.walletClientFor(opts.networkURI).getErrors();
 
           // in HW wallets, req key is always the same. They can't addAccess.
-          if (err instanceof errors.NOT_AUTHORIZED)
+          if (err instanceof errors.NOT_AUTHORIZED) {
             err.name = 'WALLET_DOES_NOT_EXIST';
+          }
 
           return walletClientErrorService.cb(err, gettextCatalog.getString('Could not import.'), cb);
         }
@@ -692,11 +744,14 @@ angular.module('owsWalletApp.services')
       var defaults = configService.getDefaults();
 
       configService.get(function(err) {
-        if (err) $log.debug(err);
-
+        if (err) {
+          $log.debug(err);
+        }
         var p = Profile.create();
         storageService.createProfile(p, function(err) {
-          if (err) return cb(err);
+          if (err) {
+            return cb(err);
+          }
           root.bindProfile(p, function(err) {
             // ignore NONAGREEDDISCLAIMER
             if (err && err.toString().match('NONAGREEDDISCLAIMER')) return cb();
@@ -877,7 +932,9 @@ angular.module('owsWalletApp.services')
       };
 
       var w = root.getWallets();
-      if (lodash.isEmpty(w)) return cb();
+      if (lodash.isEmpty(w)) {
+        return cb();
+      }
 
       var l = w.length,
         j = 0,
@@ -890,13 +947,17 @@ angular.module('owsWalletApp.services')
 
 
       function updateNotifications(wallet, cb2) {
-        if (isActivityCached(wallet) && !opts.force) return cb2();
+        if (isActivityCached(wallet) && !opts.force) {
+          return cb2();
+        }
 
         wallet.getNotifications({
           timeSpan: TIME_STAMP,
           includeOwn: true,
         }, function(err, n) {
-          if (err) return cb2(err);
+          if (err) {
+            return cb2(err);
+          }
 
           wallet.cachedActivity = {
             n: n.slice(-MAX),
@@ -1009,13 +1070,16 @@ angular.module('owsWalletApp.services')
       opts = opts || {};
 
       var w = root.getWallets();
-      if (lodash.isEmpty(w)) return cb();
+      if (lodash.isEmpty(w)) {
+        return cb();
+      }
 
       var txps = [];
 
       lodash.each(w, function(x) {
-        if (x.pendingTxps)
+        if (x.pendingTxps) {
           txps = txps.concat(x.pendingTxps);
+        }
       });
       var n = txps.length;
       txps = lodash.sortBy(txps, 'pendingForUs', 'createdOn');

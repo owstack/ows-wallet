@@ -5,7 +5,13 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function ($lo
 
   // Constructor
   //
-  function ThemeCatalog(cb) {
+  function ThemeCatalog() {
+    throw new Error('ThemeCatalog is a singleton class, call create()');
+  };
+
+  // Static methods
+  //
+  ThemeCatalog.create = function(cb) {
     var self = this;
     get(function(err, catalog) {
       lodash.assign(self, catalog);
@@ -14,8 +20,6 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function ($lo
     });
   };
 
-  // Static methods
-  //
   ThemeCatalog.getInstance = function() {
     if (!_instance) {
       throw new Error('ThemeCatalog has not been created, call constructor before getInstance()');
@@ -122,7 +126,7 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function ($lo
         });
       }
     });
-/*
+
     Object.keys(catalog.skins).forEach(function(id) {
       var result = jsonValidatorService.validate(catalog.skins[id], skinSchema);
       if (!lodash.isEmpty(result)) {
@@ -133,7 +137,7 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function ($lo
         });
       }
     });
-*/
+
     if (rejected.length > 0) {
       $log.debug('The following items were rejected by the ThemeCatalog as being invalid:');
       for (var i=0; i < rejected.length; i++) {
@@ -176,7 +180,7 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function ($lo
         });
       }
     });
-/*
+
     // Upgrade existing skins.
     Object.keys(catalog.skins).forEach(function(id) {
       // Upgrade only for higher version numbers.
@@ -204,7 +208,7 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function ($lo
         });
       }
     });
-*/
+
     if (upgrades.length > 0) {
       $log.debug('The following items were upgrades by the ThemeCatalog:');
       for (var i=0; i < upgrades.length; i++) {

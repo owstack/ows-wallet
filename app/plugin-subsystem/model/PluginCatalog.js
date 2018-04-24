@@ -5,7 +5,13 @@ angular.module('owsWalletApp.pluginModel').factory('PluginCatalog', function ($l
 
   // Constructor
   //
-  function PluginCatalog(cb) {
+  function PluginCatalog() {
+    throw new Error('PluginCatalog is a singleton class, call create()');
+  };
+
+  // Static methods
+  //
+  PluginCatalog.create = function(cb) {
     var self = this;
     get(function(err, catalog) {
       lodash.assign(self, catalog);
@@ -14,8 +20,6 @@ angular.module('owsWalletApp.pluginModel').factory('PluginCatalog', function ($l
     });
   };
 
-  // Static methods
-  //
   PluginCatalog.getInstance = function() {
     if (!_instance) {
       throw new Error('PluginCatalog has not been created, call constructor before getInstance()');

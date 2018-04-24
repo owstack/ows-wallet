@@ -12,8 +12,7 @@ angular.module('owsWalletApp').constant('themeSchema',
     "galleryImage",
     "previewImage",
     "store",
-    "resources",
-    "model"
+    "resources"
   ],
   "properties": {
     "header": {
@@ -92,17 +91,7 @@ angular.module('owsWalletApp').constant('themeSchema',
       "type": "array",
       "items": {"type": "string"}
     },
-    "model": {
-      "type": "object",
-      "required": [
-        "showAppletGalleryGridLabel",
-        "showSkinGalleryGridLabel"
-      ],
-      "properties": {
-        "showAppletGalleryGridLabel": {"type": "boolean"},
-        "showSkinGalleryGridLabel": {"type": "boolean"}
-      }
-    },
-    "uri": {"type": "string"}
+    "uri": {"type": "string"},
+    "skins": {"type": "object"}
   }
 });

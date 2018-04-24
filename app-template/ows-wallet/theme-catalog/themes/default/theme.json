@@ -39,8 +39,18 @@
     "<theme-path>/img/sidebar-left.png",
     "<theme-path>/img/sidebar-right.png"
   ],
-  "model": {
-    "showAppletGalleryGridLabel": true,
-    "showSkinGalleryGridLabel": true
+  "skins": {
+    "org.openwalletstack.wallet.skin.aquamarineblue": {},
+    "org.openwalletstack.wallet.skin.brilliantrose": {},
+    "org.openwalletstack.wallet.skin.deeplilac": {},
+    "org.openwalletstack.wallet.skin.feijoa": {},
+    "org.openwalletstack.wallet.skin.havelockblue": {"default": true},
+    "org.openwalletstack.wallet.skin.hitpink": {},
+    "org.openwalletstack.wallet.skin.iris": {},
+    "org.openwalletstack.wallet.skin.lightslategray": {},
+    "org.openwalletstack.wallet.skin.mustard": {},
+    "org.openwalletstack.wallet.skin.purplepizzazz": {},
+    "org.openwalletstack.wallet.skin.valencia": {},
+    "org.openwalletstack.wallet.skin.westside": {}
   }
 }

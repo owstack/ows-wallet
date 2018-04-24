@@ -13,11 +13,11 @@ var APP_PATH = './app/';
 
 var getCatalog = function(catalogConfig) {
   var catalog = {
-    themes: {}
-//    skins: {}
+    themes: {},
+    skins: {}
   };
 
-  var themesRoot = 'themes/';
+  var themesRoot = 'theme-catalog/themes/';
   var themesPath = APP_PATH + themesRoot;
   var themeDirs = utils.getAllFoldersFromFolder(themesPath);
 
@@ -42,18 +42,20 @@ var getCatalog = function(catalogConfig) {
 
         catalog.themes[id] = theme;
         catalog.themes[id].uri = encodeURI(themesRoot + themeDirs[d]);
-/*
-        // Get the skins for the theme and attach to the catalog.
-        var skins = getSkins(theme.skins);
-        Object.keys(skins).forEach(function(k) {
-          catalog.skins[k] = skins[k];
 
-          // Identify the default skin for the theme.
-          if (theme.skins[k].default) {
-            catalog.themes[id].defaultSkinId = k;
-          }
-        });
-*/
+        // Get the skins for the theme and attach to the catalog.
+        if (theme.skins) {
+          var skins = getSkins(theme.skins);
+          Object.keys(skins).forEach(function(k) {
+            catalog.skins[k] = skins[k];
+
+            // Identify the default skin for the theme.
+            if (theme.skins[k].default) {
+              catalog.themes[id].defaultSkinId = k;
+            }
+          });
+        }
+
         // Replace tags.
         var themeJSON = JSON.stringify(catalog.themes[id]);
         themeJSON = themeJSON.replace(/<theme-path>/g, catalog.themes[id].uri);
@@ -76,9 +78,9 @@ var getCatalog = function(catalogConfig) {
 
   return catalog;
 };
-/*
+
 var getSkins = function(skinsConfig) {
-  var skinsRoot = 'themes/skins/';
+  var skinsRoot = 'theme-catalog/skins/';
   var skinsPath = APP_PATH + skinsRoot;
   var skinDirs = utils.getAllFoldersFromFolder(skinsPath);
   var skins = {};
@@ -119,7 +121,7 @@ var getSkins = function(skinsConfig) {
   }
   return skins;
 };
-*/
+
 var buildThemeCatalog = function(appConfig) {
   var appConfig = utils.readJSON('./app.config.json');
   var themeCatalog = getCatalog(appConfig.themeCatalog);

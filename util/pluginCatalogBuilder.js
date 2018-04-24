@@ -38,7 +38,6 @@ var buildPluginCatalog = function(config) {
   console.log('Plugins included in this build:');
 
   for (var i = 0; i < pluginList.length; i++) {
-    var progressMsg = '';
 
     // Locate the plugin.
     var pluginPath = pluginList[i]; // Path to plugin from app-template config location
@@ -107,16 +106,12 @@ var buildPluginCatalog = function(config) {
 
       case 'applet':
         // Complete the main view.
-        if (pluginConfig.mainView.indexOf('/') >= 0) {
+        if (pluginConfig.mainView && pluginConfig.mainView.indexOf('/') >= 0) {
           throw new Error('Applet in \'' + filelist[i] + '\' should not include a path in \'mainView\'. Use only the view name; e.g., \'index.html\'.');
         }
 
-        var skinsMessage;
-        if (pluginConfig.skins === undefined) {
-          skinsMessage = 'WARNING - no skins provided, check plugin plugin.json';
-        } else if (Object.keys(pluginConfig.skins).length == 0) {
-          skinsMessage = 'No skins specified for this plugin';
-        } else {
+        var skinsMessage = 'No skins';
+        if (pluginConfig.skins && Object.keys(pluginConfig.skins).length > 0) {
           skinsMessage = 'Skins for this plugin:';
 
           var s = Object.keys(pluginConfig.skins);
@@ -133,24 +128,10 @@ var buildPluginCatalog = function(config) {
             pluginConfig.defaultSkinId = s[0];
           }
         }
-
-        progressMsg += '    [' + pluginConfig.header.kind + '] \'' + pluginConfig.header.name + '\', version=' + pluginConfig.header.version + ', id=' + pluginConfig.header.id + '\n';
-        progressMsg += '    ' + skinsMessage + '\n';
-        if (Object.keys(pluginConfig.dependencies).length > 0) {
-          progressMsg += '    dependencies=' + Object.keys(pluginConfig.dependencies) + '\n';
-        } else {
-          progressMsg += '    No dependencies' + '\n';
-        }
         break;
 
       case 'service':
         // Nothing to do.
-        progressMsg += '    [' + pluginConfig.header.kind + '] \'' + pluginConfig.header.name + '\', version=' + pluginConfig.header.version + ', id=' + pluginConfig.header.id + '\n';
-        if (Object.keys(pluginConfig.dependencies).length > 0) {
-          progressMsg += '    dependencies=' + Object.keys(pluginConfig.dependencies) + '\n';
-        } else {
-          progressMsg += '    No dependencies' + '\n';
-        }
         break;
     }
 
@@ -160,7 +141,15 @@ var buildPluginCatalog = function(config) {
     // Remember that we installed this plugin.
     pluginIds.push(pluginConfig.header.id);
 
-    console.log('> \'' + pluginList[i] + '\'@' + pluginConfig.header.version + ' (' + pluginConfig.header.id + ')' + '\n' + progressMsg);
+    var installSummary = '>   [' + pluginConfig.header.kind + '] \'' + pluginPath + '\'@' + pluginConfig.header.version + ' (' + pluginConfig.header.id + ')' + '\n';
+    (skinsMessage ? installSummary += '    ' + skinsMessage + '\n' : null);
+    if (pluginConfig.dependencies && Object.keys(pluginConfig.dependencies).length > 0) {
+      installSummary += '    dependencies=' + Object.keys(pluginConfig.dependencies) + '\n';
+    } else {
+      installSummary += '    No dependencies' + '\n';
+    }
+
+    console.log(installSummary);
   }
 
   content += utils.cleanJSONQuotesOnKeys(JSON.stringify(catalog, null, 2));

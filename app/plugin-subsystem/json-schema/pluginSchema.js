@@ -13,9 +13,7 @@ angular.module('owsWalletApp').constant('pluginSchema',
     "previewImage",
     "iconImage",
     "splashImage",
-    "uri",
-    "skins",
-    "dependencies"
+    "uri"
   ],
   "properties": {
     "header": {

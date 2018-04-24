@@ -27,8 +27,8 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
   // Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
   // 
   function Applet(obj, skin) {
-    lodash.assign(this, obj);
-    this.skin = skin;
+    lodash.assign(this, lodash.cloneDeep(obj));
+    this.skin = lodash.cloneDeep(skin);
     this.flags = Applet.FLAGS_ALL;
     this.config = lodash.cloneDeep(defaultConfig);
     return this;

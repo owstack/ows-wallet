@@ -124,7 +124,7 @@ copyDir(configDir + '/sass', '../app/shared/sass/overrides');
 copyDir(configDir + '/content', '../app/content');
 copyDir(configDir + '/fonts', '../app/assets/fonts');
 copyDir(configDir + '/builtin-plugins', '../app/builtin-plugins');
-copyDir(configDir + '/themes', '../app/themes');
+copyDir(configDir + '/theme-catalog', '../app/theme-catalog');
 
 // Done
 console.log("apply.js finished. \n\n");
