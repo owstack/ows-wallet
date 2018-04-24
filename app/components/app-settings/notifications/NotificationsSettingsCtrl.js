@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl', function($scope, $log, $timeout, appConfigService, lodash, configService, platformInfoService, pushNotificationsService, emailService) {
+angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl', function($scope, $log, $timeout, appConfig, lodash, configService, platformInfoService, pushNotificationsService, emailService) {
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     updateConfig();
@@ -8,7 +8,7 @@ angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl
 
   function updateConfig() {
     var config = configService.getSync();
-    $scope.appName = appConfigService.nameCase;
+    $scope.appName = appConfig.nameCase;
     $scope.PNEnabledByUser = true;
     $scope.usePushNotifications = platformInfoService.isCordova;
     $scope.isIOSApp = platformInfoService.isIOS && platformInfoService.isCordova;

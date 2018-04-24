@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('bchTestnet', function(lodash, gettextCatalog, appConfigService, networkHelpers, bchWalletClient) {
+angular.module('owsWalletApp.services').factory('bchTestnet', function(lodash, gettextCatalog, appConfig, networkHelpers, bchWalletClient) {
   var root = {};
 
   root.definition = {
     currency: 'bch',
+    isoCode: 'XCT',
     net: 'testnet',
     name: 'Bitcoin Cash',
     protocol: 'bitcoincash',
@@ -18,13 +19,13 @@ angular.module('owsWalletApp.services').factory('bchTestnet', function(lodash, g
     },
     walletService: {
       production: {
-        url: appConfigService.bch.walletService.production.url
+        url: appConfig.networks.bch.walletService.production.url
       },
       staging: {
-        url: appConfigService.bch.walletService.staging.url
+        url: appConfig.networks.bch.walletService.staging.url
       },
       local: {
-        url: appConfigService.bch.walletService.local.url
+        url: appConfig.networks.bch.walletService.local.url
       }
     },
     rateService: {
@@ -40,8 +41,8 @@ angular.module('owsWalletApp.services').factory('bchTestnet', function(lodash, g
     explorer: {
       production: {
         label: gettextCatalog.getString('Explorer'),
-        url: appConfigService.btc.explorer.production.url,
-        urlTx: appConfigService.btc.explorer.production.url + '/tx'
+        url: appConfig.networks.btc.explorer.production.url,
+        urlTx: appConfig.networks.btc.explorer.production.url + '/tx'
       }
     },
     units: [{

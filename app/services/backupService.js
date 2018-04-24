@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('backupService', function($log, $timeout, $stateParams, profileService, appConfigService, networkService) {
+  .factory('backupService', function($log, $timeout, $stateParams, profileService, appConfig, networkService) {
 
     var root = {};
 
@@ -82,7 +82,7 @@ angular.module('owsWalletApp.services')
 
       var walletName = (wallet.alias || '') + (wallet.alias ? '-' : '') + wallet.credentials.walletName;
       if (opts.noSign) walletName = walletName + '-noSign'
-      var filename = walletName + '-' + appConfigService.nameCase + 'backup.aes.json';
+      var filename = walletName + '-' + appConfig.nameCase + 'backup.aes.json';
       _download(ew, filename, cb)
     };
     return root;

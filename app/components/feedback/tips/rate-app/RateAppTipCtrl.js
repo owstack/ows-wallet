@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function($rootScope, $scope, $state, $timeout, $log, gettextCatalog, platformInfoService, storageService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('RateAppTipCtrl', function($rootScope, $scope, $state, $timeout, $log, gettextCatalog, platformInfoService, storageService, appConfig) {
 
   var isCordova = platformInfoService.isCordova;
 
   $scope.score = 0;
-  $scope.appName = appConfigService.nameCase;
+  $scope.appName = appConfig.nameCase;
 
   $scope.goFeedbackFlow = function() {
     $scope.hideTipRateApp();

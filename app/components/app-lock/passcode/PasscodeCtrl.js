@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($interval, $timeout, $scope, $log, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($interval, $timeout, $scope, $log, configService, appConfig) {
 
   var ATTEMPT_LIMIT = 3;
   var ATTEMPT_LOCK_OUT_TIME = 5 * 60;
@@ -12,7 +12,7 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
   $scope.match = $scope.error = false;
   $scope.attemptsRemaining = ATTEMPT_LIMIT;
   $scope.multipleAttempts = false;
-  $scope.appName = appConfigService.nameCase;
+  $scope.appName = appConfig.nameCase;
 
   configService.whenAvailable(function(config) {
     if (!config.lock) {

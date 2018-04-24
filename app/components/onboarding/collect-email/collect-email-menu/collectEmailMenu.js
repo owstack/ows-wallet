@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.directives')
-  .directive('collectEmailMenu', function(appConfigService) {
+  .directive('collectEmailMenu', function(appConfig) {
     return {
       restrict: 'E',
       templateUrl: 'views/onboarding/collect-email/collect-email-menu/collect-email-menu.html',
@@ -17,7 +17,7 @@ angular.module('owsWalletApp.directives')
           scope.show = false;
         };
 
-        scope.author = appConfigService.author;
+        scope.author = appConfig.author;
         scope.confirmation = false;
         scope.data = {
           news: true

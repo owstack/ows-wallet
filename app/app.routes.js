@@ -107,7 +107,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     });
 
   })
-  .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfigService, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService) {
+  .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfig, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService, themeService, pluginService) {
     // The following injected services need to run at startup.
     //
     //   fingerprintService
@@ -190,44 +190,54 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         $ionicHistory.nextViewOptions({
           disableAnimate: true
         });
-        if (err) {
-          if (err.message && err.message.match('NOPROFILE')) {
-            $log.debug('No profile... redirecting');
-            $state.go($rootScope.sref('onboarding.start'));
-          } else if (err.message && err.message.match('NONAGREEDDISCLAIMER')) {
-            if (lodash.isEmpty(profileService.getWallets())) {
-              $log.debug('No wallets and no disclaimer... redirecting');
-              $state.go($rootScope.sref('onboarding.start'));
-            } else {
-              $log.debug('Display disclaimer... redirecting');
-              $state.go($rootScope.sref('onboarding.disclaimer'), {
-                resume: true
-              });
-            }
-          } else {
-            throw new Error(err); // TODO-AJP: what could happen?
-          }
-        } else {
-          profileService.storeProfileIfDirty();
-          $log.debug('Profile loaded ... Starting UX.');
-          scannerService.gentleInitialize();
-          // Reload tab-home if necessary (from root path: starting)
-          $state.go($rootScope.sref('starting'), {}, {
-            'reload': true,
-            'notify': $state.current.name == $rootScope.sref('starting') ? false : true
-          }).then(function() {
-            $ionicHistory.nextViewOptions({
-              disableAnimate: true,
-              historyRoot: true
-            });
-            $state.transitionTo($rootScope.sref('home')).then(function() {
 
-              // Clear history
-              $ionicHistory.clearHistory();
+        initializeSubsystems(function() {
+          if (err) {
+            if (err.message && err.message.match('NOPROFILE')) {
+              $log.debug('No profile... redirecting');
+              $state.go($rootScope.sref('onboarding.start'));
+
+            } else if (err.message && err.message.match('NONAGREEDDISCLAIMER')) {
+
+              if (lodash.isEmpty(profileService.getWallets())) {
+                $log.debug('No wallets and no disclaimer... redirecting');
+                $state.go($rootScope.sref('onboarding.start'));
+              } else {
+                $log.debug('Display disclaimer... redirecting');
+                $state.go($rootScope.sref('onboarding.disclaimer'), {
+                  resume: true
+                });
+              }
+
+            } else {
+              throw new Error(err); // TODO-AJP: what could happen?
+            }
+
+          } else {
+            profileService.storeProfileIfDirty();
+            $log.debug('Profile loaded ... Starting UX.');
+            scannerService.gentleInitialize();
+
+            // Reload home if necessary (from root path: starting)
+            $state.go($rootScope.sref('starting'), {}, {
+              'reload': true,
+              'notify': $state.current.name == $rootScope.sref('starting') ? false : true
+            }).then(function() {
+              $ionicHistory.nextViewOptions({
+                disableAnimate: true,
+                historyRoot: true
+              });
+
+              $state.transitionTo($rootScope.sref('home')).then(function() {
+                // Clear history
+                $ionicHistory.clearHistory();
+              });
+
+              applicationService.appLockModal('start');
             });
-            applicationService.appLockModal('start');
-          });
-        };
+          };
+        });
+
         // After everything have been loaded
         $timeout(function() {
           emailService.init(); // Update email subscription if necessary
@@ -243,12 +253,27 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         type: "menubar"
       });
       try {
-        nativeMenuBar.createMacBuiltin(appConfigService.nameCase);
+        nativeMenuBar.createMacBuiltin(appConfig.nameCase);
       } catch (e) {
         $log.debug('This is not OSX');
       }
       win.menu = nativeMenuBar;
     }
+
+    // If this app is closing then attempt to finalize our state before shutdown.
+    window.onbeforeunload = function(e) {
+      pluginService.finalize();
+    };
+
+    // Presentation must be initialized prior to showing any views.
+    function initializeSubsystems(callback) {
+      themeService.init(function() {
+        pluginService.init(function() {
+          $rootScope.$emit('Local/ThemeUpdated');
+          callback();
+        });
+      });
+    };
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
       $log.debug('Route change start from:', fromState.name || '-', ' to:', toState.name);

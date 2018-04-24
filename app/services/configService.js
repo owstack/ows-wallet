@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('configService', function(storageService, lodash, $log, $timeout, $rootScope, networkService, appConfigService) {
+angular.module('owsWalletApp.services').factory('configService', function(storageService, lodash, $log, $timeout, $rootScope, networkService, appConfig) {
   var root = {};
 
   var defaultConfig = {
@@ -49,7 +49,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     },
 
     release: {
-      url: appConfigService.gitHubRepoApiLatestReleases
+      url: appConfig.gitHubRepoApiLatestReleases
     },
 
     pushNotificationsEnabled: true,
@@ -67,7 +67,17 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     },
 
     appNavigation: {
-      scheme: appConfigService.appNavigationScheme
+      scheme: appConfig.appNavigationScheme
+    },
+
+    theme: {
+      id: null
+    },
+
+    view: {
+      themeGalleryLayout: 'grid',
+      appletGalleryLayout: 'grid',
+      skinGalleryLayout: 'grid',
     },
 
     experiments: {

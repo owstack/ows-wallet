@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('feedbackService', function($http, $log, $httpParamSerializer, appConfigService) {
+angular.module('owsWalletApp.services').factory('feedbackService', function($http, $log, $httpParamSerializer, appConfig) {
   var root = {};
 
   root.send = function(dataSrc, cb) {
@@ -16,7 +16,7 @@ angular.module('owsWalletApp.services').factory('feedbackService', function($htt
   var _post = function(dataSrc) {
     return {
       method: 'POST',
-      url: appConfigService.gappFeedbackUrl,
+      url: appConfig.gappFeedbackUrl,
       headers: {
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },

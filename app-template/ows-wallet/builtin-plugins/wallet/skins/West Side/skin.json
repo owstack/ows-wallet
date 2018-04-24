@@ -1,0 +1,40 @@
+{
+  "header": {
+    "name": "West Side",
+    "id": "org.openwalletstack.wallet.skin.westside",
+    "kind": "vanity",
+    "description": "An OWS Wallet skin.",
+    "author": "Open Wallet Stack",
+    "version": "0.0.1",
+    "url": {
+      "marketing": "https://openwalletstack.org/",
+      "support": "https://github.com/owstack/ows-wallet/issues/new",
+      "privacy": "https://openwalletstack.org/disclaimer"
+    }
+  },
+  "permissions": {
+    "delete": false
+  },
+  "galleryImage": "<resource-0>",
+  "previewImage": "<resource-1>",
+  "store": {
+    "id": "0",
+    "rating": "4+",
+    "price": {
+      "amount": "0",
+      "currency": "USD"
+    },
+    "category": {
+      "primary": "General",
+      "secondary": "OWS"
+    },
+    "keywords": [
+      "ows",
+      "skin"
+    ]
+  },
+  "resources": [
+    "<skin-path>/img/gallery.png",
+    "<skin-path>/img/preview.png"
+  ]
+}

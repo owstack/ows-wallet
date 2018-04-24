@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', function($timeout, $scope, appConfigService, uxLanguageService, platformInfoService, profileService, configService, gettextCatalog, networkService, addressBookService, featureService) {
+angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', function($timeout, $scope, appConfig, uxLanguageService, platformInfoService, profileService, configService, gettextCatalog, networkService, addressBookService, featureService) {
 
   var setScope = function() {
     $scope.isCordova = platformInfoService.isCordova;
     $scope.isDevel = platformInfoService.isDevel;
-    $scope.appName = appConfigService.nameCase;
+    $scope.appName = appConfig.nameCase;
     $scope.currentLanguageName = uxLanguageService.getCurrentLanguageName();
     $scope.wallets = profileService.getWallets();
 

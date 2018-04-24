@@ -1,7 +1,7 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('logHeaderService', function($window, appConfigService, $log, platformInfoService) {
-    $log.info(appConfigService.nameCase + ' v' + $window.version + ' #' + $window.commitHash);
+  .factory('logHeaderService', function($window, appConfig, $log, platformInfoService) {
+    $log.info(appConfig.nameCase + ' v' + $window.version + ' #' + $window.commitHash);
     $log.info('Client: ' + JSON.stringify(platformInfoService));
     return {};
   });

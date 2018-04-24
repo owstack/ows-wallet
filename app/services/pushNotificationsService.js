@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($rootScope, $log, $state, $ionicHistory, platformInfoService, lodash, appConfigService, profileService, configService, networkService) {
+angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($rootScope, $log, $state, $ionicHistory, platformInfoService, lodash, appConfig, profileService, configService, networkService) {
   var root = {};
   var isIOS = platformInfoService.isIOS;
   var isAndroid = platformInfoService.isAndroid;
@@ -65,7 +65,7 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
     var opts = {
       token : _token,
       platform: isIOS ? 'ios' : isAndroid ? 'android' : null,
-      packageName : appConfigService.packageNameId
+      packageName : appConfig.packageNameId
     };
     walletClient.pushNotificationsSubscribe(opts, function(err) {
       if (err) $log.error(walletClient.name + ': Subscription Push Notifications error. ', JSON.stringify(err));

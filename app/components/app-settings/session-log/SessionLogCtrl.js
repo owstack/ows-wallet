@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('SessionLogCtrl',
-  function($scope, historicLogService, lodash, configService, gettextCatalog, appConfigService) {
+  function($scope, historicLogService, lodash, configService, gettextCatalog, appConfig) {
 
     var config = configService.getSync();
     var logLevels = historicLogService.getLevels();
@@ -35,7 +35,7 @@ angular.module('owsWalletApp.controllers').controller('SessionLogCtrl',
     };
 
     $scope.prepareLogs = function() {
-      var log = appConfigService.nameCase + ' Session Logs\n Be careful, this could contain sensitive private data\n\n';
+      var log = appConfig.nameCase + ' Session Logs\n Be careful, this could contain sensitive private data\n\n';
       log += '\n\n';
       log += historicLogService.get().map(function(v) {
         return '[' + v.timestamp + '][' + v.level + ']' + v.msg;
@@ -49,7 +49,7 @@ angular.module('owsWalletApp.controllers').controller('SessionLogCtrl',
 
       window.plugins.socialsharing.shareViaEmail(
         body,
-        appConfigService.nameCase + ' Logs',
+        appConfig.nameCase + ' Logs',
         null, // TO: must be null or an array
         null, // CC: must be null or an array
         null, // BCC: must be null or an array

@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('ltcLivenet', function(lodash, gettextCatalog, appConfigService, networkHelpers, ltcWalletClient) {
+angular.module('owsWalletApp.services').factory('ltcLivenet', function(lodash, gettextCatalog, appConfig, networkHelpers, ltcWalletClient) {
   var root = {};
 
   root.definition = {
     currency: 'ltc',
+    isoCode: 'XLT',
     net: 'livenet',
     name: 'Litecoin',
     protocol: 'litecoin',
@@ -18,13 +19,13 @@ angular.module('owsWalletApp.services').factory('ltcLivenet', function(lodash, g
     },
     walletService: {
       production: {
-        url: appConfigService.ltc.walletService.production.url
+        url: appConfig.networks.ltc.walletService.production.url
       },
       staging: {
-        url: appConfigService.ltc.walletService.staging.url
+        url: appConfig.networks.ltc.walletService.staging.url
       },
       local: {
-        url: appConfigService.ltc.walletService.local.url
+        url: appConfig.networks.ltc.walletService.local.url
       }
     },
     rateService: {
@@ -40,8 +41,8 @@ angular.module('owsWalletApp.services').factory('ltcLivenet', function(lodash, g
     explorer: {
       production: {
         label: gettextCatalog.getString('Explorer'),
-        url: appConfigService.btc.explorer.production.url,
-        urlTx: appConfigService.btc.explorer.production.url + '/tx'
+        url: appConfig.networks.btc.explorer.production.url,
+        urlTx: appConfig.networks.btc.explorer.production.url + '/tx'
       }
     },
     units: [{

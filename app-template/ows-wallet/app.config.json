@@ -29,40 +29,89 @@
   "appNavigationScheme": "tabs",
   "appUri": "owswallet",
   "statusBarColor": "#000000",
-  "bch": {
-    "explorer": {
-      "production": {
-        "url": "http://owstack.org:3001/explorer"
+  "networks": {
+    "bch": {
+      "explorer": {
+        "production": {
+          "url": "http://owstack.org:3001/explorer"
+        }
+      },
+      "walletService": {
+        "production": {
+          "url": "http://bch.owstack.org:3232/bchws/api"
+        },
+        "staging": {
+          "url": "http://bch.owstack.org:3232/bchws/api"
+        },
+        "local": {
+          "url": "http://localhost:4232/bchws/api"
+        }
       }
     },
-    "walletService": {
-      "production": {
-        "url": "http://bch.owstack.org:3232/bchws/api"
+    "btc": {
+      "explorer": {
+        "production": {
+          "url": "http://owstack.org:3001/explorer"
+        }
       },
-      "staging": {
-        "url": "http://bch.owstack.org:3232/bchws/api"
-      },
-      "local": {
-        "url": "http://localhost:4232/bchws/api"
+      "walletService": {
+        "production": {
+          "url": "http://btc.owstack.org:3232/btcws/api"
+        },
+        "staging": {
+          "url": "http://btc.owstack.org:3232/btcws/api"
+        },
+        "local": {
+          "url": "http://localhost:3232/btcws/api"
+        }
       }
     }
   },
-  "btc": {
-    "explorer": {
-      "production": {
-        "url": "http://owstack.org:3001/explorer"
+  "plugins": {
+    "@owstack/ows-wallet-plugin-starter": "^0.0.10",
+    "builtin-plugins/create-personal": "",
+    "builtin-plugins/create-shared": "",
+    "builtin-plugins/import-wallet": "",
+    "builtin-plugins/join-wallet": "",
+    "builtin-plugins/wallet": "",
+    "builtin-plugins/settings": ""
+  },
+  "themeCatalog": {
+    "themes": {
+      "org.openwalletstack.wallet.theme.default": {
+        "default": true
       }
+    }
+  },
+  "store": {
+    "production": {
+      "url": "http://store.owstack.org:5232/store/api"
     },
-    "walletService": {
-      "production": {
-        "url": "http://btc.owstack.org:3232/btcws/api"
-      },
-      "staging": {
-        "url": "http://btc.owstack.org:3232/btcws/api"
-      },
-      "local": {
-        "url": "http://localhost:3232/btcws/api"
-      }
+    "staging": {
+      "url": "http://store.owstack.org:5232/store/api"
+    },
+    "local": {
+      "url": "http://localhost:5232/store/api"
+    }
+  },
+  "features": {
+    "pushNotification": {
+      "enabled": true
+    },
+    "applets": {
+      "enabled": true
+    },
+    "themeDiscovery": {
+      "enabled": false
+    },
+    "skinDiscovery": {
+      "enabled": false
+    },
+    "skinGallery": {
+      "enabled": false
+    },
+    "socialLike": {
+      "enabled": false
     }
   }
 }

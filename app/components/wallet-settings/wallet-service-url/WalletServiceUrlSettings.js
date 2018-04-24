@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('WalletServiceUrlSettingsCtrl',
-  function($scope, $log, $stateParams, configService, applicationService, profileService, storageService, appConfigService, networkService, walletService) {
+  function($scope, $log, $stateParams, configService, applicationService, profileService, storageService, appConfig, networkService, walletService) {
 
     var wallet = profileService.getWallet($stateParams.walletId);
     var walletId = wallet.credentials.walletId;
@@ -9,7 +9,7 @@ angular.module('owsWalletApp.controllers').controller('WalletServiceUrlSettingsC
 
     $scope.form = {};
     $scope.wallet = wallet;
-    $scope.appName = appConfigService.nameCase;
+    $scope.appName = appConfig.nameCase;
     $scope.success = null;
 
     $scope.walletServiceUrl = {
@@ -56,9 +56,7 @@ angular.module('owsWalletApp.controllers').controller('WalletServiceUrlSettingsC
         if (err) {
           $log.debug(err);
         }
-        storageService.setCleanAndScanAddresses(walletId, function() {
-          applicationService.restart();
-        });
+        applicationService.restart();
       });
     };
 

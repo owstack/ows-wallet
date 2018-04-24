@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($rootScope, $scope, $state, $stateParams, $window, lodash, externalLinkService, platformInfoService, feedbackService, ongoingProcessService, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($rootScope, $scope, $state, $stateParams, $window, lodash, externalLinkService, platformInfoService, feedbackService, ongoingProcessService, configService, appConfig) {
   $scope.score = parseInt($stateParams.score);
   var isAndroid = platformInfoService.isAndroid;
   var isIOS = platformInfoService.isIOS;
 
   var config = configService.getSync();
-  $scope.appName = appConfigService.nameCase;
+  $scope.appName = appConfig.nameCase;
   
   $scope.skip = function() {
     var dataSrc = {
@@ -41,9 +41,9 @@ angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($r
   $scope.goAppStore = function() {
     var url;
     if (isAndroid) {
-      url = appConfigService.googleStoreUrl;
+      url = appConfig.googleStoreUrl;
     } else if (isIOS) {
-      url = appConfigService.appleStoreUrl;
+      url = appConfig.appleStoreUrl;
     }
 
     externalLinkService.open(url);

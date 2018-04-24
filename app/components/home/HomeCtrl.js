@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('HomeCtrl',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfigService, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfig, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService) {
     var wallet;
     var listeners = [];
     var notifications = [];
 
     $scope.openTxpModal = txpModalService.open;
     $scope.version = $window.version;
-    $scope.name = appConfigService.nameCase;
+    $scope.name = appConfig.nameCase;
     $scope.tipNewRelease = false;
     $scope.tipRateApp = false;
     $scope.tipWalletReady = $stateParams.fromOnboarding;
@@ -159,7 +159,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     };
 
     $scope.openExternalLinkDownload = function() {
-      var url = appConfigService.gitHubRepoUrl + '/releases/latest';
+      var url = appConfig.gitHubRepoUrl + '/releases/latest';
       var optIn = true;
       var title = gettextCatalog.getString('Update Available');
       var message = gettextCatalog.getString('An update to this app is available. For your security, please update to the latest version.');

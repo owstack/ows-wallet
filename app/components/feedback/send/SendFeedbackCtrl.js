@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', function($rootScope, $scope, $state, $log, $timeout, $stateParams, $ionicNavBarDelegate, $ionicHistory, $ionicConfig, $window, gettextCatalog, popupService, configService, lodash, feedbackService, ongoingProcessService, platformInfoService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', function($rootScope, $scope, $state, $log, $timeout, $stateParams, $ionicNavBarDelegate, $ionicHistory, $ionicConfig, $window, gettextCatalog, popupService, configService, lodash, feedbackService, ongoingProcessService, platformInfoService, appConfig) {
 
   $scope.sendFeedback = function(feedback, goHome) {
 
     var config = configService.getSync();
 
     var dataSrc = {
-      "App": appConfigService.nameCase,
+      "App": appConfig.nameCase,
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
       "DeviceVersion": ionic.Platform.version(),
@@ -76,13 +76,13 @@ angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', functi
       case 5:
         $scope.reaction = gettextCatalog.getString("Thank you!");
         $scope.comment = gettextCatalog.getString("We're always looking for ways to improve {{appName}}.", {
-          appName: appConfigService.nameCase
+          appName: appConfig.nameCase
         }) + ' ' + gettextCatalog.getString("Is there anything we could do better?");
         break;
       default:
         $scope.justFeedback = true;
         $scope.comment = gettextCatalog.getString("We're always looking for ways to improve {{appName}}. How could we improve your experience?", {
-          appName: appConfigService.nameCase
+          appName: appConfig.nameCase
         });
         break;
     }

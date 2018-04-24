@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($scope, $state, $interval, $timeout, $log, configService, appConfigService) {
+angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($scope, $state, $interval, $timeout, $log, configService, appConfig) {
  
   var ATTEMPT_LIMIT = 3;
   var ATTEMPT_LOCK_OUT_TIME = 5 * 60;
@@ -17,7 +17,7 @@ angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($s
   $scope.attemptsRemaining = ATTEMPT_LIMIT;
   $scope.multipleAttempts = false;
   $scope.setupState = 'draw';
-  $scope.appName = appConfigService.nameCase;
+  $scope.appName = appConfig.nameCase;
 
   configService.whenAvailable(function(config) {
     if (!config.lock) {

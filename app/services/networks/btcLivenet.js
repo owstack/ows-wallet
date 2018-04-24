@@ -1,10 +1,11 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, gettextCatalog, appConfigService, networkHelpers, btcWalletClient) {
+angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, gettextCatalog, appConfig, networkHelpers, btcWalletClient) {
   var root = {};
 
   root.definition = {
     currency: 'btc',
+    isoCode: 'XBT',
     net: 'livenet',
     name: 'Bitcoin',
     protocol: 'bitcoin',
@@ -18,13 +19,13 @@ angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, g
     },
     walletService: {
       production: {
-        url: appConfigService.btc.walletService.production.url
+        url: appConfig.networks.btc.walletService.production.url
       },
       staging: {
-        url: appConfigService.btc.walletService.staging.url
+        url: appConfig.networks.btc.walletService.staging.url
       },
       local: {
-        url: appConfigService.btc.walletService.local.url
+        url: appConfig.networks.btc.walletService.local.url
       }
     },
     rateService: {
@@ -40,8 +41,8 @@ angular.module('owsWalletApp.services').factory('btcLivenet', function(lodash, g
     explorer: {
       production: {
         label: gettextCatalog.getString('Explorer'),
-        url: appConfigService.btc.explorer.production.url,
-        urlTx: appConfigService.btc.explorer.production.url + '/tx'
+        url: appConfig.networks.btc.explorer.production.url,
+        urlTx: appConfig.networks.btc.explorer.production.url + '/tx'
       }
     },
     units: [{

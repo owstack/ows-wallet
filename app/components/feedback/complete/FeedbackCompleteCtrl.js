@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', function($scope, $timeout, $log, $ionicHistory, $ionicNavBarDelegate, $ionicConfig, platformInfoService, storageService, lodash, appConfigService, gettextCatalog) {
+angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', function($scope, $timeout, $log, $ionicHistory, $ionicNavBarDelegate, $ionicConfig, platformInfoService, storageService, lodash, appConfig, gettextCatalog) {
   $scope.isCordova = platformInfoService.isCordova;
   $scope.title = gettextCatalog.getString("Share {{appName}}", {
-    appName: appConfigService.nameCase
+    appName: appConfig.nameCase
   });
 
-  var downloadUrl =  appConfigService.downloadUrl;
+  var downloadUrl =  appConfig.downloadUrl;
 
   function quickFeedback(cb) {
     window.plugins.spinnerDialog.show();

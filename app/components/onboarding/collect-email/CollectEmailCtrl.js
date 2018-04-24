@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', function($rootScope, $scope, $state, $log, $timeout, $window, $http, $httpParamSerializer, $ionicConfig, profileService, appConfigService, emailService) {
+angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', function($rootScope, $scope, $state, $log, $timeout, $window, $http, $httpParamSerializer, $ionicConfig, profileService, appConfig, emailService) {
 
   var walletId;
 
@@ -20,7 +20,7 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
   var _post = function(dataSrc) {
     return {
       method: 'POST',
-      url: appConfigService.gappEmailCollectionUrl,
+      url: appConfig.gappEmailCollectionUrl,
       headers: {
         'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
       },
@@ -30,7 +30,7 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
 
   var collectEmail = function(email, opts) {
     var dataSrc = {
-      "App": appConfigService.nameCase,
+      "App": appConfig.nameCase,
       "AppVersion": $window.version,
       "Platform": ionic.Platform.platform(),
       "DeviceVersion": ionic.Platform.version(),

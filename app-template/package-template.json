@@ -53,6 +53,7 @@
   "dependencies": {
     "@owstack/bch-wallet-client": "^0.0.11",
     "@owstack/btc-wallet-client": "^0.0.11",
+    "@owstack/ows-wallet-plugin-client": "^0.0.3",
     "adm-zip": "^0.4.7",
     "angular": "1.4.6",
     "angular-mocks": "1.4.10",
@@ -65,6 +66,7 @@
     "cordova-custom-config": "^4.0.2",
     "cordova-plugin-qrscanner": "^2.5.0",
     "coveralls": "^2.11.9",
+    "djv": "^2.0.0",
     "express": "^4.11.2",
     "fs": "0.0.2",
     "fs-extra": "^0.30.0",
@@ -76,10 +78,12 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-clean": "^1.1.0",
     "grunt-exec": "^1.0.0",
     "grunt-nw-builder": "^2.0.3",
     "grunt-sass": "^1.2.0",
     "load-grunt-tasks": "^3.5.0",
+    "path-to-regexp": "^2.2.0",
     "shelljs": "^0.3.0"
   },
   "scripts": {

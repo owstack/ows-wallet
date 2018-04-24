@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
-  function($rootScope, $scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, profileService, platformInfoService, gettextCatalog, $state, $stateParams, popupService, appConfigService, helpService, addressBookService) {
+  function($rootScope, $scope, $timeout, $log, $ionicHistory, $ionicScrollDelegate, backupService, walletService, profileService, platformInfoService, gettextCatalog, $state, $stateParams, popupService, appConfig, helpService, addressBookService) {
     var wallet = profileService.getWallet($stateParams.walletId);
     $scope.wallet = wallet;
 
@@ -192,7 +192,7 @@ angular.module('owsWalletApp.controllers').controller('ExportWalletCtrl',
         if ($scope.formData.noSignEnabled)
           name = name + '(No Private Key)';
 
-        var subject = appConfigService.nameCase + ' Wallet Backup: ' + name;
+        var subject = appConfig.nameCase + ' Wallet Backup: ' + name;
         var body = 'Here is the encrypted backup of the wallet ' + name + ': \n\n' + ew + '\n\n To import this backup, copy all text between {...}, including the symbols {}';
         window.plugins.socialsharing.shareViaEmail(
           body,

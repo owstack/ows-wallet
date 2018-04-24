@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('openUrlService', function($rootScope, $ionicHistory, $document, $log, platformInfoService, lodash, profileService, incomingDataService, appConfigService, networkService) {
+angular.module('owsWalletApp.services').factory('openUrlService', function($rootScope, $ionicHistory, $document, $log, platformInfoService, lodash, profileService, incomingDataService, appConfig, networkService) {
   var root = {};
 
   var handleOpenURL = function(args) {
@@ -58,10 +58,10 @@ angular.module('owsWalletApp.services').factory('openUrlService', function($root
           }
         });
 
-        if (pathData.indexOf(appConfigService.name + '://') != -1) {
-          $log.debug(appConfigService.name + ' URL found');
+        if (pathData.indexOf(appConfig.name + '://') != -1) {
+          $log.debug(appConfig.name + ' URL found');
           handleOpenURL({
-            url: pathData.substring(pathData.indexOf(appConfigService.name + '://'))
+            url: pathData.substring(pathData.indexOf(appConfig.name + '://'))
           });
         }
       });

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfigService, txFormatService, helpService, networkService) {
+angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfig, txFormatService, helpService, networkService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;
@@ -173,7 +173,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
 
     ongoingProcessService.set('sendingByEmail', true);
     $timeout(function() {
-      var appName = appConfigService.nameCase;
+      var appName = appConfig.nameCase;
       var body = appName + ' Wallet "' + $scope.wallet.name + '" Addresses\n  Only Main Addresses are  shown.\n\n';
       body += "\n";
       body += $scope.allAddresses.map(function(v) {

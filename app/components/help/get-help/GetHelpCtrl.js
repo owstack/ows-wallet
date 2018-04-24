@@ -1,12 +1,12 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('GetHelpCtrl', function($scope, appConfigService, gettextCatalog, externalLinkService) {
+angular.module('owsWalletApp.controllers').controller('GetHelpCtrl', function($scope, appConfig, gettextCatalog, externalLinkService) {
 
-  $scope.appName = appConfigService.nameCase;
+  $scope.appName = appConfig.nameCase;
 
   $scope.openExternalLink = function() {
-    var appName = appConfigService.name;
-    var url = appConfigService.gitHubRepoBugs;
+    var appName = appConfig.name;
+    var url = appConfig.gitHubRepoBugs;
     var optIn = true;
     var title = gettextCatalog.getString('Report a Bug');
     var message = gettextCatalog.getString('You may browse or submit bugs at the website.');

@@ -82,8 +82,9 @@ module.exports = function(grunt) {
           'app/shared/**/*.js',
           'app/app.routes.js',
           'app/services/**/*.js',
-          'app/models/*.js',
-          'app/components/**/*.js'
+          'app/model/*.js',
+          'app/components/**/*.js',
+          'app/plugin-framework/**/*.js'
         ],
         tasks: ['concat:js']
       },
@@ -132,6 +133,8 @@ module.exports = function(grunt) {
           'bower_components/ngtouch/src/ngTouch.js',
           'bower_components/angular-gridster/dist/angular-gridster.min.js',
           'bower_components/pattern-lock/angular-pattern-lock.min.js',
+          'angular-path-to-regexp/angular-path-to-regexp.js',
+          'angular-djv/angular-djv.js',
           'angular-bitauth/angular-bitauth.js',
           'angular-bch-wallet-client/angular-bch-wallet-client.js',
           'angular-btc-wallet-client/angular-btc-wallet-client.js',
@@ -139,15 +142,19 @@ module.exports = function(grunt) {
         ],
         dest: 'www/lib/angular-components.js'
       },
-      js: {
+      app_js: {
         src: [
           'app/app.js',
           'app/app.config.js',
+          'app/app.plugincatalog.js',
+          'app/app.themecatalog.js',
           'app/app.routes.js',
           'app/shared/**/*.js',
-          'app/models/*.js',
+          'app/json-schema/**/*.js',
+          'app/model/*.js',
           'app/services/**/*.js',
           'app/components/**/*.js',
+          'app/plugin-framework/**/*.js',
           'app/app.init.js',
           'app/IndexCtrl.js',
           'bower_components/trezor-connect/connect.js',
@@ -156,7 +163,7 @@ module.exports = function(grunt) {
         ],
         dest: 'www/js/app.js'
       },
-      css: {
+      app_css: {
         src: [
           'www/css/main.css',
           'bower_components/angular-gridster/dist/angular-gridster.min.css'
@@ -183,7 +190,7 @@ module.exports = function(grunt) {
             'app/**/*.js'
           ]
         }
-      },
+      }
     },
     nggettext_compile: {
       all: {
@@ -193,14 +200,20 @@ module.exports = function(grunt) {
         files: {
           'app/shared/translations/translations.js': ['i18n/po/*.po']
         }
-      },
+      }
+    },
+    clean: {
+      www: ['www/']
     },
     copy: {
       app_root: {
         expand: true,
         flatten: false,
         cwd: 'app/',
-        src: ['index.html', 'cordova.js'],
+        src: [
+          'index.html',
+          'cordova.js'
+        ],
         dest: 'www/'
       },
       app_views: {
@@ -238,6 +251,14 @@ module.exports = function(grunt) {
         src: '**/*.html',
         dest: 'www/content/'
       },
+      app_themes: {
+        files: [{
+          expand: true,
+          cwd: 'app/themes/',
+          src: ['**', '!**/*.json'], // Don't bring configuration files into the app
+          dest: 'www/themes/'
+        }]
+      },
       ionic_fonts: {
         expand: true,
         flatten: true,
@@ -258,7 +279,7 @@ module.exports = function(grunt) {
           dest: 'webkitbuilds/<%= pkg.title %>/linux64/',
           flatten: true,
           filter: 'isFile'
-        }],
+        }]
       }
     },
     nwjs: {
@@ -294,10 +315,12 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         files: {
+          'angular-path-to-regexp/angular-path-to-regexp.js': ['angular-path-to-regexp/index.js'],
+          'angular-djv/angular-djv.js': ['angular-djv/index.js'],
+          'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js'],
           'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
           'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
 //          'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js'],
-          'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js']
         },
         options: {
           exclude: ['www/index.html']
@@ -307,6 +330,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', [
+    'clean:www',
     'nggettext_compile',
     'sass',
     'exec:appConfig',
@@ -316,6 +340,7 @@ module.exports = function(grunt) {
     'copy:app_content',
     'copy:app_fonts',
     'copy:app_imgs',
+    'copy:app_themes',
     'copy:ionic_fonts',
     'copy:ionic_js',
     'browserify',

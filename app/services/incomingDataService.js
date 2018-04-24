@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfigService, popupService, gettextCatalog, networkService, profileService) {
+angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfig, popupService, gettextCatalog, networkService, profileService) {
 
   var root = {};
   var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO-AJP: make this extensible
@@ -13,7 +13,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
   root.redir = function(data) {
     $log.debug('Processing incoming data: ' + data);
 
-    var joinMatch = '/^' + appConfigService.appUri + ':[0-9A-HJ-NP-Za-km-z]{70,80}$/';
+    var joinMatch = '/^' + appConfig.appUri + ':[0-9A-HJ-NP-Za-km-z]{70,80}$/';
     var joinMatchRE = new RegExp(joinMatch);
 
     function sanitizeUri(data) {

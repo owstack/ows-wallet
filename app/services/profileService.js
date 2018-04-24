@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientErrorService, uxLanguageService, platformInfoService, txFormatService, appConfigService, networkService, walletService, uiService, addressBookService) {
+  .factory('profileService', function($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientErrorService, uxLanguageService, platformInfoService, txFormatService, appConfig, networkService, walletService, uiService, addressBookService) {
 
     var root = {};
     var isCordova = platformInfoService.isCordova;
@@ -10,16 +10,6 @@ angular.module('owsWalletApp.services')
     var usePushNotifications = isCordova;
 
     root.profile = null;
-
-    Object.defineProperty(root, "focusedClient", {
-      get: function() {
-        throw "focusedClient is not used any more"
-      },
-      set: function() {
-        throw "focusedClient is not used any more"
-      }
-    });
-
     root.wallet = {}; // decorated version of client
 
     root.setBackupFlag = function(walletId) {
@@ -520,7 +510,7 @@ angular.module('owsWalletApp.services')
 
       if (!root.profile.addWallet(JSON.parse(client.export())))
         return cb(gettextCatalog.getString("Wallet already in {{appName}}.", {
-          appName: appConfigService.nameCase
+          appName: appConfig.nameCase
         }));
 
 
@@ -705,7 +695,7 @@ angular.module('owsWalletApp.services')
         if (err) $log.debug(err);
 
         var p = Profile.create();
-        storageService.storeNewProfile(p, function(err) {
+        storageService.createProfile(p, function(err) {
           if (err) return cb(err);
           root.bindProfile(p, function(err) {
             // ignore NONAGREEDDISCLAIMER
@@ -738,18 +728,9 @@ angular.module('owsWalletApp.services')
 
     root.isDisclaimerAccepted = function(cb) {
       var disclaimerAccepted = root.profile && root.profile.disclaimerAccepted;
-      if (disclaimerAccepted)
+      if (disclaimerAccepted) {
         return cb(true);
-
-      // OLD flag
-      storageService.getDisclaimerFlag(function(err, val) {
-        if (val) {
-          root.profile.disclaimerAccepted = true;
-          return cb(true);
-        } else {
-          return cb();
-        }
-      });
+      }
     };
 
     root.updateCredentials = function(credentials, cb) {
@@ -782,14 +763,18 @@ angular.module('owsWalletApp.services')
       }, cb);
     };
 
-    root.getWallets = function(opts) {
-
-      if (opts && !lodash.isObject(opts))
+    root.getWallets = function(opts, cb) {
+      if (opts && !lodash.isObject(opts)) {
         throw "bad argument";
-
+      }
       opts = opts || {};
 
       var ret = lodash.values(root.wallet);
+
+      // Short circuit
+      if (ret.length == 0) {
+        return ret;
+      }
 
       if (opts.networkURI) {
         ret = lodash.filter(ret, function(w) {
@@ -817,14 +802,18 @@ angular.module('owsWalletApp.services')
 
       if (opts.hasFunds) {
         ret = lodash.filter(ret, function(w) {
-          if (!w.status) return;
+          if (!w.status) {
+            return;
+          }
           return (w.status.availableBalanceSat > 0);
         });
       }
 
       if (opts.minAmount) {
         ret = lodash.filter(ret, function(w) {
-          if (!w.status) return;
+          if (!w.status) {
+            return;
+          }
           return (w.status.availableBalanceSat > opts.minAmount);
         });
       }
@@ -833,19 +822,42 @@ angular.module('owsWalletApp.services')
         ret = lodash.filter(ret, function(w) {
           return w.isComplete();
         });
-      } else {}
+      }
 
       // Add cached balance async
       lodash.each(ret, function(w) {
         root.addLastKnownBalance(w, function() {});
       });
 
-
-      return lodash.sortBy(ret, [
+      ret = lodash.sortBy(ret, [
         function(w) {
           return w.isComplete();
         }, 'createdOn'
       ]);
+
+      // Async calls
+      if (cb) {
+
+        // Get status for all wallets
+        if (opts.status) {
+          var i = 0;
+          lodash.each(ret, function(w) {
+            walletService.getStatus(w, {}, function(err, status) {
+              if (err && !status) {
+                $log.error(err);
+              }
+              w.status = status;
+
+              if (++i == ret.length) {
+                return cb(ret);
+              }
+            });
+          });
+        }
+
+      } else {
+        return ret;
+      }
     };
 
     root.toggleHideBalanceFlag = function(walletId, cb) {
@@ -1016,11 +1028,9 @@ angular.module('owsWalletApp.services')
       opts = opts || {};
       opts.networkURI = opts.networkURI || null;
       var hasFunds = false;
-      var index = 0;
 
       lodash.each(Object.keys(root.wallet), function(walletId) {
         walletService.getStatus(root.wallet[walletId], {}, function(err, status) {
-          ++index;
           if (err && !status) {
             $log.error(err);
 
