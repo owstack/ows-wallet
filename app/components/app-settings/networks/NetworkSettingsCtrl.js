@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('NetworksCtrl',
+angular.module('owsWalletApp.controllers').controller('NetworkSettingsCtrl',
   function($scope, lodash, networkService, configService, feeService, gettextCatalog, featureService) {
 
     var testnetFeature = featureService.isAvailable('testnet');

@@ -336,14 +336,14 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
     .state($rootScope.sref('networks'), {
       url: '/networks/:id',
       views: getViews('networks', [{
-        controller: 'NetworksCtrl',
+        controller: 'NetworkSettingsCtrl',
         templateUrl: 'views/app-settings/networks/networks.html'
       }])
     })
     .state($rootScope.sref('network-settings'), {
       url: '/network-settings/:networkURI',
       views: getViews('network-settings', [{
-        controller: 'NetworksCtrl',
+        controller: 'NetworkSettingsCtrl',
         templateUrl: 'views/app-settings/networks/networks.html'
       }])
     })
