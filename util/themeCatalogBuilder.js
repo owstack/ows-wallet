@@ -41,7 +41,7 @@ var getCatalog = function(catalogConfig) {
         console.log('> \'' + theme.header.name + '\'@' + theme.header.version + ' (' + id + ')');
 
         catalog.themes[id] = theme;
-        catalog.themes[id].uri = encodeURI(themesRoot + themeDirs[d]);
+        catalog.themes[id].uri = encodeURI(themesRoot + themeDirs[d] + '/');
 
         // Get the skins for the theme and attach to the catalog.
         if (theme.skins) {
@@ -58,7 +58,7 @@ var getCatalog = function(catalogConfig) {
 
         // Replace tags.
         var themeJSON = JSON.stringify(catalog.themes[id]);
-        themeJSON = themeJSON.replace(/<theme-path>/g, catalog.themes[id].uri);
+        themeJSON = themeJSON.replace(/<theme-path>/g, catalog.themes[id].uri.slice(0, -1));
         catalog.themes[id] = JSON.parse(themeJSON);
 
         for (var n = 0; n < catalog.themes[id].resources.length; n++) {
@@ -72,7 +72,7 @@ var getCatalog = function(catalogConfig) {
     }
 
     if (!catalog.themes[id].uri) {
-      console.log('> WARNING - theme not found [' + id + '] \', app-template/themes/themes/ does not define this theme');
+      console.log('> WARNING - theme not found [' + id + '] \', app-template/theme-catalog/themes/ does not define this theme');
     }
   }
 
@@ -98,11 +98,11 @@ var getSkins = function(skinsConfig) {
         console.log('    [' + skin.header.kind + '] \'' + skin.header.name + '\'@' + skin.header.version + ' (' + id + ')');
 
         skins[id] = skin;
-        skins[id].uri = encodeURI(skinsRoot + skinDirs[d]);
+        skins[id].uri = encodeURI(skinsRoot + skinDirs[d] + '/');
 
         // Replace tags.
         var skinJSON = JSON.stringify(skins[id]);
-        skinJSON = skinJSON.replace(/<skin-path>/g, skins[id].uri);
+        skinJSON = skinJSON.replace(/<skin-path>/g, skins[id].uri.slice(0, -1));
         skins[id] = JSON.parse(skinJSON);
 
         for (var n = 0; n < skins[id].resources.length; n++) {
@@ -116,7 +116,7 @@ var getSkins = function(skinsConfig) {
     }
 
     if (!skins[id].uri) {
-      console.log('> WARNING - skin not found [' + id + '] \', app-template/themes/skins/ does not define this skin');
+      console.log('> WARNING - skin not found [' + id + '] \', app-template/theme-catalog/skins/ does not define this skin');
     }
   }
   return skins;

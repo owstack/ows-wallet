@@ -11,8 +11,8 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     $scope.recentTransactionsEnabled = {
       value: config.recentTransactions.enabled
     };
-    $scope.hideNextSteps = {
-      value: config.hideNextSteps.enabled
+    $scope.hideApplets = {
+      value: config.hideApplets.enabled
     };
     $scope.showExperimentsMenu = {
       value: config.experiments.showMenu
@@ -39,10 +39,10 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     });
   };
 
-  $scope.nextStepsChange = function() {
+  $scope.appletsChange = function() {
     var opts = {
-      hideNextSteps: {
-        enabled: $scope.hideNextSteps.value
+      hideApplets: {
+        enabled: $scope.hideApplets.value
       },
     };
     configService.set(opts, function(err) {

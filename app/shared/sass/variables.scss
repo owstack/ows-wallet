@@ -252,6 +252,15 @@ $v-feedback-button-secondary-clear-color:            $v-accent-1-color !default;
 $v-feedback-button-secondary-outline-bg:             transparent !default;
 $v-feedback-button-secondary-outline-color:          $v-accent-1-color !default;
 
+/* Applet frame */
+
+$v-applet-bar-bg:                                    $v-primary-color !default;
+$v-applet-bar-border:                                3px solid $v-nav-item-primary-color !default;
+$v-applet-bar-color:                                 $v-nav-item-primary-color !default;
+$v-applet-popover-bg:                                $v-subtle-gray !default;
+$v-applet-popover-color:                             $v-nav-item-primary-color !default;
+
+
 /* Cards and lists */
 
 $v-card-bg:                                          $v-white-transparent-subtle !default;

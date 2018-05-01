@@ -8,12 +8,26 @@ angular.module('owsWalletApp.pluginModel').factory('Constants', function () {
     return this;
   };
 
-  Constants.LAYOUT_CATEGORIES = 'Categories';
-  Constants.LAYOUT_DESKTOP = 'Desktop';
-  Constants.LAYOUT_LIST = 'List';
-  Constants.LAYOUT_DEFAULT = Constants.LAYOUT_DESKTOP;
+  // Only one envronment state is defined.
+  Constants.ENVIRONMENT_ID = 'default';
 
-  Constants.appletPresentationOptions = [Constants.LAYOUT_CATEGORIES, Constants.LAYOUT_DESKTOP, Constants.LAYOUT_LIST];
+  // The options for applet and applet category presenation in a view.
+  Constants.PRESENTATION_CATEGORIES = 'Categories';
+  Constants.PRESENTATION_GRID = 'Grid';
+  Constants.PRESENTATION_LIST = 'List';
+
+  Constants.APPLET_PRESENTATION_DEFAULT = Constants.PRESENTATION_GRID;
+  Constants.APPLET_CATEGORY_PRESENTATION_DEFAULT = Constants.PRESENTATION_LIST;
+
+  Constants.appletPresentationOptions = [
+    Constants.PRESENTATION_CATEGORIES,
+    Constants.PRESENTATION_GRID,
+    Constants.PRESENTATION_LIST
+  ];
+
+  Constants.appletCategoryPresentationOptions = [
+    Constants.PRESENTATION_LIST
+  ];
 
   return Constants;
 });

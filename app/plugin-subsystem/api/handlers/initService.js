@@ -7,7 +7,7 @@ angular.module('owsWalletApp.pluginApi').service('initService', function(lodash,
   root.respond = function(message, callback) {
 	  // Request parameters.
     var appletId = message.request.params.id;
-    var pluginId = message.request.params.pluginId;
+    var serviceId = message.request.params.pluginId;
 
   	if (lodash.isUndefined(appletId) || appletId.length <= 0) {
 	    message.response = {
@@ -32,7 +32,7 @@ angular.module('owsWalletApp.pluginApi').service('initService', function(lodash,
 
 		// Initialize the service on the applet (creates a service delegate).
 		try {
-			applet.initService(pluginId);
+			applet.initService(serviceId);
 
 	    message.response = {
 	      statusCode: 200,

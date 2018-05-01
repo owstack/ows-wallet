@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('HomeCtrl',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfig, startupService, addressBookService, feedbackService, walletClientErrorService, nextStepsService, pushNotificationsService, timeService, networkService, uiService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfig, startupService, addressBookService, feedbackService, walletClientErrorService, pushNotificationsService, timeService, networkService, uiService, appletService) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -104,6 +104,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
 
     $scope.$on("$ionicView.enter", function(event, data) {
       updateAllWallets();
+      updateAllApplets();
 
       addressBookService.list(function(err, ab) {
         if (err) {
@@ -116,25 +117,31 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
         $rootScope.$on('walletServiceEvent', function(e, walletId, type, n) {
           var wallet = profileService.getWallet(walletId);
           updateWallet(wallet);
-          if ($scope.recentTransactionsEnabled) getNotifications();
+          if ($scope.recentTransactionsEnabled) {
+            getNotifications();
+          }
 
         }),
         $rootScope.$on('Local/TxAction', function(e, walletId) {
           $log.debug('Got action for wallet ' + walletId);
           var wallet = profileService.getWallet(walletId);
           updateWallet(wallet);
-          if ($scope.recentTransactionsEnabled) getNotifications();
+          if ($scope.recentTransactionsEnabled) {
+            getNotifications(); 
+          }
         })
       ];
 
       configService.whenAvailable(function(config) {
         $scope.recentTransactionsEnabled = config.recentTransactions.enabled;
-        if ($scope.recentTransactionsEnabled) getNotifications();
+        if ($scope.recentTransactionsEnabled) {
+          getNotifications();
+        }
 
-        if (config.hideNextSteps.enabled) {
-          $scope.nextStepsItems = null;
+        if (config.hideApplets.enabled) {
+          $scope.applets = null;
         } else {
-          $scope.nextStepsItems = nextStepsService.get();
+          $scope.applets = appletService.getAppletsWithStateSync();
         }
 
         pushNotificationsService.init();
@@ -261,6 +268,10 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       });
     };
 
+    var updateAllApplets = function() {
+      $scope.applets = appletService.getAppletsWithStateSync();
+    };
+
     var updateAllWallets = function() {
       $scope.wallets = profileService.getWallets();
       if (lodash.isEmpty($scope.wallets)) {
@@ -339,6 +350,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
         $scope.$broadcast('scroll.refreshComplete');
       }, 300);
       updateAllWallets();
+      updateAllApplets();
     };
 
     $scope.isTestnet = function(networkURI) {

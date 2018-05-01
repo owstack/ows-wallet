@@ -109,7 +109,6 @@
         </ion-slides>
       </div>
     </div>
-    <div class="ng-hide list card" ng-show="nextStepsItems.length>0"
-      ng-include="'views/home/next-steps/next-steps.html'"></div>
+    <div class="ng-hide card applets" ng-show="applets.length>0" ng-include="'views/home/applets/applets.html'" ng-controller="AppletsCtrl"></div>
   </ion-content>
 </ion-view>

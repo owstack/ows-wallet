@@ -56,7 +56,7 @@ angular.module('owsWalletApp.services').factory('ongoingProcessService', functio
     ongoingProcessService[processName] = isOn;
 
     var name;
-    root.any = lodash.any(ongoingProcessService, function(isOn, processName) {
+    root.any = lodash.some(ongoingProcessService, function(isOn, processName) {
       if (isOn) {
         name = name || processName;
       }

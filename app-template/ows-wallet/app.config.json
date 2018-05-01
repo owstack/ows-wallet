@@ -29,6 +29,22 @@
   "appNavigationScheme": "tabs",
   "appUri": "owswallet",
   "statusBarColor": "#000000",
+  "plugins": {
+    "@owstack/ows-wallet-plugin-starter": "^0.0.23",
+    "builtin-plugins/create-personal": "",
+    "builtin-plugins/create-shared": "",
+    "builtin-plugins/import-wallet": "",
+    "builtin-plugins/join-wallet": "",
+    "builtin-plugins/wallet": "",
+    "builtin-plugins/settings": ""
+  },
+  "themeCatalog": {
+    "themes": {
+      "org.openwalletstack.wallet.theme.default": {
+        "default": true
+      }
+    }
+  },
   "networks": {
     "bch": {
       "explorer": {
@@ -64,22 +80,6 @@
         "local": {
           "url": "http://localhost:3232/btcws/api"
         }
-      }
-    }
-  },
-  "plugins": {
-    "@owstack/ows-wallet-plugin-starter": "^0.0.10",
-    "builtin-plugins/create-personal": "",
-    "builtin-plugins/create-shared": "",
-    "builtin-plugins/import-wallet": "",
-    "builtin-plugins/join-wallet": "",
-    "builtin-plugins/wallet": "",
-    "builtin-plugins/settings": ""
-  },
-  "themeCatalog": {
-    "themes": {
-      "org.openwalletstack.wallet.theme.default": {
-        "default": true
       }
     }
   },

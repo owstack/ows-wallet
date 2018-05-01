@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $timeout, $log, $injector, lodash, PluginCatalog, ServiceDelegate) {
+angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $timeout, $log, $injector, $ionicModal, $ionicPopover, lodash, PluginCatalog, ServiceDelegate) {
 
   var self = this;
   var _serviceDelegates = {};
@@ -14,40 +14,61 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     'path'
   ];
 
-  Applet.FLAGS_ALL = 0;
-  Applet.FLAGS_MAY_NOT_HIDE = 1;
+  // Bit values for settings.
+  // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
+  Applet.FLAGS_NONE = 0;
+  Applet.FLAGS_SHOW_SPLASH = 1;
+  Applet.FLAGS_MAY_NOT_HIDE = 2;
 
-  // Default applet configuration.
-  var defaultLaunchConfig = {
-    showSplash: true
+  // Configuration schema and default values.
+  var defaultConfiguration = {
+    flags: Applet.FLAGS_NONE
   };
 
-  var defaultConfig = defaultLaunchConfig;
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
 
-  // Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
-  // 
-  function Applet(obj, skin) {
+  function Applet(obj) {
     lodash.assign(this, lodash.cloneDeep(obj));
-    this.skin = lodash.cloneDeep(skin);
-    this.flags = Applet.FLAGS_ALL;
-    this.config = lodash.cloneDeep(defaultConfig);
+    this.configuration = lodash.merge(lodash.cloneDeep(defaultConfiguration), obj.configuration);
     return this;
   };
 
-  // Public methods
-  //
+  /**
+   * Events
+   */
+
+  $rootScope.$on('modal.shown', function(event, modal) {
+    if (modal.name != 'applet') {
+      return;
+    }
+    $rootScope.$emit('Local/AppletShown', modal.session.getApplet());
+  });
+
+  $rootScope.$on('modal.hidden', function(event, modal) {
+    if (modal.name != 'applet') {
+      return;
+    }
+    $rootScope.$emit('Local/AppletHidden', modal.session.getApplet());
+  });
+
+  /**
+   * Public methods
+   */
+
   Applet.prototype.initEnvironment = function() {
-    publishConfig(defaultLaunchConfig);
+    publishConfiguration(defaultConfiguration);
     publishProperties(this);
   };
 
-  Applet.prototype.setConfig = function(config) {
-    lodash.merge(this.config, config);
-    publishConfig(this.config);
+  Applet.prototype.setConfiguration = function(configuration) {
+    lodash.merge(this.configuration, configuration);
+    publishConfiguration(this.configuration);
   };
 
   Applet.prototype.mainViewUrl = function() {
-    return PluginCatalog.getEntry(this.header.pluginId).mainViewUri;
+    return this.uri + (this.mainView || 'index.html');
   };
 
   Applet.prototype.property = function(key, value) {    
@@ -83,6 +104,65 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     return _serviceDelegates[pluginId];
   };
 
+  Applet.prototype.createContainer = function(session) {
+    this.initEnvironment();
+
+    var container = $ionicModal.fromTemplate('\
+      <ion-modal-view class="applet-modal">\
+        <ion-footer-bar class="footer-bar-applet" ng-style="{\'background\':applet.view.footerBarBackground, \'border-top\':applet.view.footerBarBorderTop}">\
+          <button class="footer-bar-item item-center button button-clear button-icon button-applet-close"\
+          ng-style="{\'color\':applet.view.footerBarButtonColor}" ng-click="applet.close(\'' + session.id + '\')"></button>\
+          <button class="footer-bar-item item-right button button-clear button-icon ion-more"\
+          ng-style="{\'color\':applet.view.footerBarButtonColor}" ng-click="appletInfoPopover.show($event)"></button>\
+        </ion-footer-bar>\
+        <script id="templates/appletInfoPopover.html" type="text/ng-template">\
+          <ion-popover-view class="popover-applet" ng-style="{\'background\':applet.view.popupInfoBackground, \'color\':applet.view.popupInfoColor}">\
+            <ion-content scroll="false" class="m0i">\
+              <div class="row">\
+                <div class="col col-25">\
+                  <i class="icon xl-icon left-icon" style="padding: 0;top: 10px;position: relative;">\
+                    <div class="bg" style="background-image: url(' + this.iconImage + ')"></div>\
+                  </i>\
+                </div>\
+                <div class="col info">\
+                  <span class="name">' + this.header.name + '</span><br>\
+                  <span class="author">' + this.header.author + '</span><br>\
+                  <span class="version">' + this.header.version + '</span>\
+                </div>\
+              </div>\
+              <div class="row">\
+                <div class="col">\
+                  <span class="description">' + this.header.description + '</span>\
+                </div>\
+              </div>\
+            </ion-content>\
+          </ion-popover-view>\
+        </script>\
+        <ion-pane ng-style="{\'background\': applet.view.background}">\
+          <div class="applet-splash fade-splash" ng-style="{\'background\':applet.view.splashBackground}"\
+            ng-hide="!applet.configuration.showSplash" ng-if="applet.view.splashBackground.length > 0"></div>\
+          <iframe class="applet-frame" src="' + this.mainViewUrl() + '?sessionId=' + session.id + '"></iframe>\
+        </ion-pane>\
+      </ion-modal-view>\
+      ', {
+      scope: $rootScope,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false,
+      animation: 'animated zoomIn',
+      hideDelay: 1000,
+      session: session,
+      name: 'applet'
+    });
+
+    $ionicPopover.fromTemplateUrl('templates/appletInfoPopover.html', {
+      scope: container.scope,
+    }).then(function(popover) {
+      $rootScope.appletInfoPopover = popover;
+    });
+
+    return container;
+  };
+
   Applet.prototype.open = function() {
     // Invoke rootScope published function to avoid dependency on appletService.
     $rootScope.applet.open(this);
@@ -105,15 +185,17 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     callback();
   };
 
-  // Private methods
-  //
+  /**
+   * Private methods
+   */
+
   function isReservedProperty(key) {
     return Applet.reservedProperties.includes(key);
   };
 
-  function publishConfig(config) {
-    $rootScope.applet.config = $rootScope.applet.config || {};
-    lodash.merge($rootScope.applet.config, config);
+  function publishConfiguration(configuration) {
+    $rootScope.applet.configuration = $rootScope.applet.configuration || {};
+    lodash.merge($rootScope.applet.configuration, configuration);
 
     $timeout(function() {
       $rootScope.$apply();
@@ -124,7 +206,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     $rootScope.applet.header = applet.header;
     $rootScope.applet.model = applet.model;
     $rootScope.applet.view = applet.view;
-    $rootScope.applet.path = PluginCatalog.getEntry(applet.header.pluginId).path;
+    $rootScope.applet.path = applet.uri;
     $rootScope.applet.title = applet.header.name;
   };
   

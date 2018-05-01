@@ -1,0 +1,83 @@
+<div 
+  class="topbar-container" 
+  ng-include="'views/includes/topbar.html'"
+  ng-init="titleSection=(index.brand.features.theme.skinGallery.enabled ? 'Choose skin' : 'Color'); goBackToState = 'preferences'; useTheme = false; showPlus = index.brand.features.theme.skinDiscovery.enabled; plusState = 'preferencesSkinDiscovery'; showLayout = index.brand.features.theme.skinGallery.enabled; layoutEvent='skinLayout'">
+</div>
+<ion-content class="content preferences white" ng-controller="SkinSettingsCtrl as p"
+  ng-class="{'status-bar-content':index.useViewManagedStatusBar}" ng-style="{'background':skin.view.viewBackground}">
+
+  <!-- Legacy color layout -->
+  <!-- TODO: remove at the intruduction of themes & skins -->
+  <div ng-show="!index.brand.features.theme.skinGallery.enabled">
+    <ul class="no-bullet m0">
+      <li ng-repeat="s in p.skins" ng-click="p.save(s.header.name)"
+        ng-style="{'background':skin.view.viewListItemBackground, 'border-bottom-color':skin.view.viewListItemSeparatorColor}">
+        <span ng-style="{'color': s.view.homeTopBackground}">&block;</span>
+        <i class="fi-check size-16 right" ng-style="{'color':skin.view.viewSecondaryTextColor}" ng-show="skin.header.name == s.header.name"></i>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Grid layout -->
+  <div class="row" style="padding-left: 1px;" ng-show="p.skinGalleryLayout == 'grid' && index.brand.features.theme.skinGallery.enabled">
+	  <div class="columns large-2 medium-3 small-4 end" style="padding: 1px 1px 1px 0;" ng-repeat="s in p.skins">
+      <img ng-src="{{s.header.galleryImage}}" ng-click="p.save(s.header.name)"/>
+      <div class="gallery-grid-text" ng-style="{'color':skin.view.viewPrimaryTextColor}">
+        <div ng-if="theme.model.showSkinGalleryGridLabel">{{s.header.name}}</div>
+        <div ng-if="!theme.nodel.showSkinGalleryGridLabel">&nbsp;</div>
+      </div>
+      <div ng-click="p.preview(s.header.name)">
+        <i class="fi-info gallery-grid-action-button" ng-style="{'color':skin.view.viewSecondaryTextColor}" ng-show="skin.header.name != s.header.name"></i>
+        <i class="fi-check gallery-grid-item-selected" ng-style="{'color':skin.view.viewSecondaryTextColor}" ng-show="skin.header.name == s.header.name"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- List layout -->
+  <div ng-show="p.skinGalleryLayout == 'list' && index.brand.features.theme.skinGallery.enabled">
+    <ul class="no-bullet m0">
+      <li class="p0i oa" ng-repeat="s in p.skins"
+        ng-style="{'background':skin.view.viewListItemBackground, 'border-bottom-color':skin.view.viewListItemSeparatorColor}">
+
+        <div class="gallery-list-accessory-container" ng-click="p.preview(s.header.name)">
+          <i class="fi-check size-16 p10r" ng-style="{'color':skin.view.viewSecondaryTextColor}" style="vertical-align: 3px" ng-show="skin.header.name == s.header.name"></i>
+          <i class="fi-check size-16 p10r" style="vertical-align: 3px" ng-show="skin.header.name != s.header.name"
+            ng-style="{'color':skin.view.viewListItemBackground}"></i>
+          <i class="fi-info size-24" ng-style="{'color':skin.view.viewSecondaryTextColor}"></i>
+        </div>
+
+        <div class="gallery-list-container" ng-click="p.save(s.header.name)">
+          <img class="gallery-list-image" ng-src="{{s.header.galleryImage}}"/>
+          <div class="gallery-list-text-lg" ng-style="{'color':skin.view.viewPrimaryTextColor}">{{s.header.name}}</div>
+          <div class="gallery-list-text-sm" ng-style="{'color':skin.view.viewSecondaryTextColor}">{{s.header.description}}</div>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+
+  <!-- List detail layout -->
+  <div ng-show="p.skinGalleryLayout == 'list-detail' && index.brand.features.theme.skinGallery.enabled">
+    <ul class="no-bullet m0">
+      <li class="p0i oa" ng-repeat="s in p.skins"
+        ng-style="{'background':skin.view.viewListItemBackground, 'border-bottom-color':skin.view.viewListItemSeparatorColor}">
+
+        <div class="gallery-listd-accessory-container" ng-click="p.preview(s.header.name)">
+          <i class="fi-check size-16 p10r" ng-style="{'color':skin.view.viewSecondaryTextColor}" style="vertical-align: 3px" ng-show="skin.header.name == s.header.name"></i>
+          <i class="fi-check size-16 p10r" style="vertical-align: 3px" ng-show="skin.header.name != s.header.name"
+            ng-style="{'color':skin.view.viewListItemBackground}"></i>
+          <i class="fi-info size-24" ng-style="{'color':skin.view.viewSecondaryTextColor}"></i>
+        </div>
+
+        <div class="gallery-listd-container" ng-click="p.save(s.header.name)">
+          <img class="gallery-listd-image" ng-src="{{s.header.galleryImage}}"/>
+          <div class="gallery-listd-text-lg" ng-style="{'color':skin.view.viewPrimaryTextColor}">{{s.header.name}}</div>
+          <div class="gallery-listd-text-sm" ng-style="{'color':skin.view.viewSecondaryTextColor}">{{s.header.description}}</div>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+
+  <div class="extra-margin-bottom"></div>
+</ion-content>

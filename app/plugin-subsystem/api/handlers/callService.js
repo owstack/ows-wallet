@@ -7,7 +7,7 @@ angular.module('owsWalletApp.pluginApi').service('callService', function(lodash,
   root.respond = function(message, callback) {
 	  // Request parameters.
     var appletId = message.request.params.id;
-    var pluginId = message.request.params.pluginId;
+    var serviceId = message.request.params.pluginId;
     var fn = message.request.params.fn;
     var args = message.request.data.args;
 
@@ -34,7 +34,7 @@ angular.module('owsWalletApp.pluginApi').service('callService', function(lodash,
 
 		// Run the service function via the applet service delegate.
 		try {
-			var serviceDelegate = applet.getServiceDelegate(pluginId);
+			var serviceDelegate = applet.getServiceDelegate(serviceId);
 			var result = serviceDelegate.call(fn, args);
 
 	    message.response = {

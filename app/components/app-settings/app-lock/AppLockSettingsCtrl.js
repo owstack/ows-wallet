@@ -57,7 +57,7 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
   function processWallets() {
     var wallets = profileService.getWallets();
     var singleLivenetWallet = wallets.length == 1 && networkService.isLivenet(wallets[0].network) && wallets[0].needsBackup;
-    var atLeastOneLivenetWallet = lodash.any(wallets, function(w) {
+    var atLeastOneLivenetWallet = lodash.some(wallets, function(w) {
       return networkService.isLivenet(w.network) && w.needsBackup;
     });
 

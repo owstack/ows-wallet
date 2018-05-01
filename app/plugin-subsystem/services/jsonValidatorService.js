@@ -20,6 +20,7 @@ angular.module('owsWalletApp.pluginServices').factory('jsonValidatorService', fu
   	for (var i=0; i < schemas.length; i++) {
   		validator.removeSchema(schemas[i]);
   	}
+    schemas = [];
   };
 
   return root;

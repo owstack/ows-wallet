@@ -262,7 +262,7 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
 
     // If this app is closing then attempt to finalize our state before shutdown.
     window.onbeforeunload = function(e) {
-      pluginService.finalize();
+      pluginSubsystem.finalize();
     };
 
     function initializeSubsystems(callback) {

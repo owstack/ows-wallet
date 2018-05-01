@@ -1,39 +1,14 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletDataService', function($log, lodash, storageService, PluginStates) {
+angular.module('owsWalletApp.pluginServices').factory('appletDataService', function($log, lodash, storageService) {
 
   var root = {};
+  var ctx;
 
-  function trackAppletData(appletId) {
-    var states = PluginStates.getInstance();
-
-    var index = lodash.findIndex(states.appletState, function(state) {
-      return (state.appletId == appletId);
-    });
-
-    if (index >= 0 && !lodash.isUndefined(states.appletState[index].data)) {
-      // Update the existing applet state data entry.
-      states.appletState[index].data.updated = new Date();
-    } else {
-      // Applet state entry not found; create a new applet state entry with data.
-      var now = new Date();
-      var data = {
-        updated: now,
-        created: now
-      };
-
-      states.appletState.push({
-        appletId: appletId,
-        data: data
-      });
-    }
-
-    states.save(states.appletState, function(err) {
-      if (err) {
-        $rootScope.$emit('Local/DeviceError', err);
-        return;
-      }
-    });
+  // Set our context (state)
+  root.init = function(context) {
+    $log.debug('Initializing applet data service');
+    ctx = context;
   };
 
   root.getData = function(appletId, cb) {
@@ -61,8 +36,22 @@ angular.module('owsWalletApp.pluginServices').factory('appletDataService', funct
       }
       var data = oldData;
       lodash.merge(data, newData);
-      storageService.storeValueByKey(appletId, JSON.stringify(data), cb);
-      trackAppletData(appletId);
+      storageService.storeValueByKey(appletId, JSON.stringify(data), function() {
+        if (!err) {
+          // Track the write operation.
+          trackAppletData(appletId);
+        }
+      });
+    });
+  };
+
+  function trackAppletData(appletId, opts) {
+    var state = ctx.state;
+    state.timestampApplet(appletId, function(err) {
+      if (err) {
+        $rootScope.$emit('Local/DeviceError', err);
+        return;
+      }
     });
   };
 

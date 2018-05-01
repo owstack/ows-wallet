@@ -35,6 +35,11 @@
       .icon {
         color: $v-card-color;
         font-size: 36px;
+
+	      &.arrow-up,
+	      &.arrow-down {
+	        font-size: 28px;
+	      }
       }
     }
 

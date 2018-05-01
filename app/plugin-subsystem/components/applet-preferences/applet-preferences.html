@@ -1,0 +1,46 @@
+<ion-modal-view ng-controller="AppletListCtrl">
+  <nav class="tab-bar"
+    ng-class="{'status-bar-space': index.useViewManagedStatusBar}" ng-style="{'background':theme.view.navBarBackground, 'border-bottom':theme.view.navBarBorderBottom}">
+
+    <!-- status bar -->
+    <div ng-class="index.useViewManagedStatusBar ? 'status-bar' : 'no-status-bar'"
+      ng-style="{'background': theme.view.statusBarBackground, 'border-bottom': theme.view.statusBarBorderBottom}">
+    </div>
+
+    <div class="pr">
+
+      <section class="left-small">
+        <a ng-click="c.closeModal();" class="p10" ng-style="{'color':theme.view.navBarButtonTextColor}">
+          <span class="text-close">Cancel</span>
+        </a>
+      </section>
+
+      <section class="middle tab-bar-section">
+        <h1 class="title ellipsis" ng-style="{'color':theme.view.navBarTitleColor}">
+          <span>{{newApplet.header.name}}</span>
+        </h1>
+      </section>
+
+      <section class="right-small">
+        <a ng-click="c.saveApplet(oldApplet, newApplet); c.closeModal();" class="p10" ng-style="{'color':theme.view.navBarButtonTextColor}">
+          <span class="text-close">Done</span>
+        </a>
+      </section>
+
+    </div>
+  </nav>
+
+  <ion-content class="modal-content"
+    ng-class="{'status-bar-content':index.useViewManagedStatusBar}" ng-style="{'background':theme.view.viewBackground}">
+
+    <!-- Category name -->
+    <h4 ng-style="{'background':theme.view.viewBackground}"></h4>
+    <form name="preferencesCategoryForm" class="columns" ng-style="{'background':theme.view.viewListItemBackground}">
+      <label class="p10t"><span ng-style="{'color':theme.view.viewPrimaryTextColor}" translate>Category Name</span></label>
+      <input type="text" id="categoryName" type="text" name="categoryName" ng-model="newApplet.preferences.category"
+        ng-style="{'color':theme.view.viewSecondaryTextColor, 'border-bottom-color':theme.view.viewListItemSeparatorColor}">
+    </form>
+
+    <div class="extra-margin-bottom"></div>
+  </ion-content>
+</ion-modal-view>

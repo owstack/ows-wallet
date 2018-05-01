@@ -37,7 +37,7 @@ angular.module('owsWalletApp.pluginApi').service('setAppletConfig', function(lod
 			config.showSplash = showSplash;
 		}
 
-		applet.setConfig(config);
+		applet.setConfiguration(config);
 
     message.response = {
       statusCode: 200,

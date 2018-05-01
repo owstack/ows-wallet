@@ -20,13 +20,12 @@ function copyDir(from, to) {
 
 var templates = {
   'package-template.json': '/',
-  'index.html': 'app/',
+  'index-template.html': 'app/',
   'config-template.xml': '/',
   'ionic.config.json': '/',
   '.desktop': 'webkitbuilds/',
   'setup-win.iss': 'webkitbuilds/',
-  'build-macos.sh': 'webkitbuilds/',
-  //  'bower.json': '/',
+  'build-macos.sh': 'webkitbuilds/'
 };
 
 var configDir = process.argv[2];
@@ -35,7 +34,9 @@ if (!fs.existsSync(configDir)) {
   process.exit(1);
 }
 
-var JSONheader = ' { ' + "\n" + '  "//": "Changes to this file will be overwritten, modify it at app-template/ only.", ';
+var JSONheader = '{ ' + "\n" + '  "//": "Changes to this file will be overwritten, modify it at app-template/ only.",';
+var HTTPheader = '<!-- Changes to this file will be overwritten, modify it at app-template/ only. -->\n<';
+
 var configBlob = fs.readFileSync(configDir + '/app.config.json', 'utf8');
 var config = JSON.parse(configBlob, 'utf8');
 
@@ -58,6 +59,9 @@ Object.keys(templates).forEach(function(k) {
   if (k.indexOf('.json') > 0) {
     content = content.replace('{', JSONheader);
   }
+  if (k.indexOf('.html') > 0) {
+    content = content.replace('<', HTTPheader);
+  }
 
   Object.keys(config).forEach(function(k) {
     if (k.indexOf('_') == 0) {
@@ -75,10 +79,9 @@ Object.keys(templates).forEach(function(k) {
     process.exit(1);
   }
 
-  if (k === 'config-template.xml') {
-    k = 'config.xml';
-  } else if (k === 'package-template.json') {
-    k = 'package.json';
+  // Remove any template designation from file name
+  k = k.replace('-template', '');
+  if (k === 'package.json') {
 
     // Add configured plugins to package.json dependencies
     console.log(' #      Plugins to install:');
@@ -90,10 +93,18 @@ Object.keys(templates).forEach(function(k) {
           console.log(' #        ' + p + ' ' + config.plugins[p]);
         }
       });
-      content = JSON.stringify(content, null, 2);
     } else {
       console.log('None configured');
     }
+
+    // Sort dependencies
+    var orderedDependencies = {};
+    Object.keys(content.dependencies).sort().forEach(function(key) {
+      orderedDependencies[key] = content.dependencies[key];
+    });
+    content.dependencies = orderedDependencies;
+
+    content = JSON.stringify(content, null, 2);
   }
 
   if (!fs.existsSync('../' + targetDir)) {

@@ -1,0 +1,26 @@
+<div 
+  class="topbar-container" 
+  ng-include="'views/includes/topbar.html'"
+  ng-init="titleSection='Wallpaper'; goBackToState = 'preferencesApplets'; useTheme = true">
+</div>
+
+<ion-content class="content preferences" ng-controller="AppletWallpaperSettingsCtrl as p"
+  ng-class="{'status-bar-content':index.useViewManagedStatusBar}" ng-style="{'background':theme.view.viewBackground}">
+  <h4 ng-style="{'background':theme.view.viewBackground}"></h4>
+  <ul class="no-bullet m0">
+    <li ng-click="p.openFilePicker()"
+      ng-style="{'background':theme.view.viewListItemBackground, 'border-bottom-color':theme.view.viewListItemSeparatorColor}">
+      <div ng-style="{'color':theme.view.viewPrimaryTextColor}" translate>Choose a New Wallpaper</div>
+    </li>
+    <li ng-click="p.setDefaultWallpaperImage()"
+      ng-style="{'background':theme.view.viewListItemBackground, 'border-bottom-color':theme.view.viewListItemSeparatorColor}">
+      <div ng-style="{'color':theme.view.viewPrimaryTextColor}" translate>Use Default Wallpaper</div>
+    </li>
+  </ul>
+
+  <div class="applets-wallpaper-preview-container">
+    <div class="applets-wallpaper-preview-image" style="background-image:url({{p.currentWallpaperImage()}}); height:calc({{p.physicalScreenHeight()}}px/2)"></div>
+  </div>
+
+  <div class="extra-margin-bottom"></div>
+</ion-content>

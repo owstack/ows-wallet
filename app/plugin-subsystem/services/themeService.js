@@ -25,7 +25,6 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
   var MAX_SKIN_HISTORY = 5;
   root.skinHistory = [];
 
-
   var currentThemeId;
 
 /*
@@ -366,7 +365,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
   root.init = function(callback) {
     $log.debug('Initializing theme service');
 
-    ThemeCatalog.create(function(err, catalog) {
+    ThemeCatalog.getInstance(function(err, catalog) {
       if (err) {
         $log.debug('Error reading theme catalog');
         $rootScope.$emit('Local/DeviceError', err);

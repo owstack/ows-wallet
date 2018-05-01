@@ -111,7 +111,7 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
 
     if (writelock[k]) {
       return setTimeout(function() {
-        console.log('## Writelock for:' + k + ' Retrying in ' + delay);
+        $log.debug('## Writelock for:' + k + ' Retrying in ' + delay);
         return root.set(k, v, cb, delay + 100);
       }, delay);
     }
@@ -135,13 +135,14 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
                 this.truncate(this.position);
                 return;
             }
-            $log.debug('Write completed.');
+            $log.debug('Write completed: ' + k);
+            writelock[k] = false;
             return cb();
           };
 
           fileWriter.onerror = function(e) {
             var err = e.error ? e.error : JSON.stringify(e);
-            console.log('Write failed: ' + err);
+            $log.error('Write failed: ' + err);
             writelock[k] = false;
             return cb('Fail to write:' + err);
           };
@@ -230,7 +231,7 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
       }, function(fileEntry) {
         // Create a FileWriter object for our FileEntry (log.txt).
         fileEntry.remove(function() {
-          console.log('File removed.');
+          $log.debug('File removed.');
           return cb();
         }, cb);
       }, cb);

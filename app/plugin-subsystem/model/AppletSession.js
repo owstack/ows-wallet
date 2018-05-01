@@ -30,7 +30,7 @@ angular.module('owsWalletApp.pluginModel').factory('AppletSession', function ($r
 
   function checkStateIsValid(session) {
     if (!session.isValid()) {
-      throw new Error('Error: invalid session state, (applet ID = ' + _applet.header.appletId + ')');
+      throw new Error('Error: invalid session state, (applet ID = ' + _applet.header.id + ')');
     }
   };
 
@@ -53,7 +53,7 @@ angular.module('owsWalletApp.pluginModel').factory('AppletSession', function ($r
 
   AppletSession.prototype.isForApplet = function(appletId) {
     checkStateIsValid(this);
-    return _applet.header.appletId == appletId;
+    return _applet.header.id == appletId;
   };
 
   AppletSession.prototype.getApplet = function() {
@@ -64,7 +64,7 @@ angular.module('owsWalletApp.pluginModel').factory('AppletSession', function ($r
   AppletSession.prototype.restore = function(callback) {
     checkStateIsValid(this);
     // Restore applet data from storage.
-    appletDataService.getData(_applet.header.appletId, function(err, data) {
+    appletDataService.getData(_applet.header.id, function(err, data) {
       if (err) {
         throw new Error('Error reading applet storage: ' + err.message);
       }
@@ -99,7 +99,7 @@ angular.module('owsWalletApp.pluginModel').factory('AppletSession', function ($r
   AppletSession.prototype.flush = function(callback) {
     checkStateIsValid(this);
     // Write applet data to storage.
-    appletDataService.setData(_applet.header.appletId, _userData, function(err, data) {
+    appletDataService.setData(_applet.header.id, _userData, function(err, data) {
       if (err) {
         err = 'Error writing session data: ' + err.message;
       }
@@ -114,7 +114,7 @@ angular.module('owsWalletApp.pluginModel').factory('AppletSession', function ($r
     if (flush) {
       // Write applet data to storage.
       var self = this;
-      appletDataService.setData(_applet.header.appletId, _userData, function(err, data) {
+      appletDataService.setData(_applet.header.id, _userData, function(err, data) {
         var response = null;
         if (err) {
           response = 'Error writing session data: ' + err.message;

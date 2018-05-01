@@ -2,102 +2,111 @@
 
 angular.module('owsWalletApp').constant('pluginSchema',
 {
-  "$schema": "http://json-schema.org/draft-06/schema#",
-  "title": "Plugin",
-  "description": "The representation of an OWS Wallet plugin.",
-  "type": "object",
-  "required": [
-    "header",
-    "permissions",
-    "galleryImage",
-    "previewImage",
-    "iconImage",
-    "splashImage",
-    "uri"
+  '$schema': 'http://json-schema.org/draft-06/schema#',
+  'title': 'Plugin',
+  'description': 'The representation of an OWS Wallet plugin.',
+  'version': '0.0.1',
+  'type': 'object',
+  'required': [
+    'header',
+    'permissions',
+    'galleryImage',
+    'previewImage',
+    'iconImage',
+    'splashImage',
+    'uri'
   ],
-  "properties": {
-    "header": {
-      "type": "object",
-      "required": [
-        "id",
-        "kind",
-        "name",
-        "description",
-        "version",
-        "author",
-        "url"
+  'properties': {
+    'header': {
+      'type': 'object',
+      'required': [
+        'created',
+        'updated',
+        'id',
+        'kind',
+        'name',
+        'description',
+        'version',
+        'author',
+        'url'
       ],
-      "properties": {
-        "id": {"type": "string"},
-        "kind": {"type": "string"},
-        "name": {"type": "string"},
-        "description": {"type": "string"},
-        "author": {"type": "string"},
-        "version": {"type": "string"},
-        "url": {
-          "type": "object",
-          "required": [
-            "support",
-            "privacy"
+      'properties': {
+        'created': {'type': 'number'},
+        'updated': {'type': 'number'},
+        'id': {'type': 'string'},
+        'kind': {'type': 'string'},
+        'name': {'type': 'string'},
+        'description': {'type': 'string'},
+        'author': {'type': 'string'},
+        'version': {'type': 'string'},
+        'url': {
+          'type': 'object',
+          'required': [
+            'support',
+            'privacy'
           ],
-          "properties": {
-            "marketing": {"type": "string"},
-            "support": {"type": "string"},
-            "privacy": {"type": "string"}
+          'properties': {
+            'marketing': {'type': 'string'},
+            'support': {'type': 'string'},
+            'privacy': {'type': 'string'}
           }
         },
       }
     },
-    "permissions": {
-      "type": "object",
-      "required": [
-        "delete"
-      ],
-      "properties": {
-        "delete": {"type": "boolean"}
+    'permissions': {
+      'type': 'object',
+      'properties': {
+        'delete': {'type': 'boolean'}
       }
     },
-    "galleryImage": {"type": "string"},
-    "previewImage": {"type": "string"},
-    "store": {
-      "type": "object",
-      "required": [
-        "id",
-        "rating",
-        "price",
-        "category"
+    'model': {'type': 'object'},
+    'galleryImage': {'type': 'string'},
+    'previewImage': {'type': 'string'},
+    'store': {
+      'type': 'object',
+      'required': [
+        'id',
+        'rating',
+        'price',
+        'category'
       ],
-      "properties": {
-        "id": {"type": "string"},
-        "rating": {"type": "string"},
-        "price": {
-          "amount": {"type": "string"},
-          "currency": {"type": "string"}
+      'properties': {
+        'id': {'type': 'string'},
+        'rating': {'type': 'string'},
+        'price': {
+          'amount': {'type': 'string'},
+          'currency': {'type': 'string'}
         },
-        "category": {
-          "type": "object",
-          "required": [
-            "primary",
-            "secondary"
+        'category': {
+          'type': 'object',
+          'required': [
+            'primary',
+            'secondary'
           ],
-          "properties": {
-            "primary": {"type": "string"},
-            "secondary": {"type": "string"}
+          'properties': {
+            'primary': {'type': 'string'},
+            'secondary': {'type': 'string'}
           }
         },
-        "keywords": {
-          "type": "array",
-          "items": {"type": "string"}
+        'keywords': {
+          'type': 'array',
+          'items': {'type': 'string'}
         }
       }
     },
-    "resources": {
-      "type": "array",
-      "items": {"type": "string"}
+    'resources': {
+      'type': 'array',
+      'items': {'type': 'string'}
     },
-    "mainView": {"type": "string"},
-    "uri": {"type": "string"},
-    "skins": {"type": "object"},
-    "dependencies": {"type": "object"}
+    'mainView': {'type': 'string'},
+    'uri': {'type': 'string'},
+    'configuration': {
+      'type': 'object',
+      'properties': {
+        'flags': {'type': 'number'}
+      }
+    },
+    'skins': {'type': 'object'},
+    'dependencies': {'type': 'object'}
   }
 });

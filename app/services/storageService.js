@@ -254,19 +254,19 @@ angular.module('owsWalletApp.services').factory('storageService', function($log,
     fileStorageService.remove('pluginCatalog', cb);
   };
 
-  // Plugin states requires fileStorageService.
-  root.getPluginStates = function(cb) {
+  // Plugin state requires fileStorageService.
+  root.getPluginState = function(cb) {
     if (!fileSystemAPISupported) {
-      throw new Error('storageService#getPluginStates called when storage service does not support it');
+      throw new Error('storageService#getPluginState called when storage service does not support it');
     }
-    fileStorageService.get('pluginStates', cb);
+    fileStorageService.get('pluginState', cb);
   };
 
-  root.storePluginStates = function(val, cb) {
+  root.storePluginState = function(val, cb) {
     if (!fileSystemAPISupported) {
-      throw new Error('storageService#storePluginStates called when storage service does not support it');
+      throw new Error('storageService#storePluginState called when storage service does not support it');
     }
-    fileStorageService.set('pluginStates', val, cb);
+    fileStorageService.set('pluginState', val, cb);
   };
 
   // KV storage service requires fileStorageService.

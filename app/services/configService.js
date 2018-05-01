@@ -40,7 +40,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       value: 0
     },
 
-    hideNextSteps: {
+    hideApplets: {
       enabled: false
     },
 
@@ -118,8 +118,8 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         if (!configCache.wallet) {
           configCache.wallet = defaultConfig.wallet;
         }
-        if (!configCache.hideNextSteps) {
-          configCache.hideNextSteps = defaultConfig.hideNextSteps;
+        if (!configCache.hideApplets) {
+          configCache.hideApplets = defaultConfig.hideApplets;
         }
         if (!configCache.advancedKeypad) {
           configCache.advancedKeypad = defaultConfig.advancedKeypad;

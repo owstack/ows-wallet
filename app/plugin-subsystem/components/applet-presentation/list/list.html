@@ -1,0 +1,25 @@
+<div ng-controller="AppletListCtrl as c" ng-init="c.init()">
+
+  <ion-nav-bar ng-style="{'background':theme.view.appletCardListNavBarBackground, 'border-bottom':theme.view.appletCardListNavBarBorderBottom}">
+    <ion-nav-title class="size-14" ng-style="{'color':theme.view.appletCardListNavBarTitleColor}">Applets</ion-nav-title>
+    <ion-nav-buttons side="left">
+      <a class="button button-applet-header button-clear applet-icon-left fi-widget size-29"
+        ng-style="{'color':theme.view.appletCardListNavBarButtonTextColor}"
+        ng-click="c.endEdit(); c.openApplet('com.bitpay.copay.applet.builtin.settings')"></a>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+      <a ng-show="!c.isEditing()" class="button button-applet-header button-clear applet-icon-right"
+        ng-style="{'color':theme.view.appletCardListNavBarButtonTextColor}"
+        ng-click="c.beginEdit()">Edit</a>
+      <a ng-show="c.isEditing()" class="button button-applet-header button-clear applet-icon-right"
+        ng-style="{'color':theme.view.appletCardListNavBarButtonTextColor}"
+        ng-click="c.endEdit()">Done</a>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+  <ion-content class="content applet-card-list-view">
+
+    <div ng-include="'views/includes/applet-list.html'" style="height: 100%;"></div>
+
+  </ion-content>
+</div>

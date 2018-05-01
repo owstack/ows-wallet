@@ -11,5 +11,9 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSubsystem', functio
     });
   };
 
+  root.finalize = function() {
+    pluginService.finalize();
+  };
+
   return root;
 });

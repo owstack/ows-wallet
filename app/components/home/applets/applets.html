@@ -1,0 +1,15 @@
+<ion-item class="item-heading item-icon-right" ng-click="toggle()">
+  <span translate>Applets</span>
+  <i class="icon arrow-up" ng-show="!hide"></i>
+  <i class="icon arrow-down" ng-show="hide"></i>
+</ion-item>
+<ion-list ng-show="!hide">
+  <ion-item class="item-h-md item-icon-left icon-left-lg item-icon-right item" ng-repeat="applet in applets track by applet.header.id"
+    ng-click="openApplet(applet)">
+    <i class="icon lg-icon left-icon">
+      <div class="bg" style="background-image: url({{applet.iconImage}})"></div>
+    </i>
+    <span>{{applet.header.name}}</span>
+    <i class="icon arrow-right"></i>
+  </ion-item>
+</ion-list>

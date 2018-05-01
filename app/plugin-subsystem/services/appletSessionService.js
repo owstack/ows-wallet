@@ -60,7 +60,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletSessionService', fu
 
   root.createSession = function(applet, callback) {
     var existingSessionIndex = lodash.findIndex(root._appletSessionPool, function(session) {
-      return (session.isForApplet(applet.header.appletId));
+      return (session.isForApplet(applet.header.id));
     });
 
     if (existingSessionIndex >= 0) {
@@ -68,7 +68,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletSessionService', fu
     	// Quietly remove the existing state.
     	var removedSession = lodash.pullAt(root._appletSessionPool, existingSessionIndex);
     	removedSession = removedSession[0];
-    	$log.debug('Applet session state error - forcibly removed session: ' + removedSession.id + ' (applet ID: ' + removedSession.getApplet().header.appletId + ')');
+    	$log.debug('Applet session state error - forcibly removed session: ' + removedSession.id + ' (applet ID: ' + removedSession.getApplet().header.id + ')');
     }
 
   	// Create a new session.
@@ -76,7 +76,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletSessionService', fu
     newSession.restore(function(data) {
       addSession(newSession);
       callback(newSession);
-      $log.debug('Applet session created: ' + newSession.id + ' (applet ID: ' + newSession.getApplet().header.appletId + ')');
+      $log.debug('Applet session created: ' + newSession.id + ' (applet ID: ' + newSession.getApplet().header.id + ')');
     });
   };
 
@@ -94,14 +94,14 @@ angular.module('owsWalletApp.pluginServices').factory('appletSessionService', fu
       // Flush any session data to storage.
     	session.flush(function(err, data) {
     		if (err) {
-		    	$log.debug('Error while writing applet session data during applet close: ' + err.message + ' (applet ID: ' + session.getApplet().header.appletId + '), session was closed anyway, session data was lost');
+		    	$log.debug('Error while writing applet session data during applet close: ' + err.message + ' (applet ID: ' + session.getApplet().header.id + '), session was closed anyway, session data was lost');
     		}
         // Remove the session from the pool.
         removeSession(session);
-	    	$log.debug('Applet session successfully removed: ' + session.id + ' (applet ID: ' + session.getApplet().header.appletId + ')');
+	    	$log.debug('Applet session successfully removed: ' + session.id + ' (applet ID: ' + session.getApplet().header.id + ')');
     	});
     } else {
-    	$log.debug('Warning: applet session not found for removal: ' + session.id + ' (applet ID: ' + session.getApplet().header.appletId + ')');
+    	$log.debug('Warning: applet session not found for removal: ' + session.id + ' (applet ID: ' + session.getApplet().header.id + ')');
 	  }
   };
 

@@ -1,0 +1,58 @@
+<!-- applet list -->
+<div gridster="c.gridsterOpts" ng-style="{'width':theme.view.appletCardWidth}">
+  <ul>
+    <li class="applet-card" ng-style="{'padding-top':theme.view.appletCardPaddingTop}"
+      gridster-item="appletLayoutMap" ng-repeat="applet in c.applets">
+      <div class="applet-card-item" ng-style="{'background':theme.view.appletCardBackground}" ng-if="applet.preferences.visible">
+
+        <i class="applet-card-drag-handle ion-ios-drag" ng-class="{'fade-in': c.isEditing(), 'fade-out': c.doneEditing()}"
+          ng-style="{'color':theme.view.appletCardAccessoryColor}"></i>
+
+        <i class="applet-card-accessory-left ion-ios-more" ng-click="c.openPreferences(applet)"
+          ng-class="{'slide-in': c.isEditing()}"
+          ng-style="{'color':theme.view.appletCardAccessoryColor}"></i>
+
+        <!-- wallet card -->
+        <div ng-if="sidebar.isAppletWallet(applet)" class="applet-card-clickable" ng-click="c.openApplet(applet)">
+          <div class="applet-info" ng-class="{'move-over': c.isEditing()}">
+            <div class="wallet-underlay"
+              ng-style="{'color':applet.view.avatarColor, 'background':applet.view.avatarBackground, 'border':applet.view.avatarBorder}">
+              <div class="wallet-icon" ng-style="{'background':applet.view.launchIconBackground}"></div>
+            </div>
+            <span class="applet-name" ng-style="{'color':theme.view.appletCardPrimaryTextColor}">{{applet.header.name}}</span>
+            <span class="applet-description" ng-style="{'color':theme.view.appletCardSecondaryTextColor}">
+              {{applet.model.isoCode}}
+              {{applet.model.n > 1 ? applet.model.m + '/' + applet.model.n : ''}}
+            </span>
+            <span class="applet-wallet-balance" ng-show="!c.isEditing()">{{applet.model.balance}}
+                <img src="img/icon-testnet-white.svg" ng-show="applet.model.network == 'testnet'"
+                  class="applet-icon-wallet-testnet">
+            </span>
+            <span class="applet-wallet-altbalance" ng-show="!c.isEditing()">{{applet.model.altBalance}}</span>
+          </div>
+        </div>
+
+        <!-- builtin capability card -->
+        <div ng-if="sidebar.isAppletBuiltin(applet)" class="applet-card-clickable" ng-click="c.openApplet(applet)">
+          <div class="applet-info" ng-class="{'move-over': c.isEditing()}">
+            <div class="applet-image" ng-style="{'background':applet.view.launchIconBackground}"></div>
+            <span class="applet-name" ng-style="{'color':theme.view.appletCardPrimaryTextColor}">{{applet.header.name}}</span>
+            <span class="applet-description" ng-style="{'color':theme.view.appletCardSecondaryTextColor}">{{applet.header.description}}</span>
+          </div>
+        </div>
+
+        <!-- applet card -->
+        <div ng-if="sidebar.isAppletPlugin(applet)" class="applet-card-clickable" ng-click="c.openApplet(applet)">
+          <div class="applet-info" ng-class="{'move-over': c.isEditing()}">
+            <div class="applet-image" ng-style="{'background':applet.view.launchIconBackground}"></div>
+            <span class="applet-name" ng-style="{'color':theme.view.appletCardPrimaryTextColor}">{{applet.header.name}}</span>
+            <span class="applet-description" ng-style="{'color':theme.view.appletCardSecondaryTextColor}">{{applet.header.description}}</span>
+          </div>
+        </div>
+
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="applet-card-container-footer"></div>

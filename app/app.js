@@ -15,10 +15,10 @@ var modules = [
   'angular-pattern-lock',
   'pathToRegexpModule',
   'djvModule',
+  'bitauthModule',
   'bchWalletClientModule',
   'btcWalletClientModule',
 //  'ltcWalletClientModule',
-  'bitauthModule',
   'owsWalletApp.filters',
   'owsWalletApp.model',
   'owsWalletApp.services',
@@ -26,7 +26,8 @@ var modules = [
   'owsWalletApp.directives',
   'owsWalletApp.pluginApi',
   'owsWalletApp.pluginModel',
-  'owsWalletApp.pluginServices'
+  'owsWalletApp.pluginServices',
+  'owsWalletApp.pluginControllers'
 ];
 
 var owsWalletApp = window.owsWalletApp = angular.module('owsWalletApp', modules);
@@ -39,3 +40,4 @@ angular.module('owsWalletApp.directives', []);
 angular.module('owsWalletApp.pluginApi', []);
 angular.module('owsWalletApp.pluginModel', []);
 angular.module('owsWalletApp.pluginServices', []);
+angular.module('owsWalletApp.pluginControllers', []);

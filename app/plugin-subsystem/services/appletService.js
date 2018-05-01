@@ -1,35 +1,59 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, $q, $ionicModal, $ionicPopover, lodash, Applet, Skin, profileService, configService, apiService, appletSessionService, themeService, Constants, platformInfoService, networkService, walletService) {
+angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, $q, $state, lodash, Applet, Constants, PluginState, profileService, configService, appletSessionService, appletDataService, themeService, networkService) {
 
   var root = {};
 
-  // Applet preferences default values.
-  // 
-  var DEFAULT_APPLET_PREFS_VISIBLE = true;
-  var DEFAULT_APPLET_PREFS_CATEGORY = 'Unknown';
+  var appletContainer = {};
+  var appletsWithStateCache = [];
+  var activeCategory = {};
+  var ctx;
+
+  // The template for the internal applet category object.
+  var appletCategorySchema = {
+    header: {
+      name: '',
+      count: 0
+    },
+    preferences: {
+      visible: true,
+      layout: {}
+    },
+    view: {
+      iconBackground: ''
+    }
+  };
+
+  // Applet state preferences
+  var defaultAppletPreferences = {
+    visible: true, // Whether or not the applet is displayed in the UI.
+    category: 'Unknown' // The user assigned category (defaults to store category or unknown).
+  };
 
   var APPLET_IDENTIFIER_BUILTIN_PREFIX = 'org.openwalletstack.wallet.plugin.applet.builtin';
   var APPLET_IDENTIFIER_WALLET_PREFIX = 'org.openwalletstack.wallet.plugin.applet.builtin.wallet';
-
-  var appletsWithStateCache = [];
-  var activeCategory = {};
 
   var builtinCapabilities = [
     { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.createpersonal', stateName: 'add.create-personal' },
     { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.createshared', stateName: 'add.create-shared' },
     { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.importwallet', stateName: 'add.import' },
     { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.joinwallet', stateName: 'add.join' },
-    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.settings', stateName: 'add.settings' }
+    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.settings', stateName: 'settings' }
   ];
 
-  var ctx;
+  /**
+   * Service state
+   */
 
-  // Set our context (plugins and states)
+  // Set our context (plugins and state), init sub-services, and construct (get) all applets.
   root.init = function(context, callback) {
     $log.debug('Initializing applet service');
 
     ctx = context;
+
+    appletDataService.init({
+      state: ctx.state
+    });
 
     publishAppletServices();
 
@@ -38,6 +62,20 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       callback();
     });
   };
+
+  root.finalize = function() {
+    // Close any currently running applet.
+    var activeSession = appletSessionService.getActiveSession();
+    if (!lodash.isUndefined(activeSession)) {
+      doCloseApplet(activeSession.id);
+    }
+
+    appletSessionService.finalize();
+  };
+
+  /**
+   * Queries
+   */
 
   root.isAppletBuiltin = function(applet) {
     return applet.header.id.includes(APPLET_IDENTIFIER_BUILTIN_PREFIX);
@@ -53,13 +91,18 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
   root.getAppletWithStateById = function(appletId) {
     var applets = root.getAppletsWithStateSync({
-      appletId: appletId
+      id: appletId
     });
     return applets[0];
   };
 
+  root.getAppletsWithStateSync = function(filter) {
+    return filterApplets(appletsWithStateCache, filter);
+  };
+
   // Return applets after applying persistent state. Result may be filtered.
   // filter: {
+  //   id: applet id,
   //   category: category object,
   //   visible: true | false
   // }
@@ -68,60 +111,67 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
     // Get all of the applets.
     getApplets().then(function(applets) {
-
-      var states = ctx.states;
-      var appletState = states.appletState;
+      var state = ctx.state;
       var decoratedApplets;
+
+      var ids = [];
+      var now = new Date().getTime();
 
       // Find and add the applet layout and preferences to each applet object.
       decoratedApplets = lodash.map(applets, function(applet) {
+        state.applet = state.applet || {};
 
-        var state = lodash.find(appletState, function(state) {
-          return state.appletId == applet.header.id;
-        });
+        var appletState = state.applet[applet.header.id] || {};
+        if (lodash.isEmpty(appletState)) {
+          appletState = PluginState.getAppletStateTemplate();
+          appletState.header.created = now;
+          appletState.header.updated = now;
 
-        state = state || {};
-        state.preferences = state.preferences || {};
-        applet.preferences = applet.preferences || {};
+          state.applet[applet.header.id] = appletState;
+          ids.push(applet.header.id);
+        }
 
         // Apply layout.
-        // 
-        switch (states.environment.presentation) {
-          case Constants.LAYOUT_CATEGORIES:
-            if (!lodash.isUndefined(state.layoutCategoryList)) {
-              applet.layout = state.layoutCategoryList;
-            }
-            break;
-          case Constants.LAYOUT_DESKTOP:
-            if (!lodash.isUndefined(state.layoutDesktop)) {
-              applet.layout = state.layoutDesktop;
-            }
-            break;
-          case Constants.LAYOUT_LIST:
-            if (!lodash.isUndefined(state.layoutList)) {
-              applet.layout = state.layoutList;
-            }
-            break;
+        switch (state.environment[Constants.ENVIRONMENT_ID].applet.presentation) {
+          case Constants.PRESENTATION_CATEGORIES:
+            applet.layout = appletState.preferences.layout.categoryList || {};
+          break;
+
+          case Constants.PRESENTATION_GRID:
+            applet.layout = appletState.preferences.layout.grid || {};
+          break;
+
+          case Constants.PRESENTATION_LIST:
+            applet.layout = appletState.preferences.layout.list || {};
+          break;
+
           default:
-            $log.debug('Error: invalid applet layout, skipping application of layout');
+            $log.error('Invalid applet layout \'' + appletState.presentation.layout + '\'');
+          break;
         }
 
-        // Apply preferences from state or set default value.
-        // 
-        // Visible - whether or not the applet is displayed in the UI.
-        applet.preferences.visible = (!lodash.isUndefined(state.preferences.visible) ? state.preferences.visible : DEFAULT_APPLET_PREFS_VISIBLE);
+        // Apply preferences from applet state or set default value.
+        //
+        // User assigned category defaults to store category or default value assigned here.
+        appletState.preferences.category =
+          appletState.preferences.category ||
+          applet.store.category.primary ||
+          defaultAppletPreferences.category;
 
-        // Category - the user assigned category (defaults to store category or unknown).
-        if (!lodash.isUndefined(state.preferences.category) && !lodash.isEmpty(state.preferences.category)) {
-          applet.preferences.category = state.preferences.category;
-        } else if (!lodash.isUndefined(applet.store.category.primary) && !lodash.isEmpty(applet.store.category.primary)) {
-          applet.preferences.category = applet.store.category.primary;
-        } else {
-          applet.preferences.category = DEFAULT_APPLET_PREFS_CATEGORY;
-        }
+        applet.preferences = lodash.cloneDeep(defaultAppletPreferences);
+        lodash.merge(applet.preferences, appletState.preferences);
 
         return applet;
       });
+
+      if (ids.length > 0) {
+        state.saveApplet(ids, function(err) {
+          if (err) {
+            $rootScope.$emit('Local/DeviceError', err);
+            return;
+          }
+        });
+      }
 
       var filteredApplets = filterApplets(lodash.cloneDeep(decoratedApplets), filter);
 
@@ -134,193 +184,65 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
-  root.getAppletsWithStateSync = function(filter) {
-    return filterApplets(appletsWithStateCache, filter);
+  /**
+   * Environment
+   */
+
+  root.setAppletPresentation = function (presentation, callback) {
+    var state = ctx.state;
+    state.environment.default.applet.presentation = presentation;
+    // Only one environment exists (default).
+    updateAppletEnvironmentState(Constants.ENVIRONMENT_ID, state.environment, callback);
   };
 
-  // Return the collection of all in-use applet categories.
-  root.getAppletCategoriesWithState = function(filter) {
-    filter = filter || {};
-    var states = ctx.states;
-    var iconPath = themeService.getCurrentTheme().header.path + '/category-icons/';
-
-    // Get all of the visible applets.
-    var applets = root.getAppletsWithStateSync({
-      visible: true
-    });
-
-    applets = lodash.filter(applets, function(applet) {
-      return applet.preferences.visible;
-    });
-
-    var categoryState = states.categoryState || [];
-
-    // Create a set of categories from applets.
-    var categories = lodash.map(applets, function(applet) {
-
-      var categoryName = applet.preferences.category;
-
-      var state = lodash.find(categoryState, function(state) {
-        return state.categoryName == categoryName;
-      });
-      state = state || {};
-
-      // Try to use an icon for the category, use default icon otherwise.
-      var iconBackground = 'url(\'' + iconPath + categoryName.replace(/[^a-zA-Z0-9]/g, "") + '.png\') center / cover no-repeat';
-      iconBackground += ', url(\'' + iconPath + 'default.png\') center / cover no-repeat rgba(0,0,0,0)';
-
-      return {
-        header: {
-          name: categoryName
-        },
-        layout: state.layout,
-        view: {
-          iconBackground: iconBackground
-        }
-      }
-    });
-
-    // Get the number of applets in each category.
-    var counts = lodash.countBy(categories, function(cat) {
-      return cat.header.name;
-    });
-
-    // Remove duplicates and sort (sorting is only effective before categories are assigned positions in the grid).
-    categories = lodash.sortBy(lodash.uniq(categories, 'header.name'), 'header.name');
-
-    // Map the category applet count into each category.
-    categories = lodash.map(categories, function(cat) {
-      cat.header.count = counts[cat.header.name];
-      return cat;
-    });
-
-    // Apply filters.
-    if (!lodash.isEmpty(filter)) {
-
-      // Category filter - if there is a active category then remove applets not in the category.
-      var nameFilter = filter.name || {};
-
-      if (!lodash.isEmpty(nameFilter)) {
-        categories = lodash.filter(categories, function(category) {
-          return nameFilter == category.header.name;
-        });
-      }
-    }
-
-    return categories;
+  root.setAppletCategoryPresentation = function (presentation, callback) {
+    var state = ctx.state;
+    state.environment.default.appletCategory.presentation = presentation;
+    // Only one environment exists (default).
+    updateAppletEnvironmentState(Constants.ENVIRONMENT_ID, state.environment, callback);
   };
 
-  // Update applet states with the specified array of new states.
-  root.updateAppletEnvironment = function(newEnvironment, callback) {
-    var states = ctx.states;
-
-    states.setEnvironment(newEnvironment, function(err) {
-      if (err) {
-        $rootScope.$emit('Local/DeviceError', err);
-        return;
-      }
-      if (callback) {
-        callback();
-      }
-    });
-  };
-
-  // Update category states with the specified array of new states.
-  root.updateCategoryState = function(categories, opts, callback) {
-    opts = opts || {};
-    var states = ctx.states;
-    var updatedCategoryState = states.categoryState;
-
-    // Create the state objects from each category.
-    var newState = lodash.map(categories, function(category) {
-      return {
-        categoryName: category.header.name,
-        layout: category.layout
-      }
-    });
-
-    for (var i = 0; i < newState.length; i++) {
-
-      var existingState = lodash.find(updatedCategoryState, function(state){
-        return state.categoryName == newState[i].categoryName;
-      });
-
-      if (lodash.isUndefined(existingState)) {
-        // No existing category state, create a new one.
-        updatedCategoryState.push(newState[i]);
-
-      } else {
-        // Update existing applet state.
-        lodash.assign(existingState, newState[i]);
-      }
-    }
-
-    states.setCategoryState(updatedCategoryState, function(err) {
-      if (err) {
-        $rootScope.$emit('Local/DeviceError', err);
-        return;
-      }
-      if (callback) {
-        callback();
-      }
-    });
-  };
+  /**
+   * State
+   */
 
   root.updateAppletState = function(applets, opts, callback) {
     opts = opts || {};
     callback = callback || function(){};
 
-    var states = ctx.states;
-    var updatedAppletState = states.appletState;
+    var state = ctx.state;
 
     // Build the applet state object for each applet.
     var newState = lodash.map(applets, function(applet) {
+      var oldState = state.applet[applet.header.id];
 
-      var state = {
-        appletId: applet.header.id,
-        preferences: {
-          visible: applet.preferences.visible,
-          category: applet.preferences.category
-        }
+      var s = lodash.cloneDeep(oldState) || PluginState.getAppletStateTemplate();
+      s.preferences = applet.preferences;
+
+      switch(opts.presentation) {
+        case Constants.PRESENTATION_CATEGORIES:
+          state.preferences.layout.categoryList = applet.layout;
+          break;
+        case Constants.PRESENTATION_GRID:
+          state.preferences.layout.grid = applet.layout;
+          break;
+        case Constants.PRESENTATION_LIST:
+          state.preferences.layout.list = applet.layout;
+          break;
+      };
+
+      var now = new Date().getTime();
+      if (lodash.isUndefined(oldState)) {
+        s.header.created = now;
+        s.header.updated = now;
+      } else if (lodash.isEqual(s.preferences, oldState.preferences)) {
+        s.header.updated = now;
       }
 
-      switch(opts.layout) {
-        case Constants.LAYOUT_DESKTOP:
-          state.layoutDesktop = applet.layout;
-          break;
-        case Constants.LAYOUT_LIST:
-          state.layoutList = applet.layout;
-          break;
-        case Constants.LAYOUT_CATEGORIES:
-          state.layoutCategoryList = applet.layout;
-          break;
-        case '':
-          // Ignore when no layout option is provided.
-          break;
-        default:
-          $log.error('Error: invalid layout specified (' + opts.layout + '), not updating applet state layout');
-      }
-
-      return state;
+      return s;
     });
 
-    for (var i = 0; i < newState.length; i++) {
-
-      var existingState = lodash.find(updatedAppletState, function(state){
-        return state.appletId == newState[i].appletId;
-      });
-
-      if (lodash.isUndefined(existingState)) {
-        // No existing applet state, create a new one.
-        updatedAppletState.push(newState[i]);
-
-      } else {
-        // Update existing applet state.
-        lodash.assign(existingState, newState[i]);
-      }
-    }
-
-    states.save(updatedAppletState, function(err) {
+    state.save(function(err) {
       if (err) {
         $rootScope.$emit('Local/DeviceError', err);
         return;
@@ -333,23 +255,19 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
-  root.createCategory = function(name, callback) {
-    var iconPath = themeService.getCurrentTheme().header.path + '/category-icons/';
+  /**
+   * Category
+   */
 
-    var category = {
-      header: {
-        name: name
-      },
-      layout: {position:{'0':9999,'1':9999}},
-      view: {
-        iconBackground: 'url(' + iconPath + name.replace(/[^a-zA-Z0-9]/g, "") + '.png) center / cover no-repeat rgba(0,0,0,0)'
-      }
-    };
+  root.createAppletCategory = function(name, callback) {
+    var iconPath = themeService.getCurrentTheme().uri + 'img/category-icons/';
+    var category = lodash.cloneDeep(appletCategorySchema);
+    category.header.name = name;
+    category.preferences.layout.list = {position:{'0':9999,'1':9999}};
+    category.view.iconBackground = 'url(' + iconPath + name.replace(/[^a-zA-Z0-9]/g, "") + '.png) center / cover no-repeat rgba(0,0,0,0)';
 
-    root.updateCategoryState([category], {}, callback);
-
-    return root.getAppletCategoriesWithState({
-      name: categoryName
+    root.updateAppletCategoryState([category], function() {
+      callback(root.getAppletCategoriesWithState({name: name}));
     });
   };
 
@@ -369,7 +287,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     if (categories.length >= 0) {
       root.setActiveCategory(categories[0]);
     } else {
-      $log.error('Error: could not set active category to \'' + categoryName + '\', category name not found');
+      $log.error('Could not set active category to \'' + categoryName + '\', category name not found');
     }
   };
 
@@ -378,80 +296,216 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     $rootScope.$emit('Local/AppletCategoryCleared');
   };
 
-  root.doOpenApplet = function(applet) {
-    $log.info('Opening applet: ' + applet.header.name);
-    if (root.isAppletWallet(applet)) {
-      openWallet();
-    } else if (root.isAppletBuiltin(applet)) {
-      openCapability(applet.model.stateName);
-    } else {
-      openApplet(applet);
-    }
+  // Return the collection of all in-use applet categories.
+  root.getAppletCategoriesWithState = function(filter) {
+    filter = filter || {};
+    var state = ctx.state;
+    var iconPath = themeService.getCurrentTheme().uri + 'img/category-icons/';
+
+    // Get all of the visible applets.
+    var applets = root.getAppletsWithStateSync({
+      visible: true
+    });
+
+    // Create a set of categories from applets.
+    var categories = lodash.map(applets, function(applet) {
+      var categoryName = applet.preferences.category;
+      var categoryState = state.category[categoryName] || {};
+
+      var category = lodash.cloneDeep(appletCategorySchema);
+      category.header.name = categoryName;
+      category.preferences.layout = categoryState.preferences.layout;
+
+      // Try to use an icon for the category, use default icon otherwise.
+      var iconBackground = 'url(\'' + iconPath + categoryName.replace(/[^a-zA-Z0-9]/g, "") + '.png\') center / cover no-repeat';
+      iconBackground += ', url(\'' + iconPath + 'default.png\') center / cover no-repeat rgba(0,0,0,0)';
+
+      category.view.iconBackground = iconBackground;
+      return category;
+    });
+
+    // Get the number of applets in each category.
+    var counts = lodash.countBy(categories, function(cat) {
+      return cat.header.name;
+    });
+
+    // Remove duplicates and sort (sorting is only effective before categories are assigned positions in the grid).
+    categories = lodash.sortBy(lodash.uniq(categories, 'header.name'), 'header.name');
+
+    // Map the category applet count into each category.
+    categories = lodash.map(categories, function(cat) {
+      cat.header.count = counts[cat.header.name];
+      return cat;
+    });
+
+    var filteredCategories = filterAppletCategories(lodash.cloneDeep(categories), filter);
+
+    // TODO: validate schema of categories; will prevent downstream errors.
+
+    return filteredCategories;
   };
 
-  root.doCloseApplet = function(sessionId) {
-    var session = appletSessionService.getSession(sessionId);
-    var applet = session.getApplet();
-    $log.info('closing applet: ' + applet.header.name);
+  // Update category state with the specified array of new states.
+  root.updateAppletCategoryState = function(categories, opts, callback) {
+    var state = ctx.state;
+    var updatedCategoryState = state.category;
 
-    $rootScope.$emit('Local/AppletLeave', applet);
+    // Create the category state objects from each category object.
+    var newState = lodash.map(categories, function(category) {
+      var oldState = state.appletCategory[categoryState.header.id];
 
-    hideApplet(session);
-    applet.finalize(function() {
-      delete $rootScope.appletInfoPopover;
-      appletSessionService.destroySession(session.id);
+      var s = lodash.cloneDeep(oldState) || PluginState.getAppletCategoryStateTemplate();
+      s.preferences = category.preferences;
 
-      // Reset applet services.
-      publishAppletServices();
+      switch(opts.presentation) {
+        case Constants.PRESENTATION_LIST:
+          s.preferences.layout.list = categoryState.layout;
+          break;
+      };
+
+      var now = new Date().getTime();
+      if (lodash.isUndefined(oldState)) {
+        s.header.created = now;
+        s.header.updated = now;
+      } else if (!lodash.isEqual(s.preferences, oldState.preferences)) {
+        s.header.updated = now;
+      }
+
+      return s;
+    });
+
+    state.save(function(err) {
+      if (err) {
+        $rootScope.$emit('Local/DeviceError', err);
+        return;
+      }
+      if (callback) {
+        callback();
+      }
     });
   };
 
-  $rootScope.$on('modal.shown', function(event, modal) {
-    if (modal.name != 'applet') {
-      return;
-    }
-    $rootScope.$emit('Local/AppletShown', modal.session.getApplet());
-  });
+  /**
+   * Private functions
+   */
 
-  $rootScope.$on('modal.hidden', function(event, modal) {
-    if (modal.name != 'applet') {
-      return;
-    }
-    $rootScope.$emit('Local/AppletHidden', modal.session.getApplet());
-  });
+  // Return a promise for the collection of all available applets.
+  function getApplets() {
+    return new Promise(function (resolve, reject) {
+      // Wallet applets.
+      getWalletsAsApplets().then(function(walletApplets) {
 
-  root.finalize = function() {
-    // Close any currently running applet.
-    var activeSession = appletSessionService.getActiveSession();
-    if (!lodash.isUndefined(activeSession)) {
-      root.doCloseApplet(activeSession.id);
-    }
+        // External applets.
+        var applets = lodash.filter(ctx.applets, function(applet) {
+          return !applet.header.id.includes(APPLET_IDENTIFIER_BUILTIN_PREFIX);
+        });
 
-    appletSessionService.finalize();
+        applets = lodash.map(applets, function(applet) {
+          return new Applet(applet);
+        });
+
+        // Some builtin capabilities are exposed as applets.
+        var builtinApplets = getBuiltinApplets();
+
+        // TODO: validate schema of applets and reject invalid entries; will prevent down stream errors.
+
+        // Return a comprehensive list of all applets.
+        resolve(builtinApplets.concat(walletApplets).concat(applets));
+
+      }).catch(function handleErrors(error) {
+        reject(error);
+      });
+    })
+  };
+
+  function cacheAppletsWithState(applets) {
+    appletsWithStateCache = lodash.cloneDeep(applets);
+    $rootScope.$emit('Local/AppletsWithStateUpdated', appletsWithStateCache);
+    $log.debug('Applets cached: ' + applets.length);
+  };
+
+  function updateAppletEnvironmentState(envId, environment, callback) {
+    callback = callback || function(){};
+    var state = ctx.state;
+
+    var now = new Date().getTime();
+    environment.header.upated = now;
+    lodash.merge(state.environment[envId], environment);
+
+    state.save(function(err) {
+      if (err) {
+        $rootScope.$emit('Local/DeviceError', err);
+        return;
+      }
+      callback();
+    });
+  };
+
+  // Creates an applet object from a wallet.
+  function createWalletAppletObj(wallet) {
+    var config = configService.getSync();
+    var configNetwork = config.currencyNetworks[wallet.networkURI];
+    var network = networkService.getNetworkByURI(wallet.networkURI);
+
+    var appletObj = lodash.cloneDeep(ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX]);
+    appletObj.header.id += '.' + wallet.id;
+    appletObj.header.name = wallet.alias || wallet.name;
+    appletObj.model = {
+      isoCode: network.isoCode,
+      unitName: configNetwork.unitName,
+      m: wallet.m,
+      n: wallet.n,
+      networkURI: wallet.networkURI,
+      walletId: wallet.id,
+      balance: status.totalBalanceStr ? status.totalBalanceStr : '&middot;&middot;&middot;',
+      altBalance: (status.totalBalanceAlternative ? status.totalBalanceAlternative + ' ' + wallet.status.alternativeIsoCode : '&middot;&middot;&middot;')
+    };
+
+    return appletObj;
+  };
+
+  function getWalletsAsApplets() {
+    return new Promise(function (resolve, reject) {
+      profileService.getWallets({status: true}, function(wallets) {
+
+        var walletApplets = lodash.map(wallets, function(w) {
+          var applet = new Applet(createWalletAppletObj(w));
+          $rootScope.$emit('Local/WalletAppletUpdated', applet, w.walletId);
+          return lodash.cloneDeep(applet);
+        });
+
+        resolve(lodash.sortBy(walletApplets, 'header.name'));
+      });
+    })
+  };
+
+  function getBuiltinApplets() {
+    var builtinApplets = [];
+    var appletObj;
+
+    lodash.forEach(builtinCapabilities, function(capability) {
+      appletObj = lodash.cloneDeep(ctx.applets[capability.id]);
+      if (appletObj) {
+        appletObj.flags = Applet.FLAGS_MAY_NOT_HIDE;
+        appletObj.model = {};
+        appletObj.model.stateName = capability.stateName;
+        builtinApplets.push(new Applet(appletObj));        
+      }
+    });
+
+    return builtinApplets;
   };
 
   function publishAppletServices() {
     $rootScope.applet = $rootScope.applet || {};
-		$rootScope.applet.close = function(sessionId) { return root.doCloseApplet(sessionId); };
-		$rootScope.applet.open = function(applet) { return root.doOpenApplet(applet); };
-  };
-
-  function showApplet(session) {
-    appletSessionService.activateSession(session.id);
-		root.appletModal.show();
-  };
-
-  function hideApplet(session) {
-		// Pop the skin containing the applet off the stack (re-apply prior skin).
-    appletSessionService.deactivateSession(session.id);
-	  themeService.popSkin();
-    root.appletModal.remove();
+		$rootScope.applet.close = function(sessionId) { return doCloseApplet(sessionId); };
+		$rootScope.applet.open = function(applet) { return doOpenApplet(applet); };
   };
 
   function filterApplets(applets, filter) {
     if (!lodash.isEmpty(filter)) {
       // Applet id filter - choose only the applet with the specified id.
-      var appletIdFilter = filter.appletId || {};
+      var appletIdFilter = filter.id || {};
 
       if (!lodash.isEmpty(appletIdFilter)) {
         applets = lodash.filter(applets, function(applet) {
@@ -480,178 +534,85 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     return applets;
   };
 
-  // Creates an applet schema from a wallet.
-  function createWalletAppletSchema(wallet) {
-    var config = configService.getSync();
-    var configNetwork = config.currencyNetworks[wallet.networkURI];
-    var network = networkService.getNetworkByURI(wallet.networkURI);
+  function filterAppletCategories(categories, filter) {
+    if (!lodash.isEmpty(filter)) {
+      // Category name filter.
+      var nameFilter = filter.name || {};
 
-    var schema = lodash.cloneDeep(ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX]);
-    schema.header.id += '.' + wallet.id;
-    schema.header.name = wallet.alias || wallet.name;
-    schema.flags = Applet.FLAGS_ALL;
-    schema.model = {
-      isoCode: network.isoCode,
-      unitName: configNetwork.unitName,
-      m: wallet.m,
-      n: wallet.n,
-      networkURI: wallet.networkURI,
-      walletId: wallet.id,
-      balance: status.totalBalanceStr ? status.totalBalanceStr : '&middot;&middot;&middot;',
-      altBalance: (status.totalBalanceAlternative ? status.totalBalanceAlternative + ' ' + wallet.status.alternativeIsoCode : '&middot;&middot;&middot;')
-    };
-
-    return schema;
-  };
-
-  function getWalletsAsApplets() {
-    return new Promise(function (resolve, reject) {
-      profileService.getWallets({status: true}, function(wallets) {
-
-        var walletApplets = lodash.map(wallets, function(w) {
-          var applet = new Applet(createWalletAppletSchema(w));
-          $rootScope.$emit('Local/WalletAppletUpdated', applet, w.walletId);
-          return lodash.cloneDeep(applet);
+      if (!lodash.isEmpty(nameFilter)) {
+        categories = lodash.filter(categories, function(category) {
+          return nameFilter == category.header.name;
         });
-
-        resolve(lodash.sortBy(walletApplets, 'header.name'));
-      });
-    })
+      }
+    }
+    return categories;
   };
 
-  function getBuiltinApplets() {
-    var builtinApplets = [];
-    var schema;
+  function showApplet(session) {
+    appletSessionService.activateSession(session.id);
+    appletContainer.show();
+  };
 
-    lodash.forEach(builtinCapabilities, function(capability) {
-      schema = lodash.cloneDeep(ctx.applets[capability.id]);
-      if (schema) {
-        schema.flags = Applet.FLAGS_ALL | Applet.FLAGS_MAY_NOT_HIDE;
-        schema.model = {};
-        schema.model.stateName = capability.stateName;
-        builtinApplets.push(new Applet(schema));        
-      }
-    });
-
-  	return builtinApplets;
+  function hideApplet(session) {
+    appletSessionService.deactivateSession(session.id);
+    appletContainer.remove();
   };
 
   function openApplet(applet) {
-    // Create a session id for the applet.
+    // Create a session, container, and show the applet.
     appletSessionService.createSession(applet, function(session) {
-
       $rootScope.$emit('Local/AppletEnter', applet);
+      appletContainer = applet.createContainer(session);
 
-      // Apply the skin containing the applet.
-      themeService.setAppletByNameForWallet(applet.header.name, wallet.id, function() {
-        applet.initEnvironment();
-
-        // Create the applet modal.
-        // 
-        root.appletModal = $ionicModal.fromTemplate('\
-          <ion-modal-view class="applet-modal">\
-            <ion-footer-bar class="footer-bar-applet" ng-style="{\'background\':applet.view.footerBarBackground, \'border-top\':applet.view.footerBarBorderTop}">\
-              <button class="footer-bar-item item-center button button-clear button-icon ion-log-out button-applet-close"\
-              ng-style="{\'color\':applet.view.footerBarButtonColor}" ng-click="applet.close(\'' + session.id + '\')"></button>\
-              <button class="footer-bar-item item-right button button-clear button-icon ion-more"\
-              ng-style="{\'color\':applet.view.footerBarButtonColor}" ng-click="appletInfoPopover.show($event)"></button>\
-            </ion-footer-bar>\
-            <script id="templates/appletInfoPopover.html" type="text/ng-template">\
-              <ion-popover-view class="popover-applet" ng-style="{\'background\':applet.view.popupInfoBackground, \'color\':applet.view.popupInfoColor}">\
-                <ion-content scroll="false" class="m0i">\
-<!--\
-                  <div class="card">\
-                    <div class="item item-divider card-section" ng-style="{\'background\':applet.view.popupInfoCardHeaderBackground, \'color\':applet.view.popupInfoCardHeaderColor}">\
-                      <span class="left">' + (wallet.getInfo().client.alias || wallet.getInfo().client.credentials.walletName || "---") + '</span>\
-                      <span class="" ng-if="' + (wallet.getInfo().client.credentials.n > 1) + '">&nbsp;(' + wallet.getInfo().client.credentials.m + '/' + wallet.getInfo().client.credentials.n + ')' + '</span>\
-                      <span class="right">' + (wallet.getBalanceAsString('totalAmount', false) || '--- ' + wallet.getInfo().config.settings.unitName) + '\
-                        <img ng-show="' + (wallet.getInfo().client.credentials.network == 'testnet') + '" src="img/icon-testnet-white.svg">\
-                      </span>\
-                    </div>\
-                    <div class="item item-text-wrap card-content" ng-style="{\'background\':applet.view.popupInfoCardBodyBackground, \'border-top\':applet.view.popupInfoCardBodyBorderTop, \'color\':applet.view.popupInfoCardBodyColor}">\
-                      <span class="alt-balance">' + (wallet.getBalanceAsString('totalAmount', true) || '--- ' +  wallet.getInfo().config.settings.alternativeIsoCode) + '</span>\
-                      <br>\
-                      <span class="notice">This wallet is the currently selected wallet and will be used for all transactions initiated while using this applet.</span>\
-                    </div>\
-                  </div>\
--->\
-                  <div class="info">\
-                    <span class="name">' + applet.header.name + '</span><br>\
-                    <span class="author">By: ' + applet.skin.header.author + '</span><br>\
-                    <span class="version">Version: ' + applet.skin.header.version + ', ' + applet.skin.header.date + '</span><br>\
-                    <span class="description">' + applet.header.description + '</span><br>\
-                  </div>\
-                </ion-content>\
-              </ion-popover-view>\
-            </script>\
-            <ion-pane ng-style="{\'background\': applet.view.background}">\
-              <div class="applet-splash fade-splash" ng-style="{\'background\':applet.view.splashBackground}"\
-                ng-hide="!applet.config.showSplash" ng-if="applet.view.splashBackground.length > 0"></div>\
-              <iframe class="applet-frame" src="' + applet.mainViewUrl() + '?sessionId=' + session.id + '"></iframe>\
-            </ion-pane>\
-          </ion-modal-view>\
-          ', {
-          scope: $rootScope,
-          backdropClickToClose: false,
-          hardwareBackButtonClose: false,
-          animation: 'animated zoomIn',
-          hideDelay: 1000,
-          session: session,
-          name: 'applet'
-        });
-
-        $ionicPopover.fromTemplateUrl('templates/appletInfoPopover.html', {
-          scope: root.appletModal.scope,
-        }).then(function(popover) {
-          $rootScope.appletInfoPopover = popover;
-        });
-
-        // Present the modal, allow some time to render before presentation.
-        $timeout(function() {
-          showApplet(session);
-        }, 50);
-      });
+      // Present the applet. allow some time to render before presentation.
+      $timeout(function() {
+        showApplet(session);
+      }, 50);
     });
   };
 
   function openWallet(walletId) {
+    var wallet = profileService.getWallet(walletId);
+    if (!wallet.isComplete()) {
+      return $state.go($rootScope.sref('copayers'), {
+        walletId: walletId
+      });
+    }
+    $state.go($rootScope.sref('wallet'), {
+      walletId: walletId
+    });
   };
 
   function openCapability(stateName) {
     $state.go($rootScope.sref(stateName));
   };
 
-  // Return a promise for the collection of all available applets.
-  function getApplets() {
-    return new Promise(function (resolve, reject) {
-      // Wallet applets.
-      getWalletsAsApplets().then(function(walletApplets) {
-
-        // External applets.
-        var applets = lodash.filter(ctx.applets, function(applet) {
-          return !applet.header.id.includes(APPLET_IDENTIFIER_BUILTIN_PREFIX);
-        });
-
-        applets = lodash.map(applets, function(applet) {
-          return new Applet(applet);
-        });
-
-        // Some builtin capabilities are exposed as applets.
-        var builtinApplets = getBuiltinApplets();
-
-        // Return a comprehensive list of all applets.
-        resolve(builtinApplets.concat(walletApplets).concat(applets));
-
-      }).catch(function handleErrors(error) {
-        reject(error);
-      });
-    })
+  function doOpenApplet(applet) {
+    $log.info('Opening applet: ' + applet.header.name);
+    if (root.isAppletWallet(applet)) {
+      openWallet(applet.model.walletId);
+    } else if (root.isAppletBuiltin(applet)) {
+      openCapability(applet.model.stateName);
+    } else {
+      openApplet(applet);
+    }
   };
 
-  function cacheAppletsWithState(applets) {
-    appletsWithStateCache = lodash.cloneDeep(applets);
-    $rootScope.$emit('Local/AppletsWithStateUpdated', appletsWithStateCache);
-    $log.debug('Applets cached: ' + applets.length);
+  function doCloseApplet(sessionId) {
+    var session = appletSessionService.getSession(sessionId);
+    var applet = session.getApplet();
+    $log.info('closing applet: ' + applet.header.name);
+
+    $rootScope.$emit('Local/AppletLeave', applet);
+
+    hideApplet(session);
+    applet.finalize(function() {
+      delete $rootScope.appletInfoPopover;
+      appletSessionService.destroySession(session.id);
+
+      // Reset applet services.
+      publishAppletServices();
+    });
   };
 
   return root;
