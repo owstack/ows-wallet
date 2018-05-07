@@ -30,7 +30,7 @@
   "appUri": "owswallet",
   "statusBarColor": "#000000",
   "plugins": {
-    "@owstack/ows-wallet-plugin-starter": "^0.0.25",
+    "@owstack/ows-wallet-plugin-starter": "^0.0.26",
     "builtin-plugins/create-personal": "",
     "builtin-plugins/create-shared": "",
     "builtin-plugins/import-wallet": "",
