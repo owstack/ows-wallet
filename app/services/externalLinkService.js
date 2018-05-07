@@ -21,11 +21,12 @@ angular.module('owsWalletApp.services').service('externalLinkService', function(
       _restoreHandleOpenURL(old);
     } else {
       if (optIn) {
-        var openBrowser = function(res) {
-          if (res) window.open(url, '_system');
+        popupService.showConfirm(title, message, okText, cancelText, function(res) {
+          if (res) {
+            window.open(url, '_system');
+          }
           _restoreHandleOpenURL(old);
-        };
-        popupService.showConfirm(title, message, okText, cancelText, openBrowser);
+        });
       } else {
         window.open(url, '_system');
         _restoreHandleOpenURL(old);

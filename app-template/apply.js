@@ -63,6 +63,7 @@ Object.keys(templates).forEach(function(k) {
     content = content.replace('<', HTTPheader);
   }
 
+  // Replace placeholders in template file with values from config.
   Object.keys(config).forEach(function(k) {
     if (k.indexOf('_') == 0) {
       return;
@@ -97,7 +98,7 @@ Object.keys(templates).forEach(function(k) {
       console.log('None configured');
     }
 
-    // Sort dependencies
+    // Sort dependencies (for convenience)
     var orderedDependencies = {};
     Object.keys(content.dependencies).sort().forEach(function(key) {
       orderedDependencies[key] = content.dependencies[key];

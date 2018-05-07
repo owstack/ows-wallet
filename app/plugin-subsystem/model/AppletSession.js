@@ -1,139 +1,135 @@
 'use strict';
 angular.module('owsWalletApp.pluginModel').factory('AppletSession', function ($rootScope, $log, appletDataService) {
 
-  var self = this;
-
-  var STATE_INITIAL = 0;
   var STATE_VALID = 1;
 
-  var _state = STATE_INITIAL;
-  var _applet = null;
-  var _userData = {};
-  var _publishedKeys = [];
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
 
-  // Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
-  // 
-  function AppletSession(applet, callback) {
-    if (!applet) {
-      throw new Error('Error: no applet provided to create session');
+  function AppletSession(appletObj, callback) {
+    if (!appletObj) {
+      throw new Error('No applet provided to create session');
     }
-    _applet = applet;
-    this.timestamp = new Date();
-    this.id = '' + new Date().getTime();
-    setState(STATE_VALID);
-    return this;
-  };
 
-  function setState(state) {
-    _state = _state | state;
-  };
+    var self = this;
+    var now = new Date();
 
-  function checkStateIsValid(session) {
-    if (!session.isValid()) {
-      throw new Error('Error: invalid session state, (applet ID = ' + _applet.header.id + ')');
-    }
-  };
+    this.id = '' + now.getTime();
+    this.timestamp = now;
 
-  function doClose(session) {
-    // Delete user data.
-    session.userData = {};
+    var state = STATE_VALID;
+    var applet = appletObj;
+    var userData = {};
 
-    // Delete published values.
-    for (var i = 0; i < session.publishedKeys.length; i++) {
-      delete $rootScope.applet[i];
-    }
-    setState(~STATE_VALID);
-  };
+    /**
+     * Priviledged methods
+     */
 
-  // Public methods
-  //
-  AppletSession.prototype.isValid = function() {
-    return _state & STATE_VALID;
-  };
+    this.isValid = function() {
+      return state & STATE_VALID;
+    };
 
-  AppletSession.prototype.isForApplet = function(appletId) {
-    checkStateIsValid(this);
-    return _applet.header.id == appletId;
-  };
+    this.isForApplet = function(appletId) {
+      checkStateIsValid(this);
+      return applet.header.id == appletId;
+    };
 
-  AppletSession.prototype.getApplet = function() {
-    checkStateIsValid(this);
-    return _applet;
-  };
+    this.getApplet = function() {
+      checkStateIsValid(this);
+      return applet;
+    };
 
-  AppletSession.prototype.restore = function(callback) {
-    checkStateIsValid(this);
-    // Restore applet data from storage.
-    appletDataService.getData(_applet.header.id, function(err, data) {
-      if (err) {
-        throw new Error('Error reading applet storage: ' + err.message);
-      }
-      _userData = data;
-      callback(data);
-    });
-  };
-
-  AppletSession.prototype.get = function(name) {
-    checkStateIsValid(this);
-    if (!name) {
-      throw new Error('Error getting session data, no name specified');
-    }
-    return _userData[name] || null;
-  };
-
-  AppletSession.prototype.set = function(name, value, publish) {
-    checkStateIsValid(this);
-    if (!name) {
-      throw new Error('Error setting session data, no name specified');
-    }
-    _userData[name] = value || null;
-
-    // Optionally publish the value to root scope.
-    if (publish) {
-      $rootScope.applet.session = $rootScope.applet.session || {};
-      $rootScope.applet.session[name] = value;
-      _publishedKeys.push(name);
-    }
-  };
-
-  AppletSession.prototype.flush = function(callback) {
-    checkStateIsValid(this);
-    // Write applet data to storage.
-    appletDataService.setData(_applet.header.id, _userData, function(err, data) {
-      if (err) {
-        err = 'Error writing session data: ' + err.message;
-      }
-      if (callback) {
-        callback(err);
-      }
-    });
-  };
-
-  AppletSession.prototype.close = function(flush, callback, force) {
-    checkStateIsValid(this);
-    if (flush) {
-      // Write applet data to storage.
-      var self = this;
-      appletDataService.setData(_applet.header.id, _userData, function(err, data) {
-        var response = null;
+    this.restore = function(callback) {
+      checkStateIsValid(this);
+      // Restore applet data from storage.
+      appletDataService.getData(applet.header.id, function(err, data) {
         if (err) {
-          response = 'Error writing session data: ' + err.message;
-          if (force) {
-            doClose(self);
-          }
+          throw new Error('Error reading applet storage: ' + err.message);
         }
+        userData = data;
+        callback(err, data);
+      });
+    };
+
+    this.get = function(name) {
+      checkStateIsValid(this);
+      if (!name) {
+        throw new Error('Error getting session data, no name specified');
+      }
+      return userData[name] || null;
+    };
+
+    this.set = function(name, value) {
+      checkStateIsValid(this);
+      if (!name) {
+        throw new Error('Error setting session data, no name specified');
+      }
+      userData[name] = value || null;
+    };
+
+    this.flush = function(callback) {
+      checkStateIsValid(this);
+      // Write applet data to storage.
+      appletDataService.setData(applet.header.id, userData, function(err, data) {
+        if (err) {
+          err = 'Error writing session data: ' + err.message;
+        }
+        if (callback) {
+          callback(err);
+        }
+      });
+    };
+
+    this.close = function(flush, callback, force) {
+      checkStateIsValid(this);
+      if (flush) {
+        // Write applet data to storage.
+        appletDataService.setData(applet.header.id, userData, function(err, data) {
+          var response = null;
+          if (err) {
+            response = 'Error writing session data: ' + err.message;
+            if (force) {
+              doClose();
+            }
+          }
+          if (callback) {
+            callback(response);
+          }
+        });
+
+      } else {
+
+        doClose();
         if (callback) {
           callback(response);
         }
-      });
-
-    } else {
-
-      doClose(this);
-      if (callback) {
-        callback(response);
       }
-    }
+    };
+
+    /**
+     * Private methods
+     */
+
+    function setState(stateFlag) {
+      state = state | stateFlag;
+    };
+
+    function checkStateIsValid(session) {
+      if (!session.isValid()) {
+        throw new Error('Invalid session state, (applet ID = ' + applet.header.id + ')');
+      }
+    };
+
+    function doClose() {
+      // Delete user data.
+      userData = {};
+
+      // Set our state invalid.
+      setState(~STATE_VALID);
+    };
+
+    return this;
   };
 
   return AppletSession;

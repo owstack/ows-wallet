@@ -32,9 +32,7 @@ angular.module('owsWalletApp.pluginApi').service('getSession', function(lodash, 
     message.response = {
       statusCode: 200,
       statusText: 'OK',
-      data: {
-      	obj: session
-      }
+      data: session
     };
 		return callback(message);
 	};

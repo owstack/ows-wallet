@@ -35,9 +35,7 @@ angular.module('owsWalletApp.pluginApi').service('getAppletForSession', function
 	    message.response = {
 	      statusCode: 200,
 	      statusText: 'OK',
-	      data: {
-	      	obj: applet
-	      }
+	      data: applet
 	    };
 			return callback(message);
 

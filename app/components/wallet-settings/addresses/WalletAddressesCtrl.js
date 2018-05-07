@@ -36,7 +36,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
         }
 
         withBalance = resp.byAddress;
-        var idx = lodash.indexBy(withBalance, 'address');
+        var idx = lodash.keyBy(withBalance, 'address');
         $scope.noBalance = lodash.reject(allAddresses, function(x) {
           return idx[x.address];
         });

@@ -2,8 +2,10 @@
 
 angular.module('owsWalletApp.pluginModel').factory('Constants', function () {
 
-   // Constructor
-   // See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
+
   function Constants() {
     return this;
   };

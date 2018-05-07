@@ -9,7 +9,7 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
     var sessionId = message.request.params.id;
     var name = message.request.params.name;
     var publish = (message.request.params.publish ? true : false);
-    var value = message.request.data.value;
+    var value = message.request.data;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {

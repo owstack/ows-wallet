@@ -6,7 +6,6 @@
     "multisignature",
     "open wallet stack"
   ],
-    "IS THIS NEEDED???  qrcode-decoder-js": "*",
   "dependencies": {
     "ionic": "https://github.com/owstack/ionic-v1.git#ows-release",
     "trezor-connect": "https://github.com/trezor/connect.git#c1a00f9f0f4a13239ba13ddd589c6ca61f2e7876"

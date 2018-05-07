@@ -141,7 +141,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
         if (config.hideApplets.enabled) {
           $scope.applets = null;
         } else {
-          $scope.applets = appletService.getAppletsWithStateSync();
+          updateAllApplets();
         }
 
         pushNotificationsService.init();
@@ -269,7 +269,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     };
 
     var updateAllApplets = function() {
-      $scope.applets = appletService.getAppletsWithStateSync();
+      $scope.applets = appletService.getAppletsWithStateSync({kind: 'applet'});
     };
 
     var updateAllWallets = function() {

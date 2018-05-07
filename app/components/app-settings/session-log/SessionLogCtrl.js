@@ -7,7 +7,7 @@ angular.module('owsWalletApp.controllers').controller('SessionLogCtrl',
     var logLevels = historicLogService.getLevels();
     var selectedLevel;
 
-    $scope.logOptions = lodash.indexBy(logLevels, 'level');
+    $scope.logOptions = lodash.keyBy(logLevels, 'level');
 
     var filterLogs = function(weight) {
       $scope.filteredLogs = historicLogService.get(weight);

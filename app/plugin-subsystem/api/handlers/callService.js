@@ -9,7 +9,7 @@ angular.module('owsWalletApp.pluginApi').service('callService', function(lodash,
     var appletId = message.request.params.id;
     var serviceId = message.request.params.pluginId;
     var fn = message.request.params.fn;
-    var args = message.request.data.args;
+    var args = message.request.data;
 
   	if (lodash.isUndefined(appletId) || appletId.length <= 0) {
 	    message.response = {
@@ -40,9 +40,7 @@ angular.module('owsWalletApp.pluginApi').service('callService', function(lodash,
 	    message.response = {
 	      statusCode: 200,
 	      statusText: 'OK',
-	      data: {
-	      	result: result
-	      }
+	      data: result
 	    };
 		} catch (ex) {
 

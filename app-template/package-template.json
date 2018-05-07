@@ -53,7 +53,7 @@
   "dependencies": {
     "@owstack/bch-wallet-client": "^0.0.11",
     "@owstack/btc-wallet-client": "^0.0.11",
-    "@owstack/ows-wallet-plugin-client": "^0.0.11",
+    "@owstack/ows-wallet-plugin-client": "^0.0.29",
     "bezier-easing": "^2.0.3",
     "cordova-ios": "4.5.4",
     "cordova-android": "6.4.0",

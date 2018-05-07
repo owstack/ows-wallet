@@ -3,8 +3,10 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Cons
 
   var _instance;
 
-  // Constructor
-  //
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
+
   function PluginState() {
     throw new Error('PluginState is a singleton, use getInstance()');
   };
@@ -42,8 +44,12 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Cons
     return new UpgradableCatalog(config, cb);
   };
 
-  // Static methods
-  //
+  /**
+   * Static methods
+   */
+
+  UpgradableCatalog.inheritStaticMethods(PluginState);
+
   PluginState.getInstance = function(cb) {
     if (!_instance) {
       createInstance(this, function(err, catalog) {
@@ -53,8 +59,6 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Cons
     }
     return _instance;
   };
-
-  UpgradableCatalog.inheritStaticMethods(PluginState);
 
   PluginState.getAppletEnvironmentStateTemplate = function() {
     return {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.pluginControllers').controller('SkinSettingsCtrl',
-  function($rootScope, $scope, $state, $log, $timeout, lodash, go, themeService, profileService, configService) {
+  function($rootScope, $scope, $state, $log, lodash, go, themeService, profileService, configService) {
 
   	var self = this;
 		var config = configService.getSync();

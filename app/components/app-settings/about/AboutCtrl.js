@@ -4,8 +4,8 @@ angular.module('owsWalletApp.controllers').controller('AboutCtrl',
   function($scope, $window, appConfig, gettextCatalog, externalLinkService) {
 
     $scope.title = gettextCatalog.getString('About') + ' ' + appConfig.nameCase;
-    $scope.version = $window.version;
-    $scope.commitHash = $window.commitHash;
+    $scope.version = appConfig.version;
+    $scope.commitHash = appConfig.commitHash;
 
     $scope.openExternalLink = function() {
       var url = appConfig.gitHubRepoUrl + '/tree/' + $window.commitHash + '';

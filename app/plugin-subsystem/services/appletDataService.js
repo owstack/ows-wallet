@@ -39,19 +39,20 @@ angular.module('owsWalletApp.pluginServices').factory('appletDataService', funct
       storageService.storeValueByKey(appletId, JSON.stringify(data), function() {
         if (!err) {
           // Track the write operation.
-          trackAppletData(appletId);
+          trackAppletData(appletId, cb);
         }
       });
     });
   };
 
-  function trackAppletData(appletId, opts) {
+  function trackAppletData(appletId, cb) {
     var state = ctx.state;
     state.timestampApplet(appletId, function(err) {
       if (err) {
         $rootScope.$emit('Local/DeviceError', err);
         return;
       }
+      cb();
     });
   };
 

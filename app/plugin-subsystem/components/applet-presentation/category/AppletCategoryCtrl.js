@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginControllers').controller('AppletCategoryCtrl', function($scope, $rootScope, $log, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, $timeout, lodash, appletService, appletCatalogService, FocusedWallet, Constants, isMobile, isCordova, go) {
+angular.module('owsWalletApp.pluginControllers').controller('AppletCategoryCtrl', function($scope, $rootScope, $log, $ionicSlideBoxDelegate, $ionicSideMenuDelegate, $ionicModal, lodash, appletService, appletCatalogService, FocusedWallet, Constants, isMobile, isCordova, go) {
 
   var self = this;
   this.categories = [];

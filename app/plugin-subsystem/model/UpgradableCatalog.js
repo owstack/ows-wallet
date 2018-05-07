@@ -71,11 +71,13 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
   //
   // Catalog upgrades occur when the input catalog collection entry has a higher version number
 
-  function UpgradableCatalog(config, cb) {
-    self = this;
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
 
-    // Private properties
-    //
+  function UpgradableCatalog(config, cb) {
+    var self = this;
+
     var _config = config;
     var _catalog = {};
 
@@ -88,8 +90,9 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
       });
     });
 
-    // Priviledged methods
-    //
+    /**
+     * Priviledged methods
+     */
 
     // Upgrade the current catalog by applying the specified catalog upgrades.
     // Existing entries are upgraded if version numbers are higher. New entries are added.
@@ -154,8 +157,10 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
 
     });
 
-    // Private methods
-    //
+    /**
+     * Private methods
+     */
+
     // Retrieve the catalog from the file system and set our private copy.
     function get(cb) {
       _config.storage.get(function(err, storedCatalog) {
@@ -367,8 +372,10 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
 
   };
 
-  // Static methods
-  //
+  /**
+   * Static methodsß
+   */
+
   UpgradableCatalog.supportsWriting = function() {
     return storageService.fileStorageAvailable();
   }

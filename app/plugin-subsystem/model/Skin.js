@@ -1,17 +1,20 @@
 'use strict';
 angular.module('owsWalletApp.pluginModel').factory('Skin', function ($log, lodash, Applet) {
 
-   // Constructor
-   // Skin is contructed with it's parent theme.
-   // 
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
+
   function Skin(obj, theme) {
     lodash.assign(this, obj);
 //    this.theme = theme;
     return this;
   };
 
-  // Public methods
-  // 
+  /**
+   * Public methods
+   */
+
   Skin.prototype.canDelete = function() {
     return this.permissions['delete'];
   };

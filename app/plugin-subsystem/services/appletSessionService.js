@@ -80,7 +80,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletSessionService', fu
     });
   };
 
-  root.destroySession = function(sessionId) {
+  root.destroySession = function(sessionId, callback) {
     // If the session to destroy is the active session then deactive session before destroying it.
     if (isActiveSession(sessionId)) {
       root.deactivateSession(sessionId);
@@ -98,7 +98,9 @@ angular.module('owsWalletApp.pluginServices').factory('appletSessionService', fu
     		}
         // Remove the session from the pool.
         removeSession(session);
+
 	    	$log.debug('Applet session successfully removed: ' + session.id + ' (applet ID: ' + session.getApplet().header.id + ')');
+        callback();
     	});
     } else {
     	$log.debug('Warning: applet session not found for removal: ' + session.id + ' (applet ID: ' + session.getApplet().header.id + ')');

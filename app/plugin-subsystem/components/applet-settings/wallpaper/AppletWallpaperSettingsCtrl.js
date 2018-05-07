@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.pluginControllers').controller('AppletWallpaperSettingsCtrl',
-  function($rootScope, $timeout, $log, themeService, themePreferencesService, isMobile, fileStorageService) {
+  function($rootScope, $log, themeService, themePreferencesService, isMobile, fileStorageService) {
 
   var self = this;
 

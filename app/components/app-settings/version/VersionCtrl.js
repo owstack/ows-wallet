@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('VersionCtrl', function() {
-  this.version = window.version;
-  this.commitHash = window.commitHash;
+angular.module('owsWalletApp.controllers').controller('VersionCtrl', function(appConfig) {
+  this.version = appConfig.version;
+  this.commitHash = appConfig.commitHash;
 });

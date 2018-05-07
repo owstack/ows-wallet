@@ -41,8 +41,8 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
       rateService.whenAvailable(function() {
         $scope.listComplete = false;
 
-        var idx = lodash.indexBy(unusedCurrencyList, 'isoCode');
-        var idx2 = lodash.indexBy($scope.lastUsedAltCurrencyList, 'isoCode');
+        var idx = lodash.keyBy(unusedCurrencyList, 'isoCode');
+        var idx2 = lodash.keyBy($scope.lastUsedAltCurrencyList, 'isoCode');
 
         completeAlternativeList = lodash.reject(rateService.listAlternatives($scope.networkURI, true), function(c) {
           return idx[c.isoCode] || idx2[c.isoCode];

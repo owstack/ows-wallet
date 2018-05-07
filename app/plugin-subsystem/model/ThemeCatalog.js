@@ -3,8 +3,10 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function (Upg
 
   var _instance;
 
-  // Constructor
-  //
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
+
   function ThemeCatalog() {
     throw new Error('ThemeCatalog is a singleton, use getInstance()');
   };
@@ -33,8 +35,12 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function (Upg
     return new UpgradableCatalog(config, cb);
   };
 
-  // Static methods
-  //
+  /**
+   * Static methods
+   */
+
+  UpgradableCatalog.inheritStaticMethods(ThemeCatalog);
+
   ThemeCatalog.getInstance = function(cb) {
     if (!_instance) {
       createInstance(function(err, catalog) {
@@ -44,10 +50,6 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function (Upg
     }
     return _instance;
   };
-
-  // Static methods
-  //
-  UpgradableCatalog.inheritStaticMethods(ThemeCatalog);
 
   return ThemeCatalog;
 });

@@ -30,7 +30,7 @@ angular.module('owsWalletApp.pluginApi').service('restoreSession', function(loda
 		}
 
 		try {
-			session.restore(function(error) {
+			session.restore(function(error, data) {
 				if (error) {
 					throw new Error(error);
 
@@ -38,7 +38,7 @@ angular.module('owsWalletApp.pluginApi').service('restoreSession', function(loda
 			    message.response = {
 			      statusCode: 200,
 			      statusText: 'OK',
-			      data: {}
+			      data: data
 			    };
 				}
 			});

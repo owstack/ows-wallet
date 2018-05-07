@@ -2,15 +2,19 @@
 
 angular.module('owsWalletApp.pluginModel').factory('Theme', function (lodash) {
 
-   // Constructor
-   // See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz
+  /**
+   * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
+   */
+
   function Theme(obj) {
     lodash.assign(this, obj);
     return this;
   };
 
-  // Public methods
-  // 
+  /**
+   * Public methods
+   */
+
   Theme.prototype.canDelete = function() {
     return this.header.permissions['delete'];
   };

@@ -374,9 +374,9 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
 
       // Initialize the current theme.
       var config = configService.getSync();
-      if (!config.theme.id) {
+      if (lodash.get(config, 'theme.id') == undefined) {
         // Lazy init the configured theme.
-        config.theme.id = ThemeCatalog.getInstance().defaultThemeId;
+        lodash.set(config, 'theme.id', ThemeCatalog.getInstance().defaultThemeId);
 
         configService.set(config, function(err) {
           if (err) {

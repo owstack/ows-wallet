@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, $q, $state, lodash, Applet, Constants, PluginState, profileService, configService, appletSessionService, appletDataService, themeService, networkService) {
+angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, $q, $state, lodash, Applet, Constants, PluginState, profileService, configService, appletSessionService, appletDataService, themeService, networkService, popupService, gettextCatalog, ongoingProcessService) {
 
   var root = {};
 
@@ -498,7 +498,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
   function publishAppletServices() {
     $rootScope.applet = $rootScope.applet || {};
-		$rootScope.applet.close = function(sessionId) { return doCloseApplet(sessionId); };
+		$rootScope.applet.close = function(sessionId) { return confirmCloseApplet(sessionId); };
 		$rootScope.applet.open = function(applet) { return doOpenApplet(applet); };
   };
 
@@ -530,6 +530,15 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
           return applet.preferences.visible;
         });
       }
+
+      // Kind filter - remove applets that do not match the desired kind.
+      var kindFilter = filter.kind || {};
+
+      if (!lodash.isEmpty(kindFilter)) {
+        applets = lodash.filter(applets, function(applet) {
+          return applet.header.kind == kindFilter;
+        });
+      }
     }
     return applets;
   };
@@ -548,28 +557,42 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     return categories;
   };
 
-  function showApplet(session) {
-    appletSessionService.activateSession(session.id);
-    appletContainer.show();
-  };
-
-  function hideApplet(session) {
-    appletSessionService.deactivateSession(session.id);
-    appletContainer.remove();
-  };
-
+  // Opening an applet involves two elements; (1.) showing the modal and (2.) allowing the modal to init/render.
+  // For an applet to run at all the modal must be inserted into the DOM but this prompt ionic to visually render the modal.
+  // To prevent the modal from rendering on $modal.show() we initialize the modal html (ion-modal-view) with class 'ng-hide'.
+  // When the applet is ready to be shown the 'ng-hide' class is removed from the ion-modal-view allowing the modal to animate in.
+  // 
+  // Detecting when the applet is ready is accomplished waiting for the applet to send the /start message. When the /start message
+  // is received from the applet the 'Local/AppletStarted' event is broadcast. In the event handler we remove the 'ng-hide' class
+  // from the ion-modal-view. We also apply some animation to the main app view (view-container) for improved UX.
+  //
   function openApplet(applet) {
     // Create a session, container, and show the applet.
     appletSessionService.createSession(applet, function(session) {
-      $rootScope.$emit('Local/AppletEnter', applet);
+      $rootScope.$emit('$pre.beforeEnter', applet);
       appletContainer = applet.createContainer(session);
 
-      // Present the applet. allow some time to render before presentation.
+      // Present the applet after allowing the DOM to update.
       $timeout(function() {
-        showApplet(session);
+        appletSessionService.activateSession(session.id);
+        appletContainer.show();
+
+        $timeout(function() {
+          // Timeout allows the modal to get inserted into the DOM.
+          // Kill the modal backdrop for this (the applet) instance of the modal.
+          angular.element(document.getElementsByClassName('modal-backdrop-bg')[0]).css('opacity', '0');
+          angular.element(document.getElementsByClassName('modal-backdrop')[0]).css('background', 'none');          
+        });
       }, 50);
     });
   };
+
+  $rootScope.$on('Local/AppletStarted', function(event) {
+    // The applet has started, show the applet by removing the 'ng-hide' class. Also provide a zoom effect to the main
+    // app view for better UX.
+    angular.element(document.getElementsByClassName('view-container')[0]).addClass('zoom');
+    angular.element(document.getElementsByClassName('applet-view')[0]).removeClass('ng-hide');
+  });
 
   function openWallet(walletId) {
     var wallet = profileService.getWallet(walletId);
@@ -598,21 +621,47 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     }
   };
 
+  function confirmCloseApplet(sessionId) {
+    var session = appletSessionService.getSession(sessionId);
+    var applet = session.getApplet();
+
+    var title = gettextCatalog.getString('Close ' + applet.header.name + '?');
+    var message = gettextCatalog.getString('Are you sure you want to close the ' + applet.header.name + ' applet?');
+    var okText = gettextCatalog.getString('Yes');
+    var cancelText = gettextCatalog.getString('No');
+
+    popupService.showConfirm(title, message, okText, cancelText, function(confirmed) {
+      if (confirmed) {
+        doCloseApplet(sessionId);
+      }
+    });
+  };
+
   function doCloseApplet(sessionId) {
     var session = appletSessionService.getSession(sessionId);
     var applet = session.getApplet();
+
     $log.info('closing applet: ' + applet.header.name);
 
-    $rootScope.$emit('Local/AppletLeave', applet);
+    $rootScope.$emit('$pre.beforeLeave', applet);
 
-    hideApplet(session);
+    // Hide the modal, remove the 'zoom' class from the main app view (resets the presentation). Then, after animation
+    // has completed, remove the applet modal from the DOM.
+    appletContainer.hide();
+    angular.element(document.getElementsByClassName('view-container')[0]).removeClass('zoom');
+
+    $timeout(function() {
+      appletContainer.remove();
+    }, 300); // Value must match $v-applet-transition in applet.css
+
     applet.finalize(function() {
-      delete $rootScope.appletInfoPopover;
-      appletSessionService.destroySession(session.id);
+      appletSessionService.destroySession(session.id, function() {
 
-      // Reset applet services.
-      publishAppletServices();
+        // Reset applet services.
+        publishAppletServices();
+      });
     });
+
   };
 
   return root;

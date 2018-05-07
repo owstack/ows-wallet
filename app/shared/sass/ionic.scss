@@ -40,6 +40,8 @@ ion-tabs.ion-tabs-transparent {
   background: none transparent;
 }
 
+// Prevent the header bar from hiding during view transition.
+// Problem description at https://github.com/ionic-team/ionic/issues/8581
 ion-nav-bar.hide {
   display: block !important;
 }
