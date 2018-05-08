@@ -94,18 +94,19 @@ Object.keys(templates).forEach(function(k) {
           console.log(' #        ' + p + ' ' + config.plugins[p]);
         }
       });
+
+      // Sort dependencies (for convenience)
+      var orderedDependencies = {};
+      Object.keys(content.dependencies).sort().forEach(function(key) {
+        orderedDependencies[key] = content.dependencies[key];
+      });
+      content.dependencies = orderedDependencies;
+      
+      content = JSON.stringify(content, null, 2);
+
     } else {
-      console.log('None configured');
+      console.log(' #        None configured');
     }
-
-    // Sort dependencies (for convenience)
-    var orderedDependencies = {};
-    Object.keys(content.dependencies).sort().forEach(function(key) {
-      orderedDependencies[key] = content.dependencies[key];
-    });
-    content.dependencies = orderedDependencies;
-
-    content = JSON.stringify(content, null, 2);
   }
 
   if (!fs.existsSync('../' + targetDir)) {

@@ -269,7 +269,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     };
 
     var updateAllApplets = function() {
-      $scope.applets = appletService.getAppletsWithStateSync({kind: 'applet'});
+      $scope.applets = appletService.getAppletsWithStateSync();
     };
 
     var updateAllWallets = function() {

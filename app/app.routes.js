@@ -107,14 +107,13 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     });
 
   })
-  .run(function($rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfig, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService, pluginSubsystem) {
+  .run(function(configService, $rootScope, $state, $location, $log, $timeout, startupService, fingerprintService, ionicToast, $ionicHistory, $ionicPlatform, $window, appConfig, lodash, platformInfoService, profileService, uxLanguageService, gettextCatalog, openUrlService, storageService, scannerService, emailService, applicationService, pluginSubsystem) {
     // The following injected services need to run at startup.
     //
     //   fingerprintService
     //   startupService
     //   storageService
     //
-
     uxLanguageService.init();
 
     $ionicPlatform.ready(function() {
@@ -184,8 +183,10 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
         window.location = '#/preferences';
       });
 
+      // Begin app processing.
+      //
       $log.info('Init profile...');
-      // Try to open local profile
+
       profileService.loadAndBindProfile(function(err) {
         $ionicHistory.nextViewOptions({
           disableAnimate: true

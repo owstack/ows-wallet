@@ -286,5 +286,12 @@ angular.module('owsWalletApp.services').factory('storageService', function($log,
     fileStorageService.set(key, val, cb);
   };
 
+  root.removeValueByKey = function(key, cb) {
+    if (!fileSystemAPISupported) {
+      throw new Error('storageService#removeValueByKey called when storage service does not support it');
+    }
+    fileStorageService.remove(key, cb);
+  };
+
   return root;
 });

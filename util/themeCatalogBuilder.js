@@ -43,6 +43,10 @@ var getCatalog = function(catalogConfig) {
         catalog.themes[id] = theme;
         catalog.themes[id].uri = encodeURI(themesRoot + themeDirs[d] + '/');
 
+        // All themes inserted into the app catalog storage during the build process are marked as such.
+        // Themes inserted from a download should include a URL as the value.
+        catalog.themes[id].source = 'build';
+
         // Get the skins for the theme and attach to the catalog.
         if (theme.skins) {
           var skins = getSkins(theme.skins);
@@ -99,6 +103,10 @@ var getSkins = function(skinsConfig) {
 
         skins[id] = skin;
         skins[id].uri = encodeURI(skinsRoot + skinDirs[d] + '/');
+
+        // All skins inserted into the app catalog storage during the build process are marked as such.
+        // Skins inserted from a download should include a URL as the value.
+        skins[id].source = 'build';
 
         // Replace tags.
         var skinJSON = JSON.stringify(skins[id]);

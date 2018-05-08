@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('profileService', function($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientErrorService, uxLanguageService, platformInfoService, txFormatService, appConfig, networkService, walletService, uiService, addressBookService) {
+  .factory('profileService', function($rootScope, $timeout, $log, lodash, storageService, configService, gettextCatalog, walletClientErrorService, uxLanguageService, platformInfoService, txFormatService, appConfig, networkService, walletService, uiService, addressBookService, Profile) {
 
     var root = {};
     var isCordova = platformInfoService.isCordova;
@@ -251,49 +251,42 @@ angular.module('owsWalletApp.services')
     root.bindProfile = function(profile, cb) {
       root.profile = profile;
 
-      configService.get(function(err) {
-        if (err) {
-          return cb(err);
-        }
-        function bindWallets(cb) {
-          var l = root.profile.credentials.length;
-          var i = 0,
-            totalBound = 0;
+      function bindWallets(cb) {
+        var l = root.profile.credentials.length;
+        var i = 0,
+          totalBound = 0;
 
-          if (!l) {
-            return cb();
-          }
-
-          lodash.each(root.profile.credentials, function(credentials) {
-            root.bindWallet(credentials, function(err, bound) {
-              i++;
-              totalBound += bound;
-              if (i == l) {
-                $log.info('Bound ' + totalBound + ' out of ' + l + ' wallets');
-                return cb();
-              }
-            });
-          });
+        if (!l) {
+          return cb();
         }
 
-        bindWallets(function() {
-          root.isBound = true;
-
-          lodash.each(root._queue, function(x) {
-            $timeout(function() {
-              return x();
-            }, 1);
-          });
-          root._queue = [];
-
-
-
-          root.isDisclaimerAccepted(function(val) {
-            if (!val) {
-              return cb(new Error('NONAGREEDDISCLAIMER: Non agreed disclaimer'));
+        lodash.each(root.profile.credentials, function(credentials) {
+          root.bindWallet(credentials, function(err, bound) {
+            i++;
+            totalBound += bound;
+            if (i == l) {
+              $log.info('Bound ' + totalBound + ' out of ' + l + ' wallets');
+              return cb();
             }
-            return cb();
           });
+        });
+      }
+
+      bindWallets(function() {
+        root.isBound = true;
+
+        lodash.each(root._queue, function(x) {
+          $timeout(function() {
+            return x();
+          }, 1);
+        });
+        root._queue = [];
+
+        root.isDisclaimerAccepted(function(val) {
+          if (!val) {
+            return cb(new Error('NONAGREEDDISCLAIMER: Non agreed disclaimer'));
+          }
+          return cb();
         });
       });
     };
@@ -308,17 +301,25 @@ angular.module('owsWalletApp.services')
     };
 
     root.loadAndBindProfile = function(cb) {
-      storageService.getProfile(function(err, profile) {
+      // Initialize configService.
+      configService.get(function(err) {
         if (err) {
           $rootScope.$emit('Local/DeviceError', err);
           return cb(err);
         }
-        if (!profile) {
-          return cb(new Error('NOPROFILE: No profile'));
-        } else {
-          $log.debug('Profile read');
-          return root.bindProfile(profile, cb);
-        }
+
+        storageService.getProfile(function(err, profile) {
+          if (err) {
+            $rootScope.$emit('Local/DeviceError', err);
+            return cb(err);
+          }
+          if (!profile) {
+            return cb(new Error('NOPROFILE: No profile'));
+          } else {
+            $log.debug('Profile read');
+            return root.bindProfile(profile, cb);
+          }
+        });
       });
     };
 
@@ -743,20 +744,15 @@ angular.module('owsWalletApp.services')
       $log.info('Creating profile');
       var defaults = configService.getDefaults();
 
-      configService.get(function(err) {
+      var p = Profile.create();
+      storageService.createProfile(p, function(err) {
         if (err) {
-          $log.debug(err);
+          return cb(err);
         }
-        var p = Profile.create();
-        storageService.createProfile(p, function(err) {
-          if (err) {
-            return cb(err);
-          }
-          root.bindProfile(p, function(err) {
-            // ignore NONAGREEDDISCLAIMER
-            if (err && err.toString().match('NONAGREEDDISCLAIMER')) return cb();
-            return cb(err);
-          });
+        root.bindProfile(p, function(err) {
+          // ignore NONAGREEDDISCLAIMER
+          if (err && err.toString().match('NONAGREEDDISCLAIMER')) return cb();
+          return cb(err);
         });
       });
     };
@@ -783,9 +779,7 @@ angular.module('owsWalletApp.services')
 
     root.isDisclaimerAccepted = function(cb) {
       var disclaimerAccepted = root.profile && root.profile.disclaimerAccepted;
-      if (disclaimerAccepted) {
-        return cb(true);
-      }
+      return cb(disclaimerAccepted);
     };
 
     root.updateCredentials = function(credentials, cb) {
@@ -828,7 +822,11 @@ angular.module('owsWalletApp.services')
 
       // Short circuit
       if (ret.length == 0) {
-        return ret;
+        if (cb) {
+          cb(ret);
+        } else {
+          return ret;          
+        }
       }
 
       if (opts.networkURI) {

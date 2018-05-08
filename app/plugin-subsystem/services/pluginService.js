@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('pluginService', function($log, lodash, PluginCatalog, PluginState, appletService, apiService) {
+angular.module('owsWalletApp.pluginServices').factory('pluginService', function($rootScope, $log, lodash, PluginCatalog, PluginState, appletService, apiService) {
 	var root = {};
 
   // Read the plugin catalog and reconcile any upgrades or changes. Store the changed catalog if necessary.
@@ -31,6 +31,9 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
           $rootScope.$emit('Local/DeviceError', err);
           return;
         }
+
+        // Remove states for plugins no longer in the plugin catalog.
+        PluginState.clean();
 
         initAppletContext(catalog, state, function() {
           initServiceContext(catalog, state, function() {

@@ -96,6 +96,10 @@ var buildPluginCatalog = function(config) {
        throw new Error('Failed to install plugin \'' + pluginPath + '\': ' + ex);
     }
 
+    // All plugins inserted into the app catalog storage during the build process are marked as such.
+    // Plugins inserted from a download should include a URL as the value.
+    pluginConfig.source = 'build';
+
     switch (pluginConfig.header.kind) {
       case 'applet-builtin':
         // Apply properties from app package.json to builtin plugins.

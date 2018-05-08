@@ -14,6 +14,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginCatalog', function (Up
   function createInstance(cb) {
     var config = {
       startup: true,
+      source: 'build',
       name: 'PluginCatalog',
       catalogUpgrades: pluginCatalog,
       strings: [],

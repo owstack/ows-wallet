@@ -14,6 +14,7 @@ angular.module('owsWalletApp').constant('themeSchema',
     'previewImage',
     'store',
     'resources',
+    'source'
   ],
   'properties': {
     'header': {
@@ -95,6 +96,7 @@ angular.module('owsWalletApp').constant('themeSchema',
       'items': {'type': 'string'}
     },
     'uri': {'type': 'string'},
+    'source': {'type': 'string'},
     'configuration': {
       'type': 'object',
       'properties': {

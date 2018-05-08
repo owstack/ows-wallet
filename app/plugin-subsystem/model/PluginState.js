@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Constants, UpgradableCatalog, storageService, appletEnvironmentStateSchema, appletCategoryStateSchema, appletStateSchema, appConfig) {
+angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Constants, UpgradableCatalog, storageService, appletEnvironmentStateSchema, appletCategoryStateSchema, appletStateSchema, appConfig, PluginCatalog) {
 
   var _instance;
 
@@ -20,20 +20,29 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Cons
       appletCategory: []
     };
 
+    // This catalog should not reconcile differences with catalog upgrades.
+    // Use merge upgrades in order to preserve the state data.
     var config = {
       startup: true,
+      source: 'build',
       name: 'PluginState',
       catalogUpgrades: initialState,
       strings: [],
       collections: [{
         name: 'environment',
-        schema: appletEnvironmentStateSchema
+        schema: appletEnvironmentStateSchema,
+        reconcile: false,
+        upgradeOp: 'merge'
       }, {
         name: 'applet',
-        schema: appletStateSchema
+        schema: appletStateSchema,
+        reconcile: false,
+        upgradeOp: 'merge'
       }, {
         name: 'appletCategory',
-        schema: appletCategoryStateSchema
+        schema: appletCategoryStateSchema,
+        reconcile: false,
+        upgradeOp: 'merge'
       }],
       storage: {
         get: storageService.getPluginState,
@@ -58,6 +67,32 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Cons
       });
     }
     return _instance;
+  };
+
+  // Remove states and data for applets not in our catalog.
+  PluginState.clean = function() {
+    var appletStates = PluginState.getInstance().applet;
+    var plugins = PluginCatalog.getInstance().plugins;
+    var requiresSave = false;
+    
+    Object.keys(appletStates).forEach(function(id) {
+      if (!plugins[id]) {
+
+        // Remove the state information.
+        delete appletStates[id];
+
+        // Remove the applet data file.
+        storageService.removeValueByKey(id, function(err) {
+          $log.warn('Could not remove applet data storage: ' + err);
+        });
+
+        requiresSave = true;
+      }
+    });
+
+    if (requiresSave) {
+      PluginState.getInstance().save();
+    }
   };
 
   PluginState.getAppletEnvironmentStateTemplate = function() {

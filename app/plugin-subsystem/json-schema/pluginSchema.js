@@ -14,7 +14,8 @@ angular.module('owsWalletApp').constant('pluginSchema',
     'previewImage',
     'iconImage',
     'splashImage',
-    'uri'
+    'uri',
+    'source'
   ],
   'properties': {
     'header': {
@@ -100,6 +101,7 @@ angular.module('owsWalletApp').constant('pluginSchema',
     },
     'mainView': {'type': 'string'},
     'uri': {'type': 'string'},
+    'source': {'type': 'string'},
     'configuration': {
       'type': 'object',
       'properties': {

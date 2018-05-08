@@ -14,7 +14,8 @@ angular.module('owsWalletApp').constant('skinSchema',
     'previewImage',
     'store',
     'resources',
-    'uri'
+    'uri',
+    'source'
   ],
   'properties': {
     'header': {
@@ -98,6 +99,7 @@ angular.module('owsWalletApp').constant('skinSchema',
       'items': {'type': 'string'}
     },
     'uri': {'type': 'string'},
+    'source': {'type': 'string'},
     'configuration': {
       'type': 'object',
       'properties': {

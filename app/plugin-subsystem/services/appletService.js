@@ -50,10 +50,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     $log.debug('Initializing applet service');
 
     ctx = context;
-
-    appletDataService.init({
-      state: ctx.state
-    });
+    appletDataService.init(ctx);
 
     publishAppletServices();
 
@@ -389,6 +386,16 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
    * Private functions
    */
 
+  function appletBuiltinSupported() {
+    return Object.keys(ctx.applets).some(function(k) {
+      return ~k.indexOf(APPLET_IDENTIFIER_BUILTIN_PREFIX)
+    });
+  };
+
+  function appletWalletSupported() {
+    return !lodash.isUndefined(ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX]);
+  };
+
   // Return a promise for the collection of all available applets.
   function getApplets() {
     return new Promise(function (resolve, reject) {
@@ -466,33 +473,38 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
   function getWalletsAsApplets() {
     return new Promise(function (resolve, reject) {
-      profileService.getWallets({status: true}, function(wallets) {
+      if (appletWalletSupported()) {
+        profileService.getWallets({status: true}, function(wallets) {
 
-        var walletApplets = lodash.map(wallets, function(w) {
-          var applet = new Applet(createWalletAppletObj(w));
-          $rootScope.$emit('Local/WalletAppletUpdated', applet, w.walletId);
-          return lodash.cloneDeep(applet);
+          var walletApplets = lodash.map(wallets, function(w) {
+            var applet = new Applet(createWalletAppletObj(w));
+            $rootScope.$emit('Local/WalletAppletUpdated', applet, w.walletId);
+            return lodash.cloneDeep(applet);
+          });
+
+          resolve(lodash.sortBy(walletApplets, 'header.name'));
         });
-
-        resolve(lodash.sortBy(walletApplets, 'header.name'));
-      });
-    })
+      } else {
+        resolve([]);
+      }
+    });
   };
 
   function getBuiltinApplets() {
     var builtinApplets = [];
     var appletObj;
 
-    lodash.forEach(builtinCapabilities, function(capability) {
-      appletObj = lodash.cloneDeep(ctx.applets[capability.id]);
-      if (appletObj) {
-        appletObj.flags = Applet.FLAGS_MAY_NOT_HIDE;
-        appletObj.model = {};
-        appletObj.model.stateName = capability.stateName;
-        builtinApplets.push(new Applet(appletObj));        
-      }
-    });
-
+    if (appletBuiltinSupported()) {
+      lodash.forEach(builtinCapabilities, function(capability) {
+        appletObj = lodash.cloneDeep(ctx.applets[capability.id]);
+        if (appletObj) {
+          appletObj.flags = Applet.FLAGS_MAY_NOT_HIDE;
+          appletObj.model = {};
+          appletObj.model.stateName = capability.stateName;
+          builtinApplets.push(new Applet(appletObj));        
+        }
+      });
+    }
     return builtinApplets;
   };
 
