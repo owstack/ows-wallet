@@ -36,7 +36,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletDataService', funct
       }
       var data = oldData;
       lodash.merge(data, newData);
-      storageService.storeValueByKey(appletId, JSON.stringify(data), function() {
+      storageService.storeValueByKey(appletId, JSON.stringify(data), function(err) {
         if (!err) {
           // Track the write operation.
           trackAppletData(appletId, cb);

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('featureService', function(lodash, configService) {
+angular.module('owsWalletApp.services').factory('featureService', function($log, lodash, configService) {
   var root = {};
 
   var levels = [

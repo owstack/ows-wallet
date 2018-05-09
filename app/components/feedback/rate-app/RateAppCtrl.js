@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($rootScope, $scope, $state, $stateParams, $window, lodash, externalLinkService, platformInfoService, feedbackService, ongoingProcessService, configService, appConfig) {
+angular.module('owsWalletApp.controllers').controller('RateAppCtrl', function($rootScope, $scope, $state, $stateParams, $window, $log, lodash, externalLinkService, platformInfoService, feedbackService, ongoingProcessService, configService, appConfig) {
   $scope.score = parseInt($stateParams.score);
   var isAndroid = platformInfoService.isAndroid;
   var isIOS = platformInfoService.isIOS;

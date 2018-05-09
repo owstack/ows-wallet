@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('SessionLogCtrl',
-  function($scope, historicLogService, lodash, configService, gettextCatalog, appConfig) {
+  function($scope, $log,historicLogService, lodash, configService, gettextCatalog, appConfig) {
 
     var config = configService.getSync();
     var logLevels = historicLogService.getLevels();
@@ -30,7 +30,9 @@ angular.module('owsWalletApp.controllers').controller('SessionLogCtrl',
         }
       };
       configService.set(opts, function(err) {
-        if (err) $log.debug(err);
+        if (err) {
+          $log.debug(err);
+        }
       });
     };
 

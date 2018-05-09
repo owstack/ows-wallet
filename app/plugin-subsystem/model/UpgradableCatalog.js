@@ -133,30 +133,40 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
     // Existing entries are upgraded if version numbers are higher. New entries are added.
     // Any invalid entries are rejected and will not be saved.
     this.upgrade = function(catalogUpgrades, cb) {
+      cb = cb || function(){};
+
       _config.catalogUpgrades = catalogUpgrades;      
-      upgrade(function() {
+      upgrade.then(function() {
         // The catalog upgrades are no longer needed.
         delete _config.catalogUpgrades;
 
         cb();
+      }).catch(function(err) {
+        cb(err);
       });
     };
 
     // Save the whole catalog.
     this.save = function(cb) {
+      cb = cb || function(){};
+
       // Only the private copy of the catalog is saved; copy public values to private.
       _catalog = {};
       _catalog = lodash.pickBy(this, function(value, key) {
         return typeof value != 'function';
       });
 
-      set().then(function(err) {
+      set().then(function() {
+        cb();
+      }).catch(function(err) {
         cb(err);
       });
     };
 
     // Save a list of collection entries. 'ids' is an array of entries or a single entry.
     this.saveByCollection = function(collectionName, ids, cb) {
+      cb = cb || function(){};
+
       if (!Array.isArray(ids)) {
         ids = [ids];
       }
@@ -171,6 +181,8 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
 
     // Updates one or more entries 'header.updated' value with the current date/time.
     this.timestampById = function(collectionName, ids, cb) {
+      cb = cb || function(){};
+
       if (!Array.isArray(ids)) {
         ids = [ids];
       }

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Constants, UpgradableCatalog, storageService, appletEnvironmentStateSchema, appletCategoryStateSchema, appletStateSchema, appConfig, PluginCatalog) {
+angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log, Constants, UpgradableCatalog, storageService, appletEnvironmentStateSchema, appletCategoryStateSchema, appletStateSchema, appConfig, PluginCatalog) {
 
   var _instance;
 
@@ -83,7 +83,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function (Cons
 
         // Remove the applet data file.
         storageService.removeValueByKey(id, function(err) {
-          $log.warn('Could not remove applet data storage: ' + err);
+          $log.debug('Could not remove applet data storage for ' + id + ': ' + err);
         });
 
         requiresSave = true;

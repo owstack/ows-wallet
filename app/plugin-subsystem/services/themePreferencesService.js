@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('themePreferencesService', function($rootScope, lodash, themeCatalogService, themeService) {
+angular.module('owsWalletApp.pluginServices').factory('themePreferencesService', function($rootScope, $log, lodash, themeCatalogService, themeService) {
 
   var root = {};
 

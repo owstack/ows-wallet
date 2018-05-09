@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsCtrl', function($scope, $timeout, $ionicHistory, lodash, gettextCatalog, configService, feeService, ongoingProcessService, popupService, networkService, helpService) {
+angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsCtrl', function($scope, $timeout, $ionicHistory, $log, lodash, gettextCatalog, configService, feeService, ongoingProcessService, popupService, networkService, helpService) {
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
     $scope.networkURI = data.stateParams.networkURI;
@@ -52,7 +52,9 @@ angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsC
     };
 
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.debug(err);
+      }
       $timeout(function() {
         $scope.$apply();
       });
