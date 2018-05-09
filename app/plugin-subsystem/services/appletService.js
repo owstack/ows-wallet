@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, $q, $state, lodash, Applet, Constants, PluginState, profileService, configService, appletSessionService, appletDataService, themeService, networkService, popupService, gettextCatalog, ongoingProcessService) {
+angular.module('owsWalletApp.pluginServices').factory('appletService', function($ionicClickBlock, $rootScope, $log, $timeout, $q, $state, lodash, Applet, Constants, PluginState, profileService, configService, appletSessionService, appletDataService, themeService, networkService, popupService, gettextCatalog, ongoingProcessService) {
 
   var root = {};
 
@@ -657,12 +657,14 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
     $rootScope.$emit('$pre.beforeLeave', applet);
 
-    // Hide the modal, remove the 'zoom' class from the main app view (resets the presentation). Then, after animation
-    // has completed, remove the applet modal from the DOM.
-    appletContainer.hide();
+    // Kick-off modal closing animation by applying 'ng-leave'.
+    // Remove the 'zoom' class from the main app view (resets the presentation).
+    // Then, after animation has completed, force the modal to be hidden (apply 'ng-hide') and remove the applet modal from the DOM.
+    angular.element(appletContainer.modalEl).addClass('ng-leave');
     angular.element(document.getElementsByClassName('view-container')[0]).removeClass('zoom');
 
     $timeout(function() {
+      angular.element(appletContainer.modalEl).addClass('ng-hide');
       appletContainer.remove();
     }, 300); // Value must match $v-applet-transition in applet.css
 
