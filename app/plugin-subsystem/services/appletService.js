@@ -30,17 +30,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     category: 'Unknown' // The user assigned category (defaults to store category or unknown).
   };
 
-  var APPLET_IDENTIFIER_BUILTIN_PREFIX = 'org.openwalletstack.wallet.plugin.applet.builtin';
-  var APPLET_IDENTIFIER_WALLET_PREFIX = 'org.openwalletstack.wallet.plugin.applet.builtin.wallet';
-
-  var builtinCapabilities = [
-    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.createpersonal', stateName: 'add.create-personal' },
-    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.createshared', stateName: 'add.create-shared' },
-    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.importwallet', stateName: 'add.import' },
-    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.joinwallet', stateName: 'add.join' },
-    { id: APPLET_IDENTIFIER_BUILTIN_PREFIX + '.settings', stateName: 'settings' }
-  ];
-
   /**
    * Service state
    */
@@ -73,18 +62,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   /**
    * Queries
    */
-
-  root.isAppletBuiltin = function(applet) {
-    return applet.header.id.includes(APPLET_IDENTIFIER_BUILTIN_PREFIX);
-  };
-
-  root.isAppletExternal = function(applet) {
-    return !root.isAppletBuiltin(applet) && !root.isAppletWallet(applet);
-  };
-
-  root.isAppletWallet = function(applet) {
-    return applet.header.id.includes(APPLET_IDENTIFIER_WALLET_PREFIX);
-  };
 
   root.getAppletWithStateById = function(appletId) {
     var applets = root.getAppletsWithStateSync({
@@ -386,43 +363,19 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
    * Private functions
    */
 
-  function appletBuiltinSupported() {
-    return Object.keys(ctx.applets).some(function(k) {
-      return ~k.indexOf(APPLET_IDENTIFIER_BUILTIN_PREFIX)
-    });
-  };
-
-  function appletWalletSupported() {
-    return !lodash.isUndefined(ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX]);
-  };
-
   // Return a promise for the collection of all available applets.
   function getApplets() {
     return new Promise(function (resolve, reject) {
-      // Wallet applets.
-      getWalletsAsApplets().then(function(walletApplets) {
 
-        // External applets.
-        var applets = lodash.filter(ctx.applets, function(applet) {
-          return !applet.header.id.includes(APPLET_IDENTIFIER_BUILTIN_PREFIX);
-        });
-
-        applets = lodash.map(applets, function(applet) {
-          return new Applet(applet);
-        });
-
-        // Some builtin capabilities are exposed as applets.
-        var builtinApplets = getBuiltinApplets();
-
-        // TODO: validate schema of applets and reject invalid entries; will prevent down stream errors.
-
-        // Return a comprehensive list of all applets.
-        resolve(builtinApplets.concat(walletApplets).concat(applets));
-
-      }).catch(function handleErrors(error) {
-        reject(error);
+      var applets = lodash.map(ctx.applets, function(applet) {
+        return new Applet(applet);
       });
-    })
+
+      resolve(applets);
+
+    }).catch(function(err) {
+      reject(err);
+    });
   };
 
   function cacheAppletsWithState(applets) {
@@ -446,66 +399,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       }
       callback();
     });
-  };
-
-  // Creates an applet object from a wallet.
-  function createWalletAppletObj(wallet) {
-    var config = configService.getSync();
-    var configNetwork = config.currencyNetworks[wallet.networkURI];
-    var network = networkService.getNetworkByURI(wallet.networkURI);
-
-    var appletObj = lodash.cloneDeep(ctx.applets[APPLET_IDENTIFIER_WALLET_PREFIX]);
-    appletObj.header.id += '.' + wallet.id;
-    appletObj.header.name = wallet.alias || wallet.name;
-    appletObj.model = {
-      isoCode: network.isoCode,
-      unitName: configNetwork.unitName,
-      m: wallet.m,
-      n: wallet.n,
-      networkURI: wallet.networkURI,
-      walletId: wallet.id,
-      balance: status.totalBalanceStr ? status.totalBalanceStr : '&middot;&middot;&middot;',
-      altBalance: (status.totalBalanceAlternative ? status.totalBalanceAlternative + ' ' + wallet.status.alternativeIsoCode : '&middot;&middot;&middot;')
-    };
-
-    return appletObj;
-  };
-
-  function getWalletsAsApplets() {
-    return new Promise(function (resolve, reject) {
-      if (appletWalletSupported()) {
-        profileService.getWallets({status: true}, function(wallets) {
-
-          var walletApplets = lodash.map(wallets, function(w) {
-            var applet = new Applet(createWalletAppletObj(w));
-            $rootScope.$emit('Local/WalletAppletUpdated', applet, w.walletId);
-            return lodash.cloneDeep(applet);
-          });
-
-          resolve(lodash.sortBy(walletApplets, 'header.name'));
-        });
-      } else {
-        resolve([]);
-      }
-    });
-  };
-
-  function getBuiltinApplets() {
-    var builtinApplets = [];
-    var appletObj;
-
-    if (appletBuiltinSupported()) {
-      lodash.forEach(builtinCapabilities, function(capability) {
-        appletObj = lodash.cloneDeep(ctx.applets[capability.id]);
-        if (appletObj) {
-          appletObj.flags = Applet.FLAGS_MAY_NOT_HIDE;
-          appletObj.model = {};
-          appletObj.model.stateName = capability.stateName;
-          builtinApplets.push(new Applet(appletObj));        
-        }
-      });
-    }
-    return builtinApplets;
   };
 
   function publishAppletServices() {
@@ -606,31 +499,9 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     angular.element(document.getElementsByClassName('applet-view')[0]).removeClass('ng-hide');
   });
 
-  function openWallet(walletId) {
-    var wallet = profileService.getWallet(walletId);
-    if (!wallet.isComplete()) {
-      return $state.go($rootScope.sref('copayers'), {
-        walletId: walletId
-      });
-    }
-    $state.go($rootScope.sref('wallet'), {
-      walletId: walletId
-    });
-  };
-
-  function openCapability(stateName) {
-    $state.go($rootScope.sref(stateName));
-  };
-
   function doOpenApplet(applet) {
     $log.info('Opening applet: ' + applet.header.name);
-    if (root.isAppletWallet(applet)) {
-      openWallet(applet.model.walletId);
-    } else if (root.isAppletBuiltin(applet)) {
-      openCapability(applet.model.stateName);
-    } else {
-      openApplet(applet);
-    }
+    openApplet(applet);
   };
 
   function confirmCloseApplet(sessionId) {

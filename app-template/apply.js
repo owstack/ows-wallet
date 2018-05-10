@@ -89,10 +89,8 @@ Object.keys(templates).forEach(function(k) {
     if (Object.keys(config.plugins).length > 0) {
       content = JSON.parse(content);
       Object.keys(config.plugins).forEach(function(p) {
-        if (!p.includes('builtin')) { // Don't add builtin plugins to package dependencies
-          content.dependencies[p] = config.plugins[p];
-          console.log(' #        ' + p + ' ' + config.plugins[p]);
-        }
+        content.dependencies[p] = config.plugins[p];
+        console.log(' #        ' + p + ' ' + config.plugins[p]);
       });
 
       // Sort dependencies (for convenience)
@@ -136,7 +134,6 @@ copyDir('../resources/' + configDir + '/img', '../app/assets/img');
 copyDir(configDir + '/sass', '../app/shared/sass/overrides');
 copyDir(configDir + '/content', '../app/content');
 copyDir(configDir + '/fonts', '../app/assets/fonts');
-copyDir(configDir + '/builtin-plugins', '../app/builtin-plugins');
 copyDir(configDir + '/theme-catalog', '../app/theme-catalog');
 
 // Done
