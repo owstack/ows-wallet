@@ -92,7 +92,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     this.initEnvironment();
 
     var container = $ionicModal.fromTemplate('\
-      <ion-modal-view class="applet-view ng-hide">\
+      <ion-modal-view class="applet-view ng-hide" ng-controller="AppletViewCtrl">\
         <ion-footer-bar class="applet-footer-bar">\
           <button class="footer-bar-item item-center button button-clear button-icon button-applet-close"\
             ng-click="applet.close(\'' + session.id + '\')"></button>\
@@ -102,6 +102,9 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
             ng-hide="!applet.configuration.showSplash" ng-if="applet.view.splashBackground.length > 0"></div>\
           <iframe class="applet-frame" src="' + this.mainViewUrl() + '?sessionId=' + session.id + '"></iframe>\
         </ion-pane>\
+        <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
+          on-select="onWalletSelect" on-cancel="onCancel" has-tabs>\
+        </wallet-menu>\
       </ion-modal-view>\
       ', {
       scope: $rootScope,

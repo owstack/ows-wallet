@@ -11,13 +11,17 @@ angular.module('owsWalletApp.directives')
         show: '=show',
         wallets: '=wallets',
         selectedWallet: '=selectedWallet',
-        onSelect: '=onSelect'
+        onSelect: '=onSelect',
+        onCancel: '=onCancel'
       },
       link: function(scope, element, attrs) {
         scope.hasTabs = (attrs.hasTabs != undefined || (attrs.hasTabs == 'true') ? true : false);
 
         scope.hide = function() {
           scope.show = false;
+          if (scope.onCancel) {
+            scope.onCancel();
+          }
         };
         
         scope.selectWallet = function(wallet) {
