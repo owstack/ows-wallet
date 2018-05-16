@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log, Constants, UpgradableCatalog, storageService, appletEnvironmentStateSchema, appletCategoryStateSchema, appletStateSchema, appConfig, PluginCatalog) {
+angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log, lodash, Constants, UpgradableCatalog, storageService, appletEnvironmentStateSchema, appletCategoryStateSchema, appletStateSchema, servletStateSchema, appConfig, PluginCatalog) {
 
   var _instance;
 
@@ -17,7 +17,8 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log
         default: obj.getAppletEnvironmentStateTemplate()
       },
       applet: [],
-      appletCategory: []
+      appletCategory: [],
+      servlet: []
     };
 
     // This catalog should not reconcile differences with catalog upgrades.
@@ -43,6 +44,11 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log
         schema: appletCategoryStateSchema,
         reconcile: false,
         upgradeOp: 'merge'
+      }, {
+        name: 'servlet',
+        schema: servletStateSchema,
+        reconcile: false,
+        upgradeOp: 'merge'
       }],
       storage: {
         get: storageService.getPluginState,
@@ -54,17 +60,29 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log
   };
 
   /**
-   * Static methods
+   * Public functions
    */
 
-  UpgradableCatalog.inheritStaticMethods(PluginState);
+  UpgradableCatalog.inherit(PluginState);
 
-  PluginState.getInstance = function(cb) {
+  PluginState.create = function() {
+    var self = this;
+    return new Promise(function(resolve, reject) {
+      if (!_instance) {
+        createInstance(self, function(err, catalog) {
+          if (err) {
+            return reject(err);
+          }
+          _instance = catalog;
+          resolve(_instance);
+        });
+      }
+    });
+  };
+
+  PluginState.getInstance = function() {
     if (!_instance) {
-      createInstance(this, function(err, catalog) {
-        _instance = catalog;
-        cb(err, _instance);
-      });
+      throw new Error('PluginState.getInstance() called before creation');
     }
     return _instance;
   };
@@ -93,6 +111,40 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log
     if (requiresSave) {
       PluginState.getInstance().save();
     }
+  };
+
+  PluginState.getData = function(pluginId, cb) {
+    storageService.getValueByKey(pluginId, function(err, data) {
+      if (data) {
+        data = JSON.parse(data);
+      } else {
+        data = {};
+      }
+      $log.debug('Plugin data read (' + pluginId + '):', data);
+      return cb(err, data);
+    });
+  };
+
+  PluginState.setData = function(pluginId, newData, cb) {
+    storageService.getValueByKey(pluginId, function(err, oldData) {
+      oldData = oldData || {};
+      if (lodash.isString(oldData)) {
+        if (oldData.length == 0)
+          oldData = '{}';
+        oldData = JSON.parse(oldData);
+      }
+      if (lodash.isString(newData)) {
+        newData = JSON.parse(newData);
+      }
+      var data = oldData;
+      lodash.merge(data, newData);
+      storageService.storeValueByKey(pluginId, JSON.stringify(data), function(err) {
+        if (err) {
+          return cb(err);
+        }
+        auditOperation(pluginId, cb);
+      });
+    });
   };
 
   PluginState.getAppletEnvironmentStateTemplate = function() {
@@ -144,6 +196,29 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log
         }
       }
     };
+  };
+
+  PluginState.getServletStateTemplate = function() {
+    return {
+      'header': {
+        'created': '',
+        'updated': '',
+        'version': appConfig.version
+      },
+      'preferences': {
+      }
+    };
+  };
+
+  /**
+   * Private functions
+   */
+
+  function auditOperation(pluginId, cb) {
+    switch (PluginCatalog.getInstance().plugins[pluginId].header.kind) {
+      case 'applet': return PluginState.getInstance().timestampApplet(pluginId, cb); break;
+      case 'servlet': return PluginState.getInstance().timestampServlet(pluginId, cb); break;
+    }
   };
 
   return PluginState;

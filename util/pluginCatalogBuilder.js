@@ -8,18 +8,21 @@
 var fs = require('fs-extra');
 var path = require('path');
 var utils = require(path.resolve(__dirname, './utils'));
+var execSync = require('child_process').execSync;
 var appConfig;
 
 // Relative to the project root directory.
 var APP_PATH = './app/';
 var WWW_PATH = './www/';
+var TMP_PATH = './build/';
 var PLUGIN_ROOT = 'plugins/';
-var KNOWN_PLUGIN_KINDS = ['applet', 'service', 'applet-builtin'];
+
+var KNOWN_PLUGIN_KINDS = ['applet', 'servlet'];
 
 // Build app/app.plugins.js.
 // Publish plugin skins to the app theme directory.
 // 
-var buildPluginCatalog = function(config) {
+var buildPluginCatalog = function(config, mode) {
   var catalog = {
     plugins: {}
   };
@@ -35,27 +38,35 @@ var buildPluginCatalog = function(config) {
   var pluginList = Object.keys(appConfig.plugins);
   var pluginIds = [];
 
-  console.log('Plugins included in this build:');
+  console.log('Installing plugins...');
 
   for (var i = 0; i < pluginList.length; i++) {
+    var pluginNpmPath = pluginList[i]; // Path to plugin npm package
+    processPlugin(pluginNpmPath);
+  }
+
+  content += utils.cleanJSONQuotesOnKeys(JSON.stringify(catalog, null, 2));
+  content += ');\n';
+  fs.writeFileSync(APP_PATH + 'app.plugincatalog.js', content);
+  return;
+
+  // Called recursively to process all plugin dependencies.
+  function processPlugin(pluginNpmPath) {
 
     // Locate the plugin.
-    var pluginPath = pluginList[i]; // Path to plugin from app-template config location
     var pluginReleaseDir; // Directory containing the plugin installable release
     var pluginWwwDir; // Runtime plugin directory relative to www/
     var pluginInstallDir; // Plugin installation directory relative to project root
+    var pluginApisDir; // Temporary build scratch directory for accumulating plugin api's
 
-    if (pluginPath.includes('builtin')) {
-      // Builtin plugins
-      pluginReleaseDir = APP_PATH + pluginPath + '/';
-      pluginWwwDir = PLUGIN_ROOT + pluginPath + '/';
-      pluginInstallDir = WWW_PATH + pluginWwwDir;
-    } else {
-      // NPM plugins
-      pluginReleaseDir = 'node_modules/' + pluginPath + '/release/';
-      pluginWwwDir = PLUGIN_ROOT + pluginPath + '/';
-      pluginInstallDir = WWW_PATH + pluginWwwDir;
-    }
+    // NPM plugins
+    pluginReleaseDir = 'node_modules/' + pluginNpmPath + '/release/';
+    pluginWwwDir = PLUGIN_ROOT + pluginNpmPath + '/';
+    pluginInstallDir = WWW_PATH + pluginWwwDir;
+    pluginApisDir = TMP_PATH + 'plugin-apis/' + pluginNpmPath + '/';
+
+    fs.ensureDirSync(pluginInstallDir);
+    fs.ensureDirSync(pluginApisDir);
 
     // Read plugin configuration.
     var pluginConfig = utils.readJSON(pluginReleaseDir + 'plugin.json');
@@ -70,50 +81,45 @@ var buildPluginCatalog = function(config) {
       var re = new RegExp('<resource-' + n + '>', 'g');
       pluginJSON = pluginJSON.replace(re, pluginConfig.resources[n]);
     }
+    // End replace tags.
 
     pluginConfig = JSON.parse(pluginJSON);
 
     // Detect and fail if duplicate plugin id exists.
     if (pluginIds.indexOf(pluginConfig.header.id) >= 0) {
-      throw new Error('> ERROR - Duplicate plugin id detected: \'' + pluginConfig.header.id + '\'');
+      throw new Error('ERROR - Duplicate plugin id detected: \'' + pluginConfig.header.id + '\'');
     }
 
     var allowInstall = KNOWN_PLUGIN_KINDS.includes(pluginConfig.header.kind);
 
     if (!allowInstall) {
-      throw new Error('> ERROR - unknown plugin kind [' + pluginConfig.header.kind + ']');
+      throw new Error('ERROR - unknown plugin kind [' + pluginConfig.header.kind + ']');
     }
 
     // Install the plugin; fail script if unable to install.
     try {
-      fs.ensureDirSync(pluginInstallDir);
       fs.copySync(pluginReleaseDir + 'www', pluginInstallDir);
+      fs.copySync(pluginReleaseDir + 'api', pluginApisDir); // Grunt references this location.
 
-      // Don't push skin configuration files to app.
+      // Don't push plugin skin configuration files to app.
       utils.removeFilesByTypeRecursive(pluginInstallDir + 'skins', 'json');
 
     } catch (ex) {
-       throw new Error('Failed to install plugin \'' + pluginPath + '\': ' + ex);
+       throw new Error('Failed to install plugin \'' + pluginNpmPath + '\': ' + ex);
     }
 
-    // All plugins inserted into the app catalog storage during the build process are marked as such.
-    // Plugins inserted from a download should include a URL as the value.
+    // All plugins inserted into the app catalog storage during the build process have 'build' as the 'source'.
+    // Plugins inserted from a download should include a URL as the value of 'source'.
     pluginConfig.source = 'build';
 
     switch (pluginConfig.header.kind) {
-      case 'applet-builtin':
-        // Apply properties from app package.json to builtin plugins.
-        var pkg = utils.readJSON('package.json');
-        pluginConfig.header.version = pkg.version;
-        pluginConfig.header.author = pkg.author;
-        // break; // Fall through to handle normal applet processing.
-
       case 'applet':
-        // Complete the main view.
+        // Check the main view path.
         if (pluginConfig.mainView && pluginConfig.mainView.indexOf('/') >= 0) {
           throw new Error('Applet in \'' + filelist[i] + '\' should not include a path in \'mainView\'. Use only the view name; e.g., \'index.html\'.');
         }
 
+        // Set the default skin id for the plugin.
         var skinsMessage = 'No skins';
         if (pluginConfig.skins && Object.keys(pluginConfig.skins).length > 0) {
           skinsMessage = 'Skins for this plugin:';
@@ -132,9 +138,27 @@ var buildPluginCatalog = function(config) {
             pluginConfig.defaultSkinId = s[0];
           }
         }
+
+        // Process plugin dependencies.
+        if (pluginConfig.dependencies) {
+          Object.keys(pluginConfig.dependencies).forEach(function(id) {
+            // Install the dependant plugin package.
+            // Only allowed one package; silently ignore any others.
+            var pkgName = Object.keys(pluginConfig.dependencies[id].package)[0];
+            var ver = pluginConfig.dependencies[id].package[pkgName].replace('^', '');
+
+            if (mode != 'dev') {
+              execSync('npm install ' + pkgName + '@' + ver, { cwd: '.', stdio: [0,1,2] });
+            }
+
+            // Recursively process the newly installed plugin.
+            processPlugin(pkgName);
+          });
+        }
+
         break;
 
-      case 'service':
+      case 'servlet':
         // Nothing to do.
         break;
     }
@@ -145,20 +169,20 @@ var buildPluginCatalog = function(config) {
     // Remember that we installed this plugin.
     pluginIds.push(pluginConfig.header.id);
 
-    var installSummary = '>   [' + pluginConfig.header.kind + '] \'' + pluginPath + '\'@' + pluginConfig.header.version + ' (' + pluginConfig.header.id + ')' + '\n';
+    var installSummary = '>>  [' + pluginConfig.header.kind + '] \'' + pluginNpmPath + '\'@' + pluginConfig.header.version + ' (' + pluginConfig.header.id + ')' + '\n';
     (skinsMessage ? installSummary += '    ' + skinsMessage + '\n' : null);
     if (pluginConfig.dependencies && Object.keys(pluginConfig.dependencies).length > 0) {
-      installSummary += '    dependencies=' + Object.keys(pluginConfig.dependencies) + '\n';
+      installSummary += '    Dependencies\n';
+      Object.keys(pluginConfig.dependencies).forEach(function(d){
+        installSummary += '      ' + d + '\n';
+      });
+
     } else {
       installSummary += '    No dependencies' + '\n';
     }
 
     console.log(installSummary);
-  }
-
-  content += utils.cleanJSONQuotesOnKeys(JSON.stringify(catalog, null, 2));
-  content += ');\n';
-  fs.writeFileSync(APP_PATH + 'app.plugincatalog.js', content);
+  };
 };
 
 module.exports = {

@@ -1,45 +1,49 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('pluginService', function($rootScope, $log, lodash, PluginCatalog, PluginState, appletService, apiService) {
+angular.module('owsWalletApp.pluginServices').factory('pluginService', function($rootScope, $log, lodash, PluginCatalog, PluginState, appletService, servletService, apiService, pluginSessionService) {
 	var root = {};
 
   // Read the plugin catalog and reconcile any upgrades or changes. Store the changed catalog if necessary.
   // Read plugin state.
-  // Initialize the applet service with context (applets and state).
-  // Initialize the service delegate with context (services and state).
+  // Initialize the applet and servlet services with context (applets and state).
   // Initialize the plugin api.
   // 
-  root.init = function(cb) {
-    $log.info('Initializing plugin service');
+  root.init = function() {
+    return new Promise(function(resolve, reject) {
+      $log.info('Initializing plugin service');
 
-    if (!PluginCatalog.supportsWriting()) {
-      var err = 'Fatal: Plugin service initilization - device does not provide storage for plugins';
-      $rootScope.$emit('Local/DeviceError', err);
-      return;
-    }
-
-    PluginCatalog.getInstance(function(err, catalog) {
-      if (err) {
-        $log.debug('Error reading plugin catalog');
-        $rootScope.$emit('Local/DeviceError', err);
+      if (!PluginCatalog.supportsWriting()) {
+        $log.error('Plugin service initilization - device does not provide storage for plugins');
         return;
       }
 
-      PluginState.getInstance(function(err, state) {
-        if (err) {
-          $log.debug('Error reading plugin state');
-          $rootScope.$emit('Local/DeviceError', err);
-          return;
-        }
+      var context = {};
+
+      PluginCatalog.create().then(function(catalog) {
+        context.catalog = catalog;
+        return PluginState.create();
+
+      }).then(function(state) {
+        context.state = state;
 
         // Remove states for plugins no longer in the plugin catalog.
         PluginState.clean();
+        return;
 
-        initAppletContext(catalog, state, function() {
-          initServiceContext(catalog, state, function() {
-            apiService.init(cb);
-          });
-        });
+      }).then(function() {
+        return initAppletContext(context);
+
+      }).then(function() {
+        return initServletContext(context);
+
+      }).then(function() {
+        apiService.init();
+        resolve();
+
+      }).catch(function(error) {
+        $log.error('Error initializing plugin service: ' + error);
+        reject();
+
       });
     });
   };
@@ -47,34 +51,35 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
   root.finalize = function() {
     $log.info('Finalizing plugin service');
     appletService.finalize();
+    servletService.finalize();
+    pluginSessionService.finalize();
     // TODO - finalize services
   };
 
-  function initAppletContext(catalog, state, cb) {
-    var applets = lodash.pickBy(catalog.plugins, function(plugin) {
-      return plugin.header.kind.includes('applet');
+  function initAppletContext(ctx) {
+    var applets = lodash.pickBy(ctx.catalog.plugins, function(plugin) {
+      return plugin.header.kind == 'applet';
     });
 
     var context = {
       applets: applets,
-      state: state
+      state: ctx.state
     };
 
-    appletService.init(context, cb);
+    return appletService.init(context);
   };
 
-  function initServiceContext(catalog, state, cb) {
-    var services = lodash.pickBy(catalog.plugins, function(plugin) {
-      return plugin.header.kind.includes('service');
+  function initServletContext(ctx) {
+    var servlets = lodash.pickBy(ctx.catalog.plugins, function(plugin) {
+      return plugin.header.kind == 'servlet';
     });
 
     var context = {
-      services: services,
-      state: state
+      servlets: servlets,
+      state: ctx.state
     };
 
-    // TODO
-    cb();
+    return servletService.init(context);
   };
 
   return root;

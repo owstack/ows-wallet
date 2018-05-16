@@ -7,6 +7,8 @@ var appConfigBuilder = require(path.resolve(__dirname, './appConfigBuilder'));
 var pluginCatalogBuilder = require(path.resolve(__dirname, './pluginCatalogBuilder'));
 var themeCatalogBuilder = require(path.resolve(__dirname, './themeCatalogBuilder'));
 
-var appConfig = appConfigBuilder.build();
-pluginCatalogBuilder.build(appConfig);
-themeCatalogBuilder.build(appConfig);
+var mode = process.argv[2];
+
+var appConfig = appConfigBuilder.build(mode);
+pluginCatalogBuilder.build(appConfig, mode);
+themeCatalogBuilder.build(appConfig, mode);

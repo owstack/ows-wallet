@@ -38,7 +38,7 @@ var getCatalog = function(catalogConfig) {
       var theme = utils.readJSON(themesPath + themeDirs[d] + '/theme.json');
       if (theme.header.id == id) {
         // Match, set the URI for the theme.
-        console.log('> \'' + theme.header.name + '\'@' + theme.header.version + ' (' + id + ')');
+        console.log('>> \'' + theme.header.name + '\'@' + theme.header.version + ' (' + id + ')');
 
         catalog.themes[id] = theme;
         catalog.themes[id].uri = encodeURI(themesRoot + themeDirs[d] + '/');
@@ -76,7 +76,7 @@ var getCatalog = function(catalogConfig) {
     }
 
     if (!catalog.themes[id].uri) {
-      console.log('> WARNING - theme not found [' + id + '] \', app-template/theme-catalog/themes/ does not define this theme');
+      console.log('WARNING - theme not found [' + id + '] \', app-template/theme-catalog/themes/ does not define this theme');
     }
   }
 
@@ -124,13 +124,13 @@ var getSkins = function(skinsConfig) {
     }
 
     if (!skins[id].uri) {
-      console.log('> WARNING - skin not found [' + id + '] \', app-template/theme-catalog/skins/ does not define this skin');
+      console.log('WARNING - skin not found [' + id + '] \', app-template/theme-catalog/skins/ does not define this skin');
     }
   }
   return skins;
 };
 
-var buildThemeCatalog = function(appConfig) {
+var buildThemeCatalog = function(appConfig, debug) {
   var appConfig = utils.readJSON('./app.config.json');
   var themeCatalog = getCatalog(appConfig.themeCatalog);
 

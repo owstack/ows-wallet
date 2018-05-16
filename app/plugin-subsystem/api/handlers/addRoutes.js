@@ -1,12 +1,14 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('getAppletForSession', function(lodash, appletSessionService) {
+angular.module('owsWalletApp.pluginApi').service('addRoutes', function(lodash, ApiRouter, pluginSessionService) {
 
 	var root = {};
 
   root.respond = function(message, callback) {
 	  // Request parameters.
     var sessionId = message.request.params.id;
+    var routes = message.request.data.routes;
+    var target = message.request.data.target;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -18,7 +20,7 @@ angular.module('owsWalletApp.pluginApi').service('getAppletForSession', function
   	}
 
 		// Get the session.
-		var session = appletSessionService.getSession(sessionId);
+		var session = pluginSessionService.getSession(sessionId);
 
 		if (lodash.isUndefined(session)) {
 	    message.response = {
@@ -29,24 +31,15 @@ angular.module('owsWalletApp.pluginApi').service('getAppletForSession', function
 			return callback(message);
 		}
 
-		try {
-  		// Get the applet.
-			var applet = session.getApplet();
-	    message.response = {
-	      statusCode: 200,
-	      statusText: 'OK',
-	      data: applet
-	    };
-			return callback(message);
+    ApiRouter.addRoutes(session, routes, target);
 
-		} catch(ex) {
-	    message.response = {
-	      statusCode: 500,
-	      statusText: ex.message,
-	      data: {}
-	    };
-			return callback(message);
-		}
+    message.response = {
+      statusCode: 200,
+      statusText: 'OK',
+      data: {}
+    };
+
+		return callback(message);
 	};
 
   return root;

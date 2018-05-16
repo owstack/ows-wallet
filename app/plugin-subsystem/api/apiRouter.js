@@ -1,37 +1,97 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('apiRouter', function (lodash, pathToRegexpService) {
+angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, pathToRegexpService) {
 
-  var root = {};
-
-  // API routes.
-  // A match is made by searching routes in order, the first match returns the route.
-  //
+  /**
+   * API routes.
+   *
+   * A match is made by searching routes in order, the first match returns the route.
+   */
   var routeMap = [
-    { path: '/start',                                  method: 'POST', handler: 'start' },
-    { path: '/session/:id',                            method: 'GET',  handler: 'getSession' },
-    { path: '/session/:id/applet',                     method: 'GET',  handler: 'getAppletForSession' },
-    { path: '/session/:id/choosewallet',               method: 'GET',  handler: 'chooseWallet' },
-    { path: '/session/:id/flush',                      method: 'POST', handler: 'flushSession' },
-    { path: '/session/:id/restore',                    method: 'POST', handler: 'restoreSession' },
-    { path: '/session/:id/var/:name',                  method: 'GET',  handler: 'getSessionVar' },
-    { path: '/session/:id/var/:name',                  method: 'POST', handler: 'setSessionVar' },
-    { path: '/applet/:id/service/:pluginId/init',      method: 'POST', handler: 'initService' },
-    { path: '/applet/:id/service/:pluginId/:fn',       method: 'POST', handler: 'callService' },
-    { path: '/info/platform',                          method: 'GET',  handler: 'getPlatformInfo' }
+    { path: '/start',                    method: 'POST',   handler: 'start' },
+    { path: '/ready',                    method: 'POST',   handler: 'ready' },
+    { path: '/session/:id',              method: 'GET',    handler: 'getSession' },
+    { path: '/session/:id/choosewallet', method: 'GET',    handler: 'chooseWallet' },
+    { path: '/session/:id/flush',        method: 'POST',   handler: 'flushSession' },
+    { path: '/session/:id/restore',      method: 'POST',   handler: 'restoreSession' },
+    { path: '/session/:id/routes',       method: 'POST',   handler: 'addRoutes' },
+    { path: '/session/:id/var/:name',    method: 'GET',    handler: 'getSessionVar' },
+    { path: '/session/:id/var/:name',    method: 'POST',   handler: 'setSessionVar' },
+    { path: '/info/platform',            method: 'GET',    handler: 'getPlatformInfo' }
   ];
 
-  root.routeRequest = function(request) {
+  /**
+   * Constructor
+   */
+
+  function ApiRouter() {
+    throw new Error('ApiRouter is a static class');
+  };
+
+  /**
+   * Public methods
+   */
+
+  /** Add forwarding routes to our route map.
+   * 
+   * session - the plugin session of the requestor.
+   * routes - the routes to add for the requestor.
+   * targetId - the routable destination of the requestor (an id reference to an iFrame window).
+   * 
+   * A route map entry with a targetId will always be a forwarder.
+   * 
+   * routes: [{
+   *   path: <string>
+   *   method: <string>
+   *   handler: [optional] <string>
+   * }]
+   *
+   * where,
+   *
+   * path - the URL for routing a request.
+   * method - an HTTP operation; GET or POST.
+   * handler - currently ignored.
+   */
+  ApiRouter.addRoutes = function(session, routes, targetId) {
+    // Set the handler for each route to be a forwarder.
+    routes = lodash.map(routes, function(value) {
+      value.handler = 'forwarder';
+      value.targetId = targetId;
+      return value;
+    });
+
+    // Add the routes to the route map and retain the target id in the session as a reference to
+    // the route owner.
+    routeMap = lodash.concat(routeMap, routes);
+    session.set('targetId', targetId, {transient: true});
+  };
+
+  ApiRouter.removeRoutes = function(session, targetId) {
+    // Remove all routes matching the specified target id.
+    var target = session.get('targetId');
+    lodash.remove(routeMap, function(r) {
+      return r.targetId == targetId;
+    });
+  };
+
+  ApiRouter.routeRequest = function(request) {
     var route = {};
     var m = false;
 
     for (var i = 0; i < routeMap.length; i++) {
       m = match(routeMap[i], request, route);
-      if (m) break;
+      if (m) {
+        break;
+      }
     }
 
-    return (lodash.isEmpty(route) ? undefined : route);
+    // Reply with a copy so our route map doesn't get written to.
+    return (lodash.isEmpty(route) ? undefined : lodash.cloneDeep(route));
   };
+
+  /**
+   * Private static methods
+   */
 
   function match(mapEntry, request, route) {
     var keys = [];
@@ -49,6 +109,7 @@ angular.module('owsWalletApp.pluginApi').service('apiRouter', function (lodash, 
     route.params = {};
     route.path = m[0];
     route.handler = mapEntry.handler;
+    route.targetId = mapEntry.targetId;
 
     // Assign url parameters to the request.
     for (var i = 1; i < m.length; i++) {
@@ -82,5 +143,5 @@ angular.module('owsWalletApp.pluginApi').service('apiRouter', function (lodash, 
     }
   }
 
-  return root;
+  return ApiRouter;
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $log, $injector, $ionicModal, lodash, PluginCatalog, ServiceDelegate) {
+angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $log, $ionicModal, lodash) {
 
   // Bit values for settings.
   // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
@@ -23,40 +23,49 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     lodash.assign(this, lodash.cloneDeep(obj));
     this.configuration = lodash.merge(lodash.cloneDeep(defaultConfiguration), obj.configuration);
 
-    var serviceDelegates = {};
+    var container;
 
     /**
      * Priviledged methods
      */
 
-    this.initEnvironment = function() {
-    };
-
-    this.initService = function(pluginId) {
-      var serviceIndex = lodash.findIndex(this.services, function(service) {
-        return service.pluginId == pluginId;
-      });
-
-      if (serviceIndex < 0) {
-        throw new Error('Configuration for skin \'' + this.skin.header.name + '\' is missing required configuration for service plugin id \'' + pluginId + '\'');
-      }
-
-      // Find the plugin specified service class in the registry, use $injector to get the factory object,
-      // and create a new service instance.  Using the $injector here allows this class (factory) from having
-      // to declare dependencies on dynamically defined (plugin) service classes (factory's).
-      var serviceApi = PluginCatalog.getServiceApi(pluginId);
-      var service = $injector.get(serviceApi);
-  //    return eval(new service(this.services[serviceIndex]));
-      var service = eval(new service(this.services[serviceIndex]));
-      serviceDelegates[pluginId] = new ServiceDelegate(service);
-    };
-
-    this.getServiceDelegate = function(pluginId) {
-      return serviceDelegates[pluginId];
+    this.getContainer = function() {
+      return container;
     };
 
     this.finalize = function(callback) {
       callback();
+    };
+
+    this.createContainer = function(session) {
+      container = $ionicModal.fromTemplate('\
+        <ion-modal-view class="applet-view ng-hide" ng-controller="AppletViewCtrl">\
+          <ion-footer-bar class="applet-footer-bar">\
+            <button class="footer-bar-item item-center button button-clear button-icon button-applet-close"\
+              ng-click="applet.close(\'' + session.id + '\')">\
+            </button>\
+          </ion-footer-bar>\
+          <ion-pane>\
+            <div class="applet-splash fade-splash"\
+              ng-hide="!applet.configuration.showSplash" ng-if="applet.view.splashBackground.length > 0">\
+            </div>\
+            <iframe class="applet-frame" src="' + this.uri + 'index.html?sessionId=' + session.id + '"></iframe>\
+          </ion-pane>\
+          <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
+            on-select="onWalletSelect" on-cancel="onCancel" has-tabs>\
+          </wallet-menu>\
+        </ion-modal-view>\
+        ', {
+        scope: $rootScope,
+        backdropClickToClose: false,
+        hardwareBackButtonClose: false,
+        animation: 'none', // Disable ionic animation, animation provided by animate.css in applet.css
+        hideDelay: 1000,
+        session: session,
+        name: 'applet'
+      });
+
+      return container;
     };
 
     return this;
@@ -70,54 +79,19 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     if (modal.name != 'applet') {
       return;
     }
-    $rootScope.$emit('$pre.afterEnter', modal.session.getApplet());
+    $rootScope.$emit('$pre.afterEnter', modal.session.plugin);
   });
 
   $rootScope.$on('modal.hidden', function(event, modal) {
     if (modal.name != 'applet') {
       return;
     }
-    $rootScope.$emit('$pre.afterLeave', modal.session.getApplet());
+    $rootScope.$emit('$pre.afterLeave', modal.session.plugin);
   });
 
   /**
    * Public methods
    */
-
-  Applet.prototype.mainViewUrl = function() {
-    return this.uri + (this.mainView || 'index.html');
-  };
-
-  Applet.prototype.createContainer = function(session) {
-    this.initEnvironment();
-
-    var container = $ionicModal.fromTemplate('\
-      <ion-modal-view class="applet-view ng-hide" ng-controller="AppletViewCtrl">\
-        <ion-footer-bar class="applet-footer-bar">\
-          <button class="footer-bar-item item-center button button-clear button-icon button-applet-close"\
-            ng-click="applet.close(\'' + session.id + '\')"></button>\
-        </ion-footer-bar>\
-        <ion-pane>\
-          <div class="applet-splash fade-splash"\
-            ng-hide="!applet.configuration.showSplash" ng-if="applet.view.splashBackground.length > 0"></div>\
-          <iframe class="applet-frame" src="' + this.mainViewUrl() + '?sessionId=' + session.id + '"></iframe>\
-        </ion-pane>\
-        <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
-          on-select="onWalletSelect" on-cancel="onCancel" has-tabs>\
-        </wallet-menu>\
-      </ion-modal-view>\
-      ', {
-      scope: $rootScope,
-      backdropClickToClose: false,
-      hardwareBackButtonClose: false,
-      animation: 'none', // Disable ionic animation, animation provided by animate.css in applet.css
-      hideDelay: 1000,
-      session: session,
-      name: 'applet'
-    });
-
-    return container;
-  };
 
   Applet.prototype.open = function() {
     // Invoke rootScope published function to avoid dependency on appletService.

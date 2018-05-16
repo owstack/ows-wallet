@@ -1,12 +1,13 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('getSession', function(lodash, pluginSessionService) {
+angular.module('owsWalletApp.pluginApi').service('ready', function($rootScope, $log, lodash, servletService, pluginSessionService) {
 
 	var root = {};
 
   root.respond = function(message, callback) {
 	  // Request parameters.
-    var sessionId = message.request.params.id;
+    var data = message.request.data;
+    var sessionId = data.sessionId;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -29,13 +30,16 @@ angular.module('owsWalletApp.pluginApi').service('getSession', function(lodash, 
 			return callback(message);
 		}
 
+		servletService.startServlets(session, { startMode: 'auto' });
+
     message.response = {
       statusCode: 200,
       statusText: 'OK',
-      data: session
+      data: {}
     };
-		return callback(message);
-	};
+
+    return callback(message);
+  };
 
   return root;
 });

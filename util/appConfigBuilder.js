@@ -20,11 +20,21 @@ var getCommitHash = function() {
   return hash;
 };
 
-var buildAppConfig = function(appConfig) {
+var buildAppConfig = function(mode) {
+  if (mode == 'dev') {
+    console.log('**************************************************');
+    console.log('*** appConfigBuilder running in development mode ***');
+    console.log('**************************************************');    
+  }
+
   var pkg = utils.readJSON('./package.json');
 
   var appConfig = utils.readJSON('./app.config.json');
   appConfig.commitHash = getCommitHash();
+
+  if (mode == 'dev') {
+    appConfig.isDevelopmentMode = true;
+  }
 
   console.log('v' + appConfig.version + ' #' + appConfig.commitHash + ' App:' + appConfig.name);
 

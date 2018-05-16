@@ -13,7 +13,6 @@ angular.module('owsWalletApp').constant('pluginSchema',
     'galleryImage',
     'previewImage',
     'iconImage',
-    'splashImage',
     'uri',
     'source'
   ],
@@ -60,9 +59,12 @@ angular.module('owsWalletApp').constant('pluginSchema',
         'delete': {'type': 'boolean'}
       }
     },
+    'skins': {'type': 'object'},
+    'servlets': {'type': 'object'},
     'model': {'type': 'object'},
     'galleryImage': {'type': 'string'},
     'previewImage': {'type': 'string'},
+    'splashImage': {'type': 'string'},
     'store': {
       'type': 'object',
       'required': [
@@ -99,7 +101,6 @@ angular.module('owsWalletApp').constant('pluginSchema',
       'type': 'array',
       'items': {'type': 'string'}
     },
-    'mainView': {'type': 'string'},
     'uri': {'type': 'string'},
     'source': {'type': 'string'},
     'configuration': {
@@ -107,8 +108,6 @@ angular.module('owsWalletApp').constant('pluginSchema',
       'properties': {
         'flags': {'type': 'number'}
       }
-    },
-    'skins': {'type': 'object'},
-    'dependencies': {'type': 'object'}
+    }
   }
 });

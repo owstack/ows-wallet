@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodash, appletSessionService) {
+angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodash, pluginSessionService) {
 
 	var root = {};
 
@@ -8,7 +8,6 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
 	  // Request parameters.
     var sessionId = message.request.params.id;
     var name = message.request.params.name;
-    var publish = (message.request.params.publish ? true : false);
     var value = message.request.data;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
@@ -21,7 +20,7 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
   	}
 
 		// Get the session.
-		var session = appletSessionService.getSession(sessionId);
+		var session = pluginSessionService.getSession(sessionId);
 
 		if (lodash.isUndefined(session)) {
 	    message.response = {
@@ -34,7 +33,7 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
 
 		try {
 
-			session.set(name, value, publish);
+			session.set(name, value);
 
 	    message.response = {
 	      statusCode: 200,

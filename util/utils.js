@@ -8,6 +8,10 @@ var readJSON = function(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 };
 
+var writeFile = function(file, content) {
+  fs.writeFileSync(file, content, 'utf8');
+};
+
 var cleanJSONQuotesOnKeys = function(json) {
   return json.replace(/"(\w+)"\s*:/g, '$1:');
 };

@@ -170,7 +170,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
     }
     return index;
   };
-*/
+
   // Read the provided theme definition (from the app configuration) and push it to the $rootScope.
   // Doing this makes the theme and skin available for the UI.
   root._bootstrapTheme = function(themeConfig, callback) {
@@ -270,7 +270,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       $log.debug('Error: failed to GET local skin resources, ensure your skin files are valid JSON' + (error.message ? ': \'' + error.message + '\'': ''));
     });
   };
-/*
+
   root._buildCatalog = function(callback) {
 
     // Write the published theme and skin to the app configuration.
@@ -362,37 +362,36 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
   // Store catalog catalog if any.
   // Set the current theme.
   // 
-  root.init = function(callback) {
-    $log.debug('Initializing theme service');
+  root.init = function() {
+    return new Promise(function(resolve, reject) {
+      $log.debug('Initializing theme service');
 
-    ThemeCatalog.getInstance(function(err, catalog) {
-      if (err) {
-        $log.debug('Error reading theme catalog');
-        $rootScope.$emit('Local/DeviceError', err);
-        return;
-      }
+      ThemeCatalog.create().then(function(catalog) {
+        // Initialize the current theme.
+        var config = configService.getSync();
+        if (lodash.get(config, 'theme.id') == undefined) {
+          // Lazy init the configured theme.
+          lodash.set(config, 'theme.id', ThemeCatalog.getInstance().defaultThemeId);
 
-      // Initialize the current theme.
-      var config = configService.getSync();
-      if (lodash.get(config, 'theme.id') == undefined) {
-        // Lazy init the configured theme.
-        lodash.set(config, 'theme.id', ThemeCatalog.getInstance().defaultThemeId);
+          configService.set(config, function(err) {
+            if (err) {
+              $log.error(err);
+              return reject(err);
+            }
+            currentThemeId = configService.getSync().theme.id;
+            $rootScope.$emit('Local/ThemeUpdated');
 
-        configService.set(config, function(err) {
-          if (err) {
-            $log.debug(err);
-          }
-          currentThemeId = configService.getSync().theme.id;
+            resolve();
+          });
+        } else {
+          currentThemeId = config.theme.id;
           $rootScope.$emit('Local/ThemeUpdated');
+        }
 
-          return callback();
-        });
-      } else {
-        currentThemeId = config.theme.id;
-        $rootScope.$emit('Local/ThemeUpdated');
-      }
-
-      return callback();
+        resolve();
+      }).catch(function(err) {
+        reject(err);
+      });
     });
   };
 /*
@@ -632,16 +631,15 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       return (new Skin(skin)).isVanity();
     });
   };
-*/
+
   // getAppletSkins() - return only the collection of skins that are applets.
   // 
   root.getAppletSkins = function() {
-return [];
     return lodash.filter(root.getPublishedSkins(), function(skin) {
       return (new Skin(skin)).isApplet();
     });
   };
-/*
+
   // setAppletByNameForWallet() - sets the skin for the specified wallet.
   // 
   root.setAppletByNameForWallet = function(skinName, walletId, callback) {

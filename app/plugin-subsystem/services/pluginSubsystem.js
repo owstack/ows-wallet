@@ -4,10 +4,15 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSubsystem', functio
 	var root = {};
 
   root.init = function(callback) {
-    themeService.init(function() {
-      pluginService.init(function() {
+    themeService.init().then(function() {
+      return pluginService.init();
+
+    }).then(function() {
         callback();
-      });
+
+    }).catch(function(error) {
+        $log.error('Could not initialize theme service: ' + error);
+
     });
   };
 

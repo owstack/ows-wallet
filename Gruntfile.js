@@ -4,12 +4,14 @@ module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
 
+  var mode = (grunt.cli.tasks[0] == 'prod' ? 'prod' : 'dev');
+
   // Project Configuration
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     exec: {
       appConfig: {
-        command: 'node ./util/buildAppConfig.js'
+        command: 'node ./util/buildAppConfig.js ' + mode
       },
       clean: {
         command: 'rm -Rf bower_components node_modules'
@@ -122,8 +124,6 @@ module.exports = function(grunt) {
           'angular-bch-wallet-client/angular-bch-wallet-client.js',
           'angular-btc-wallet-client/angular-btc-wallet-client.js',
           //'angular-ltc-wallet-client/angular-ltc-wallet-client.js'
-          // Used for plugin api router
-          'angular-path-to-regexp/angular-path-to-regexp.js',
           // Trezor device integration
           'bower_components/trezor-connect/connect.js',
           // Used for slide-to-accept
@@ -156,6 +156,12 @@ module.exports = function(grunt) {
           'www/css/main.css'
         ],
         dest: 'www/css/main.css'
+      },
+      plugin_api_js: {
+        src: [
+          'build/plugin-apis/**/*.js',
+        ],
+        dest: 'www/lib/ows-wallet-plugin-apis.js'
       }
     },
     nggettext_extract: {
@@ -179,6 +185,7 @@ module.exports = function(grunt) {
       }
     },
     clean: {
+      build: ['build/'],
       www: ['www/']
     },
     copy: {
@@ -319,8 +326,7 @@ module.exports = function(grunt) {
         files: {
           'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
           'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
-          //'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js'],
-          'angular-path-to-regexp/angular-path-to-regexp.js': ['angular-path-to-regexp/index.js']
+          //'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js']
         },
         options: {
           exclude: ['www/index.html']
@@ -334,13 +340,15 @@ module.exports = function(grunt) {
       prod: {
         files: {
           'www/js/app.js': ['www/js/app.js'],
-          'www/lib/components.js': ['www/lib/components.js']
+          'www/lib/components.js': ['www/lib/components.js'],
+          'www/lib/ows-wallet-plugin-apis.js': ['www/lib/ows-wallet-plugin-apis.js']
         }
       }
     }
   });
 
   grunt.registerTask('default', [
+    'clean:build',
     'clean:www',
     'nggettext_compile',
     'sass',

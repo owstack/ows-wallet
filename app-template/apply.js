@@ -82,36 +82,38 @@ Object.keys(templates).forEach(function(k) {
 
   // Remove any template designation from file name
   k = k.replace('-template', '');
-  if (k === 'package.json') {
 
-    // Add configured plugins to package.json dependencies
+  // Add configured plugins to package.json dependencies
+  if (k === 'package.json') {
     console.log(' #      Plugins to install:');
     if (Object.keys(config.plugins).length > 0) {
-      content = JSON.parse(content);
+      var pkg = JSON.parse(content);
       Object.keys(config.plugins).forEach(function(p) {
-        content.dependencies[p] = config.plugins[p];
+        pkg.dependencies[p] = config.plugins[p];
         console.log(' #        ' + p + ' ' + config.plugins[p]);
       });
 
       // Sort dependencies (for convenience)
       var orderedDependencies = {};
-      Object.keys(content.dependencies).sort().forEach(function(key) {
-        orderedDependencies[key] = content.dependencies[key];
+      Object.keys(pkg.dependencies).sort().forEach(function(key) {
+        orderedDependencies[key] = pkg.dependencies[key];
       });
-      content.dependencies = orderedDependencies;
+      pkg.dependencies = orderedDependencies;
       
-      content = JSON.stringify(content, null, 2);
+      content = JSON.stringify(pkg, null, 2);
 
     } else {
       console.log(' #        None configured');
     }
   }
 
+  // Write the target file.
   if (!fs.existsSync('../' + targetDir)) {
     fs.mkdirSync('../' + targetDir);
   }
   fs.writeFileSync('../' + targetDir + k, content, 'utf8');
 });
+
 console.log('Done configuring application');
 
 // Write app configuration file

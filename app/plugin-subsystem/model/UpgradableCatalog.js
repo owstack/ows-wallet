@@ -438,7 +438,7 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
     // Upgrade the _catalog using the specified catalog.
     function upgradeCatalog(catalogUpgrades) {
       // No upgrades during startup unless the app version has changed.
-      if (_config.startup && _lastSavedAppVersion == appConfig.version) {
+      if (_config.startup && _lastSavedAppVersion == appConfig.version && !appConfig.isDevelopmentMode) {
         $log.debug(_config.name + ': no upgrades');
         _config.startup = false;
         return [];
@@ -467,7 +467,15 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
       //
       // Upgrade each collection in the catalog.
       lodash.forEach(_config.collections, function(collection) {
-        // Ensure the catalog contains an entry for each collection, even if it is empty.
+        // Ensure the catalog contains an entry for each collection, log upgrade if it is new.
+        if (lodash.isUndefined(_catalog[collection.name])) {
+          // Add a new collection.
+          upgrades.push({
+            collection: collection.name,
+            entry: '',
+            action: 'add'
+          });
+        }
         _catalog[collection.name] = _catalog[collection.name] || {};
 
         // Set the upgrade operation for this collection. Default is 'replace'.
@@ -493,7 +501,7 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
 
             // Upgrade existing entry only for higher version numbers.
             var currentVersion = entry.header.version;
-            if (entry && (candidateEntry.header.version.localeCompare(currentVersion) > 0)) {
+            if ((semverCompare(candidateEntry.header.version, currentVersion) > 0) || appConfig.isDevelopmentMode) {
 
               switch (opts.upgradeOp) {
                 case 'replace':
@@ -513,6 +521,9 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
 
               entry.header.updated = now;
               entry.header.created = originalEntry.header.created; // Preserve created timestamp through upgrade.
+
+              // Update the catalog.
+              _catalog[collection.name][id] = entry;
 
               upgrades.push({
                 collection: collection.name,
@@ -558,10 +569,27 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
       return prefix + string.charAt(0).toUpperCase() + string.slice(1);
     };
 
+    // See https://www.npmjs.com/package/semver-compare
+    // a > b, return 1
+    // a < b, return -1
+    // a == b, return 0
+    function semverCompare (a, b) {
+      var pa = a.split('.');
+      var pb = b.split('.');
+      for (var i = 0; i < 3; i++) {
+        var na = Number(pa[i]);
+        var nb = Number(pb[i]);
+        if (na > nb) return 1;
+        if (nb > na) return -1;
+        if (!isNaN(na) && isNaN(nb)) return 1;
+        if (isNaN(na) && !isNaN(nb)) return -1;
+      }
+      return 0;
+    };
   };
 
   /**
-   * Static methodsß
+   * Public functions
    */
 
   UpgradableCatalog.supportsWriting = function() {
@@ -572,8 +600,8 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
     return storageService.getApplicationDirectory();
   };
 
-  UpgradableCatalog.inheritStaticMethods = function(obj) {
-    // Assign UpgradableCatalog static methods.
+  UpgradableCatalog.inherit = function(obj) {
+    // Assign UpgradableCatalog public functions.
     Object.getOwnPropertyNames(UpgradableCatalog).filter(function (p) {
       if (typeof UpgradableCatalog[p] === 'function') {
         obj[p] = UpgradableCatalog[p];

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('restoreSession', function(lodash, appletSessionService) {
+angular.module('owsWalletApp.pluginApi').service('restoreSession', function(lodash, pluginSessionService) {
 
 	var root = {};
 
@@ -18,7 +18,7 @@ angular.module('owsWalletApp.pluginApi').service('restoreSession', function(loda
   	}
 
 		// Get the session.
-		var session = appletSessionService.getSession(sessionId);
+		var session = pluginSessionService.getSession(sessionId);
 
 		if (lodash.isUndefined(session)) {
 	    message.response = {

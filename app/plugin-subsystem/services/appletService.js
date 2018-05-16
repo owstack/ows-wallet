@@ -1,10 +1,9 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletService', function($ionicClickBlock, $rootScope, $log, $timeout, $q, $state, lodash, Applet, Constants, PluginState, profileService, configService, appletSessionService, appletDataService, themeService, networkService, popupService, gettextCatalog, ongoingProcessService) {
+angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, lodash, Applet, Constants, PluginState, pluginSessionService, themeService, popupService, gettextCatalog, servletService) {
 
   var root = {};
 
-  var appletContainer = {};
   var appletsWithStateCache = [];
   var activeCategory = {};
   var ctx;
@@ -35,28 +34,26 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
    */
 
   // Set our context (plugins and state), init sub-services, and construct (get) all applets.
-  root.init = function(context, callback) {
-    $log.debug('Initializing applet service');
+  root.init = function(context) {
+    return new Promise(function(resolve, reject) {
+      $log.debug('Initializing applet service');
 
-    ctx = context;
-    appletDataService.init(ctx);
+      ctx = context;
+      publishAppletServices();
 
-    publishAppletServices();
-
-    root.getAppletsWithState({}, function(applets) {
-      $log.debug('Applet service initialized');
-      callback();
+      root.getAppletsWithState({}, function(applets) {
+        $log.debug('Applet service initialized');
+        resolve();
+      });
     });
   };
 
   root.finalize = function() {
     // Close any currently running applet.
-    var activeSession = appletSessionService.getActiveSession();
+    var activeSession = pluginSessionService.getActiveSession();
     if (!lodash.isUndefined(activeSession)) {
       doCloseApplet(activeSession.id);
     }
-
-    appletSessionService.finalize();
   };
 
   /**
@@ -463,24 +460,24 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   // Opening an applet involves two elements; (1.) showing the modal and (2.) allowing the modal to init/render.
-  // For an applet to run at all the modal must be inserted into the DOM but this prompt ionic to visually render the modal.
+  // For an applet to run at all the modal must be inserted into the DOM but this prompts ionic to visually render the modal.
   // To prevent the modal from rendering on $modal.show() we initialize the modal html (ion-modal-view) with class 'ng-hide'.
   // When the applet is ready to be shown the 'ng-hide' class is removed from the ion-modal-view allowing the modal to animate in.
   // 
   // Detecting when the applet is ready is accomplished waiting for the applet to send the /start message. When the /start message
-  // is received from the applet the 'Local/AppletStarted' event is broadcast. In the event handler we remove the 'ng-hide' class
+  // is received from the applet the 'Local/PluginStarted' event is broadcast. In the event handler we remove the 'ng-hide' class
   // from the ion-modal-view. We also apply some animation to the main app view (view-container) for improved UX.
   //
   function openApplet(applet) {
-    // Create a session, container, and show the applet.
-    appletSessionService.createSession(applet, function(session) {
+    // Create a session, start dependent servlets, create the container, and show the applet.
+    pluginSessionService.createSession(applet, function(session) {
       $rootScope.$emit('$pre.beforeEnter', applet);
-      appletContainer = applet.createContainer(session);
+      applet.createContainer(session);
 
       // Present the applet after allowing the DOM to update.
       $timeout(function() {
-        appletSessionService.activateSession(session.id);
-        appletContainer.show();
+        pluginSessionService.activateSession(session.id);
+        applet.getContainer().show();
 
         $timeout(function() {
           // Timeout allows the modal to get inserted into the DOM.
@@ -492,7 +489,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
-  $rootScope.$on('Local/AppletStarted', function(event) {
+  $rootScope.$on('Local/PluginStarted', function(event, sessionId) {
     // The applet has started, show the applet by removing the 'ng-hide' class. Also provide a zoom effect to the main
     // app view for better UX.
     angular.element(document.getElementsByClassName('view-container')[0]).addClass('zoom');
@@ -505,8 +502,8 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   function confirmCloseApplet(sessionId) {
-    var session = appletSessionService.getSession(sessionId);
-    var applet = session.getApplet();
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
 
     var title = gettextCatalog.getString('Close ' + applet.header.name + '?');
     var message = gettextCatalog.getString('Are you sure you want to close the ' + applet.header.name + ' applet?');
@@ -521,29 +518,32 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   function doCloseApplet(sessionId) {
-    var session = appletSessionService.getSession(sessionId);
-    var applet = session.getApplet();
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
 
-    $log.info('closing applet: ' + applet.header.name);
+    $log.info('Closing applet: ' + applet.header.name);
 
     $rootScope.$emit('$pre.beforeLeave', applet);
 
     // Kick-off modal closing animation by applying 'ng-leave'.
     // Remove the 'zoom' class from the main app view (resets the presentation).
     // Then, after animation has completed, force the modal to be hidden (apply 'ng-hide') and remove the applet modal from the DOM.
-    angular.element(appletContainer.modalEl).addClass('ng-leave');
+    angular.element(applet.getContainer().modalEl).addClass('ng-leave');
     angular.element(document.getElementsByClassName('view-container')[0]).removeClass('zoom');
 
     $timeout(function() {
-      angular.element(appletContainer.modalEl).addClass('ng-hide');
-      appletContainer.remove();
+      angular.element(applet.getContainer().modalEl).addClass('ng-hide');
+      applet.getContainer().remove();
     }, 300); // Value must match $v-applet-transition in applet.css
 
     applet.finalize(function() {
-      appletSessionService.destroySession(session.id, function() {
+      // Shutdown all dependent servlets for this plugin.
+      servletService.shutdownServlets(session).then(function() {
+        pluginSessionService.destroySession(session.id, function() {
 
-        // Reset applet services.
-        publishAppletServices();
+          // Reset applet services.
+          publishAppletServices();
+        });
       });
     });
 

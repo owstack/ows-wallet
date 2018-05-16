@@ -37,17 +37,28 @@ angular.module('owsWalletApp.pluginModel').factory('ThemeCatalog', function (Upg
   };
 
   /**
-   * Static methods
+   * Public functions
    */
 
-  UpgradableCatalog.inheritStaticMethods(ThemeCatalog);
+  UpgradableCatalog.inherit(ThemeCatalog);
 
-  ThemeCatalog.getInstance = function(cb) {
+  ThemeCatalog.create = function() {
+    return new Promise(function(resolve, reject) {
+      if (!_instance) {
+        createInstance(function(err, catalog) {
+          if (err) {
+            return reject(err);
+          }
+          _instance = catalog;
+          resolve(_instance);
+        });
+      }
+    });
+  };
+
+  ThemeCatalog.getInstance = function() {
     if (!_instance) {
-      createInstance(function(err, catalog) {
-        _instance = catalog;
-        cb(err, _instance);
-      });
+      throw new Error('ThemeCatalog.getInstance() called before creation');
     }
     return _instance;
   };
