@@ -292,7 +292,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
       $rootScope.$emit('$pre.beforeLeave', servlet);
 
       servlet.shutdown();
-      servlet.finalize(function(session) {
+      servlet.finalize(session, function() {
         pluginSessionService.destroySession(session.id, function() {
           resolve();
         });

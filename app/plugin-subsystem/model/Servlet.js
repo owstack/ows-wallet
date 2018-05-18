@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootScope, $log, $ionicModal, lodash) {
+angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootScope, $log, lodash, ApiRouter) {
 
   // Bit values for settings.
   // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
@@ -38,7 +38,7 @@ angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootSco
 
     this.finalize = function(session, callback) {
       // Remove my host routes.
-      ApiRouter.removeRoutes(session, this.uri);
+      ApiRouter.removeRoutes(session);
       callback();
     };
 

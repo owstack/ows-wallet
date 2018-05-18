@@ -8,7 +8,6 @@ angular.module('owsWalletApp.pluginApi').service('addRoutes', function(lodash, A
 	  // Request parameters.
     var sessionId = message.request.params.id;
     var routes = message.request.data.routes;
-    var target = message.request.data.target;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -31,7 +30,7 @@ angular.module('owsWalletApp.pluginApi').service('addRoutes', function(lodash, A
 			return callback(message);
 		}
 
-    ApiRouter.addRoutes(session, routes, target);
+    ApiRouter.addRoutes(session, routes);
 
     message.response = {
       statusCode: 200,

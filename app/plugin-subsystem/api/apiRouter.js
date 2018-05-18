@@ -8,16 +8,18 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
    * A match is made by searching routes in order, the first match returns the route.
    */
   var routeMap = [
-    { path: '/start',                    method: 'POST',   handler: 'start' },
-    { path: '/ready',                    method: 'POST',   handler: 'ready' },
-    { path: '/session/:id',              method: 'GET',    handler: 'getSession' },
-    { path: '/session/:id/choosewallet', method: 'GET',    handler: 'chooseWallet' },
-    { path: '/session/:id/flush',        method: 'POST',   handler: 'flushSession' },
-    { path: '/session/:id/restore',      method: 'POST',   handler: 'restoreSession' },
-    { path: '/session/:id/routes',       method: 'POST',   handler: 'addRoutes' },
-    { path: '/session/:id/var/:name',    method: 'GET',    handler: 'getSessionVar' },
-    { path: '/session/:id/var/:name',    method: 'POST',   handler: 'setSessionVar' },
-    { path: '/info/platform',            method: 'GET',    handler: 'getPlatformInfo' }
+    { path: '/start',                     method: 'POST',   handler: 'start' },
+    { path: '/ready',                     method: 'POST',   handler: 'ready' },
+    { path: '/info/platform',             method: 'GET',    handler: 'getPlatformInfo' },
+    { path: '/session/:id',               method: 'GET',    handler: 'getSession' },
+    { path: '/session/:id/choosewallet',  method: 'GET',    handler: 'chooseWallet' },
+    { path: '/session/:id/flush',         method: 'POST',   handler: 'flushSession' },
+    { path: '/session/:id/restore',       method: 'POST',   handler: 'restoreSession' },
+    { path: '/session/:id/routes',        method: 'POST',   handler: 'addRoutes' },
+    { path: '/session/:id/var/:name',     method: 'GET',    handler: 'getSessionVar' },
+    { path: '/session/:id/var/:name',     method: 'POST',   handler: 'setSessionVar' },
+    { path: '/wallet/:id/createtx',       method: 'POST',   handler: 'createTx' },
+    { path: '/wallet/:id/sendtx/:txid',   method: 'POST',   handler: 'sendTx' }
   ];
 
   /**
@@ -36,7 +38,6 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
    * 
    * session - the plugin session of the requestor.
    * routes - the routes to add for the requestor.
-   * targetId - the routable destination of the requestor (an id reference to an iFrame window).
    * 
    * A route map entry with a targetId will always be a forwarder.
    * 
@@ -52,8 +53,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
    * method - an HTTP operation; GET or POST.
    * handler - currently ignored.
    */
-  ApiRouter.addRoutes = function(session, routes, targetId) {
+  ApiRouter.addRoutes = function(session, routes) {
     // Set the handler for each route to be a forwarder.
+    var targetId = session.plugin.uri;
     routes = lodash.map(routes, function(value) {
       value.handler = 'forwarder';
       value.targetId = targetId;
@@ -66,8 +68,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
     session.set('targetId', targetId, {transient: true});
   };
 
-  ApiRouter.removeRoutes = function(session, targetId) {
+  ApiRouter.removeRoutes = function(session) {
     // Remove all routes matching the specified target id.
+    var targetId = session.plugin.uri;
     var target = session.get('targetId');
     lodash.remove(routeMap, function(r) {
       return r.targetId == targetId;
