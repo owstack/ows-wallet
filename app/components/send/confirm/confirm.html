@@ -9,12 +9,12 @@
       <ion-item class="tx-header">
         <div class="tx-label">
           <img src="img/icon-tx-sent-outline.svg">
-          <span translate ng-if="!tx.sendMax">Sending</span>
-          <span translate ng-if="tx.sendMax">Sending maximum amount</span>
+          <span translate ng-if="!tx.useSendMax">Sending</span>
+          <span translate ng-if="tx.useSendMax">Sending maximum amount</span>
         </div>
         <div class="tx-amount-wrapper">
           <div class="tx-amount">{{tx.amountValueStr || '&middot;&middot;&middot;'}} <span class="tx-unit">{{tx.amountAtomicStr}}</span></div>
-          <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr || '&middot;&middot;&middot;'}}</div>
+          <div class="tx-alternative" ng-show="isLivenet(tx.networkURI)">{{tx.alternativeAmountStr || '&middot;&middot;&middot;'}}</div>
         </div>
       </ion-item>
       <!-- No wallet -->
@@ -59,7 +59,7 @@
         <div class="item item-sub has-click item-icon-left icon-left-md" ng-if="!tx.recipientType &&tx.paypro"
           ng-class="{'has-detail': tx.toName}">
           <i class="icon md-icon left-icon">
-            <img ng-src="img/currency-icons/icon-{{tx.currency}}.svg">
+            <img ng-src="https://www.google.com/s2/favicons?domain={{tx.paypro.domain}}">
           </i>
           <div ng-if="tx.paypro">
             <i ng-show="tx.paypro.verified && tx.paypro.caTrusted" class="ion-locked text-success"></i>
@@ -103,19 +103,22 @@
         <i class="icon arrow-right"></i>
       </ion-item>
       <!-- Fee -->
-      <ion-item class="has-label item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx, wallet)">
+      <ion-item class="has-label item-icon-right" ng-if="wallet" ng-click="chooseFeeLevel(tx)">
         <span class="input-label" translate>Fee</span>
         <span class="item-note">{{tx.feeLevelName | translate}}</span>
         <div class="item item-sub has-detail item-fh">
-          <div>{{tx.txp[wallet.id].feeStr || '&middot;&middot;&middot;'}}</div>
+          <div>{{tx.feeStr || '&middot;&middot;&middot;'}}</div>
           <span class="item-detail">
-            <span>{{tx.txp[wallet.id].alternativeFeeStr || '&middot;&middot;&middot;'}}
-              <span class="fee-rate" ng-if="tx.txp[wallet.id].feeRatePerStr">&nbsp;&middot;
-                <span ng-show="tx.txp[wallet.id].feeTooHigh">&nbsp;
-                  <i class="ion-alert-circled text-warning" ng-show="tx.txp[wallet.id].feeTooHigh"></i>
+            <span>
+              <span ng-if="isLivenet(tx.networkURI)">{{tx.alternativeFeeStr || '&middot;&middot;&middot;'}}&nbsp;&middot;</span>
+              <span class="fee-rate" ng-if="tx.feeRatePerStr">
+                
+                <span ng-show="tx.feeTooHigh">&nbsp;
+                  <i class="ion-alert-circled text-warning"></i>
                 </span>
-                <span class="fee-rate" ng-class="{'text-warning': tx.txp[wallet.id].feeTooHigh}" translate>
-                  {{tx.txp[wallet.id].feeRatePerStr}}  of the sending amount
+                
+                <span class="fee-rate" ng-class="{'text-warning': tx.feeTooHigh}" translate>
+                  {{tx.feeRatePerStr}} of the sending amount
                 </span>
               </span>
             </span>
@@ -134,11 +137,11 @@
       </ion-item>
     </ion-list>
   </ion-content>
-  <click-to-accept ng-click="approve(tx, wallet, statusChangeHandler)" ng-if="!isCordova && wallet" click-send-status="sendStatus"
+  <click-to-accept ng-click="approve()" ng-if="!isCordova && wallet" click-send-status="sendStatus"
     is-disabled="!wallet">
     {{buttonText}}
   </click-to-accept>
-  <slide-to-accept ng-if="isCordova && wallet" on-confirm="approve(tx, wallet, statusChangeHandler)" status="sendStatus" is-disabled="!wallet">
+  <slide-to-accept ng-if="isCordova && wallet" on-confirm="approve()" status="sendStatus" is-disabled="!wallet">
     {{buttonText}}
   </slide-to-accept>
   <slide-to-accept-success show="sendStatus === 'success'" on-confirm="onSuccessConfirm()" hide-on-confirm="true">

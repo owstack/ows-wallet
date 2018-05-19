@@ -43,8 +43,6 @@ node_modules
 bower_components
 angular-bch-wallet-client/angular-bch-wallet-client.js
 angular-btc-wallet-client/angular-btc-wallet-client.js
-angular-bitauth/angular-bitauth.js
-angular-path-to-regexp/angular-path-to-regexp.js
 
 # Users Environment Variables
 .lock-wscript

@@ -139,7 +139,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
       if (res) {
         $scope.loading = true;
 
-        walletService.reject($scope.wallet, $scope.tx, function(err, txpr) {
+        walletService.rejectTx($scope.wallet, $scope.tx, function(err, txpr) {
           if (err)
             return setError(err, gettextCatalog.getString('Could not reject payment.'));
 
