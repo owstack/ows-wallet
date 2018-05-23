@@ -8,18 +8,19 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
    * A match is made by searching routes in order, the first match returns the route.
    */
   var routeMap = [
-    { path: '/start',                     method: 'POST',   handler: 'start' },
-    { path: '/ready',                     method: 'POST',   handler: 'ready' },
-    { path: '/info/platform',             method: 'GET',    handler: 'getPlatformInfo' },
-    { path: '/session/:id',               method: 'GET',    handler: 'getSession' },
-    { path: '/session/:id/choosewallet',  method: 'GET',    handler: 'chooseWallet' },
-    { path: '/session/:id/flush',         method: 'POST',   handler: 'flushSession' },
-    { path: '/session/:id/restore',       method: 'POST',   handler: 'restoreSession' },
-    { path: '/session/:id/routes',        method: 'POST',   handler: 'addRoutes' },
-    { path: '/session/:id/var/:name',     method: 'GET',    handler: 'getSessionVar' },
-    { path: '/session/:id/var/:name',     method: 'POST',   handler: 'setSessionVar' },
-    { path: '/wallet/:id/createtx',       method: 'POST',   handler: 'createTx' },
-    { path: '/wallet/:id/sendtx/:txid',   method: 'POST',   handler: 'sendTx' }
+    { path: '/start',                         method: 'POST',   handler: 'start' },
+    { path: '/ready',                         method: 'POST',   handler: 'ready' },
+    { path: '/info/platform',                 method: 'GET',    handler: 'getPlatformInfo' },
+    { path: '/session/:id',                   method: 'GET',    handler: 'getSession' },
+    { path: '/session/:id/choosewallet',      method: 'GET',    handler: 'chooseWallet' },
+    { path: '/session/:id/flush',             method: 'POST',   handler: 'flushSession' },
+    { path: '/session/:id/restore',           method: 'GET',    handler: 'restoreSession' },
+    { path: '/session/:id/routes',            method: 'POST',   handler: 'addRoutes' },
+    { path: '/session/:id/var/:name',         method: 'GET',    handler: 'getSessionVar' },
+    { path: '/session/:id/var/:name',         method: 'POST',   handler: 'setSessionVar' },
+    { path: '/transactions',                  method: 'POST',   handler: 'createTx' },
+    { path: '/transactions/:guid',            method: 'PUT',    handler: 'statusTx' },
+    { path: '/transactions/:guid/wallet/:id', method: 'PUT',    handler: 'updateTx' }
   ];
 
   /**

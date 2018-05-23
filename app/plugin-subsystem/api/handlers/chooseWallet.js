@@ -71,8 +71,10 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
 	      statusCode: 400,
-	      statusText: 'The request must include a session id.',
-	      data: {}
+	      statusText: 'REQEUST_NOT_VALID',
+	      data: {
+	      	message: 'The request must include a session id.'
+	      }
 	    };
 			return callback(message);
   	}
@@ -83,8 +85,10 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 		if (lodash.isUndefined(session)) {
 	    message.response = {
 	      statusCode: 404,
-	      statusText: 'Session not found.',
-	      data: {}
+	      statusText: 'SESSION_NOT_FOUND.',
+	      data: {
+	      	message: 'Session not found.'
+	      }
 	    };
 			return callback(message);
 		}
@@ -110,7 +114,10 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 			} else {
 		    message.response = {
 		      statusCode: 204,
-		      statusText: 'User canceled operation.'
+		      statusText: 'USER_CANCELED',
+		      data: {
+		      	message: 'User canceled operation.'
+		      }
 		    };
 			}
 

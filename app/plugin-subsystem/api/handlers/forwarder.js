@@ -9,8 +9,10 @@ angular.module('owsWalletApp.pluginApi').service('forwarder', function(lodash) {
 		if (!message.route.targetId) {
 	    message.response = {
 	      statusCode: 500,
-	      statusText: 'Forwarder routing incorrectly configured.',
-	      data: {}
+	      statusText: 'REQUEST_NOT_VALID',
+	      data: {
+	      	message: 'Forwarder routing incorrectly configured.'
+	      }
 	    };
 			return callback(message);
 		}
@@ -33,8 +35,10 @@ angular.module('owsWalletApp.pluginApi').service('forwarder', function(lodash) {
 
       message.response = {
         statusCode: 404,
-        statusText: 'Specified route does not resolve to a target.',
-        data: {}
+        statusText: 'ROUTE_NOT_FOUND',
+        data: {
+        	message: 'Specified route does not resolve to a target.'
+        }
       }
     }
 

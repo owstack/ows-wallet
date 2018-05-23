@@ -112,11 +112,9 @@
             <span>
               <span ng-if="isLivenet(tx.networkURI)">{{tx.alternativeFeeStr || '&middot;&middot;&middot;'}}&nbsp;&middot;</span>
               <span class="fee-rate" ng-if="tx.feeRatePerStr">
-                
                 <span ng-show="tx.feeTooHigh">&nbsp;
                   <i class="ion-alert-circled text-warning"></i>
                 </span>
-                
                 <span class="fee-rate" ng-class="{'text-warning': tx.feeTooHigh}" translate>
                   {{tx.feeRatePerStr}} of the sending amount
                 </span>
@@ -137,11 +135,11 @@
       </ion-item>
     </ion-list>
   </ion-content>
-  <click-to-accept ng-click="approve()" ng-if="!isCordova && wallet" click-send-status="sendStatus"
+  <click-to-accept ng-click="send()" ng-if="!isCordova && wallet" click-send-status="sendStatus"
     is-disabled="!wallet">
     {{buttonText}}
   </click-to-accept>
-  <slide-to-accept ng-if="isCordova && wallet" on-confirm="approve()" status="sendStatus" is-disabled="!wallet">
+  <slide-to-accept ng-if="isCordova && wallet" on-confirm="send()" status="sendStatus" is-disabled="!wallet">
     {{buttonText}}
   </slide-to-accept>
   <slide-to-accept-success show="sendStatus === 'success'" on-confirm="onSuccessConfirm()" hide-on-confirm="true">

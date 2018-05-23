@@ -80,8 +80,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // Invalid event.
         self.response = {
           statusCode: 500,
-          statusText: 'Invalid message event, no \'data\' found.',
-          data: {}
+          statusText: 'MESSAGE_NOT_VALID',
+          data: {
+            message: 'Invalid message event, no \'data\' found.'
+          }
         };
 
       } else if (!lodash.isString(self.event.data)) {
@@ -89,8 +91,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // Event data not a string.
         self.response = {
           statusCode: 500,
-          statusText: 'Invalid message event data, expected string argument but received object.',
-          data: {}
+          statusText: 'MESSAGE_NOT_VALID',
+          data: {
+            message: 'Invalid message event data, expected string argument but received object.'
+          }
         };
       }
     };
@@ -101,8 +105,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // No request.
         self.response  = {
           statusCode: 400,
-          statusText: 'No request provided.',
-          data: {}
+          statusText: 'NO_REQUEST',
+          data: {
+            message: 'No request provided.'
+          }
         };
         
       } else if (lodash.isUndefined(self.request.method)) {
@@ -110,8 +116,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // No request method.
         self.response  = {
           statusCode: 400,
-          statusText: 'No request method specified.',
-          data: {}
+          statusText: 'NO_METHOD',
+          data: {
+            message: 'No request method specified.'
+          }
         };
       }
 
@@ -120,6 +128,8 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         case 'GET':
           break;
         case 'POST': validatePOST();
+          break;
+        case 'PUT': validatePUT();
           break;
       }
     };
@@ -130,8 +140,24 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // Invalid request; does not match specification.
         self.response  = {
           statusCode: 400,
-          statusText: 'Invalid request, POST data not present in request.',
-          data: {}
+          statusText: 'REQUEST_NOT_VALID',
+          data: {
+            message: 'Invalid request, POST data not present in request.'
+          }
+        };
+      }
+    };
+
+    function validatePUTT() {
+      // Check for required PUT data.
+      if (lodash.isUndefined(self.request.data)) {
+        // Invalid request; does not match specification.
+        self.response  = {
+          statusCode: 400,
+          statusText: 'REQUEST_NOT_VALID',
+          data: {
+            message: 'Invalid request, PUT data not present in request.'
+          }
         };
       }
     };
@@ -142,8 +168,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // No route.
         self.response  = {
           statusCode: 404,
-          statusText: 'Route not found.',
-          data: {}
+          statusText: 'ROUTE_NOT_FOUND',
+          data: {
+            message: 'Route not found.'
+          }
         };
       }
     };
@@ -185,7 +213,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             code: message.response.statusCode,
             source: message.request.url,
             message: message.response.statusText,
-            detail: ''
+            detail: JSON.stringify(message.response.data)
           });
 
         } else {
@@ -246,9 +274,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       }
 
       if (self.route.targetId) {
-        $log.info('[server] FORWARD  ' + self.header.sequence + ': (' + self.route.targetId + ') ' + angular.toJson(self.request));
+        $log.info('[server] FORWARD  ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
       } else {
-        $log.info('[server] RESPONSE ' + self.header.sequence + ': ' + angular.toJson(transport(self)));
+        $log.info('[server] RESPONSE ' + self.header.sequence + ': ' + responseToJson(self));
       }
 
       // SEND REQUEST MESSAGE
@@ -333,8 +361,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
       message.response = {
         statusCode: 408,
-        statusText: 'Request timed out.',
-        data: {}
+        statusText: 'REQUEST_TIMED_OUT',
+        data: {
+          message: 'Request timed out.'
+        }
       }
       promise[0].onComplete(message);
     } else {
@@ -353,6 +383,27 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       request: message.request,
       response: message.response
     }
+  };
+
+  function requestToJson(message) {
+    var r = {
+      header: message.header,
+      request: message.request
+    };
+    return angular.toJson(r);
+  };
+
+  // Remove properties that cause circular references.
+  function responseToJson(message) {
+    var r = {
+      header: message.header,
+      response: message.response
+    };
+    if (lodash.get(r.response, 'data.cachedActivity')) {
+      r.response = lodash.cloneDeep(r.response);
+      delete r.response.data.cachedActivity;
+    }
+    return angular.toJson(r);
   };
 
   return ApiMessage;

@@ -146,6 +146,53 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return aUnit.value / sUnit.value;
   };
 
+  root.tryResolve = function(data, cb) {
+    var networks = root.getNetworks();
+    var total = networks.length;
+    var count = 0;
+    var _result = { match: false };
+    var _noMatches = '';
+
+    function done() {
+      if (_noMatches) {
+        $log.debug(_noMatches);
+      }
+      return cb(_result);
+    };
+
+    for(var i = 0; i < total; i++) {
+      (function(i) {
+        networks[i].tryResolve(data, function(result) {
+          // If mupltiple networks match the data then return the last completed match.
+          // This can happen when scanning private keys that are valid on multiple networks.
+          if (result.match) {
+            _result = result;
+
+          } else if (result.error) {
+            _noMatches += '[' + networks[i].getURI() + '] ' + result.error + '\n';
+          }
+
+          count++;
+          if (count > total - 1) {
+            done();
+          }
+        });
+      }(i));
+    }
+  };
+
+  root.isAddressValid = function(data, cb) {
+    root.tryResolve(data, function(result) {
+      var isValid = result.match && !result.error && result.address
+      return cb({
+        isValid: isValid,
+        network: (isValid ? result.network : undefined)
+      });
+    });
+  };
+
+  // Utilities
+
   root.forEachNetwork = function(opts, callback) {
     opts = opts || {};
     opts.net = opts.net || 'all';
@@ -165,10 +212,6 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     });
   };
 
-  ({net: 'livenet'}, function(walletClient, network) {
-    walletClient.PrivateKey(privateKey, network.getURI());
-  });
-
   // Parsers
 
   root.parseCurrency = function(networkURI) {
@@ -185,70 +228,6 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
   root.isTestnet = function(networkURI) {
     return root.parseNet(networkURI) == 'testnet';
-  };
-
-  root.isValidAddress = function(value) {
-    var result = {
-      isValid: false
-    };
-
-    if (value == undefined) {
-      return result;
-    }
-
-    // Check BIP21 uri and regular address
-    lodash.forEach(root.getNetworks(), function(n) {
-      var netLib = root.walletClientFor(n.getURI()).getLib();
-      var URI = netLib.URI;
-      var Address = netLib.Address;
-
-      var hasProtocol = value.includes(':');
-      if (hasProtocol) {
-
-        // Check BIP21 uri
-        if (value.startsWith(n.protocol)) {
-          var uri;
-          var isAddressValid;
-          var isUriValid = URI.isValid(value);
-
-          if (isUriValid) {
-            uri = new URI(value);
-            isAddressValid = Address.isValid(uri.address.toString(), 'livenet');
-
-            if (root.hasTestnet(n.currency)) {
-              isAddressValid = isAddressValid || Address.isValid(uri.address.toString(), 'testnet');
-            }
-          }
-          result = {
-            isValid: isUriValid && isAddressValid,
-            network: n
-          };
-          return false; // break loop
-        }
-
-      } else {
-
-        // Check regular address
-        var isAddressValid = Address.isValid(value, 'livenet');
-        if (root.hasTestnet(n.currency)) {
-          isAddressValid = isAddressValid || Address.isValid(value, 'testnet');
-        }
-
-        result = {
-          isValid: isAddressValid,
-          network: n
-        };
-
-        if (isAddressValid) {
-          return false; // break loop
-        }
-      }
-    });
-
-    if (!result.isValid) {
-      delete result.network;
-    }
-    return result;
   };
 
   init();

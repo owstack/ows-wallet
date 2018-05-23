@@ -63,6 +63,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     
     $scope.isCordova = isCordova;
     $scope.showAddress = false;
+    $scope.paymentExpired = false;
     $scope.walletSelectorTitle = gettextCatalog.getString('Send from');
 
     // Create the private transaction object.
@@ -87,82 +88,15 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
       toColor: data.stateParams.toColor
     };
 
-    tx = new Transaction(txData, txListener);
+    tx = new Transaction(txData);
 
     // Expose the transaction to the UI.
     $scope.tx = tx;
 
-    function txListener(event) {
-      var data = event.data;
-
-      switch (event.id) {
-        case Transaction.CONFIRM_TX:
-          var message = gettextCatalog.getString('Sending {{amountStr}} from your {{name}} wallet.', {
-            amountStr: data.amountStr,
-            name: data.walletName
-          });
-          var title = gettextCatalog.getString('Confirm Transaction');
-          var okText = gettextCatalog.getString('Confirm');
-          var cancelText = gettextCatalog.getString('Cancel');
-
-          popupService.showConfirm(title, message, okText, cancelText, function(ok) {
-            if (!ok) {
-              $scope.sendStatus = '';
-            }
-            event.callback(ok);
-          });
-          break;
-
-        case Transaction.INSUFFICENT_FUNDS:
-          popupService.showAlert(
-            gettextCatalog.getString('Insufficient Funds'),
-            gettextCatalog.getString('Not enough funds available to pay the network fee.'));
-          break;
-
-        case Transaction.PAYMENT_TIME_EXPIRED:
-          $scope.paymentExpired = true;
-          $scope.remainingTimeStr = gettextCatalog.getString('Expired');
-          $scope.sendStatus = '';
-          break;
-
-        case Transaction.PAYMENT_TIME_TICK:
-          $scope.remainingTimeStr = data.remainingTimeStr;
-          break;
-
-        case Transaction.SEND_MAX_WARNING:
-          showSendMaxWarning(data);
-          break;
-
-        case Transaction.STATUS_CHANGE:
-          statusChangeHandler(data);
-          break;
-
-        case Transaction.CREATE_TX_ERROR:
-        case Transaction.PUBLISH_ERROR:
-        case Transaction.PUBLISH_SIGN_ERROR:
-        case Transaction.SEND_MAX_FETCH_ERROR:
-          setSendError(data.message);
-          break;
-
-        case Transaction.TX_DATA_UPDATED:
-          $timeout(function() {
-            $scope.$apply();
-          });
-          break;
-
-        case Transaction.PUBLISH_SIGN_SUCCESS:
-          if (config.confirmedTxsNotifications && config.confirmedTxsNotifications.enabled) {
-            txConfirmNotificationService.subscribe($scope.wallet, {
-              txid: tx.id
-            });
-          }
-          break;
-
-        default:
-          $log.warn('Unhandled transaction event: ' + event.name);
-          break;
-      };
-    };
+    // Set payment expiration time if payment protocol is in use.
+    if (tx.paypro) {
+      paymentTimeControl(tx.paypro.expires);
+    }
 
     // Set a wallet or show the wallet selector.
     setWalletSelector(tx.networkURI, tx.toAmount, function(err) {
@@ -272,8 +206,37 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     $scope.payproModal.remove();
   };
 
-  $scope.approve = function() {
-    tx.approve();
+  $scope.send = function() {
+    if (tx.shouldConfirm) {
+
+      var message = gettextCatalog.getString('Sending {{amountStr}} from your {{name}} wallet.', {
+        amountStr: tx.amountStr,
+        name: tx.getWallet().name
+      });
+      var title = gettextCatalog.getString('Confirm Transaction');
+      var okText = gettextCatalog.getString('Confirm');
+      var cancelText = gettextCatalog.getString('Cancel');
+
+      popupService.showConfirm(title, message, okText, cancelText, function(ok) {
+        if (!ok) {
+          $scope.sendStatus = '';
+        }
+
+        tx.send(function(err) {
+          if (err) {
+            setSendError(err);
+          }
+        }, statusChangeHandler);
+      });
+
+    } else {
+
+      tx.send(function(err) {
+        if (err) {
+          setSendError(err);
+        }
+      }, statusChangeHandler);
+    }
   };
 
   $scope.onSuccessConfirm = function() {
@@ -327,7 +290,14 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
           rate = parseInt(customFeePerKB);
         }
 
-        tx.setFee(newFeeLevel, rate, tx.usingCustomFee, function(){});
+        tx.setFee(newFeeLevel, rate, tx.usingCustomFee, function(err) {
+          if (err) {
+            setSendError(err);
+          }
+          $timeout(function() {
+            $scope.$apply();
+          });
+        });
 
       }, 300);
     };
@@ -354,7 +324,16 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     $scope.wallet = wallet;
     setButtonText(wallet.credentials.m > 1, !!tx.paypro);
 
-    tx.setWallet(wallet, function() {
+    tx.setWallet(wallet, function(err) {
+      if (err) {
+        setSendError(err);
+      }
+
+      // If the transaction has been set to use all of the wallets funds then show the user the asscoiated fee.
+      if (tx.useSendMax) {
+        showSendMaxWarning(tx);
+      }
+
       $timeout(function() {
         $ionicScrollDelegate.resize();
         $scope.$apply();
@@ -385,6 +364,35 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     }
   };
 
+  // Keeps track of payment expiration time.
+  function paymentTimeControl(expirationTime) {
+    setExpirationTime();
+
+    countdown = $interval(function() {
+      setExpirationTime();
+    }, 1000);
+
+    function setExpirationTime() {
+      var now = Math.floor(Date.now() / 1000);
+      if (now > expirationTime) {
+        setExpiredValues();
+        return;
+      }
+
+      var totalSecs = expirationTime - now;
+      var m = Math.floor(totalSecs / 60);
+      var s = totalSecs % 60;
+      $scope.remainingTimeStr = ('0' + m).slice(-2) + ":" + ('0' + s).slice(-2);
+    };
+
+    function setExpiredValues() {
+      $scope.paymentExpired = true;
+      if (countdown) {
+        $interval.cancel(countdown);
+      }
+    };
+  };
+
   function setSendError(msg) {
     $scope.sendStatus = '';
     $timeout(function() {
@@ -404,25 +412,25 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
       $scope.buttonText += gettextCatalog.getString('to send');
   };
 
-  function showSendMaxWarning(info) {
+  function showSendMaxWarning(tx) {
     function verifyExcludedUtxos() {
       var warningMsg = [];
-      if (info.utxosBelowFee > 0) {
+      if (tx.utxosBelowFee > 0) {
         warningMsg.push(gettextCatalog.getString('A total of {{amountBelowFeeStr}} was excluded. These funds come from UTXOs smaller than the network fee provided.', {
-          amountBelowFeeStr: info.amountBelowFeeStr
+          amountBelowFeeStr: tx.amountBelowFeeStr
         }));
       }
 
-      if (info.utxosAboveMaxSize > 0) {
+      if (tx.utxosAboveMaxSize > 0) {
         warningMsg.push(gettextCatalog.getString('A total of {{amountAboveMaxSizeStr}} was excluded. The maximum size allowed for a transaction was exceeded.', {
-          amountAboveMaxSizeStr: info.amountAboveMaxSizeStr
+          amountAboveMaxSizeStr: tx.amountAboveMaxSizeStr
         }));
       }
       return warningMsg.join('\n');
     };
 
     var msg = gettextCatalog.getString('{{fee}} will be deducted for network fees.', {
-      fee: info.feeStr
+      fee: tx.feeStr
     });
     var warningMsg = verifyExcludedUtxos();
 

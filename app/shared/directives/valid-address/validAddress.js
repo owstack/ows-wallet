@@ -19,9 +19,10 @@ angular.module('owsWalletApp.directives')
               return value;
             }
 
-            var result = networkService.isValidAddress(value);
-            ctrl.$setValidity('validAddress', result.isValid);
-            return value;
+            networkService.isValidAddress(value, function(result) {
+              ctrl.$setValidity('validAddress', result.isValid);
+              return value;
+            });
           };
 
           ctrl.$parsers.unshift(validator);

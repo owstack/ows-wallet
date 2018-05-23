@@ -142,24 +142,27 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
   };
 
   $scope.findContact = function(search) {
-    if (incomingDataService.redir(search)) {
-      return;
-    }
+    incomingDataService.redir(search, function(handled) {
+      if (handled) {
+        return;
+      }
 
-    if (!search || search.length < 2) {
-      $scope.list = originalList;
-      $timeout(function() {
-        $scope.$apply();
+      if (!search || search.length < 2) {
+        $scope.list = originalList;
+        $timeout(function() {
+          $scope.$apply();
+        });
+        return;
+      }
+
+      var result = lodash.filter(originalList, function(item) {
+        var val = item.name;
+        return lodash.includes(val.toLowerCase(), search.toLowerCase());
       });
-      return;
-    }
 
-    var result = lodash.filter(originalList, function(item) {
-      var val = item.name;
-      return lodash.includes(val.toLowerCase(), search.toLowerCase());
+      $scope.list = result;
+
     });
-
-    $scope.list = result;
   };
 
   $scope.onContactAddressSelect = function(contact, index) {

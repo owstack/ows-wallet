@@ -1,16 +1,16 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, payproService, scannerService, appConfig, popupService, gettextCatalog, networkService, profileService) {
+angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, scannerService, appConfig, popupService, gettextCatalog, networkService) {
 
   var root = {};
-  var bchLib = networkService.walletClientFor('livenet/bch').getLib(); // TODO-AJP: make this extensible
-  var btcLib = networkService.walletClientFor('livenet/btc').getLib();
 
   root.showMenu = function(data) {
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);
   };
 
-  root.redir = function(data) {
+  root.redir = function(data, cb) {
+    cb = cb || function(){};
+
     $log.debug('Processing incoming data: ' + data);
 
     var joinMatch = '/^' + appConfig.appUri + ':[0-9A-HJ-NP-Za-km-z]{70,80}$/';
@@ -30,25 +30,6 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       newUri.replace('://', ':');
 
       return newUri;
-    };
-
-    function getParameterByName(name, url) {
-      if (!url) return;
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-      if (!results) return null;
-      if (!results[2]) return '';
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
-    };
-
-    function checkPrivateKey(privateKey) {
-      try {
-          btcLib.PrivateKey(privateKey, 'livenet'); // TODO-AJP: support more than btc, would need to prompt for network
-      } catch (err) {
-        return false;
-      }
-      return true;
     };
 
     function goSend(networkURI, address, amount, message) {
@@ -99,236 +80,99 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       });
     };
 
-    // Data extensions for Payment Protocol with non-backwards-compatible request.
-    // TODO-AJP: does not support detecting testnets.
-    if ((/^bitcoin(cash)?:\?r=[\w+]/).exec(data)) {
-      var protocol = data.split(':')[0];
-      data = decodeURIComponent(data.replace(/bitcoin(cash)?:\?r=/, ''));
+    function tryResolveNonPayment(data) {
+      data = sanitizeUri(data);
 
-      payproService.getPayProDetails(data, function(err, details) {
-        if (err) {
-          popupService.showAlert(gettextCatalog.getString('Error'), err);
-        } else {
-
-          var addrNetwork;
-          var err;
-
-          switch (protocol) {
-            case 'bitcoin': 
-              if (btcLib.Address.isValid(details.toAddress, 'livenet') || btcLib.Address.isValid(details.toAddress, 'testnet')) {
-                addrNetwork = btcLib.Address(details.toAddress).network;
-              } else {
-                err = gettextCatalog.getString('Payment instruction not recognized.');
-              }
-              break;
-
-            case 'bitcoincash':
-              if (bchLib.Address.isValid(details.toAddress, 'livenet')) {
-                addrNetwork = bchLib.Address(details.toAddress).network;
-              } else {
-                err = gettextCatalog.getString('Payment instruction not recognized.');
-              }
-              break;
-
-            default:
-              err = gettextCatalog.getString('Payment instruction not recognized.');
-              break;
-          }
-
-          if (err) {
-            return popupService.showAlert(gettextCatalog.getString('Error'), err);
-          }
-
-          details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-          handlePayPro(details);
-        }
-      });
-      return true;
-    }
-
-    data = sanitizeUri(data);
-
-    // BIP21 - bitcoin URL
-    if (btcLib.URI.isValid(data)) {
-      var parsed = btcLib.URI(data);
-      var addr = parsed.address ? parsed.address.toString() : '';
-      var message = parsed.message;
-      var amount = parsed.amount ? parsed.amount : '';
-      var addrNetwork;
-
-      if (parsed.r) {
-        payproService.getPayProDetails(parsed.r, function(err, details) {
-          if (err) {
-            if (addr && amount) {
-              goSend('', addr, amount, message);
-            } else {
-              popupService.showAlert(gettextCatalog.getString('Error'), err);
-            }
-          } else {
-
-            if (btcLib.Address.isValid(details.toAddress, 'livenet') || btcLib.Address.isValid(details.toAddress, 'testnet')) {
-              addrNetwork = btcLib.Address(details.toAddress).network;
-              details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-              handlePayPro(details);
-            } else {
-              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
-            }
-          }
+      // Plain web address
+      if (/^https?:\/\//.test(data)) {
+        root.showMenu({
+          data: data,
+          type: 'url'
         });
-      } else {
+        return cb(true);
 
-        if (btcLib.Address.isValid(addr, 'livenet') || btcLib.Address.isValid(addr, 'testnet')) {
-          addrNetwork = btcLib.Address(addr).network;
-          var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-          goSend(networkURI, addr, amount, message);
-        } else {
-          return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
-        }
-      }
-      return true;
-
-    // BIP21 - bitcoincash URL
-    } else if (bchLib.URI.isValid(data)) {
-      var parsed = bchLib.URI(data);
-      var addr = parsed.address ? parsed.address.toString() : '';
-      var message = parsed.message;
-      var amount = parsed.amount ? parsed.amount : '';
-      var addrNetwork;
-
-      if (parsed.r) {
-        payproService.getPayProDetails(parsed.r, function(err, details) {
-          if (err) {
-            if (addr && amount) {
-              goSend('', addr, amount, message);
-            } else {
-              popupService.showAlert(gettextCatalog.getString('Error'), err);
-            }
-          } else {
-            if (bchLib.Address.isValid(details.toAddress, 'livenet')) {
-              addrNetwork = bchLib.Address(details.toAddress).network;
-              details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-              handlePayPro(details);
-            } else {
-              return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
-            }
-          }
+      // Join
+      } else if (data && data.match(joinMatchRE)) {
+        $state.go($rootScope.sref('home'), {}, {
+          'notify': $state.current.name == $rootScope.sref('home') ? false : true
+        }).then(function() {
+          $state.transitionTo($rootScope.sref('add.join'), {
+            url: data
+          });
         });
+        return cb(true);
+
+      // QR Code Export feature
+      } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
+        $state.go($rootScope.sref('home')).then(function() {
+          $state.transitionTo($rootScope.sref('add.import'), {
+            code: data
+          });
+        });
+        return cb(true);
+
+      // Text
       } else {
-
-        if (bchLib.Address.isValid(addr, 'livenet')) {
-          addrNetwork = bchLib.Address(addr).network;
-          var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-          goSend(networkURI, addr, amount, message);
-        } else {
-          return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
-        }
-      }
-      return true;
-
-    // Plain URL
-    } else if (/^https?:\/\//.test(data)) {
-
-      payproService.getPayProDetails(data, function(err, details) {
-        if (err) {
+        if ($state.includes($rootScope.sref('scan'))) {
           root.showMenu({
             data: data,
-            type: 'url'
+            type: 'text'
           });
-          return;
         }
+      }
 
-        var addrNetwork;
-        if (btcLib.Address.isValid(details.toAddress, 'livenet') || btcLib.Address.isValid(details.toAddress, 'testnet')) {
-          addrNetwork = btcLib.Address(details.toAddress).network;
-        } else if (btcLib.Address.isValid(details.toAddress, 'livenet')) {
-          addrNetwork = bchLib.Address(details.toAddress).network;
+      return cb(false);
+    };
+
+    // Attempt to resolve the data into a payment request for a specific network.
+    networkService.tryResolve(data, function(result) {
+      if (result.match && result.error) {
+        $log.debug('Scanning data error: ' + JSON.stringify(result));
+        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+        return cb(false);
+      }
+
+      if (result.match) {
+        if (result.paypro) {
+
+          handlePayPro(result.paypro);
+
+        } else if (result.privateKey) {
+
+          root.showMenu({
+            data: data,
+            type: 'privateKey'
+          });
+
         } else {
-          return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
+
+          // If we're scanning the address from the scan view then present options for the user.
+          // Otherwise, redirect to the send view.
+          if ($state.includes($rootScope.sref('scan'))) {
+            // Show menu of options for handling the currency address.
+            var network = networkService.getNetworkByURI(result.networkURI);
+            root.showMenu({
+              networkURI: result.networkURI,
+              currency: network.currency,
+              currencyLabel: network.getFriendlyNetLabel(),
+              data: data,
+              type: 'cryptoAddress'
+            });
+
+          } else {
+            goSend(result.networkURI, result.address, result.amount, result.message);
+          }
         }
 
-        details.networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-        handlePayPro(details);
-        return true;
-      });
-    // Plain bitcoin address
-    } else if (btcLib.Address.isValid(data, 'livenet') || btcLib.Address.isValid(data, 'testnet')) {
-      var addrNetwork = btcLib.Address(data).network;
-      var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-      if ($state.includes($rootScope.sref('scan'))) {
-        var network = networkService.getNetworkByURI(networkURI);
-        root.showMenu({
-          networkURI: networkURI,
-          currency: network.currency,
-          currencyLabel: network.getFriendlyNetLabel(),
-          data: data,
-          type: 'cryptoAddress'
-        });
+        return cb(true);
+
       } else {
-        goSend(networkURI, data);
+
+        // No match with a curreny network. Try other options.
+        tryResolveNonPayment(data);
       }
-    // Plain bitcoincash address
-    } else if (bchLib.Address.isValid(data, 'livenet') || bchLib.Address.isValid(data, 'testnet')) {
-      var addrNetwork = bchLib.Address(data).network;
-      var networkURI = networkService.getURIForAddrNetwork(addrNetwork);
-      if ($state.includes($rootScope.sref('scan'))) {
-        root.showMenu({
-          networkURI: networkURI,
-          currency: networkService.getNetworkByURI(networkURI).currency,
-          data: data,
-          type: 'cryptoAddress'
-        });
-      } else {
-        goSend(networkURI, data);
-      }
-    // Join
-    } else if (data && data.match(joinMatchRE)) {
-      $state.go($rootScope.sref('home'), {}, {
-        'notify': $state.current.name == $rootScope.sref('home') ? false : true
-      }).then(function() {
-        $state.transitionTo($rootScope.sref('add.join'), {
-          url: data
-        });
-      });
-      return true;
+    });
 
-    // Old join
-    } else if (data && data.match(/^[0-9A-HJ-NP-Za-km-z]{70,80}$/)) {
-      $state.go($rootScope.sref('home'), {}, {
-        'notify': $state.current.name == $rootScope.sref('home') ? false : true
-      }).then(function() {
-        $state.transitionTo($rootScope.sref('add.join'), {
-          url: data
-        });
-      });
-      return true;
-
-    // Private key
-    } else if (data && (data.substring(0, 2) == '6P' || checkPrivateKey(data))) {
-      root.showMenu({
-        data: data,
-        type: 'privateKey'
-      });
-
-    //
-    } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
-      $state.go($rootScope.sref('home')).then(function() {
-        $state.transitionTo($rootScope.sref('add.import'), {
-          code: data
-        });
-      });
-      return true;
-
-    // Text
-    } else {
-      if ($state.includes($rootScope.sref('scan'))) {
-        root.showMenu({
-          data: data,
-          type: 'text'
-        });
-      }
-    }
-
-    return false;
   };
 
   return root;

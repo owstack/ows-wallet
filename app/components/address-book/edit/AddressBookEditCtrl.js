@@ -50,12 +50,13 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEditCtrl', fun
   });
 
   $scope.addressChanged = function(addressEntry) {
-    var result = networkService.isValidAddress(addressEntry.address);
-    if (result.isValid) {
-      addressEntry.networkURI = result.network.getURI();
-    } else {
-      addressEntry.networkURI = undefined;      
-    }
+    networkService.isValidAddress(addressEntry.address, function(result) {
+      if (result.isValid) {
+        addressEntry.networkURI = result.network.getURI();
+      } else {
+        addressEntry.networkURI = undefined;
+      }
+    });
   };
 
   $scope.currencyFor = function(networkURI) {

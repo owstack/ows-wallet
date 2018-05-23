@@ -100,7 +100,7 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
           } else {
             handleSuccessfulScan(contents);
           }
-          });
+        });
         // resume preview if paused
         scannerService.resumePreview();
       });

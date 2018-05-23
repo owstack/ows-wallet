@@ -17,6 +17,10 @@ bchWalletClientModule.provider("bchWalletClient", function() {
       return Client.errors;
     };
 
+    service.getPayPro = function() {
+      return Client.PayPro;
+    };
+
     service.getSJCL = function() {
       return Client.sjcl;
     };

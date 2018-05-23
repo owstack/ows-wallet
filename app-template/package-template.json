@@ -51,8 +51,8 @@
    "npm": "3"
   },
   "dependencies": {
-    "@owstack/bch-wallet-client": "^0.0.11",
-    "@owstack/btc-wallet-client": "^0.0.11",
+    "@owstack/bch-wallet-client": "^0.0.12",
+    "@owstack/btc-wallet-client": "^0.0.12",
     "@owstack/ows-wallet-plugin-client": "^0.0.31",
     "bezier-easing": "^2.0.3",
     "cordova-ios": "4.5.4",

@@ -14,6 +14,7 @@ angular.module('owsWalletApp.services').factory('bchTestnet', function(lodash, g
     getCurrencyLongLabel: function() { return networkHelpers.getCurrencyLongLabel(this) },
     getNetLabel: function() { return networkHelpers.getNetLabel(this) },
     getFriendlyNetLabel: function() { return networkHelpers.getFriendlyNetLabel(this) },
+    tryResolve: function(data, cb) { return networkHelpers.tryResolve(data, this, cb) },
     walletClient: {
       service: bchWalletClient
     },
@@ -87,6 +88,6 @@ angular.module('owsWalletApp.services').factory('bchTestnet', function(lodash, g
       }
     }
   };
-  
+
   return root;
 });

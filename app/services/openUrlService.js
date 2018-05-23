@@ -29,9 +29,11 @@ angular.module('owsWalletApp.services').factory('openUrlService', function($root
 
     document.addEventListener('handleopenurl', handleOpenURL, false);
 
-    if (!incomingDataService.redir(url)) {
-      $log.warn('Unknown URL! : ' + url);
-    }
+    incomingDataService.redir(url, function (handled) {
+      if (!handled) {
+        $log.warn('Unknown URL! : ' + url);
+      }
+    });
   };
 
   var handleResume = function() {

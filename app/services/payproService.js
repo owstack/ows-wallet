@@ -1,35 +1,72 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('payproService',
-  function(profileService, gettextCatalog, ongoingProcessService, $log) {
+angular.module('owsWalletApp.services').factory('payproService', function($log, $timeout, gettextCatalog, ongoingProcessService) {
 
-    var ret = {};
+  var root = {};
 
-    ret.getPayProDetails = function(uri, cb, disableLoader) {
-      if (!cb) cb = function() {};
+  var CACHE_RETRY_INTERVAL = 500;
+  var CACHE_RETRY_LIMIT = 3;
 
-      var wallet = profileService.getWallets({
-        onlyComplete: true
-      })[0];
+  var cache = {};
+  var cacheState = {};
 
-      if (!wallet) return cb();
+  root.getPayProDetails = function(uri, network, cb, disableLoader) {
+    cb = cb || function() {};
 
-      $log.debug('Fetch PayPro Request...', uri);
+    if (cache[uri]) {
+      $log.debug('PayPro cache hit: ', uri);
+      return cb(null, cache[uri]);
+    }
 
-      if (!disableLoader) ongoingProcessService.set('fetchingPayPro', true);
+    // Only fetch paypro details once per app session.
+    // Retry if in-progress call has not returned. Stop waiting after a few tries,  clear the cache, and retry a long request.
+    cacheState[uri] = cacheState[uri] || {};
 
-      wallet.fetchPayPro({
-        payProUrl: uri,
-      }, function(err, paypro) {
-        if (!disableLoader) ongoingProcessService.set('fetchingPayPro', false);
-        if (err) return cb(err);
-        else if (!paypro.verified) {
-          $log.warn('Failed to verify payment protocol signatures');
-          return cb(gettextCatalog.getString('Payment Protocol Invalid'));
-        }
-        return cb(null, paypro);
-      });
-    };
+    if (cacheState[uri].status == 'in-progress') {
+      cacheState[uri].attempts = cacheState[uri].attempts++ || 1;
 
-    return ret;
-  });
+      if (cacheState[uri].attempts <= CACHE_RETRY_LIMIT) {
+        $timeout(function() {
+          root.getPayProDetails(uri, walletClient, cb, disableLoader);
+        }, CACHE_RETRY_INTERVAL);
+
+        return;
+
+      } else {
+        delete cacheState[uri];
+        return root.getPayProDetails(uri, walletClient, cb, disableLoader);        
+      }
+    }
+
+    cacheState[uri].status = 'in-progress';
+
+    $log.debug('Fetch PayPro request: ', uri);
+
+    if (!disableLoader) {
+      ongoingProcessService.set('fetchingPayPro', true);
+    }
+
+    network.walletClient.service.getPayPro().get({
+      url: uri
+    }, function(err, paypro) {
+      if (!disableLoader) {
+        ongoingProcessService.set('fetchingPayPro', false);
+      }
+
+      if (err) {
+        return cb(err);
+
+      } else if (!paypro.verified) {
+        $log.warn('Failed to verify payment protocol signatures');
+        return cb(gettextCatalog.getString('Payment Protocol Invalid'));
+      }
+
+      // Cache the result.
+      cache[uri] = paypro;
+
+      return cb(null, paypro);
+    });
+  };
+
+  return root;
+});
