@@ -1,7 +1,7 @@
 {
   "appTemplateName": "ows-wallet",
-  "version": "0.0.19",
-  "androidVersion": "19",
+  "version": "0.0.20",
+  "androidVersion": "20",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
@@ -30,7 +30,7 @@
   "appUri": "owswallet",
   "statusBarColor": "#000000",
   "plugins": {
-    "@owstack/ows-wallet-plugin-starter": "^0.0.28"
+    "@owstack/ows-wallet-plugin-starter": "^0.0.29"
   },
   "themeCatalog": {
     "themes": {
