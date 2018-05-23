@@ -53,7 +53,7 @@
   "dependencies": {
     "@owstack/bch-wallet-client": "^0.0.12",
     "@owstack/btc-wallet-client": "^0.0.12",
-    "@owstack/ows-wallet-plugin-client": "^0.0.31",
+    "@owstack/ows-wallet-plugin-client": "^0.0.32",
     "bezier-easing": "^2.0.3",
     "cordova-ios": "4.5.4",
     "cordova-android": "6.4.0",
@@ -63,6 +63,7 @@
   "scripts": {
     "postinstall":           "bower install",
     "start":                 "npm run build:www && ionic serve --no-livereload --nogulp -s --address 0.0.0.0",
+    "start:release":         "npm run build:www-release && ionic serve --no-livereload --nogulp -s --address 0.0.0.0",
     "start:ios":             "npm run build:www && npm run build:ios && npm run open:ios",
     "start:android":         "npm run build:www && npm run build:android && npm run run:android",
     "start:desktop":         "npm start",
