@@ -1,0 +1,23 @@
+<ion-view id="plugins" class="ows" show-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{'Plugins' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-divider"></ion-item>
+      <ion-item class="item-h-md item-icon-left icon-left-md item-icon-right has-detail" ng-repeat="plugin in plugins track by plugin.header.id"
+        ui-sref="{{sref('plugins.plugin')}}({'id': plugin.header.id})">
+        <i class="icon md-icon left-icon">
+          <div class="bg" style="background-image: url({{plugin.iconImage}})"></div>
+        </i>
+        <span>{{plugin.header.name}}</span>
+        <div class="item-detail">
+          {{toTitleCase(plugin.header.kind)}}
+        </div>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

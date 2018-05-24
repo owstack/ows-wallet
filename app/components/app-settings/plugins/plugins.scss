@@ -1,0 +1,11 @@
+#plugins {
+  background: $v-settings-bg;
+  color: $v-settings-color;
+
+	.md-icon > div.bg {
+		background-size: cover;
+	}
+}
+
+@import "details/details";
+@import "plugin/plugin";

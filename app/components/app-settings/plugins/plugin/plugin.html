@@ -1,0 +1,46 @@
+<ion-view id="preferences-plugin" class="ows" show-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{plugin.header.name}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div class="box-notification clear stretch">
+      <div class="row">
+        <div class="col col-20">
+          <i class="icon lg-icon left">
+            <div class="bg" ng-style="{'background-image': 'url(' + plugin.iconImage + ')'}"></div>
+          </i>
+        </div>
+        <div class="col">
+          <h2>
+            {{plugin.header.name}}
+          </h2>
+          <p class="detail">
+            <span ng-if="versions.length == 1">{{'Version' | translate}} {{versions[0]}}</span>
+            <span ng-if="versions.length > 1">{{'Multiple Versions Installed' | translate}}</span>
+            <br/>{{plugin.header.author}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="box-notification clear">
+      <p>
+        {{plugin.header.description}}
+      </p>
+    </div>
+    <ion-list>
+      <ion-item class="item-h-md item-icon-right" ng-click="openExternalLink(link)" ng-repeat="link in links">
+        <span>
+          {{externalLinks[link].itemName}}
+        </span>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+      <ion-item class="item-divider"></ion-item>
+      <ion-item class="item-h-md item-icon-right" ui-sref="{{sref('plugins.plugin-details')}}({'id': plugin.header.id})">
+        <span>Details</span>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

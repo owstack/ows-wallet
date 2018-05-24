@@ -388,6 +388,27 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/app-settings/terms-of-use/terms-of-use.html'
       }])
     })
+    .state($rootScope.sref('plugins'), {
+      url: '/plugins',
+      views: getViews('plugins', [{
+        controller: 'PluginsCtrl',
+        templateUrl: 'views/app-settings/plugins/plugins.html'
+      }])
+    })
+    .state($rootScope.sref('plugins.plugin'), {
+      url: '/plugin/:id',
+      views: getViews('plugins.plugin', [{
+        controller: 'PluginSettingsCtrl',
+        templateUrl: 'views/app-settings/plugins/plugin/plugin.html'
+      }])
+    })
+    .state($rootScope.sref('plugins.plugin-details'), {
+      url: '/plugin-details/:id',
+      views: getViews('plugins.plugin-details', [{
+        controller: 'PluginDetailsCtrl',
+        templateUrl: 'views/app-settings/plugins/details/details.html'
+      }])
+    })
     .state($rootScope.sref('advanced'), {
       url: '/advanced',
       views: getViews('advanced', [{

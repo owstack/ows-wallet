@@ -1,0 +1,51 @@
+<ion-view id="preferences-plugin-details" class="ows" show-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{plugin.header.name}} {{'Details' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <div class="box-notification info clear" ng-if="versions.length > 1">
+      <p class="notice">
+        {{'Multiple versions of this plugin are installed.' | translate}}
+      </p>
+      <p>
+        {{versions.join(', ')}}
+      </p>
+    </div>
+    <ion-list>
+      <span ng-if="dependents.length > 0">
+        <ion-item class="item-divider has-label">
+          {{'Dependencies' | translate}}
+        </ion-item>
+        <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-click="go(p.header.id)" ng-repeat="p in dependents">
+          <i class="icon md-icon left-icon">
+            <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+          </i>
+          <span>
+            {{p.header.name}}
+          </span>
+          <div class="item-detail">
+            {{toTitleCase(p.header.kind)}}
+          </div>
+        </ion-item>
+      </span>
+      <span ng-if="parents.length > 0">
+        <ion-item class="item-divider has-label">
+          {{'Users of this plugin' | translate}}
+        </ion-item>
+        <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-click="go(p.header.id)" ng-repeat="p in parents">
+          <i class="icon md-icon left-icon">
+            <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+          </i>
+          <span>
+            {{p.header.name}}
+          </span>
+          <div class="item-detail">
+            {{toTitleCase(p.header.kind)}}
+          </div>
+        </ion-item>
+      </span>
+    </ion-list>
+  </ion-content>
+</ion-view>

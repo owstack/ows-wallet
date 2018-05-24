@@ -4,8 +4,8 @@ i18n/crowdin_api_key.txt
 app/shared/translations
 
 # cordova
-plugins
-platforms
+/plugins
+/platforms
 
 # node-webkit
 cache

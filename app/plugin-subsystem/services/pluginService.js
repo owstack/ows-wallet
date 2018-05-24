@@ -56,6 +56,78 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     // TODO - finalize services
   };
 
+  root.getPluginsWithStateByIdSync = function(pluginId) {
+    var filter = [{
+      key: 'header.id',
+      value: pluginId
+    }];
+
+    var plugins = root.getPluginsWithStateSync(filter);
+    return plugins[0];
+  };
+
+  root.getPluginsWithStateSync = function(filter) {
+    var plugins = root.getAppletsWithStateSync(filter);
+    plugins = lodash.concat(plugins, root.getServletsWithStateSync(filter));
+    return plugins;
+  };
+
+  root.getAppletsWithStateSync = function(filter) {
+    return appletService.getAppletsWithStateSync(filter);
+  };
+
+  root.getServletsWithStateSync = function(filter) {
+    return servletService.getServletsWithStateSync(filter);
+  };
+
+  root.getParentPlugins = function(plugin, opts) {
+    opts = opts || {};
+
+    var plugins = root.getPluginsWithStateSync();
+
+    return lodash.filter(plugins, function(p) {
+      // It's a parent if the dependency name and version match mine.
+      if (p.dependencies && p.dependencies[plugin.header.id]) {
+
+        if (!opts.ignoreVersion) {
+          return (getVersion(p.dependencies[plugin.header.id]) == plugin.header.version);
+        }
+        return true;
+      }
+      return false;
+    });
+  };
+
+  root.getDependentPlugins = function(plugin, opts) {
+    opts = opts || {};
+
+    var dependents = [];
+    if (!plugin.dependencies) {
+      return dependents;
+    }
+
+    // Go through each of the input plugin dependencies and fetch the dependent plugin by id and version.
+    lodash.forEach(Object.keys(plugin.dependencies), function(id) {
+      var filter = [{
+        key: 'header.id',
+        value: id
+      }];
+
+      if (!opts.ignoreVersion) {
+        filter.push({
+          key: 'header.version',
+          value: getVersion(plugin.dependencies[id])
+        });
+      }
+
+      var dependent = root.getPluginsWithStateSync(filter)[0];
+      if (dependent) {
+        dependents.push(dependent);
+      }
+    });
+    return dependents;
+  };
+
   function initAppletContext(ctx) {
     var applets = lodash.pickBy(ctx.catalog.plugins, function(plugin) {
       return plugin.header.kind == 'applet';
@@ -80,6 +152,12 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     };
 
     return servletService.init(context);
+  };
+
+  function getVersion(dependency) {
+    // Get version from package version id.
+    // Remove any special characters in the semver string.
+    return Object.values(dependency.package)[0].replace(/[^\d\.]/gi, '');
   };
 
   return root;
