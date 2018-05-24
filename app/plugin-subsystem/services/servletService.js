@@ -96,9 +96,12 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
    */
 
   root.getServletWithStateById = function(servletId) {
-    var servlets = root.getServletsWithStateSync({
-      id: servletId
-    });
+    var filter = [{
+      key: 'header.id',
+      value: servletId
+    }];
+
+    var servlets = root.getServletsWithStateSync(filter);
     return servlets[0];
   };
 
@@ -107,11 +110,12 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
   };
 
   // Return servlets after applying persistent state. Result may be filtered.
-  // filter: {
-  //   id: servlet id,
-  // }
+  // filter: [{
+  //   key: <servlet-property-path>,
+  //   value: <value-to-filter>
+  // }]
   root.getServletsWithState = function(filter, callback) {
-    filter = filter || {};
+    filter = filter || [];
 
     // Get all of the servlets.
     getServlets().then(function(servlets) {
@@ -247,25 +251,11 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
   };
 
   function filterServlets(servlets, filter) {
-    if (!lodash.isEmpty(filter)) {
-      // Servlet id filter - choose only the servlet with the specified id.
-      var servletIdFilter = filter.id || {};
-
-      if (!lodash.isEmpty(servletIdFilter)) {
-        servlets = lodash.filter(servlets, function(servlet) {
-          return servletIdFilter == servlet.header.id;
-        });
-      }
-
-      // Kind filter - remove servlets that do not match the desired kind.
-      var kindFilter = filter.kind || {};
-
-      if (!lodash.isEmpty(kindFilter)) {
-        servlets = lodash.filter(servlets, function(servlet) {
-          return servlet.header.kind == kindFilter;
-        });
-      }
-    }
+    lodash.forEach(filter, function(f) {
+      servlets = lodash.filter(servlets, function(servlet) {
+        return f.value == lodash.get(servlet, f.key);
+      });
+    });
     return servlets;
   };
 

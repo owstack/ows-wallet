@@ -61,9 +61,12 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
    */
 
   root.getAppletWithStateById = function(appletId) {
-    var applets = root.getAppletsWithStateSync({
-      id: appletId
-    });
+    var filter = [{
+      key: 'header.id',
+      value: appletId
+    }];
+
+    var applets = root.getAppletsWithStateSync(filter);
     return applets[0];
   };
 
@@ -72,13 +75,12 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   // Return applets after applying persistent state. Result may be filtered.
-  // filter: {
-  //   id: applet id,
-  //   category: category object,
-  //   visible: true | false
-  // }
+  // filter: [{
+  //   key: <applet-property-path>,
+  //   value: <value-to-filter>
+  // }]
   root.getAppletsWithState = function(filter, callback) {
-    filter = filter || {};
+    filter = filter || [];
 
     // Get all of the applets.
     getApplets().then(function(applets) {
@@ -269,14 +271,16 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
   // Return the collection of all in-use applet categories.
   root.getAppletCategoriesWithState = function(filter) {
-    filter = filter || {};
+    filter = filter || [];
     var state = ctx.state;
     var iconPath = themeService.getCurrentTheme().uri + 'img/category-icons/';
 
     // Get all of the visible applets.
-    var applets = root.getAppletsWithStateSync({
-      visible: true
-    });
+    var filter = [{
+      key: 'applet.preferences.visible',
+      value: true
+    }];
+    var applets = root.getAppletsWithStateSync(filter);
 
     // Create a set of categories from applets.
     var categories = lodash.map(applets, function(applet) {
@@ -405,57 +409,20 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   function filterApplets(applets, filter) {
-    if (!lodash.isEmpty(filter)) {
-      // Applet id filter - choose only the applet with the specified id.
-      var appletIdFilter = filter.id || {};
-
-      if (!lodash.isEmpty(appletIdFilter)) {
-        applets = lodash.filter(applets, function(applet) {
-          return appletIdFilter == applet.header.id;
-        });
-      }
-
-      // Category filter - if there is a active category then remove applets not in the category.
-      var categoryFilter = filter.category || {};
-
-      if (!lodash.isEmpty(categoryFilter)) {
-        applets = lodash.filter(applets, function(applet) {
-          return categoryFilter.header.name == applet.preferences.category;
-        });
-      }
-
-      // Visibility filter - remove applets that are not visible.
-      var visibilityFilter = filter.visible || false;
-
-      if (visibilityFilter) {
-        applets = lodash.filter(applets, function(applet) {
-          return applet.preferences.visible;
-        });
-      }
-
-      // Kind filter - remove applets that do not match the desired kind.
-      var kindFilter = filter.kind || {};
-
-      if (!lodash.isEmpty(kindFilter)) {
-        applets = lodash.filter(applets, function(applet) {
-          return applet.header.kind == kindFilter;
-        });
-      }
-    }
+    lodash.forEach(filter, function(f) {
+      applets = lodash.filter(applets, function(applet) {
+        return f.value == lodash.get(applet, f.key);
+      });
+    });
     return applets;
   };
 
   function filterAppletCategories(categories, filter) {
-    if (!lodash.isEmpty(filter)) {
-      // Category name filter.
-      var nameFilter = filter.name || {};
-
-      if (!lodash.isEmpty(nameFilter)) {
-        categories = lodash.filter(categories, function(category) {
-          return nameFilter == category.header.name;
-        });
-      }
-    }
+    lodash.forEach(filter, function(f) {
+      categories = lodash.filter(categories, function(category) {
+        return f.value == lodash.get(category, f.key);
+      });
+    });
     return categories;
   };
 
