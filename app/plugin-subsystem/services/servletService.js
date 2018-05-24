@@ -37,6 +37,12 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     }
   };
 
+  function getVersion(dependency) {
+    // Get version from package version id.
+    // Remove any special characters in the semver string.
+    return Object.values(dependency.package)[0].replace(/[^\d\.]/gi, '');
+  };
+
   root.startServlets = function(session, opts) {
     opts = opts || {};
 
@@ -45,7 +51,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     var servletIds = Object.keys(session.plugin.dependencies);
 
     if (servletIds.length > 0) {
-      $log.debug('Starting dependent servlets for ' + session.plugin.header.kind + ' \'' + session.plugin.header.name + '\'');
+      $log.debug('Starting dependent servlets for ' + session.plugin.header.kind + ' \'' + session.plugin.header.name + '@' + session.plugin.header.version + '\'');
     }
 
     lodash.forEach(servletIds, function(id) {
@@ -57,7 +63,18 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
       }
   
       if (start) {
-        var servlet = root.getServletWithStateById(id);
+        // Get the correct servlet to start by id and version.
+        var version = getVersion(session.plugin.dependencies[id]);
+
+        var filter = [{
+          key: 'header.id',
+          value: id
+        }, {
+          key: 'header.version',
+          value: version
+        }];
+
+        var servlet = root.getServletsWithStateSync(filter)[0];
 
         // If the plugin id resolved a servlet then start it. Add the session for the servlet as a dependent of the owner.
         if (servlet) {
@@ -65,7 +82,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
             session.addDependent(servletSession);
           });
         } else {
-          $log.debug('Servlet not found \'' + id + '\'');
+          $log.debug('Servlet not found \'' + id + '@' + version + '\'');
         }
       }
     });
@@ -261,7 +278,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
 
   function startServlet(servlet) {
     return new Promise(function(resolve, reject) {
-      $log.info('Starting servlet: ' + servlet.header.name);
+      $log.info('Starting servlet: ' + servlet.header.name + '@' + servlet.header.version);
 
       // Create a session, container, and show the servlet.
       pluginSessionService.createSession(servlet, function(session) {
@@ -277,7 +294,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
   function shutdownServlet(session) {
     return new Promise(function(resolve, reject) {
       var servlet = session.plugin;
-      $log.info('Shutting down servlet: ' + servlet.header.name);
+      $log.info('Shutting down servlet: ' + servlet.header.name + '@' + servlet.header.version);
 
       $rootScope.$emit('$pre.beforeLeave', servlet);
 

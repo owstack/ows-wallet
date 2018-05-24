@@ -464,7 +464,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   });
 
   function doOpenApplet(applet) {
-    $log.info('Opening applet: ' + applet.header.name);
+    $log.info('Opening applet: ' + applet.header.name + '@' + applet.header.version);
     openApplet(applet);
   };
 
@@ -488,7 +488,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     var session = pluginSessionService.getSession(sessionId);
     var applet = session.plugin;
 
-    $log.info('Closing applet: ' + applet.header.name);
+    $log.info('Closing applet: ' + applet.header.name + '@' + applet.header.version);
 
     $rootScope.$emit('$pre.beforeLeave', applet);
 
