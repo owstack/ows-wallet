@@ -61,15 +61,20 @@ var buildPluginCatalog = function(config, mode) {
 
     // NPM plugins
     pluginReleaseDir = 'node_modules/' + pluginNpmPath + '/release/';
-    pluginWwwDir = PLUGIN_ROOT + pluginNpmPath + '/';
+
+    // Read plugin configuration.
+    var pluginConfig = utils.readJSON(pluginReleaseDir + 'plugin.json');
+
+    // Set local/app paths for installation of plugin.
+    // Plugins install in a version id subdirectory. Allows multiple version of the same
+    // plugin to be installed.
+    pluginWwwDir = PLUGIN_ROOT + pluginNpmPath + '/' + pluginConfig.header.version + '/';
     pluginInstallDir = WWW_PATH + pluginWwwDir;
-    pluginApisDir = TMP_PATH + 'plugin-apis/' + pluginNpmPath + '/';
+    pluginApisDir = TMP_PATH + 'plugin-apis/' + pluginNpmPath + '/' + pluginConfig.header.version + '/';
 
     fs.ensureDirSync(pluginInstallDir);
     fs.ensureDirSync(pluginApisDir);
 
-    // Read plugin configuration.
-    var pluginConfig = utils.readJSON(pluginReleaseDir + 'plugin.json');
     pluginConfig.uri = pluginWwwDir;
 
     // Replace tags.
