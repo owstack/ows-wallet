@@ -74,6 +74,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function(lodas
     'plugins':                        { stateName: 'main.plugins',                        viewNames: ['side-menu-content'] },
     'plugins.plugin':                 { stateName: 'main.plugins-plugin',                 viewNames: ['side-menu-content'] },
     'plugins.plugin-details':         { stateName: 'main.plugins-plugin-details',         viewNames: ['side-menu-content'] },
+    'plugins.plugin-others':          { stateName: 'main.plugins-plugin-others',          viewNames: ['side-menu-content'] },
     'preferences':                    { stateName: 'main.preferences',                    viewNames: ['side-menu-content'] },
     'preferences.advanced':           { stateName: 'main.preferences-advanced',           viewNames: ['side-menu-content'] },
     'preferences.alias':              { stateName: 'main.preferences-alias',              viewNames: ['side-menu-content'] },

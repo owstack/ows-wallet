@@ -80,7 +80,8 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     return servletService.getServletsWithStateSync(filter);
   };
 
-  root.getParentPlugins = function(plugin, opts) {
+  // Get each of the parent plugins for the single provided plugin.
+  root.getParentPluginsFor = function(plugin, opts) {
     opts = opts || {};
 
     var plugins = root.getPluginsWithStateSync();
@@ -98,7 +99,8 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     });
   };
 
-  root.getDependentPlugins = function(plugin, opts) {
+  // Get each of the dependent plugins for the single provided plugin.
+  root.getDependentPluginsOf = function(plugin, opts) {
     opts = opts || {};
 
     var dependents = [];
@@ -126,6 +128,48 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
       }
     });
     return dependents;
+  };
+
+  // Get each of the parent plugins for a each plugin in the provided list of plugins.
+  root.getParents = function(plugins) {
+    // listParents = [{
+    //   my: {},         // subject plugin
+    //   plugins: []     // parent plugins
+    // }]
+    //
+    var listParents = [];
+    lodash.forEach(plugins, function(plugin) {
+
+      // Look at each installation of this plugin and get a list of it's parents.
+      var parents = root.getParentPluginsFor(plugin);
+      if (parents.length > 0) {
+        listParents.push({
+          my: plugin,
+          plugins: parents
+        });
+      }
+    });
+    return listParents;
+  };
+
+  // Get each of the dependent plugins for a each plugin in the provided list of plugins.
+  root.getDependents = function(plugins) {
+    // listDependents = [{
+    //   my: {},         // subject plugin
+    //   plugins: []     // dependent plugins
+    // }]
+    //
+    var listDependents = [];
+    lodash.forEach(plugins, function(plugin) {
+      var dependents = root.getDependentPluginsOf(plugin);
+      if (dependents.length > 0) {
+        listDependents.push({
+          my: plugin,
+          plugins: dependents
+        });
+      }
+    });
+    return listDependents;
   };
 
   function initAppletContext(ctx) {

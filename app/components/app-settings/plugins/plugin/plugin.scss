@@ -2,9 +2,14 @@
   background: $v-settings-bg;
   color: $v-settings-color;
 
-	.lg-icon > div.bg {
-		background-size: cover;
-	}
+	.icon.left {
+    margin-top: 5px;
+    margin-left: 10px;
+
+		> div.bg {
+			background-size: cover;
+		}
+  }
 
 	.detail {
 		color: $v-list-item-secondary-color;

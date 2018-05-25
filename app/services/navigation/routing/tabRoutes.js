@@ -74,6 +74,7 @@ angular.module('owsWalletApp.services').factory('tabRoutes', function(lodash) {
     'plugins':                        { stateName: 'tabs.plugins',                        viewNames: ['tab-settings@tabs'] },
     'plugins.plugin':                 { stateName: 'tabs.plugins-plugin',                 viewNames: ['tab-settings@tabs'] },
     'plugins.plugin-details':         { stateName: 'tabs.plugins-plugin-details',         viewNames: ['tab-settings@tabs'] },
+    'plugins.plugin-others':          { stateName: 'tabs.plugins-plugin-others',          viewNames: ['tab-settings@tabs'] },
     'preferences':                    { stateName: 'tabs.preferences',                    viewNames: ['tab-settings@tabs'] },
     'preferences.advanced':           { stateName: 'tabs.preferences.advanced',           viewNames: ['tab-settings@tabs'] },
     'preferences.alias':              { stateName: 'tabs.preferences.alias',              viewNames: ['tab-settings@tabs'] },

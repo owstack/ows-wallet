@@ -1,4 +1,4 @@
-#plugins {
+#preferences-plugin-others {
   background: $v-settings-bg;
   color: $v-settings-color;
 
@@ -6,7 +6,3 @@
 		background-size: cover;
 	}
 }
-
-@import "details/details";
-@import "others/others";
-@import "plugin/plugin";

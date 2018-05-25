@@ -15,36 +15,46 @@
     </div>
     <ion-list>
       <span ng-if="dependents.length > 0">
-        <ion-item class="item-divider has-label">
-          {{'Dependencies' | translate}}
-        </ion-item>
-        <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-click="go(p.header.id)" ng-repeat="p in dependents">
-          <i class="icon md-icon left-icon">
-            <div class="bg" style="background-image: url({{p.iconImage}})"></div>
-          </i>
-          <span>
-            {{p.header.name}}
-          </span>
-          <div class="item-detail">
-            {{toTitleCase(p.header.kind)}}
-          </div>
-        </ion-item>
+        <span ng-repeat="d in dependents">
+          <ion-item class="item-divider has-label">
+            Dependents of {{d.my.header.name}} version {{d.my.header.version}}
+          </ion-item>
+          <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-repeat="p in d.plugins">
+            <i class="icon md-icon left-icon">
+              <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+            </i>
+            <span>
+              {{p.header.name}}
+            </span>
+            <div class="item-detail">
+              {{toTitleCase(p.header.kind)}}
+            </div>
+            <div class="item-note">
+              Version {{p.header.version}}
+            </div>
+          </ion-item>
+        </span>
       </span>
       <span ng-if="parents.length > 0">
-        <ion-item class="item-divider has-label">
-          {{'Users of this plugin' | translate}}
-        </ion-item>
-        <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-click="go(p.header.id)" ng-repeat="p in parents">
-          <i class="icon md-icon left-icon">
-            <div class="bg" style="background-image: url({{p.iconImage}})"></div>
-          </i>
-          <span>
-            {{p.header.name}}
-          </span>
-          <div class="item-detail">
-            {{toTitleCase(p.header.kind)}}
-          </div>
-        </ion-item>
+        <span ng-repeat="r in parents">
+          <ion-item class="item-divider has-label">
+            Users of {{r.my.header.name}} version {{r.my.header.version}}
+          </ion-item>
+          <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-repeat="p in r.plugins">
+            <i class="icon md-icon left-icon">
+              <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+            </i>
+            <span>
+              {{p.header.name}}
+            </span>
+            <div class="item-detail">
+              {{toTitleCase(p.header.kind)}}
+            </div>
+            <div class="item-note">
+              Version {{p.header.version}}
+            </div>
+          </ion-item>
+        </span>
       </span>
     </ion-list>
   </ion-content>

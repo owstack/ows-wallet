@@ -402,6 +402,13 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/app-settings/plugins/plugin/plugin.html'
       }])
     })
+    .state($rootScope.sref('plugins.plugin-others'), {
+      url: '/plugin-others',
+      views: getViews('plugins.plugin-others', [{
+        controller: 'OtherPluginsCtrl',
+        templateUrl: 'views/app-settings/plugins/others/others.html'
+      }])
+    })
     .state($rootScope.sref('plugins.plugin-details'), {
       url: '/plugin-details/:id',
       views: getViews('plugins.plugin-details', [{

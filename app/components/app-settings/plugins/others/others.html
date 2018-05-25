@@ -1,0 +1,38 @@
+<ion-view id="preferences-plugin-others" class="ows" show-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{'Additional Plugins' | translate}}</ion-nav-title>
+    <ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-content>
+    <span ng-if="plugins.length == 0">
+      <div class="box-notification info clear" ng-if="versions.length > 1">
+        <p class="notice" translate>
+          No additional plugins are installed.
+        </p>
+      </div>
+    </span>
+    <span ng-if="plugins.length > 0">
+      <div class="box-notification info clear">
+        <p class="notice" translate>
+          These plugins were automatically installed as dependencies of other plugins.
+        </p>
+      </div>
+      <ion-list>
+        <ion-item class="item-h-md item-icon-left icon-left-md item-icon-right has-detail" ng-repeat="p in plugins"
+          ui-sref="{{sref('plugins.plugin')}}({'id': p.header.id})">
+          <i class="icon md-icon left-icon">
+            <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+          </i>
+          <span>
+            {{p.header.name}}
+          </span>
+          <div class="item-detail">
+            {{toTitleCase(p.header.kind)}}
+          </div>
+          <i class="icon arrow-right"></i>
+        </ion-item>
+      </ion-list>
+    </span>
+  </ion-content>
+</ion-view>
