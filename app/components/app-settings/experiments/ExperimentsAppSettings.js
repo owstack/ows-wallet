@@ -18,7 +18,7 @@ angular.module('owsWalletApp.controllers').controller('ExperimentsAppSettingsCtr
 
         configService.set(opts, function(err) {
           if (err) {
-            $log.debug(err);
+            $log.error(err);
             title = gettextCatalog.getString('Error');
             message = gettextCatalog.getString('Could not change app navigation scheme.');
             return popupService.showAlert(title, message);
@@ -38,9 +38,9 @@ angular.module('owsWalletApp.controllers').controller('ExperimentsAppSettingsCtr
     };
     configService.set(opts, function(err) {
       if (err) {
-      	$log.debug(err);
+      	$log.error(err);
       }
-	    $log.info('Experiments: ' + JSON.stringify($scope.experiments));
+	    $log.debug('Experiments: ' + JSON.stringify($scope.experiments));
       cb();
     });
   };

@@ -41,6 +41,7 @@ build
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
 bower_components
+angular-bitauth/angular-bitauth.js
 angular-bch-wallet-client/angular-bch-wallet-client.js
 angular-btc-wallet-client/angular-btc-wallet-client.js
 

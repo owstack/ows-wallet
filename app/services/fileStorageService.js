@@ -26,12 +26,12 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
         root.getDir(function(err, newDir) {
           if (err || !newDir.nativeURL) return cb(err);
           _dir = newDir;
-          $log.debug('File system started (cordova-plugin-file): ' + fs.name + ' at ' + _dir.nativeURL);
+          $log.info('File system started (cordova-plugin-file): ' + fs.name + ' at ' + _dir.nativeURL);
           return cb(null, _fs, _dir);
         });
       } else {
         _dir = fs.root;
-        $log.debug('File system started (File System API): ' + fs.name);
+        $log.info('File system started (File System API): ' + fs.name);
         return cb(null, _fs, _dir);
       }
     }
@@ -69,9 +69,9 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
       // requestFileSystem is prefixed in Google Chrome and Opera.
       window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
 
-      $log.debug('File storage requesting ' + requestedBytes + ' bytes');
+      $log.info('File storage requesting ' + requestedBytes + ' bytes');
       navigator.webkitPersistentStorage.requestQuota(requestedBytes, function(grantedBytes) {
-        $log.debug('File storage granted ' + grantedBytes + ' bytes');
+        $log.info('File storage granted ' + grantedBytes + ' bytes');
         window.requestFileSystem(PERSISTENT, grantedBytes, onFileSystemSuccess, fail);
       }, fail);
     }
@@ -111,7 +111,7 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
 
     if (writelock[k]) {
       return setTimeout(function() {
-        $log.debug('## Writelock for:' + k + ' Retrying in ' + delay);
+        $log.info('Writelock for:' + k + ' Retrying in ' + delay);
         return root.set(k, v, cb, delay + 100);
       }, delay);
     }
@@ -163,12 +163,12 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
             var blob = new Blob([v], {type: 'text/plain'});
 
             navigator.webkitPersistentStorage.queryUsageAndQuota (function(usedBytes, grantedBytes) {
-              $log.debug('File storage is using ', usedBytes, ' of ', grantedBytes, 'bytes');
+              $log.info('File storage is using ', usedBytes, ' of ', grantedBytes, 'bytes');
 
               if (blob.size < (grantedBytes - usedBytes)) {
                 fileWriter.write(blob);
               } else if (writeRetries > 0) {
-                $log.debug('Error: not enough space to write, will attempt to allocate storage and retry...');
+                $log.error('Not enough space to write, will attempt to allocate storage and retry...');
                 // Retry after allocating 110% of the blob size.
                 root.allocate(Math.round(blob.size * 1.1), function() {
                   writeRetries--;
@@ -176,18 +176,18 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
                 });
               } else {
                 writeRetries = maxWriteRetries;
-                $log.debug('Error: file storage permanent failure, not enough space to write file');
+                $log.error('File storage permanent failure, not enough space to write file');
                 fileWriter.onerror('File storage permanent failure, not enough space to write file');
               }
 
             }, function(e) {
-              $log.debug('Error writing file storage', e);
+              $log.error('Failed to write file storage', e);
             });
 
           }
         }, cb);
       }, function(e) {
-        $log.debug('Error writing file storage', e);
+        $log.error('Failed to write file storage', e);
       });
     });
   };
@@ -218,7 +218,7 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
     window.resolveLocalFileSystemURL(url, function(dir) {
       return cb(null, dir);
     }, function(err) {
-      $log.warn(err);
+      $log.error(err);
       return cb(err || 'Could not resolve filesystem:' + url);
     });
   };

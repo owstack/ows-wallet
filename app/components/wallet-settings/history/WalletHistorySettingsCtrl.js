@@ -19,7 +19,7 @@ angular.module('owsWalletApp.controllers').controller('WalletHistorySettingsCtrl
           try {
             txsFromLocal = JSON.parse(txs);
           } catch (ex) {
-            $log.warn(ex);
+            $log.error(ex);
           }
 
           allTxs.push(txsFromLocal);
@@ -31,10 +31,10 @@ angular.module('owsWalletApp.controllers').controller('WalletHistorySettingsCtrl
       getHistory(function(err, txs) {
         if (err || lodash.isEmpty(txs)) {
           if (err) {
-            $log.warn('Failed to generate CSV:', err);
+            $log.error('Failed to generate CSV:', err);
             $scope.err = err;
           } else {
-            $log.warn('Failed to generate CSV: no transactions');
+            $log.error('Failed to generate CSV: no transactions');
             $scope.err = 'No transactions';
           }
           if (cb) return cb(err);
@@ -125,8 +125,6 @@ angular.module('owsWalletApp.controllers').controller('WalletHistorySettingsCtrl
     };
 
     $scope.clearTransactionHistory = function() {
-      $log.info('Removing Transaction history ' + $scope.wallet.id);
-
       walletService.clearTxHistory($scope.wallet, function(err) {
         if (err) {
           $log.error(err);

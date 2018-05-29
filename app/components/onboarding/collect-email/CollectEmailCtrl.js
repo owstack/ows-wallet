@@ -39,9 +39,9 @@ angular.module('owsWalletApp.controllers').controller('CollectEmailCtrl', functi
     };
 
     $http(_post(dataSrc)).then(function() {
-      $log.info("SUCCESS: Email collected");
+      $log.info("Email address collected");
     }, function(err) {
-      $log.error("ERROR: Could not collect email");
+      $log.warn("Could not collect email address");
     });
   };
 

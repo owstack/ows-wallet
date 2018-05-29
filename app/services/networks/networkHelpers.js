@@ -204,7 +204,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     function parsePayPro(data, result, cb) {
       payproService.getPayProDetails(data, network, function(err, details) {
         if (err) {
-          result.error = 'paypro error: ' + err;
+          result.error = 'Paypro error: ' + err;
         }
 
         if (details) {
@@ -215,7 +215,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
 
             details.networkURI = getURIForAddrNetwork(addrNetwork);
             if (details.networkURI != network.getURI()) {
-              result.error = 'network URI mismatch';
+              result.error = 'Network URI mismatch';
             }
 
           } else {

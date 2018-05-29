@@ -48,7 +48,8 @@ angular.module('owsWalletApp').constant('pluginSchema',
           'properties': {
             'marketing': {'type': 'string'},
             'support': {'type': 'string'},
-            'privacy': {'type': 'string'}
+            'privacy': {'type': 'string'},
+            'terms': {'type': 'string'}
           }
         },
       }

@@ -15,7 +15,7 @@ angular.module('owsWalletApp.services').factory('openUrlService', function($root
 
     var url = args.url;
     if (!url) {
-      $log.error('No url provided');
+      $log.warn('No url provided');
       return;
     };
 

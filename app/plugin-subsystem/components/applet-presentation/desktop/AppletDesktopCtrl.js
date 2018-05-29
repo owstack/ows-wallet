@@ -121,7 +121,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletDesktopCtrl',
 
   // Applets change when the theme is changed.
   var removeThemeUpdated = $rootScope.$on('Local/ThemeUpdated', function(event) {
-    $log.debug('applet refresh - Local/ThemeUpdated');
+    $log.debug('Applet refresh - Local/ThemeUpdated');
     self.applets = appletService.getAppletsWithState({
       visible: true
     });
@@ -138,7 +138,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletDesktopCtrl',
   // Listen for changes to wallet skins and update wallet applets.
   // TODO: manage only the change rather than refreshing the whole collection.
   var removeSkinUpdated = $rootScope.$on('Local/SkinUpdated', function(event, skin, walletId) {
-    $log.debug('applet refresh - Local/SkinUpdated ' + skin.header.name + ' for ' + walletId);
+    $log.debug('Applet refresh - Local/SkinUpdated ' + skin.header.name + ' for ' + walletId);
     self.applets = appletService.getAppletsWithState({
       visible: true
     });
@@ -147,7 +147,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletDesktopCtrl',
   // Listen for new or deleted wallets.
   // TODO: manage only the change rather than refreshing the whole collection.
   var removeNewFocusedWallet = $rootScope.$on('Local/NewFocusedWallet', function(event, fc) {
-    $log.debug('applet refresh - Local/NewFocusedWallet');
+    $log.debug('Applet refresh - Local/NewFocusedWallet');
     self.applets = appletService.getAppletsWithState({
       visible: true
     });

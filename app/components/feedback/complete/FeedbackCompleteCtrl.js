@@ -92,7 +92,7 @@ angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', fu
             $scope.shareFacebookVia = 'com.facebook.katana';
             $scope.facebook = true;
           }, function(e) {
-            $log.debug('facebook error: ' + e);
+            $log.debug('Facebook error: ' + e);
             $scope.facebook = false;
           });
         });
@@ -105,7 +105,7 @@ angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', fu
             $scope.shareTwitterVia = 'com.twitter.android';
             $scope.twitter = true;
           }, function(e) {
-            $log.debug('twitter error: ' + e);
+            $log.debug('Twitter error: ' + e);
             $scope.twitter = false;
           });
         });
@@ -114,21 +114,21 @@ angular.module('owsWalletApp.controllers').controller('FeedbackCompleteCtrl', fu
           $scope.shareGooglePlusVia = 'com.google.android.apps.plus';
           $scope.googleplus = true;
         }, function(e) {
-          $log.debug('googlePlus error: ' + e);
+          $log.debug('GooglePlus error: ' + e);
           $scope.googleplus = false;
         });
 
         window.plugins.socialsharing.canShareViaEmail(function(e) {
           $scope.email = true;
         }, function(e) {
-          $log.debug('email error: ' + e);
+          $log.debug('Email error: ' + e);
           $scope.email = false;
         });
 
         window.plugins.socialsharing.canShareVia('whatsapp', 'msg', null, null, null, function(e) {
           $scope.whatsapp = true;
         }, function(e) {
-          $log.debug('whatsapp error: ' + e);
+          $log.debug('Whatsapp error: ' + e);
           $scope.whatsapp = false;
         });
       }

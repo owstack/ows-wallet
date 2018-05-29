@@ -27,20 +27,21 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
   };
 
   root.activateSession = function(sessionId) {
+    $log.info('Activating plugin session (id: \'' + sessionId + '\')');
     var session = root.getSession(sessionId)
     if (!lodash.isUndefined(session) && session.isValid()) {
       root._activeSessionId = sessionId;
     } else {
-      throw new Error('Failed to activate an invalid or undefined plugin session (id: \'' + sessionId + '\')');
+      $log.warn('Session not found, could not activate plugin session: ' + sessionId);
     }
   };
 
   root.deactivateSession = function(sessionId) {
     var session = root.getSession(sessionId)
     if (!lodash.isUndefined(session) && session.isValid()) {
+      $log.info('Deactivating plugin session: ' + session.id + ' (plugin id: ' + session.plugin.header.id + ')');
+
       root._activeSessionId = undefined;
-    } else {
-      throw new Error('Failed to deactivate an invalid or undefined plugin session (id: \'' + sessionId + '\')');
     }
   };
 
@@ -91,6 +92,8 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     });
 
     if (!lodash.isUndefined(session)) {
+      $log.info('Destroying plugin session: ' + session.id + ' (plugin id: ' + session.plugin.header.id + ')');
+
       // Flush any session data to storage.
     	session.flush(function(err) {
     		if (err) {
@@ -102,8 +105,6 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
 	    	$log.debug('Plugin session successfully removed: ' + session.id + ' (plugin id: ' + session.plugin.header.id + ')');
         callback();
     	});
-    } else {
-    	$log.warn('Plugin session not found for removal: ' + session.id + ' (plugin id: ' + session.plugin.header.id + ')');
 	  }
   };
 
@@ -114,7 +115,7 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     } catch(e) {}; // Ignore errors if there is no active session.
 
     for (var i = 0; i < root._sessionPool.length; i++) {
-      root.destroySession(root._sessionPool[i]);
+      root.destroySession(root._sessionPool[i].id);
     }
   };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootScope, $log, lodash, ApiRouter) {
+angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootScope, $log, lodash, ApiRouter, platformInfoService) {
 
   // Bit values for settings.
   // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
@@ -28,7 +28,9 @@ angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootSco
      */
 
     this.start = function(session) {
-      container = angular.element('<iframe class="ng-hide" src="' + this.uri + 'index.html?sessionId=' + session.id + '"></iframe>');
+      var src = this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova;
+      
+      container = angular.element('<iframe class="ng-hide" src="' + src + '"></iframe>');
       angular.element(document.body).append(container);
     };
 

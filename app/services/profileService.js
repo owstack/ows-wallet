@@ -207,7 +207,7 @@ angular.module('owsWalletApp.services')
           if (isOK) {
             root.profile.setChecked(platformInfoService.ua, walletId);
           } else {
-            $log.warn('Key Derivation failed for wallet:' + walletId);
+            $log.error('Key Derivation failed for wallet:' + walletId);
             storageService.clearLastAddress(walletId, function() {});
           }
 
@@ -339,14 +339,14 @@ angular.module('owsWalletApp.services')
           });
 
         } catch (ex) {
-          $log.info(ex);
+          $log.error(ex);
           return cb(gettextCatalog.getString('Could not create: Invalid wallet recovery phrase.'));
         }
       } else if (opts.extendedPrivateKey) {
         try {
           walletClient.seedFromExtendedPrivateKey(opts.extendedPrivateKey);
         } catch (ex) {
-          $log.warn(ex);
+          $log.error(ex);
           return cb(gettextCatalog.getString('Could not create using the specified extended private key.'));
         }
       } else if (opts.extendedPublicKey) {
@@ -357,7 +357,7 @@ angular.module('owsWalletApp.services')
           });
           walletClient.credentials.hwInfo = opts.hwInfo;
         } catch (ex) {
-          $log.warn("Creating wallet from Extended Public Key Arg:", ex, opts);
+          $log.error("Could not create wallet from Extended Public Key Arg:", ex, opts);
           return cb(gettextCatalog.getString('Could not create using the specified extended public key.'));
         }
       } else {
@@ -370,7 +370,7 @@ angular.module('owsWalletApp.services')
             account: 0,
           });
         } catch (e) {
-          $log.info('Error creating recovery phrase: ' + e.message);
+          $log.error('Error creating recovery phrase: ' + e.message);
           if (e.message.indexOf('language') > 0) {
             $log.info('Using default language for recovery phrase');
             walletClient.seedFromRandomWithMnemonic({
@@ -512,7 +512,7 @@ angular.module('owsWalletApp.services')
 
       storageService.removeAllWalletData(walletId, function(err) {
         if (err) {
-          $log.warn(err);
+          $log.error(err);
         }
       });
 
@@ -568,7 +568,7 @@ angular.module('owsWalletApp.services')
         if (url != defaults.currencyNetworks[client.networkURI].walletService.url) {
           walletService.setPreference(walletId, 'walletServiceUrl', url, function() {
             if (err) {
-              $log.warn(err);
+              $log.error(err);
             }
             return cb();
           });
@@ -607,13 +607,13 @@ angular.module('owsWalletApp.services')
       ////////////
       var commonClient = networkService.walletClientFor('livenet/btc').getClient(null, opts);
 
-      $log.debug('Importing Wallet:', opts);
+      $log.info('Importing Wallet:', opts);
 
       try {
         var c = JSON.parse(str);
 
         if (c.xPrivKey && c.xPrivKeyEncrypted) {
-          $log.warn('Found both encrypted and decrypted key. Deleting the encrypted version');
+          $log.warn('Found both encrypted and decrypted key. Deleting the encrypted version.');
           delete c.xPrivKeyEncrypted;
           delete c.mnemonicEncrypted;
         }
@@ -621,6 +621,7 @@ angular.module('owsWalletApp.services')
         str = JSON.stringify(c);
         commonClient.import(str); // TODO-AJP: this just sets credentials on the client; consider in refactor
       } catch (err) {
+        $log.error(err);
         return cb(gettextCatalog.getString('Could not import. Check input file and spending password.'));
       }
 
@@ -646,7 +647,7 @@ angular.module('owsWalletApp.services')
         }
         root.setMetaData(walletClient, addressBook, function(error) {
           if (error) {
-            $log.warn(error);
+            $log.error(error);
           }
           return cb(err, walletClient);
         });
@@ -657,7 +658,7 @@ angular.module('owsWalletApp.services')
       // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
-      $log.debug('Importing Wallet xPrivKey');
+      $log.info('Importing Wallet xPrivKey');
 
       walletClient.importFromExtendedPrivateKey(xPrivKey, opts, function(err) {
         if (err) {
@@ -689,7 +690,7 @@ angular.module('owsWalletApp.services')
       // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
 
-      $log.debug('Importing Wallet Mnemonic');
+      $log.info('Importing Wallet Mnemonic');
 
       words = root._normalizeMnemonic(words);
       walletClient.importFromMnemonic(words, {
@@ -717,7 +718,7 @@ angular.module('owsWalletApp.services')
     root.importExtendedPublicKey = function(opts, cb) {
       // opts.walletServiceUrl should be set according to network.
       var walletClient = networkService.walletClientFor(opts.networkURI).getClient(null, opts);
-      $log.debug('Importing Wallet XPubKey');
+      $log.info('Importing Wallet XPubKey');
 
       walletClient.importFromExtendedPublicKey(opts.extendedPublicKey, opts.externalSource, opts.entropySource, {
         account: opts.account || 0,
@@ -1028,7 +1029,7 @@ angular.module('owsWalletApp.services')
         updateNotifications(wallet, function(err) {
           j++;
           if (err) {
-            $log.warn('Error updating notifications:' + err);
+            $log.error('Error updating notifications:' + err);
           } else {
 
             var n;

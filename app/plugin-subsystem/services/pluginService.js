@@ -10,7 +10,7 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
   // 
   root.init = function() {
     return new Promise(function(resolve, reject) {
-      $log.info('Initializing plugin service');
+      $log.debug('Initializing plugin service');
 
       if (!PluginCatalog.supportsWriting()) {
         $log.error('Plugin service initilization - device does not provide storage for plugins');
@@ -49,7 +49,7 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
   };
 
   root.finalize = function() {
-    $log.info('Finalizing plugin service');
+    $log.debug('Finalizing plugin service');
     appletService.finalize();
     servletService.finalize();
     pluginSessionService.finalize();

@@ -238,7 +238,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
             $rootScope.theme.skins[skin.header.id] = skin;
 
           }, function errorCallback(response) {
-            $log.debug('Error: failed to GET ' + response.config.url + ', status: ' + response.status);
+            $log.error('Failed to GET ' + response.config.url + ', status: ' + response.status);
           })
         );
       }
@@ -263,11 +263,11 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
         });
 
       }, function errorCallback(error) {
-        $log.debug('Error: failed to GET local skin resources, ensure your skin files are valid JSON' + (error.message ? ': \'' + error.message + '\'': ''));
+        $log.error('Failed to GET local skin resources, ensure your skin files are valid JSON' + (error.message ? ': \'' + error.message + '\'': ''));
       });
 
     }, function errorCallback(error) {
-      $log.debug('Error: failed to GET local skin resources, ensure your skin files are valid JSON' + (error.message ? ': \'' + error.message + '\'': ''));
+      $log.error('Failed to GET local skin resources, ensure your skin files are valid JSON' + (error.message ? ': \'' + error.message + '\'': ''));
     });
   };
 
@@ -389,8 +389,11 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
         }
 
         resolve();
+
       }).catch(function(err) {
+        $log.error(err);
         reject(err);
+
       });
     });
   };
@@ -1015,7 +1018,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       // Lazy init the wallet skin id.
       walletService.setPreference(walletId, 'skinId', root.getCurrentTheme().defaultSkinId, function(err) {
         if (err) {
-          $log.warn(err);
+          $log.error(err);
         }
       });
     }
@@ -1044,7 +1047,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       callback(discoveredThemeHeaders);
     }, function errorCallback(response) {
       callback([]);
-      $log.debug('Error: failed to GET theme resources from ' + response.config.url);
+      $log.error('Failed to GET theme resources from ' + response.config.url);
     });
   };
 
@@ -1112,7 +1115,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       });
     }, function errorCallback(response) {
       callback({});
-      $log.debug('Error: failed to GET theme resources from ' + response.config.url);
+      $log.error('Failed to GET theme resources from ' + response.config.url);
     });
   };
 
@@ -1137,7 +1140,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       callback(discoveredSkinHeaders);
     }, function errorCallback(response) {
       callback([]);
-      $log.debug('Error: failed to GET skin resources from ' + response.config.url);
+      $log.error('Failed to GET skin resources from ' + response.config.url);
     });
   };
 
@@ -1206,7 +1209,7 @@ angular.module('owsWalletApp.pluginServices').factory('themeService', function($
       });
     }, function errorCallback(response) {
       callback({});
-      $log.debug('Error: failed to GET skin resources from ' + response.config.url);
+      $log.error('Failed to GET skin resources from ' + response.config.url);
     });
   };
 */

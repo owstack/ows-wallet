@@ -42,7 +42,9 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
         }
       };
       profileService.toggleHideBalanceFlag($scope.walletId, function(err) {
-        if (err) $log.error(err);
+        if (err) {
+          $log.error(err);
+        }
       });
     };
 
@@ -56,7 +58,7 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
         $log.debug('Encrypting private key for', $scope.wallet.name);
         walletService.encrypt($scope.wallet, function(err) {
           if (err) {
-            $log.warn(err);
+            $log.error(err);
 
             // TODO-AJP: show error?
             $scope.encryptEnabled.value = false;
@@ -73,7 +75,7 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
       } else if (!val && walletService.isEncrypted($scope.wallet)) {
         walletService.decrypt($scope.wallet, function(err) {
           if (err) {
-            $log.warn(err);
+            $log.error(err);
 
             // TODO-AJP: show error?
             $scope.encryptEnabled.value = true;

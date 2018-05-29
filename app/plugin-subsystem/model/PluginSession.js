@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState) {
+angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState, configService) {
 
   var STATE_VALID = 1;
 
@@ -8,6 +8,8 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
    */
 
   function PluginSession(plugin, callback) {
+    var config = configService.getSync();
+
     if (!plugin) {
       throw new Error('No plugin provided to create session');
     }
@@ -19,6 +21,9 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
     this.timestamp = now;
     this.plugin = plugin;
 
+    // Use same log level in plugin as for app.
+    this.logLevel = config.log.filter;
+
     var state = STATE_VALID;
     var userData = {};
     var dependentSessions = [];
@@ -29,6 +34,14 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
 
     this.isValid = function() {
       return state & STATE_VALID;
+    };
+
+    this.isForApplet = function() {
+      return this.plugin.header.kind == 'applet';
+    };
+
+    this.isForServlet = function() {
+      return this.plugin.header.kind == 'servlet';
     };
 
     this.isForPlugin = function(pluginId) {
@@ -89,7 +102,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       });
 
       if (index >= 0) {
-        $log.error('Attempt to add duplicate dependent session: ' + session.id);
+        $log.warn('Attempt to add duplicate dependent session: ' + session.id);
         return;
       }
       dependentSessions.push(session.id);
@@ -101,7 +114,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       });
 
       if (index < 0) {
-        $log.error('Attempt to remove non-existent dependent session: ' + sessionId);
+        $log.warn('Attempt to remove non-existent dependent session: ' + sessionId);
         return;
       }
       lodash.pullAt(dependentSessions, index);

@@ -26,10 +26,10 @@ angular.module('owsWalletApp.controllers').controller('CreateFirstWalletCtrl',
       $timeout(function() {
         profileService.createDefaultWallet($scope.data.networkURI, function(err, walletClient) {
           if (err) {
-            $log.warn(err);
+            $log.error(err);
 
             return $timeout(function() {
-              $log.warn('Retrying to create default wallet.....:' + ++retryCount);
+              $log.info('Retrying to create default wallet.....:' + ++retryCount);
               if (retryCount > 3) {
                 ongoingProcessService.set('creatingWallet', false);
                 popupService.showAlert(

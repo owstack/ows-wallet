@@ -69,7 +69,7 @@ angular.module('owsWalletApp.pluginServices').factory('themePreferencesService',
         callback();
       });
     } else {
-      $log.debug('Error: could not set theme preferences, theme not found \'' + themeName + '\'');
+      $log.warn('Could not set theme preferences, theme not found \'' + themeName + '\'');
       callback();
     }
   };
@@ -168,7 +168,7 @@ angular.module('owsWalletApp.pluginServices').factory('themePreferencesService',
         callback();
       });
     } else {
-      $log.debug('Error: could not set theme preferences, skin not found \'' + themeName + '/' + skinName + '\'');
+      $log.warn('Could not set theme preferences, skin not found \'' + themeName + '/' + skinName + '\'');
       callback();
     }
   };

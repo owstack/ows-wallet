@@ -26,7 +26,9 @@ angular.module('owsWalletApp.controllers').controller('LanguageSettingsCtrl',
 
       uxLanguageService._set(newLang);
       configService.set(opts, function(err) {
-        if (err) $log.warn(err);
+        if (err) {
+          $log.error(err);
+        }
         walletService.updateRemotePreferences(profileService.getWallets());
       });
 

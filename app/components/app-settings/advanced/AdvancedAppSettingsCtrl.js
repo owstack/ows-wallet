@@ -34,7 +34,7 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     };
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
     });
   };
@@ -47,7 +47,7 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     };
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
     });
   };
@@ -60,7 +60,7 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     };
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
     });
   };
@@ -77,7 +77,7 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     };
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
     });
   };
@@ -92,7 +92,7 @@ angular.module('owsWalletApp.controllers').controller('AdvancedAppSettingsCtrl',
     };
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       $log.info('Experiments menu ' + ($scope.showExperimentsMenu.value ? 'enabled' : 'disabled'));
     });

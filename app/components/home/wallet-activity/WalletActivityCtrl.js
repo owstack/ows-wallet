@@ -15,7 +15,9 @@ angular.module('owsWalletApp.controllers').controller('WalletActivityCtrl',
         $scope.notifications = n;
 
         profileService.getTxps({}, function(err, txps, n) {
-          if (err) $log.error(err);
+          if (err) {
+            $log.error(err);
+          }
           $scope.txps = txps;
           $timeout(function() {
             $scope.$apply();
@@ -41,7 +43,7 @@ angular.module('owsWalletApp.controllers').controller('WalletActivityCtrl',
             var _txp = txp;
             ongoingProcessService.set('loadingTxInfo', false);
             if (err) {
-              $log.warn('No txp found');
+              $log.error('No txp found');
               return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not found.'));
             }
             txpModalService.open(_txp);

@@ -15,7 +15,9 @@ angular.module('owsWalletApp.services').factory('emailService', function($log, c
         email: opts.enabled ? opts.email : null
       }
     }, function(err) {
-      if (err) $log.warn(err);
+      if (err) {
+        $log.error(err);
+      }
       walletService.updateRemotePreferences(wallets);
     });
   };

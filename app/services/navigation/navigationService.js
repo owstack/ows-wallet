@@ -33,7 +33,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
     var routes = schemes[currentScheme].routes;
 
     if (!routes) {
-      throw ('Error: app navigation scheme not found: ' + currentScheme);
+      throw new Error('Error: app navigation scheme not found: ' + currentScheme);
     }
     $log.info('Using app navigations scheme: ' + root.schemeLabelFor(currentScheme));
 
@@ -96,7 +96,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       url: '/uri/:url',
       controller: function($stateParams, $log, openUrlService, profileService) {
         profileService.whenAvailable(function() {
-          $log.info('DEEP LINK from Browser:' + $stateParams.url);
+          $log.info('Deep link from Browser:' + $stateParams.url);
           openUrlService.handleURL({
             url: $stateParams.url
           });

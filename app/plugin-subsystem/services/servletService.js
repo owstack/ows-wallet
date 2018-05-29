@@ -32,8 +32,8 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
   root.finalize = function() {
     // Close any currently running servlets.
     var activeSession = pluginSessionService.getActiveSession();
-    if (!lodash.isUndefined(activeSession)) {
-      doCloseServlet(activeSession.id);
+    if (!lodash.isUndefined(activeSession) && activeSession.isForServlet()) {
+      shutdownServlet(activeSession);
     }
   };
 

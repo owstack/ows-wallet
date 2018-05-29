@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $log, $ionicModal, lodash) {
+angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $log, $ionicModal, lodash, platformInfoService) {
 
   // Bit values for settings.
   // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
@@ -38,6 +38,8 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     };
 
     this.createContainer = function(session) {
+      var src = this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova;
+
       container = $ionicModal.fromTemplate('\
         <ion-modal-view class="applet-view ng-hide" ng-controller="AppletViewCtrl">\
           <ion-footer-bar class="applet-footer-bar">\
@@ -49,7 +51,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
             <div class="applet-splash fade-splash"\
               ng-hide="!applet.configuration.showSplash" ng-if="applet.view.splashBackground.length > 0">\
             </div>\
-            <iframe class="applet-frame" src="' + this.uri + 'index.html?sessionId=' + session.id + '"></iframe>\
+            <iframe class="applet-frame" src="' + src + '"></iframe>\
           </ion-pane>\
           <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
             on-select="onWalletSelect" on-cancel="onCancel" has-tabs>\
@@ -60,7 +62,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
         backdropClickToClose: false,
         hardwareBackButtonClose: false,
         animation: 'none', // Disable ionic animation, animation provided by animate.css in applet.css
-        hideDelay: 1000,
+//        hideDelay: 1000,
         session: session,
         name: 'applet'
       });

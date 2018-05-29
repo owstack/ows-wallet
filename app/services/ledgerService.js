@@ -53,7 +53,7 @@ angular.module('owsWalletApp.services')
         opts.entropySource = entropySource;
         root.getXPubKey(hwWalletService.getAddressPath(root.description.id, isMultisig, account, 'livenet/btc'), function(data) {
           if (!data.success) {
-            $log.warn(data.message);
+            $log.error(data.message);
             return callback(data);
           }
           opts.extendedPublicKey = data.xpubkey;
@@ -100,7 +100,7 @@ angular.module('owsWalletApp.services')
       var isMultisig = true;
       if (txp.addressType == 'P2PKH') {
         var msg = 'P2PKH wallets are not supported with ledger';
-        $log.error(msg);
+        $log.warn(msg);
         return callback(msg);
       } else {
         root._signP2SH(txp, account, isMultisig, callback);

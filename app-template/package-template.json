@@ -55,10 +55,12 @@
     "@owstack/btc-wallet-client": "^0.0.12",
     "@owstack/ows-wallet-plugin-client": "^0.0.32",
     "bezier-easing": "^2.0.3",
+    "bitauth": "^0.2.1",
     "cordova-ios": "4.5.4",
     "cordova-android": "6.4.0",
     "cordova-custom-config": "^4.0.2",
-    "cordova-plugin-qrscanner": "^2.5.0"
+    "cordova-plugin-qrscanner": "^2.5.0",
+    "djv": "^2.0.0"
   },
   "scripts": {
     "postinstall":           "bower install",

@@ -68,14 +68,18 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
       packageName : appConfig.packageNameId
     };
     walletClient.pushNotificationsSubscribe(opts, function(err) {
-      if (err) $log.error(walletClient.name + ': Subscription Push Notifications error. ', JSON.stringify(err));
+      if (err) {
+        $log.error(walletClient.name + ': Subscription Push Notifications error. ', JSON.stringify(err));
+      }
       else $log.debug(walletClient.name + ': Subscription Push Notifications success.');
     });
   };
 
   var _unsubscribe = function(walletClient, cb) {
     walletClient.pushNotificationsUnsubscribe(_token, function(err) {
-      if (err) $log.error(walletClient.name + ': Unsubscription Push Notifications error. ', JSON.stringify(err));
+      if (err) {
+        $log.error(walletClient.name + ': Unsubscription Push Notifications error. ', JSON.stringify(err));
+      }
       else $log.debug(walletClient.name + ': Unsubscription Push Notifications Success.');
     });
   };

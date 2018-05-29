@@ -51,7 +51,7 @@ angular.module('owsWalletApp.services').factory('ongoingProcessService', functio
   };
 
   root.set = function(processName, isOn, customHandler) {
-    $log.debug('ongoingProcessService', processName, isOn);
+    $log.debug('ongoingProcessService ' + processName + ' ' + isOn);
     root[processName] = isOn;
     ongoingProcessService[processName] = isOn;
 

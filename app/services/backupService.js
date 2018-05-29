@@ -12,7 +12,7 @@ angular.module('owsWalletApp.services')
           out = new Blob([data], {
             type: datatype
           });
-          $log.debug("case 1");
+          $log.debug("Case 1");
         } catch (e) {
           window.BlobBuilder = window.BlobBuilder ||
             window.WebKitBlobBuilder ||
@@ -23,16 +23,16 @@ angular.module('owsWalletApp.services')
             var bb = new BlobBuilder();
             bb.append(data);
             out = bb.getBlob(datatype);
-            $log.debug("case 2");
+            $log.debug("Case 2");
           } else if (e.name == "InvalidStateError") {
             // InvalidStateError (tested on FF13 WinXP)
             out = new Blob([data], {
               type: datatype
             });
-            $log.debug("case 3");
+            $log.debug("Case 3");
           } else {
-            // We're screwed, blob constructor unsupported entirely
-            $log.debug("Error");
+            // Blob constructor unsupported entirely
+            $log.debug("Unsupported");
           }
         }
         return out;
@@ -70,7 +70,7 @@ angular.module('owsWalletApp.services')
 
         return e;
       } catch (err) {
-        $log.debug('Error exporting wallet: ', err);
+        $log.error('Error exporting wallet: ', err);
         return null;
       };
     };

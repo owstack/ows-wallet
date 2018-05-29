@@ -36,7 +36,6 @@ angular.module('owsWalletApp.services')
     };
 
     root.set = function(k, v, cb) {
-
       if (lodash.isObject(v)) {
         v = JSON.stringify(v);
       }
@@ -66,16 +65,15 @@ angular.module('owsWalletApp.services')
 
     };
 
-
     if (isNW) {
-      $log.info('Overwritting localstorage with chrome storage for NW.JS');
+      $log.info('Overwritting localstorage with chrome storage for NodeWebkit');
 
       var ts = ls.getItem('migrationToChromeStorage');
       var p = ls.getItem('profile');
 
       // Need migration?
       if (!ts && p) {
-        $log.info('### MIGRATING DATA! TO CHROME STORAGE');
+        $log.info('MIGRATING DATA! TO CHROME STORAGE');
 
         var j = 0;
         for (var i = 0; i < localStorage.length; i++) {
@@ -86,14 +84,14 @@ angular.module('owsWalletApp.services')
           root.set(k, v, function() {
             j++;
             if (j == localStorage.length) {
-              $log.info('### MIGRATION DONE');
+              $log.info('MIGRATION DONE');
               ls.setItem('migrationToChromeStorage', Date.now())
               ls = chrome.storage.local;
             }
           })
         }
       } else if (p) {
-        $log.info('# Data already migrated to Chrome storage on ' + ts);
+        $log.info('Data already migrated to Chrome storage on ' + ts);
       }
     }
 

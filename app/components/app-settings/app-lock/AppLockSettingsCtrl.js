@@ -192,7 +192,7 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       if (cb) {
         cb(err);

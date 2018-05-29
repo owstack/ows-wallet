@@ -13,10 +13,10 @@ angular.module('owsWalletApp.services').factory('storageService', function($log,
   var shouldUseFileStorage = platformInfoService.isCordova;
 
   if (shouldUseFileStorage) {
-    $log.debug('Using: FileStorage');
+    $log.info('Using: FileStorage');
     storage = fileStorageService;
   } else {
-    $log.debug('Using: LocalStorage');
+    $log.info('Using: LocalStorage');
     storage = localStorageService;
   }
 
@@ -50,7 +50,7 @@ angular.module('owsWalletApp.services').factory('storageService', function($log,
       try {
         p = Profile.fromString(str);
       } catch (e) {
-        $log.debug('Could not read profile:', e);
+        $log.error('Could not read profile:', e);
         err = new Error('Could not read profile:' + p);
       }
       return cb(err, p);

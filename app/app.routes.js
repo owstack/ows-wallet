@@ -40,59 +40,64 @@ angular.module('owsWalletApp').config(function(historicLogServiceProvider, $prov
     $ionicConfigProvider.scrolling.jsScrolling(false);
 
     $logProvider.debugEnabled(true);
-    $provide.decorator('$log', ['$delegate', 'platformInfoService',
-      function($delegate, platformInfoService) {
-        var historicLogService = historicLogServiceProvider.$get();
 
-        historicLogService.getLevels().forEach(function(levelDesc) {
-          var level = levelDesc.level;
-          if (platformInfoService.isDevel && level == 'error') return;
+    $provide.decorator('$log', ['$delegate', 'platformInfoService', function($delegate, platformInfoService) {
+      var historicLogService = historicLogServiceProvider.$get();
 
-          var orig = $delegate[level];
-          $delegate[level] = function() {
-            if (level == 'error')
-              console.log(arguments);
+      historicLogService.getLevels().forEach(function(levelDesc) {
+        var level = levelDesc.level;
+        var orig = $delegate[level];
 
-            var args = Array.prototype.slice.call(arguments);
+        $delegate[level] = function() {
+          if (level == 'error') {
+            console.log(arguments);
+          }
 
-            args = args.map(function(v) {
-              try {
-                if (typeof v == 'undefined') v = 'undefined';
-                if (!v) v = 'null';
-                if (typeof v == 'object') {
-                  if (v.message)
-                    v = v.message;
-                  else
-                    v = JSON.stringify(v);
-                }
-                // Trim output in mobile
-                if (platformInfoService.isCordova) {
-                  v = v.toString();
-                  if (v.length > 3000) {
-                    v = v.substr(0, 2997) + '...';
-                  }
-                }
-              } catch (e) {
-                console.log('Error at log decorator:', e);
+          var args = Array.prototype.slice.call(arguments);
+
+          args = args.map(function(v) {
+            try {
+              if (typeof v == 'undefined') {
                 v = 'undefined';
               }
-              return v;
-            });
-
-            try {
-              if (platformInfoService.isCordova)
-                console.log(args.join(' '));
-
-              historicLogService.add(level, args.join(' '));
-              orig.apply(null, args);
+              if (!v) {
+                v = 'null';
+              }
+              if (typeof v == 'object') {
+                if (v.message) {
+                  v = v.message;
+                } else {
+                  v = JSON.stringify(v);
+                }
+              }
+              // Trim output in mobile
+              if (platformInfoService.isCordova) {
+                v = v.toString();
+                if (v.length > 3000) {
+                  v = v.substr(0, 2997) + '...';
+                }
+              }
             } catch (e) {
-              console.log('ERROR (at log decorator):', e, args[0]);
+              console.log('Error at log decorator:', e);
+              v = 'undefined';
             }
-          };
-        });
-        return $delegate;
-      }
-    ]);
+            return v;
+          });
+
+          try {
+            if (platformInfoService.isCordova)
+              console.log(args.join(' '));
+
+            historicLogService.add(level, args.join(' '));
+            orig.apply(null, args);
+          } catch (e) {
+            console.log('ERROR (at log decorator):', e, args[0]);
+          }
+        };
+      });
+      return $delegate;
+
+    }]);
 
     // Configure routing for the selected app navigation scheme.
     var configService = configServiceProvider.$get();

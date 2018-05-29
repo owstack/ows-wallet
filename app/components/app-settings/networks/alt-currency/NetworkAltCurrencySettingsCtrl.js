@@ -94,7 +94,9 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
       };
 
       configService.set(opts, function(err) {
-        if (err) $log.warn(err);
+        if (err) {
+          $log.error(err);
+        }
 
         $ionicHistory.goBack();
         saveLastUsed(newAltCurrency);

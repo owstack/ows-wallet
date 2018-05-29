@@ -43,7 +43,7 @@ angular.module('owsWalletApp.controllers').controller('TxDetailsCtrl', function(
   function updateMemo() {
     walletService.getTxNote($scope.wallet, $scope.btx.txid, function(err, note) {
       if (err) {
-        $log.warn('Could not fetch transaction note: ' + err);
+        $log.error('Could not fetch transaction note: ' + err);
         return;
       }
       if (!note) {
@@ -103,7 +103,7 @@ angular.module('owsWalletApp.controllers').controller('TxDetailsCtrl', function(
         ongoingProcessService.set('loadingTxInfo', false);
       }
       if (err) {
-        $log.warn('Error getting transaction: ' + err);
+        $log.error('Error getting transaction: ' + err);
         $ionicHistory.goBack();
         return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not available at this time.'));
       }

@@ -238,7 +238,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletListCtrl', fu
 
   // Applets change when the theme is changed.
   var removeThemeUpdated = $rootScope.$on('Local/ThemeUpdated', function(event) {
-    $log.debug('applet refresh - Local/ThemeUpdated');
+    $log.debug('Applet refresh - Local/ThemeUpdated');
     self.applets = appletService.getAppletsWithState({
       category: appletService.getActiveCategory(),
       visible: true
@@ -257,7 +257,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletListCtrl', fu
   // Listen for changes to wallet skins and update wallet applets.
   // TODO: manage only the change rather than refreshing the whole collection.
   var removeSkinUpdated = $rootScope.$on('Local/SkinUpdated', function(event, skin, walletId) {
-    $log.debug('applet refresh - Local/SkinUpdated ' + skin.header.name + ' for ' + walletId);
+    $log.debug('Applet refresh - Local/SkinUpdated ' + skin.header.name + ' for ' + walletId);
     self.applets = appletService.getAppletsWithState({
       category: appletService.getActiveCategory(),
       visible: true
@@ -267,12 +267,12 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletListCtrl', fu
   // Listen for new or deleted wallets.
   // TODO: manage only the change rather than refreshing the whole collection.
   var removeNewFocusedWallet = $rootScope.$on('Local/NewFocusedWallet', function(event, fc) {
-    $log.debug('applet refresh - Local/NewFocusedWallet');
+    $log.debug('Applet refresh - Local/NewFocusedWallet');
     self.applets = appletService.getAppletsWithState();
   });
 
   var removeWalletAppletUpdated = $rootScope.$on('Local/WalletAppletUpdated', function(event, walletApplet) {
-    $log.debug('wallet update - Local/WalletAppletUpdated');
+    $log.debug('Wallet update - Local/WalletAppletUpdated');
     // Replace the existing wallet applet with the updated wallet applet.
     var index = lodash.findIndex(self.applets, function(applet) {
       return applet.header.id == walletApplet.header.id;

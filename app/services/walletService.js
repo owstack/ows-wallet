@@ -109,7 +109,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
       $log.debug('Transaction broadcasted');
       if (memo) {
-        $log.info(memo);
+        $log.debug(memo);
       }
 
       return cb(null, broadcastedTxp);
@@ -209,7 +209,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
 
 
           if (err) {
-            $log.warn('sign error:' + err);
+            $log.error('Sign error:' + err);
             var msg = err && err.message ?
               err.message :
               gettextCatalog.getString('The payment was created but could not be completed. Please try again from home screen.');
@@ -895,7 +895,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
    **************************************************/
 
   root.recreate = function(wallet, cb) {
-    $log.debug('Recreating wallet:', wallet.id);
+    $log.info('Recreating wallet:', wallet.id);
     ongoingProcessService.set('recreating', true);
     wallet.recreateWallet(function(err) {
       wallet.notAuthorized = false;
@@ -932,7 +932,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   root.showMneumonicFromHardware = function(wallet, cb) {
     switch (wallet.getPrivKeyExternalSourceName()) {
       default:
-        cb('Error: unrecognized external source');
+        cb('Unrecognized external source');
         break;
     }
   };
@@ -940,7 +940,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   root.showReceiveAddressFromHardware = function(wallet, address, cb) {
     switch (wallet.getPrivKeyExternalSourceName()) {
       default:
-        cb('Error: unrecognized external source');
+        cb('Unrecognized external source');
         break;
     }
   };
@@ -966,7 +966,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   function signWithTrezor(wallet, txp, cb) {
-    $log.info('Requesting Trezor  to sign the transaction');
+    $log.info('Requesting Trezor to sign the transaction');
 
     var xPubKeys = lodash.pluck(wallet.credentials.publicKeyRing, 'xPubKey');
     trezorService.signTx(xPubKeys, txp, wallet.credentials.account, function(err, result) {
@@ -1009,7 +1009,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       try {
         localTxs = JSON.parse(txs);
       } catch (ex) {
-        $log.warn(ex);
+        $log.error(ex);
       }
       return cb(null, lodash.compact(localTxs));
     });
@@ -1121,7 +1121,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     };
 
     if (updateInProgress[wallet.id]) {
-      $log.warn('History update already in progress for: '+ wallet.credentials.walletName);
+      $log.debug('History update already in progress for: '+ wallet.credentials.walletName);
       if (opts.progressFn) {
         $log.debug('Rewriting progressFn');
         progressFn[walletId] = opts.progressFn;
@@ -1153,7 +1153,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       function getNewTxs(newTxs, skip, next) {
         getTxsFromServer(wallet, skip, endingTxid, requestLimit, function(err, res, shouldContinue) {
           if (err) {
-            $log.warn(walletClientErrorService.msg(err, {prefix: 'Server Error'})); // TODO-AJP
+            $log.error(walletClientErrorService.msg(err, {prefix: 'Server Error'})); // TODO-AJP
             var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
             if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
               $log.info('Retrying history download in 5 secs...');
@@ -1220,14 +1220,14 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
             minTs: endingTs
           }, function(err, notes) {
             if (err) {
-              $log.warn(err);
+              $log.error(err);
               return cb2();
             };
             lodash.each(notes, function(note) {
               $log.debug('Note for ' + note.txid);
               lodash.each(newHistory, function(tx) {
                 if (tx.txid == note.txid) {
-                  $log.debug('...updating note for ' + note.txid);
+                  $log.debug('Updating note for ' + note.txid);
                   tx.note = note;
                 }
               });
@@ -1314,7 +1314,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
           return signWithTrezor(wallet, txp, cb);
         default:
           var msg = 'Unsupported External Key:' + wallet.getPrivKeyExternalSourceName();
-          $log.error(msg);
+          $log.warn(msg);
           return cb(msg);
       }
     } else {
@@ -1325,7 +1325,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
           return cb(err, signedTxp);
         });
       } catch (e) {
-        $log.warn('Error at signTxProposal:', e);
+        $log.error('Error at signTxProposal:', e);
         return cb(e);
       }
     }
@@ -1353,14 +1353,14 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
   };
 
   function createAddress(wallet, cb) {
-    $log.debug('Creating address for wallet:', wallet.id);
+    $log.info('Creating address for wallet:', wallet.id);
 
     wallet.createAddress({}, function(err, addr) {
       if (err) {
         var prefix = gettextCatalog.getString('Could not create address.');
         var errors = networkService.walletClientFor(wallet.networkURI).getErrors();
         if (err instanceof errors.CONNECTION_ERROR || (err.message && err.message.match(/5../))) {
-          $log.warn(err);
+          $log.error(err);
           return $timeout(function() {
             createAddress(wallet, cb);
           }, 5000);
@@ -1482,7 +1482,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
       });
       var err = null;
       if (!addrObj) {
-        err = 'Error: specified address not in wallet.';
+        err = 'Specified address not in wallet.';
       }
       return cb(err, addrObj);
     });

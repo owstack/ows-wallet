@@ -181,7 +181,9 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
           profileService.setBackupFlag(walletId);
            if ($stateParams.fromOnboarding) {
              profileService.setDisclaimerAccepted(function(err) {
-               if (err) $log.error(err);
+               if (err) {
+                 $log.error(err);
+               }
              });
            }
 
@@ -395,7 +397,9 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       profileService.setBackupFlag(wallet.credentials.walletId);
       if ($stateParams.fromOnboarding) {
         profileService.setDisclaimerAccepted(function(err) {
-          if (err) $log.error(err);
+          if (err) {
+            $log.error(err);
+          }
         });
       }
       $ionicHistory.removeBackView();

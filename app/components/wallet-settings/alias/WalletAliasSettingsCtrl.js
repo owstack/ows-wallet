@@ -14,7 +14,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAliasSettingsCtrl',
     $scope.save = function() {
       walletService.setPreference(walletId, 'alias', $scope.alias.value, function(err) {
         if (err) {
-          $log.warn(err);
+          $log.error(err);
         }
         $ionicHistory.goBack();
       });

@@ -120,6 +120,32 @@ module.exports = function(grunt) {
       },
       components: {
         src: [
+          // Time-ago utilities
+          'bower_components/moment/min/moment-with-locales.js',
+          'bower_components/angular-moment/angular-moment.js',
+          // CSV exporting
+          'bower_components/ng-csv/build/ng-csv.js', 
+          // MD5 checksum; supports Gravatar
+          'bower_components/angular-md5/angular-md5.js',
+          // Passwordless authentication using Bitcoin cryptography
+          'angular-bitauth/angular-bitauth.js',
+          // Dynamic JSON validator
+          'node_modules/djv/djv.js',
+          'angular-djv/index.js',
+          // Create QR codes
+          'bower_components/qrcode-generator/js/qrcode.js',
+          'bower_components/qrcode-generator/js/qrcode_UTF8.js',
+          'bower_components/angular-qrcode/angular-qrcode.js',
+          // Touch device directives
+          'bower_components/ngtouch/src/ngTouch.js',
+          // Copy to OS clipboard
+          'bower_components/angular-clipboard/angular-clipboard.js',
+          // UI notification overlays
+          'bower_components/ionic-toast/dist/ionic-toast.bundle.min.js',
+          // Drag-and-drop multi-column grid
+          'bower_components/angular-gridster/dist/angular-gridster.min.js',
+          // An Android style pattern lock interface
+          'bower_components/pattern-lock/angular-pattern-lock.min.js',
           // Network clients
           'angular-bch-wallet-client/angular-bch-wallet-client.js',
           'angular-btc-wallet-client/angular-btc-wallet-client.js',
@@ -249,16 +275,20 @@ module.exports = function(grunt) {
           dest: 'www/theme-catalog/'
         }]
       },
-      pre: {
+      plugin_client: {
         files: [{
           expand: true,
           flatten: true,
-          src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-pre.css',
+          src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-applet.css',
           dest: 'www/css/'
         }, {
           expand: true,
           flatten: true,
-          src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-pre.min.js',
+          src: [
+            'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-client.min.js',
+            'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-applet.min.js',
+            'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-servlet.min.js'
+          ],
           dest: 'www/lib/'
         }]
       },
@@ -327,6 +357,7 @@ module.exports = function(grunt) {
           'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
           'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
           //'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js']
+          'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js']
         },
         options: {
           exclude: ['www/index.html']
@@ -361,7 +392,7 @@ module.exports = function(grunt) {
     'copy:app_fonts',
     'copy:app_imgs',
     'copy:app_themes',
-    'copy:pre',
+    'copy:plugin_client',
     'copy:ionic_css',
     'copy:ionic_fonts',
     'copy:ionic_js',

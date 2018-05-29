@@ -515,7 +515,7 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
                 break;
 
                 default:
-                  $log.error('Unknown upgrade operation in ' + _config.name + ': ' + opts.upgradeOp);
+                  $log.warn('Unknown upgrade operation in ' + _config.name + ': ' + opts.upgradeOp);
                 break;
               };
 

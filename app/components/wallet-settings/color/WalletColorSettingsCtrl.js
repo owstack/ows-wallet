@@ -17,7 +17,7 @@ angular.module('owsWalletApp.controllers').controller('WalletColorSettingsCtrl',
 
     walletService.setPreference(walletId, 'color', color, function(err) {
       if (err) {
-        $log.warn(err);
+        $log.error(err);
       }
       $ionicHistory.goBack();
     });

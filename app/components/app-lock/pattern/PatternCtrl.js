@@ -228,7 +228,7 @@ angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($s
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       cb(err);
     });
@@ -245,7 +245,7 @@ angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($s
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
     });
   };
@@ -259,7 +259,7 @@ angular.module('owsWalletApp.controllers').controller('PatternCtrl', function($s
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       lockTimeControl(bannedUntil);
     });

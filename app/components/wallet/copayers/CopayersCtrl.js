@@ -39,7 +39,9 @@ angular.module('owsWalletApp.controllers').controller('CopayersCtrl',
         });
         if (status.wallet.status == 'complete') {
           $scope.wallet.openWallet(function(err, status) {
-            if (err) $log.error(err);
+            if (err) {
+              $log.error(err);
+            }
             $scope.clearNextView();
             $state.go($rootScope.sref('home')).then(function() {
               $state.transitionTo($rootScope.sref('wallet'), {

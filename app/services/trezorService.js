@@ -26,7 +26,6 @@ angular.module('owsWalletApp.services')
       });
     };
 
-
     root.getXPubKey = function(path, callback) {
       $log.debug('TREZOR deriving xPub path:', path);
       try {
@@ -128,8 +127,6 @@ angular.module('owsWalletApp.services')
         amount: txp.amount,
         script_type: toScriptType,
       });
-
-
 
       if (txp.addressType == 'P2PKH') {
 

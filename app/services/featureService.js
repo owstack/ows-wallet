@@ -41,7 +41,7 @@ angular.module('owsWalletApp.services').factory('featureService', function($log,
     };
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
     });
   };

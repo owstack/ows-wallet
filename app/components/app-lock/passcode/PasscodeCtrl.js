@@ -183,7 +183,7 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       $timeout(function() {
         $scope.hideModal(err ? false : true);
@@ -202,7 +202,7 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       $timeout(function() {
         $scope.hideModal(err ? false : true);
@@ -219,7 +219,7 @@ angular.module('owsWalletApp.controllers').controller('PasscodeCtrl', function($
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       lockTimeControl(bannedUntil);
     });

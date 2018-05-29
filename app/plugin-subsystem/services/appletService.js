@@ -51,7 +51,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   root.finalize = function() {
     // Close any currently running applet.
     var activeSession = pluginSessionService.getActiveSession();
-    if (!lodash.isUndefined(activeSession)) {
+    if (!lodash.isUndefined(activeSession) && activeSession.isForApplet()) {
       doCloseApplet(activeSession.id);
     }
   };
@@ -119,7 +119,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
           break;
 
           default:
-            $log.error('Invalid applet layout \'' + appletState.presentation.layout + '\'');
+            $log.warn('Invalid applet layout \'' + appletState.presentation.layout + '\'');
           break;
         }
 
@@ -260,7 +260,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     if (categories.length >= 0) {
       root.setActiveCategory(categories[0]);
     } else {
-      $log.error('Could not set active category to \'' + categoryName + '\', category name not found');
+      $log.warn('Could not set active category to \'' + categoryName + '\', category name not found');
     }
   };
 

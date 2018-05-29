@@ -221,7 +221,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
         profileService.createWallet(opts, function(err, client) {
           ongoingProcessService.set('creatingWallet', false);
           if (err) {
-            $log.warn(err);
+            $log.error(err);
             popupService.showAlert(gettextCatalog.getString('Error'), err);
             return;
           }

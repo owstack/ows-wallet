@@ -44,11 +44,14 @@ angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl
       pushNotificationsEnabled: $scope.pushNotifications.value
     };
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
-      if (opts.pushNotificationsEnabled)
+      if (err) {
+        $log.error(err);
+      }
+      if (opts.pushNotificationsEnabled) {
         pushNotificationsService.init();
-      else
+      } else {
         pushNotificationsService.disable();
+      }
     });
   };
 
@@ -60,7 +63,9 @@ angular.module('owsWalletApp.controllers').controller('NotificationsSettingsCtrl
       }
     };
     configService.set(opts, function(err) {
-      if (err) $log.debug(err);
+      if (err) {
+        $log.error(err);
+      }
     });
   };
 

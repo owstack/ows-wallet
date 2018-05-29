@@ -31,7 +31,9 @@ angular.module('owsWalletApp.controllers').controller('NetworkUnitSettingsCtrl',
     };
 
     configService.set(opts, function(err) {
-      if (err) $log.warn(err);
+      if (err) {
+        $log.error(err);
+      }
 
       $ionicHistory.goBack();
       walletService.updateRemotePreferences(profileService.getWallets());

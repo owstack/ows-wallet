@@ -304,7 +304,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
   };
 
   function exitWithError(err) {
-    $log.info('Error setting wallet selector:' + err);
+    $log.error('Error setting wallet selector:' + err);
     popupService.showAlert(gettextCatalog.getString('Wallet Error'), walletClientErrorService.msg(err), function() {
       $ionicHistory.nextViewOptions({
         disableAnimate: true,
@@ -342,7 +342,6 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
   };
 
   function statusChangeHandler(data) {
-    $log.debug('statusChangeHandler: ', data.processName, data.showName, data.isOn);
     if (
       (
         data.processName === 'broadcastingTx' ||

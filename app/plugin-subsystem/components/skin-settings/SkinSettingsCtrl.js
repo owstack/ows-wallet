@@ -40,8 +40,7 @@ angular.module('owsWalletApp.pluginControllers').controller('SkinSettingsCtrl',
 
       configService.set(opts, function(err) {
         if (err) {
-          $rootScope.$emit('Local/DeviceError', err);
-          return;
+        	$log.error(err);
         }
       });
 		});

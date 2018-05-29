@@ -4,10 +4,10 @@ angular.module('owsWalletApp.services').factory('feedbackService', function($htt
 
   root.send = function(dataSrc, cb) {
     $http(_post(dataSrc)).then(function() {
-      $log.info("SUCCESS: Feedback sent");
+      $log.info("Feedback sent");
       return cb();
     }, function(err) {
-      $log.info("ERROR: Could not send feedback");
+      $log.info("Could not send feedback");
       return cb(err);
     });
   };

@@ -33,7 +33,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletWallpaperSett
           var newFilename = 'appletsWallpaper-' + new Date().getTime() + '.jpg';
           fileStorageService.move(imageUrl, newFilename, function(error, imageUrl) {
             if (error) {
-              $log.debug('Error: unable to obtain image, ' + error);
+              $log.error('Unable to obtain image, ' + error);
             }
 
             // Remove any old wallpaper preference image before setting the new one.
@@ -46,7 +46,7 @@ angular.module('owsWalletApp.pluginControllers').controller('AppletWallpaperSett
         }
     },
       function cameraError(error) {
-        $log.debug('Error: unable to obtain image, ' + error);
+        $log.error('Unable to obtain image, ' + error);
     },
     options);
   };

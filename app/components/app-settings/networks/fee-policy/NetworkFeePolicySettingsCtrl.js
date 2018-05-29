@@ -53,7 +53,7 @@ angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsC
 
     configService.set(opts, function(err) {
       if (err) {
-        $log.debug(err);
+        $log.error(err);
       }
       $timeout(function() {
         $scope.$apply();

@@ -241,7 +241,6 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
   };
 
   function statusChangeHandler(processName, showName, isOn) {
-    $log.debug('statusChangeHandler: ', processName, showName, isOn);
     if (showName) {
       $scope.sendStatus = showName;
     }
