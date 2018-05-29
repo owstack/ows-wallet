@@ -301,7 +301,10 @@ module.exports = function(grunt) {
       ionic_css: {
         expand: true,
         flatten: true,
-        src: 'bower_components/ionic/release/css/ionic.min.css',
+        src: [
+          'bower_components/ionic/release/css/ionic.min.css',
+          'bower_components/animate.css/animate.min.css'
+        ],
         dest: 'www/css/'
       },
       ionic_fonts: {

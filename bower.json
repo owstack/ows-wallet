@@ -24,6 +24,7 @@
     "trezor-connect": "https://github.com/trezor/connect.git#c1a00f9f0f4a13239ba13ddd589c6ca61f2e7876"    
   },
   "resolutions": {
-    "angular": "1.5.3"
+    "angular": "1.5.3",
+    "ionic": "https://github.com/owstack/ionic-v1.git#ows-release"
   }
 }

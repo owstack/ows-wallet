@@ -15,9 +15,10 @@ angular.module('owsWalletApp.controllers').controller('StartCtrl', function($sco
   });
 
   $scope.createProfile = function() {
-    $log.debug('Creating profile');
     profileService.createProfile(function(err) {
-      if (err) {
+      if (err == 'EEXISTS') {
+        $log.info('Using existing profile');
+      } else {
         $log.error(err);
       }
     });
