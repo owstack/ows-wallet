@@ -61,7 +61,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
         scope: $rootScope,
         backdropClickToClose: false,
         hardwareBackButtonClose: false,
-        animation: 'none', // Disable ionic animation, animation provided by animate.css in applet.css
+        animation: 'none', // Disable ionic animation, animation provided by animate.css in applet.scss
 //        hideDelay: 1000,
         session: session,
         name: 'applet'

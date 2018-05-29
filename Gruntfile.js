@@ -120,6 +120,12 @@ module.exports = function(grunt) {
       },
       components: {
         src: [
+          // For express-style routing (plugins)
+          'angular-path-to-regexp/angular-path-to-regexp.js',
+          // Text translation
+          'bower_components/angular-gettext/dist/angular-gettext.js',
+          // JS utilities
+          'bower_components/ng-lodash/build/ng-lodash.js',
           // Time-ago utilities
           'bower_components/moment/min/moment-with-locales.js',
           'bower_components/angular-moment/angular-moment.js',
@@ -354,10 +360,11 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         files: {
+          'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js'],
+          'angular-path-to-regexp/angular-path-to-regexp.js' : ['angular-path-to-regexp/index.js'],
           'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
-          'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
+          'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js']
           //'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js']
-          'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js']
         },
         options: {
           exclude: ['www/index.html']

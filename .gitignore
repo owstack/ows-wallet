@@ -42,6 +42,7 @@ build
 node_modules
 bower_components
 angular-bitauth/angular-bitauth.js
+angular-path-to-regexp/angular-path-to-regexp.js
 angular-bch-wallet-client/angular-bch-wallet-client.js
 angular-btc-wallet-client/angular-btc-wallet-client.js
 

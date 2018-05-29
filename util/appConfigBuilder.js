@@ -22,9 +22,7 @@ var getCommitHash = function() {
 
 var buildAppConfig = function(mode) {
   if (mode == 'dev') {
-    console.log('**************************************************');
-    console.log('*** appConfigBuilder running in development mode ***');
-    console.log('**************************************************');    
+    console.log('***** In development mode. For release mode use `grunt prod` OR `npm run start:release` *****');
   }
 
   var pkg = utils.readJSON('./package.json');

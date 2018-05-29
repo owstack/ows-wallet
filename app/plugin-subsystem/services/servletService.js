@@ -82,7 +82,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
             session.addDependent(servletSession);
           });
         } else {
-          $log.debug('Servlet not found \'' + id + '@' + version + '\'');
+          $log.error('Servlet not found \'' + id + '@' + version + '\'');
         }
       }
     });

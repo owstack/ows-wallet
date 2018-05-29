@@ -21,7 +21,7 @@
     "ng-lodash": "0.5.0",
     "ngtouch": "^1.0.1",
     "pattern-lock": "https://github.com/owstack/pattern-lock.git#b42b903a1cfda4b239d0c6517e837e7bd18cec75",
-    "trezor-connect": "https://github.com/trezor/connect.git#c1a00f9f0f4a13239ba13ddd589c6ca61f2e7876"
+    "trezor-connect": "https://github.com/trezor/connect.git#c1a00f9f0f4a13239ba13ddd589c6ca61f2e7876"    
   },
   "resolutions": {
     "angular": "1.5.3"

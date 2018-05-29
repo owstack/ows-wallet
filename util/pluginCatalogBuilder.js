@@ -81,11 +81,6 @@ var buildPluginCatalog = function(config, mode) {
     var pluginJSON = JSON.stringify(pluginConfig);
     pluginJSON = pluginJSON.replace(/<plugin-path>/g, pluginConfig.uri.slice(0, -1));
     pluginConfig = JSON.parse(pluginJSON);
-
-    for (var n = 0; n < pluginConfig.resources.length; n++) {
-      var re = new RegExp('<resource-' + n + '>', 'g');
-      pluginJSON = pluginJSON.replace(re, pluginConfig.resources[n]);
-    }
     // End replace tags.
 
     pluginConfig = JSON.parse(pluginJSON);
