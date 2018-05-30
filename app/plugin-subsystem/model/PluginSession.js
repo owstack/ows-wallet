@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState, configService) {
+angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState, ApiMessage, configService) {
 
   var STATE_VALID = 1;
 
@@ -27,6 +27,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
     var state = STATE_VALID;
     var userData = {};
     var dependentSessions = [];
+    var parentSessions = [];
 
     /**
      * Priviledged methods
@@ -105,12 +106,12 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
         $log.warn('Attempt to add duplicate dependent session: ' + session.id);
         return;
       }
-      dependentSessions.push(session.id);
+      dependentSessions.push(session);
     };
 
     this.removeDependent = function(sessionId) {
-      var index = lodash.findIndex(dependentSessions, function(id) {
-        return id == sessionId;
+      var index = lodash.findIndex(dependentSessions, function(ds) {
+        return ds.id == sessionId;
       });
 
       if (index < 0) {
@@ -120,8 +121,36 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       lodash.pullAt(dependentSessions, index);
     };
 
-    this.getDependents = function(kind) {
+    this.getDependents = function() {
       return dependentSessions;
+    };
+
+    this.addParent = function(session) {
+      var index = lodash.findIndex(parentSessions, function(ps) {
+        return ps.id == session.id;
+      });
+
+      if (index >= 0) {
+        $log.warn('Attempt to add duplicate parent session: ' + session.id);
+        return;
+      }
+      parentSessions.push(session);
+    };
+
+    this.removeParent = function(sessionId) {
+      var index = lodash.findIndex(parentSessions, function(ps) {
+        return ps.id == sessionId;
+      });
+
+      if (index < 0) {
+        $log.warn('Attempt to remove non-existent parent session: ' + sessionId);
+        return;
+      }
+      lodash.pullAt(parentSessions, index);
+    };
+
+    this.getParents = function() {
+      return parentSessions;
     };
 
     this.close = function(flush, callback, force) {
@@ -143,6 +172,18 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
           callback(response);
         }
       }
+    };
+
+    this.notifyDependents = function(event) {
+      lodash.forEach(dependentSessions, function(session) {
+        sendEvent(session, event);
+      });
+    };
+
+    this.notifyParents = function(event) {
+      lodash.forEach(parentSessions, function(session) {
+        sendEvent(session, event);
+      });
     };
 
     /**
@@ -167,6 +208,18 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
           }
         }
       });
+    };
+
+    function sendEvent(session, event) {
+      // POST the event to the plugin's event URL.
+      var request = {
+       method: 'POST',
+       url: '/' + session.id,  // Event URL is simply the session id
+       data: event
+      }
+
+      // Send the message without listening for a response.
+      return new ApiMessage(request).send();
     };
 
     function doClose() {

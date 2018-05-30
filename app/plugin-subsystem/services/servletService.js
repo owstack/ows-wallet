@@ -76,10 +76,13 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
 
         var servlet = root.getServletsWithStateSync(filter)[0];
 
-        // If the plugin id resolved a servlet then start it. Add the session for the servlet as a dependent of the owner.
+        // If the plugin id resolved a servlet then start it.
+        // Add the session for the servlet as a dependent of the parent.
+        // Add the session of the parent as a dependent of the servlet.
         if (servlet) {
           startServlet(servlet).then(function(servletSession) {
             session.addDependent(servletSession);
+            servletSession.addParent(session);
           });
         } else {
           $log.error('Servlet not found \'' + id + '@' + version + '\'');
@@ -94,15 +97,14 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
       $log.debug('Shutting down servlets for ' + session.plugin.header.kind + ' \'' + session.plugin.header.name + '\'');
 
       // Go through all session dependencies and shutdown each.
-      var dependentSessions = session.getDependents('servlet');
+      var dependentSessions = session.getDependents();
 
-      lodash.forEach(dependentSessions, function(servletSessionId) {
-
-        // TODO - this needs to be fixed, we're not filtering on kind of session..
-        var servletSession = pluginSessionService.getSession(servletSessionId);
-        shutdownServlet(servletSession).then(function() {
-          session.removeDependent(servletSessionId);
-        });
+      lodash.forEach(dependentSessions, function(ds) {
+        if (ds.plugin.header.kind == 'servlet') {
+          shutdownServlet(ds).then(function() {
+            session.removeDependent(ds.id);
+          });          
+        }
       });
       resolve();
     });

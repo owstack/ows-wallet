@@ -34,7 +34,17 @@ angular.module('owsWalletApp.pluginApi').service('ready', function($rootScope, $
 			return callback(message);
 		}
 
+		// Start all dependent servlets that are set to auto-start mode.
 		servletService.startServlets(session, { startMode: 'auto' });
+
+		// Notify parent plugins (if any) that this plugin is ready.
+		var event = {
+			type: 'ready',
+			pluginId: session.plugin.header.id,
+			data: {}
+		};
+
+		session.notifyParents(event);
 
     message.response = {
       statusCode: 200,

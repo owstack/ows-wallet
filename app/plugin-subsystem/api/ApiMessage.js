@@ -18,14 +18,14 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
    * Constructor
    */
 
-  function ApiMessage(eventOrRequest) {
+  function ApiMessage(data) {
     var self = this;
     this.event = {};
 
-    if (eventOrRequest instanceof MessageEvent) {
+    if (data instanceof MessageEvent) {
 
       // Construct a message from the event data.
-      this.event = eventOrRequest;
+      this.event = data;
 
       // Check the itegrity of the message event.
       validateEvent();
@@ -44,7 +44,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       }
 
     } else {
-      var request = eventOrRequest;
+      var request = data;
 
       // Set request options per caller or use defaults.
       request.opts = request.opts || {};
@@ -61,18 +61,33 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       // The session id for the host app is simply 'host' as the host app is the root window; there is no session.
       var now = new Date();
       this.header = {
+        type: (isEventUrl(request.url) ? 'event' : 'message'),
         sequence: sequence++,
         id: '' + now.getTime(),
         timestamp: now,
-        sessionId: 'host'
+        sessionId: 'host',
       };
       this.request = request || {};
       this.response = {};
+
+      // Detemine if this request is an event request and set the message target.
+      // Event requests are messages that originate from the host but do not provide a response. The event is sent to a
+      // plugin, the plugin should not respond (if it does the reponse will never be read).
+      if (isEventUrl(request.url)) {
+        var sessionId = request.url.substring(1); // Remove leading '/'
+        this.route = {
+          target: document.querySelector('iframe[src*="' + sessionId + '"]').contentWindow
+        }
+      }
     }
 
     /**
      * Private methods
      */
+
+    function isEventUrl(url) {
+      return url.match(/\/[\d]{13}/g).length > 0;
+    };
 
     function validateEvent() {
       if(lodash.isUndefined(self.event.data)) {
@@ -275,10 +290,23 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
       if (self.route.targetId) {
         $log.debug('[server] FORWARD  ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
-      } else {
-        $log.debug('[server] RESPONSE ' + self.header.sequence + ': ' + responseToJson(self));
-      }
 
+      } else {
+        switch (self.header.type == 'message') {
+          case 'message':
+            $log.debug('[server] RESPONSE ' + self.header.sequence + ': ' + responseToJson(self));
+            break;
+
+          case 'event':
+            $log.debug('[server] EVENT ' + self.header.sequence + ': ' + requestToJson(self));
+            break;
+
+          default:
+            $log.debug('[server] REQUEST ' + self.header.sequence + ': ' + requestToJson(self));
+            break;
+        }
+      }
+  
       // SEND REQUEST MESSAGE
       // This message could be a request from me or the forwarding of a request from another window.
       self.route.target.postMessage(angular.toJson(transport(self)), '*');
@@ -290,7 +318,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
    */
 
   function isRequest(message) {
-    return lodash.isEmpty(message.response);
+    return (message.header.type == 'message') && lodash.isEmpty(message.response);
   };
 
   function receiveMessage(event) {
