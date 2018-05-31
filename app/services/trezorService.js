@@ -85,7 +85,7 @@ angular.module('owsWalletApp.services')
         return x.pub;
       });
 
-      return lodash.pluck(sorted, 'xpub');
+      return lodash.map(sorted, 'xpub');
     };
 
     root.signTx = function(xPubKeys, txp, account, callback) {

@@ -137,7 +137,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
     function confirm(cb) {
       $scope.backupError = false;
 
-      var customWordList = lodash.pluck($scope.customWords, 'word');
+      var customWordList = lodash.map($scope.customWords, 'word');
 
       if (!lodash.isEqual($scope.mnemonicWords, customWordList)) {
         return cb('Mnemonic string mismatch');
