@@ -8,17 +8,24 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
   var _token = null;
 
   root.init = function() {
-    if (!usePushNotifications || _token) return;
+    if (!usePushNotifications || _token) {
+      return;
+    }
     configService.whenAvailable(function(config) {
-      if (!config.pushNotificationsEnabled) return;
+      if (!config.pushNotificationsEnabled) {
+        return;
+      }
     
       $log.debug('Starting push notification registration...'); 
 
-      //Keep in mind the function will return null if the token has not been established yet.
+      // Keep in mind the function will return null if the token has not been established yet.
       FCMPlugin.getToken(function(token) {
         $log.debug('Get token for push notifications: ' + token);
         _token = token;
         root.enable();
+
+      }, function(error) {
+        $log.error('Could not get push notification token: ' + error);
       }); 
     }); 
   };
@@ -57,7 +64,9 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
   };
 
   root.unsubscribe = function(walletClient) {
-    if (!_token) return;
+    if (!_token) {
+      return;
+    }
     _unsubscribe(walletClient);
   };
 
@@ -70,8 +79,9 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
     walletClient.pushNotificationsSubscribe(opts, function(err) {
       if (err) {
         $log.error(walletClient.name + ': Subscription Push Notifications error. ', JSON.stringify(err));
+      } else {
+        $log.debug(walletClient.name + ': Subscription Push Notifications success.');
       }
-      else $log.debug(walletClient.name + ': Subscription Push Notifications success.');
     });
   };
 
@@ -79,8 +89,9 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
     walletClient.pushNotificationsUnsubscribe(_token, function(err) {
       if (err) {
         $log.error(walletClient.name + ': Unsubscription Push Notifications error. ', JSON.stringify(err));
+      } else {
+        $log.debug(walletClient.name + ': Unsubscription Push Notifications Success.');
       }
-      else $log.debug(walletClient.name + ': Unsubscription Push Notifications Success.');
     });
   };
 
@@ -91,7 +102,9 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
       return (lodash.isEqual(walletIdHashed, sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(w.id))));
     });
 
-    if (!wallet) return;
+    if (!wallet) {
+      return;
+    }
     
     if (!wallet.isComplete()) {
       return $state.go($rootScope.sref('copayers'), {
@@ -107,19 +120,25 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
   if (usePushNotifications) {
     
     FCMPlugin.onTokenRefresh(function(token) {
-      if (!_token) return;
+      if (!_token) {
+        return;
+      }
       $log.debug('Refresh and update token for push notifications...');
       _token = token;
       root.enable();
     });
 
     FCMPlugin.onNotification(function(data) {
-      if (!_token) return;
+      if (!_token) {
+        return;
+      }
       $log.debug('New Event Push onNotification: ' + JSON.stringify(data));
       if(data.wasTapped) {
         // Notification was received on device tray and tapped by the user. 
         var walletIdHashed = data.walletId;
-        if (!walletIdHashed) return;
+        if (!walletIdHashed) {
+          return;
+        }
         $ionicHistory.nextViewOptions({
           disableAnimate: true,
           historyRoot: true
