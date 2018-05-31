@@ -367,6 +367,7 @@ $v-session-log-secondary-color:                      $v-white-transparent-mid !d
 /* Popup dialog */
 
 $v-popup-bg:                                         $v-white-transparent-darker !default;
+$v-popup-color:                                      $v-dark-gray !default;
 $v-popup-border:                                     none !default;
 $v-popup-head-border:                                none !default;
 $v-popup-title-color:                                $v-dark-gray !default;
@@ -406,7 +407,7 @@ $v-pattern-path-color:                               $v-white-transparent-mid !d
 /* Controls */
 
 $v-input-bg:                                         $v-white-transparent-subtle !default;
-$v-input-color:                                      $v-dark-gray !default;
+$v-input-color:                                      $v-white-color !default;
 $v-input-readonly-color:                             $v-white-transparent-mid !default;
 
 $v-checkbox-bg:                                      none !default;

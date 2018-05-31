@@ -104,6 +104,9 @@ p {
   border-radius: 3px !important;
   border: $v-popup-border;
 
+  input {
+    color: $v-popup-color;
+  }
   .popup-head {
     border-bottom: $v-popup-head-border;
 
