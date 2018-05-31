@@ -807,7 +807,6 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
 
     .state($rootScope.sref('help'), {
       url: '/help',
-      cache: false,
       views: getViews('help', [{
         controller: 'GetHelpCtrl',
         templateUrl: 'views/help/get-help/get-help.html'
