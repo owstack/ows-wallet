@@ -1,7 +1,7 @@
 {
   "appTemplateName": "ows-wallet",
-  "version": "0.0.21",
-  "androidVersion": "21",
+  "version": "0.0.22",
+  "androidVersion": "22",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
