@@ -26,7 +26,7 @@ angular.module('owsWalletApp.controllers').controller('WalletSettingsCtrl',
 
       $scope.touchIdAvailable = fingerprintService.isAvailable();
       $scope.touchIdEnabled = {
-        value: config.touchIdFor ? config.touchIdFor[$scope.walletId] : null
+        value: walletService.getTouchId($scope.walletId)
       };
 
       $scope.deleted = false;

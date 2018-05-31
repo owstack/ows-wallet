@@ -862,6 +862,10 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
     });
   };
 
+  root.getTouchId = function(walletId) {
+    return root.getPreferences(walletId).touchId;
+  };
+
   root.setTouchId = function(wallet, enabled, cb) {
     fingerprintService.check(wallet, function(err) {
       if (err) {
