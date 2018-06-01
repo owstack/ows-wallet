@@ -149,6 +149,8 @@ var buildPluginCatalog = function(config, mode) {
 
             if (mode != 'dev') {
               execSync('npm install ' + pkgName + '@' + ver, { cwd: '.', stdio: [0,1,2] });
+            } else {
+              console.log('***** Developement mode: Skipping `npm install` of plugins *****');
             }
 
             // Recursively process the newly installed plugin.

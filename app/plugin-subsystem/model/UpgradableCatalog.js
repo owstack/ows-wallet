@@ -565,8 +565,8 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
       return upgrades;
     };
 
-    function createFnName(prefix, string) {
-      return prefix + string.charAt(0).toUpperCase() + string.slice(1);
+    function createFnName(prefix, str) {
+      return lodash.camelCase(prefix + '-' + str);
     };
 
     // See https://www.npmjs.com/package/semver-compare
