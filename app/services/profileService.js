@@ -759,14 +759,15 @@ angular.module('owsWalletApp.services')
     };
 
     root.createDefaultWallet = function(networkURI, cb) {
-      var config = configService.getSync();
-      networkURI = networkURI || config.currencyNetworks.default;
+      var defaults = configService.getDefaults();
+      networkURI = networkURI || defaults.currencyNetworks.default;
 
       var opts = {};
       opts.m = 1;
       opts.n = 1;
       opts.network = networkService.getNetworkByURI(networkURI);
-      opts.walletServiceUrl = config.currencyNetworks[networkURI].walletService.url;
+      opts.walletServiceUrl = defaults.currencyNetworks[networkURI].walletService.url;
+
 
       root.createWallet(opts, cb);
     };

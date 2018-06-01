@@ -3,10 +3,9 @@
 angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
   function($scope, $rootScope, $timeout, $state, $ionicHistory, $ionicScrollDelegate, profileService, configService, gettextCatalog, lodash, ledgerService, trezorService, derivationPathService, ongoingProcessService, walletService, $log, $stateParams, popupService) {
 
-    var configNetwork = configService.getSync().currencyNetworks;
+    var defaults = configService.getDefaults();
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      var defaults = configService.getDefaults();
       $scope.formData = {};
       $scope.formData.account = 1;
       $scope.formData.secret = null;
@@ -25,7 +24,7 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
         if (err) {
           return;
         }
-        $scope.formData.walletServiceUrl = configNetwork[network.getURI()].walletService.url;
+        $scope.formData.walletServiceUrl = defaults.currencyNetworks[network.getURI()].walletService.url;
         $scope.formData.derivationPath = derivationPathService.getPath(network);
         $scope.networkLabel = network.getFriendlyNetLabel();
       });

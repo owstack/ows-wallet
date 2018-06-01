@@ -1,7 +1,7 @@
 {
   "appTemplateName": "ows-wallet",
-  "version": "0.0.23",
-  "androidVersion": "23",
+  "version": "0.0.24",
+  "androidVersion": "24",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
@@ -44,15 +44,15 @@
     "bch": {
       "explorer": {
         "production": {
-          "url": "http://owstack.org:3001/explorer"
+          "url": "http://bch.livenet.explorer-api.owstack.org"
         }
       },
       "walletService": {
         "production": {
-          "url": "http://bch.owstack.org:3232/bchws/api"
+          "url": "http://bch.ws.owstack.org/bchws/api"
         },
         "staging": {
-          "url": "http://bch.owstack.org:3232/bchws/api"
+          "url": "http://bch.ws.owstack.org/bchws/api"
         },
         "local": {
           "url": "http://localhost:4232/bchws/api"
@@ -62,15 +62,33 @@
     "btc": {
       "explorer": {
         "production": {
-          "url": "http://owstack.org:3001/explorer"
+          "url": "http://btc.livenet.explorer-api.owstack.org"
         }
       },
       "walletService": {
         "production": {
-          "url": "http://btc.owstack.org:3232/btcws/api"
+          "url": "http://btc.ws.owstack.org/btcws/api"
         },
         "staging": {
-          "url": "http://btc.owstack.org:3232/btcws/api"
+          "url": "http://btc.ws.owstack.org/btcws/api"
+        },
+        "local": {
+          "url": "http://localhost:3232/btcws/api"
+        }
+      }
+    },
+    "ltc": {
+      "explorer": {
+        "production": {
+          "url": "http://ltc.livenet.explorer-api.owstack.org"
+        }
+      },
+      "walletService": {
+        "production": {
+          "url": "http://ltc.ws.owstack.org/btcws/api"
+        },
+        "staging": {
+          "url": "http://ltc.ws.owstack.org/btcws/api"
         },
         "local": {
           "url": "http://localhost:3232/btcws/api"

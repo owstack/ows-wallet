@@ -3,7 +3,7 @@
 angular.module('owsWalletApp.controllers').controller('BackupCtrl',
   function($rootScope, $scope, $timeout, $log, $state, $stateParams, $ionicHistory, lodash, profileService, walletService, ongoingProcessService, popupService, gettextCatalog, $ionicModal, networkService, configService) {
 
-    var configNetwork = configService.getSync().currencyNetworks;
+    var defaults = configService.getDefaults();
     var keys;
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
@@ -146,7 +146,7 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
       $timeout(function() {
         if ($scope.mnemonicHasPassphrase) {
           var opts = {
-            walletServiceUrl: configNetwork[$scope.wallet.networkURI].walletService.url
+            walletServiceUrl: defaults.currencyNetworks[$scope.wallet.networkURI].walletService.url
           };
 
           var walletClient = networkService.walletClientFor($scope.wallet.networkURI).getClient(null, opts);

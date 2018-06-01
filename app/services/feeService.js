@@ -103,7 +103,7 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
       // Is networkURI string
       network = networkService.parseNet(walletOrNetworkURI);
       networkURI = walletOrNetworkURI;
-      walletServiceUrl = configService.getSync().currencyNetworks[networkURI].walletService.url;
+      walletServiceUrl = configService.getDefaults().currencyNetworks[networkURI].walletService.url;
     }
 
     if (root.cachedFeeLevels[networkURI].updateTs > Date.now() - CACHE_TIME_TS * 1000) {

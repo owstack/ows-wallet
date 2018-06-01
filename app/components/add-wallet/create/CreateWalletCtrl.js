@@ -34,9 +34,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
       $scope.availableNetworks = networkService.getLiveNetworks();
       $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency) && testnetFeature;
       $scope.formData.testnetSelected = false;
-
-      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
-
+      $scope.formData.walletServiceUrl = defaults.currencyNetworks[$scope.formData.network.getURI()].walletService.url;
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
       $scope.setTotalCopayers(tc);
       $scope.showAdv = false;
@@ -46,7 +44,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
 
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
-      $scope.formData.walletServiceUrl = configNetwork[$scope.formData.network.getURI()].walletService.url;
+      $scope.formData.walletServiceUrl = defaults.currencyNetworks[$scope.formData.network.getURI()].walletService.url;
       $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency) && testnetFeature;
       $scope.formData.testnetSelected = $scope.formData.testnetSelected && $scope.formData.testnetSupported;
     };
