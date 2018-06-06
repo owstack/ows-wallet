@@ -236,11 +236,11 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         var source = document.querySelector('iframe[src*="' + message.header.sessionId + '"]');
 
         if (!source || !source.contentWindow) {
-          $log.error('[server] Cannot respond to message requestor, source has disappeared:\nMessage: ' + JSON.stringify(message));
+          $log.error('[host] Cannot respond to message requestor, source has disappeared:\nMessage: ' + JSON.stringify(message));
           return;
         }
 
-        $log.debug('[server] FORWARD RESPONSE ' + message.header.sequence + ': ' + responseToJson(message));
+        $log.debug('[host] FORWARD RESPONSE ' + message.header.sequence + ': ' + messageToJson(message));
 
         // FORWARD RESPONSE MESSAGE
         //
@@ -326,20 +326,20 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       }
 
       if (self.route.targetId) {
-        $log.debug('[server] FORWARD REQUEST ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
+        $log.debug('[host] FORWARD REQUEST ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
 
       } else {
         switch (self.header.type == 'message') {
           case 'message':
-            $log.debug('[server] RESPONSE ' + self.header.sequence + ': ' + responseToJson(self));
+            $log.debug('[host] RESPONSE ' + self.header.sequence + ': ' + messageToJson(self));
             break;
 
           case 'event':
-            $log.debug('[server] EVENT ' + self.header.sequence + ': ' + requestToJson(self));
+            $log.debug('[host] EVENT ' + self.header.sequence + ': ' + requestToJson(self));
             break;
 
           default:
-            $log.debug('[server] REQUEST ' + self.header.sequence + ': ' + requestToJson(self));
+            $log.debug('[host] REQUEST ' + self.header.sequence + ': ' + requestToJson(self));
             break;
         }
       }
@@ -379,7 +379,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
       // Not possible to notify client since the message is invalid.
       // The client will timeout if a valid response is not received.
-      $log.error('[server] Invalid message received, ' + ex.message + ' - '+ angular.toJson(event));
+      $log.error('[host] Invalid message received, ' + ex.message + ' - '+ angular.toJson(event));
     }
   };
 
@@ -409,7 +409,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       // This can happen when a client responds very late (after the message has already timeout).
       // The client would have alreadt been notified of the timeout.
       //
-      $log.debug('[server] DROP MESSAGE ' + message.header.sequence + ': ' + responseToJson(message));
+      $log.debug('[host] DROP MESSAGE ' + message.header.sequence + ': ' + messageToJson(message));
     }
   };
 
@@ -445,7 +445,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       }
       promise[0].onComplete(message);
     } else {
-      $log.warn('[server] Message request timed out but there is no promise to fulfill: ' + serialize(message));
+      $log.warn('[host] Message request timed out but there is no promise to fulfill: ' + serialize(message));
     }
   };
 
@@ -460,6 +460,15 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       request: message.request,
       response: message.response
     }
+  };
+
+  function messageToJson(message) {
+    var m = {
+      header: message.header,
+      request: message.request,
+      response: message.response
+    };
+    return angular.toJson(m);
   };
 
   function requestToJson(message) {
