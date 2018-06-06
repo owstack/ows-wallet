@@ -6,23 +6,23 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
 
   // The plugin session pool keeps track of all sessions created.
   // The active session is expected to be the id of the session associated with the currently running plugin.
-	root._sessionPool = [];
-  root._activeSessionId = undefined;
+	var _sessionPool = [];
+  var _activeSessionId = undefined;
 
   function isActiveSession(sessionId) {
-    return (!lodash.isUndefined(root._activeSessionId) && (root._activeSessionId == sessionId));
+    return (!lodash.isUndefined(_activeSessionId) && (_activeSessionId == sessionId));
   };
 
   function addSession(session) {
-    root._sessionPool.push(session);
+    _sessionPool.push(session);
   };
 
   function removeSession(session) {
-    var existingSessionIndex = lodash.findIndex(root._sessionPool, function(s) {
+    var existingSessionIndex = lodash.findIndex(_sessionPool, function(s) {
       return (s.id == session.id);
     });
 
-    var removedSession = lodash.pullAt(root._sessionPool, existingSessionIndex);
+    var removedSession = lodash.pullAt(_sessionPool, existingSessionIndex);
     return removedSession[0];
   };
 
@@ -30,7 +30,7 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     $log.info('Activating plugin session (id: \'' + sessionId + '\')');
     var session = root.getSession(sessionId)
     if (!lodash.isUndefined(session) && session.isValid()) {
-      root._activeSessionId = sessionId;
+      _activeSessionId = sessionId;
     } else {
       $log.warn('Session not found, could not activate plugin session: ' + sessionId);
     }
@@ -41,33 +41,33 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     if (!lodash.isUndefined(session) && session.isValid()) {
       $log.info('Deactivating plugin session: ' + session.id + ' (plugin id: ' + session.plugin.header.id + ')');
 
-      root._activeSessionId = undefined;
+      _activeSessionId = undefined;
     }
   };
 
   root.getActiveSession = function() {
-    if (!lodash.isUndefined(root._activeSessionId)) {
-      return root.getSession(root._activeSessionId);
+    if (!lodash.isUndefined(_activeSessionId)) {
+      return root.getSession(_activeSessionId);
     } else {
       return undefined;
     }
   };
 
   root.getSession = function(sessionId) {
-    return lodash.find(root._sessionPool, function(session) {
+    return lodash.find(_sessionPool, function(session) {
       return (session.id == sessionId);
     });
   };
 
   root.createSession = function(plugin, callback) {
-    var existingSessionIndex = lodash.findIndex(root._sessionPool, function(session) {
+    var existingSessionIndex = lodash.findIndex(_sessionPool, function(session) {
       return (session.isForPlugin(plugin.header.id));
     });
 
     if (existingSessionIndex >= 0) {
     	// Session state error; found an existing session for the plugin.
     	// Quietly remove the existing state.
-    	var removedSession = lodash.pullAt(root._sessionPool, existingSessionIndex);
+    	var removedSession = lodash.pullAt(_sessionPool, existingSessionIndex);
     	removedSession = removedSession[0];
     	$log.warn('Plugin session state inconsistent - forcibly removed session: ' + removedSession.id + ' (plugin id: ' + removedSession.plugin.header.id + ')');
     }
@@ -87,7 +87,7 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
       root.deactivateSession(sessionId);
     }
 
-    var session = lodash.find(root._sessionPool, function(session) {
+    var session = lodash.find(_sessionPool, function(session) {
       return (session.id == sessionId);
     });
 
@@ -108,14 +108,21 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
 	  }
   };
 
+  // Send event to all plugin sessions.
+  root.broadcastEvent = function(event) {
+    for (var i = 0; i < _sessionPool.length; i++) {
+      _sessionPool[i].notify(event);
+    }
+  };
+
   root.finalize = function() {
     // Deactivate and destroy all sessions.
     try {
-      root.deactivateSession(root._activeSessionId);
+      root.deactivateSession(_activeSessionId);
     } catch(e) {}; // Ignore errors if there is no active session.
 
-    for (var i = 0; i < root._sessionPool.length; i++) {
-      root.destroySession(root._sessionPool[i].id);
+    for (var i = 0; i < _sessionPool.length; i++) {
+      root.destroySession(_sessionPool[i].id);
     }
   };
 

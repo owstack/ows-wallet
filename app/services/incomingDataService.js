@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, scannerService, appConfig, popupService, gettextCatalog, networkService) {
+angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, scannerService, appConfig, popupService, gettextCatalog, networkService, pluginService) {
 
   var root = {};
 
@@ -83,16 +83,8 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     function tryResolveNonPayment(data) {
       data = sanitizeUri(data);
 
-      // Plain web address
-      if (/^https?:\/\//.test(data)) {
-        root.showMenu({
-          data: data,
-          type: 'url'
-        });
-        return cb(true);
-
       // Join
-      } else if (data && data.match(joinMatchRE)) {
+      if (data && data.match(joinMatchRE)) {
         $state.go($rootScope.sref('home'), {}, {
           'notify': $state.current.name == $rootScope.sref('home') ? false : true
         }).then(function() {
@@ -111,14 +103,30 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         });
         return cb(true);
 
+      // App URL
+      } else if (data && data.indexOf(appConfig.nameNoSpace + '://') === 0) {
+        // App does not currently recieve any app URL events.
+        // Broadcast the event to all plugins.
+        pluginService.broadcastEvent({
+          type: 'incoming-data',
+          data: data
+        });
+        return true;
+
+      // Plain web address
+      } else if (/^https?:\/\//.test(data)) {
+        root.showMenu({
+          data: data,
+          type: 'url'
+        });
+        return cb(true);
+
       // Text
-      } else {
-        if ($state.includes($rootScope.sref('scan'))) {
-          root.showMenu({
-            data: data,
-            type: 'text'
-          });
-        }
+      } else if ($state.includes($rootScope.sref('scan'))) {
+        root.showMenu({
+          data: data,
+          type: 'text'
+        });
       }
 
       return cb(false);
@@ -126,6 +134,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
     // Attempt to resolve the data into a payment request for a specific network.
     networkService.tryResolve(data, function(result) {
+
       if (result.match && result.error) {
         $log.debug('Scanning data error: ' + JSON.stringify(result));
         popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));

@@ -67,7 +67,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       if (!name) {
         throw new Error('Error getting session data, no name specified');
       }
-      return userData[name].value || null;
+      return userData[name] && userData[name].value || null;
     };
 
     // opts = {
@@ -172,6 +172,10 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
           callback(response);
         }
       }
+    };
+
+    this.notify = function(event) {
+      sendEvent(this, event);
     };
 
     this.notifyDependents = function(event) {

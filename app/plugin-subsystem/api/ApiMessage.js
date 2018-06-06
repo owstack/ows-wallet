@@ -28,7 +28,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       this.event = data;
 
       // Check the itegrity of the message event.
-      validateEvent();
+      var valid = isValidEvent();
 
       // Assign the event message data to this message object.
       var data = JSON.parse(this.event.data);
@@ -36,11 +36,16 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
       if (isRequest(this)) {
         // Check the structure of the request.
-        validateRequest();
+        valid = valid && isValidRequest();
 
         // Get and check our routing.
         this.route = ApiRouter.routeRequest(this.request) || {};
-        validateRoute();
+        valid = valid && isValidRoute();
+      }
+
+      // Send invalid messages back to the sender.
+      if (!valid) {
+        lodash.set(this, 'route.target', this.event.source);
       }
 
     } else {
@@ -89,7 +94,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       return url.match(/\/[\d]{13}/g).length > 0;
     };
 
-    function validateEvent() {
+    function isValidEvent() {
+      var valid = true;
+
       if(lodash.isUndefined(self.event.data)) {
 
         // Invalid event.
@@ -100,6 +107,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'Invalid message event, no \'data\' found.'
           }
         };
+        valid = false;
 
       } else if (!lodash.isString(self.event.data)) {
 
@@ -111,10 +119,14 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'Invalid message event data, expected string argument but received object.'
           }
         };
+        valid = false;
       }
+      return valid;
     };
 
-    function validateRequest() {
+    function isValidRequest() {
+      var valid = true;
+
       if (lodash.isUndefined(self.request)) {
 
         // No request.
@@ -125,7 +137,8 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'No request provided.'
           }
         };
-        
+        valid = false;
+
       } else if (lodash.isUndefined(self.request.method)) {
 
         // No request method.
@@ -136,20 +149,24 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'No request method specified.'
           }
         };
+        valid = false;
       }
 
       // Ensure that the specific request method is formed properly.
       switch (self.request.method) {
         case 'GET':
           break;
-        case 'POST': validatePOST();
+        case 'POST': isValidPOST() ? null : valid = false;
           break;
-        case 'PUT': validatePUT();
+        case 'PUT': isValidPUT() ? null : valid = false;
           break;
       }
+      return valid;
     };
 
-    function validatePOST() {
+    function isValidPOST() {
+      var valid = true;
+
       // Check for required POST data.
       if (lodash.isUndefined(self.request.data)) {
         // Invalid request; does not match specification.
@@ -160,10 +177,14 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'Invalid request, POST data not present in request.'
           }
         };
+        valid = false;
       }
+      return valid;
     };
 
-    function validatePUTT() {
+    function isValidPUT() {
+      var valid = true;
+
       // Check for required PUT data.
       if (lodash.isUndefined(self.request.data)) {
         // Invalid request; does not match specification.
@@ -174,10 +195,14 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'Invalid request, PUT data not present in request.'
           }
         };
+        valid = false;
       }
+      return valid;
     };
 
-    function validateRoute() {
+    function isValidRoute() {
+      var valid = true;
+
       if (lodash.isEmpty(self.route)) {
 
         // No route.
@@ -188,7 +213,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             message: 'Route not found.'
           }
         };
+        valid = false;
       }
+      return valid;
     };
 
     return this;
@@ -212,6 +239,8 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
           $log.error('[server] Cannot respond to message requestor, source has disappeared:\nMessage: ' + JSON.stringify(message));
           return;
         }
+
+        $log.debug('[server] FORWARD RESPONSE ' + message.header.sequence + ': ' + responseToJson(message));
 
         // FORWARD RESPONSE MESSAGE
         //
@@ -244,7 +273,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
                 if (lodash.isEmpty(message.request.responseObj)) {
                   // An empty response object informs that we should pass back the raw response data without status.
-                  responseObj = message.response.data || {};
+                  responseObj = message.response.data;
                 } else {
                   // Create an instance of the promised responseObj with the message data.
                   responseObj = $injector.get(message.request.responseObj);
@@ -264,32 +293,40 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       };
 
       if (isRequest(self)) {
-        // Set a communication timeout timer unless the caller overrides.
-        var timeoutTimer = {};
-        if (self.request.opts.timeout > 0) {
-          timeoutTimer = $timeout(function() {
-            timeout(self);
-          }, REQUEST_TIMEOUT);
-        }
-
         // Set the messge completion handler for our request.
         // For requests messages sourced from me use the onComplete() handler.
         // For requests messages sourced from another window use the onForward() handler.
+        // Events do not provide a response; no handler is set.
         var onReceived = onComplete;
         if (self.route.handler == 'forwarder') {
           onReceived = onForward;
+
+        } else if (self.route.handler == 'event') {
+          onReceived = null;
+
         }
 
-        // Store the promise callback for execution when a response is received.
-        promises.push({
-          id: self.header.id,
-          onComplete: onReceived,
-          timer: timeoutTimer
-        });
+        if (onReceived) {
+          // Set a communication timeout timer unless the caller overrides.
+          var timeoutTimer = {};
+          if (self.request.opts.timeout > 0) {
+            timeoutTimer = $timeout(function() {
+              timeout(self);
+            }, REQUEST_TIMEOUT);
+          }
+
+          // Store the promise callback for execution when a response is received.
+          promises.push({
+            id: self.header.id,
+            onComplete: onReceived,
+            timer: timeoutTimer
+          });
+        }
+
       }
 
       if (self.route.targetId) {
-        $log.debug('[server] FORWARD  ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
+        $log.debug('[server] FORWARD REQUEST ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
 
       } else {
         switch (self.header.type == 'message') {
@@ -307,8 +344,12 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         }
       }
   
-      // SEND REQUEST MESSAGE
-      // This message could be a request from me or the forwarding of a request from another window.
+      // SEND MESSAGE
+      // Message is one of the following:
+      //  - FORWARD, a request message from a client that needs to go to another client.
+      //  - RESPONSE, a response processed by me for a client.
+      //  - REQUEST, a request by me for a client to handle.
+      //  - EVENT, an event from me to a client.
       self.route.target.postMessage(angular.toJson(transport(self)), '*');
     });
   };
@@ -355,10 +396,20 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       $timeout.cancel(promise[0].timer);
       promise[0].onComplete(message);
 
-    } else {
+    } else if (message.route) {
+
       // No promise callback, send the message normally.
       // Happens when message construction results in an immediate response.
       message.send();
+
+    } else {
+
+      //
+      // Messages with no completion promise and no routing are dropped here.
+      // This can happen when a client responds very late (after the message has already timeout).
+      // The client would have alreadt been notified of the timeout.
+      //
+      $log.debug('[server] DROP MESSAGE ' + message.header.sequence + ': ' + responseToJson(message));
     }
   };
 
