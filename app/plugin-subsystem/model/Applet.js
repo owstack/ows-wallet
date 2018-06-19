@@ -29,6 +29,10 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
      * Priviledged methods
      */
 
+    this.logId = function() {
+      return this.header.name + '@' + this.header.version + '/' + this.header.kind;
+    };
+
     this.getContainer = function() {
       return container;
     };

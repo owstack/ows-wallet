@@ -149,6 +149,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
         profileService.importExtendedPrivateKey(xPrivKey, opts, function(err, client) {
           ongoingProcessService.set('importingWallet', false);
           if (err) {
+            $log.error('Could not import wallet: ' + err.message);
             if (err instanceof errors.NOT_AUTHORIZED) {
               $scope.importErr = true;
             } else {
@@ -202,6 +203,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
           ongoingProcessService.set('importingWallet', false);
 
           if (err) {
+            $log.error('Could not import wallet: ' + err.message);
             if (err instanceof errors.NOT_AUTHORIZED) {
               $scope.importErr = true;
             } else {

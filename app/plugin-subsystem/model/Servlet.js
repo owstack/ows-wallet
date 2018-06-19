@@ -27,6 +27,10 @@ angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootSco
      * Priviledged methods
      */
 
+    this.logId = function() {
+      return this.header.name + '@' + this.header.version + '/' + this.header.kind;
+    };
+
     this.start = function(session) {
       var src = this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova;
       

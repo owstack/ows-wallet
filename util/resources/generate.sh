@@ -73,5 +73,5 @@ else
 fi
 
 echo "Publishing resources to $RESOURCES_PATH"
-mkdir -p $RESOURCES_ROOT
-cp -R $TEMPLATE_PATH/resources $RESOURCES_PATH
+mkdir -p $RESOURCES_PATH
+cp -R $TEMPLATE_PATH/resources/* $RESOURCES_PATH

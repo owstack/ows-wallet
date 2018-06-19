@@ -88,7 +88,7 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
           var reader = new FileReader();
 
           reader.onloadend = function(e) {
-            return cb(null, this.result)
+            return cb(null, reader.result)
           }
 
           reader.readAsText(file);
@@ -158,15 +158,16 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
 
           if (platformInfoService.isCordova) {
             fileWriter.write(v);
+
           } else {
 
-            var blob = new Blob([v], {type: 'text/plain'});
-
-            navigator.webkitPersistentStorage.queryUsageAndQuota (function(usedBytes, grantedBytes) {
+            var blob = new Blob([v], {type: 'text/plain'});            
+            navigator.webkitPersistentStorage.queryUsageAndQuota(function(usedBytes, grantedBytes) {
               $log.info('File storage is using ', usedBytes, ' of ', grantedBytes, 'bytes');
 
               if (blob.size < (grantedBytes - usedBytes)) {
                 fileWriter.write(blob);
+
               } else if (writeRetries > 0) {
                 $log.error('Not enough space to write, will attempt to allocate storage and retry...');
                 // Retry after allocating 110% of the blob size.
@@ -180,14 +181,18 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
                 fileWriter.onerror('File storage permanent failure, not enough space to write file');
               }
 
-            }, function(e) {
+            }, function(e) { // navigator.webkitPersistentStorage.queryUsageAndQuota()
               $log.error('Failed to write file storage', e);
             });
 
           }
-        }, cb);
-      }, function(e) {
+        }, function(e) { // fileEntry.createWriter()
+          $log.error('Failed to write file storage', e);
+
+        });
+      }, function(e) { // dir.getFile()
         $log.error('Failed to write file storage', e);
+
       });
     });
   };
@@ -224,6 +229,7 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
   };
 
   root.remove = function(k, cb) {
+    cb = cb || function(){};
     root.init(function(err, fs, dir) {
       if (err) return cb(err);
       dir.getFile(k, {
@@ -234,7 +240,9 @@ angular.module('owsWalletApp.services').factory('fileStorageService', function(l
           $log.debug('File removed.');
           return cb();
         }, cb);
-      }, cb);
+      }, function(e) {
+        $log.error('Failed to read file storage', e);
+      });
     });
   };
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootScope, $log, lodash,  $injector, $timeout, ApiRouter) {
+angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootScope, $log, lodash,  $injector, $timeout, utilService, ApiRouter) {
 
   var REQUEST_TIMEOUT = 3000; // milliseconds
 
@@ -68,7 +68,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       this.header = {
         type: (isEventUrl(request.url) ? 'event' : 'message'),
         sequence: sequence++,
-        id: '' + now.getTime(),
+        id: utilService.uuidv4(),
         timestamp: now,
         sessionId: 'host',
       };
@@ -91,7 +91,8 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
      */
 
     function isEventUrl(url) {
-      return url.match(/\/[\d]{13}/g).length > 0;
+      var m = url.match(/^\/[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i);
+      return (m ? m.length > 0 : false);
     };
 
     function isValidEvent() {
@@ -210,7 +211,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
           statusCode: 404,
           statusText: 'ROUTE_NOT_FOUND',
           data: {
-            message: 'Route not found.'
+            message: 'No route specified.'
           }
         };
         valid = false;

@@ -19,12 +19,12 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
       12: 1,
     };
 
+    var defaults = configService.getDefaults();
     var configNetwork = configService.getSync().currencyNetworks;
     var testnetFeature = featureService.isAvailable('testnet');
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.formData = {};
-      var defaults = configService.getDefaults();
       var tc = $state.current.name == $rootScope.sref('add.create-personal') ? 1 : defaults.wallet.totalCopayers;
       $scope.formData.account = 1;
       $scope.TCValues = lodash.range(2, defaults.limits.totalCopayers + 1);

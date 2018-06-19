@@ -34,7 +34,9 @@ angular.module('owsWalletApp.pluginApi').service('restoreSession', function(loda
 		}
 
 		try {
+
 			session.restore(function(error, data) {
+
 				if (error) {
 					throw new Error(error);
 
@@ -44,10 +46,12 @@ angular.module('owsWalletApp.pluginApi').service('restoreSession', function(loda
 			      statusText: 'OK',
 			      data: data
 			    };
+					return callback(message);
 				}
 			});
 
 		} catch(error) {
+
 	    message.response = {
 	      statusCode: 500,
 	      statusText: 'UNEXPECTED_ERROR',
@@ -55,9 +59,9 @@ angular.module('owsWalletApp.pluginApi').service('restoreSession', function(loda
 	      	message: error.message
 	      }
 	    };
+			return callback(message);
 		}
 
-		return callback(message);
 	};
 
   return root;

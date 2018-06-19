@@ -147,6 +147,26 @@ angular.module('owsWalletApp.pluginModel').factory('PluginState', function ($log
     });
   };
 
+  PluginState.removeData = function(pluginId, dataKey, cb) {
+    storageService.getValueByKey(pluginId, function(err, oldData) {
+      oldData = oldData || {};
+      if (lodash.isString(oldData)) {
+        if (oldData.length == 0) {
+          oldData = '{}';
+        }
+        oldData = JSON.parse(oldData);
+      }
+      var data = oldData;
+      delete data[dataKey];
+      storageService.storeValueByKey(pluginId, JSON.stringify(data), function(err) {
+        if (err) {
+          return cb(err);
+        }
+        auditOperation(pluginId, cb);
+      });
+    });
+  };
+
   PluginState.getAppletEnvironmentStateTemplate = function() {
     return {
       'header': {

@@ -10,6 +10,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
   var routeMap = [
     { path: '/start',                         method: 'POST',   handler: 'start' },
     { path: '/ready',                         method: 'POST',   handler: 'ready' },
+    { path: '/info/host',                     method: 'GET',    handler: 'getHostInfo' },
     { path: '/info/platform',                 method: 'GET',    handler: 'getPlatformInfo' },
     { path: '/session/:id',                   method: 'GET',    handler: 'getSession' },
     { path: '/session/:id/choosewallet',      method: 'GET',    handler: 'chooseWallet' },
@@ -18,6 +19,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
     { path: '/session/:id/routes',            method: 'POST',   handler: 'addRoutes' },
     { path: '/session/:id/var/:name',         method: 'GET',    handler: 'getSessionVar' },
     { path: '/session/:id/var/:name',         method: 'POST',   handler: 'setSessionVar' },
+    { path: '/session/:id/var/:name',         method: 'DELETE', handler: 'removeSessionVar' },
     { path: '/settings',                      method: 'GET',    handler: 'getSettings' },
     { path: '/transactions',                  method: 'POST',   handler: 'createTx' },
     { path: '/transactions/:guid',            method: 'PUT',    handler: 'statusTx' },
@@ -52,7 +54,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
    * where,
    *
    * path - the URL for routing a request.
-   * method - an HTTP operation; GET or POST.
+   * method - an HTTP operation; GET, POST, PUT, DELETE.
    * handler - currently ignored.
    */
   ApiRouter.addRoutes = function(session, routes) {
@@ -73,7 +75,6 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
   ApiRouter.removeRoutes = function(session) {
     // Remove all routes matching the specified target id.
     var targetId = session.plugin.uri;
-    var target = session.get('targetId');
     lodash.remove(routeMap, function(r) {
       return r.targetId == targetId;
     });

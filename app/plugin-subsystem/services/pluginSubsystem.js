@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('pluginSubsystem', function(pluginService, themeService) {
+angular.module('owsWalletApp.pluginServices').factory('pluginSubsystem', function($log, pluginService, themeService) {
 	var root = {};
 
   root.init = function(callback) {

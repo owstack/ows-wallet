@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('getAppInfo', function(lodash, appConfig) {
+angular.module('owsWalletApp.pluginApi').service('getHostInfo', function(lodash, appConfig) {
 
 	var root = {};
 

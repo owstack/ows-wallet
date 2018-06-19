@@ -1,5 +1,5 @@
 {
-  "appTemplateName": "ows-wallet",
+  "appTemplateName": "@owstack/ows-wallet",
   "version": "0.0.24",
   "androidVersion": "24",
   "name": "ows wallet",

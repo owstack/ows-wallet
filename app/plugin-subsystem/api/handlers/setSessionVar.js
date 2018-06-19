@@ -42,8 +42,9 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
 	    message.response = {
 	      statusCode: 200,
 	      statusText: 'OK',
-	      data: {}
+	      data: value
 	    };
+			return callback(message);
 
 		} catch (error) {
 
@@ -54,9 +55,9 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
 	      	message: error.message
 	      }
 	    };
+			return callback(message);
 		}
 
-		return callback(message);
 	};
 
   return root;

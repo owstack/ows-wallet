@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState, ApiMessage, configService) {
+angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState, ApiMessage, configService, utilService) {
 
   var STATE_VALID = 1;
 
@@ -17,7 +17,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
     var self = this;
     var now = new Date();
 
-    this.id = '' + now.getTime();
+    this.id = utilService.uuidv4(); // Session ID
     this.timestamp = now;
     this.plugin = plugin;
 
@@ -57,7 +57,17 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
         if (err) {
           throw new Error('Error reading plugin storage: ' + err.message);
         }
-        userData = data;
+
+        // Expand data from storage into rich objects.
+        userData = lodash.mapValues(data, function(value) {
+          return {
+            value: value,
+            opts: {
+              transient: false
+            }
+          }
+        });
+  
         callback(err, data);
       });
     };
@@ -78,10 +88,37 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       if (!name) {
         throw new Error('Error setting session data, no name specified');
       }
+
+      // Make sure options have values.
+      opts = opts || {};
+      opts.transient = opts.transient || false;
+
       userData[name] = {
         value: value || null,
         opts: opts
       }
+      return userData[name].value;
+    };
+
+    this.remove = function(name, callback) {
+      checkStateIsValid(this);
+      if (!name) {
+        throw new Error('Error setting session data, no name specified');
+      }
+
+      delete userData[name];
+
+      // Immediate removal of key from storage.
+      PluginState.removeData(this.plugin.header.id, name, function(err) {
+        if (err) {
+          err = 'Error removing session data (' + name + '): ' + err.message;
+        }
+
+        if (callback) {
+          callback(err);
+        }
+        $log.info(self.plugin.logId() + ' session data removed from persistent storage (' + name  + ')');
+      });
     };
 
     this.flush = function(callback) {
@@ -91,9 +128,11 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
         if (err) {
           err = 'Error writing session data: ' + err.message;
         }
+
         if (callback) {
           callback(err);
         }
+        $log.info(self.plugin.logId() + ' session data saved to persistent storage');
       });
     };
 
@@ -205,13 +244,15 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
     };
 
     function persistentData() {
-      lodash.omitBy(userData, function(value, key) {
-        if (!value.opts.transient) {
-          return {
-            value: value
-          }
-        }
+      // Return all persistent data.
+      var persistent = lodash.pickBy(userData, function(value, key) {
+        return value.opts && !value.opts.transient;
       });
+
+      return lodash.mapValues(persistent, function(value) {
+        return value.value;
+      });
+
     };
 
     function sendEvent(session, event) {
