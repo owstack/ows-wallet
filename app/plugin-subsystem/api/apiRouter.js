@@ -23,7 +23,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
     { path: '/settings',                      method: 'GET',    handler: 'getSettings' },
     { path: '/transactions',                  method: 'POST',   handler: 'createTx' },
     { path: '/transactions/:guid',            method: 'PUT',    handler: 'statusTx' },
-    { path: '/transactions/:guid/wallet/:id', method: 'PUT',    handler: 'updateTx' }
+    { path: '/transactions/:guid/wallet/:id', method: 'PUT',    handler: 'updateTx' },
+    { path: '/clipboard',                     method: 'PUT',    handler: 'handleClipboard' },
+    { path: '/share',                         method: 'POST',   handler: 'socialShare' }
   ];
 
   /**
