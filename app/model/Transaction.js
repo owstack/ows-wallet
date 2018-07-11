@@ -300,8 +300,6 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
 
           createTxp(opts.dryRun, function(err, ctxp) {
             if (err) {
-              $log.error('Transaction.update(): ' + err);
-              err = gettextCatalog.getString('Could not get wallet information.');
               return cb(err);
             }
 
@@ -386,7 +384,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
       walletService.createTx(wallet, ntxp, function(err, ctxp) {
         if (err) {
           $log.error('Transaction.createTxp(): ' + err);
-          err = gettextCatalog.getString('Could not create transaction.');
+          err = gettextCatalog.getString('Could not create transaction: ' + err.message);
           return cb(err);
         }
         return cb(null, ctxp);

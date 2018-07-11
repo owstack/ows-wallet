@@ -27,14 +27,14 @@ angular.module('owsWalletApp.services').factory('payproService', function($log, 
 
       if (cacheState[uri].attempts <= CACHE_RETRY_LIMIT) {
         $timeout(function() {
-          root.getPayProDetails(uri, walletClient, cb, disableLoader);
+          root.getPayProDetails(uri, network, cb, disableLoader);
         }, CACHE_RETRY_INTERVAL);
 
         return;
 
       } else {
         delete cacheState[uri];
-        return root.getPayProDetails(uri, walletClient, cb, disableLoader);        
+        return root.getPayProDetails(uri, network, cb, disableLoader);        
       }
     }
 

@@ -10,6 +10,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
   var routeMap = [
     { path: '/start',                         method: 'POST',   handler: 'start' },
     { path: '/ready',                         method: 'POST',   handler: 'ready' },
+    { path: '/event',                         method: 'POST',   handler: 'event' },
     { path: '/info/host',                     method: 'GET',    handler: 'getHostInfo' },
     { path: '/info/platform',                 method: 'GET',    handler: 'getPlatformInfo' },
     { path: '/session/:id',                   method: 'GET',    handler: 'getSession' },

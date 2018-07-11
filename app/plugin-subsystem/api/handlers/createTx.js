@@ -13,6 +13,7 @@ angular.module('owsWalletApp.pluginApi').service('createTx', function($rootScope
     var amount = message.request.data.amount;
     var useSendMax = message.request.data.useSendMax || false;
     var fee = message.request.data.fee;
+    var description = message.request.data.description;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -111,14 +112,11 @@ angular.module('owsWalletApp.pluginApi').service('createTx', function($rootScope
 		      networkURI: wallet.networkURI,
 
 		      // Additional properties.
-		      description: description || paypro.description,
+		      description: description || resolved.paypro.memo,
 		      spendUnconfirmed: config.wallet.spendUnconfirmed,
 		      feeLevel: fee.level,
 		      feeRate: fee.rate,
-		      useCustomFee: fee.useCustomFee,
-
-		      // Supporting data not part of the final transaction.
-		      guid: guid()
+		      useCustomFee: fee.useCustomFee
 		    };
 
 		    // Create the transaction.

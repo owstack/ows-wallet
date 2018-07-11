@@ -34,8 +34,8 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
       var data = JSON.parse(this.event.data);
       lodash.assign(this, data);
 
-      if (isRequest(this)) {
-        // Check the structure of the request.
+      if (isRequest(this) || isEvent(this)) {
+        // Check the structure of the request (events are requests).
         valid = valid && isValidRequest();
 
         // Get and check our routing.
@@ -250,8 +250,6 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
       // Handle message response for messages targeting me.
       var onComplete = function(message) {
-        var responseObj;
-
         if (message.response.statusCode < 200 || message.response.statusCode > 299) {
           // Fail
           reject({
@@ -262,34 +260,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
           });
 
         } else {
-
           // Success
-          switch (message.response.statusCode) {
-            case 204: // No content
-              responseObj = undefined;
-              break;
+          resolve(message.response.data);
 
-            default:
-              if (!lodash.isUndefined(message.request.responseObj)) {
-
-                if (lodash.isEmpty(message.request.responseObj)) {
-                  // An empty response object informs that we should pass back the raw response data without status.
-                  responseObj = message.response.data;
-                } else {
-                  // Create an instance of the promised responseObj with the message data.
-                  responseObj = $injector.get(message.request.responseObj);
-                  responseObj = eval(new responseObj(message.response.data));              
-                }
-
-              } else {
-                // Send the plain response object data if no responseObj set.
-                // The receiver will have to know how to interpret the object.
-                responseObj = message.response;
-              }
-              break;
-          }
-
-          resolve(responseObj);
         }
       };
 
@@ -297,14 +270,9 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
         // Set the messge completion handler for our request.
         // For requests messages sourced from me use the onComplete() handler.
         // For requests messages sourced from another window use the onForward() handler.
-        // Events do not provide a response; no handler is set.
         var onReceived = onComplete;
         if (self.route.handler == 'forwarder') {
           onReceived = onForward;
-
-        } else if (self.route.handler == 'event') {
-          onReceived = null;
-
         }
 
         if (onReceived) {
@@ -323,14 +291,13 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
             timer: timeoutTimer
           });
         }
-
       }
 
       if (self.route.targetId) {
         $log.debug('[host] FORWARD REQUEST ' + self.header.sequence + ': (' + self.route.targetId + ') ' + requestToJson(self));
 
       } else {
-        switch (self.header.type == 'message') {
+        switch (self.header.type) {
           case 'message':
             $log.debug('[host] RESPONSE ' + self.header.sequence + ': ' + messageToJson(self));
             break;
@@ -359,6 +326,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
    * Private static methods
    */
 
+  function isEvent(message) {
+    return (message.header.type == 'event');
+  };
+
   function isRequest(message) {
     return (message.header.type == 'message') && lodash.isEmpty(message.response);
   };
@@ -369,7 +340,10 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
     try {
       message = new ApiMessage(event);
 
-      if (isRequest(message)) {
+      if (isEvent(message)) {
+        processEventMessage(message);
+
+      } else if (isRequest(message)) {
         processRequestMessage(message);
 
       } else {
@@ -380,8 +354,16 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
 
       // Not possible to notify client since the message is invalid.
       // The client will timeout if a valid response is not received.
-      $log.error('[host] Invalid message received, ' + ex.message + ' - '+ angular.toJson(event));
+      $log.error('[host] Invalid message received, ' + ex.message + ' - '+ angular.toJson(event.data));
     }
+  };
+
+  function processEventMessage(message) {
+    // Get the message handler and respond to the event.
+    var handler = $injector.get(message.route.handler);
+    handler.respond(message, function(message) {
+      // No response messages sent from events.
+    });
   };
 
   function processResponseMessage(message) {
