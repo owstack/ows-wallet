@@ -30,9 +30,9 @@
   "appUri": "owswallet",
   "statusBarColor": "#000000",
   "plugins": {
-    "@owstack/ows-wallet-applet-hello": "^0.0.15",
-    "@owstack/ows-wallet-applet-movies": "^0.0.38",
-    "@owstack/ows-wallet-applet-coinbase": "^0.0.3"
+    "@owstack/ows-wallet-applet-hello": "^0.0.16",
+    "@owstack/ows-wallet-applet-movies": "^0.0.39",
+    "@owstack/ows-wallet-applet-coinbase": "^0.0.4"
   },
   "themeCatalog": {
     "themes": {

@@ -105,10 +105,10 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
       // App URL
       } else if (data && data.indexOf(appConfig.nameNoSpace + '://') === 0) {
-        // App does not currently recieve any app URL events.
+        // App does not currently receive any app URL events.
         // Broadcast the event to all plugins.
         pluginService.broadcastEvent({
-          type: 'incoming-data',
+          name: 'incoming-data',
           data: data
         });
         return true;
