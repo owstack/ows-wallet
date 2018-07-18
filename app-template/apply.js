@@ -117,9 +117,16 @@ Object.keys(templates).forEach(function(k) {
 console.log('Done configuring application');
 
 // Write app configuration file
-console.log('Copying ' + configDir + '/app.config.json' + ' to root');
+if (!fs.existsSync('../app-config')) {
+  fs.mkdirSync('../app-config');
+}
+
+console.log('Copying ' + configDir + '/app.config.json' + ' to ' + '<root>/app-config');
 configBlob = configBlob.replace('{', JSONheader);
-fs.writeFileSync('../app.config.json', configBlob, 'utf8');
+fs.writeFileSync('../app-config/app.config.json', configBlob, 'utf8');
+
+// Plugin user configuration
+copyDir(configDir + '/plugin-config', '../app-config/plugin-config');
 
 // Push Notification
 console.log('Configuring Google service info');

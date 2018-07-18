@@ -92,7 +92,7 @@ www/*
 .ows-dist
 /config.xml
 /ionic.config.json
-/app.config.json
+app-config
 
 # Generated resources and assets
 resources/*

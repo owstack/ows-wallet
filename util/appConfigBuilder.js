@@ -10,6 +10,7 @@ var shell = require('shelljs');
 var utils = require(path.resolve(__dirname, './utils'));
 
 var APP_PATH = './app/';
+var APP_CONFIG_PATH = './app-config/';
 
 var getCommitHash = function() {
   //exec git command to get the hash of the current commit
@@ -27,7 +28,7 @@ var buildAppConfig = function(mode) {
 
   var pkg = utils.readJSON('./package.json');
 
-  var appConfig = utils.readJSON('./app.config.json');
+  var appConfig = utils.readJSON(APP_CONFIG_PATH + 'app.config.json');
   appConfig.commitHash = getCommitHash();
 
   if (mode == 'dev') {

@@ -1,0 +1,21 @@
+{
+  "org.openwalletstack.wallet.plugin.servlet.bitpay": {
+    "default": {
+      "api": {
+        "url": "https://bitpay.com",
+        "auth": {
+          "token": "insert api token"
+        }
+      },
+      "invoice": {
+        "transactionSpeed": "",
+        "notificationEmail": "",
+        "notificationURL": "",
+        "requiredFields": [
+          "buyer.name",
+          "buyer.email"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "org.openwalletstack.wallet.plugin.servlet.coinbase": {
+    "default": {
+      "redirect_uri": {
+        "mobile": "owswallet://coinbase",
+        "desktop": "https://conduitpay.com"
+      },
+      "production": {
+        "host": "https://www.coinbase.com",
+        "api": "https://api.coinbase.com",
+        "client_id": "insert client id",
+        "client_secret": "insert client secret"
+      }
+    }
+  }
+}

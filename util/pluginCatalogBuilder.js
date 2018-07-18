@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Builds the plugin catalog from an app-template 'app.config.json' plugins entry.
+ * Builds the plugin catalog from an app-template 'app.config.json' plugins entry and the plugin user config at app-template 'plugin-config'.
  * Installs the plugins into the app www/ directory.
  */
 
@@ -13,9 +13,10 @@ var appConfig;
 
 // Relative to the project root directory.
 var APP_PATH = './app/';
+var APP_CONFIG_PATH = './app-config/';
+var PLUGIN_USER_CONFIG_PATH = APP_CONFIG_PATH + 'plugin-config/';
 var WWW_PATH = './www/';
 var TMP_PATH = './build/';
-var PLUGIN_ROOT = 'plugins/';
 
 var KNOWN_PLUGIN_KINDS = ['applet', 'servlet'];
 
@@ -58,6 +59,7 @@ var buildPluginCatalog = function(config, mode) {
     var pluginWwwDir; // Runtime plugin directory relative to www/
     var pluginInstallDir; // Plugin installation directory relative to project root
     var pluginApisDir; // Temporary build scratch directory for accumulating plugin api's
+    var pluginUserConfigDir; // Directory containing the plugin user configuration
 
     // NPM plugins
     pluginReleaseDir = 'node_modules/' + pluginNpmPath + '/release/';
@@ -65,10 +67,18 @@ var buildPluginCatalog = function(config, mode) {
     // Read plugin configuration.
     var pluginConfig = utils.readJSON(pluginReleaseDir + 'plugin.json');
 
+    // Read and attach the plugin user configuration if any.
+    pluginUserConfigDir = PLUGIN_USER_CONFIG_PATH + pluginNpmPath + '/';
+    var pluginUserConfigFile = pluginUserConfigDir + 'config.json';
+
+    if (fs.existsSync(pluginUserConfigFile)) {
+      pluginConfig.userConfig = utils.readJSON(pluginUserConfigFile);
+    }
+
     // Set local/app paths for installation of plugin.
     // Plugins install in a version id subdirectory. Allows multiple version of the same
     // plugin to be installed.
-    pluginWwwDir = PLUGIN_ROOT + pluginNpmPath + '/' + pluginConfig.header.version + '/';
+    pluginWwwDir = 'plugins/' + pluginNpmPath + '/' + pluginConfig.header.version + '/';
     pluginInstallDir = WWW_PATH + pluginWwwDir;
     pluginApisDir = TMP_PATH + 'plugin-apis/' + pluginNpmPath + '/' + pluginConfig.header.version + '/';
 
@@ -145,10 +155,10 @@ var buildPluginCatalog = function(config, mode) {
             // Install the dependant plugin package.
             // Only allowed one package; silently ignore any others.
             var pkgName = Object.keys(pluginConfig.dependencies[id].package)[0];
-            var ver = pluginConfig.dependencies[id].package[pkgName].replace('^', '');
+            var pkgVersion = pluginConfig.dependencies[id].package[pkgName].replace('^', '');
 
             if (mode != 'dev') {
-              execSync('npm install ' + pkgName + '@' + ver, { cwd: '.', stdio: [0,1,2] });
+              execSync('npm install ' + pkgName + '@' + pkgVersion, { cwd: '.', stdio: [0,1,2] });
             } else {
               console.log('***** Developement mode: Skipping `npm install` of plugins *****');
             }

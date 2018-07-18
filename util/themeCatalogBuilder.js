@@ -10,6 +10,7 @@ var shell = require('shelljs');
 var utils = require(path.resolve(__dirname, './utils'));
 
 var APP_PATH = './app/';
+var APP_CONFIG_PATH = './app-config/';
 
 var getCatalog = function(catalogConfig) {
   var catalog = {
@@ -131,7 +132,7 @@ var getSkins = function(skinsConfig) {
 };
 
 var buildThemeCatalog = function(appConfig, debug) {
-  var appConfig = utils.readJSON('./app.config.json');
+  var appConfig = utils.readJSON(APP_CONFIG_PATH + 'app.config.json');
   var themeCatalog = getCatalog(appConfig.themeCatalog);
 
   var content = '';

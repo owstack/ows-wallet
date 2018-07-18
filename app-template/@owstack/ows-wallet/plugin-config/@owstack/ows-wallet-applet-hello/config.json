@@ -1,0 +1,7 @@
+{
+	"org.openwalletstack.wallet.plugin.servlet.hello": {
+		"default": {
+		  "text": "Goodbye."
+		}
+	}
+}
