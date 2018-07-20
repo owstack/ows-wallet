@@ -31,8 +31,8 @@
   "statusBarColor": "#000000",
   "plugins": {
     "@owstack/ows-wallet-applet-hello": "^0.0.17",
-    "@owstack/ows-wallet-applet-movies": "^0.0.40",
-    "@owstack/ows-wallet-applet-coinbase": "^0.0.5"
+    "@owstack/ows-wallet-applet-movies": "^0.0.41",
+    "@owstack/ows-wallet-applet-coinbase": "^0.0.6"
   },
   "themeCatalog": {
     "themes": {
