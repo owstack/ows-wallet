@@ -1,7 +1,7 @@
 {
   "appTemplateName": "@owstack/ows-wallet",
-  "version": "0.0.28",
-  "androidVersion": "28",
+  "version": "0.0.29",
+  "androidVersion": "29",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
@@ -32,7 +32,7 @@
   "plugins": {
     "@owstack/ows-wallet-applet-hello": "^0.0.17",
     "@owstack/ows-wallet-applet-movies": "^0.0.41",
-    "@owstack/ows-wallet-applet-coinbase": "^0.0.6"
+    "@owstack/ows-wallet-applet-coinbase": "^0.0.7"
   },
   "themeCatalog": {
     "themes": {
