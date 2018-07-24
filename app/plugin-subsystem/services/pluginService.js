@@ -177,6 +177,10 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     pluginSessionService.broadcastEvent(event);
   };
 
+  root.presentAppletUI = function(sessionId) {
+    appletService.presentUI(sessionId);
+  };
+
   function initAppletContext(ctx) {
     var applets = lodash.pickBy(ctx.catalog.plugins, function(plugin) {
       return plugin.header.kind == 'applet';

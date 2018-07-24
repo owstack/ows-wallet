@@ -42,6 +42,8 @@ angular.module('owsWalletApp.pluginModel').factory('Servlet', function ($rootSco
       container.remove();
     };
 
+    this.close = this.shutdown;
+    
     this.finalize = function(session, callback) {
       // Remove my host routes.
       ApiRouter.removeRoutes(session);

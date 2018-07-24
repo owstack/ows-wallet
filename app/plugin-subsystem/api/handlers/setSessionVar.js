@@ -37,7 +37,7 @@ angular.module('owsWalletApp.pluginApi').service('setSessionVar', function(lodas
 
 		try {
 
-			session.set(name, value);
+			session.setValue(name, value);
 
 	    message.response = {
 	      statusCode: 200,

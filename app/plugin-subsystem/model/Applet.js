@@ -5,8 +5,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
   // Bit values for settings.
   // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
   Applet.FLAGS_NONE = 0;
-  Applet.FLAGS_SHOW_SPLASH = 1;
-  Applet.FLAGS_MAY_NOT_HIDE = 2;
+  Applet.FLAGS_MAY_NOT_HIDE = 1;
 
   // Configuration schema and default values.
   var defaultConfiguration = {
@@ -22,6 +21,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
 
     lodash.assign(this, lodash.cloneDeep(obj));
     this.configuration = lodash.merge(lodash.cloneDeep(defaultConfiguration), obj.configuration);
+    this.sessionId;
 
     var container;
 
@@ -42,6 +42,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     };
 
     this.createContainer = function(session) {
+      this.sessionId = session.id;
       var src = this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova;
 
       container = $ionicModal.fromTemplate('\
@@ -52,9 +53,6 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
             </button>\
           </ion-footer-bar>\
           <ion-pane>\
-            <div class="applet-splash fade-splash"\
-              ng-hide="!applet.configuration.showSplash" ng-if="applet.view.splashBackground.length > 0">\
-            </div>\
             <iframe class="applet-frame" src="' + src + '"></iframe>\
           </ion-pane>\
           <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
@@ -106,7 +104,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
 
   Applet.prototype.close = function() {
     // Invoke rootScope published function to avoid dependency on appletService.
-    $rootScope.applet.close();
+    $rootScope.applet.close(this.sessionId);
   };
   
   return Applet;

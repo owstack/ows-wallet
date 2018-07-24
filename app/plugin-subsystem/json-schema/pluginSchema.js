@@ -51,7 +51,7 @@ angular.module('owsWalletApp').constant('pluginSchema',
             'privacy': {'type': 'string'},
             'terms': {'type': 'string'}
           }
-        },
+        }
       }
     },
     'permissions': {
@@ -61,11 +61,26 @@ angular.module('owsWalletApp').constant('pluginSchema',
       }
     },
     'skins': {'type': 'object'},
-    'servlets': {'type': 'object'},
-    'model': {'type': 'object'},
     'galleryImage': {'type': 'string'},
     'previewImage': {'type': 'string'},
-    'splashImage': {'type': 'string'},
+    'iconImage': {'type': 'string'},
+    'launch': {
+      'type': 'object',
+      'properties': {
+        'options': {'type': 'object'},
+        'splash': {
+          'type': 'object',
+          'required': [
+            'image'
+          ],
+          'properties': {
+            'image':  {'type': 'string'},
+            'autoHide':  {'type': 'boolean'},
+            'delay':  {'type': 'number'}
+          }
+        }
+      }
+    },
     'store': {
       'type': 'object',
       'required': [

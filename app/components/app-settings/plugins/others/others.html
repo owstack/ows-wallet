@@ -22,7 +22,7 @@
         <ion-item class="item-h-md item-icon-left icon-left-md item-icon-right has-detail" ng-repeat="p in plugins"
           ui-sref="{{sref('plugins.plugin')}}({'id': p.header.id})">
           <i class="icon md-icon left-icon">
-            <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+            <div class="bg" style="background-image: url({{p.uri + p.iconImage}})"></div>
           </i>
           <span>
             {{p.header.name}}

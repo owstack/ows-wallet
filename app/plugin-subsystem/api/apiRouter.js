@@ -8,11 +8,13 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
    * A match is made by searching routes in order, the first match returns the route.
    */
   var routeMap = [
-    { path: '/start',                         method: 'POST',   handler: 'start' },
-    { path: '/ready',                         method: 'POST',   handler: 'ready' },
+    { path: '/start',                         method: 'PUT',    handler: 'start' },
+    { path: '/ready',                         method: 'PUT',    handler: 'ready' },
     { path: '/event',                         method: 'POST',   handler: 'event' },
     { path: '/info/host',                     method: 'GET',    handler: 'getHostInfo' },
     { path: '/info/platform',                 method: 'GET',    handler: 'getPlatformInfo' },
+    { path: '/presentUI',                     method: 'PUT',    handler: 'presentUI' },
+    { path: '/session/:id',                   method: 'DELETE', handler: 'closeSession' },
     { path: '/session/:id',                   method: 'GET',    handler: 'getSession' },
     { path: '/session/:id/choosewallet',      method: 'GET',    handler: 'chooseWallet' },
     { path: '/session/:id/flush',             method: 'POST',   handler: 'flushSession' },
@@ -72,7 +74,7 @@ angular.module('owsWalletApp.pluginApi').factory('ApiRouter', function (lodash, 
     // Add the routes to the route map and retain the target id in the session as a reference to
     // the route owner.
     routeMap = lodash.concat(routeMap, routes);
-    session.set('targetId', targetId, {transient: true});
+    session.setValue('targetId', targetId, {transient: true});
   };
 
   ApiRouter.removeRoutes = function(session) {

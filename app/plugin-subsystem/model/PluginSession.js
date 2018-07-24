@@ -80,10 +80,15 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       return userData[name] && userData[name].value || null;
     };
 
+    this.close = function(opts) {
+      checkStateIsValid(this);
+      this.plugin.close();
+    };
+
     // opts = {
     //  transient: <boolean>
     // }
-    this.set = function(name, value, opts) {
+    this.setValue = function(name, value, opts) {
       checkStateIsValid(this);
       if (!name) {
         throw new Error('Error setting session data, no name specified');
@@ -100,7 +105,7 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       return userData[name].value;
     };
 
-    this.remove = function(name, callback) {
+    this.removeValue = function(name, callback) {
       checkStateIsValid(this);
       if (!name) {
         throw new Error('Error setting session data, no name specified');

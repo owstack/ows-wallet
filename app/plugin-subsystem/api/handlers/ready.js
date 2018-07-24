@@ -6,8 +6,7 @@ angular.module('owsWalletApp.pluginApi').service('ready', function($rootScope, $
 
   root.respond = function(message, callback) {
 	  // Request parameters.
-    var data = message.request.data;
-    var sessionId = data.sessionId;
+    var sessionId = message.request.data.sessionId;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {

@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('removeSessionVar', function(lodash, pluginSessionService) {
+angular.module('owsWalletApp.pluginApi').service('closeSession', function(lodash, pluginSessionService) {
 
 	var root = {};
 
   root.respond = function(message, callback) {
 	  // Request parameters.
     var sessionId = message.request.params.id;
-    var name = message.request.params.name;
+    var opts = message.request.data.opts;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -33,35 +33,10 @@ angular.module('owsWalletApp.pluginApi').service('removeSessionVar', function(lo
 	    };
 			return callback(message);
 		}
-	
-		try {
 
-			session.removeValue(name, function(error) {
+		session.close(opts);
 
-				if (error) {
-					throw new Error(error);
-
-				} else {
-			    message.response = {
-			      statusCode: 200,
-			      statusText: 'OK',
-			      data: {}
-			    };
-					return callback(message);
-				}
-			});
-
-		} catch(error) {
-
-	    message.response = {
-	      statusCode: 500,
-	      statusText: 'UNEXPECTED_ERROR',
-	      data: {
-	      	message: error.message
-	      }
-	    };
-			return callback(message);
-		}
+		// Closing the session does not provide a response.
 
 	};
 

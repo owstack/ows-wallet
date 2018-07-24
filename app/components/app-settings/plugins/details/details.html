@@ -21,7 +21,7 @@
           </ion-item>
           <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-repeat="p in d.plugins">
             <i class="icon md-icon left-icon">
-              <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+              <div class="bg" style="background-image: url({{p.uri + p.iconImage}})"></div>
             </i>
             <span>
               {{p.header.name}}
@@ -42,7 +42,7 @@
           </ion-item>
           <ion-item class="item-h-md item-icon-left icon-left-md has-detail" ng-repeat="p in r.plugins">
             <i class="icon md-icon left-icon">
-              <div class="bg" style="background-image: url({{p.iconImage}})"></div>
+              <div class="bg" style="background-image: url({{p.uri + p.iconImage}})"></div>
             </i>
             <span>
               {{p.header.name}}

@@ -10,7 +10,7 @@
       <ion-item class="item-h-md item-icon-left icon-left-md item-icon-right has-detail" ng-repeat="plugin in plugins track by plugin.header.id"
         ui-sref="{{sref('plugins.plugin')}}({'id': plugin.header.id})">
         <i class="icon md-icon left-icon">
-          <div class="bg" style="background-image: url({{plugin.iconImage}})"></div>
+          <div class="bg" style="background-image: url({{plugin.uri + plugin.iconImage}})"></div>
         </i>
         <span>{{plugin.header.name}}</span>
         <div class="item-detail">

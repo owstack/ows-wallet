@@ -52,28 +52,6 @@ body {
 }
 
 /**
- * Applet splash
- */
-
-.applet-splash {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  z-index: 1000000 !important;
-}
-
-.fade-splash {
-  transition: 0.2s linear all;
-  -webkit-transition: 0.2s linear all;
-  opacity: 1;
-
-  &.ng-hide {
-    opacity: 0;
-  }
-}
-
-
-/**
  * Applet footer
  */
 

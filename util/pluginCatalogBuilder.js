@@ -87,14 +87,6 @@ var buildPluginCatalog = function(config, mode) {
 
     pluginConfig.uri = pluginWwwDir;
 
-    // Replace tags.
-    var pluginJSON = JSON.stringify(pluginConfig);
-    pluginJSON = pluginJSON.replace(/<plugin-path>/g, pluginConfig.uri.slice(0, -1));
-    pluginConfig = JSON.parse(pluginJSON);
-    // End replace tags.
-
-    pluginConfig = JSON.parse(pluginJSON);
-
     // Detect and fail if duplicate plugin id exists.
     if (pluginIds.indexOf(pluginConfig.header.id) >= 0) {
       throw new Error('ERROR - Duplicate plugin id detected: \'' + pluginConfig.header.id + '\'');

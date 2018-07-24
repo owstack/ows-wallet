@@ -360,6 +360,12 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
+  root.presentUI = function(sessionId) {
+    // Show the applet by removing the 'ng-hide' class. Also provide a zoom effect to the main app view.
+    angular.element(document.getElementsByClassName('view-container')[0]).addClass('zoom');
+    angular.element(document.getElementsByClassName('applet-view')[0]).removeClass('ng-hide');
+  };
+
   /**
    * Private functions
    */
@@ -432,7 +438,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   // When the applet is ready to be shown the 'ng-hide' class is removed from the ion-modal-view allowing the modal to animate in.
   // 
   // Detecting when the applet is ready is accomplished waiting for the applet to send the /start message. When the /start message
-  // is received from the applet the 'Local/PluginStarted' event is broadcast. In the event handler we remove the 'ng-hide' class
+  // is received from the applet the 'Local/StartPluginUI' event is broadcast. In the event handler we remove the 'ng-hide' class
   // from the ion-modal-view. We also apply some animation to the main app view (view-container) for improved UX.
   //
   function openApplet(applet) {
@@ -455,13 +461,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       }, 50);
     });
   };
-
-  $rootScope.$on('Local/PluginStarted', function(event, sessionId) {
-    // The applet has started, show the applet by removing the 'ng-hide' class. Also provide a zoom effect to the main
-    // app view for better UX.
-    angular.element(document.getElementsByClassName('view-container')[0]).addClass('zoom');
-    angular.element(document.getElementsByClassName('applet-view')[0]).removeClass('ng-hide');
-  });
 
   function doOpenApplet(applet) {
     $log.info('Opening applet: ' + applet.header.name + '@' + applet.header.version);
