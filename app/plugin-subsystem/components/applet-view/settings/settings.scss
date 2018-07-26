@@ -1,5 +1,4 @@
 .applet-view-settings {
-
 	.popup {
 		width: 80%;
 
@@ -15,23 +14,4 @@
 			height: 60px;
 		}
 	}
-
-  /**
-   * Applet open/close animation.
-   */
-
-  &.popup-container.activeX {
-   -webkit-animation: zoomIn $v-applet-transition !important;
-   animation: zoomIn $v-applet-transition !important;
-  }
-  &.popup-container.activex {
-   -webkit-animation: slideInUp $v-applet-transition !important;
-   animation: slideInUp $v-applet-transition !important;
-  }
-
-  &.popup-containerx {
-   -webkit-animation: slideOutDown $v-applet-transition !important;
-   animation: slideOutDown $v-applet-transition !important;
-  }
-
 }
