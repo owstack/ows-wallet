@@ -4,7 +4,7 @@
   ng-init="titleSection='Applets'; goBackToState = 'preferencesGlobal'; useTheme = true">
 </div>
 
-<ion-content class="content preferences" ng-controller="AppletSettingsCtrl as p" ng-init="p.init()"
+<ion-content id="applet-settings" class="content preferences" ng-controller="AppletSettingsCtrl as p" ng-init="p.init()"
   ng-class="{'status-bar-content':index.useViewManagedStatusBar}" ng-style="{'background':theme.view.viewBackground}">
   <h4 ng-style="{'background':theme.view.viewBackground}"></h4>
   <ul class="no-bullet m0 ">

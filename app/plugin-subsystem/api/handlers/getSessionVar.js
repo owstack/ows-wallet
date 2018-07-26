@@ -39,7 +39,7 @@ angular.module('owsWalletApp.pluginApi').service('getSessionVar', function(lodas
 	    message.response = {
 	      statusCode: 200,
 	      statusText: 'OK',
-	      data: session.get(name)
+	      data: session.getValue(name)
 	    };
 			return callback(message);
 

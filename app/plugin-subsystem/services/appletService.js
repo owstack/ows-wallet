@@ -363,7 +363,16 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   root.presentUI = function(sessionId) {
     // Show the applet by removing the 'ng-hide' class. Also provide a zoom effect to the main app view.
     angular.element(document.getElementsByClassName('view-container')[0]).addClass('zoom');
-    angular.element(document.getElementsByClassName('applet-view')[0]).removeClass('ng-hide');
+    angular.element(document.getElementById('applet-view')).removeClass('ng-hide');
+  };
+
+  root.closeApplet = function(sessionId, opts) {
+    opts = opts || {};
+    if (opts.confirm) {
+      confirmCloseApplet(sessionId);
+    } else {
+      doCloseApplet(sessionId);
+    }
   };
 
   /**
@@ -444,12 +453,13 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   function openApplet(applet) {
     // Create a session, start dependent servlets, create the container, and show the applet.
     pluginSessionService.createSession(applet, function(session) {
+      pluginSessionService.activateSession(session.id);
+
       $rootScope.$emit('$pre.beforeEnter', applet);
       applet.createContainer(session);
 
       // Present the applet after allowing the DOM to update.
       $timeout(function() {
-        pluginSessionService.activateSession(session.id);
         applet.getContainer().show();
 
         $timeout(function() {

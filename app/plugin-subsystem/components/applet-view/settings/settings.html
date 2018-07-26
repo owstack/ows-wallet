@@ -1,6 +1,6 @@
-<ion-modal-view id="applet-view-settings" ng-controller="AppletViewSettingsCtrl">
-  <ion-content scroll="false">
-    Applet View Settings
-    <button class="button button-primary" ng-click="close()"></button>
-  </ion-content>
-</ion-modal-view>
+<ion-toggle ng-model="viewSettings.stickyMenu" toggle-class="toggle-calm">
+	{{'Sticky menu position' | translate}}
+</ion-toggle>
+<ion-toggle ng-model="viewSettings.confirmOnClose" toggle-class="toggle-calm">
+	{{'Confirm on close' | translate}}
+</ion-toggle>

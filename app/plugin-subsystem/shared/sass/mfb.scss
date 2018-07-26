@@ -3,10 +3,4 @@
 $main-color:       $v-mfb-main-color;
 $icons-font-size:  $v-mfb-icons-font-size;
 
-.applet-menu[data-mfb-state="closed"] .mfb-component__button--main {
-	background-color: $v-mfb-main-color-closed;
-	box-shadow: $v-mfb-button-box-shadow-closed;
-	color: $v-mfb-button-text-color-closed;
-}
-
 @import "../../../../bower_components/ng-mfb/mfb/src/mfb";

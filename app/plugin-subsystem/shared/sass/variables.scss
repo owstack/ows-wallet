@@ -9,8 +9,11 @@ $v-applet-transition:              300ms !default;
 /* Applet menu (material floating button) */
 
 $v-mfb-main-color:                 $v-black-transparent-dark;
+$v-mfb-button-text-color:          $v-white-color;
+
 $v-mfb-main-color-closed:          $v-black-transparent-subtle;
 $v-mfb-button-text-color-closed:   $v-black-transparent-dark;
+
 $v-mfb-button-box-shadow-closed:   none;
 $v-mfb-icons-font-size:            18px;
 $v-mfb-size:                       56px;

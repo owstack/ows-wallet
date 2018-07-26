@@ -72,17 +72,17 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
       });
     };
 
-    this.get = function(name) {
+    this.close = function(opts) {
+      checkStateIsValid(this);
+      this.plugin.close();
+    };
+
+    this.getValue = function(name) {
       checkStateIsValid(this);
       if (!name) {
         throw new Error('Error getting session data, no name specified');
       }
       return userData[name] && userData[name].value || null;
-    };
-
-    this.close = function(opts) {
-      checkStateIsValid(this);
-      this.plugin.close();
     };
 
     // opts = {

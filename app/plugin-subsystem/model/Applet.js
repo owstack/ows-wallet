@@ -46,14 +46,15 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
       var src = this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova;
 
       container = $ionicModal.fromTemplate('\
-        <ion-modal-view class="applet-view ng-hide" ng-controller="AppletViewCtrl">\
-          <div drag-and-drop fixed-positions="true" class="applet-menu-drag-container" on-drag-end="onDragEnd(draggable, droppable)"\
+        <ion-modal-view id="applet-view" class="ng-hide" ng-controller="AppletViewCtrl">\
+          <div drag-and-drop fixed-positions="true" class="applet-menu-drag-container" on-drag-end="onAppletMenuMove(draggable, droppable)"\
           on-item-removed"onRemoved(draggable, droppable)">\
-            <div drag-item drag-enabled="true" class="applet-menu-drag-item" drag-id="mfb-menu">\
-              <ul mfb-menu class="applet-menu" position="br" effect="slidein-spring" menu-state="appletMenuState"\
+            <div drag-item drag-enabled="true" class="applet-menu-drag-item" drag-id="mfb-menu"\
+              x="{{menuPosition.x}}" y="{{menuPosition.y}}">\
+              <ul mfb-menu class="applet-menu" position="br" effect="slidein-spring"\
                 active-icon="ion-close-round" resting-icon="ion-navicon-round" toggling-method="click">\
                 <button mfb-button icon="ion-wrench" label="Settings" ng-click="openSettings()"></button>\
-                <button mfb-button icon="ion-power" label="Close Applet" ng-click="applet.close(\'' + session.id + '\')"></button>\
+                <button mfb-button icon="ion-power" label="Close Applet" ng-click="closeApplet(\'' + session.id + '\')"></button>\
               </ul>\
             </div>\
             <drop-spot max-items="1" class="applet-menu-drop-spot" drop-id="applet-menu-drop-spot"></drop-spot>\
@@ -62,7 +63,7 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
             <iframe class="applet-frame" src="' + src + '"></iframe>\
           </ion-pane>\
           <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
-            on-select="onWalletSelect" on-cancel="onCancel" has-tabs>\
+            on-select="onWalletSelect" on-cancel="onWalletSelectCancel" has-tabs>\
           </wallet-menu>\
         </ion-modal-view>\
         ', {

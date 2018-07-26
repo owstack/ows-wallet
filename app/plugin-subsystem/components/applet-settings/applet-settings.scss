@@ -1,2 +1,22 @@
+#applet-settings {
+	.applet-list-item .item {
+	  font-size: 14px;
+	  border-top: none;
+	  margin-bottom: 0;
+	}
+
+	.button-applet-header {
+	  font-size: 14px !important;
+	  font-weight: normal !important;
+	  text-transform: none !important;
+	  background-color: transparent !important;
+	}
+
+	.button-applet-header .icon:before,
+	.button-applet-header.icon:before {
+	  font-size: 20px !important;
+	}
+}
+
 @import "presentation/presentation";
 @import "wallpaper/wallpaper";
