@@ -118,7 +118,7 @@ module.exports = function(grunt) {
         sourceMap: false,
         sourceMapStyle: 'link' // embed, link, inline
       },
-      components: {
+      components_js: {
         src: [
           // For express-style routing (plugins)
           'angular-path-to-regexp/angular-path-to-regexp.js',
@@ -161,9 +161,19 @@ module.exports = function(grunt) {
           // Used for slide-to-accept
           'node_modules/bezier-easing/dist/bezier-easing.min.js',
           // Host QR code scanner controls
-          'node_modules/cordova-plugin-qrscanner/dist/cordova-plugin-qrscanner-lib.min.js'
+          'node_modules/cordova-plugin-qrscanner/dist/cordova-plugin-qrscanner-lib.min.js',
+          // Material design floating button directive
+          'bower_components/ng-mfb/src/mfb-directive.js',
+          // General drag and drop support
+          'bower_components/angular-drag-and-drop-directives/build/js/angular-drag-and-drop.min.js'
         ],
         dest: 'www/lib/components.js'
+      },
+      component_css: {
+        src: [
+          'bower_components/angular-drag-and-drop-directives/build/css/drag-and-drop.css'
+        ],
+        dest: 'www/css/components.css'
       },
       app_js: {
         src: [
@@ -302,7 +312,6 @@ module.exports = function(grunt) {
         expand: true,
         flatten: true,
         src: [
-          'bower_components/ionic/release/css/ionic.min.css',
           'bower_components/animate.css/animate.min.css'
         ],
         dest: 'www/css/'

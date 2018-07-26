@@ -24,9 +24,9 @@ body {
   position: absolute;
   top: 0;
   width: 100%;
-  height: calc(100% - #{$v-applet-bar-height});
-  height: calc(100% - #{$v-applet-bar-height} - constant(safe-area-inset-bottom));
-  height: calc(100% - #{$v-applet-bar-height} - env(safe-area-inset-bottom));
+  height: 100%;
+  height: calc(100% - constant(safe-area-inset-bottom));
+  height: calc(100% - env(safe-area-inset-bottom));
 }
 
 .applet-view { 
@@ -40,6 +40,10 @@ body {
   bottom: calc(constant(safe-area-inset-bottom));
   bottom: calc(env(safe-area-inset-bottom));
 
+  /**
+   * Applet open/close animation.
+   */
+
   &.ng-enter {
    -webkit-animation: zoomIn $v-applet-transition !important;
    animation: zoomIn $v-applet-transition !important;
@@ -49,50 +53,80 @@ body {
    -webkit-animation: zoomOut $v-applet-transition !important;
    animation: zoomOut $v-applet-transition !important;
   }
-}
 
-/**
- * Applet footer
- */
+  /**
+   * Floating menu button with drag and drop placement.
+   */
 
-.applet-footer-bar {
-  background: $v-applet-bar-bg;
-  border-top: $v-applet-bar-border;
-  height: $v-applet-bar-height;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  z-index: 5;
+  .applet-menu {
+    margin: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
 
-  .footer-bar-item {
-    color: $v-applet-bar-color;
-    background: rgba(0, 0, 0, 0) !important;
+  // Define the start (default) position of applet menu.
+  .applet-menu-drag-item {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: $v-mfb-size;
+    height: $v-mfb-size;
+    // background: $v-white-color; // debug only - visible drag item
 
-    &.item-center {
-      top: 7px;
-      left: 50%;
-      background: $v-applet-bar-color !important;
-      width: 50%;
-      height: 15px;
-      min-height: 0;
-      -webkit-transform: translateX(-50%);
-      transform: translateX(-50%);
-    }
-
-    &.item-right {
-      top: 3px !important;
-      right: 10px !important;
+    &.drag-active {
+      .applet-menu[data-mfb-state="closed"] .mfb-component__button--main {
+        background-color: $main-color;
+        box-shadow: $button-box-shadow;
+        color: $button-text-color;
+      }
     }
   }
-}
 
-.button-applet-close:before {
-  font-size: 34px !important;
-  line-height: 40px !important;
-}
+  // Allow drag on the whole view.
+  .applet-menu-drag-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 
+  // The menu is contrained to this drop spot.
+  .applet-menu-drop-spot {
+    width: calc(100% - #{$v-mfb-size});
+    height: calc(100% - #{$v-mfb-size});
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* debug only - visible drop spot.
+  .drop-content {
+    border: 2px dashed $v-black-color;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .dragging .drop-content {
+    border: 2px dashed $v-white-color;
+  }
+
+  .drop-hovering .drop-content {
+    border-color: $v-success-color;
+  }
+  */
+}
 
 /* these are view specific styles to move to app component scss */
 

@@ -1,7 +1,7 @@
 'use strict';
 
 var modules = [
-  'angularMoment',
+'angularMoment',
   'monospaced.qrcode',
   'gettext',
   'ionic',
@@ -15,6 +15,8 @@ var modules = [
   'angular-pattern-lock',
   'pathToRegexpModule',
   'djvModule',
+  'ng-mfb',
+  'laneolson.ui.dragdrop',
   'bitauthModule',
   'bchWalletClientModule',
   'btcWalletClientModule',

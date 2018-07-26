@@ -8,6 +8,7 @@
   ],
   "dependencies": {
     "angular-clipboard": "^1.4.2",
+    "angular-drag-and-drop-directives": "https://github.com/owstack/angular-drag-and-drop.git#ows-release",
     "angular-gettext": "2.2.1",
     "angular-gridster": "0.13.5",
     "angular-md5": "^0.1.10",
@@ -19,6 +20,7 @@
     "moment": "2.10.3",
     "ng-csv": "~0.3.6",
     "ng-lodash": "0.5.0",
+    "ng-mfb": "0.6.2",
     "ngtouch": "^1.0.1",
     "pattern-lock": "https://github.com/owstack/pattern-lock.git#b42b903a1cfda4b239d0c6517e837e7bd18cec75",
     "trezor-connect": "https://github.com/trezor/connect.git#c1a00f9f0f4a13239ba13ddd589c6ca61f2e7876"    

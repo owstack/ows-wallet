@@ -47,11 +47,17 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
 
       container = $ionicModal.fromTemplate('\
         <ion-modal-view class="applet-view ng-hide" ng-controller="AppletViewCtrl">\
-          <ion-footer-bar class="applet-footer-bar">\
-            <button class="footer-bar-item item-center button button-clear button-icon button-applet-close"\
-              ng-click="applet.close(\'' + session.id + '\')">\
-            </button>\
-          </ion-footer-bar>\
+          <div drag-and-drop fixed-positions="true" class="applet-menu-drag-container" on-drag-end="onDragEnd(draggable, droppable)"\
+          on-item-removed"onRemoved(draggable, droppable)">\
+            <div drag-item drag-enabled="true" class="applet-menu-drag-item" drag-id="mfb-menu">\
+              <ul mfb-menu class="applet-menu" position="br" effect="slidein-spring" menu-state="appletMenuState"\
+                active-icon="ion-close-round" resting-icon="ion-navicon-round" toggling-method="click">\
+                <button mfb-button icon="ion-wrench" label="Settings" ng-click="openSettings()"></button>\
+                <button mfb-button icon="ion-power" label="Close Applet" ng-click="applet.close(\'' + session.id + '\')"></button>\
+              </ul>\
+            </div>\
+            <drop-spot max-items="1" class="applet-menu-drop-spot" drop-id="applet-menu-drop-spot"></drop-spot>\
+          </div>\
           <ion-pane>\
             <iframe class="applet-frame" src="' + src + '"></iframe>\
           </ion-pane>\
