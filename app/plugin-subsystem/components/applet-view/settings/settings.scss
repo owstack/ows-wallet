@@ -9,9 +9,20 @@
 		.item {
 			background: none;
 	    border: none;
+	    color: $v-dark-gray;
 	    padding-left: 15px;
 	    padding-right: 0;
 			height: 60px;
 		}
+
+		.button.button-positive {
+			background-color: $v-applet-settings-button-bg-color;
+			color: $v-applet-settings-button-color;
+		}
+	
+		.toggle input:checked + .track {
+	    border-color: $v-applet-settings-toggle-border-color;
+   		background-color: $v-applet-settings-toggle-bg-color;
+   	}
 	}
 }
