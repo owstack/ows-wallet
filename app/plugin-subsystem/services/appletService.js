@@ -441,15 +441,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     return categories;
   };
 
-  // Opening an applet involves two elements; (1.) showing the modal and (2.) allowing the modal to init/render.
-  // For an applet to run at all the modal must be inserted into the DOM but this prompts ionic to visually render the modal.
-  // To prevent the modal from rendering on $modal.show() we initialize the modal html (ion-modal-view) with class 'ng-hide'.
-  // When the applet is ready to be shown the 'ng-hide' class is removed from the ion-modal-view allowing the modal to animate in.
-  // 
-  // Detecting when the applet is ready is accomplished waiting for the applet to send the /start message. When the /start message
-  // is received from the applet the 'Local/StartPluginUI' event is broadcast. In the event handler we remove the 'ng-hide' class
-  // from the ion-modal-view. We also apply some animation to the main app view (view-container) for improved UX.
-  //
   function openApplet(applet) {
     // Create a session, start dependent servlets, create the container, and show the applet.
     pluginSessionService.createSession(applet, function(session) {
@@ -457,18 +448,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
       $rootScope.$emit('$pre.beforeEnter', applet);
       applet.createContainer(session);
-
-      // Present the applet after allowing the DOM to update.
-      $timeout(function() {
-        applet.getContainer().show();
-
-        $timeout(function() {
-          // Timeout allows the modal to get inserted into the DOM.
-          // Kill the modal backdrop for this (the applet) instance of the modal.
-          angular.element(document.getElementsByClassName('modal-backdrop-bg')[0]).css('opacity', '0');
-          angular.element(document.getElementsByClassName('modal-backdrop')[0]).css('background', 'none');          
-        });
-      }, 50);
     });
   };
 

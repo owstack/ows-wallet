@@ -41,32 +41,22 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
       callback();
     };
 
+    // Opening an applet involves two elements; (1.) showing the modal and (2.) allowing the modal to init/render.
+    // For an applet to run at all the modal must be inserted into the DOM but this prompts ionic to visually render the modal.
+    // To prevent the modal from rendering on $modal.show() we initialize the modal html (ion-modal-view) with class 'ng-hide'.
+    // When the applet is ready to be shown the 'ng-hide' class is removed from the ion-modal-view allowing the modal to animate in.
+    // 
+    // Detecting when the applet is ready is accomplished waiting for the applet to send the /start message. When the /start message
+    // is received from the applet the 'Local/StartPluginUI' event is broadcast. In the event handler we remove the 'ng-hide' class
+    // from the ion-modal-view. We also apply some animation to the main app view (view-container) for improved UX.
+    //
     this.createContainer = function(session) {
-      this.sessionId = session.id;
-      var src = this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova;
+      $rootScope.appletView = {
+        sessionId: session.id,
+        src: this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova
+      };
 
-      container = $ionicModal.fromTemplate('\
-        <ion-modal-view id="applet-view" class="ng-hide" ng-controller="AppletViewCtrl">\
-          <div drag-and-drop fixed-positions="true" class="applet-menu-drag-container" on-drag-end="onAppletMenuMove(draggable, droppable)"\
-          on-item-removed"onRemoved(draggable, droppable)">\
-            <div drag-item drag-enabled="true" class="applet-menu-drag-item" drag-id="mfb-menu"\
-              x="{{menuPosition.x}}" y="{{menuPosition.y}}">\
-              <ul mfb-menu class="applet-menu" position="br" effect="slidein-spring"\
-                active-icon="ion-close-round" resting-icon="ion-navicon-round" toggling-method="click">\
-                <button mfb-button icon="ion-wrench" label="Settings" ng-click="openSettings()"></button>\
-                <button mfb-button icon="ion-power" label="Close Applet" ng-click="closeApplet(\'' + session.id + '\')"></button>\
-              </ul>\
-            </div>\
-            <drop-spot max-items="1" class="applet-menu-drop-spot" drop-id="applet-menu-drop-spot"></drop-spot>\
-          </div>\
-          <ion-pane>\
-            <iframe class="applet-frame" src="' + src + '"></iframe>\
-          </ion-pane>\
-          <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"\
-            on-select="onWalletSelect" on-cancel="onWalletSelectCancel" has-tabs>\
-          </wallet-menu>\
-        </ion-modal-view>\
-        ', {
+      $ionicModal.fromTemplateUrl('views/applet-view/modal.html', {
         scope: $rootScope,
         backdropClickToClose: false,
         hardwareBackButtonClose: false,
@@ -74,9 +64,17 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
 //        hideDelay: 1000,
         session: session,
         name: 'applet'
+      }).then(function(modal) {
+
+        container = modal;
+        modal.show();
+
+        // Kill the modal backdrop for this (the applet) instance of the modal.
+        angular.element(document.getElementsByClassName('modal-backdrop-bg')[0]).css('opacity', '0');
+        angular.element(document.getElementsByClassName('modal-backdrop')[0]).css('background', 'none');
       });
 
-      return container;
+      return;
     };
 
     return this;
