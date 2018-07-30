@@ -8,8 +8,8 @@
       "production": {
         "host": "https://www.coinbase.com",
         "api": "https://api.coinbase.com",
-        "client_id": "insert client id",
-        "client_secret": "insert client secret"
+        "client_id": "fca0cdbbbde321f471b2d94caa12030f5353ef496fbae2560fd8cb03093bdb41",
+        "client_secret": "fa6dafda2ee9a067bca173cbb52b58e47e3703cf95d3e68985c8eee107fb3881"
       }
     }
   }

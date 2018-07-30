@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $timeout, lodash, Applet, Constants, PluginState, pluginSessionService, themeService, popupService, gettextCatalog, servletService) {
+angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $state, $timeout, lodash, Applet, Constants, PluginState, pluginSessionService, themeService, popupService, gettextCatalog, servletService) {
 
   var root = {};
 
@@ -28,6 +28,12 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     visible: true, // Whether or not the applet is displayed in the UI.
     category: 'Unknown' // The user assigned category (defaults to store category or unknown).
   };
+
+  // Applet entrance/exit animation options.
+  var animationMap = [
+    {applet: 'zoomIn',       mainApp: 'zoom-out',  default: true},
+    {applet: 'slideInRight', mainApp: 'slide-left'},
+  ];
 
   /**
    * Service state
@@ -361,8 +367,12 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   root.presentUI = function(sessionId) {
-    // Show the applet by removing the 'ng-hide' class. Also provide a zoom effect to the main app view.
-    angular.element(document.getElementsByClassName('view-container')[0]).addClass('zoom');
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    var animation = getAnimation(applet);
+
+    // Show the applet (initiates animation) by removing the 'ng-hide' class. Animate the main app view in response.
+    angular.element(document.getElementsByClassName('view-container')[0]).addClass(animation.mainApp);
     angular.element(document.getElementById('applet-view')).removeClass('ng-hide');
   };
 
@@ -472,19 +482,32 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
+  function getAnimation(applet) {
+    var defaultAnimation = lodash.find(animationMap, function(anim) {
+      return anim.default;
+    });
+
+    // Apply an animation to the main app view appropriate for the specified applet entrance animation.
+    var appletEntrance = lodash.get(applet, 'launch.options.entrance', defaultAnimation.applet);
+    return lodash.find(animationMap, function(anim) {
+      return anim.applet == appletEntrance;
+    });
+  };
+
   function doCloseApplet(sessionId) {
     var session = pluginSessionService.getSession(sessionId);
     var applet = session.plugin;
+    var animation = getAnimation(applet);
 
     $log.info('Closing applet: ' + applet.header.name + '@' + applet.header.version);
 
     $rootScope.$emit('$pre.beforeLeave', applet);
 
     // Kick-off modal closing animation by applying 'ng-leave'.
-    // Remove the 'zoom' class from the main app view (resets the presentation).
+    // Remove the animation from main app view (resets the presentation).
     // Then, after animation has completed, force the modal to be hidden (apply 'ng-hide') and remove the applet modal from the DOM.
     angular.element(applet.getContainer().modalEl).addClass('ng-leave');
-    angular.element(document.getElementsByClassName('view-container')[0]).removeClass('zoom');
+    angular.element(document.getElementsByClassName('view-container')[0]).removeClass(animation.mainApp);
 
     $timeout(function() {
       angular.element(applet.getContainer().modalEl).addClass('ng-hide');

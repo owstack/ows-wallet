@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $log, $ionicModal, lodash, platformInfoService) {
+angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScope, $log, $ionicModal, $state, lodash, platformInfoService) {
 
   // Bit values for settings.
   // Avoids having to update schema to add booleans, also allows plugin schema to remain as a class.
@@ -56,11 +56,11 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
         src: this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova
       };
 
-      $ionicModal.fromTemplateUrl('views/applet-view/modal.html', {
+      $ionicModal.fromTemplateUrl('views/applet-view/applet-view.html', {
         scope: $rootScope,
         backdropClickToClose: false,
         hardwareBackButtonClose: false,
-        animation: 'none', // Disable ionic animation, animation provided by animate.css in applet.scss
+        animation: 'animated ' + self.launch.options.entrance,
 //        hideDelay: 1000,
         session: session,
         name: 'applet'

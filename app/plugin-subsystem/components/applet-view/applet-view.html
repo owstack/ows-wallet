@@ -1,7 +1,7 @@
 <ion-modal-view id="applet-view" class="ng-hide" ng-controller="AppletViewCtrl">
+  <!-- applet floating menu button -->
   <div drag-and-drop fixed-positions="true" class="applet-menu-drag-container" on-drag-end="onAppletMenuMove(draggable, droppable)">
-    <div drag-item drag-enabled="true" class="applet-menu-drag-item" drag-id="mfb-menu"
-      x="{{menuPosition.x}}" y="{{menuPosition.y}}">
+    <div drag-item drag-enabled="true" class="applet-menu-drag-item" drag-id="mfb-menu" x="{{menuPosition.x}}" y="{{menuPosition.y}}">
       <ul mfb-menu class="applet-menu" position="br" effect="slidein-spring"
         active-icon="ion-close-round" resting-icon="ion-navicon-round" toggling-method="click">
         <button mfb-button icon="ion-wrench" label="Settings" ng-click="openSettings()"></button>
@@ -10,10 +10,12 @@
     </div>
     <drop-spot max-items="1" class="applet-menu-drop-spot" drop-id="applet-menu-drop-spot"></drop-spot>
   </div>
+  <!-- The applet frame -->
   <ion-pane>
     <iframe class="applet-frame" ng-src="{{appletView.src}}"></iframe>
   </ion-pane>
-  <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets"
-    on-select="onWalletSelect" on-cancel="onWalletSelectCancel" has-tabs>
+  <!-- Wallet selector action sheet -->
+  <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets" has-tabs
+    on-select="onWalletSelect" on-cancel="onWalletSelectCancel">
   </wallet-menu>
 </ion-modal-view>

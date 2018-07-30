@@ -3,15 +3,25 @@
  */
 
 body {
-	// Background needs to be black as backdrop to the applet open (zoom) effect.
+	// Background needs to be black as backdrop to the applet open zoom-out effect.
 	background: $v-black-color;
 
-  // The main app view container will animate backward slightly as the applet launches.
+  // The main app view container animations as an applet launches.
   > .view-container {
     transition: $v-applet-transition;
 
-    &.zoom {
+    &.zoom-out {
       transform: scale(0.9);
+      opacity: 0.5;
+    }
+
+    &.slide-left {
+      transform: translateX(-33%);
+      opacity: 0.5;
+    }
+
+    &.slide-right {
+      transform: translateX(33%);
       opacity: 0.5;
     }
   }
