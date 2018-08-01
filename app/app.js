@@ -29,7 +29,8 @@ var modules = [
   'owsWalletApp.pluginApi',
   'owsWalletApp.pluginModel',
   'owsWalletApp.pluginServices',
-  'owsWalletApp.pluginControllers'
+  'owsWalletApp.pluginControllers',
+  'owsWalletApp.pluginDirectives'
 ];
 
 var owsWalletApp = window.owsWalletApp = angular.module('owsWalletApp', modules);
@@ -43,3 +44,4 @@ angular.module('owsWalletApp.pluginApi', []);
 angular.module('owsWalletApp.pluginModel', []);
 angular.module('owsWalletApp.pluginServices', []);
 angular.module('owsWalletApp.pluginControllers', []);
+angular.module('owsWalletApp.pluginDirectives', []);

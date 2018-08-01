@@ -181,6 +181,10 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     appletService.presentUI(sessionId);
   };
 
+  root.hideAppletSplash = function(sessionId) {
+    appletService.hideSplash(sessionId);
+  };
+
   function initAppletContext(ctx) {
     var applets = lodash.pickBy(ctx.catalog.plugins, function(plugin) {
       return plugin.header.kind == 'applet';

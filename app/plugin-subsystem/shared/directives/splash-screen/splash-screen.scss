@@ -1,0 +1,14 @@
+splash-screen {
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+
+  &.fadeOut {
+    -webkit-animation: fadeOut 300ms;
+    animation: fadeOut 300ms;
+  }
+}

@@ -4,15 +4,32 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
   var session;
 
+  initForPresentation();
   initForSettingsInteraction();
   initForWalletInteraction();
 
   /**
-   * Applet interaction controls
+   * Applet presentation
    */
 
+  function initForPresentation() {
+    session = pluginSessionService.getActiveSession();
+    var applet = session.plugin;
+
+    // Setup splash screen.
+    var splash = applet.launch.splash;
+    $scope.splashImage = applet.uri + splash.image;
+    $scope.splashDelay = splash.delay || -1;
+  };
+
+  $rootScope.$on('Local/AppletHideSplash', function(e, sessionId) {
+    if (sessionId == session.id) {
+      $scope.splashDelay = 0;
+      $scope.$apply();
+    }
+  });
+
   $scope.closeApplet = function(sessionId) {
-    saveViewSettings();
     appletService.closeApplet(sessionId, {
       confirm: $scope.viewSettings.confirmOnClose
     });
@@ -23,7 +40,6 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
    */
 
   function initForSettingsInteraction() {
-    session = pluginSessionService.getActiveSession();
     getViewSettings();
   };
 

@@ -29,16 +29,26 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
      * Priviledged methods
      */
 
+    this.open = function() {
+      // Invoke rootScope published function to avoid dependency on appletService.
+      $rootScope.applet.open(this);
+    };
+
+    this.close = function() {
+      // Invoke rootScope published function to avoid dependency on appletService.
+      $rootScope.applet.close(this.sessionId);
+    };
+
+    this.finalize = function(callback) {
+      callback();
+    };
+
     this.logId = function() {
       return this.header.name + '@' + this.header.version + '/' + this.header.kind;
     };
 
     this.getContainer = function() {
       return container;
-    };
-
-    this.finalize = function(callback) {
-      callback();
     };
 
     // Opening an applet involves two elements; (1.) showing the modal and (2.) allowing the modal to init/render.
@@ -51,16 +61,16 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     // from the ion-modal-view. We also apply some animation to the main app view (view-container) for improved UX.
     //
     this.createContainer = function(session) {
-      $rootScope.appletView = {
+      $rootScope.applet.view = {
         sessionId: session.id,
-        src: this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova
+        url: this.uri + 'index.html?sessionId=' + session.id + '&isCordova=' + platformInfoService.isCordova
       };
 
       $ionicModal.fromTemplateUrl('views/applet-view/applet-view.html', {
         scope: $rootScope,
         backdropClickToClose: false,
         hardwareBackButtonClose: false,
-        animation: 'animated ' + self.launch.options.entrance,
+        animation: 'animated ' + self.launch.options.entrance, // Animate.css animations
 //        hideDelay: 1000,
         session: session,
         name: 'applet'
@@ -97,20 +107,6 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
     }
     $rootScope.$emit('$pre.afterLeave', modal.session.plugin);
   });
-
-  /**
-   * Public methods
-   */
-
-  Applet.prototype.open = function() {
-    // Invoke rootScope published function to avoid dependency on appletService.
-    $rootScope.applet.open(this);
-  };
-
-  Applet.prototype.close = function() {
-    // Invoke rootScope published function to avoid dependency on appletService.
-    $rootScope.applet.close(this.sessionId);
-  };
   
   return Applet;
 });

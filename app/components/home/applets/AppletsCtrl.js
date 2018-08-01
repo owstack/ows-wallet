@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AppletsCtrl', function($scope, $timeout, $ionicScrollDelegate, appletService) {
+angular.module('owsWalletApp.controllers').controller('AppletsCtrl', function($scope, $timeout, $ionicScrollDelegate) {
 
   $scope.hide = false;
 
@@ -10,10 +10,6 @@ angular.module('owsWalletApp.controllers').controller('AppletsCtrl', function($s
       $ionicScrollDelegate.resize();
       $scope.$apply();
     }, 10);
-  };
-
-  $scope.openApplet = function(applet) {
-    applet.open();
   };
 
 });

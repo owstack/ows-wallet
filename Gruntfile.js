@@ -262,6 +262,13 @@ module.exports = function(grunt) {
         src: '**/*.html',
         dest: 'www/shared/'
       },
+      app_shared_plugin_subsystem: {
+        expand: true,
+        flatten: false,
+        cwd: 'app/plugin-subsystem/shared',
+        src: '**/*.html',
+        dest: 'www/shared/'
+      },
       app_fonts: {
         expand: true,
         flatten: false,
@@ -407,6 +414,7 @@ module.exports = function(grunt) {
     'copy:app_views',
     'copy:app_views_plugin_subsystem',
     'copy:app_shared',
+    'copy:app_shared_plugin_subsystem',
     'copy:app_content',
     'copy:app_fonts',
     'copy:app_imgs',

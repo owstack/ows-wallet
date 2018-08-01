@@ -31,8 +31,8 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
   // Applet entrance/exit animation options.
   var animationMap = [
-    {applet: 'zoomIn',       mainApp: 'zoom-out',  default: true},
-    {applet: 'slideInRight', mainApp: 'slide-left'},
+    {applet: 'zoomIn',       hostApp: 'zoom-out',  default: true},
+    {applet: 'slideInRight', hostApp: 'slide-left'},
   ];
 
   /**
@@ -366,15 +366,19 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
+  root.hideSplash = function(sessionId) {
+    $rootScope.$emit('Local/AppletHideSplash', sessionId);
+  };
+
   root.presentUI = function(sessionId) {
     var session = pluginSessionService.getSession(sessionId);
     var applet = session.plugin;
     var animation = getAnimation(applet);
 
-    // Show the applet (initiates animation) by removing the 'ng-hide' class. Animate the main app view in response.
-    angular.element(document.getElementsByClassName('view-container')[0]).addClass(animation.mainApp);
+    // Show the applet (initiates animation) by removing the 'ng-hide' class. Animate the host app view in response.
+    angular.element(document.getElementsByClassName('view-container')[0]).addClass(animation.hostApp);
     angular.element(document.getElementById('applet-view')).removeClass('ng-hide');
-  };
+   };
 
   root.closeApplet = function(sessionId, opts) {
     opts = opts || {};
@@ -428,9 +432,10 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   function publishAppletServices() {
-    $rootScope.applet = $rootScope.applet || {};
-		$rootScope.applet.close = function(sessionId) { return confirmCloseApplet(sessionId); };
-		$rootScope.applet.open = function(applet) { return doOpenApplet(applet); };
+    $rootScope.applet = {
+		  close: function(sessionId) { return confirmCloseApplet(sessionId); },
+		  open: function(applet) { return openApplet(applet); }
+    };
   };
 
   function filterApplets(applets, filter) {
@@ -452,6 +457,8 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   function openApplet(applet) {
+    $log.info('Opening applet: ' + applet.header.name + '@' + applet.header.version);
+
     // Create a session, start dependent servlets, create the container, and show the applet.
     pluginSessionService.createSession(applet, function(session) {
       pluginSessionService.activateSession(session.id);
@@ -459,11 +466,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       $rootScope.$emit('$pre.beforeEnter', applet);
       applet.createContainer(session);
     });
-  };
-
-  function doOpenApplet(applet) {
-    $log.info('Opening applet: ' + applet.header.name + '@' + applet.header.version);
-    openApplet(applet);
   };
 
   function confirmCloseApplet(sessionId) {
@@ -482,18 +484,6 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
-  function getAnimation(applet) {
-    var defaultAnimation = lodash.find(animationMap, function(anim) {
-      return anim.default;
-    });
-
-    // Apply an animation to the main app view appropriate for the specified applet entrance animation.
-    var appletEntrance = lodash.get(applet, 'launch.options.entrance', defaultAnimation.applet);
-    return lodash.find(animationMap, function(anim) {
-      return anim.applet == appletEntrance;
-    });
-  };
-
   function doCloseApplet(sessionId) {
     var session = pluginSessionService.getSession(sessionId);
     var applet = session.plugin;
@@ -503,16 +493,17 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
     $rootScope.$emit('$pre.beforeLeave', applet);
 
-    // Kick-off modal closing animation by applying 'ng-leave'.
-    // Remove the animation from main app view (resets the presentation).
-    // Then, after animation has completed, force the modal to be hidden (apply 'ng-hide') and remove the applet modal from the DOM.
-    angular.element(applet.getContainer().modalEl).addClass('ng-leave');
-    angular.element(document.getElementsByClassName('view-container')[0]).removeClass(animation.mainApp);
+    // Remove the animation class from host app view (resets the presentation).
+    angular.element(document.getElementsByClassName('view-container')[0]).removeClass(animation.hostApp);
 
+    // Kick-off modal closing animation by applying 'ng-leave'.
+    angular.element(applet.getContainer().modalEl).addClass('ng-leave');
+
+    // After animation has completed, force the modal to be hidden (apply 'ng-hide') and remove the applet modal from the DOM.
     $timeout(function() {
       angular.element(applet.getContainer().modalEl).addClass('ng-hide');
       applet.getContainer().remove();
-    }, 300); // Value must match $v-applet-transition in applet.css
+    }, 300); // Value must match $v-applet-transition in applet variables.scss
 
     applet.finalize(function() {
       // Shutdown all dependent servlets for this plugin.
@@ -525,6 +516,18 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       });
     });
 
+  };
+
+  function getAnimation(applet) {
+    var defaultAnimation = lodash.find(animationMap, function(anim) {
+      return anim.default;
+    });
+
+    // Apply an animation to the host app view appropriate for the specified applet entrance animation.
+    var appletEntrance = lodash.get(applet, 'launch.options.entrance', defaultAnimation.applet);
+    return lodash.find(animationMap, function(anim) {
+      return anim.applet == appletEntrance;
+    });
   };
 
   return root;
