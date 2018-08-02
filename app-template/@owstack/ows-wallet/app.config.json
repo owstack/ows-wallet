@@ -1,7 +1,7 @@
 {
   "appTemplateName": "@owstack/ows-wallet",
-  "version": "0.0.29",
-  "androidVersion": "29",
+  "version": "0.0.30",
+  "androidVersion": "30",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
@@ -30,9 +30,9 @@
   "appUri": "owswallet",
   "statusBarColor": "#000000",
   "plugins": {
-    "@owstack/ows-wallet-applet-hello": "^0.0.17",
-    "@owstack/ows-wallet-applet-movies": "^0.0.41",
-    "@owstack/ows-wallet-applet-coinbase": "^0.0.7"
+    "@owstack/ows-wallet-applet-hello": "^0.0.18",
+    "@owstack/ows-wallet-applet-movies": "^0.0.42",
+    "@owstack/ows-wallet-applet-coinbase": "^0.0.8"
   },
   "themeCatalog": {
     "themes": {
