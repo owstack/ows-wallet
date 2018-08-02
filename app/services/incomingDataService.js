@@ -157,7 +157,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
           // If we're scanning the address from the scan view then present options for the user.
           // Otherwise, redirect to the send view.
-          if ($state.includes($rootScope.sref('scan'))) {
+          if (!result.isPaymentRequest && $state.includes($rootScope.sref('scan'))) {
             // Show menu of options for handling the currency address.
             var network = networkService.getNetworkByURI(result.networkURI);
             root.showMenu({

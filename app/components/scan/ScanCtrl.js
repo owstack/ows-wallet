@@ -115,6 +115,10 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
   };
 
   function handleSuccessfulScan(contents) {
+    if (typeof contents == 'object' && contents.result) {
+      contents = contents.result;
+    }
+
     $log.debug('Scan returned: "' + contents + '"');
     scannerService.pausePreview();
     incomingDataService.redir(contents);

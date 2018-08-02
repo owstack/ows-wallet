@@ -12,20 +12,26 @@ angular.module('owsWalletApp.services').factory('payproService', function($log, 
 
   root.getPayProDetails = function(uri, network, cb, disableLoader) {
     cb = cb || function() {};
+    var key = uri + network.getURI(); // Cache key
 
-    if (cache[uri]) {
-      $log.debug('PayPro cache hit: ', uri);
-      return cb(null, cache[uri]);
+    if (cache[key]) {
+      $log.debug('PayPro cache hit: ' + uri + ' (' + network.getURI() + ')');
+      return cb(null, cache[key]);
     }
 
     // Only fetch paypro details once per app session.
     // Retry if in-progress call has not returned. Stop waiting after a few tries,  clear the cache, and retry a long request.
-    cacheState[uri] = cacheState[uri] || {};
+    cacheState[key] = cacheState[key] || {};
 
-    if (cacheState[uri].status == 'in-progress') {
-      cacheState[uri].attempts = cacheState[uri].attempts++ || 1;
+    if (cacheState[key].status == 'in-progress') {
 
-      if (cacheState[uri].attempts <= CACHE_RETRY_LIMIT) {
+      if (!cacheState[key].attempts) {
+        cacheState[key].attempts = 1;
+      } else {
+        cacheState[key].attempts += 1;        
+      }
+
+      if (cacheState[key].attempts <= CACHE_RETRY_LIMIT) {
         $timeout(function() {
           root.getPayProDetails(uri, network, cb, disableLoader);
         }, CACHE_RETRY_INTERVAL);
@@ -33,14 +39,14 @@ angular.module('owsWalletApp.services').factory('payproService', function($log, 
         return;
 
       } else {
-        delete cacheState[uri];
+        delete cacheState[key];
         return root.getPayProDetails(uri, network, cb, disableLoader);        
       }
     }
 
-    cacheState[uri].status = 'in-progress';
+    cacheState[key].status = 'in-progress';
 
-    $log.debug('Fetch PayPro request: ', uri);
+    $log.debug('Attempting to fetch PayPro request for ' + network.getURI() + ' from ' +  uri);
 
     if (!disableLoader) {
       ongoingProcessService.set('fetchingPayPro', true);
@@ -62,7 +68,7 @@ angular.module('owsWalletApp.services').factory('payproService', function($log, 
       }
 
       // Cache the result.
-      cache[uri] = paypro;
+      cache[key] = paypro;
 
       return cb(null, paypro);
     });

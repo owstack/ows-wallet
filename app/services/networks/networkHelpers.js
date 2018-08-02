@@ -63,6 +63,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
       address: undefined,
       amount: undefined,
       message: undefined,
+      isPaymentRequest: undefined,
       paypro: undefined,
       privateKey: undefined
     };
@@ -90,6 +91,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
       data = sanitizeUri(data);
 
       var parsed = lib.URI(data);
+      result.isPaymentRequest = data.startsWith(network.protocol + ':');
       result.address = parsed.address ? parsed.address.toString() : '';
       result.amount = parsed.amount ? parsed.amount : '';
       result.message = parsed.message;
@@ -204,7 +206,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     function parsePayPro(data, result, cb) {
       payproService.getPayProDetails(data, network, function(err, details) {
         if (err) {
-          result.error = 'Paypro error: ' + err;
+          result.error = data + ' Paypro error: ' + err;
         }
 
         if (details) {
