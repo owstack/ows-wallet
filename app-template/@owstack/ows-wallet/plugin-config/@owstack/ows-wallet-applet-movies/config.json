@@ -4,7 +4,7 @@
       "api": {
         "url": "https://bitpay.com",
         "auth": {
-          "token": "AijZvWZuS3ikz7tBBdDp5umswnaLriaLLCKPbpAehaER"
+          "token": ""
         }
       },
       "invoice": {
