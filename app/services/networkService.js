@@ -161,6 +161,10 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     };
 
     for(var i = 0; i < total; i++) {
+      if (_result.match) {
+        break;
+      }
+
       (function(i) {
         networks[i].tryResolve(data, function(result) {
           // If mupltiple networks match the data then return the last completed match.
@@ -173,7 +177,8 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
           }
 
           count++;
-          if (count > total - 1) {
+          // Stop searching on first match. This is arbitrary but we don't have a way deconflict yet (auto or via UI).
+          if (_result.match || count > total - 1) {
             done();
           }
         });
