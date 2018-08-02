@@ -15,10 +15,6 @@ angular.module('owsWalletApp.pluginDirectives')
           return;
         }
 
-        element.css({
-          background: 'url(\'' + scope.image + '\')'
-        });
-
         scope.$watch('hide', function() {
           programHide();
         });

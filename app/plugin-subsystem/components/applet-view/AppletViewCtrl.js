@@ -4,6 +4,12 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
   var session;
 
+  // Applet entrance/exit animation options.
+  var animationMap = [
+    {applet: 'zoomIn',       hostApp: 'zoom-out',  default: true},
+    {applet: 'slideInRight', hostApp: 'slide-left'},
+  ];
+
   initForPresentation();
   initForSettingsInteraction();
   initForWalletInteraction();
@@ -22,11 +28,55 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     $scope.splashDelay = splash.delay || -1;
   };
 
-  $rootScope.$on('Local/AppletHideSplash', function(e, sessionId) {
-    if (sessionId == session.id) {
-      $scope.splashDelay = 0;
-      $scope.$apply();
+  function getAnimation(applet) {
+    var defaultAnimation = lodash.find(animationMap, function(anim) {
+      return anim.default;
+    });
+
+    // Apply an animation to the host app view appropriate for the specified applet entrance animation.
+    var appletEntrance = lodash.get(applet, 'launch.options.entrance', defaultAnimation.applet);
+    return lodash.find(animationMap, function(anim) {
+      return anim.applet == appletEntrance;
+    });
+  };
+
+  function getAppViewContainer() {
+    return document.getElementsByClassName('view-container')[0];
+  };
+
+  $rootScope.$on('Local/ShowApplet', function(e, sessionId) {
+    if (sessionId != session.id) {
+      return;
     }
+
+    var applet = session.plugin;
+    var animation = getAnimation(applet);
+
+    // Animate the host app during applet launch. Show the applet (initiates animation) by removing the 'ng-hide' class.
+    angular.element(getAppViewContainer()).addClass(animation.hostApp);
+    angular.element(applet.getContainer().modalEl).removeClass('ng-hide');
+  });
+
+  $rootScope.$on('Local/RemoveApplet', function(e, sessionId) {
+    if (sessionId != session.id) {
+      return;
+    }
+
+    var applet = session.plugin;
+    var animation = getAnimation(applet);
+
+    // Resets host app view presentation and remove the applet from the DOM.
+    angular.element(getAppViewContainer()).removeClass(animation.hostApp);
+    applet.getContainer().remove();
+  });
+
+  $rootScope.$on('Local/AppletHideSplash', function(e, sessionId) {
+    if (sessionId != session.id) {
+      return;
+    }
+
+    $scope.splashDelay = 0;
+    $scope.$apply();
   });
 
   $scope.closeApplet = function(sessionId) {
