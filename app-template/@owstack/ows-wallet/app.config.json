@@ -86,13 +86,13 @@
       },
       "walletService": {
         "production": {
-          "url": "http://ltc.ws.owstack.org/btcws/api"
+          "url": "http://ltc.ws.owstack.org/ltcws/api"
         },
         "staging": {
-          "url": "http://ltc.ws.owstack.org/btcws/api"
+          "url": "http://ltc.ws.owstack.org/ltcws/api"
         },
         "local": {
-          "url": "http://localhost:3232/btcws/api"
+          "url": "http://localhost:3232/ltcws/api"
         }
       }
     }

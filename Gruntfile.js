@@ -155,7 +155,7 @@ module.exports = function(grunt) {
           // Network clients
           'angular-bch-wallet-client/angular-bch-wallet-client.js',
           'angular-btc-wallet-client/angular-btc-wallet-client.js',
-          //'angular-ltc-wallet-client/angular-ltc-wallet-client.js'
+          'angular-ltc-wallet-client/angular-ltc-wallet-client.js',
           // Trezor device integration
           'bower_components/trezor-connect/connect.js',
           // Used for slide-to-accept
@@ -382,8 +382,8 @@ module.exports = function(grunt) {
           'angular-bitauth/angular-bitauth.js': ['angular-bitauth/index.js'],
           'angular-path-to-regexp/angular-path-to-regexp.js' : ['angular-path-to-regexp/index.js'],
           'angular-bch-wallet-client/angular-bch-wallet-client.js': ['angular-bch-wallet-client/index.js'],
-          'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js']
-          //'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js']
+          'angular-btc-wallet-client/angular-btc-wallet-client.js': ['angular-btc-wallet-client/index.js'],
+          'angular-ltc-wallet-client/angular-ltc-wallet-client.js': ['angular-ltc-wallet-client/index.js']
         },
         options: {
           exclude: ['www/index.html']

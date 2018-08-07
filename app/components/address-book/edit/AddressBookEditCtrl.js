@@ -51,11 +51,7 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEditCtrl', fun
 
   $scope.addressChanged = function(addressEntry) {
     networkService.isValidAddress(addressEntry.address, function(result) {
-      if (result.isValid) {
-        addressEntry.networkURI = result.network.getURI();
-      } else {
-        addressEntry.networkURI = undefined;
-      }
+      addressEntry.networkURI = result.networkURI;
     });
   };
 

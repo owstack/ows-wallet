@@ -55,19 +55,19 @@ angular.module('owsWalletApp.services').factory('ltcLivenet', function(lodash, g
       kind: 'standard',
       userSelectable: true
     }, {
-      name: 'bits (1,000,000 bits = 1LTC)',
-      shortName: 'bits',
+      name: 'photons (1,000,000 photons = 1LTC)',
+      shortName: 'photons',
       value: 100,
       decimals: 2,
-      code: 'bit',
+      code: 'pho',
       kind: 'alternative',
       userSelectable: true
     }, {
-      name: 'satoshi (100,000,000 satoshi = 1LTC)',
-      shortName: 'satoshis',
+      name: 'litoshi (100,000,000 litoshi = 1LTC)',
+      shortName: 'litoshis',
       value: 1,
       decimals: 0,
-      code: 'satoshi',
+      code: 'lit',
       kind: 'atomic',
       userSelectable: false
     }],

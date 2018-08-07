@@ -111,10 +111,14 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
       if (localConfig) {
         configCache = JSON.parse(localConfig);
 
-        //these ifs are to avoid migration problems
+        // To avoid migration problems...
         if (!configCache.currencyNetworks) {
           configCache.currencyNetworks = defaultConfig.currencyNetworks;
+        } else {
+          // Ensures new networks are added
+          lodash.merge(configCache.currencyNetworks, defaultConfig.currencyNetworks);
         }
+
         if (!configCache.wallet) {
           configCache.wallet = defaultConfig.wallet;
         }

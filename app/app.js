@@ -20,7 +20,7 @@ var modules = [
   'bitauthModule',
   'bchWalletClientModule',
   'btcWalletClientModule',
-//  'ltcWalletClientModule',
+  'ltcWalletClientModule',
   'owsWalletApp.filters',
   'owsWalletApp.model',
   'owsWalletApp.services',

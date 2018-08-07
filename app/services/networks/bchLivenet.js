@@ -71,7 +71,7 @@ angular.module('owsWalletApp.services').factory('bchLivenet', function(lodash, g
       shortName: 'satoshis',
       value: 1,
       decimals: 0,
-      code: 'satoshi',
+      code: 'sat',
       kind: 'atomic',
       userSelectable: false
     }],

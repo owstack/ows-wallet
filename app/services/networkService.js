@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, /*bchTestnet,*/ btcLivenet, btcTestnet /*, ltcLivenet, ltcTestnet*/) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, bchTestnet, btcLivenet, btcTestnet , ltcLivenet, ltcTestnet) {
   var root = {};
 
   var defaultNetwork;
@@ -9,11 +9,11 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   var init = function() {
     // Add networks to the service
     addNetwork(bchLivenet);
-//    addNetwork(bchTestnet);
+    addNetwork(bchTestnet);
     addNetwork(btcLivenet, { default: true });
     addNetwork(btcTestnet);
-//    addNetwork(ltcLivenet);
-//    addNetwork(ltcTestnet);
+    addNetwork(ltcLivenet);
+    addNetwork(ltcTestnet);
   };
 
   var addNetwork = function(network, opts) {
@@ -186,12 +186,12 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     }
   };
 
-  root.isAddressValid = function(data, cb) {
+  root.isValidAddress = function(data, cb) {
     root.tryResolve(data, function(result) {
-      var isValid = result.match && !result.error && result.address
+      var isValid = result.match && !result.error && (result.address.length > 0)
       return cb({
         isValid: isValid,
-        network: (isValid ? result.network : undefined)
+        networkURI: (isValid ? result.networkURI : undefined)
       });
     });
   };
