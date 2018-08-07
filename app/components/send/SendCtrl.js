@@ -142,7 +142,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
   };
 
   $scope.findContact = function(search) {
-    incomingDataService.redir(search, function(handled) {
+    incomingDataService.process(search, {}, function(handled) {
       if (handled) {
         return;
       }

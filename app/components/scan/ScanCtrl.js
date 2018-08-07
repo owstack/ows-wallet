@@ -3,6 +3,7 @@
 angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scope, $log, $timeout, scannerService, incomingDataService, $state, $ionicHistory, $rootScope) {
 
   var passthroughMode = false;
+  var modalMode = false;
 
   var scannerStates = {
     unauthorized: 'unauthorized',
@@ -52,7 +53,9 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
 
   // This could be much cleaner with a Promise API
   // (needs a polyfill for some platforms)
+  var cancelScannerServiceInitializedListener =
   $rootScope.$on('scannerServiceInitialized', function() {
+    cancelScannerServiceInitializedListener();
     $log.debug('Scanner initialization finished, reinitializing scan view...');
     _refreshScanView();
   });
@@ -74,12 +77,34 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
     scannerService.deactivate();
   });
 
+  var cancelmenuHiddenListener =
   $rootScope.$on('incomingDataMenu.menuHidden', function() {
+    cancelmenuHiddenListener();
     activate();
   });
 
+  // A new instance of this controller is created when the scanner is used via the modal presentation.
+  var cancelModalActivateQrScannerListener =
+  $rootScope.$on('Local/ModalActivateQrScanner', function() {
+    cancelModalActivateQrScannerListener();
+
+    // try initializing and refreshing status any time the view is entered
+    modalMode = true;
+    if(!scannerService.isInitialized()) {
+      scannerService.gentleInitialize();
+    }
+    activate();
+  });
+
+  var cancelModalDeactivateQrScannerListener =
+  $rootScope.$on('Local/ModalDeactivateQrScanner', function() {
+    cancelModalDeactivateQrScannerListener();    
+    modalMode = false;
+    scannerService.deactivate();
+  });
+
   function activate() {
-    // Ensure that the scan view background is transparent (allows video to be visible). It may have a
+    // Ensure that the scan view background is transparent (allows video to be visible).
     if (angular.element(document.querySelector('#scan'))[0]) {
       angular.element(document.querySelector('#scan'))[0].style.backgroundColor = 'transparent';
     }
@@ -94,9 +119,18 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
         scannerService.scan(function(err, contents) {
           if(err) {
             $log.debug('Scan canceled.');
-          } else if (passthroughMode) {
+            return;
+          }
+
+          if (typeof contents == 'object' && contents.result) {
+            contents = contents.result;
+          }
+
+          if (passthroughMode) {
             $rootScope.scanResult = contents;
             $scope.goBack();
+          } else if (modalMode) {
+            $rootScope.$emit('Local/ModalQrScannerResult', contents);
           } else {
             handleSuccessfulScan(contents);
           }
@@ -115,13 +149,9 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
   };
 
   function handleSuccessfulScan(contents) {
-    if (typeof contents == 'object' && contents.result) {
-      contents = contents.result;
-    }
-
     $log.debug('Scan returned: "' + contents + '"');
     scannerService.pausePreview();
-    incomingDataService.redir(contents);
+    incomingDataService.process(contents);
   };
 
   $scope.openSettings = function() {

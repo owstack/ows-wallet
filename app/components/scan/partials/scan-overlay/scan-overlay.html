@@ -1,0 +1,20 @@
+<div ng-show="currentState === scannerStates.unauthorized" class="has-problems ng-hide" ng-include="'views/scan/tips/unauthorized/unauthorized.html'"></div>
+<div ng-show="currentState === scannerStates.denied" class="has-problems ng-hide" ng-include="'views/scan/tips/denied/denied.html'"></div>
+<div ng-show="currentState === scannerStates.unavailable" class="has-problems ng-hide" ng-include="'views/scan/tips/unavailable/unavailable.html'"></div>
+<div ng-show="currentState === scannerStates.visible" class="camera-ready scan-overlay ng-hide">
+  <div class="guides">
+    <img class="svg qr-scan-guides" src="img/qr-scan-guides.svg">
+  </div>
+  <div class="scanner-controls">
+    <a ng-click="toggleLight()" ng-show="canEnableLight">
+      <i class="icon">
+        <div class="icon-flash" ng-class="{'active': lightActive}"></div>
+      </i>
+    </a>
+    <a ng-click="toggleCamera()" ng-show="canChangeCamera">
+      <i class="icon">
+        <div class="icon-camera-toggle" ng-class="{'active': cameraToggleActive}"></div>
+      </i>
+    </a>
+  </div>
+</div>

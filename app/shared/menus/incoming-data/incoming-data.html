@@ -21,6 +21,23 @@
       </ion-list>
     </div>
   </div>
+  <!-- Email address -->
+  <div ng-if="type === 'email'">
+    <i class="button-close" ng-click="hide()"></i>
+    <div class="header" translate>Email address</div>
+      <ion-list>
+        <ion-item class="item-icon-left">
+          {{data}}
+        </ion-item>
+        <ion-item class="item-icon-left" copy-to-clipboard="{{data}}">
+          <i class="icon sm-icon left-icon">
+            <img src="img/icon-email.svg">
+          </i>
+          <div translate>Copy to clipboard</div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
   <!-- Address -->
   <div ng-if="type === 'cryptoAddress'">
     <i class="button-close" ng-click="hide()"></i>

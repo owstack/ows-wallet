@@ -46,6 +46,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
    *
    * match - whether or not the data is for this network.
    * networkURI - the matching networks URI.
+   * currency - the network currency code.
    * error - a description of any error that occurred after a match was made.
    * address - the currency pay-to address.
    * amount - the amount to send.
@@ -59,7 +60,8 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     var result = {
       match: false,
       error: undefined,
-      networkURI: undefined,
+      networkURI: network.getURI(),
+      currency: network.getCurrencyLabel(),
       address: undefined,
       amount: undefined,
       message: undefined,
@@ -74,7 +76,6 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     var re = new RegExp('^' + network.protocol + '?:\\?r=[\\w+]', 'g');
     if (re.exec(data)) {
       result.match = true;
-      result.networkURI = network.getURI();
 
       var protocol = data.split(':')[0];
       var re = new RegExp(network.protocol + '?:\\?r=', 'g');
@@ -86,7 +87,6 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     // BIP21 - Backwards compatible URL, may have payment protocol parameter.
     } else if (lib.URI.isValid(data)) {
       result.match = true;
-      result.networkURI = network.getURI();
 
       data = sanitizeUri(data);
 
@@ -156,7 +156,6 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     // Plain address.
     } else if (lib.Address.isValid(data, network.net)) {
       result.match = true;
-      result.networkURI = network.getURI();
       result.address = data;
 
       var addrNetwork = lib.Address(data).network;
@@ -170,7 +169,6 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     // Private key
     } else if (data && (data.substring(0, 2) == '6P' || checkPrivateKey(data))) {
       result.match = true;
-      result.networkURI = network.getURI();
       result.privateKey = data;
 
       return cb(result);

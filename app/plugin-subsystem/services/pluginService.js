@@ -3,6 +3,14 @@
 angular.module('owsWalletApp.pluginServices').factory('pluginService', function($rootScope, $log, lodash, PluginCatalog, PluginState, appletService, servletService, apiService, pluginSessionService) {
 	var root = {};
 
+  $rootScope.$on('Local/IncomingAppURL', function(e, data) {
+    // Broadcast as an event to all plugins.
+    root.broadcastEvent({
+      name: 'incoming-data',
+      data: data
+    });
+  });
+
   // Read the plugin catalog and reconcile any upgrades or changes. Store the changed catalog if necessary.
   // Read plugin state.
   // Initialize the applet and servlet services with context (applets and state).
@@ -175,14 +183,6 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
   // Send event to all plugin sessions.
   root.broadcastEvent = function(event) {
     pluginSessionService.broadcastEvent(event);
-  };
-
-  root.presentAppletUI = function(sessionId) {
-    appletService.presentUI(sessionId);
-  };
-
-  root.hideAppletSplash = function(sessionId) {
-    appletService.hideSplash(sessionId);
   };
 
   function initAppletContext(ctx) {

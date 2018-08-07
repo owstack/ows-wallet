@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $state, $timeout, lodash, Applet, Constants, PluginState, pluginSessionService, themeService, popupService, gettextCatalog, servletService) {
+angular.module('owsWalletApp.pluginServices').factory('appletService', function($rootScope, $log, $ionicModal, $state, $timeout, lodash, Applet, Constants, PluginState, pluginSessionService, themeService, popupService, gettextCatalog, servletService, scannerModalService) {
 
   var root = {};
 
@@ -364,9 +364,17 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     $rootScope.$emit('Local/AppletHideSplash', sessionId);
   };
 
-  root.presentUI = function(sessionId) {
-    $rootScope.$emit('Local/ShowApplet', sessionId);
-   };
+  root.showApplet = function(sessionId) {
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    applet.show();
+  };
+
+  root.hideApplet = function(sessionId) {
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    applet.hide();
+  };
 
   root.closeApplet = function(sessionId, opts) {
     opts = opts || {};
@@ -375,6 +383,11 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     } else {
       doCloseApplet(sessionId);
     }
+  };
+
+  root.scanQrCode = function(sessionId) {
+    // Return a promise for the result, or an error.
+    return scannerModalService.scan(sessionId);
   };
 
   /**

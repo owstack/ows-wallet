@@ -39,16 +39,29 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
       $rootScope.applet.close(this.sessionId);
     };
 
+    this.remove = function() {
+      container.remove();
+    };
+
     this.finalize = function(callback) {
       callback();
     };
 
-    this.logId = function() {
-      return this.header.name + '@' + this.header.version + '/' + this.header.kind;
+    // Hide and show affects both the parent modal backdrop and the model view elements. Doing this covers all presentation cases
+    // including intial launch (initially modal element hidden) and presentation of the scanner modal (requires the applet modal
+    // to be completely hidden, including the backdrop).
+    this.hide = function() {
+      angular.element(container.el).addClass('ng-hide');
+      angular.element(container.modalEl).addClass('ng-hide');
     };
 
-    this.getContainer = function() {
-      return container;
+    this.show = function() {
+      angular.element(container.el).removeClass('ng-hide');
+      angular.element(container.modalEl).removeClass('ng-hide');
+    };
+
+    this.logId = function() {
+      return this.header.name + '@' + this.header.version + '/' + this.header.kind;
     };
 
     // Opening an applet involves two elements; (1.) showing the modal and (2.) allowing the modal to init/render.
@@ -79,9 +92,9 @@ angular.module('owsWalletApp.pluginModel').factory('Applet', function ($rootScop
         container = modal;
         modal.show();
 
-        // Kill the modal backdrop for this (the applet) instance of the modal.
-        angular.element(document.getElementsByClassName('modal-backdrop-bg')[0]).css('opacity', '0');
-        angular.element(document.getElementsByClassName('modal-backdrop')[0]).css('background', 'none');
+        // Kill the modal backdrop for this (the applet) instance of modal.
+        angular.element(modal.el).css('background', 'none');
+        angular.element(modal.el.getElementsByClassName('modal-backdrop-bg')[0]).css('opacity', '0');
       });
 
       return;

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('presentUI', function($rootScope, lodash, pluginService) {
+angular.module('owsWalletApp.pluginApi').service('showApplet', function($rootScope, lodash, appletService) {
 
 	var root = {};
 
@@ -25,7 +25,7 @@ angular.module('owsWalletApp.pluginApi').service('presentUI', function($rootScop
       data: {}
     };
 
-    pluginService.presentAppletUI(sessionId);
+    $rootScope.$emit('Local/ShowApplet', sessionId);
 
     return callback(message);
   };

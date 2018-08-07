@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, scannerService, appConfig, popupService, gettextCatalog, networkService, pluginService) {
+angular.module('owsWalletApp.services').factory('incomingDataService', function($log, $state, $timeout, $ionicHistory, $rootScope, scannerService, appConfig, gettextCatalog, networkService) {
 
   var root = {};
 
@@ -8,8 +8,9 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
     $rootScope.$broadcast('incomingDataMenu.showMenu', data);
   };
 
-  root.redir = function(data, cb) {
+  root.process = function(data, opts, cb) {
     cb = cb || function(){};
+    opts = opts || {};
 
     $log.debug('Processing incoming data: ' + data);
 
@@ -80,11 +81,23 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       });
     };
 
-    function tryResolveNonPayment(data) {
+    function handleResult(type, parsedResult) {
+      cb(false, {
+        type: type,
+        rawData: data,
+        parsed: parsedResult
+      });
+    };
+
+    function tryResolveNonPayment() {
       data = sanitizeUri(data);
 
       // Join
       if (data && data.match(joinMatchRE)) {
+        if (opts.parseOnly) {
+          return handleResult('wallet-join-invitation');
+        }
+
         $state.go($rootScope.sref('home'), {}, {
           'notify': $state.current.name == $rootScope.sref('home') ? false : true
         }).then(function() {
@@ -96,6 +109,10 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
       // QR Code Export feature
       } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
+        if (opts.parseOnly) {
+          return handleResult('wallet-export-blob');
+        }
+
         $state.go($rootScope.sref('home')).then(function() {
           $state.transitionTo($rootScope.sref('add.import'), {
             code: data
@@ -105,24 +122,43 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
       // App URL
       } else if (data && data.indexOf(appConfig.nameNoSpace + '://') === 0) {
-        // App does not currently receive any app URL events.
-        // Broadcast the event to all plugins.
-        pluginService.broadcastEvent({
-          name: 'incoming-data',
-          data: data
-        });
+        if (opts.parseOnly) {
+          return handleResult('app-url');
+        }
+
+        $rootScope.$emit('Local/IncomingAppURL', data);
         return true;
 
       // Plain web address
       } else if (/^https?:\/\//.test(data)) {
+        if (opts.parseOnly) {
+          return handleResult('url');
+        }
+
         root.showMenu({
           data: data,
           type: 'url'
         });
         return cb(true);
 
+      // Email address
+      } else if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(data)) {
+        if (opts.parseOnly) {
+          return handleResult('email');
+        }
+
+        root.showMenu({
+          data: data,
+          type: 'email'
+        });
+        return cb(true);
+
       // Text
       } else if ($state.includes($rootScope.sref('scan'))) {
+        if (opts.parseOnly) {
+          return handleResult('text');
+        }
+
         root.showMenu({
           data: data,
           type: 'text'
@@ -137,11 +173,14 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
 
       if (result.match && result.error) {
         $log.debug('Scanning data error: ' + JSON.stringify(result));
-        popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Payment instruction not recognized.'));
-        return cb(false);
+        return cb(false, result);
       }
 
       if (result.match) {
+        if (opts.parseOnly) {
+          return handleResult('payment-data', result);
+        }
+
         if (result.paypro) {
 
           handlePayPro(result.paypro);
@@ -178,7 +217,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       } else {
 
         // No match with a curreny network. Try other options.
-        tryResolveNonPayment(data);
+        tryResolveNonPayment();
       }
     });
 

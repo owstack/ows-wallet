@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('hideSplash', function($rootScope, lodash, pluginService) {
+angular.module('owsWalletApp.pluginApi').service('hideSplash', function($rootScope, lodash, appletService) {
 
 	var root = {};
 
@@ -25,7 +25,7 @@ angular.module('owsWalletApp.pluginApi').service('hideSplash', function($rootSco
       data: {}
     };
 
-    pluginService.hideAppletSplash(sessionId);
+    appletService.hideSplash(sessionId);
 
     return callback(message);
   };

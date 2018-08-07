@@ -44,6 +44,15 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     return document.getElementsByClassName('view-container')[0];
   };
 
+  function showAppViewContainer() {
+    angular.element(getAppViewContainer()).removeClass('ng-hide');
+  };
+
+  function hideAppViewContainer() {
+    angular.element(getAppViewContainer()).addClass('ng-hide');
+  };
+
+  var cancelShowAppletListener =
   $rootScope.$on('Local/ShowApplet', function(e, sessionId) {
     if (sessionId != session.id) {
       return;
@@ -54,9 +63,10 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
     // Animate the host app during applet launch. Show the applet (initiates animation) by removing the 'ng-hide' class.
     angular.element(getAppViewContainer()).addClass(animation.hostApp);
-    angular.element(applet.getContainer().modalEl).removeClass('ng-hide');
+    applet.show();
   });
 
+  var cancelRemoveAppletListener =
   $rootScope.$on('Local/RemoveApplet', function(e, sessionId) {
     if (sessionId != session.id) {
       return;
@@ -67,9 +77,10 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
     // Resets host app view presentation and remove the applet from the DOM.
     angular.element(getAppViewContainer()).removeClass(animation.hostApp);
-    applet.getContainer().remove();
+    applet.remove();
   });
 
+  var cancelAppletHideSplashListener =
   $rootScope.$on('Local/AppletHideSplash', function(e, sessionId) {
     if (sessionId != session.id) {
       return;
@@ -79,7 +90,30 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     $scope.$apply();
   });
 
+  var cancelModalActivateQrScannerListener =
+  $rootScope.$on('Local/ModalActivateQrScanner', function(e, sessionId) {
+    if (sessionId != session.id) {
+      return;
+    }
+
+    var applet = session.plugin;
+    applet.hide();
+    hideAppViewContainer();
+  });
+
+  var cancelModalDeactivateQrScannerListener =
+  $rootScope.$on('Local/ModalDeactivateQrScanner', function(e, sessionId) {
+    if (sessionId != session.id) {
+      return;
+    }
+
+    var applet = session.plugin;
+    applet.show();
+    showAppViewContainer();
+  });
+
   $scope.closeApplet = function(sessionId) {
+    saveViewSettings();
     appletService.closeApplet(sessionId, {
       confirm: $scope.viewSettings.confirmOnClose
     });
@@ -184,6 +218,7 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     $rootScope.$emit("Local/WalletForApplet");
   };
 
+  var cancelChooseWalletForAppletListener =
   $rootScope.$on("Local/ChooseWalletForApplet", function(event) {
     if ($scope.singleWallet) {
       return;
