@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="102px" viewBox="0 0 100 102" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>img/icon-email</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Img-Assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="img/icon-email" stroke="#FFFFFF">
+            <g id="icon-email" transform="translate(2.000000, 9.000000)">
+                <g transform="translate(0.000000, 9.395400)">
+                    <path d="M0.783946213,17.1919102 L48.1741316,48.3324769 L95.5648464,17.1919102 C95.5648464,35.8392088 95.5648464,50.6888152 95.5648464,61.7407294 C95.5648464,63.865419 93.2040476,65.6105241 91.1663683,65.6105241 C77.5066484,65.6105241 10.8646502,65.6105241 5.03371387,65.6105241 C3.21825942,65.6105241 0.933849413,63.7765111 0.783946213,61.7407294 C0.783946213,56.8134188 0.783946213,41.9638124 0.783946213,17.1919102 Z" id="Path-3" stroke-width="5"></path>
+                    <path d="M0.822588578,6.05787041 C1.07689007,2.55315592 2.96721644,0.800798671 6.49356767,0.800798671 C17.5990757,0.800798671 70.0434392,0.800798671 89.2475453,0.800798671 C92.9084189,0.800798671 95.0058683,2.55315592 95.5398935,6.05787041 L48.181241,37.084635 L0.822588578,6.05787041 Z" id="Path-4" stroke-width="5"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
