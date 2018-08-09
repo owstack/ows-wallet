@@ -1207,6 +1207,7 @@ angular.module('owsWalletApp.services').factory('walletService', function($log, 
             x.apply(self,err);
           });
           updateInProgress[wallet.id] = false;
+          return;
         }
 
         var newHistory = lodash.uniq(lodash.compact(txs.concat(confirmedTxs)), function(x) {

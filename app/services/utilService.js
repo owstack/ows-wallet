@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('utilService', function() {
+angular.module('owsWalletApp.services').factory('utilService', function(lodash) {
   var root = {};
 
   root.uuidv4 = function() {
@@ -9,6 +9,19 @@ angular.module('owsWalletApp.services').factory('utilService', function() {
       return v.toString(16);
     });
   };
+
+  // See https://github.com/JamesMGreene/lodash-pickDeep
+	root.pick = function(obj) {
+	  var keys = lodash.flatten(lodash.drop(lodash.toArray(arguments), 1));
+	  var copy = {};
+	  lodash.forEach(keys, function(key) {
+	    if (lodash.has(obj, key)) {
+	      var val = lodash.get(obj, key);
+	      lodash.set(copy, key, val);
+	    }
+	  });
+	  return copy;
+	}
 
   return root;
 

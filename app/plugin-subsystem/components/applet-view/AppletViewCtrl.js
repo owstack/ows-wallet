@@ -219,12 +219,24 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
   };
 
   var cancelChooseWalletForAppletListener =
-  $rootScope.$on("Local/ChooseWalletForApplet", function(event) {
+  $rootScope.$on("Local/ChooseWalletForApplet", function(event, opts) {
     if ($scope.singleWallet) {
       return;
     }
-    $scope.walletSelectorTitle = gettextCatalog.getString('Select a wallet');
-    $scope.showWallets = true;
+
+    var defaultOptions = {
+      picker: 'action-sheet',
+      title: gettextCatalog.getString('Select a wallet')
+    };
+
+    opts = opts || {};
+    lodash.merge(opts, defaultOptions);
+
+    // Only one option available at the moment.
+    if (opts.picker == 'action-sheet') {
+      $scope.walletSelectorTitle = opts.title;
+      $scope.showWallets = true;
+    }
 
     $timeout(function() {
       $scope.$apply();

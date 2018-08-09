@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootScope, lodash, pluginSessionService) {
+angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootScope, lodash, pluginSessionService, profileService, utilService) {
 
 	var root = {};
 
@@ -18,7 +18,13 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 		'isValid',
 		'cachedBalance',
 		'cachedBalanceUpdatedOn',
-		'cachedActivity',
+		'cachedActivity.createdOn',
+		'cachedActivity.creatorName',
+		'cachedActivity.data.amount',
+		'cachedActivity.data.message',
+		'cachedActivity.data.txid',
+		'cachedActivity.type',
+		'color',
 		'status.wallet.version',
 		'status.wallet.createdOn',
 		'status.wallet.singleAddress',
@@ -67,6 +73,8 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
   root.respond = function(message, callback) {
 	  // Request parameters.
     var sessionId = message.request.params.id;
+    var picker = message.request.params.picker;
+    var title = message.request.params.title;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -85,7 +93,7 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 		if (lodash.isUndefined(session)) {
 	    message.response = {
 	      statusCode: 404,
-	      statusText: 'SESSION_NOT_FOUND.',
+	      statusText: 'SESSION_NOT_FOUND',
 	      data: {
 	      	message: 'Session not found.'
 	      }
@@ -93,10 +101,28 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 			return callback(message);
 		}
 
-		$rootScope.$emit('Local/ChooseWalletForApplet');
+		if (picker) {
+			chooseWallet(picker, title, message, callback);
 
-		// Place listener here so we have scope for the message. However, it's important to cancel
-		// this listener on each receive so we don't accumulate.
+		} else {
+
+	    message.response = {
+	      statusCode: 200,
+	      statusText: 'OK',
+	      data: getWallets()
+	    };
+
+			return callback(message);
+		}
+	};
+
+	function chooseWallet(picker, title, message, callback) {
+		$rootScope.$emit('Local/ChooseWalletForApplet', {
+			picker: picker,
+			title: title
+		});
+
+		// Listen for the users repsonse to the picker.
 		var cancelWalletForAppletListener = $rootScope.$on('Local/WalletForApplet', function(event, wallet) {
 			cancelWalletForAppletListener();
 
@@ -104,7 +130,7 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 
 			// No wallet object if user canceled.
 			if (wallet) {
-				walletObj = lodash.pick(wallet, SAFE_WALLET_PROPERTIES);
+				walletObj = utilService.pick(wallet, SAFE_WALLET_PROPERTIES);
 
 		    message.response = {
 		      statusCode: 200,
@@ -123,7 +149,17 @@ angular.module('owsWalletApp.pluginApi').service('chooseWallet', function($rootS
 
 			return callback(message);
 		});
+	};
 
+	function getWallets(callback) {
+		var wallets = profileService.getWallets();
+		var safeWallets = [];
+
+		lodash.forEach(wallets, function(w) {
+			safeWallets.push(utilService.pick(w, SAFE_WALLET_PROPERTIES));
+		});
+
+		return safeWallets;
 	};
 
   return root;

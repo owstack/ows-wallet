@@ -462,16 +462,11 @@ angular.module('owsWalletApp.pluginApi').factory('ApiMessage', function ($rootSc
     return angular.toJson(r);
   };
 
-  // Remove properties that cause circular references.
   function responseToJson(message) {
     var r = {
       header: message.header,
       response: message.response
     };
-    if (lodash.get(r.response, 'data.cachedActivity')) {
-      r.response = lodash.cloneDeep(r.response);
-      delete r.response.data.cachedActivity;
-    }
     return angular.toJson(r);
   };
 
