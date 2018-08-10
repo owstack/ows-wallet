@@ -39,8 +39,9 @@ angular.module('owsWalletApp.pluginApi').service('ready', function($rootScope, $
 		// Notify parent plugins (if any) that this plugin is ready.
 		var event = {
 			name: 'ready',
-			pluginId: session.plugin.header.id,
-			data: {}
+			data: {
+				pluginId: session.plugin.header.id
+			}
 		};
 
 		session.notifyParents(event);
