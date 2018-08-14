@@ -8,7 +8,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
   };
 
   root.getCurrencyLabel = function(obj) {
-    return (obj.net == 'testnet' ? 't' : '') + obj.currency.toUpperCase();
+    return obj.currency.toUpperCase();
   };
 
   root.getCurrencyLongLabel = function(obj) {
@@ -20,7 +20,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
   };
 
   root.getFriendlyNetLabel = function(obj) {
-  	return obj.name + (obj.net == 'testnet' ? ' Testnet' : '');
+  	return obj.name;
   };
 
   /**

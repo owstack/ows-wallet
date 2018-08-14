@@ -136,18 +136,6 @@
       .info {
         position: absolute;
 
-        &.testnet {
-          bottom: 20px;
-          right: 5px;
-          height: 36px;
-
-          &.large {
-            bottom: 50px;
-            right: 15px;
-            height: 85px;
-          }
-        }
-
         &.multisig {
           bottom: 50px;
           right: 15px;

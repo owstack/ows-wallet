@@ -56,18 +56,18 @@ angular.module('owsWalletApp.controllers').controller('AppLockSettingsCtrl', fun
 
   function processWallets() {
     var wallets = profileService.getWallets();
-    var singleLivenetWallet = wallets.length == 1 && networkService.isLivenet(wallets[0].network) && wallets[0].needsBackup;
-    var atLeastOneLivenetWallet = lodash.some(wallets, function(w) {
-      return networkService.isLivenet(w.network) && w.needsBackup;
+    var singleWallet = wallets.length == 1 && wallets[0].needsBackup;
+    var atLeastOneWallet = lodash.some(wallets, function(w) {
+      return w.needsBackup;
     });
 
-    if (singleLivenetWallet) {
+    if (singleWallet) {
       $scope.error = {
         title: gettextCatalog.getString('Backup Required'),
         message: gettextCatalog.getString('You must backup your wallet in order to use the app lock.')
       };
       disableOptsUntilBackup();
-    } else if (atLeastOneLivenetWallet) {
+    } else if (atLeastOneWallet) {
       $scope.error = {
         title: gettextCatalog.getString('Backup Required'),
         message: gettextCatalog.getString('You must backup all of your wallets in order to use the app lock.')

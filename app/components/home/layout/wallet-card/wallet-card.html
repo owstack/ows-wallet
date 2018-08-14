@@ -32,7 +32,6 @@
       <img class="detail currency" ng-src="img/currency-icons/icon-white-{{wallet.currency}}.svg"/>
       <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)"
         class="detail confirming ion-android-time"></i>
-      <img ng-show="isTestnet(wallet.networkURI)" class="detail testnet" src="img/icon-testnet-white.svg">
       <span ng-if="wallet.n > 1" class="detail wallet-n">
         {{wallet.m}}-of-{{wallet.n}}
       </span>

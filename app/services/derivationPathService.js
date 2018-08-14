@@ -4,14 +4,9 @@ angular.module('owsWalletApp.services').factory('derivationPathService', functio
   var root = {};
 
   var defaultPath = "m/44'/0'/0'";
-  var defaultTestnetPath = "m/44'/1'/0'";
 
   root.getPath = function(network) {
-    if (networkService.isTestnet(network.getURI())) {
-      return defaultTestnetPath;
-    } else {
-      return defaultPath;
-    }
+    return defaultPath;
   };
 
   root.parse = function(str, network) {
@@ -29,7 +24,7 @@ angular.module('owsWalletApp.services').factory('derivationPathService', functio
       case "45'":
         return {
           derivationStrategy: 'BIP45',
-          networkURI: networkService.getLivenetForCurrency(network.currency).getURI(),
+          networkURI: networkService.getNetworkForCurrency(network.currency).getURI(),
           account: 0,
         }
         break;
@@ -42,10 +37,7 @@ angular.module('owsWalletApp.services').factory('derivationPathService', functio
 
     switch (arr[2]) {
       case "0'":
-          ret.networkURI = networkService.getLivenetForCurrency(network.currency).getURI();
-        break;
-      case "1'":
-          ret.networkURI = networkService.getTestnetForCurrency(network.currency).getURI();
+          ret.networkURI = networkService.getNetworkForCurrency(network.currency).getURI();
         break;
       default:
         return false;

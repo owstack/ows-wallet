@@ -20,7 +20,7 @@
           </div>
           <div class="tx-amount-wrapper">
             <div class="tx-amount">{{balanceStr || '&middot;&middot;&middot;'}}</div>
-            <div class="tx-alternative" ng-show="isLivenet(wallet.networkURI)">{{balanceAlternativeStr || '&middot;&middot;&middot;'}}</div>
+            <div class="tx-alternative">{{balanceAlternativeStr || '&middot;&middot;&middot;'}}</div>
           </div>
         </ion-item>
         <ion-item class="has-label" copy-to-clipboard="{{address}}">

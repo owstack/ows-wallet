@@ -24,8 +24,7 @@ angular.module('owsWalletApp.services')
 
     function _requiresBackup(wallet) {
       if (wallet.isPrivKeyExternal() ||
-        !wallet.credentials.mnemonic ||
-        networkService.isTestnet(wallet.networkURI)) {
+        !wallet.credentials.mnemonic) {
         return false;
       }
       return true;
@@ -114,10 +113,7 @@ angular.module('owsWalletApp.services')
 
       wallet.on('notification', function(n) {
         $log.debug('Wallet Client Notification (' + wallet.networkURI + '):', n);
-
-        if (n.type == "NewBlock" && networkService.isTestnet(n.data.network)) {
-          throttledWalletServiceEvent(n, wallet);
-        } else newWalletServiceEvent(n, wallet);
+        newWalletServiceEvent(n, wallet);
       });
 
       wallet.on('walletCompleted', function() {

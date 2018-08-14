@@ -9,9 +9,9 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
           return cb(null, scannedKey);
         }
 
-        // Attempt to decrypt on available livenet networks.
+        // Attempt to decrypt on available networks.
         var found = false;
-        networkService.forEachNetwork({net: 'livenet'}, function(walletClient, network) {
+        networkService.forEachNetwork(function(walletClient, network) {
           if (!found) {
             try {
               walletClient.decryptBIP38PrivateKey(scannedKey, passphrase, null, function(err, privateKey) {
@@ -36,8 +36,8 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
         var isValid;
         var pkNetwork;
 
-        // Attempt to validate the private key on available livenet networks.
-        networkService.forEachNetwork({net: 'livenet'}, function(walletClient, network) {
+        // Attempt to validate the private key on available networks.
+        networkService.forEachNetwork(function(walletClient, network) {
           if (!isValid) {
             try {
               walletClient.PrivateKey(privateKey, network.net);
@@ -178,10 +178,6 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
           $scope.$apply();
         });
       }, 100);
-    };
-
-    $scope.isLivenet = function(networkURI) {
-      return networkService.isLivenet(networkURI);
     };
 
     $scope.onSuccessConfirm = function() {

@@ -10,7 +10,6 @@ angular.module('owsWalletApp.services')
     root.UNISIG_ROOTPATH = 44;
     root.MULTISIG_ROOTPATH = 48;
     root.LIVENET_PATH = 0;
-    root.TESTNET_PATH = 1;
 
     root._err = function(data) {
       var msg = data.error || data.message || 'unknown';
@@ -34,9 +33,6 @@ angular.module('owsWalletApp.services')
 
     root.getAddressPath = function(device, isMultisig, account, networkURI) {
       var networkPath = root.LIVENET_PATH;
-      if (networkService.isTestnet(networkURI)) {
-        networkPath = root.TESTNET_PATH;
-      }
       return root.getRootPath(device, isMultisig, account) + "'/" + networkPath + "'/" + account + "'";
      };
 

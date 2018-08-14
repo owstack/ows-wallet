@@ -26,10 +26,6 @@ angular.module('owsWalletApp.controllers').controller('ChooseFeeLevelCtrl', func
     return parseInt((value.feePerKb / 1000).toFixed());
   };
 
-  $scope.isTestnet = function(networkURI) {
-    return networkService.isTestnet(networkURI);
-  };
-
   $scope.ok = function() {
     $scope.customFeePerKB = $scope.customFeePerKB ? ($scope.customAtomicPerByte.value * 1000).toFixed() : null;
     $scope.hideModal($scope.feeLevel, $scope.customFeePerKB);

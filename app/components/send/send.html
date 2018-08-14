@@ -17,7 +17,7 @@
         </ion-item>
       </ion-list>
     </div>
-    <div ng-if="!checkingBalance && (!hasFunds || !hasWallets)"
+    <div ng-if="!(hasFunds && hasWallets)"
       ng-include="'views/send/tips/start-sending/start-sending.html'"></div>
     <div class="card" ng-if="hasContacts && hasWallets && hasFunds">
       <ion-item class="item-icon-right item-heading">

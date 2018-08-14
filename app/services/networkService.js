@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, bchTestnet, btcLivenet, btcTestnet , ltcLivenet, ltcTestnet) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, btcLivenet , ltcLivenet) {
   var root = {};
 
   var defaultNetwork;
@@ -9,11 +9,8 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   var init = function() {
     // Add networks to the service
     addNetwork(bchLivenet);
-    addNetwork(bchTestnet);
     addNetwork(btcLivenet, { default: true });
-    addNetwork(btcTestnet);
     addNetwork(ltcLivenet);
-    addNetwork(ltcTestnet);
   };
 
   var addNetwork = function(network, opts) {
@@ -64,28 +61,12 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return lodash.sortBy(networks, 'name');
   };
 
-  root.getLiveNetworks = function() {
-    var n = lodash.filter(networks, function(n) {
-      return root.isLivenet(n.net);
-    });
-    return lodash.sortBy(n, 'name');
+  root.getNetworks = function() {
+    return lodash.sortBy(networks, 'name');
   };
 
-  root.getTestNetworks = function() {
-    var n = lodash.filter(networks, function(n) {
-      return root.isTestnet(n.net);
-    });
-    return lodash.sortBy(n, 'name');
-  };
-
-  root.getLivenetForCurrency = function(currency) {
-    return lodash.find(root.getLiveNetworks(), function(n) {
-      return (n.currency == currency);
-    });
-  };
-
-  root.getTestnetForCurrency = function(currency) {
-    return lodash.find(root.getTestNetworks(), function(n) {
+  root.getNetworkForCurrency = function(currency) {
+    return lodash.find(root.getNetworks(), function(n) {
       return (n.currency == currency);
     });
   };
@@ -97,8 +78,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
   };
 
   root.getNetworkForProtocol = function(protocol) {
-    // Return only livenets for the protocol.
-    return lodash.find(root.getLiveNetworks(), function(n) {
+    return lodash.find(root.getNetworks(), function(n) {
       return n.protocol == protocol;
     });
   };
@@ -107,10 +87,6 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     return lodash.find(networks, function(n) {
       return n.getURI() == networkURI;
     });
-  };
-
-  root.hasTestnet = function(currency) {
-    return (root.getTestnetForCurrency(currency) != undefined);
   };
 
   // @param addrNetwork - an address network object
@@ -198,20 +174,8 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
   // Utilities
 
-  root.forEachNetwork = function(opts, callback) {
-    opts = opts || {};
-    opts.net = opts.net || 'all';
-
-    var networks;
-    if (opts.net == 'livenet') {
-      networks = root.getLiveNetworks();
-    } else if (opts.net == 'testnet') {
-      networks = root.getTestNetworks();
-    } else {
-      networks = root.getNetworks();      
-    }
-
-    lodash.forEach(networks, function(n) {
+  root.forEachNetwork = function(callback) {
+    lodash.forEach(root.getNetworks(), function(n) {
       var walletClient = root.walletClientFor(n.getURI()).getLib();
       callback(walletClient, n);
     });
@@ -225,14 +189,6 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
   root.parseNet = function(networkURI) {
     return networkURI.trim().split('/')[0];
-  };
-
-  root.isLivenet = function(networkURI) {
-    return root.parseNet(networkURI) == 'livenet';
-  };
-
-  root.isTestnet = function(networkURI) {
-    return root.parseNet(networkURI) == 'testnet';
   };
 
   init();

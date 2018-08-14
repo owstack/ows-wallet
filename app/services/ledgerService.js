@@ -10,8 +10,7 @@ angular.module('owsWalletApp.services')
       id: 'ledger',
       name: 'Ledger',
       longName: 'Ledger Hardware Wallet',
-      isEmbeddedHardware: false,
-      supportsTestnet: false
+      isEmbeddedHardware: false
     };
 
     root.callbacks = {};

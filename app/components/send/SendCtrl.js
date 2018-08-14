@@ -6,121 +6,32 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
   var CONTACTS_SHOW_LIMIT;
   var currentContactsPage;
 
-  var hasWallets = function() {
-    $scope.wallets = profileService.getWallets({
-      onlyComplete: true
-    });
-    $scope.hasWallets = lodash.isEmpty($scope.wallets) ? false : true;
-  };
+  $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    $scope.walletId = data.stateParams.walletId;
+    $scope.formData = {
+      search: null
+    };
+    originalList = [];
+    CONTACTS_SHOW_LIMIT = 10;
+    currentContactsPage = 0;
 
-  // This is only to show the starter message, it does not have any other function
-  var updateHasFunds = function(cb) {
-    profileService.hasFunds({}, function(hasFunds) {
-      $scope.hasFunds = hasFunds;
-      $scope.checkingBalance = false;
-      cb();
-    });
-  };
+    $scope.hasWallets = hasWallets();
 
-  var updateWalletsList = function() {
-    $scope.showTransferCard = $scope.hasWallets;
-
-    if ($scope.showTransferCard) {
-      var walletsToTransfer = $scope.wallets;
-
-      // If a sending walletId is specified then filter the transfer list by sending wallet network.
-      if ($scope.walletId) {
-        var sendingWallet = profileService.getWallet($scope.walletId);
-
-        if (networkService.isTestnet(sendingWallet.networkURI)) {
-          walletsToTransfer = lodash.filter(walletsToTransfer, function(w) {
-            return networkService.isTestnet(w.network);
-          });
-        } else if (networkService.isTestnet(sendingWallet.networkURI)) {
-          walletsToTransfer = lodash.filter(walletsToTransfer, function(w) {
-            return networkService.isTestnet(w.network);
-          });
-        };
-      }
-
-      var walletList = [];
-      lodash.each(walletsToTransfer, function(w) {
-        walletList.push({
-          networkURI: w.networkURI,
-          color: w.color,
-          name: w.name,
-          recipientType: 'wallet',
-          needsBackup: w.needsBackup,
-          getAddress: function(cb) {
-            walletService.getAddress(w, false, cb);
-          },
+    if ($scope.hasWallets) {
+      profileService.hasFunds({}, function(hasFunds) {
+        $scope.hasFunds = hasFunds;
+        $timeout(function() {
+          $scope.$apply();
         });
+
+        updateWalletsList();
+        updateContactsList(function() {
+          updateList();
+        });
+
       });
-      originalList = originalList.concat(walletList);
     }
-  }
-
-  var updateContactsList = function(cb) {
-    addressBookService.list(function(err, ab) {
-      if (err) {
-        $log.error(err.message);
-      }
-
-      $scope.hasContacts = lodash.isEmpty(ab) ? false : true;
-      if (!$scope.hasContacts) {
-        return cb();
-      }
-
-      var sendingWallet = profileService.getWallet($scope.walletId);
-      var completeContacts = [];
-
-      lodash.forEach(ab, function(entry) {
-        // If a sending wallet is specified then filter the contact list by sending wallet network, else include all contacts.
-        var addresses = entry.addresses;
-
-        if (sendingWallet) {
-          addresses = lodash.filter(entry.addresses, function(address) {
-            return address.networkURI == sendingWallet.networkURI;
-          });
-        }
-
-        if (addresses.length > 1) {
-          completeContacts.push({
-            recipientType: 'contact',
-            contactId: entry.id,
-            name: entry.name,
-            email: entry.email,
-            getAddress: function(cb) {
-              return cb(null, addresses);
-            }
-          });
-        } else if (addresses.length == 1) {
-          completeContacts.push({
-            recipientType: 'contact',
-            contactId: entry.id,
-            name: entry.name,
-            email: entry.email,
-            getAddress: function(cb) {
-              return cb(null, addresses[0]);
-            }
-          });
-        }
-      });
-
-      var contacts = completeContacts.slice(0, (currentContactsPage + 1) * CONTACTS_SHOW_LIMIT);
-      $scope.contactsShowMore = completeContacts.length > contacts.length;
-      originalList = originalList.concat(contacts);
-      return cb();
-    });
-  };
-
-  var updateList = function() {
-    $scope.list = lodash.clone(originalList);
-    $timeout(function() {
-      $ionicScrollDelegate.resize();
-      $scope.$apply();
-    }, 10);
-  };
+  });
 
   $scope.openScanner = function() {
     $state.go($rootScope.sref('scan'));
@@ -243,29 +154,101 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
     });
   };
 
-  $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.walletId = data.stateParams.walletId;
-    $scope.checkingBalance = true;
-    $scope.formData = {
-      search: null
-    };
-    originalList = [];
-    CONTACTS_SHOW_LIMIT = 10;
-    currentContactsPage = 0;
-    hasWallets();
-  });
-
-  $scope.$on("$ionicView.enter", function(event, data) {
-    if (!$scope.hasWallets) {
-      $scope.checkingBalance = false;
-      return;
-    }
-
-    updateHasFunds(function() {
-      updateWalletsList();
-      updateContactsList(function() {
-        updateList();
-      });
+  function hasWallets() {
+    $scope.wallets = profileService.getWallets({
+      onlyComplete: true
     });
-  });
+    return lodash.isEmpty($scope.wallets) ? false : true;
+  };
+
+  function updateWalletsList() {
+    $scope.showTransferCard = $scope.hasWallets;
+
+    if ($scope.showTransferCard) {
+      var walletsToTransfer = $scope.wallets;
+
+      // If a sending walletId is specified then filter the transfer list by sending wallet network.
+      if ($scope.walletId) {
+        var sendingWallet = profileService.getWallet($scope.walletId);
+      }
+
+      var walletList = [];
+      lodash.each(walletsToTransfer, function(w) {
+        walletList.push({
+          networkURI: w.networkURI,
+          color: w.color,
+          name: w.name,
+          recipientType: 'wallet',
+          needsBackup: w.needsBackup,
+          getAddress: function(cb) {
+            walletService.getAddress(w, false, cb);
+          },
+        });
+      });
+      originalList = originalList.concat(walletList);
+    }
+  }
+
+  function updateContactsList(cb) {
+    addressBookService.list(function(err, ab) {
+      if (err) {
+        $log.error(err.message);
+      }
+
+      $scope.hasContacts = lodash.isEmpty(ab) ? false : true;
+      if (!$scope.hasContacts) {
+        return cb();
+      }
+
+      var sendingWallet = profileService.getWallet($scope.walletId);
+      var completeContacts = [];
+
+      lodash.forEach(ab, function(entry) {
+        // If a sending wallet is specified then filter the contact list by sending wallet network, else include all contacts.
+        var addresses = entry.addresses;
+
+        if (sendingWallet) {
+          addresses = lodash.filter(entry.addresses, function(address) {
+            return address.networkURI == sendingWallet.networkURI;
+          });
+        }
+
+        if (addresses.length > 1) {
+          completeContacts.push({
+            recipientType: 'contact',
+            contactId: entry.id,
+            name: entry.name,
+            email: entry.email,
+            getAddress: function(cb) {
+              return cb(null, addresses);
+            }
+          });
+        } else if (addresses.length == 1) {
+          completeContacts.push({
+            recipientType: 'contact',
+            contactId: entry.id,
+            name: entry.name,
+            email: entry.email,
+            getAddress: function(cb) {
+              return cb(null, addresses[0]);
+            }
+          });
+        }
+      });
+
+      var contacts = completeContacts.slice(0, (currentContactsPage + 1) * CONTACTS_SHOW_LIMIT);
+      $scope.contactsShowMore = completeContacts.length > contacts.length;
+      originalList = originalList.concat(contacts);
+      return cb();
+    });
+  };
+
+  function updateList() {
+    $scope.list = lodash.clone(originalList);
+    $timeout(function() {
+      $ionicScrollDelegate.resize();
+      $scope.$apply();
+    }, 10);
+  };
+
 });

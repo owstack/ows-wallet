@@ -14,7 +14,7 @@
         </i>
         <div>{{network.getFriendlyNetLabel()}}</div>
         <div class="item-detail">
-          {{networkSettings[network.getURI()].unitName}}{{(networkSettings[network.getURI()].isLivenet ? ', ' + networkSettings[network.getURI()].selectedAlternative.name : '')}}{{', ' + networkSettings[network.getURI()].currentFeeLevel}}
+          {{networkSettings[network.getURI()].unitName}}{{', ' + networkSettings[network.getURI()].selectedAlternative.name}}{{', ' + networkSettings[network.getURI()].currentFeeLevel}}
         </div>
         <i class="icon arrow-right"></i>
       </ion-item>
@@ -29,7 +29,7 @@
         <div class="item-detail">{{networkSettings[networkURI].unitName}}</div>
         <i class="icon arrow-right"></i>
       </ion-item>
-      <ion-item class="has-click has-detail item-icon-left item-icon-right" ng-show="networkSettings[networkURI].isLivenet"
+      <ion-item class="has-click has-detail item-icon-left item-icon-right"
         ui-sref="{{sref('alternative-currency')}}({'networkURI': networkURI})">
         <i class="icon list-icon">
           <img src="img/icon-alternative-currency.svg"/>

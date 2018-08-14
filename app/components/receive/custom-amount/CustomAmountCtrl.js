@@ -63,10 +63,6 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
     return $scope.protocol + ':' + $scope.address + '?amount=' + $scope.amountStandard;
   };
 
-  $scope.isTestnet = function(networkURI) {
-    return networkService.isTestnet(networkURI);
-  };
-
   function showErrorAndBack(title, msg) {
     popupService.showAlert(title, msg, function() {
       $scope.close();

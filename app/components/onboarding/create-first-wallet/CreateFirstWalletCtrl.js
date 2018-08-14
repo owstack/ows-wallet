@@ -11,7 +11,7 @@ angular.module('owsWalletApp.controllers').controller('CreateFirstWalletCtrl',
       $scope.data = {
         networkURI: config.currencyNetworks.default
       };
-      $scope.availableNetworks = networkService.getLiveNetworks();
+      $scope.availableNetworks = networkService.getNetworks();
       $scope.network = networkService.getNetworkByURI($scope.data.networkURI);
     });
 

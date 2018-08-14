@@ -14,7 +14,7 @@
         </div>
         <div class="tx-amount-wrapper">
           <div class="tx-amount">{{tx.amountValueStr || '&middot;&middot;&middot;'}} <span class="tx-unit">{{tx.amountAtomicStr}}</span></div>
-          <div class="tx-alternative" ng-show="isLivenet(tx.networkURI)">{{tx.alternativeAmountStr || '&middot;&middot;&middot;'}}</div>
+          <div class="tx-alternative">{{tx.alternativeAmountStr || '&middot;&middot;&middot;'}}</div>
         </div>
       </ion-item>
       <!-- No wallet -->
@@ -110,7 +110,7 @@
           <div>{{tx.feeStr || '&middot;&middot;&middot;'}}</div>
           <span class="item-detail">
             <span>
-              <span ng-if="isLivenet(tx.networkURI)">{{tx.alternativeFeeStr || '&middot;&middot;&middot;'}}&nbsp;&middot;</span>
+              <span>{{tx.alternativeFeeStr || '&middot;&middot;&middot;'}}&nbsp;&middot;</span>
               <span class="fee-rate" ng-if="tx.feeRatePerStr">
                 <span ng-show="tx.feeTooHigh">&nbsp;
                   <i class="ion-alert-circled text-warning"></i>

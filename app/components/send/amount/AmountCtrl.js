@@ -28,7 +28,6 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     $scope.toName = data.stateParams.toName || gettextCatalog.getString('Digital currency address');
     $scope.toEmail = data.stateParams.toEmail;
     $scope.enterAlternativeAmount = data.stateParams.initWithAlt || false;
-    $scope.showAlternativeAmount = !networkService.isTestnet($scope.networkURI); // No alternative amount for testnet
     $scope.toColor = data.stateParams.toColor;
     $scope.showOptionsMenu = false;
     $scope.useAdvancedKeypad = configService.getSync().advancedKeypad.enabled;

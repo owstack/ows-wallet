@@ -13,8 +13,7 @@ angular.module('owsWalletApp.services')
       name: 'Trezor',
       longName: 'Trezor Hardware Wallet',
       derivationStrategy: 'BIP48',
-      isEmbeddedHardware: false,
-      supportsTestnet: false
+      isEmbeddedHardware: false
     };
 
     root.getEntropySource = function(isMultisig, account, callback) {

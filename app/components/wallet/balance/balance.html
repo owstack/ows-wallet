@@ -16,7 +16,7 @@
           <span translate>Total</span>
           <span class="item-note">
             <span class="balance-total">{{status.totalBalanceStr}}</span>
-            <div ng-if="isLivenet(wallet.networkURI)">{{status.totalBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+            <div>{{status.totalBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
         <ion-item class="item-icon-left icon-left-sm">
@@ -25,7 +25,7 @@
           <span translate>Available</span>
           <span class="item-note">
             <span class="balance-available">{{status.spendableBalanceStr}}</span>
-            <div ng-if="isLivenet(wallet.networkURI)">{{status.spendableBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+            <div>{{status.spendableBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
         <ion-item class="item-icon-left icon-left-sm">
@@ -35,7 +35,7 @@
           <span translate>Confirming</span>
           <span class="item-note">
             <span ng-class="{'balance-confirming': status.pendingAmount > 0}">{{status.pendingBalanceStr}}</span>
-            <div ng-if="isLivenet(wallet.networkURI)">{{status.pendingBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+            <div>{{status.pendingBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
         <ion-item class="item-icon-left icon-left-sm">
@@ -45,7 +45,7 @@
           <span translate>Locked</span>
           <span class="item-note">
             <span ng-class="{'balance-locked': status.lockedBalanceAtomic > 0}">{{status.lockedBalanceStr}}</span>
-            <div ng-if="isLivenet(wallet.networkURI)">{{status.lockedBalanceAlternative}} {{status.alternativeIsoCode}}</div>
+            <div>{{status.lockedBalanceAlternative}} {{status.alternativeIsoCode}}</div>
           </span>
         </ion-item>
       </ion-list>

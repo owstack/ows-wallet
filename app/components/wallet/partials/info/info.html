@@ -1,9 +1,5 @@
 <div class="wallet-info">
 	<div class="info-group">
-	  <span ng-show="isTestnet(wallet.networkURI)">
-			<img class="info testnet" src="img/icon-testnet-white.svg" ng-show="wallet.credentials.n > 1">
-			<img class="info testnet large" src="img/icon-testnet-white.svg" ng-show="wallet.credentials.n == 1">
-		</span>
 		<span ng-show="wallet.credentials.n > 1">
 			<img class="info multisig" src="img/icon-users.svg">
 			<span class="info multisig text">{{wallet.m}}-of-{{wallet.n}}</span>
@@ -13,9 +9,6 @@
 <!--
 <div ng-show="!(updatingStatus || (updatingTxHistory && updatingTxHistoryProgress<=5))">
 	<img class="info" ng-show="wallet.status.wallet.singleAddress" src="img/icon-text-auditable-white.svg">
-
-	<img class="info" ng-show="isTestnet(wallet.networkURI)" src="img/icon-testnet-white.svg">
-	<img class="info" ng-show="isTestnet(wallet.networkURI)" src="img/icon-text-testnet-white.svg">
 
 	<img class="info" ng-show="!wallet.canSign() && !wallet.isPrivKeyExternal()" src="img/icon-read-only-white.svg">
 

@@ -17,7 +17,7 @@
         </div>
         <div class="tx-amount-wrapper">
           <div class="tx-amount">{{tx.amountValueStr}} <span class="tx-unit">{{tx.amountAtomicStr}}</span></div>
-          <div class="tx-alternative" ng-show="tx.alternativeAmountStr && isLivenet(wallet.networkURI)">{{tx.alternativeAmountStr}}</div>
+          <div class="tx-alternative" ng-show="tx.alternativeAmountStr">{{tx.alternativeAmountStr}}</div>
         </div>
 
         <div class="text-center m10t assertive" ng-if="tx.removed" translate>

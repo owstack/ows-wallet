@@ -29,8 +29,8 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
       }];
 
       // Add all currency network standard units to the unused list.
-      var liveNetworks = networkService.getLiveNetworks();
-      lodash.forEach(liveNetworks, function(n) {
+      var networks = networkService.getNetworks();
+      lodash.forEach(networks, function(n) {
         lodash.forEach(n.units, function(u) {
           if (u.kind == 'standard') {
             unusedCurrencyList.push({ isoCode: u.shortName});

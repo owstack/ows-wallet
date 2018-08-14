@@ -51,9 +51,6 @@
         <span class="input-label" translate>Wallet Type</span>
         <select ng-model="formData.seedSourceAll" ng-options="seed as seed.label for seed in seedOptionsAll"></select>
       </ion-item>
-      <ion-toggle ng-show="formData.testnetSupported" ng-model="formData.testnetSelected" toggle-class="toggle-positive">
-        <span class="toggle-label" translate>Testnet</span>
-      </ion-toggle>
       <ion-item class="item-input item-stacked-label">
         <span class="input-label" translate>Wallet Service URL</span>
         <input type="text" ng-model="formData.walletServiceUrl" placeholder="{{'URL'|translate}}">

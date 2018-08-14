@@ -7,7 +7,6 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
     var defaults = configService.getDefaults();
     var errors;
     var configNetwork = configService.getSync().currencyNetworks;
-    var testnetFeature = featureService.isAvailable('testnet');
 
     $scope.init = function() {
       $scope.supportsLedger = platformInfoService.supportsLedger;
@@ -17,9 +16,7 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
 
       var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
       $scope.formData.network = defaultNetwork;
-      $scope.availableNetworks = networkService.getLiveNetworks();
-      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency) && testnetFeature;
-      $scope.formData.testnetSelected = false;
+      $scope.availableNetworks = networkService.getNetworks();
 
       $scope.formData.walletServiceUrl = defaults.currencyNetworks[$scope.formData.network.getURI()].walletService.url;
 
@@ -68,8 +65,6 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
       $scope.formData.walletServiceUrl = defaults.currencyNetworks[$scope.formData.network.getURI()].walletService.url;
-      $scope.formData.testnetSupported = networkService.hasTestnet($scope.formData.network.currency) && testnetFeature;
-      $scope.formData.testnetSelected = $scope.formData.testnetSelected && $scope.formData.testnetSupported;
 
       errors = networkService.walletClientFor($scope.formData.network).getErrors();
     };
@@ -260,10 +255,6 @@ angular.module('owsWalletApp.controllers').controller('ImportWalletCtrl',
       }
 
       var network = $scope.formData.network;
-      if ($scope.formData.testnetSelected) {
-        network = networkService.getTestnetForCurrency($scope.formData.network.currency);
-      }
-
       var opts = {};
 
       if ($scope.formData.walletServiceUrl)

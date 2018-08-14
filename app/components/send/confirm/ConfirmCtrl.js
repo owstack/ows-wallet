@@ -198,10 +198,6 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     }
   };
 
-  $scope.isLivenet = function(networkURI) {
-    return networkService.isLivenet(networkURI);
-  };
-
   $scope.cancel = function() {
     $scope.payproModal.remove();
   };

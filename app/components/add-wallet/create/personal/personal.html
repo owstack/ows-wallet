@@ -89,9 +89,6 @@
             <span class="input-label" translate>Derivation Path</span>
             <input type="text" placeholder="{{'BIP32 path for address derivation'|translate}}" ng-model="formData.derivationPath">
           </ion-item>
-          <ion-toggle ng-show="formData.testnetSupported" ng-model="formData.testnetSelected" toggle-class="toggle-positive">
-            <span class="toggle-label" translate>Testnet</span>
-          </ion-toggle>
           <ion-toggle class="has-detail" ng-model="formData.singleAddressEnabled" toggle-class="toggle-positive">
             <span class="toggle-label" translate>Single Address Wallet</span>
             <div class="item-detail" translate>For audit purposes</div>

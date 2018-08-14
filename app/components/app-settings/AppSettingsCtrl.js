@@ -16,12 +16,7 @@ angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', functio
         }
       });
 
-      if (featureService.isAvailable('testnet')) {
-        $scope.availableNetworks = networkService.getNetworks();
-      } else {
-        $scope.availableNetworks = networkService.getLiveNetworks();      
-      }
-
+      $scope.availableNetworks = networkService.getNetworks();
       $scope.pushNotificationsEnabled = config.pushNotificationsEnabled;
 
       $scope.unitName = config.wallet.settings.unitName;

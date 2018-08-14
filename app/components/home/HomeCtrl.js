@@ -355,10 +355,6 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       updateAllApplets();
     };
 
-    $scope.isTestnet = function(networkURI) {
-      return networkService.isTestnet(networkURI);
-    };
-
     $scope.toggleLayout = function() {
       $scope.layout.current = ($scope.layout.current == 'grid' ? 'list' : 'grid');
       $scope.layout.next = ($scope.layout.current == 'grid' ? 'list' : 'grid');

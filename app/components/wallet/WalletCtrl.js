@@ -118,14 +118,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
     $scope.txps = lodash.sortBy(txps, 'createdOn').reverse();
   };
 
-  $scope.isLivenet = function(networkURI) {
-    return networkService.isLivenet(networkURI);
-  };
-
-  $scope.isTestnet = function(networkURI) {
-    return networkService.isTestnet(networkURI);
-  };
-
   var analyzeUtxosDone;
 
   var analyzeUtxos = function() {

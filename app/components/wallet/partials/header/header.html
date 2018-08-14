@@ -30,7 +30,7 @@
             <span class="balance-unit">
               {{status.totalBalanceUnitStr}}
             </span>
-            <div class="amount-alternative" ng-if="status.totalBalanceAlternative && isLivenet(wallet.networkURI)"
+            <div class="amount-alternative" ng-if="status.totalBalanceAlternative"
               ng-style="{opacity: elementOpacity}">
               <span class="value">
                 {{status.totalBalanceAlternative || '&middot;&middot;&middot;'}}

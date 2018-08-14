@@ -10,7 +10,6 @@ angular.module('owsWalletApp.services').factory('featureService', function($log,
   ];
 
   var features = [
-  	{ name: 'testnet',            weight: 1 },
   	{ name: 'multisignature',     weight: 1 },
   	{ name: 'wallet-service-url', weight: 2 },
   	{ name: 'derivation-path',    weight: 2 }

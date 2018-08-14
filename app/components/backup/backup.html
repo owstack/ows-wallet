@@ -15,7 +15,7 @@
     </div>
     <!-- STEP 1 -->
     <div class="backup-phrase-step-1 ng-hide" ng-show="step == 1 && (mnemonicWords || (!credentialsEncrypted && !deleted))">
-      <div class="backup-phrase" copy-to-clipboard="{{copyRecoveryPhrase()}}">
+      <div class="backup-phrase">
         <div class="backup-phrase-content">
           <span class="backup-phrase-content-word-readonly" ng-repeat="word in mnemonicWords track by $index">
             <span style="white-space:nowrap">
