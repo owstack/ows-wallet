@@ -140,7 +140,7 @@ angular.module('owsWalletApp.controllers').controller('PaperWalletCtrl',
 
           feeService.getCurrentFeeRate($scope.wallet, function(err, feePerKb) {
             var opts = {};
-            opts.fee = Math.round((feePerKb * rawTxLength) / 2000);
+            opts.fee = Math.round((feePerKb.atomic * rawTxLength) / 2000);
 
             $scope.wallet.buildTxFromPrivateKey($scope.privateKey, destinationAddress, opts, function(err, tx) {
               if (err) {

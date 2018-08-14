@@ -208,7 +208,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
       if (lodash.isUndefined(oldState)) {
         s.header.created = now;
         s.header.updated = now;
-      } else if (lodash.isEqual(s.preferences, oldState.preferences)) {
+      } else if (!lodash.isEqual(s.preferences, oldState.preferences)) {
         s.header.updated = now;
       }
 

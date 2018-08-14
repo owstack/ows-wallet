@@ -68,13 +68,17 @@ angular.module('owsWalletApp.services').factory('feeService', function($log, con
         };
       }
 
-      var feeRate = feeLevelRate.feePerKb;
+      var feePerKb = feeLevelRate.feePerKb;
 
       if (!fromCache) {
-        $log.debug('Dynamic fee: ' + feeLevel + '/' + networkURI + ' ' + (feeLevelRate.feePerKb / 1000).toFixed() + ' ' + networkService.getAtomicUnit(networkURI).shortName + '/byte');
+        $log.debug('Dynamic fee: ' + feeLevel + '/' + networkURI + ' ' + (feePerKb / 1000).toFixed() + ' ' + networkService.getAtomicUnit(networkURI).shortName + '/byte');
       }
 
-      return cb(err, feeRate);
+      // Return the fee/kb expressed in both atomic and standard units.
+      return cb(err, {
+        atomic: feePerKb,
+        standard: feePerKb / networkService.getASUnitRatio(networkURI)
+      });
     });
   };
 

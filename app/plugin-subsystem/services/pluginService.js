@@ -180,10 +180,41 @@ angular.module('owsWalletApp.pluginServices').factory('pluginService', function(
     return listDependents;
   };
 
+  // Set state preferences on the plugin.
+  root.setPluginPreferences = function(pluginId, prefs, cb) {
+    return new Promise(function(resolve, reject) {
+      var plugin = root.getPluginsWithStateByIdSync(pluginId);
+      lodash.merge(plugin.preferences, prefs);
+
+      if (plugin.header.kind == 'applet') {
+        appletService.updateAppletState([plugin], {}, function(error) {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+
+      } else if (plugin.header.kind == 'servlet') {
+        servletService.updateServletState([plugin], {}, function(error) {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      }
+    });
+  };
+
   // Send event to all plugin sessions.
   root.broadcastEvent = function(event) {
     pluginSessionService.broadcastEvent(event);
   };
+
+  /**
+   * Private functions
+   */
 
   function initAppletContext(ctx) {
     var applets = lodash.pickBy(ctx.catalog.plugins, function(plugin) {

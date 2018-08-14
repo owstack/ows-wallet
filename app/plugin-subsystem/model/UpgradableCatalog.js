@@ -394,9 +394,14 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
       lodash.forEach(collections, function(collection) {
 
         // Do not reconcile collections that opt out. Default value is true.
-        var reconcile = lodash.find(_config.collections, function(c) {
+        var reconcile;
+        var col = lodash.find(_config.collections, function(c) {
           return c.name == collection;
-        }).reconcile;
+        });
+
+        if (col) {
+          reconcile = col.reconcile;
+        }
 
         if (lodash.isUndefined(reconcile)) {
           reconcile = true;

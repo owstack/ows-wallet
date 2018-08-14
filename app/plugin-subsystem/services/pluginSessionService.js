@@ -9,23 +9,6 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
 	var _sessionPool = [];
   var _activeSessionId = undefined;
 
-  function isActiveSession(sessionId) {
-    return (!lodash.isUndefined(_activeSessionId) && (_activeSessionId == sessionId));
-  };
-
-  function addSession(session) {
-    _sessionPool.push(session);
-  };
-
-  function removeSession(session) {
-    var existingSessionIndex = lodash.findIndex(_sessionPool, function(s) {
-      return (s.id == session.id);
-    });
-
-    var removedSession = lodash.pullAt(_sessionPool, existingSessionIndex);
-    return removedSession[0];
-  };
-
   root.activateSession = function(sessionId) {
     $log.info('Activating plugin session (id: \'' + sessionId + '\')');
     var session = root.getSession(sessionId)
@@ -59,10 +42,15 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     });
   };
 
+  root.getSessionForPlugin = function(plugin) {
+    var sessionIndex = getExistingSessionIndex(plugin);
+    if (sessionIndex) {
+      return _sessionPool[sessionIndex];
+    }
+  };
+
   root.createSession = function(plugin, callback) {
-    var existingSessionIndex = lodash.findIndex(_sessionPool, function(session) {
-      return (session.isForPlugin(plugin.header.id));
-    });
+    var existingSessionIndex = getExistingSessionIndex(plugin);
 
     if (existingSessionIndex >= 0) {
     	// Session state error; found an existing session for the plugin.
@@ -124,6 +112,35 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     for (var i = 0; i < _sessionPool.length; i++) {
       root.destroySession(_sessionPool[i].id);
     }
+  };
+
+  /**
+   * Private functions
+   */
+
+  function isActiveSession(sessionId) {
+    return (!lodash.isUndefined(_activeSessionId) && (_activeSessionId == sessionId));
+  };
+
+  function addSession(session) {
+    _sessionPool.push(session);
+  };
+
+  function removeSession(session) {
+    var existingSessionIndex = lodash.findIndex(_sessionPool, function(s) {
+      return (s.id == session.id);
+    });
+
+    var removedSession = lodash.pullAt(_sessionPool, existingSessionIndex);
+    return removedSession[0];
+  };
+
+  function getExistingSessionIndex(plugin) {
+    var existingSessionIndex = lodash.findIndex(_sessionPool, function(session) {
+      return (session.isForPlugin(plugin.header.id));
+    });
+
+    return existingSessionIndex;
   };
 
   return root;

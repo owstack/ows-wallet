@@ -73,8 +73,9 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
   root.respond = function(message, callback) {
 	  // Request parameters.
     var sessionId = message.request.params.id;
-    var picker = message.request.params.picker;
-    var title = message.request.params.title;
+    var walletId = message.request.data.walletId;
+    var picker = message.request.data.picker;
+    var title = message.request.data.title;
 
   	if (lodash.isUndefined(sessionId) || sessionId.length <= 0) {
 	    message.response = {
@@ -103,6 +104,16 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 
 		if (picker) {
 			chooseWallet(picker, title, message, callback);
+
+		} else if (walletId) {
+
+	    message.response = {
+	      statusCode: 200,
+	      statusText: 'OK',
+	      data: getWallet(walletId)
+	    };
+
+			return callback(message);
 
 		} else {
 
@@ -151,7 +162,12 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 		});
 	};
 
-	function getWallets(callback) {
+	function getWallet(walletId) {
+		var wallet = profileService.getWallet(walletId);
+		return utilService.pick(wallet, SAFE_WALLET_PROPERTIES);
+	};
+
+	function getWallets() {
 		var wallets = profileService.getWallets();
 		var safeWallets = [];
 

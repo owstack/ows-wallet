@@ -258,8 +258,8 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     scope.noSave = true;
 
     if (tx.usingCustomFee) {
-      scope.customFeePerKB = tx.feeRate;
-      scope.feePerAtomicByte = tx.feeRate / 1000;
+      scope.customFeePerKB = tx.feePerKb;
+      scope.feePerAtomicByte = tx.feePerKb / 1000;
     }
 
     $ionicModal.fromTemplateUrl('views/send/choose-fee-level/choose-fee-level.html', {

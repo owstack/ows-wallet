@@ -9,6 +9,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
 
   // Servlet state preferences
   var defaultServletPreferences = {
+    runInBackground: false // Whether or not the servlet should run continuously in the background.
   };
 
   /**
@@ -33,7 +34,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     // Close any currently running servlets.
     var activeSession = pluginSessionService.getActiveSession();
     if (!lodash.isUndefined(activeSession) && activeSession.isForServlet()) {
-      shutdownServlet(activeSession);
+      shutdownServlet(activeSession, {force: true});
     }
   };
 
@@ -196,8 +197,9 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
 
     var state = ctx.state;
 
-    // Build the servlet state object for each servlet.
-    var newState = lodash.map(servlets, function(servlet) {
+    // Build the new servlet state object for each servlet.
+    lodash.forEach(servlets, function(servlet) {
+
       var oldState = state.servlet[servlet.header.id];
 
       var s = lodash.cloneDeep(oldState) || PluginState.getServletStateTemplate();
@@ -207,17 +209,17 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
       if (lodash.isUndefined(oldState)) {
         s.header.created = now;
         s.header.updated = now;
-      } else if (lodash.isEqual(s.preferences, oldState.preferences)) {
+      } else if (!lodash.isEqual(s.preferences, oldState.preferences)) {
         s.header.updated = now;
       }
 
-      return s;
+      state.servlet[servlet.header.id] = s;
     });
 
     state.save(function(err) {
       if (err) {
         $rootScope.$emit('Local/DeviceError', err);
-        return;
+        return callback(err);
       }
 
       // Repopulate the servlet cache.
@@ -282,6 +284,15 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     return new Promise(function(resolve, reject) {
       $log.info('Starting servlet: ' + servlet.header.name + '@' + servlet.header.version);
 
+      // Don't try to start the servlet if it is already running (i.e., due to runInBackground).
+      var session = pluginSessionService.getSessionForPlugin(servlet);
+
+      if (session) {
+        $log.info('Servlet already running');
+        resolve(session);
+        return;
+      }
+
       // Create a session, container, and show the servlet.
       pluginSessionService.createSession(servlet, function(session) {
         $rootScope.$emit('$pre.beforeEnter', servlet);
@@ -293,19 +304,26 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     });
   };
 
-  function shutdownServlet(session) {
+  function shutdownServlet(session, opts) {
+    opts = opts || {};
     return new Promise(function(resolve, reject) {
       var servlet = session.plugin;
-      $log.info('Shutting down servlet: ' + servlet.header.name + '@' + servlet.header.version);
 
-      $rootScope.$emit('$pre.beforeLeave', servlet);
+      // Do not shutdown a servlet that should run in the backgound.
+      if (!servlet.preferences.runInBackground || opts.force) {
+        $log.info('Shutting down servlet: ' + servlet.header.name + '@' + servlet.header.version);
 
-      servlet.shutdown();
-      servlet.finalize(session, function() {
-        pluginSessionService.destroySession(session.id, function() {
-          resolve();
+        $rootScope.$emit('$pre.beforeLeave', servlet);
+
+        servlet.shutdown();
+        servlet.finalize(session, function() {
+          pluginSessionService.destroySession(session.id, function() {
+            resolve();
+          });
         });
-      });
+      } else {
+        $log.info('Servlet continues to run in background: ' + servlet.header.name + '@' + servlet.header.version);        
+      }
     });
   };
 

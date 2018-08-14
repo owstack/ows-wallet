@@ -77,7 +77,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
     // Fee properties.
     //
     self.feeLevelName;
-    self.feeRate;
+    self.feePerKb;
     self.usingCustomFee = false;
 
     // Derived properties.
@@ -113,13 +113,13 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
     /**
      * Update the fee information and recalculate the transaction.
      * @param {String} level - The fee level to set (e.g. 'normal').
-     * @param {Number} rate - The custom fee rate to apply, atomic unit/kB (e.g., satoshis/kB). Only applies if isCustomRate is true.
+     * @param {Number} feePerKb - The custom fee rate to apply, atomic unit/kB (e.g., satoshis/kB). Only applies if isCustomRate is true.
      * @param {boolean} isCustomRate - Set true if using a custom rate.
      * @param {Function} cb - The callback after the transaction has completed recalculation.
      */
-    this.setFee = function(level, rate, isCustomRate, cb) {
+    this.setFee = function(level, feePerKb, isCustomRate, cb) {
       self.feeLevel = level;
-      self.feeRate = rate;
+      self.feePerKb = feePerKb;
       self.usingCustomFee = isCustomRate;
 
       update({ clearCache: true, dryRun: true }, cb);
@@ -248,7 +248,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
       // Fee
       //
       ongoingProcessService.set('calculatingFee', true);
-      feeService.getFeeRate(self.feeLevel, wallet, function(err, rate) {
+      feeService.getFeeRate(self.feeLevel, wallet, function(err, feePerKb) {
         if (err) {
           $log.error('Transaction.update(): ' + err);
           err = gettextCatalog.getString('Could not get fee information.');
@@ -256,7 +256,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
         }
 
         if (!self.usingCustomFee) {
-          self.feeRate = rate;
+          self.feePerKb = feePerKb.atomic;
         }
 
         self.feeLevelName = feeService.getFeeOpts(wallet.networkURI, self.feeLevel);
@@ -366,7 +366,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
         ntxp.fee = sendMaxInfo.fee;
       } else {
         if (self.usingCustomFee) {
-          ntxp.feePerKb = self.feeRate;
+          ntxp.feePerKb = self.feePerKb;
         } else {
           ntxp.feeLevel = self.feeLevel;
         }
@@ -400,7 +400,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
       }
       
       walletService.getSendMaxInfo(wallet, {
-        feePerKb: self.feeRate,
+        feePerKb: self.feePerKb,
         excludeUnconfirmedUtxos: !self.spendUnconfirmed,
         returnInputs: true,
       }, cb);
