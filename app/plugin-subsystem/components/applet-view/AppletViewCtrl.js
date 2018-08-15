@@ -199,38 +199,55 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
    */
 
   function initForWalletInteraction() {
-    $scope.wallets = profileService.getWallets();
-    $scope.singleWallet = $scope.wallets.length == 1;
-    $scope.hasWallets = lodash.isEmpty($scope.wallets) ? false : true;
-
-    if ($scope.hasWallets) {
-      // Select first wallet if no wallet selected previously.
-      $scope.wallet = $scope.wallet || $scope.wallets[0];
-    }
   };
 
   $scope.onWalletSelect = function(wallet) {
-    $rootScope.$emit("Local/WalletForApplet", wallet);
+    $rootScope.$emit('Local/WalletForApplet', wallet);
     $scope.wallet = wallet;
   };
 
   $scope.onWalletSelectCancel = function() {
-    $rootScope.$emit("Local/WalletForApplet");
+    $rootScope.$emit('Local/WalletForApplet', null);
   };
 
   var cancelChooseWalletForAppletListener =
-  $rootScope.$on("Local/ChooseWalletForApplet", function(event, opts) {
-    if ($scope.singleWallet) {
-      return;
-    }
-
+  $rootScope.$on('Local/ChooseWalletForApplet', function(event, opts) {
     var defaultOptions = {
+      filter: {},
       picker: 'action-sheet',
       title: gettextCatalog.getString('Select a wallet')
     };
 
     opts = opts || {};
     lodash.merge(opts, defaultOptions);
+
+    var wallets = profileService.getWallets();
+    $scope.filteredWallets = wallets;
+
+    if (opts.filter.currencies && opts.filter.currencies.length > 0) {
+      $scope.filteredWallets = lodash.filter(wallets, function(w) {
+        return opts.filter.currencies.includes(w.currency.toUpperCase());
+      });
+    }
+
+    $scope.singleWallet = $scope.filteredWallets.length == 1;
+    $scope.hasWallets = lodash.isEmpty($scope.filteredWallets) ? false : true;
+
+    if ($scope.hasWallets) {
+      // Select first wallet if no wallet selected previously.
+      $scope.wallet = $scope.wallet || $scope.filteredWallets[0];
+
+      if ($scope.singleWallet) {
+        // Only one wallet, just return it.
+        $rootScope.$emit('Local/WalletForApplet', $scope.wallet);
+        return;
+      }
+
+    } else {
+      // No wallets to choose.
+      $rootScope.$emit('Local/WalletForApplet');
+      return;
+    }
 
     // Only one option available at the moment.
     if (opts.picker == 'action-sheet') {

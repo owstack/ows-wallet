@@ -4,7 +4,7 @@
     <iframe class="applet-frame" ng-src="{{applet.view.url}}"></iframe>
   </ion-pane>
   <!-- Wallet selector action sheet -->
-  <wallet-menu title="walletSelectorTitle" wallets="wallets" selected-wallet="wallet" show="showWallets" has-tabs
+  <wallet-menu title="walletSelectorTitle" wallets="filteredWallets" selected-wallet="wallet" show="showWallets" has-tabs
     on-select="onWalletSelect" on-cancel="onWalletSelectCancel">
   </wallet-menu>
   <!-- Splash screen -->

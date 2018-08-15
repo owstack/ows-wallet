@@ -74,6 +74,7 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 	  // Request parameters.
     var sessionId = message.request.params.id;
     var walletId = message.request.data.walletId;
+    var filter = message.request.data.filter;
     var picker = message.request.data.picker;
     var title = message.request.data.title;
 
@@ -103,7 +104,7 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 		}
 
 		if (picker) {
-			chooseWallet(picker, title, message, callback);
+			chooseWallet(filter, picker, title, message, callback);
 
 		} else if (walletId) {
 
@@ -120,15 +121,16 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 	    message.response = {
 	      statusCode: 200,
 	      statusText: 'OK',
-	      data: getWallets()
+	      data: getWallets(filter)
 	    };
 
 			return callback(message);
 		}
 	};
 
-	function chooseWallet(picker, title, message, callback) {
+	function chooseWallet(filter, picker, title, message, callback) {
 		$rootScope.$emit('Local/ChooseWalletForApplet', {
+			filter: filter,
 			picker: picker,
 			title: title
 		});
@@ -139,22 +141,33 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 
 			var walletObj = {};
 
-			// No wallet object if user canceled.
-			if (wallet) {
-				walletObj = utilService.pick(wallet, SAFE_WALLET_PROPERTIES);
-
-		    message.response = {
-		      statusCode: 200,
-		      statusText: 'OK',
-		      data: walletObj
-		    };
-			} else {
+			if (lodash.isNull(wallet)) {
+				// Null value - user canceled operation.
 		    message.response = {
 		      statusCode: 204,
 		      statusText: 'USER_CANCELED',
 		      data: {
 		      	message: 'User canceled operation.'
 		      }
+		    };
+
+			} else if (lodash.isUndefined(wallet)) {
+				// Undefined value - No wallets available to select.
+		    message.response = {
+		      statusCode: 404,
+		      statusText: 'WALLET_NOT_FOUND',
+		      data: {
+		      	message: 'No wallets available for selection.'
+		      }
+		    };
+
+			} else {
+				walletObj = utilService.pick(wallet, SAFE_WALLET_PROPERTIES);
+
+		    message.response = {
+		      statusCode: 200,
+		      statusText: 'OK',
+		      data: walletObj
 		    };
 			}
 
@@ -167,11 +180,19 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 		return utilService.pick(wallet, SAFE_WALLET_PROPERTIES);
 	};
 
-	function getWallets() {
+	function getWallets(filter) {
 		var wallets = profileService.getWallets();
+		var filteredWallets = wallets;
 		var safeWallets = [];
 
-		lodash.forEach(wallets, function(w) {
+		var currencies = lodash.get(filter, 'currencies');
+		if (currencies && currencies.length > 0) {
+			filteredWallets = lodash.filter(wallets, function(w) {
+				return filter.currencies.includes(w.currency.toUpperCase());
+			});
+		}
+
+		lodash.forEach(filteredWallets, function(w) {
 			safeWallets.push(utilService.pick(w, SAFE_WALLET_PROPERTIES));
 		});
 
