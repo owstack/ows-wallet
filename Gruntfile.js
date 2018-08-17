@@ -107,7 +107,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: ['app/shared/sass/main.scss'],
+          src: ['app/shared/sass/ows-wallet.scss'],
           dest: 'www/css/',
           ext: '.css'
         }]
@@ -195,9 +195,9 @@ module.exports = function(grunt) {
       },
       app_css: {
         src: [
-          'www/css/main.css'
+          'www/css/ows-wallet.css'
         ],
-        dest: 'www/css/main.css'
+        dest: 'www/css/ows-wallet.css'
       },
       plugin_api_js: {
         src: [
