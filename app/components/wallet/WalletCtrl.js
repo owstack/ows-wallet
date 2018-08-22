@@ -348,6 +348,12 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
   $scope.getScrollPosition = function() {
     var position = $ionicScrollDelegate.$getByHandle('walletScroll').getScrollPosition().top;
     refreshAmountSection(position);
+
+    if ($scope.status) {
+      $scope.showAvailableBalance = ($scope.status.totalBalanceAtomic != $scope.status.spendableAmount);
+    } else {
+      $scope.showAvailableBalance = false;
+    }
   };
 
   function refreshAmountSection(scrollPos) {
@@ -359,6 +365,11 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       lastScrollPos = 0;
     }
 
+    if (scrollPos == undefined) {
+      scrollPos = lastScrollPos;
+    }
+    lastScrollPos = scrollPos;
+
     function outerHeight(el) {
       var height = el.offsetHeight;
       var style = getComputedStyle(el);
@@ -367,15 +378,6 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
       height += parseInt(style.marginTop) + parseInt(style.marginBottom);
       return height;
     };
-
-    if ($scope.status) {
-      $scope.showAvailableBalance = ($scope.status.totalBalanceAtomic != $scope.status.spendableAmount);
-    } else {
-      $scope.showAvailableBalance = false;
-    }
-
-    scrollPos = scrollPos || lastScrollPos;
-    lastScrollPos = scrollPos;
 
     // Set collapsed header height.
     var collapsibleItemHeight = HEADER_MAX_HEIGHT - scrollPos;

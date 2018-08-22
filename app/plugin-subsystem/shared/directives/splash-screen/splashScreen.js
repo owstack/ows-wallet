@@ -7,11 +7,12 @@ angular.module('owsWalletApp.pluginDirectives')
       templateUrl: 'shared/directives/splash-screen/splash-screen.html',
       transclude: true,
       scope: {
+        enabled: '=enabled',
         image: '=image',
         hide: '=?hide'
       },
       link: function(scope, element, attrs) {
-        if (!scope.image) {
+        if (scope.enabled == 'false' || !scope.image) {
           return;
         }
 

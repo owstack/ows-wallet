@@ -302,7 +302,10 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           flatten: true,
-          src: 'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-applet.css',
+          src: [
+            'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-applet.css',
+            'node_modules/@owstack/ows-wallet-plugin-client/release/ows-wallet-applet-bundle.css'
+          ],
           dest: 'www/css/'
         }, {
           expand: true,

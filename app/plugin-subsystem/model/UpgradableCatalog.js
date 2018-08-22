@@ -349,7 +349,7 @@ angular.module('owsWalletApp.pluginModel').factory('UpgradableCatalog', function
       if (rejected.length > 0) {
         $log.debug('Invalid catalog entries in ' + _config.name + ' (thrown out): ');
         for (var i=0; i < rejected.length; i++) {
-          $log.debug('id = ' + rejected[i].id + '\nreason = ' + rejected[i].reason);
+          $log.debug('id = ' + rejected[i].id + '\nreason = ' + JSON.stringify(rejected[i].reason));
         }
       }
 

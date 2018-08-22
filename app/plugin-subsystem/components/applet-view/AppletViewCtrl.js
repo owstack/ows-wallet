@@ -24,6 +24,7 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
     // Setup splash screen.
     var splash = applet.launch.splash;
+    $scope.splashEnabled = splash.enabled;
     $scope.splashImage = applet.uri + splash.image;
     $scope.splashDelay = splash.delay || -1;
   };
@@ -52,6 +53,12 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     angular.element(getAppViewContainer()).addClass('ng-hide');
   };
 
+  $scope.showBackButton = function() {
+    // If the applet launches with slideInRight animation then show the header navbar back button.
+    var applet = session.plugin;
+    return (getAnimation(applet).applet == 'slideInRight');
+  };
+
   var cancelShowAppletListener =
   $rootScope.$on('Local/ShowApplet', function(e, sessionId) {
     if (sessionId != session.id) {
@@ -62,8 +69,11 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     var animation = getAnimation(applet);
 
     // Animate the host app during applet launch. Show the applet (initiates animation) by removing the 'ng-hide' class.
-    angular.element(getAppViewContainer()).addClass(animation.hostApp);
-    applet.show();
+    // Provide some time for the DOM to update before starting animation.
+    $timeout(function() {
+      angular.element(getAppViewContainer()).addClass(animation.hostApp);
+      applet.show();
+    }, 100);
   });
 
   var cancelRemoveAppletListener =
@@ -112,9 +122,9 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     showAppViewContainer();
   });
 
-  $scope.closeApplet = function(sessionId) {
+  $scope.closeApplet = function() {
     saveViewSettings();
-    appletService.closeApplet(sessionId, {
+    appletService.closeApplet(session.id, {
       confirm: $scope.viewSettings.confirmOnClose
     });
   };

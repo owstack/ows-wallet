@@ -61,6 +61,7 @@ angular.module('owsWalletApp').constant('pluginSchema',
       }
     },
     'skins': {'type': 'object'},
+    'linkHostCss': {'type': 'boolean'},
     'galleryImage': {'type': 'string'},
     'previewImage': {'type': 'string'},
     'iconImage': {'type': 'string'},
@@ -71,9 +72,10 @@ angular.module('owsWalletApp').constant('pluginSchema',
         'splash': {
           'type': 'object',
           'required': [
-            'image'
+            'enabled'
           ],
           'properties': {
+            'enabled':  {'type': 'boolean'},
             'image':  {'type': 'string'},
             'autoHide':  {'type': 'boolean'},
             'delay':  {'type': 'number'}

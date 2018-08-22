@@ -13,16 +13,22 @@ body {
     &.zoom-out {
       transform: scale(0.9);
       opacity: 0.5;
+      -webkit-animation-duration: 300ms;
+      animation-duration: 300ms;
     }
 
     &.slide-left {
       transform: translateX(-33%);
       opacity: 0.5;
+      -webkit-animation-duration: 200ms;
+      animation-duration: 200ms;
     }
 
     &.slide-right {
       transform: translateX(33%);
       opacity: 0.5;
+      -webkit-animation-duration: 200ms;
+      animation-duration: 200ms;
     }
   }
 }

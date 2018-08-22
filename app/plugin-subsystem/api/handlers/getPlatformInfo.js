@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('getPlatformInfo', function($rootScope, platformInfoService) {
+angular.module('owsWalletApp.pluginApi').service('getPlatformInfo', function($rootScope, platformInfoService, uiService) {
 
 	var root = {};
 
@@ -18,6 +18,9 @@ angular.module('owsWalletApp.pluginApi').service('getPlatformInfo', function($ro
           iOS: platformInfoService.isIOS,
           iPhoneX: platformInfoService.isIPhoneX,
           Android: platformInfoService.isAndroid
+        },
+        ui: {
+          safeAreaInsets: uiService.getSafeAreaInsets()
         }
       }
     };

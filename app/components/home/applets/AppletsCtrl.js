@@ -12,4 +12,8 @@ angular.module('owsWalletApp.controllers').controller('AppletsCtrl', function($s
     }, 10);
   };
 
+  $scope.showRightNavIcon = function(applet) {
+  	return applet.launch.options.entrance == 'slideInRight';
+  };
+
 });

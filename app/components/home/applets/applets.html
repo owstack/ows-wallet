@@ -4,10 +4,12 @@
   <i class="icon arrow-down" ng-show="hide"></i>
 </ion-item>
 <ion-list ng-show="!hide">
-  <ion-item class="item-h-md item-icon-left icon-left-lg" ng-repeat="applet in applets track by applet.header.id" ng-click="applet.open()">
+  <ion-item class="item-h-md item-icon-left icon-left-lg" ng-class="{'item-icon-right': showRightNavIcon(applet)}"
+  	ng-repeat="applet in applets track by applet.header.id" ng-click="applet.open()">
     <i class="icon lg-icon left-icon">
       <div class="bg" style="background-image: url({{applet.uri + applet.iconImage}})"></div>
     </i>
     <span>{{applet.header.name}}</span>
+    <i class="icon arrow-right" ng-if="showRightNavIcon(applet)"></i>
   </ion-item>
 </ion-list>

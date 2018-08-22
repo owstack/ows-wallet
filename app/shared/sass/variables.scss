@@ -85,6 +85,10 @@ $v-unmistakable-radius:                              12px !default;
 
 /* Theme */
 
+$v-view-bg:                                          radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-view-color:                                       $v-white-color !default;
+$v-view-secondary-color:                             $v-white-transparent-mid !default;
+
 $v-top-tabs-color:                                   $v-accent-1-color !default;
 
 $v-icon-color:                                       $v-accent-1-color !default;
@@ -95,6 +99,7 @@ $v-bar-header-bg:                                    $v-primary-color !default;
 $v-bar-header-border:                                none !default;
 $v-bar-header-color:                                 $v-white-color !default;
 $v-bar-header-button-color:                          $v-white-color !default;
+$v-bar-header-height:                                44px !default;
 
 $v-notification-color:                               $v-white-color !default;
 $v-notification-info-border:                         $v-accent-2-color !default;
