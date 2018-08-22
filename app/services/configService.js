@@ -6,7 +6,7 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
   var defaultConfig = {
     // Wallet limits
     limits: {
-      totalCopayers: 6,
+      totalCopayers: 10,
       mPlusN: 100
     },
 
