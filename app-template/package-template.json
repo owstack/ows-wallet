@@ -54,7 +54,7 @@
     "@owstack/bch-wallet-client": "^0.0.12",
     "@owstack/btc-wallet-client": "^0.0.12",
     "@owstack/ltc-wallet-client": "https://github.com/owstack/ltc-wallet-client.git#ows",
-    "@owstack/ows-wallet-plugin-client": "^0.0.41",
+    "@owstack/ows-wallet-plugin-client": "^0.0.43",
     "bezier-easing": "^2.0.3",
     "bitauth": "^0.2.1",
     "cordova-ios": "4.5.4",
