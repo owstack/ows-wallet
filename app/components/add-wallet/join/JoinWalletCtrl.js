@@ -22,6 +22,7 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
       
       profileService.getNetworkFromJoinSecret($scope.formData.secret, function(err, network) {
         if (err) {
+          popupService.showAlert(gettextCatalog.getString('Error'), err);
           return;
         }
         $scope.formData.walletServiceUrl = defaults.currencyNetworks[network.getURI()].walletService.url;
@@ -71,6 +72,7 @@ angular.module('owsWalletApp.controllers').controller('JoinWalletCtrl',
     $scope.onQrCodeScannedJoin = function(data) {
       $scope.formData.secret = data;
       $scope.$apply();
+      $scope.onSecretChange();
     };
 
     if ($stateParams.url) {
