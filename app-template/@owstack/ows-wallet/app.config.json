@@ -1,7 +1,7 @@
 {
   "appTemplateName": "@owstack/ows-wallet",
-  "version": "0.0.34",
-  "androidVersion": "34",
+  "version": "0.0.35",
+  "androidVersion": "35",
   "name": "ows wallet",
   "nameNoSpace": "owswallet",
   "nameCase": "OWS Wallet",
