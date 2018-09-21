@@ -1,0 +1,45 @@
+.ows-tabs-pay {
+  .tabs .tab-item {
+    .icon {
+      &.icon-dashboard {
+        background-image: url('../img/tab-icons/icon-dashboard.svg');
+      }
+
+      &.icon-dashboard-selected {
+        background-image: url('../img/tab-icons/icon-dashboard-selected.svg');
+      }
+
+      &.icon-wallets {
+        background-image: url('../img/tab-icons/icon-wallets.svg');
+      }
+
+      &.icon-wallets-selected {
+        background-image: url('../img/tab-icons/icon-wallets-selected.svg');
+      }
+
+      &.icon-pay {
+        background-image: url('../img/tab-icons/icon-pay.svg');
+      }
+
+      &.icon-pay-selected {
+        background-image: url('../img/tab-icons/icon-pay-selected.svg');
+      }
+
+      &.icon-apps {
+        background-image: url('../img/tab-icons/icon-apps.svg');
+      }
+
+      &.icon-apps-selected {
+        background-image: url('../img/tab-icons/icon-apps-selected.svg');
+      }
+
+      &.icon-more {
+        background-image: url('../img/tab-icons/icon-more.svg');
+      }
+
+      &.icon-more-selected {
+        background-image: url('../img/tab-icons/icon-more-selected.svg');
+      }
+    }
+  }
+}

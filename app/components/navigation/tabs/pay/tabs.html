@@ -1,0 +1,21 @@
+<ion-tabs id="ows-tabs" class="ows-tabs-pay tabs-icon-top ion-tabs-transparent {{$root.hideTabs}}">
+  <ion-tab title="{{'Dashboard'|translate}}" icon-off="icon-dashboard" icon-on="icon-dashboard-selected" ui-sref="{{sref('dashboard')}}">
+    <ion-nav-view name="tab-dashboard"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="{{'Wallets'|translate}}" icon-off="icon-wallets" icon-on="icon-wallets-selected" ui-sref="{{sref('wallets')}}">
+    <ion-nav-view name="tab-wallets"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="{{'Pay'|translate}}" icon-off="icon-pay" icon-on="icon-pay-selected" ui-sref="{{sref('pay')}}">
+    <ion-nav-view name="tab-pay"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="{{'Apps'|translate}}" icon-off="icon-apps" icon-on="icon-apps-selected" ui-sref="{{sref('apps')}}">
+    <ion-nav-view name="tab-apps"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="{{'More'|translate}}" icon-off="icon-more" icon-on="icon-more-selected" ui-sref="{{sref('more')}}">
+    <ion-nav-view name="tab-more"></ion-nav-view>
+  </ion-tab>
+</ion-tabs>

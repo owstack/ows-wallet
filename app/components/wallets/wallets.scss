@@ -1,6 +1,6 @@
-#ows-home {
-  background: $v-home-bg;
-  color: $v-home-color;
+#ows-wallets {
+  background: $v-wallets-bg;
+  color: $v-wallets-color;
 
   .icon-create-wallet {
     background-color: $v-accent-1-color;
@@ -12,7 +12,7 @@
   }
 
   .wallets-section {
-    color: $v-home-secondary-color;
+    color: $v-wallets-secondary-color;
     font-size: 14px;
 
     span {
@@ -24,7 +24,7 @@
     height: 155px;
     display: inline-block;
 
-    .home-slide-page {
+    .wallets-slide-page {
       width: 150px;
       height: 100%;
       border-radius: 2px;
@@ -34,14 +34,6 @@
       .slide-container {
         height: 100%;
       }
-    }
-  }
-
-  .tab-home {
-    &__logo {
-      height: 80%;
-      max-width: 50%;
-      @include relative-vertical-center();
     }
   }
 
@@ -63,37 +55,12 @@
     }
   }
 
-  .release {
-    text-align: center;
-
-    .item {
-      width: 100%;
-    }
-
-    .title {
-      font-weight: 700;
-    }
-
-    .button {
-      width: 100%;
-      border: none;
-      margin-bottom: 20px;
-    }
-
-    .lg-icon {
-      > .bg {
-        box-shadow: none;
-      }
-
-      padding-top: 2rem;
-      padding-bottom: 0;
-    }
-  }
-
   .button-navicon {
     margin-left: 5px;
   }
 }
 
-@import "applets/applets";
+@import "layout/layout";
+@import "proposals/proposals";
 @import "tips/tips";
+@import "wallet-activity/wallet-activity";

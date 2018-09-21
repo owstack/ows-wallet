@@ -1,25 +1,13 @@
-<ion-view id="ows-home" class="ows" show-tabs>
+<ion-view id="ows-wallets" class="ows" show-tabs>
   <ion-nav-bar class="bar">
-    <ion-nav-title>
-      <img ng-if="shouldShowLogo" class="tab-home__logo" src="img/brand/logo.svg"/>
-      <span ng-if="!shouldShowLogo">{{'Home' | translate}}</span>
-    </ion-nav-title>
+    <ion-nav-title>{{'Wallets' | translate}}</ion-nav-title>
     <ion-nav-buttons side="primary">
       <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
-    </ion-nav-buttons>
-    <ion-nav-buttons side="secondary">
-      <button class="button button-nav-bar button-back button-clear" ng-click="toggleLayout()" ng-if="showLayoutButton">
-        <img class="icon-nav" ng-src="img/icon-{{layout.next}}.svg"/>
-      </button>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content>
     <ion-refresher ng-if="isAndroid" pulling-icon="ion-ios-refresh" spinner="ios-small" on-refresh="onRefresh()">
     </ion-refresher>
-    <!-- App update available -->
-    <div ng-show="tipNewRelease" ng-include="'views/home/tips/new-release/new-release.html'"></div>
-    <!-- App rating -->
-    <div ng-show="tipRateApp" ng-include="'views/feedback/tips/rate-app/rate-app.html'"></div>
     <!-- Wallet is ready tip -->
     <div ng-show="tipWalletReady" ng-include="'views/wallets/tips/wallet-ready/wallet-ready.html'"></div>
     <!-- Payment proposals -->
@@ -109,6 +97,5 @@
         </ion-slides>
       </div>
     </div>
-    <div class="ng-hide card applets" ng-show="applets.length>0" ng-include="'views/home/applets/applets.html'" ng-controller="AppletsCtrl"></div>
   </ion-content>
 </ion-view>

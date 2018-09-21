@@ -13,7 +13,6 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     $scope.tipRateApp = false;
     $scope.tipWalletReady = $stateParams.fromOnboarding;
 
-    $scope.isCordova = platformInfoService.isCordova;
     $scope.isAndroid = platformInfoService.isAndroid;
     $scope.isNW = platformInfoService.isNW;
 
@@ -221,7 +220,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     };
 
     $scope.goToAllWallets = function() {
-      $state.go($rootScope.sref('home.all-wallets'), {
+      $state.go($rootScope.sref('all-wallets'), {
         wallets: $scope.wallets,
         openWallet: $scope.openWallet
       });

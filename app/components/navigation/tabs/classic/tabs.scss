@@ -1,0 +1,45 @@
+.ows-tabs-classic {
+  .tabs .tab-item {
+    .icon {
+      &.icon-home {
+        background-image: url('../img/tab-icons/icon-home.svg');
+      }
+
+      &.icon-home-selected {
+        background-image: url('../img/tab-icons/icon-home-selected.svg');
+      }
+
+      &.icon-receive {
+        background-image: url('../img/tab-icons/icon-receive.svg');
+      }
+
+      &.icon-receive-selected {
+        background-image: url('../img/tab-icons/icon-receive-selected.svg');
+      }
+
+      &.icon-settings {
+        background-image: url('../img/tab-icons/icon-settings.svg');
+      }
+
+      &.icon-settings-selected {
+        background-image: url('../img/tab-icons/icon-settings-selected.svg');
+      }
+
+      &.icon-scan {
+        background-image: url('../img/tab-icons/icon-scan.svg');
+      }
+
+      &.icon-scan-selected {
+        background-image: url('../img/tab-icons/icon-scan-selected.svg');
+      }
+
+      &.icon-send {
+        background-image: url('../img/tab-icons/icon-send.svg');
+      }
+
+      &.icon-send-selected {
+        background-image: url('../img/tab-icons/icon-send-selected.svg');
+      }
+    }
+  }
+}

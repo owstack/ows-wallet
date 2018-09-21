@@ -1,0 +1,20 @@
+<ion-view id="ows-more" class="ows" show-tabs>
+  <ion-nav-bar class="bar">
+    <ion-nav-title>{{'More' | translate}}</ion-nav-title>
+    <ion-nav-buttons side="primary">
+      <div show-if-nav-side-menu ng-include="'views/navigation/side-menu/partials/header-side-menu-button/header-side-menu-button.html'"></div>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-divider"></ion-item>
+      <ion-item class="has-click item-icon-left item-icon-right" ui-sref="{{sref('settings')}}" hide-if-nav-side-menu>
+        <i class="icon list-icon">
+          <img src="img/icon-settings.svg"/>
+        </i>
+        <div>{{'Settings' | translate}}</div>
+        <i class="icon arrow-right"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

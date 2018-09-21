@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('navigationService', function($rootScope, $log, configService, tabRoutes, sideMenuRoutes) {
+angular.module('owsWalletApp.services').factory('navigationService', function($rootScope, $log, lodash, configService, tabClassicRoutes, tabPayRoutes, sideMenuRoutes) {
   var root = {};
 
   // List of recognized navigation routing schemes.
@@ -9,17 +9,29 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       label: "Side Menu",
       routes: sideMenuRoutes
     },
-    'tabs': {
-      label: "Tabs",
-      routes: tabRoutes
+    'tabs': { // TODO: legacy name, remove
+      label: "Tabs Classic",
+      routes: tabClassicRoutes,
+      show: false
+    },
+    'tabs-classic': {
+      label: "Tabs Classic",
+      routes: tabClassicRoutes
+    },
+    'tabs-pay': {
+      label: "Tabs Pay",
+      routes: tabPayRoutes
     }
   };
 
   // Ensure a default scheme is used if configuration fails.
-  var currentScheme = 'tabs';
+  var currentScheme = 'tabs-classic';
 
   root.getSchemes = function() {
-    return Object.keys(schemes);
+    var visibleSchemes = lodash.pickBy(schemes, function(v) {
+      return v.show != false;
+    })
+    return Object.keys(visibleSchemes);
   };
 
   root.schemeLabelFor = function(scheme) {
@@ -31,6 +43,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
 
     // Select the scheme routing.
     var routes = schemes[currentScheme].routes;
+    var map = routes.map;
 
     if (!routes) {
       throw new Error('Error: app navigation scheme not found: ' + currentScheme);
@@ -38,40 +51,87 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
     $log.info('Using app navigations scheme: ' + root.schemeLabelFor(currentScheme));
 
     // Provide global access to configuration.
-    $rootScope.usingSideMenu = (currentScheme == 'side-menu');
-    $rootScope.usingTabs = (currentScheme == 'tabs');
+    $rootScope.usingSideMenu = currentScheme.includes('side-menu');
+    $rootScope.usingTabs = currentScheme.includes('tabs');
+    $rootScope.usingTabClassic = currentScheme.includes('tabs-classic');
+    $rootScope.usingTabPay = currentScheme.includes('tabs-pay');
 
-    // Provide global access to map the specified state name and create a valid ui-sref string.
-    $rootScope.sref = function(stateName, params) {
-      var sref = routes.sref(stateName);
+    // Provide global access to map the specified id (a state name) and create a valid ui-sref string.
+    $rootScope.sref = function(id, params) {
+      id = map.alias[id] || id;
+
+      if (!map.entry[id]) {
+        $log.debug('State ' + id + ' not defined for ' + currentScheme);
+        return;
+      }
+
+      var sref = map.entry[id].stateName;
+
       if (params) {
         sref += '(' + JSON.stringify(params) + ')';
       }
       return sref;
     };
 
-    // Given a $state name, return the app state id (this is a reverse lookup when compared with sref).
+    // Given a state name, return the app state id (this is a reverse lookup when compared with sref).
     $rootScope.stateId = function(stateName) {
-      return routes.stateId(stateName);
+      return lodash.findKey(map.entry, function(entry) {
+        return entry.stateName == stateName;
+      });
+    };
+
+    /**
+     * Private functions used to construct the stateProvider.
+     */
+
+    var sref = function(id) {
+      if (!map.entry[id]) {
+        $log.debug('State ' + id + ' not defined for ' + currentScheme);
+        return 'no-state-' + Date.now() + Math.random();
+      }
+
+      var sref = map.entry[id].stateName;
+      return sref;
+    };
+
+    var vref = function(id, index) {
+      if (!map.entry[id]) {
+        return;
+      }
+
+      index = index || 0;
+      return map.entry[id].viewNames[index];
     };
 
     // Construct the views for a specified state.
     var getViews = function(stateName, viewObjs) {
       var views = {};
       for (var i=0; i < viewObjs.length; i++) {
-        var viewName = routes.vref(stateName, i);
+        var viewName = vref(stateName, i);
         views[viewName] = viewObjs[i];
       }
       return views;
     };
 
+    var safeStateProvider = {
+      state: function(name, stateConfig) {
+        if (!lodash.isEmpty(name)) {
+          stateProvider.state(name, stateConfig);
+        }
+        return safeStateProvider;
+      }
+    };
+
+    /**
+     * Set the app routes using state names from the configured app navigation scheme.
+     */
+
     // Initialize the app base routing scheme.
     routes.init(stateProvider);
 
-    // Set the app routes using state names from the configured app navigation scheme.
-    stateProvider
+    safeStateProvider
 
-    /*
+    /**
      *
      * Other pages
      *
@@ -86,7 +146,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       templateUrl: 'views/startup/starting/starting.html'
     })
 
-    /*
+    /**
      *
      * URI
      *
@@ -104,62 +164,62 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }
     })
 
-    /*
+    /**
      *
      * Wallet
      *
      */
 
-    .state($rootScope.sref('wallet'), {
+    .state(sref('wallet'), {
       url: '/wallet/:walletId/:fromOnboarding',
       views: getViews('wallet', [{
         controller: 'WalletCtrl',
         templateUrl: 'views/wallet/wallet.html'
       }])
     })
-    .state($rootScope.sref('activity'), {
+    .state(sref('activity'), {
       url: '/activity',
       views: getViews('activity', [{
         controller: 'WalletActivityCtrl',
-        templateUrl: 'views/home/wallet-activity/wallet-activity.html',
+        templateUrl: 'views/wallets/wallet-activity/wallet-activity.html',
       }])
     })
-    .state($rootScope.sref('proposals'), {
+    .state(sref('proposals'), {
       url: '/proposals',
       views: getViews('proposals', [{
         controller: 'ProposalsCtrl',
-        templateUrl: 'views/home/proposals/proposals.html',
+        templateUrl: 'views/wallets/proposals/proposals.html',
       }])
     })
-    .state($rootScope.sref('wallet.tx-details'), {
+    .state(sref('wallet.tx-details'), {
       url: '/tx-details/:walletId/:txid',
       views: getViews('wallet.tx-details', [{
         controller: 'TxDetailsCtrl',
         templateUrl: 'views/wallet/tx-details/tx-details.html'
       }])
     })
-    .state($rootScope.sref('wallet.backup-warning'), {
+    .state(sref('wallet.backup-warning'), {
       url: '/backup-warning/:from/:walletId',
       views: getViews('wallet.backup-warning', [{
         controller: 'BackupWarningCtrl',
         templateUrl: 'views/backup/warning/warning.html'
       }])
     })
-    .state($rootScope.sref('wallet.backup'), {
+    .state(sref('wallet.backup'), {
       url: '/backup/:walletId',
       views: getViews('wallet.backup', [{
         templateUrl: 'views/backup/backup.html',
         controller: 'BackupCtrl'
       }])
     })
-    .state($rootScope.sref('wallet.addresses'), {
+    .state(sref('wallet.addresses'), {
       url: '/addresses/:walletId/:toAddress',
       views: getViews('wallet.addresses', [{
         controller: 'WalletAddressesCtrl',
         templateUrl: 'views/wallet-settings/addresses/addresses.html'
       }])
     })
-    .state($rootScope.sref('wallet.all-addresses'), {
+    .state(sref('wallet.all-addresses'), {
       url: '/all-addresses/:walletId',
       views: getViews('wallet.all-addresses', [{
         controller: 'WalletAddressesCtrl',
@@ -167,26 +227,27 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * All Wallets
      *
      */
 
-    .state($rootScope.sref('home.all-wallets'), {
+    .state(sref('all-wallets'), {
       url: '/all-wallets',
-      views: getViews('home.all-wallets', [{
+      views: getViews('all-wallets', [{
         controller: 'WalletGridCtrl',
-        templateUrl: 'views/home/layout/wallet-grid/wallet-grid.html'
+        templateUrl: 'views/wallets/layout/wallet-grid/wallet-grid.html'
       }])
     })
 
-    /*
+    /**
      *
      * Main views
      *
      */
-    .state($rootScope.sref('home'), {
+
+    .state(sref('home'), {
       url: '/home/:fromOnboarding',
       views: getViews('home', [{
         controller: 'HomeCtrl',
@@ -197,28 +258,28 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         openWallet: null
       }
     })
-    .state($rootScope.sref('receive'), {
+    .state(sref('receive'), {
       url: '/receive/:walletId',
       views: getViews('receive', [{
         controller: 'ReceiveCtrl',
         templateUrl: 'views/receive/receive.html',
       }])
     })
-    .state($rootScope.sref('scan'), {
+    .state(sref('scan'), {
       url: '/scan',
       views: getViews('scan', [{
         controller: 'ScanCtrl',
         templateUrl: 'views/scan/scan.html',
       }])
     })
-    .state($rootScope.sref('send'), {
+    .state(sref('send'), {
       url: '/send/:walletId',
       views: getViews('send', [{
         controller: 'SendCtrl',
         templateUrl: 'views/send/send.html',
       }])
     })
-    .state($rootScope.sref('settings'), {
+    .state(sref('settings'), {
       url: '/settings',
       views: getViews('settings', [{
         controller: 'AppSettingsCtrl',
@@ -226,13 +287,13 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Pass through scan
      *
      */
 
-    .state($rootScope.sref('scanner'), {
+    .state(sref('scanner'), {
       url: '/scanner',
       params: {
         passthroughMode: true
@@ -241,20 +302,20 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       templateUrl: 'views/scan/scan.html'
     })
 
-    /*
+    /**
      *
      * Send
      *
      */
 
-    .state($rootScope.sref('send.amount'), {
+    .state(sref('send.amount'), {
       url: '/amount/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toEmail/:toColor',
       views: getViews('send.amount', [{
         controller: 'AmountCtrl',
         templateUrl: 'views/send/amount/amount.html'
       }])
     })
-    .state($rootScope.sref('send.confirm'), {
+    .state(sref('send.confirm'), {
       url: '/confirm/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toAmount/:toEmail/:toColor/:description/:useSendMax',
       views: getViews('send.confirm', [{
         controller: 'ConfirmCtrl',
@@ -264,7 +325,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         paypro: null
       }
     })
-    .state($rootScope.sref('send.address-book'), {
+    .state(sref('send.address-book'), {
       url: '/address-book/add/:fromSendTab',
       views: getViews('send.address-book', [{
         controller: 'AddressBookEditCtrl',
@@ -272,40 +333,40 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Add
      *
      */
 
-    .state($rootScope.sref('add'), {
+    .state(sref('add'), {
       url: '/add',
       views: getViews('add', [{
         templateUrl: 'views/add-wallet/add-wallet.html'
       }])
     })
-    .state($rootScope.sref('add.join'), {
+    .state(sref('add.join'), {
       url: '/join/:url',
       views: getViews('add.join', [{
         controller: 'JoinWalletCtrl',
         templateUrl: 'views/add-wallet/join/join.html'
       }])
     })
-    .state($rootScope.sref('add.import'), {
+    .state(sref('add.import'), {
       url: '/import/:code',
       views: getViews('add.import', [{
         controller: 'ImportWalletCtrl',
         templateUrl: 'views/add-wallet/import/import.html'
       }])
     })
-    .state($rootScope.sref('add.create-personal'), {
+    .state(sref('add.create-personal'), {
       url: '/create-personal',
       views: getViews('add.create-personal', [{
         controller: 'CreateWalletCtrl',
         templateUrl: 'views/add-wallet/create/personal/personal.html'
       }])
     })
-    .state($rootScope.sref('add.create-shared'), {
+    .state(sref('add.create-shared'), {
       url: '/create-shared',
       views: getViews('add.create-shared', [{
         controller: 'CreateWalletCtrl',
@@ -313,131 +374,131 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Global Settings
      *
      */
 
-    .state($rootScope.sref('notifications'), {
+    .state(sref('notifications'), {
       url: '/notifications',
       views: getViews('notifications', [{
         controller: 'NotificationsSettingsCtrl',
         templateUrl: 'views/app-settings/notifications/notifications.html'
       }])
     })
-    .state($rootScope.sref('language'), {
+    .state(sref('language'), {
       url: '/language',
       views: getViews('language', [{
         controller: 'LanguageSettingsCtrl',
         templateUrl: 'views/app-settings/language/language.html'
       }])
     })
-    .state($rootScope.sref('networks'), {
+    .state(sref('networks'), {
       url: '/networks/:id',
       views: getViews('networks', [{
         controller: 'NetworkSettingsCtrl',
         templateUrl: 'views/app-settings/networks/networks.html'
       }])
     })
-    .state($rootScope.sref('network-settings'), {
+    .state(sref('network-settings'), {
       url: '/network-settings/:networkURI',
       views: getViews('network-settings', [{
         controller: 'NetworkSettingsCtrl',
         templateUrl: 'views/app-settings/networks/networks.html'
       }])
     })
-    .state($rootScope.sref('unit'), {
+    .state(sref('unit'), {
       url: '/unit/:networkURI',
       views: getViews('unit', [{
         controller: 'NetworkUnitSettingsCtrl',
         templateUrl: 'views/app-settings/networks/unit/unit.html'
       }])
     })
-    .state($rootScope.sref('fee'), {
+    .state(sref('fee'), {
       url: '/fee/:networkURI',
       views: getViews('fee', [{
         controller: 'NetworkFeePolicySettingsCtrl',
         templateUrl: 'views/app-settings/networks/fee-policy/fee-policy.html'
       }])
     })
-    .state($rootScope.sref('alternative-currency'), {
+    .state(sref('alternative-currency'), {
       url: '/alternative-currency/:networkURI',
       views: getViews('alternative-currency', [{
         controller: 'NetworkAltCurrencySettingsCtrl',
         templateUrl: 'views/app-settings/networks/alt-currency/alt-currency.html'
       }])
     })
-    .state($rootScope.sref('about'), {
+    .state(sref('about'), {
       url: '/about',
       views: getViews('about', [{
         controller: 'AboutCtrl',
         templateUrl: 'views/app-settings/about/about.html'
       }])
     })
-    .state($rootScope.sref('about.log'), {
+    .state(sref('about.log'), {
       url: '/logs',
       views: getViews('about.log', [{
         controller: 'SessionLogCtrl',
         templateUrl: 'views/app-settings/session-log/session-log.html'
       }])
     })
-    .state($rootScope.sref('about.terms-of-use'), {
+    .state(sref('about.terms-of-use'), {
       url: '/terms-of-use',
       views: getViews('about.terms-of-use', [{
         templateUrl: 'views/app-settings/terms-of-use/terms-of-use.html'
       }])
     })
-    .state($rootScope.sref('plugins'), {
+    .state(sref('plugins'), {
       url: '/plugins',
       views: getViews('plugins', [{
         controller: 'PluginsCtrl',
         templateUrl: 'views/app-settings/plugins/plugins.html'
       }])
     })
-    .state($rootScope.sref('plugins.plugin'), {
+    .state(sref('plugins.plugin'), {
       url: '/plugin/:id',
       views: getViews('plugins.plugin', [{
         controller: 'PluginSettingsCtrl',
         templateUrl: 'views/app-settings/plugins/plugin/plugin.html'
       }])
     })
-    .state($rootScope.sref('plugins.plugin-others'), {
+    .state(sref('plugins.plugin-others'), {
       url: '/plugin-others',
       views: getViews('plugins.plugin-others', [{
         controller: 'OtherPluginsCtrl',
         templateUrl: 'views/app-settings/plugins/others/others.html'
       }])
     })
-    .state($rootScope.sref('plugins.plugin-details'), {
+    .state(sref('plugins.plugin-details'), {
       url: '/plugin-details/:id',
       views: getViews('plugins.plugin-details', [{
         controller: 'PluginDetailsCtrl',
         templateUrl: 'views/app-settings/plugins/details/details.html'
       }])
     })
-    .state($rootScope.sref('advanced'), {
+    .state(sref('advanced'), {
       url: '/advanced',
       views: getViews('advanced', [{
         controller: 'AdvancedAppSettingsCtrl',
         templateUrl: 'views/app-settings/advanced/advanced.html'
       }])
     })
-    .state($rootScope.sref('advanced.experiments'), {
+    .state(sref('advanced.experiments'), {
       url: '/experiments',
       views: getViews('advanced.experiments', [{
         controller: 'ExperimentsAppSettingsCtrl',
         templateUrl: 'views/app-settings/experiments/experiments.html'
       }])
     })
-    .state($rootScope.sref('app-lock'), {
+    .state(sref('app-lock'), {
       url: '/app-lock',
       views: getViews('app-lock', [{
         controller: 'AppLockSettingsCtrl',
         templateUrl: 'views/app-settings/app-lock/app-lock.html',
       }])
     })
-    .state($rootScope.sref('passcode'), {
+    .state(sref('passcode'), {
       url: '/passcode/:action',
       views: getViews('passcode', [{
         controller: 'PasscodeCtrl',
@@ -445,7 +506,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         cache: false
       }])
     })
-    .state($rootScope.sref('pattern'), {
+    .state(sref('pattern'), {
       url: '/pattern',
       views: getViews('pattern', [{
         controller: 'PatternCtrl',
@@ -454,89 +515,90 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Wallet preferences
      *
      */
-    .state($rootScope.sref('preferences'), {
+
+    .state(sref('preferences'), {
       url: '/preferences/:walletId',
       views: getViews('preferences', [{
         controller: 'WalletSettingsCtrl',
         templateUrl: 'views/wallet-settings/wallet-settings.html'
       }])
     })
-    .state($rootScope.sref('preferences.alias'), {
+    .state(sref('preferences.alias'), {
       url: '/preferences/alias/:walletId',
       views: getViews('preferences.alias', [{
         controller: 'WalletAliasSettingsCtrl',
         templateUrl: 'views/wallet-settings/alias/alias.html'
       }])    
     })
-    .state($rootScope.sref('preferences.color'), {
+    .state(sref('preferences.color'), {
       url: '/preferences/color/:walletId',
       views: getViews('preferences.color', [{
         controller: 'WalletColorSettingsCtrl',
         templateUrl: 'views/wallet-settings/color/color.html'
       }])
     })
-    .state($rootScope.sref('preferences.backup-warning'), {
+    .state(sref('preferences.backup-warning'), {
       url: '/backup-warning/:from/:walletId',
       views: getViews('preferences.backup-warning', [{
         controller: 'BackupWarningCtrl',
         templateUrl: 'views/backup/warning/warning.html'
       }])
     })
-    .state($rootScope.sref('preferences.backup'), {
+    .state(sref('preferences.backup'), {
       url: '/backup/:walletId',
       views: getViews('preferences.backup', [{
         controller: 'BackupCtrl',
         templateUrl: 'views/backup/backup.html'
       }])
     })
-    .state($rootScope.sref('preferences.advanced'), {
+    .state(sref('preferences.advanced'), {
       url: '/preferences/advanced/:walletId',
       views: getViews('preferences.advanced', [{
         controller: 'AdvancedWalletSettingsCtrl',
         templateUrl: 'views/wallet-settings/advanced/advanced.html'
       }])
     })
-    .state($rootScope.sref('preferences.information'), {
+    .state(sref('preferences.information'), {
       url: '/information/:walletId',
       views: getViews('preferences.information', [{
         controller: 'WalletInformationCtrl',
         templateUrl: 'views/wallet-settings/information/information.html'
       }])
     })
-    .state($rootScope.sref('preferences.export'), {
+    .state(sref('preferences.export'), {
       url: '/export/:walletId',
       views: getViews('preferences.export', [{
         controller: 'ExportWalletCtrl',
         templateUrl: 'views/wallet-settings/export/export.html'
       }])
     })
-    .state($rootScope.sref('preferences.wallet-service-url'), {
+    .state(sref('preferences.wallet-service-url'), {
       url: '/preferences/wallet-service-url/:walletId',
       views: getViews('preferences.wallet-service-url', [{
         controller: 'WalletServiceUrlSettingsCtrl',
         templateUrl: 'views/wallet-settings/wallet-service-url/wallet-service-url.html'
       }])
     })
-    .state($rootScope.sref('preferences.history'), {
+    .state(sref('preferences.history'), {
       url: '/preferences/history/:walletId',
       views: getViews('preferences.history', [{
         controller: 'WalletHistorySettingsCtrl',
         templateUrl: 'views/wallet-settings/history/history.html'
       }])
     })
-    .state($rootScope.sref('preferences.external'), {
+    .state(sref('preferences.external'), {
       url: '/preferences/external-hardware/:walletId',
       views: getViews('preferences.external', [{
         controller: 'ExternalHardwareWalletSettingsCtrl',
         templateUrl: 'views/wallet-settings/external-hardware/external-hardware.html'
       }])
     })
-    .state($rootScope.sref('preferences.delete'), {
+    .state(sref('preferences.delete'), {
       url: '/delete/:walletId',
       views: getViews('preferences.delete', [{
         controller: 'DeleteWalletCtrl',
@@ -544,20 +606,20 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Addresses
      *
      */
 
-    .state($rootScope.sref('settings.addresses'), {
+    .state(sref('settings.addresses'), {
       url: '/addresses/:walletId/:toAddress',
       views: getViews('settings.addresses', [{
         controller: 'WalletAddressesCtrl',
         templateUrl: 'views/wallet-settings/addresses/addresses.html'
       }])
     })
-    .state($rootScope.sref('settings.all-addresses'), {
+    .state(sref('settings.all-addresses'), {
       url: '/all-addresses/:walletId',
       views: getViews('settings.all-addresses', [{
         controller: 'WalletAddressesCtrl',
@@ -565,13 +627,13 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Copayers
      *
      */
 
-    .state($rootScope.sref('copayers'), {
+    .state(sref('copayers'), {
       url: '/copayers/:walletId',
       views: getViews('copayers', [{
         controller: 'CopayersCtrl',
@@ -579,34 +641,34 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Addressbook
      *
      */
 
-    .state($rootScope.sref('address-book'), {
+    .state(sref('address-book'), {
       url: '/address-book',
       views: getViews('address-book', [{
         controller: 'AddressBookCtrl',
         templateUrl: 'views/address-book/address-book.html'
       }])
     })
-    .state($rootScope.sref('address-book.add'), {
+    .state(sref('address-book.add'), {
       url: '/address-book/add/:from/:address/:networkURI',
       views: getViews('address-book.add', [{
         controller: 'AddressBookEditCtrl',
         templateUrl: 'views/address-book/edit/edit.html'
       }])
     })
-    .state($rootScope.sref('address-book.entry'), {
+    .state(sref('address-book.entry'), {
       url: '/address-book/entry/:id',
       views: getViews('address-book.entry', [{
         controller: 'AddressBookEntryCtrl',
         templateUrl: 'views/address-book/entry/entry.html'
       }])
     })
-    .state($rootScope.sref('address-book.edit'), {
+    .state(sref('address-book.edit'), {
       url: '/address-book/edit/:id',
       views: getViews('address-book.edit', [{
         controller: 'AddressBookEditCtrl',
@@ -614,17 +676,17 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Request Specific amount
      *
      */
 
-    .state($rootScope.sref('payment-request'), {
+    .state(sref('payment-request'), {
       url: '/payment-request',
       abstract: true
     })
-    .state($rootScope.sref('payment-request.amount'), {
+    .state(sref('payment-request.amount'), {
       url: '/amount/:walletId/:networkURI',
       views: getViews('payment-request.amount', [{
         controller: 'AmountCtrl',
@@ -636,20 +698,20 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }
     })
 
-    /*
+    /**
      *
      * Init backup flow
      *
      */
 
-    .state($rootScope.sref('receive.backup-warning'), {
+    .state(sref('receive.backup-warning'), {
       url: '/backup-warning/:from/:walletId',
       views: getViews('receive.backup-warning', [{
         controller: 'BackupWarningCtrl',
         templateUrl: 'views/backup/warning/warning.html'
       }])
     })
-    .state($rootScope.sref('receive.backup'), {
+    .state(sref('receive.backup'), {
       url: '/backup/:walletId',
       views: getViews('receive.backup', [{
         controller: 'BackupCtrl',
@@ -657,39 +719,39 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Paper Wallet
      *
      */
 
-    .state($rootScope.sref('home.paper-wallet'), {
+    .state(sref('wallet.paper-wallet'), {
       url: '/paper-wallet/:privateKey',
-      views: getViews('home.paper-wallet', [{
+      views: getViews('wallet.paper-wallet', [{
         controller: 'PaperWalletCtrl',
         templateUrl: 'views/paper-wallet/paper-wallet.html'
       }])
     })
 
-    /*
+    /**
      *
      * Onboarding
      *
      */
 
-    .state($rootScope.sref('onboarding'), {
+    .state(sref('onboarding'), {
       url: '/onboarding',
       abstract: true,
       template: '<ion-nav-view name="onboarding"></ion-nav-view>'
     })
-    .state($rootScope.sref('onboarding.start'), {
+    .state(sref('onboarding.start'), {
       url: '/onboarding/start',
       views: getViews('onboarding.start', [{
         controller: 'StartCtrl',
         templateUrl: 'views/onboarding/start/start.html'
       }])
     })
-    .state($rootScope.sref('onboarding.tour'), {
+    .state(sref('onboarding.tour'), {
       url: '/onboarding/tour',
       views: getViews('onboarding.tour', [{
         controller: 'AppTourCtrl',
@@ -699,49 +761,49 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         fromOnboarding: true
       }
     })
-    .state($rootScope.sref('onboarding.create-first-wallet'), {
+    .state(sref('onboarding.create-first-wallet'), {
       url: '/onboarding/create-first-wallet',
       views: getViews('onboarding.create-first-wallet', [{
         controller: 'CreateFirstWalletCtrl',
         templateUrl: 'views/onboarding/create-first-wallet/create-first-wallet.html'
       }])
     })
-    .state($rootScope.sref('onboarding.collect-email'), {
+    .state(sref('onboarding.collect-email'), {
       url: '/onboarding/collect-email/:walletId',
       views: getViews('onboarding.collect-email', [{
         controller: 'CollectEmailCtrl',
         templateUrl: 'views/onboarding/collect-email/collect-email.html'
       }])
     })
-    .state($rootScope.sref('onboarding.backup-request'), {
+    .state(sref('onboarding.backup-request'), {
       url: '/onboarding/backup-request/:walletId',
       views: getViews('onboarding.backup-request', [{
         controller: 'BackupRequestCtrl',
         templateUrl: 'views/onboarding/backup-request/backup-request.html'
       }])
     })
-    .state($rootScope.sref('onboarding.backup-warning'), {
+    .state(sref('onboarding.backup-warning'), {
       url: '/onboarding/backup-warning/:from/:walletId',
       views: getViews('onboarding.backup-warning', [{
         controller: 'BackupWarningCtrl',
         templateUrl: 'views/backup/warning/warning.html'
       }])
     })
-    .state($rootScope.sref('onboarding.backup'), {
+    .state(sref('onboarding.backup'), {
       url: '/onboarding/backup/:walletId',
       views: getViews('onboarding.backup', [{
         controller: 'BackupCtrl',
         templateUrl: 'views/backup/backup.html'
       }])
     })
-    .state($rootScope.sref('onboarding.disclaimer'), {
+    .state(sref('onboarding.disclaimer'), {
       url: '/onboarding/disclaimer/:walletId/:backedUp/:resume',
       views: getViews('onboarding.disclaimer', [{
         controller: 'DisclaimerCtrl',
         templateUrl: 'views/onboarding/disclaimer/disclaimer.html'
       }])
     })
-    .state($rootScope.sref('onboarding.import'), {
+    .state(sref('onboarding.import'), {
       url: '/onboarding/import',
       views: getViews('onboarding.import', [{
         controller: 'ImportWalletCtrl',
@@ -753,45 +815,45 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }
     })
 
-    /*
+    /**
      *
      * Feedback
      *
      */
 
-    .state($rootScope.sref('feedback'), {
+    .state(sref('feedback'), {
       url: '/feedback',
       views: getViews('feedback', [{
         controller: 'SendFeedbackCtrl',
         templateUrl: 'views/feedback/send/send.html'
       }])
     })
-    .state($rootScope.sref('share-app'), {
+    .state(sref('share-app'), {
       url: '/feedback/share-app/:score/:skipped/:fromSettings',
       views: getViews('share-app', [{
         controller: 'FeedbackCompleteCtrl',
         templateUrl: 'views/feedback/complete/complete.html'
       }])
     })
-    .state($rootScope.sref('rate'), {
+    .state(sref('rate'), {
       url: '/feedback/rate',
       abstract: true
     })
-    .state($rootScope.sref('rate.send'), {
+    .state(sref('rate.send'), {
       url: '/feedback/send/:score',
       views: getViews('rate.send', [{
         controller: 'SendFeedbackCtrl',
         templateUrl: 'views/feedback/send/send.html'
       }])
     })
-    .state($rootScope.sref('rate.complete'), {
+    .state(sref('rate.complete'), {
       url: '/feedback/complete/:score/:skipped',
       views: getViews('rate.complete', [{
         controller: 'FeedbackCompleteCtrl',
         templateUrl: 'views/feedback/complete/complete.html'
       }])
     })
-    .state($rootScope.sref('rate.rate-app'), {
+    .state(sref('rate.rate-app'), {
       url: '/feedback/rate-app/:score',
       views: getViews('rate.rate-app', [{
         controller: 'RateAppCtrl',
@@ -799,13 +861,13 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
 
-    /*
+    /**
      *
      * Help
      *
      */
 
-    .state($rootScope.sref('help'), {
+    .state(sref('help'), {
       url: '/help',
       views: getViews('help', [{
         controller: 'GetHelpCtrl',
@@ -815,7 +877,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         fromOnboarding: false
       }
     })
-    .state($rootScope.sref('help.tour'), {
+    .state(sref('help.tour'), {
       url: '/help/tour',
       views: getViews('help.tour', [{
         controller: 'AppTourCtrl',
@@ -824,7 +886,78 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       params: {
         fromOnboarding: false
       }
+    })
+
+    /**
+     *
+     * Dashboard
+     *
+     */
+
+    .state(sref('dashboard'), {
+      url: '/dashboard',
+      views: getViews('dashboard', [{
+        controller: 'DashboardCtrl',
+        templateUrl: 'views/dashboard/dashboard.html'
+      }])
+    })
+
+    /**
+     *
+     * Wallets
+     *
+     */
+
+    .state(sref('wallets'), {
+      url: '/wallets',
+      views: getViews('wallets', [{
+        controller: 'WalletsCtrl',
+        templateUrl: 'views/wallets/wallets.html'
+      }])
+    })
+
+    /**
+     *
+     * Pay
+     *
+     */
+
+    .state(sref('pay'), {
+      url: '/pay',
+      views: getViews('pay', [{
+        controller: 'PayCtrl',
+        templateUrl: 'views/pay/pay.html'
+      }])
+    })
+
+    /**
+     *
+     * Apps
+     *
+     */
+
+    .state(sref('apps'), {
+      url: '/apps',
+      views: getViews('apps', [{
+        controller: 'AppsCtrl',
+        templateUrl: 'views/apps/apps.html'
+      }])
+    })
+
+    /**
+     *
+     * More
+     *
+     */
+
+    .state(sref('more'), {
+      url: '/more',
+      views: getViews('more', [{
+        controller: 'MoreCtrl',
+        templateUrl: 'views/more/more.html'
+      }])
     });
+
   };
 
   return root;

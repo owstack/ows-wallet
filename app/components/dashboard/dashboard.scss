@@ -1,0 +1,12 @@
+#ows-dashboard {
+  background: $v-dashboard-bg;
+  color: $v-dashboard-color;
+
+  .tab-dashboard {
+    &__logo {
+      height: 80%;
+      max-width: 50%;
+      @include relative-vertical-center();
+    }
+  }
+}

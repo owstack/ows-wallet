@@ -174,7 +174,7 @@ $v-tabs-active-bg:                                   $v-nav-item-primary-color !
 $v-tabs-active-color:                                $v-accent-1-color !default;
 $v-tabs-inactive-bg:                                 $v-black-color !default;
 $v-tabs-inactive-color:                              $v-white-color !default;
-$v-tabs-show-labels:                                 false !default;
+$v-tabs-show-labels:                                 true !default;
 
 /* Onboarding */
 
@@ -321,6 +321,32 @@ $v-send-secondary-color:                             $v-white-transparent-mid !d
 $v-settings-bg:                                      radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
 $v-settings-color:                                   $v-white-color !default;
 $v-settings-secondary-color:                         $v-white-transparent-mid !default;
+
+/* Dashboard */
+
+$v-dashboard-bg:                                     radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-dashboard-color:                                  $v-white-color !default;
+
+/* Wallets */
+
+$v-wallets-bg:                                       radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-wallets-color:                                    $v-white-color !default;
+$v-wallets-secondary-color:                          $v-white-transparent-mid !default;
+
+/* Pay */
+
+$v-pay-bg:                                           radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-pay-color:                                        $v-white-color !default;
+
+/* Apps */
+
+$v-apps-bg:                                          radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-apps-color:                                       $v-white-color !default;
+
+/* More */
+
+$v-more-bg:                                          radial-gradient(circle at center 30%, $v-accent-2-color 0%, $v-black-color 100%) !default;
+$v-more-color:                                       $v-white-color !default;
 
 /* Wallet */
 

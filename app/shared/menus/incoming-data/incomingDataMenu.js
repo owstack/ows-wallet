@@ -64,9 +64,9 @@ angular.module('owsWalletApp.directives')
 
         scope.scanPaperWallet = function(privateKey) {
           scope.showMenu = false;
-          $state.go($rootScope.sref('home')).then(function() {
+          $state.go($rootScope.sref('wallets')).then(function() {
             $timeout(function() {
-              $state.transitionTo($rootScope.sref('home.paper-wallet'), {
+              $state.transitionTo($rootScope.sref('wallet.paper-wallet'), {
                 privateKey: privateKey
               });
             }, 50);
