@@ -43,7 +43,7 @@ var buildPluginCatalog = function(config, mode) {
 
   for (var i = 0; i < pluginList.length; i++) {
     var pluginNpmPath = pluginList[i]; // Path to plugin npm package
-    processPlugin(pluginNpmPath);
+    processPlugin(pluginNpmPath, false);
   }
 
   content += utils.cleanJSONQuotesOnKeys(JSON.stringify(catalog, null, 2));
@@ -52,8 +52,7 @@ var buildPluginCatalog = function(config, mode) {
   return;
 
   // Called recursively to process all plugin dependencies.
-  function processPlugin(pluginNpmPath) {
-
+  function processPlugin(pluginNpmPath, isDependent) {    
     // Locate the plugin.
     var pluginReleaseDir; // Directory containing the plugin installable release
     var pluginWwwDir; // Runtime plugin directory relative to www/
@@ -87,9 +86,15 @@ var buildPluginCatalog = function(config, mode) {
 
     pluginConfig.uri = pluginWwwDir;
 
-    // Detect and fail if duplicate plugin id exists.
+    // Detect duplicate plugin id.
     if (pluginIds.indexOf(pluginConfig.header.id) >= 0) {
-      throw new Error('ERROR - Duplicate plugin id detected: \'' + pluginConfig.header.id + '\'');
+      // Dependent plugins that are already installed result are not installed again; just return.
+      if (isDependent) {
+        return;
+      } else {
+        // Plugin is not a dependent and has been added more than once in the configuration.
+        throw new Error('ERROR - Duplicate plugin id detected: \'' + pluginConfig.header.id + '\'');        
+      }
     }
 
     var allowInstall = KNOWN_PLUGIN_KINDS.includes(pluginConfig.header.kind);
@@ -156,7 +161,7 @@ var buildPluginCatalog = function(config, mode) {
             }
 
             // Recursively process the newly installed plugin.
-            processPlugin(pkgName);
+            processPlugin(pkgName, true);
           });
         }
 
