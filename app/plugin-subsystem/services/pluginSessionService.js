@@ -42,10 +42,10 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     });
   };
 
-  root.getSessionForPlugin = function(plugin) {
-    var sessionIndex = getExistingSessionIndex(plugin);
-    if (sessionIndex) {
-      return _sessionPool[sessionIndex];
+  root.getSessionForPlugin = function(pluginId) {
+    var existingSessionIndex = getExistingSessionIndex(pluginId);
+    if (existingSessionIndex >= 0) {
+      return _sessionPool[existingSessionIndex];
     }
   };
 
@@ -135,9 +135,10 @@ angular.module('owsWalletApp.pluginServices').factory('pluginSessionService', fu
     return removedSession[0];
   };
 
-  function getExistingSessionIndex(plugin) {
+  // Returns the first session found for the specified plugin id.
+  function getExistingSessionIndex(pluginId) {
     var existingSessionIndex = lodash.findIndex(_sessionPool, function(session) {
-      return (session.isForPlugin(plugin.header.id));
+      return (session.isForPlugin(pluginId));
     });
 
     return existingSessionIndex;

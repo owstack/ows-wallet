@@ -33,7 +33,8 @@
     "@owstack/ows-wallet-applet-hello": "^0.0.21",
     "@owstack/ows-wallet-applet-movies": "^0.0.45",
     "@owstack/ows-wallet-applet-coinbase": "^0.0.12",
-    "@conduitpay/wallet-applet-debit-card": "^0.0.2"
+    "@conduitpay/wallet-applet-debit-card": "^0.0.2",
+    "@owstack/ows-wallet-applet-cpi": "^0.0.1"
   },
   "themeCatalog": {
     "themes": {

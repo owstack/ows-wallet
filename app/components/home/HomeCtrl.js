@@ -270,7 +270,13 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
     };
 
     var updateAllApplets = function() {
-      $scope.applets = appletService.getAppletsWithStateSync();
+      // Only applets that launch fullscreen.
+      var filter = [{
+        key: 'launch.options.viewport',
+        value: 'cover'
+      }];
+
+      $scope.applets = appletService.getAppletsWithStateSync(filter);
     };
 
     var updateAllWallets = function() {

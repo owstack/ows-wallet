@@ -25,6 +25,16 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
 
       root.getServletsWithState({}, function(servlets) {
         $log.debug('Servlet service initialized');
+
+        // Start all servlets that are set to cache-start mode.
+        lodash.forEach(servlets, function(servlet) {
+          var pluginStartMode = lodash.get(servlet, 'launch.options.startMode');
+          if (pluginStartMode == 'cache') {
+            $log.debug('Caching servlet ' + servlet.header.id);
+            doStartServlet(servlet);
+          }
+        });
+
         resolve();
       });
     });
@@ -38,10 +48,8 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     }
   };
 
-  function getVersion(dependency) {
-    // Get version from package version id.
-    // Remove any special characters in the semver string.
-    return Object.values(dependency.package)[0].replace(/[^\d\.]/gi, '');
+  root.startServlet = function(servletId) {
+    return doStartServlet(root.getServletWithStateById(servletId));
   };
 
   root.startServlets = function(session, opts) {
@@ -81,7 +89,7 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
         // Add the session for the servlet as a dependent of the parent.
         // Add the session of the parent as a dependent of the servlet.
         if (servlet) {
-          startServlet(servlet).then(function(servletSession) {
+          doStartServlet(servlet).then(function(servletSession) {
             session.addDependent(servletSession);
             servletSession.addParent(session);
           });
@@ -233,6 +241,12 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
    * Private functions
    */
 
+  function getVersion(dependency) {
+    // Get version from package version id.
+    // Remove any special characters in the semver string.
+    return Object.values(dependency.package)[0].replace(/[^\d\.]/gi, '');
+  };
+
   // Return a promise for the collection of all available servlets.
   function getServlets() {
     return new Promise(function (resolve, reject) {
@@ -280,12 +294,12 @@ angular.module('owsWalletApp.pluginServices').factory('servletService', function
     return servlets;
   };
 
-  function startServlet(servlet) {
+  function doStartServlet(servlet) {
     return new Promise(function(resolve, reject) {
       $log.info('Starting servlet: ' + servlet.header.name + '@' + servlet.header.version);
 
       // Don't try to start the servlet if it is already running (i.e., due to runInBackground).
-      var session = pluginSessionService.getSessionForPlugin(servlet);
+      var session = pluginSessionService.getSessionForPlugin(servlet.header.id);
 
       if (session) {
         $log.info('Servlet already running');

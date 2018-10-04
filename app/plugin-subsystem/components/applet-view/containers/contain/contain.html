@@ -1,0 +1,6 @@
+<ion-pane id="applet-contain-view" class="ng-hide" ng-controller="AppletViewCtrl">
+  <!-- The applet frame -->
+  <iframe class="applet-frame" ng-src="{{applet.view.url}}"></iframe>
+  <!-- Splash screen -->
+  <splash-screen enabled="splashEnabled" image="splashImage" hide="splashDelay"></splash-screen>
+</ion-pane>

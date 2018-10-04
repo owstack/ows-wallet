@@ -6,8 +6,8 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
   // Applet entrance/exit animation options.
   var animationMap = [
-    {applet: 'zoomIn',       hostApp: 'zoom-out',  default: true},
-    {applet: 'slideInRight', hostApp: 'slide-left'},
+    {applet: 'zoomIn',       hostApp: 'zoom-out'},
+    {applet: 'slideInRight', hostApp: 'slide-left'}
   ];
 
   initForPresentation();
@@ -30,15 +30,17 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
   };
 
   function getAnimation(applet) {
-    var defaultAnimation = lodash.find(animationMap, function(anim) {
-      return anim.default;
-    });
+    var animation = lodash.get(applet, 'launch.options.animation', 'none');
+    if (animation == 'none') {
+      return;
+    }
 
     // Apply an animation to the host app view appropriate for the specified applet entrance animation.
-    var appletEntrance = lodash.get(applet, 'launch.options.entrance', defaultAnimation.applet);
-    return lodash.find(animationMap, function(anim) {
-      return anim.applet == appletEntrance;
+    var anim = lodash.find(animationMap, function(anim) {
+      return anim.applet == animation;
     });
+
+    return (anim ? anim : null);
   };
 
   function getAppViewContainer() {
@@ -53,46 +55,64 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
     angular.element(getAppViewContainer()).addClass('ng-hide');
   };
 
+  function isMySession(sessionId) {
+    return session.id == sessionId;
+  };
+
   $scope.showBackButton = function() {
     // If the applet launches with slideInRight animation then show the header navbar back button.
     var applet = session.plugin;
-    return (getAnimation(applet).applet == 'slideInRight');
+    var animation = getAnimation(applet);
+
+    if (animation) {
+      return (animation.applet == 'slideInRight');
+    } else {
+      return false;
+    }
   };
 
   var cancelShowAppletListener =
   $rootScope.$on('Local/ShowApplet', function(e, sessionId) {
-    if (sessionId != session.id) {
+    if (!isMySession(sessionId)) {
       return;
     }
 
     var applet = session.plugin;
     var animation = getAnimation(applet);
 
-    // Animate the host app during applet launch. Show the applet (initiates animation) by removing the 'ng-hide' class.
-    // Provide some time for the DOM to update before starting animation.
-    $timeout(function() {
-      angular.element(getAppViewContainer()).addClass(animation.hostApp);
-      applet.show();
-    }, 100);
+    if (animation && applet.launch.options.viewport == 'cover') {
+      // Animate the host app during applet launch. Show the applet (initiates animation) by removing the 'ng-hide' class.
+      // Provide some time for the DOM to update before starting animation.
+      $timeout(function() {
+        angular.element(getAppViewContainer()).addClass(animation.hostApp);
+        applet.show();
+      }, 100);
+
+    } else {
+      applet.show();      
+    }
   });
 
   var cancelRemoveAppletListener =
   $rootScope.$on('Local/RemoveApplet', function(e, sessionId) {
-    if (sessionId != session.id) {
+    if (!isMySession(sessionId)) {
       return;
     }
 
     var applet = session.plugin;
     var animation = getAnimation(applet);
 
-    // Resets host app view presentation and remove the applet from the DOM.
-    angular.element(getAppViewContainer()).removeClass(animation.hostApp);
+    if (animation) {
+      // Resets host app view presentation and remove the applet from the DOM.
+      angular.element(getAppViewContainer()).removeClass(animation.hostApp);
+    }
+
     applet.remove();
   });
 
   var cancelAppletHideSplashListener =
   $rootScope.$on('Local/AppletHideSplash', function(e, sessionId) {
-    if (sessionId != session.id) {
+    if (!isMySession(sessionId)) {
       return;
     }
 
@@ -102,7 +122,7 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
   var cancelModalActivateQrScannerListener =
   $rootScope.$on('Local/ModalActivateQrScanner', function(e, sessionId) {
-    if (sessionId != session.id) {
+    if (!isMySession(sessionId)) {
       return;
     }
 
@@ -113,7 +133,7 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
   var cancelModalDeactivateQrScannerListener =
   $rootScope.$on('Local/ModalDeactivateQrScanner', function(e, sessionId) {
-    if (sessionId != session.id) {
+    if (!isMySession(sessionId)) {
       return;
     }
 

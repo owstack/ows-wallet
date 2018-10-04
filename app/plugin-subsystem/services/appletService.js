@@ -43,6 +43,14 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
 
       root.getAppletsWithState({}, function(applets) {
         $log.debug('Applet service initialized');
+
+        lodash.forEach(applets, function(applet) {
+          var pluginStartMode = lodash.get(applet, 'launch.options.startMode');
+          if (pluginStartMode == 'cache') {
+            doOpenApplet(applet);
+          }
+        });
+
         resolve();
       });
     });
@@ -229,6 +237,67 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   };
 
   /**
+   * Applet interaction
+   */
+
+  // Callback returns the new session object.
+  root.openApplet = function(id, callback) {
+    // Check for an existing applet session.
+    var appletId = resolveAppletId(id);
+    var session = pluginSessionService.getSessionForPlugin(appletId);
+
+    if (session) {
+      if (callback) {
+        callback(session);
+      }
+    } else {
+      doOpenApplet(root.getAppletWithStateById(appletId), callback);
+    }
+  };
+
+  root.showApplet = function(sessionId) {
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    applet.show();
+  };
+
+  root.hideApplet = function(sessionId) {
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    applet.hide();
+  };
+
+  root.enterApplet = function(sessionId) {
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    applet.enter();
+  };
+
+  root.leaveApplet = function(sessionId) {
+    var session = pluginSessionService.getSession(sessionId);
+    var applet = session.plugin;
+    applet.leave();
+  };
+
+  root.closeApplet = function(sessionId, opts) {
+    opts = opts || {};
+    if (opts.confirm) {
+      confirmCloseApplet(sessionId);
+    } else {
+      doCloseApplet(sessionId);
+    }
+  };
+
+  root.hideSplash = function(sessionId) {
+    $rootScope.$emit('Local/AppletHideSplash', sessionId);
+  };
+
+  root.scanQrCode = function(sessionId) {
+    // Return a promise for the result, or an error.
+    return scannerModalService.scan(sessionId);
+  };
+
+  /**
    * Category
    */
 
@@ -360,39 +429,25 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     });
   };
 
-  root.hideSplash = function(sessionId) {
-    $rootScope.$emit('Local/AppletHideSplash', sessionId);
-  };
-
-  root.showApplet = function(sessionId) {
-    var session = pluginSessionService.getSession(sessionId);
-    var applet = session.plugin;
-    applet.show();
-  };
-
-  root.hideApplet = function(sessionId) {
-    var session = pluginSessionService.getSession(sessionId);
-    var applet = session.plugin;
-    applet.hide();
-  };
-
-  root.closeApplet = function(sessionId, opts) {
-    opts = opts || {};
-    if (opts.confirm) {
-      confirmCloseApplet(sessionId);
-    } else {
-      doCloseApplet(sessionId);
-    }
-  };
-
-  root.scanQrCode = function(sessionId) {
-    // Return a promise for the result, or an error.
-    return scannerModalService.scan(sessionId);
-  };
-
   /**
    * Private functions
    */
+
+  // Returns an applet id. The id param maybe an applet id or an applet extension point ('ows-axp-<name>').
+  function resolveAppletId(id) {
+    var filter = [{
+      key: 'launch.options.viewport',
+      value: id
+    }];
+
+    var applets = root.getAppletsWithStateSync(filter);
+
+    if (applets[0]) {
+      return applets[0].header.id;
+    } else {
+      return id;
+    }
+  };
 
   // Return a promise for the collection of all available applets.
   function getApplets() {
@@ -435,7 +490,7 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
   function publishAppletServices() {
     $rootScope.applet = {
 		  close: function(sessionId) { return confirmCloseApplet(sessionId); },
-		  open: function(applet) { return openApplet(applet); }
+		  open: function(applet) { return doOpenApplet(applet); }
     };
   };
 
@@ -457,15 +512,16 @@ angular.module('owsWalletApp.pluginServices').factory('appletService', function(
     return categories;
   };
 
-  function openApplet(applet) {
-    $log.info('Opening applet: ' + applet.header.name + '@' + applet.header.version);
-
+  function doOpenApplet(applet, callback) {
     // Create a session, start dependent servlets, create the container, and show the applet.
     pluginSessionService.createSession(applet, function(session) {
       pluginSessionService.activateSession(session.id);
 
       $rootScope.$emit('$pre.beforeEnter', applet);
-      applet.createContainer(session);
+      applet.create(session);
+      if (callback) {
+        callback(session);
+      }
     });
   };
 

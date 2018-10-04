@@ -33,6 +33,9 @@ angular.module('owsWalletApp.pluginApi').service('ready', function($rootScope, $
 			return callback(message);
 		}
 
+		// Set session state to 'ready'.
+		session.setReady();
+
 		// Start all dependent servlets that are set to auto-start mode.
 		servletService.startServlets(session, { startMode: 'auto' });
 

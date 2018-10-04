@@ -1,0 +1,120 @@
+#applet-contain-view {
+  background-color: transparent;
+  width: 100%;
+  min-height: 0 !important;
+  height: 100% !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: calc(constant(safe-area-inset-bottom));
+  bottom: calc(env(safe-area-inset-bottom));
+
+  .applet-frame {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    height: calc(100% - constant(safe-area-inset-bottom));
+    height: calc(100% - env(safe-area-inset-bottom));
+  }
+  
+  /**
+   * Floating menu button with drag and drop placement.
+   */
+
+  .applet-menu {
+    margin: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  .applet-menu[data-mfb-state="closed"] .mfb-component__button--main {
+    background-color: $v-mfb-main-color-closed;
+    box-shadow: $v-mfb-button-box-shadow-closed;
+    color: $v-mfb-button-text-color-closed;
+
+    animation-name: fadeMfb;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-play-state: running;
+  }
+
+  @keyframes fadeMfb {
+    0% {
+      background-color: $v-mfb-main-color;
+      color: $v-mfb-button-text-color;
+    }
+    80.0% {
+      background-color: $v-mfb-main-color;
+      color: $v-mfb-button-text-color;
+    }
+    100.0% {
+      background-color: $v-mfb-main-color-closed;
+      color: $v-mfb-button-text-color-closed;
+    }
+  }
+
+  // Define the start (default) position of applet menu.
+  .applet-menu-drag-item {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: $v-mfb-size;
+    height: $v-mfb-size;
+    // background: $v-white-color; // debug only - visible drag item
+
+    &.drag-active {
+      .applet-menu[data-mfb-state="closed"] .mfb-component__button--main {
+        background-color: $main-color;
+        box-shadow: $button-box-shadow;
+        color: $button-text-color;
+      }
+    }
+  }
+
+  // Allow drag on the whole view.
+  .applet-menu-drag-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  // The menu is contrained to this drop spot.
+  .applet-menu-drop-spot {
+    width: calc(100% - #{$v-mfb-size});
+    height: calc(100% - #{$v-mfb-size});
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* debug only - visible drop spot.
+  .drop-content {
+    border: 2px dashed $v-black-color;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .dragging .drop-content {
+    border: 2px dashed $v-white-color;
+  }
+
+  .drop-hovering .drop-content {
+    border-color: $v-success-color;
+  }
+  */
+}

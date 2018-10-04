@@ -2,6 +2,7 @@
 angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($rootScope, $log, lodash, PluginState, ApiMessage, configService, utilService) {
 
   var STATE_VALID = 1;
+  var STATE_READY = 2;
 
   /**
    * Constructor (See https://medium.com/opinionated-angularjs/angular-model-objects-with-javascript-classes-2e6a067c73bc#.970bxmciz)
@@ -33,8 +34,16 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
      * Priviledged methods
      */
 
+    this.setReady = function() {
+      setState(STATE_READY);
+    };
+
+    this.isReady = function() {
+      return (state & STATE_READY) > 0;
+    };
+
     this.isValid = function() {
-      return state & STATE_VALID;
+      return (state & STATE_VALID) > 0;
     };
 
     this.isForApplet = function() {
@@ -261,6 +270,11 @@ angular.module('owsWalletApp.pluginModel').factory('PluginSession', function ($r
     };
 
     function sendEvent(session, event) {
+      // Events are not sent unless the session is ready (plugin has reported as ready).
+      if (!session.isReady()) {
+        return Promise.resolve();
+      };
+
       // POST the event to the plugin's event URL.
       var request = {
        method: 'POST',
