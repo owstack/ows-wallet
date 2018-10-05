@@ -1,8 +1,15 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('getSession', function(lodash, pluginSessionService) {
+angular.module('owsWalletApp.pluginApi').service('getSession', function(lodash, pluginSessionService, utilService) {
 
 	var root = {};
+
+	var SAFE_SESSION_PROPERTIES = [
+		'id',
+		'plugin.header',
+		'plugin.userConfig',
+		'timestamp'
+	];
 
   root.respond = function(message, callback) {
 	  // Request parameters.
@@ -33,10 +40,12 @@ angular.module('owsWalletApp.pluginApi').service('getSession', function(lodash, 
 			return callback(message);
 		}
 
+		var sessionObj = utilService.pick(session, SAFE_SESSION_PROPERTIES);
+
     message.response = {
       statusCode: 200,
       statusText: 'OK',
-      data: session
+      data: sessionObj
     };
 		return callback(message);
 	};
