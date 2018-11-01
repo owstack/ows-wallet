@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($rootScope, $scope, $timeout, $ionicScrollDelegate, gettextCatalog, walletService, platformInfoService, lodash, configService, $state, $log, profileService, $ionicModal, popupService, $ionicHistory, $ionicConfig, walletClientErrorService, networkService, txConfirmNotificationService, Transaction) {
+angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($rootScope, $scope, $timeout, $interval, $ionicScrollDelegate, gettextCatalog, walletService, platformInfoService, lodash, configService, $state, $log, profileService, $ionicModal, popupService, $ionicHistory, $ionicConfig, walletClientErrorService, networkService, txConfirmNotificationService, Transaction) {
 
   var config = configService.getSync();
   var isCordova = platformInfoService.isCordova;
