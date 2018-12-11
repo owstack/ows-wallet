@@ -131,7 +131,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
     function done() {
       if (_noMatches) {
-        $log.debug(_noMatches);
+        $log.warn(_noMatches);
       }
       return cb(_result);
     };

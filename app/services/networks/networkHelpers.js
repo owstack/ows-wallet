@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkHelpers', function(payproService) {
+angular.module('owsWalletApp.services').factory('networkHelpers', function($log, payproService) {
 	var root = {};
 
   root.getURI = function(obj) {
@@ -204,7 +204,8 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function(paypr
     function parsePayPro(data, result, cb) {
       payproService.getPayProDetails(data, network, function(err, details) {
         if (err) {
-          result.error = data + ' Paypro error: ' + err;
+          $log.error('Paypro error: ('+ data + ')' + err);
+          result.error = 'Could not resolve payment information.';
         }
 
         if (details) {

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scope, $log, $timeout, scannerService, incomingDataService, $state, $ionicHistory, $rootScope) {
+angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scope, $log, $timeout, scannerService, incomingDataService, $state, $ionicHistory, $rootScope, gettextCatalog, popupService) {
 
   var passthroughMode = false;
   var modalMode = false;
@@ -151,7 +151,18 @@ angular.module('owsWalletApp.controllers').controller('ScanCtrl', function($scop
   function handleSuccessfulScan(contents) {
     $log.debug('Scan returned: "' + contents + '"');
     scannerService.pausePreview();
-    incomingDataService.process(contents);
+    incomingDataService.process(contents, null, function(dataHandled, result) {
+      if (!dataHandled) {
+        var title = gettextCatalog.getString('Error');
+        var message = result.error;
+        popupService.showAlert(title, message, function() {
+          // Resume preview when alert dismissed.
+//          scannerService.resumePreview();
+//          scannerService.reinitialize();
+          activate();
+        });
+      }
+    });
   };
 
   $scope.openSettings = function() {
