@@ -363,7 +363,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
   function paymentTimeControl(expirationTime) {
     setExpirationTime();
 
-    countdown = $interval(function() {
+    var countdown = $interval(function() {
       setExpirationTime();
     }, 1000);
 
