@@ -3,7 +3,7 @@
     "default": {
       "redirect_uri": {
         "mobile": "owswallet://coinbase",
-        "desktop": "https://conduitpay.com"
+        "desktop": "https://flowency.com"
       },
       "production": {
         "host": "https://www.coinbase.com",

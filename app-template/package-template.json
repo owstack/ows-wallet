@@ -61,7 +61,8 @@
     "cordova-android": "6.4.0",
     "cordova-custom-config": "^4.0.2",
     "cordova-plugin-qrscanner": "^2.5.0",
-    "djv": "^2.0.0"
+    "djv": "^2.0.0",
+    "path-to-regexp": "^2.2.1"
   },
   "devDependencies": {
     "adm-zip": "^0.4.7",
