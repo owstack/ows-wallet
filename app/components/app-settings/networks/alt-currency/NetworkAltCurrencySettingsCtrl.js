@@ -8,16 +8,16 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
     var config = configService.getSync();
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
-      $scope.networkURI = data.stateParams.networkURI;
-      if (!$scope.networkURI) {
+      $scope.networkName = data.stateParams.networkName;
+      if (!$scope.networkName) {
         return;
       }
 
-      var network = networkService.getNetworkByURI($scope.networkURI);
-      $scope.currentCurrency = config.currencyNetworks[network.getURI()].alternativeIsoCode;
+      var network = networkService.getNetworkByName($scope.networkName);
+      $scope.currentCurrency = config.networkPreferences[network.name].alternativeIsoCode;
       $scope.showSearch = false;
 
-      storageService.getLastCurrencyUsed($scope.networkURI, function(err, lastUsedAltCurrency) {
+      storageService.getLastCurrencyUsed($scope.networkName, function(err, lastUsedAltCurrency) {
         $scope.lastUsedAltCurrencyList = lastUsedAltCurrency ? JSON.parse(lastUsedAltCurrency) : [];
         init();
       });
@@ -44,7 +44,7 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
         var idx = lodash.keyBy(unusedCurrencyList, 'isoCode');
         var idx2 = lodash.keyBy($scope.lastUsedAltCurrencyList, 'isoCode');
 
-        completeAlternativeList = lodash.reject(rateService.listAlternatives($scope.networkURI, true), function(c) {
+        completeAlternativeList = lodash.reject(rateService.listAlternatives($scope.networkName, true), function(c) {
           return idx[c.isoCode] || idx2[c.isoCode];
         });
 
@@ -85,10 +85,10 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
 
     $scope.save = function(newAltCurrency) {
       var opts = {
-        currencyNetworks: {}
+        networkPreferences: {}
       };
 
-      opts.currencyNetworks[$scope.networkURI] = {
+      opts.networkPreferences[$scope.networkName] = {
         alternativeName: newAltCurrency.name,
         alternativeIsoCode: newAltCurrency.isoCode,
       };
@@ -109,7 +109,7 @@ angular.module('owsWalletApp.controllers').controller('NetworkAltCurrencySetting
       $scope.lastUsedAltCurrencyList.unshift(newAltCurrency);
       $scope.lastUsedAltCurrencyList = lodash.uniq($scope.lastUsedAltCurrencyList, 'isoCode');
       $scope.lastUsedAltCurrencyList = $scope.lastUsedAltCurrencyList.slice(0, 3);
-      storageService.setLastCurrencyUsed(JSON.stringify($scope.lastUsedAltCurrencyList), $scope.networkURI, function() {});
+      storageService.setLastCurrencyUsed(JSON.stringify($scope.lastUsedAltCurrencyList), $scope.networkName, function() {});
     };
 
   });

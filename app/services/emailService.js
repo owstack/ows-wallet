@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('emailService', function($log, configService, lodash, walletService, profileService) {
+angular.module('owsWalletApp.services').factory('emailService', function($log, configService, walletService, profileService) {
   var root = {};
 
   root.updateEmail = function(opts) {

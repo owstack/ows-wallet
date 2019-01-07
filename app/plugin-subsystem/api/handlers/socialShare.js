@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('socialShare', function(lodash) {
+angular.module('owsWalletApp.pluginApi').service('socialShare', function() {
 
 	var root = {};
 

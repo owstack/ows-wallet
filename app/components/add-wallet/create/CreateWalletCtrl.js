@@ -19,19 +19,18 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
       12: 1,
     };
 
-    var defaults = configService.getDefaults();
-    var configNetwork = configService.getSync().currencyNetworks;
+    var config = configService.getSync();
 
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       $scope.formData = {};
-      var tc = $state.current.name == $rootScope.sref('add.create-personal') ? 1 : defaults.wallet.totalCopayers;
+      var tc = $state.current.name == $rootScope.sref('add.create-personal') ? 1 : config.wallet.totalCopayers;
       $scope.formData.account = 1;
-      $scope.TCValues = lodash.range(2, defaults.limits.totalCopayers + 1);
+      $scope.TCValues = lodash.range(2, config.limits.totalCopayers + 1);
 
-      var defaultNetwork = networkService.getNetworkByURI(configNetwork.default);
+      var defaultNetwork = networkService.getNetworkByName(config.networkPreferences.defaultNetworkName);
       $scope.formData.network = defaultNetwork;
       $scope.availableNetworks = networkService.getNetworks();
-      $scope.formData.walletServiceUrl = defaults.currencyNetworks[$scope.formData.network.getURI()].walletService.url;
+      $scope.formData.walletServiceUrl = config.networkPreferences[$scope.formData.network.name].walletService.url;
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
       $scope.setTotalCopayers(tc);
       $scope.showAdv = false;
@@ -41,7 +40,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
 
     $scope.onNetworkChange = function() {
       $scope.formData.derivationPath = derivationPathService.getPath($scope.formData.network);
-      $scope.formData.walletServiceUrl = defaults.currencyNetworks[$scope.formData.network.getURI()].walletService.url;
+      $scope.formData.walletServiceUrl = config.networkPreferences[$scope.formData.network.name].walletService.url;
     };
 
     $scope.showAdvChange = function() {
@@ -129,7 +128,10 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
         n: $scope.formData.totalCopayers,
         myName: $scope.formData.totalCopayers > 1 ? $scope.formData.myName : null,
         network: network,
-        walletServiceUrl: $scope.formData.walletServiceUrl,
+        walletService: {
+          name: 'Custom',
+          url: $scope.formData.walletServiceUrl.value
+        },
         singleAddress: $scope.formData.singleAddressEnabled,
         walletPrivKey: $scope.formData._walletPrivKey, // Only for testing
       };
@@ -152,7 +154,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
         }
 
         opts.account = pathData.account;
-        opts.networkURI = pathData.networkURI;
+        opts.networkName = pathData.networkName;
         opts.derivationStrategy = pathData.derivationStrategy;
 
       } else {
@@ -187,7 +189,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
             popupService.showAlert(gettextCatalog.getString('Error'), 'Invalid seed source id.');
             return;
         }
-        service.getInfoForNewWallet(opts.n > 1, account, opts.networkURI, function(err, lopts) {
+        service.getInfoForNewWallet(opts.n > 1, account, opts.networkName, function(err, lopts) {
           ongoingProcessService.set('connecting ' + $scope.formData.seedSource.id, false);
           if (err) {
             popupService.showAlert(gettextCatalog.getString('Error'), err);
@@ -212,6 +214,7 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
             return;
           }
 
+          updateLocalPreferences();
           walletService.updateRemotePreferences(client);
           pushNotificationsService.updateSubscription(client);
 
@@ -234,6 +237,22 @@ angular.module('owsWalletApp.controllers').controller('CreateWalletCtrl',
           } else $state.go($rootScope.sref('home'));
         });
       }, 300);
+    };
+
+    function updateLocalPreferences(walletId) {
+      var wallet = profileService.getWallet(walletId);
+      if ($scope.walletServiceUrl.value != defaultConfig.networkPreferences[wallet.networkName].walletService.url) {
+        var walletService = {
+          name: 'Custom',
+          url: $scope.formData.walletServiceUrl.value
+        };
+
+        walletService.setPreference(walletId, 'walletService', walletService, function(err) {
+          if (err) {
+            $log.debug(err);
+          }
+        });
+      }
     };
 
   });

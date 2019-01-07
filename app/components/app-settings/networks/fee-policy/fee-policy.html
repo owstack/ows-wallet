@@ -21,7 +21,7 @@
         ng-model="currentFeeLevel" ng-click="save(fl.level)">
         {{fl.name|translate}}
         <div class="item-detail">
-          {{fl.feePerAtomicUnitByte}} {{fl.atomicUnitCode}}/byte &middot; {{fl.avgConfirmationTime | amDurationFormat: 'minute'}}
+          {{fl.feePerAtomicUnitByte}} {{fl.atomicUnitName}}/byte &middot; {{fl.avgConfirmationTime | amDurationFormat: 'minute'}}
         </div>
       </ion-radio>
       <ion-item class="item-divider"></ion-item>

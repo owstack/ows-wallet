@@ -108,9 +108,9 @@ angular.module('owsWalletApp.controllers').controller('TxDetailsCtrl', function(
         return popupService.showAlert(gettextCatalog.getString('Error'), gettextCatalog.getString('Transaction not available at this time.'));
       }
 
-      $scope.btx = txFormatService.processTx(tx, $scope.wallet.networkURI);
+      $scope.btx = txFormatService.processTx(tx, $scope.wallet.networkName);
       
-      txFormatService.formatAlternativeStr($scope.wallet.networkURI, tx.fees, function(v) {
+      txFormatService.formatAlternativeStr($scope.wallet.networkName, tx.fees, function(v) {
         $scope.btx.feeFiatStr = v;
         $scope.btx.feeRateStr = ($scope.btx.fees / ($scope.btx.amount + $scope.btx.fees) * 100).toFixed(2) + '%';
       });
@@ -191,12 +191,12 @@ angular.module('owsWalletApp.controllers').controller('TxDetailsCtrl', function(
 
   $scope.viewOnBlockchain = function() {
     var btx = $scope.btx;
-    var explorer = networkService.getNetworkByURI($scope.wallet.networkURI).explorer.production;
-    var url = explorer.urlTx + btx.txid;
+    var explorer = networkService.getNetworkByName($scope.wallet.networkName).explorer;
+    var url = explorer.urlTx + '/' + btx.txid;
     var optIn = true;
     var title = gettextCatalog.getString('View On Blockchain');
-    var message = gettextCatalog.getString('View Transaction on ' + explorer.label);
-    var okText = gettextCatalog.getString('Open ' + explorer.label);
+    var message = gettextCatalog.getString('View Transaction using ' + explorer.name);
+    var okText = gettextCatalog.getString('Open ' + explorer.name);
     var cancelText = gettextCatalog.getString('Go Back');
     externalLinkService.open(url, optIn, title, message, okText, cancelText);
   };

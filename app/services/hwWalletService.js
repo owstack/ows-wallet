@@ -31,10 +31,10 @@ angular.module('owsWalletApp.services')
       return path;
     };
 
-    root.getAddressPath = function(device, isMultisig, account, networkURI) {
+    root.getAddressPath = function(device, isMultisig, account, networkName) {
       var networkPath = root.LIVENET_PATH;
       return root.getRootPath(device, isMultisig, account) + "'/" + networkPath + "'/" + account + "'";
-     };
+    };
 
     root.getEntropyPath = function(device, isMultisig, account) {
       var path = root.ENTROPY_INDEX_PATH;
@@ -52,9 +52,8 @@ angular.module('owsWalletApp.services')
       return path + account + "'";
     };
 
-    root.pubKeyToEntropySource = function(xPubKey, networkURI) {
-      var netLib = networkService.walletClientFor(networkURI).getLib();
-      var x = netLib.HDPublicKey(xPubKey);
+    root.pubKeyToEntropySource = function(xPubKey, networkName) {
+      var x = networkService.keyLib.HDPublicKey(xPubKey, networkName);
       return x.publicKey.toString();
     };
 

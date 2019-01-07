@@ -3,35 +3,36 @@
 angular.module('owsWalletApp.services').factory('txFormatService', function($filter, rateService, configService, lodash, networkService) {
   var root = {};
 
-  root.formatAmount = function(networkURI, atomics, fullPrecision) {
-    var utils = networkService.walletClientFor(networkURI).getUtils();
+  root.formatAmount = function(networkName, atomics, opts) {
+    var network = networkService.getNetworkByName(networkName);
 
-    var config = configService.getSync().currencyNetworks[networkURI];
-    if (config.unitCode == config.atomicUnitCode) {
+    var config = configService.getSync().networkPreferences[networkName];
+    if (config.unitCode == network.Unit().atomicsCode()) {
       return atomics;
     }
 
-    //TODO-AJP: now only works for english, specify opts to change thousand separator and decimal separator
-    var opts = {
-      fullPrecision: !!fullPrecision
-    };
-    return utils.formatAmount(atomics, config.unitCode, opts);
+    return network.utils.formatAmount(atomics, config.unitCode, opts);
   };
 
-  root.formatAmountStr = function(networkURI, atomics) {
+  root.formatAmountStr = function(networkName, atomics) {
     if (isNaN(atomics)) {
       return;
     }
-    var config = configService.getSync().currencyNetworks[networkURI];
-    return root.formatAmount(networkURI, atomics) + ' ' + config.unitName;
+    var network = networkService.getNetworkByName(networkName);
+    var networkPreferences = configService.getSync().networkPreferences[networkName];
+    var unitName = lodash.find(network.Unit().units, function(u) {
+      return u.code == networkPreferences.unitCode;
+    }).shortName;
+
+    return root.formatAmount(networkName, atomics) + ' ' + unitName;
   };
 
-  root.toFiat = function(networkURI, atomics, code, cb) {
+  root.toFiat = function(networkName, atomics, code, cb) {
     if (isNaN(atomics)) {
       return;
     }
     var val = function() {
-      var v1 = rateService.toFiat(networkURI, atomics, code);
+      var v1 = rateService.toFiat(networkName, atomics, code);
       if (!v1) {
         return null;
       }
@@ -52,12 +53,12 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     };
   };
 
-  root.formatToUSD = function(networkURI, atomics, cb) {
+  root.formatToUSD = function(networkName, atomics, cb) {
     if (isNaN(atomics)) {
       return;
     }
     var val = function() {
-      var v1 = rateService.toFiat(networkURI, atomics, 'USD');
+      var v1 = rateService.toFiat(networkName, atomics, 'USD');
       if (!v1) {
         return null;
       }
@@ -78,14 +79,14 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     };
   };
 
-  root.formatAlternativeStr = function(networkURI, atomics, cb) {
+  root.formatAlternativeStr = function(networkName, atomics, cb) {
     if (isNaN(atomics)) {
       return;
     }
-    var config = configService.getSync().currencyNetworks[networkURI];
+    var config = configService.getSync().networkPreferences[networkName];
 
     var val = function() {
-      var v1 = parseFloat((rateService.toFiat(networkURI, atomics, config.alternativeIsoCode)).toFixed(2));
+      var v1 = parseFloat((rateService.toFiat(networkName, atomics, config.alternativeIsoCode)).toFixed(2));
       v1 = $filter('formatFiatAmount')(v1);
       if (!v1) {
         return null;
@@ -107,7 +108,7 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     };
   };
 
-  root.processTx = function(tx, networkURI) {
+  root.processTx = function(tx, networkName) {
     if (!tx || tx.action == 'invalid') {
       return tx;
     }
@@ -123,17 +124,17 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
           tx.hasMultiplesOutputs = true;
         }
         tx.amount = lodash.reduce(tx.outputs, function(total, o) {
-          o.amountStr = root.formatAmountStr(networkURI, o.amount);
-          o.alternativeAmountStr = root.formatAlternativeStr(networkURI, o.amount);
+          o.amountStr = root.formatAmountStr(networkName, o.amount);
+          o.alternativeAmountStr = root.formatAlternativeStr(networkName, o.amount);
           return total + o.amount;
         }, 0);
       }
       tx.toAddress = tx.outputs[0].toAddress;
     }
 
-    tx.amountStr = root.formatAmountStr(networkURI, tx.amount);
-    tx.alternativeAmountStr = root.formatAlternativeStr(networkURI, tx.amount);
-    tx.feeStr = root.formatAmountStr(networkURI, tx.fee || tx.fees);
+    tx.amountStr = root.formatAmountStr(networkName, tx.amount);
+    tx.alternativeAmountStr = root.formatAlternativeStr(networkName, tx.amount);
+    tx.feeStr = root.formatAmountStr(networkName, tx.fee || tx.fees);
 
     if (tx.amountStr) {
       tx.amountValueStr = tx.amountStr.split(' ')[0];
@@ -143,36 +144,36 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     return tx;
   };
 
-  root.parseAmount = function(networkURI, amount, currency) {
-    var config = configService.getSync().currencyNetworks[networkURI];
-    var unitToAtomicUnit = config.unitToAtomicUnit;
-    var atomicToUnit = 1 / unitToAtomicUnit;
+  root.parseAmount = function(networkName, amount, currency) {
+    var config = configService.getSync().networkPreferences[networkName];
     var amountUnitStr;
     var amountAtomic;
     var alternativeIsoCode = config.alternativeIsoCode;
 
-    var allNetworkUnits = networkService.getNetworkByURI(networkURI).units;
+    var allNetworkUnits = networkService.getNetworkByName(networkName).Unit().units;
     var networkUnit = lodash.find(allNetworkUnits, function(u) {
       return u.shortName == currency;
     });
 
-    var atomicUnit = networkService.getAtomicUnit(networkURI);
-    var standardUnit = networkService.getStandardUnit(networkURI);
+    var network = networkService.getNetworkByName(networkName);
+
+    var atomicUnit = network.Unit().atomicsName();
+    var standardUnit = network.Unit().standardsName();
 
     if (!networkUnit && currency) { // Alternate currency
-      amountAtomic = rateService.fromFiat(networkURI, amount, currency).toFixed(atomicUnit.decimals);
+      amountAtomic = rateService.fromFiat(networkName, amount, currency).toFixed(atomicUnit.decimals);
       amountUnitStr = $filter('formatFiatAmount')(amount) + ' ' + currency;
 
     } else if (currency == atomicUnit.shortName) { // Atomic
       amountAtomic = amount;
-      amountUnitStr = root.formatAmountStr(networkURI, amountAtomic);
+      amountUnitStr = root.formatAmountStr(networkName, amountAtomic);
       // convert atomics to standard
       amount = (amountAtomic / standardUnit.value).toFixed(standardUnit.decimals);
       currency = standardUnit.shortName;
 
     } else { // Not atomic or fiat
-      amountAtomic = parseInt((amount * unitToAtomicUnit).toFixed(atomicUnit.decimals));
-      amountUnitStr = root.formatAmountStr(networkURI, amountAtomic);
+      amountAtomic = network.Unit(amount, 'standard').toAtomic();
+      amountUnitStr = root.formatAmountStr(networkName, amountAtomic);
       // convert atomics to standard
       amount = (amountAtomic / standardUnit.value).toFixed(standardUnit.decimals);
       currency = standardUnit.shortName;
@@ -187,12 +188,8 @@ angular.module('owsWalletApp.services').factory('txFormatService', function($fil
     };
   };
 
-  root.atomicToUnit = function(networkURI, amount) {
-    var config = configService.getSync().currencyNetworks[networkURI];
-    var unitToAtomicUnit = config.unitToAtomicUnit;
-    var atomicToUnit = 1 / unitToAtomicUnit;
-    var unitDecimals = config.unitDecimals;
-    return parseFloat((amount * atomicToUnit).toFixed(unitDecimals));
+  root.atomicToUnit = function(networkName, amount) {
+    return networkService.getNetworkByName(networkName).Unit(amount, 'standard').toAtomic();
   };
 
   return root;

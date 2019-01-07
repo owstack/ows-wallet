@@ -95,25 +95,26 @@ angular.module('owsWalletApp.controllers').controller('ChooseFeeLevelCtrl', func
   );
 
   // From parent controller
-  // $scope.networkURI
+  // $scope.networkName
   // $scope.feeLevel
   //
   // IF usingCustomFee
   // $scope.customFeePerKB
   // $scope.feePerAtomicByte
 
-  $scope.networkLabel = networkService.getNetworkByURI($scope.networkURI).getFriendlyNetLabel();
-  $scope.atomicUnit = networkService.getAtomicUnit($scope.networkURI);
+  var network = networkService.getNetworkByName($scope.networkName);
+  $scope.networkLabel = network.shortLabel;
+  $scope.atomicUnit = network.Unit().atomicsName();
 
   if (lodash.isEmpty($scope.feeLevel)) {
     showErrorAndClose(null, gettextCatalog.getString('Fee level is not defined.') );
   }
   $scope.selectedFee = { value: $scope.feeLevel };
 
-  $scope.feeOpts = feeService.getFeeOpts($scope.networkURI);
+  $scope.feeChoices = feeService.getFeeChoices($scope.networkName);
   $scope.loadingFee = true;
 
-  feeService.getFeeLevels($scope.networkURI, function(err, levels) {
+  feeService.getFeeLevels($scope.networkName, function(err, levels) {
     $scope.loadingFee = false;
     if (err || lodash.isEmpty(levels)) {
       showErrorAndClose(null, err);
@@ -127,20 +128,20 @@ angular.module('owsWalletApp.controllers').controller('ChooseFeeLevelCtrl', func
 
     $scope.feeLevels = levels;
 
-    lodash.forEach(Object.keys($scope.feeOpts), function(feeOpt) {
+    lodash.forEach(Object.keys($scope.feeChoices), function(feeOpt) {
       var feeLevel = lodash.find($scope.feeLevels, function(fl) {
         return fl.level == feeOpt;
       });
 
       if (feeLevel) {
-        feeLevel.name = $scope.feeOpts[feeLevel.level];
-        feeLevel.atomicUnitCode = networkService.getAtomicUnit($scope.networkURI).shortName;
+        feeLevel.name = $scope.feeChoices[feeLevel.level];
+        feeLevel.atomicUnitName = network.Unit().atomicName();
         feeLevel.feePerAtomicUnitByte = (feeLevel.feePerKb / 1000).toFixed();
         feeLevel.avgConfirmationTime = feeLevel.nbBlocks * 10;
       } else {
         $scope.feeLevels.push({
           level: feeOpt,
-          name: $scope.feeOpts[feeOpt]
+          name: $scope.feeChoices[feeOpt]
         });
       }
     });

@@ -20,8 +20,8 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
    * To create a Transaction requires the following.
    *
    *   - (A) paypro & feeLevel OR
-   *   - (B) address & amount & networkURI & feeLevel OR
-   *   - (C) address & networkURI & feeLevel & useSendmax
+   *   - (B) address & amount & networkName & feeLevel OR
+   *   - (C) address & networkName & feeLevel & useSendmax
    *
    * (A) Pay to the resolved payment protocol using the fee level.
    * 
@@ -36,7 +36,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
    *   toAddress: <String>,
    *   toAmount: <Number>,
    *   feeLevel: <String>,
-   *   networkURI: <String>
+   *   networkName: <String>
    * };
    *
    * (B) Pay the wallet's whole balance to the toAddress on the specified network using the fee level.
@@ -45,22 +45,22 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
    *   toAddress: <String>,
    *   useSendMax: true,
    *   feeLevel: <String>,
-   *   networkURI: <String>
+   *   networkName: <String>
    * };
    */
   function Transaction(txObj) {
     var self = this;
 
-    // Avoid requiring networkURI when paypro is provided.
+    // Avoid requiring networkName when paypro is provided.
     if (txObj.paypro) {
-      txObj.networkURI = txObj.paypro.networkURI;
+      txObj.networkName = txObj.paypro.networkName;
     }
 
     self.paypro;
     self.toAddress;
     self.toAmount;
     self.feeLevel;
-    self.networkURI;
+    self.networkName;
     self.useSendMax;
 
     lodash.assign(self, txObj);
@@ -201,7 +201,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
     function checkRequired() {
       var valid = false;
 
-      if (self.feeLevel && self.networkURI) {
+      if (self.feeLevel && self.networkName) {
         if (self.paypro ||
           (self.toAddress && self.toAmount) ||
           (self.toAddress && self.useSendMax)) {
@@ -229,10 +229,10 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
       }
 
       // Amount
-      self.amountStr = txFormatService.formatAmountStr(self.networkURI, self.toAmount);
+      self.amountStr = txFormatService.formatAmountStr(self.networkName, self.toAmount);
       self.amountValueStr = self.amountStr.split(' ')[0];
       self.amountAtomicStr = self.amountStr.split(' ')[1];
-      txFormatService.formatAlternativeStr(self.networkURI, self.toAmount, function(v) {
+      txFormatService.formatAlternativeStr(self.networkName, self.toAmount, function(v) {
         self.alternativeAmountStr = v;
       });
     };
@@ -259,7 +259,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
           self.feePerKb = feePerKb.atomic;
         }
 
-        self.feeLevelName = feeService.getFeeOpts(wallet.networkURI, self.feeLevel);
+        self.feeLevelName = feeService.getFeeChoices(wallet.networkName, self.feeLevel);
 
         ongoingProcessService.set('calculatingFee', false);
 
@@ -285,9 +285,9 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
 
             updateAmount();
 
-            self.amountBelowFeeStr = txFormatService.formatAmountStr(wallet.networkURI, sendMaxInfo.amountBelowFee);
-            self.amountAboveMaxSizeStr = txFormatService.formatAmountStr(wallet.networkURI, sendMaxInfo.amountAboveMaxSize);
-            self.feeStr = txFormatService.formatAmountStr(wallet.networkURI, sendMaxInfo.fee);
+            self.amountBelowFeeStr = txFormatService.formatAmountStr(wallet.networkName, sendMaxInfo.amountBelowFee);
+            self.amountAboveMaxSizeStr = txFormatService.formatAmountStr(wallet.networkName, sendMaxInfo.amountAboveMaxSize);
+            self.feeStr = txFormatService.formatAmountStr(wallet.networkName, sendMaxInfo.fee);
             self.utxosAboveMaxSize = sendMaxInfo.utxosAboveMaxSize;
             self.utxosBelowFee = sendMaxInfo.utxosBelowFee;
           }
@@ -303,8 +303,8 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
               return cb(err);
             }
 
-            ctxp.feeStr = txFormatService.formatAmountStr(wallet.networkURI, ctxp.fee);
-            txFormatService.formatAlternativeStr(wallet.networkURI, ctxp.fee, function(v) {
+            ctxp.feeStr = txFormatService.formatAmountStr(wallet.networkName, ctxp.fee);
+            txFormatService.formatAlternativeStr(wallet.networkName, ctxp.fee, function(v) {
               ctxp.alternativeFeeStr = v;
 
               var per = (ctxp.fee / (ctxp.amount + ctxp.fee) * 100);
@@ -330,7 +330,7 @@ angular.module('owsWalletApp.model').factory('Transaction', function ($log, $int
         return false;
       }
 
-      var amountUsd = parseFloat(txFormatService.formatToUSD(wallet.networkURI, self.toAmount));
+      var amountUsd = parseFloat(txFormatService.formatToUSD(wallet.networkName, self.toAmount));
       if (amountUsd <= CONFIRM_LIMIT_USD) {
         return false;
       }

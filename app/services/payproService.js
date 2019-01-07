@@ -10,12 +10,12 @@ angular.module('owsWalletApp.services').factory('payproService', function($log, 
   var cache = {};
   var cacheState = {};
 
-  root.getPayProDetails = function(uri, network, cb, disableLoader) {
+  root.getPayProDetails = function(uri, network, walletClient, cb, disableLoader) {
     cb = cb || function() {};
-    var key = uri + network.getURI(); // Cache key
+    var key = uri + network.name; // Cache key
 
     if (cache[key]) {
-      $log.debug('PayPro cache hit: ' + uri + ' (' + network.getURI() + ')');
+      $log.debug('PayPro cache hit: ' + uri + ' (' + network.name + ')');
       return cb(null, cache[key]);
     }
 
@@ -33,26 +33,26 @@ angular.module('owsWalletApp.services').factory('payproService', function($log, 
 
       if (cacheState[key].attempts <= CACHE_RETRY_LIMIT) {
         $timeout(function() {
-          root.getPayProDetails(uri, network, cb, disableLoader);
+          root.getPayProDetails(uri, network, walletClient, cb, disableLoader);
         }, CACHE_RETRY_INTERVAL);
 
         return;
 
       } else {
         delete cacheState[key];
-        return root.getPayProDetails(uri, network, cb, disableLoader);        
+        return root.getPayProDetails(uri, network, walletClient, cb, disableLoader);        
       }
     }
 
     cacheState[key].status = 'in-progress';
 
-    $log.debug('Attempting to fetch PayPro request for ' + network.getURI() + ' from ' +  uri);
+    $log.debug('Attempting to fetch PayPro request for ' + network.name + ' from ' +  uri);
 
     if (!disableLoader) {
       ongoingProcessService.set('fetchingPayPro', true);
     }
 
-    network.walletClient.service.getPayPro().get({
+    walletClient.getPayPro().get({
       url: uri
     }, function(err, paypro) {
       if (!disableLoader) {

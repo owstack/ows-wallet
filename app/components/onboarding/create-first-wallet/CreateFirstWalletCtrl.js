@@ -9,22 +9,22 @@ angular.module('owsWalletApp.controllers').controller('CreateFirstWalletCtrl',
     $scope.$on("$ionicView.beforeEnter", function(event, data) {
       var config = configService.getSync();
       $scope.data = {
-        networkURI: config.currencyNetworks.default
+        networkName: config.networkPreferences.defaultNetworkName
       };
       $scope.availableNetworks = networkService.getNetworks();
-      $scope.network = networkService.getNetworkByURI($scope.data.networkURI);
+      $scope.network = networkService.getNetworkByName($scope.data.networkName);
     });
 
-    $scope.$watch('data.networkURI', function(newValue, oldValue) {
+    $scope.$watch('data.networkName', function(newValue, oldValue) {
       if (newValue && newValue != oldValue) {
-        $scope.network = networkService.getNetworkByURI($scope.data.networkURI);
+        $scope.network = networkService.getNetworkByName($scope.data.networkName);
       }
     });
 
     $scope.createFirstWallet = function() {
       ongoingProcessService.set('creatingWallet', true);
       $timeout(function() {
-        profileService.createDefaultWallet($scope.data.networkURI, function(err, walletClient) {
+        profileService.createDefaultWallet($scope.data.networkName, function(err, walletClient) {
           if (err) {
             $log.error(err);
 

@@ -9,27 +9,24 @@ angular.module('owsWalletApp.pluginApi').service('getSettings', function(lodash,
     var safeProperties = [
       'alternativeIsoCode',
       'alternativeName',
-      'atomicUnitCode',
       'feeLevel',
       'unitCode',
-      'unitDecimals',
-      'unitName',
-      'unitToAtomicUnit'
+      'unitName'
     ];
 
-    var currencyNetworks = configService.getSync().currencyNetworks;
+    var networkPreferences = configService.getSync().networkPreferences;
     var settings = {
       language: uxLanguageService.getCurrentLanguage(),
-      defaultNetwork: currencyNetworks.default,
+      defaultNetworkName: networkPreferences.defaultNetworkName,
       networks: {}
     };
 
-    Object.keys(currencyNetworks).forEach(function(cn) {
+    Object.keys(networkPreferences).forEach(function(cn) {
       if (cn == 'default') { // Not an applicable key
         return;
       }
 
-      settings.networks[cn] = lodash.pickBy(currencyNetworks[cn], function(value, key) {
+      settings.networks[cn] = lodash.pickBy(networkPreferences[cn], function(value, key) {
         return safeProperties.indexOf(key) >= 0;
       });
     });

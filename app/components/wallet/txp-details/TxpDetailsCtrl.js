@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcessService, platformInfoService, $ionicScrollDelegate, txFormatService, walletClientErrorService, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService, helpService) {
+angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function($scope, $rootScope, $timeout, $interval, $log, ongoingProcessService, platformInfoService, $ionicScrollDelegate, txFormatService, errorService, gettextCatalog, lodash, walletService, popupService, $ionicHistory, feeService, helpService) {
   var now = Math.floor(Date.now() / 1000);
   var countDown;
 
@@ -20,11 +20,11 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
   };
 
   function displayFeeValues() {
-    txFormatService.formatAlternativeStr($scope.wallet.networkURI, $scope.tx.fee, function(v) {
+    txFormatService.formatAlternativeStr($scope.wallet.networkName, $scope.tx.fee, function(v) {
       $scope.tx.feeFiatStr = v;
     });
     $scope.tx.feeRateStr = ($scope.tx.fee / ($scope.tx.amount + $scope.tx.fee) * 100).toFixed(2) + '%';
-    $scope.tx.feeLevelStr = feeService.getFeeOpts($scope.wallet.networkURI, $scope.tx.feeLevel);
+    $scope.tx.feeLevelStr = feeService.getFeeChoices($scope.wallet.networkName, $scope.tx.feeLevel);
   };
 
   function applyButtonText() {
@@ -120,7 +120,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
   var setError = function(err, prefix) {
     $scope.sendStatus = '';
     $scope.loading = false;
-    popupService.showAlert(gettextCatalog.getString('Error'), walletClientErrorService.msg(err, {prefix: prefix}));
+    popupService.showAlert(gettextCatalog.getString('Error'), errorService.msg(err, {prefix: prefix}));
   };
 
   $scope.sign = function(onSendStatusChange) {
@@ -204,7 +204,7 @@ angular.module('owsWalletApp.controllers').controller('TxpDetailsCtrl', function
         copayerId: $scope.wallet.credentials.copayerId
       });
 
-      $scope.tx = txFormatService.processTx(tx, $scope.wallet.networkURI);
+      $scope.tx = txFormatService.processTx(tx, $scope.wallet.networkName);
 
       if (!action && tx.status == 'pending')
         $scope.tx.pendingForUs = true;

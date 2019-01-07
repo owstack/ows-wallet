@@ -1,12 +1,23 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, walletClientErrorService, platformInfoService, appConfig, txFormatService, helpService, networkService) {
+angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', function($rootScope, $scope, $log, $stateParams, $state, $timeout, $ionicHistory, $ionicScrollDelegate, popupService, gettextCatalog, ongoingProcessService, lodash, profileService, walletService, errorService, platformInfoService, appConfig, txFormatService, helpService, networkService) {
   var UNUSED_ADDRESS_LIMIT = 5;
   var BALANCE_ADDRESS_LIMIT = 5;
   var withBalance, cachedWallet;
 
   $scope.isCordova = platformInfoService.isCordova;
-  $scope.wallet = profileService.getWallet($stateParams.walletId);
+
+  $scope.$on("$ionicView.afterEnter", function(event, data) {
+    profileService.whenAvailable(function() {
+      $scope.wallet = profileService.getWallet($stateParams.walletId);
+
+      if (!isCachedWallet($stateParams.walletId)) {
+        $scope.init();
+      } else {
+        $log.debug('Addresses cached for Wallet:', $stateParams.walletId);
+      }
+    });
+  });
 
   function resetValues() {
     $scope.loading = false;
@@ -24,7 +35,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
     walletService.getMainAddresses($scope.wallet, {}, function(err, addresses) {
       if (err) {
         $scope.loading = false;
-        return popupService.showAlert(walletClientErrorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
+        return popupService.showAlert(errorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
       }
 
       var allAddresses = addresses;
@@ -32,7 +43,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
       walletService.getBalance($scope.wallet, {}, function(err, resp) {
         if (err) {
           $scope.loading = false;
-          return popupService.showAlert(walletClientErrorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
+          return popupService.showAlert(errorService.msg(err, {prefix: gettextCatalog.getString('Could not update wallet')}));
         }
 
         withBalance = resp.byAddress;
@@ -48,7 +59,7 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
         $scope.latestWithBalance = lodash.slice(withBalance, 0, BALANCE_ADDRESS_LIMIT);
 
         lodash.each(withBalance, function(a) {
-          a.balanceStr = txFormatService.formatAmountStr($scope.wallet.networkURI, a.amount);
+          a.balanceStr = txFormatService.formatAmountStr($scope.wallet.networkName, a.amount);
         });
 
         $scope.viewAll = {
@@ -71,16 +82,16 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
         return;
       }
       if (resp.allUtxos && resp.allUtxos.length) {
-        var atomicUnit = networkService.getAtomicUnit($scope.wallet.networkURI).shortName;
+        var atomicUnit = network.Unit().atomicsName;
         var allSum = lodash.sum(resp.allUtxos || 0, atomicUnit);
         var per = (resp.minFee / allSum) * 100;
 
         $scope.lowWarning = resp.warning;
         $scope.lowUtxosNb = resp.lowUtxos.length;
         $scope.allUtxosNb = resp.allUtxos.length;
-        $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, lodash.sum(resp.lowUtxos || 0, atomicUnit));
-        $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkURI, allSum);
-        $scope.minFee = txFormatService.formatAmountStr($scope.wallet.networkURI, resp.minFee || 0);
+        $scope.lowUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkName, lodash.sum(resp.lowUtxos || 0, atomicUnit));
+        $scope.allUtxosSum = txFormatService.formatAmountStr($scope.wallet.networkName, allSum);
+        $scope.minFee = txFormatService.formatAmountStr($scope.wallet.networkName, resp.minFee || 0);
         $scope.minFeePer = per.toFixed(2) + '%';
       }
     });
@@ -201,12 +212,4 @@ angular.module('owsWalletApp.controllers').controller('WalletAddressesCtrl', fun
       return false;
     }
   };
-
-  $scope.$on("$ionicView.afterEnter", function(event, data) {
-    if (!isCachedWallet($stateParams.walletId)) {
-      $scope.init();
-    } else {
-      $log.debug('Addresses cached for Wallet:', $stateParams.walletId);
-    }
-  });
 });

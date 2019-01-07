@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.directives')
-.directive('respondToSideMenuSlide', function($timeout, $ionicSideMenuDelegate, platformInfoService) {
+angular.module('owsWalletApp.directives').directive('respondToSideMenuSlide', function($timeout, $ionicSideMenuDelegate, platformInfoService) {
   return {
     restrict: 'A',
     link: function($scope, $element, $attr) {

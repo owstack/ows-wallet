@@ -1,6 +1,6 @@
 'use strict';
 angular.module('owsWalletApp.services')
-  .factory('backupService', function($log, $timeout, $stateParams, profileService, appConfig, networkService) {
+  .factory('backupService', function($log, $timeout, $stateParams, profileService, appConfig, networkService, cryptoService) {
 
     var root = {};
 
@@ -47,7 +47,6 @@ angular.module('owsWalletApp.services')
     };
 
     root.addMetadata = function(b, opts) {
-
       b = JSON.parse(b);
       if (opts.addressBook) b.addressBook = opts.addressBook;
       return JSON.stringify(b);
@@ -63,9 +62,9 @@ angular.module('owsWalletApp.services')
         var b = wallet.export(opts);
         if (opts.addressBook) b = root.addMetadata(b, opts);
 
-        var e = networkService.walletClientFor(wallet.networkURI).getSJCL().encrypt(password, b, {
+        var e = cryptoService.encrypt(password, b, {
           iter: 10000,
-          networkURI: wallet.networkURI // Store the network URI in the backup
+          networkName: wallet.networkName // Store the network name in the backup
         });
 
         return e;

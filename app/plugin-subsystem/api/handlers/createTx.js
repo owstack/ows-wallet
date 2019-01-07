@@ -68,13 +68,13 @@ angular.module('owsWalletApp.pluginApi').service('createTx', function($rootScope
 		// Now that we have the wallet, update the fee information.
 		if (fee) {
 	    fee = {
-				level: fee.level || config.currencyNetworks[wallet.networkURI].feeLevel,
+				level: fee.level || config.networkPreferences[wallet.networkName].feeLevel,
 				rate: fee.rate,
 				useCustomFee: fee.useCustomFee
 	    };
 		} else {
 	    fee = {
-				level: config.currencyNetworks[wallet.networkURI].feeLevel,
+				level: config.networkPreferences[wallet.networkName].feeLevel,
 				rate: undefined,
 				useCustomFee: false
 	    };
@@ -85,14 +85,14 @@ angular.module('owsWalletApp.pluginApi').service('createTx', function($rootScope
 
 				// If resolved to paypro and the paypro network URI does not match the selected wallet then
 				// there is something wrong.
-				if (resolved.paypro && (resolved.paypro.networkURI != wallet.networkURI)) {
+				if (resolved.paypro && (resolved.paypro.networkName != wallet.networkName)) {
 				    message.response = {
 			      statusCode: 400,
 			      statusText: 'INCOMPATABLE_WALLET',
 			      data: {
 			      	message: 'Wallet not compatible with payment data.',
-			      	paymentDataURI: resolved.paypro.networkURI,
-			      	walletURI: wallet.networkURI
+			      	paymentDataURI: resolved.paypro.networkName,
+			      	walletURI: wallet.networkName
 			      }
 			    };
 					return callback(message);
@@ -108,8 +108,8 @@ angular.module('owsWalletApp.pluginApi').service('createTx', function($rootScope
 		      toAmount: parseInt(resolved.amount),
 		      useSendMax: useSendMax == 'true' ? true : false,
 		      paypro: resolved.paypro,
-		      feeLevel: config.currencyNetworks[wallet.networkURI].feeLevel,
-		      networkURI: wallet.networkURI,
+		      feeLevel: config.networkPreferences[wallet.networkName].feeLevel,
+		      networkName: wallet.networkName,
 
 		      // Additional properties.
 		      description: description || resolved.paypro.memo,

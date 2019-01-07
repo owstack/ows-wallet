@@ -19,23 +19,23 @@
       font-size: 12px;
       line-height: 32px;
       border: 1px solid;
-      background: $v-button-primary-bg;
+      background: transparent;
       border-color: $v-button-primary-bg;
       color: $v-button-primary-color;
 
       &.button-positive {
-        background: transparent;
-        border-color: $v-button-primary-bg;
-        color: $v-button-primary-color;
+        background: $v-button-primary-bg;
       }
     }
 
     > .button:first-child {
       border-radius: 3px 0px 0px 3px !important;
+      border-right: none;
     }
 
     > .button:last-child {
       border-radius: 0px 3px 3px 0px !important;
+      border-left: none;
     }
   }
 }

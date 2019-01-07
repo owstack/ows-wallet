@@ -15,12 +15,12 @@ var RateService = function(opts) {
   self._queued = [];
 
   // _rates = {
-  //  'livenet/bch': {
+  //  'bch': {
   //    {'EUR': xxxx.xx},
   //    {'USD': xxxx.xx},
   //    ...
   //  },
-  //  'livenet/btc': {
+  //  'btc': {
   //    {'EUR': xxxx.xx},
   //    {'USD': xxxx.xx},
   //    ...
@@ -30,11 +30,11 @@ var RateService = function(opts) {
   self._rates = {};
 
   // _alternative = {
-  //   'livenet/bch': [
+  //   'bch': [
   //     {code: 'EUR', rate: xxxx.xx, name: 'Euro'},
   //     ...
   //   ]
-  //   'livenet/btc': [
+  //   'btc': [
   //     {code: 'EUR', rate: xxxx.xx, name: 'Euro'},
   //     ...
   //   ]
@@ -59,11 +59,11 @@ RateService.prototype._fetchCurrencies = function() {
   var updateFrequencySeconds = 5 * 60;
 
   var retrieve = function(network) {
-    var rateService = network.rateService[network.rateService.default];
-    var networkURI = network.getURI();
+    var rateService = network.rateService;
+    var networkName = network.name;
 
-    self._rates[networkURI] = {};
-    self._alternatives[networkURI] =[];
+    self._rates[networkName] = {};
+    self._alternatives[networkName] =[];
 
     self.httprequest.get(rateService.url).success(function(res) {
       var resultSet = self.lodash.get(res, rateService.resultSet, res);
@@ -73,8 +73,8 @@ RateService.prototype._fetchCurrencies = function() {
         var name = rateService.getName(key, val);
         var rate = rateService.getRate(key, val);
 
-        self._rates[networkURI][code] = rate;
-        self._alternatives[networkURI].push({
+        self._rates[networkName][code] = rate;
+        self._alternatives[networkName].push({
           name: name,
           isoCode: code,
           rate: rate
@@ -107,12 +107,12 @@ RateService.prototype._fetchCurrencies = function() {
   });
 };
 
-RateService.prototype.getRate = function(networkURI, code) {
-  return this._rates[networkURI][code];
+RateService.prototype.getRate = function(networkName, code) {
+  return this._rates[networkName][code];
 };
 
-RateService.prototype.getAlternatives = function(networkURI) {
-  return this._alternatives[networkURI];
+RateService.prototype.getAlternatives = function(networkName) {
+  return this._alternatives[networkName];
 };
 
 RateService.prototype.isAvailable = function() {
@@ -127,29 +127,30 @@ RateService.prototype.whenAvailable = function(callback) {
   }
 };
 
-RateService.prototype.toFiat = function(networkURI, atomics, code) {
+RateService.prototype.toFiat = function(networkName, atomics, code) {
   if (!this.isAvailable()) {
     return null;
   }
-  var asRatio = this.networkService.getASUnitRatio(networkURI);
-  return atomics * asRatio * this.getRate(networkURI, code);
+  var network = this.networkService.getNetworkByName(networkName);
+  return network.Unit(atomics, 'atomic').toStandardUnit() * this.getRate(networkName, code);
 };
 
-RateService.prototype.fromFiat = function(networkURI, amount, code) {
+RateService.prototype.fromFiat = function(networkName, amount, code) {
   if (!this.isAvailable()) {
     return null;
   }
-  var asRatio = this.networkService.getASUnitRatio(networkURI);
-  return amount / this.getRate(networkURI, code) / asRatio;
+  var network = this.networkService.getNetworkByName(networkName);
+  amount = amount / this.getRate(networkName, code);
+  return network.Unit(amount, 'standard').toAtomicUnit();
 };
 
-RateService.prototype.listAlternatives = function(networkURI, sort) {
+RateService.prototype.listAlternatives = function(networkName, sort) {
   var self = this;
   if (!this.isAvailable()) {
     return [];
   }
 
-  var alternatives = self.lodash.map(this.getAlternatives(networkURI), function(item) {
+  var alternatives = self.lodash.map(this.getAlternatives(networkName), function(item) {
     return {
       name: item.name,
       isoCode: item.isoCode

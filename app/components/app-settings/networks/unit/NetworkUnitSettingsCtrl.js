@@ -5,29 +5,26 @@ angular.module('owsWalletApp.controllers').controller('NetworkUnitSettingsCtrl',
   var config = configService.getSync();
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.networkURI = data.stateParams.networkURI;
-    if (!$scope.networkURI) {
+    $scope.networkName = data.stateParams.networkName;
+    if (!$scope.networkName) {
       return;
     }
 
-    var network = networkService.getNetworkByURI($scope.networkURI);
-    $scope.unitList = lodash.filter(network.units, function(n) {
-      return n.userSelectable;
+    var network = networkService.getNetworkByName($scope.networkName);
+    $scope.unitList = lodash.filter(network.Unit().units, function(n) {
+      return n.kind == 'standard' || n.kind == 'atomic';
     });
 
-    $scope.currentUnit = config.currencyNetworks[network.getURI()].unitCode;
+    $scope.currentUnit = config.networkPreferences[network.name].unitCode;
   });
 
   $scope.save = function(newUnit) {
     var opts = {
-      currencyNetworks: {}
+      networkPreferences: {}
     };
 
-    opts.currencyNetworks[$scope.networkURI] = {
-      unitName: newUnit.shortName,
-      unitToAtomicUnit: newUnit.value,
-      unitDecimals: newUnit.decimals,
-      unitCode: newUnit.code,
+    opts.networkPreferences[$scope.networkName] = {
+      unitCode: newUnit.code
     };
 
     configService.set(opts, function(err) {

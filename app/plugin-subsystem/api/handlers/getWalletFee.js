@@ -34,7 +34,7 @@ angular.module('owsWalletApp.pluginApi').service('getWalletFee', function(lodash
       return callback(message);
     }
 
-    feeLevel = feeLevel || root.getCurrentFeeLevel(wallet.network);
+    feeLevel = feeLevel || root.getCurrentFeeLevel(wallet.networkName);
 
     feeService.getFeeRate(feeLevel, wallet, function(error, feePerKb) {
       if (error) {

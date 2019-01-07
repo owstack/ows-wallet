@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($rootScope, $scope, $timeout, $interval, $ionicScrollDelegate, gettextCatalog, walletService, platformInfoService, lodash, configService, $state, $log, profileService, $ionicModal, popupService, $ionicHistory, $ionicConfig, walletClientErrorService, networkService, txConfirmNotificationService, Transaction) {
+angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($rootScope, $scope, $timeout, $interval, $ionicScrollDelegate, gettextCatalog, walletService, platformInfoService, lodash, configService, $state, $log, profileService, $ionicModal, popupService, $ionicHistory, $ionicConfig, errorService, networkService, txConfirmNotificationService, Transaction) {
 
   var config = configService.getSync();
   var isCordova = platformInfoService.isCordova;
@@ -16,13 +16,13 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
   });
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    function setWalletSelector(networkURI, minAmount, cb) {
+    function setWalletSelector(networkName, minAmount, cb) {
       // no min amount? (sendMax) => look for no empty wallets
       minAmount = minAmount || 1;
 
       $scope.wallets = profileService.getWallets({
         onlyComplete: true,
-        networkURI: networkURI
+        networkName: networkName
       });
 
       if (!$scope.wallets || !$scope.wallets.length) {
@@ -73,15 +73,15 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
       toAmount: parseInt(data.stateParams.toAmount),
       useSendMax: data.stateParams.useSendMax == 'true' ? true : false,
       paypro: data.stateParams.paypro,
-      feeLevel: config.currencyNetworks[data.stateParams.networkURI].feeLevel,
-      networkURI: data.stateParams.networkURI,
+      feeLevel: config.networkPreferences[data.stateParams.networkName].feeLevel,
+      networkName: data.stateParams.networkName,
 
       // Additional properties.
       description: data.stateParams.description,
       spendUnconfirmed: config.wallet.spendUnconfirmed,
 
       // Supporting data not part of the final transaction.
-      currency: networkService.getNetworkByURI(data.stateParams.networkURI).currency,
+      currency: networkService.getNetworkByName(data.stateParams.networkName).currency,
       recipientType: data.stateParams.recipientType || null,
       toName: data.stateParams.toName,
       toEmail: data.stateParams.toEmail,
@@ -99,7 +99,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     }
 
     // Set a wallet or show the wallet selector.
-    setWalletSelector(tx.networkURI, tx.toAmount, function(err) {
+    setWalletSelector(tx.networkName, tx.toAmount, function(err) {
       if (err) {
         return exitWithError('Could not update wallets');
       }
@@ -249,7 +249,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
   $scope.chooseFeeLevel = function(tx) {
     var scope = $rootScope.$new(true);
-    scope.networkURI = tx.networkURI;
+    scope.networkName = tx.networkName;
     scope.feeLevel = tx.feeLevel;
     scope.noSave = true;
 
@@ -301,7 +301,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
 
   function exitWithError(err) {
     $log.error('Error setting wallet selector:' + err);
-    popupService.showAlert(gettextCatalog.getString('Wallet Error'), walletClientErrorService.msg(err), function() {
+    popupService.showAlert(gettextCatalog.getString('Wallet Error'), errorService.msg(err), function() {
       $ionicHistory.nextViewOptions({
         disableAnimate: true,
         historyRoot: true
@@ -393,7 +393,7 @@ angular.module('owsWalletApp.controllers').controller('ConfirmCtrl', function($r
     $timeout(function() {
       $scope.$apply();
     });
-    popupService.showAlert(gettextCatalog.getString('Error at confirm'), walletClientErrorService.msg(msg));
+    popupService.showAlert(gettextCatalog.getString('Error at confirm'), errorService.msg(msg));
   };
 
   function setButtonText(isMultisig, isPayPro) {

@@ -309,14 +309,14 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
      */
 
     .state(sref('send.amount'), {
-      url: '/amount/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toEmail/:toColor',
+      url: '/amount/:walletId/:networkName/:recipientType/:toAddress/:toName/:toEmail/:toColor',
       views: getViews('send.amount', [{
         controller: 'AmountCtrl',
         templateUrl: 'views/send/amount/amount.html'
       }])
     })
     .state(sref('send.confirm'), {
-      url: '/confirm/:walletId/:networkURI/:recipientType/:toAddress/:toName/:toAmount/:toEmail/:toColor/:description/:useSendMax',
+      url: '/confirm/:walletId/:networkName/:recipientType/:toAddress/:toName/:toAmount/:toEmail/:toColor/:description/:useSendMax',
       views: getViews('send.confirm', [{
         controller: 'ConfirmCtrl',
         templateUrl: 'views/send/confirm/confirm.html'
@@ -402,28 +402,28 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
     .state(sref('network-settings'), {
-      url: '/network-settings/:networkURI',
+      url: '/network-settings/:networkName',
       views: getViews('network-settings', [{
         controller: 'NetworkSettingsCtrl',
         templateUrl: 'views/app-settings/networks/networks.html'
       }])
     })
     .state(sref('unit'), {
-      url: '/unit/:networkURI',
+      url: '/unit/:networkName',
       views: getViews('unit', [{
         controller: 'NetworkUnitSettingsCtrl',
         templateUrl: 'views/app-settings/networks/unit/unit.html'
       }])
     })
     .state(sref('fee'), {
-      url: '/fee/:networkURI',
+      url: '/fee/:networkName',
       views: getViews('fee', [{
         controller: 'NetworkFeePolicySettingsCtrl',
         templateUrl: 'views/app-settings/networks/fee-policy/fee-policy.html'
       }])
     })
     .state(sref('alternative-currency'), {
-      url: '/alternative-currency/:networkURI',
+      url: '/alternative-currency/:networkName',
       views: getViews('alternative-currency', [{
         controller: 'NetworkAltCurrencySettingsCtrl',
         templateUrl: 'views/app-settings/networks/alt-currency/alt-currency.html'
@@ -577,11 +577,11 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
         templateUrl: 'views/wallet-settings/export/export.html'
       }])
     })
-    .state(sref('preferences.wallet-service-url'), {
-      url: '/preferences/wallet-service-url/:walletId',
-      views: getViews('preferences.wallet-service-url', [{
-        controller: 'WalletServiceUrlSettingsCtrl',
-        templateUrl: 'views/wallet-settings/wallet-service-url/wallet-service-url.html'
+    .state(sref('preferences.wallet-service'), {
+      url: '/preferences/wallet-service/:walletId',
+      views: getViews('preferences.wallet-service', [{
+        controller: 'WalletServiceSettingsCtrl',
+        templateUrl: 'views/wallet-settings/wallet-service/wallet-service.html'
       }])
     })
     .state(sref('preferences.history'), {
@@ -655,7 +655,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       }])
     })
     .state(sref('address-book.add'), {
-      url: '/address-book/add/:from/:address/:networkURI',
+      url: '/address-book/add/:from/:address/:networkName',
       views: getViews('address-book.add', [{
         controller: 'AddressBookEditCtrl',
         templateUrl: 'views/address-book/edit/edit.html'
@@ -687,7 +687,7 @@ angular.module('owsWalletApp.services').factory('navigationService', function($r
       abstract: true
     })
     .state(sref('payment-request.amount'), {
-      url: '/amount/:walletId/:networkURI',
+      url: '/amount/:walletId/:networkName',
       views: getViews('payment-request.amount', [{
         controller: 'AmountCtrl',
         templateUrl: 'views/send/amount/amount.html'

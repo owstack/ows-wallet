@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function($rootScope, $scope, $timeout, $log, $ionicPopup, lodash, gettextCatalog, appletService, pluginSessionService, profileService) {
+angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function($rootScope, $scope, $timeout, $log, $ionicPopup, lodash, gettextCatalog, appletService, networkService, pluginSessionService, profileService) {
 
   var session;
 
@@ -256,7 +256,8 @@ angular.module('owsWalletApp.controllers').controller('AppletViewCtrl', function
 
     if (opts.filter.currencies && opts.filter.currencies.length > 0) {
       $scope.filteredWallets = lodash.filter(wallets, function(w) {
-        return opts.filter.currencies.includes(w.currency.toUpperCase());
+        var network = networkService.getNetworkByName(w.networkName);
+        return opts.filter.currencies.includes(network.currency.toUpperCase());
       });
     }
 

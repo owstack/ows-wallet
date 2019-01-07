@@ -62,7 +62,7 @@
           ng-model="selectedFee.value">
           {{fl.name|translate}}
           <div class="item-detail" ng-if="fl.feePerKb">
-            {{fl.feePerAtomicUnitByte}} {{fl.atomicUnitCode}}/byte &middot; {{fl.avgConfirmationTime | amDurationFormat: 'minute'}}
+            {{fl.feePerAtomicUnitByte}} {{fl.atomicUnitName}}/byte &middot; {{fl.avgConfirmationTime | amDurationFormat: 'minute'}}
           </div>
         </ion-radio>
       </ion-list>

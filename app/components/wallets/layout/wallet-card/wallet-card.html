@@ -29,7 +29,7 @@
       </span>
     </div>
     <div class="wallet-grid-card__detail">
-      <img class="detail currency" ng-src="img/currency-icons/icon-white-{{wallet.currency}}.svg"/>
+      <img class="detail currency" ng-src="img/currency-icons/icon-white-{{wallet.networkName}}.svg"/>
       <i ng-if="!wallet.balanceHidden && (wallet.status.totalBalanceAtomic != wallet.status.spendableAmount)"
         class="detail confirming ion-android-time"></i>
       <span ng-if="wallet.n > 1" class="detail wallet-n">

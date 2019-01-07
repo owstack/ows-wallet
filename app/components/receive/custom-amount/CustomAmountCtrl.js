@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', function($scope, txFormatService, platformInfoService, configService, profileService, walletService, popupService, networkService) {
+angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', function($scope, lodash, txFormatService, platformInfoService, configService, profileService, walletService, popupService, networkService) {
 
   // topScope is AmountCtrl
   var amount = $scope.topScope.amount;
@@ -17,10 +17,12 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
       
     $scope.showShareButton = platformInfoService.isCordova ? (platformInfoService.isIOS ? 'iOS' : 'Android') : null;
     $scope.wallet = profileService.getWallet(walletId);
-    $scope.protocol = networkService.getNetworkByURI($scope.wallet.networkURI).protocol;
+    $scope.protocol = networkService.getNetworkByName($scope.wallet.networkName).protocol;
 
-    var standardUnit = networkService.getStandardUnit($scope.wallet.networkURI);
-    var parsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amount, currency);
+    var config = configService.getSync();
+    var network = networkService.getNetworkByName($scope.wallet.networkName);
+    var standardUnit = network.Unit().standardsName();
+    var parsedAmount = txFormatService.parseAmount($scope.wallet.networkName, amount, currency);
     amount = parsedAmount.amount;
     currency = parsedAmount.currency;
 
@@ -28,16 +30,18 @@ angular.module('owsWalletApp.controllers').controller('CustomAmountCtrl', functi
 
     if (currency != standardUnit.shortName) {
       // Convert to standard units
-      var config = configService.getSync().currencyNetworks[$scope.wallet.networkURI];
+      var unitName = lodash.find(network.Unit().units, function(u) {
+        return u.code == networkPreferences[$scope.wallet.networkName].unitCode;
+      }).shortName;
 
-      var amountAtomic = txFormatService.atomicToUnit($scope.wallet.networkURI, parsedAmount.amountAtomic);
-      var standardParsedAmount = txFormatService.parseAmount($scope.wallet.networkURI, amountAtomic, config.unitName);
+      var amountAtomic = txFormatService.atomicToUnit($scope.wallet.networkName, parsedAmount.amountAtomic);
+      var standardParsedAmount = txFormatService.parseAmount($scope.wallet.networkName, amountAtomic, unitName);
       
       $scope.amountStandard = standardParsedAmount.amount;
       $scope.altAmountStr = standardParsedAmount.amountUnitStr;
     } else {
       $scope.amountStandard = amount;
-      $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.networkURI, parsedAmount.amountAtomic);
+      $scope.altAmountStr = txFormatService.formatAlternativeStr($scope.wallet.networkName, parsedAmount.amountAtomic);
     }
 
     walletService.getAddress($scope.wallet, false, function(err, addr) {

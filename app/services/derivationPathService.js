@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('derivationPathService', function(lodash, networkService) {
+angular.module('owsWalletApp.services').factory('derivationPathService', function(networkService) {
   var root = {};
 
   var defaultPath = "m/44'/0'/0'";
@@ -24,7 +24,7 @@ angular.module('owsWalletApp.services').factory('derivationPathService', functio
       case "45'":
         return {
           derivationStrategy: 'BIP45',
-          networkURI: networkService.getNetworkForCurrency(network.currency).getURI(),
+          networkName: networkService.getNetworkForCurrency(network.currency).name,
           account: 0,
         }
         break;
@@ -37,7 +37,7 @@ angular.module('owsWalletApp.services').factory('derivationPathService', functio
 
     switch (arr[2]) {
       case "0'":
-          ret.networkURI = networkService.getNetworkForCurrency(network.currency).getURI();
+          ret.networkName = networkService.getNetworkForCurrency(network.currency).name;
         break;
       default:
         return false;

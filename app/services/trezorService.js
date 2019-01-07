@@ -39,8 +39,8 @@ angular.module('owsWalletApp.services')
       return callback(opts);
     };
 
-    root.getInfoForNewWallet = function(isMultisig, account, networkURI, callback) {
-      // networkURI not used for this hardware (always livenet/btc)
+    root.getInfoForNewWallet = function(isMultisig, account, networkName, callback) {
+      // networkName not used for this hardware (always 'btc')
       var opts = {};
       root.getEntropySource(isMultisig, account, function(err, data) {
         if (err) return callback(err);
@@ -48,7 +48,7 @@ angular.module('owsWalletApp.services')
         $log.debug('Waiting TREZOR to settle...');
         $timeout(function() {
 
-          root.getXPubKey(hwWalletService.getAddressPath(root.description.id, isMultisig, account, 'livenet/btc'), function(data) {
+          root.getXPubKey(hwWalletService.getAddressPath(root.description.id, isMultisig, account, 'btc'), function(data) {
             if (!data.success)
               return callback(hwWalletService._err(data));
 
@@ -65,15 +65,13 @@ angular.module('owsWalletApp.services')
     };
 
     root._orderPubKeys = function(xPub, np) {
-      var btcLib = networkService.walletClientFor('livenet/btc').getLib();
-
       var xPubKeys = lodash.clone(xPub);
       var path = lodash.clone(np);
       path.unshift('m');
       path = path.join('/');
 
       var keys = lodash.map(xPubKeys, function(x) {
-        var pub = btcLib.HDPublicKey(x).derive(path).publicKey;
+        var pub = networkService.keyLib.HDPublicKey(x).derive(path).publicKey;
         return {
           xpub: x,
           pub: pub.toString('hex'),

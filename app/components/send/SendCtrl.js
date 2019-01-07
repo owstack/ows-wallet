@@ -115,7 +115,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
               $log.debug('Got toAddress:' + addr.address + ' | ' + entry.name);
               return $state.transitionTo($rootScope.sref('send.amount'), {
                 recipientType: item.recipientType,
-                networkURI: addr.networkURI,
+                networkName: addr.networkName,
                 toAddress: addr.address,
                 toName: entry.name + (addr.label ? ' - ' + addr.label : ''),
                 toEmail: entry.email
@@ -136,7 +136,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
           return $state.transitionTo($rootScope.sref('send.amount'), {
             recipientType: item.recipientType,
             walletId: $scope.walletId,
-            networkURI: item.networkURI,
+            networkName: item.networkName,
             toAddress: addr,
             toName: item.name + (item.label ? ' - ' + item.label : ''),
             toEmail: item.email,
@@ -175,7 +175,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
       var walletList = [];
       lodash.each(walletsToTransfer, function(w) {
         walletList.push({
-          networkURI: w.networkURI,
+          networkName: w.networkName,
           color: w.color,
           name: w.name,
           recipientType: 'wallet',
@@ -209,7 +209,7 @@ angular.module('owsWalletApp.controllers').controller('SendCtrl', function($scop
 
         if (sendingWallet) {
           addresses = lodash.filter(entry.addresses, function(address) {
-            return address.networkURI == sendingWallet.networkURI;
+            return address.networkName == sendingWallet.networkName;
           });
         }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootScope, lodash, pluginSessionService, profileService, utilService) {
+angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootScope, lodash, networkService, pluginSessionService, profileService, utilService) {
 
 	var root = {};
 
@@ -41,8 +41,6 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 		'status.availableBalanceAtomic',
 		'status.pendingAmount',
 		'status.spendableAmount',
-		'status.unitToAtomicUnit',
-		'status.atomicToUnit',
 		'status.unitName',
 		'status.totalBalanceValueStr',
 		'status.totalBalanceUnitStr',
@@ -65,7 +63,6 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 		'status.pendingBalanceAlternative',
 		'status.lockedBalanceAlternative',
 		'status.spendableBalanceAlternative',
-		'status.alternativeConversionRate',
 		'status.alternativeBalanceAvailable',
 		'status.isRateAvailable'
 	];
@@ -188,7 +185,8 @@ angular.module('owsWalletApp.pluginApi').service('getWallets', function($rootSco
 		var currencies = lodash.get(filter, 'currencies');
 		if (currencies && currencies.length > 0) {
 			filteredWallets = lodash.filter(wallets, function(w) {
-				return filter.currencies.includes(w.currency.toUpperCase());
+				var network = networkService.getNetworkByName(w.networkName);
+				return filter.currencies.includes(network.currency.toUpperCase());
 			});
 		}
 

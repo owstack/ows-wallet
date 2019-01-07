@@ -77,7 +77,7 @@ angular.module('owsWalletApp.services').factory('sideMenuRoutes', function() {
       'preferences.external':           { stateName: 'main.preferences-external',           viewNames: ['side-menu-content'] },
       'preferences.history':            { stateName: 'main.preferences-history',            viewNames: ['side-menu-content'] },
       'preferences.information':        { stateName: 'main.preferences-information',        viewNames: ['side-menu-content'] },
-      'preferences.wallet-service-url': { stateName: 'main.preferences-wallet-service-url', viewNames: ['side-menu-content'] },
+      'preferences.wallet-service':     { stateName: 'main.preferences-wallet-service',     viewNames: ['side-menu-content'] },
       'proposals':                      { stateName: 'main.proposals',                      viewNames: ['side-menu-content'] },
       'rate':                           { stateName: 'main.rate',                           viewNames: null },
       'rate.complete':                  { stateName: 'main.rate-complete',                  viewNames: ['side-menu-content'] },

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $timeout, $log, $ionicModal, $state, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, walletClientErrorService, gettextCatalog, timeService, networkService, helpService, uiService, ongoingProcessService) {
+angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($scope, $rootScope, $timeout, $log, $ionicModal, $state, $ionicHistory, profileService, lodash, platformInfoService, walletService, txpModalService, externalLinkService, addressBookService, $ionicScrollDelegate, $window, errorService, gettextCatalog, timeService, networkService, helpService, uiService, ongoingProcessService) {
 
   // Constants for managing collapsible view.
   var NAV_BAR_HEIGHT = 44; // app nav bar content height
@@ -149,7 +149,7 @@ angular.module('owsWalletApp.controllers').controller('WalletCtrl', function($sc
         } else {
           $scope.updateStatusError = {
             message: gettextCatalog.getString('Status Error'),
-            detail: walletClientErrorService.msg(err)
+            detail: errorService.msg(err)
           }
         }
         $scope.status = null;

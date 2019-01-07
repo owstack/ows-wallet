@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('storageService', function($log, $timeout, lodash, Profile, fileStorageService, localStorageService, platformInfoService) {
+angular.module('owsWalletApp.services').factory('storageService', function($log, $timeout, Profile, fileStorageService, localStorageService, platformInfoService) {
 
   var root = {};
   var storage;
@@ -133,12 +133,12 @@ angular.module('owsWalletApp.services').factory('storageService', function($log,
     storage.remove('addressbook', cb);
   };
 
-  root.setLastCurrencyUsed = function(lastCurrencyUsed, networkURI, cb) {
-    storage.set('lastCurrencyUsed-' + networkURI, lastCurrencyUsed, cb)
+  root.setLastCurrencyUsed = function(lastCurrencyUsed, networkName, cb) {
+    storage.set('lastCurrencyUsed-' + networkName, lastCurrencyUsed, cb)
   };
 
-  root.getLastCurrencyUsed = function(networkURI, cb) {
-    storage.get('lastCurrencyUsed-' + networkURI, cb)
+  root.getLastCurrencyUsed = function(networkName, cb) {
+    storage.get('lastCurrencyUsed-' + networkName, cb)
   };
 
   root.setTxHistory = function(txs, walletId, cb) {
@@ -171,19 +171,19 @@ angular.module('owsWalletApp.services').factory('storageService', function($log,
     storage.remove('balanceCache-' + walletId, cb);
   };
 
-  root.setAppIdentity = function(networkURI, data, cb) {
-    storage.set('appIdentity-' + networkURI, data, cb);
+  root.setAppIdentity = function(networkName, data, cb) {
+    storage.set('appIdentity-' + networkName, data, cb);
   };
 
-  root.getAppIdentity = function(networkURI, cb) {
-    storage.get('appIdentity-' + networkURI, function(err, data) {
+  root.getAppIdentity = function(networkName, cb) {
+    storage.get('appIdentity-' + networkName, function(err, data) {
       if (err) return cb(err);
       cb(err, JSON.parse(data || '{}'));
     });
   };
 
-  root.removeAppIdentity = function(networkURI, cb) {
-    storage.remove('appIdentity-' + networkURI, cb);
+  root.removeAppIdentity = function(networkName, cb) {
+    storage.remove('appIdentity-' + networkName, cb);
   };
 
   root.removeAllWalletData = function(walletId, cb) {

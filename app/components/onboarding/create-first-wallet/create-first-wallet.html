@@ -2,14 +2,14 @@
   <ion-nav-bar class="bar">
     <ion-nav-buttons>
       <div class="button-bar">
-        <a grouped-radio="n.getURI()" ng-model="data.networkURI" ng-repeat="n in availableNetworks">
-          {{n.getCurrencyLongLabel()}}
+        <a grouped-radio="n.name" ng-model="data.networkName" ng-repeat="n in availableNetworks">
+          {{n.currency}}
         </a>
       </div>
     </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content scroll="false">
-    <img class="onboard-image" ng-src="img/onboarding/create-{{network.currency}}.svg"/>
+    <img class="onboard-image" ng-src="img/onboarding/create-{{network.name}}.svg"/>
     <div class="onboard-text">
       <div class="onboard-topic" translate>
         Create your initial wallet
@@ -21,7 +21,7 @@
     <div class="cta-buttons">
       <button class="button button-standard button-primary" id="get-started" ng-click="createFirstWallet()" translate-context="button"
         translate>
-        Create {{network.getFriendlyNetLabel()}} wallet
+        Create {{network.longLabel}} wallet
       </button>
       <button class="button button-standard button-secondary button-clear" id="restore" href
         ui-sref="{{sref('onboarding.import')}}({'fromOnboarding':true})" translate>

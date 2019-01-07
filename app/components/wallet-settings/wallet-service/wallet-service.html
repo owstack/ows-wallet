@@ -1,6 +1,6 @@
-<ion-view id="ows-preferences-wallet-service-url" class="ows" show-tabs>
+<ion-view id="ows-preferences-wallet-service" class="ows" show-tabs>
   <ion-nav-bar class="bar">
-    <ion-nav-title>{{'Wallet Service URL' | translate}}</ion-nav-title>
+    <ion-nav-title>{{'Wallet Service' | translate}}</ion-nav-title>
     <ion-nav-back-button>
     </ion-nav-back-button>
   </ion-nav-bar>
@@ -8,17 +8,23 @@
     <div ng-include="'views/wallet-settings/partials/wallet-item/wallet-item.html'"></div>
     <div class="box-notification info clear">
       <p translate>
-        {{appName}} depends on Wallet Services for blockchain information, networking and copayer synchronization. The default configuration points to Open Wallet Stack's public instance.
+        {{appName}} depends on Wallet Services for blockchain information and shared wallet coordination.
       </p>
     </div>
     <form name="form.urlForm" ng-submit="save()" novalidate>
       <ion-list>
         <ion-item class="item-input item-stacked-label">
           <span class="input-label" translate>
-            Wallet Service URL
+            Name
             <a class="item-icon-right" href ng-click="resetDefaultUrl()" ng-show="customUrl">
               <i class="icon ion-refresh"></i>
             </a>
+          </span>
+          <input type="text" id="walletServiceName" name="walletServiceName" ng-model="walletServiceName.value">
+        </ion-item>
+        <ion-item class="item-input item-stacked-label">
+          <span class="input-label" translate>
+            URL
           </span>
           <input type="text" id="walletServiceUrl" name="walletServiceUrl" ng-model="walletServiceUrl.value">
         </ion-item>

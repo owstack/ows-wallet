@@ -15,7 +15,7 @@
           <span translate>
             Currency
           </span>
-          <select ng-model="formData.network" ng-options="network as network.getCurrencyLongLabel() for network in availableNetworks"
+          <select ng-model="formData.network" ng-options="network as network.longLabel for network in availableNetworks"
             ng-change="onNetworkChange(); resizeView();"></select>
         </ion-item>
         <ion-item class="item-divider"></ion-item>

@@ -9,7 +9,7 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
   $scope.requestSpecificAmount = function() {
     $state.go($rootScope.sref('payment-request.amount'), {
       walletId: $scope.wallet.credentials.walletId,
-      networkURI: $scope.wallet.networkURI
+      networkName: $scope.wallet.networkName
     });
   };
 
@@ -128,7 +128,7 @@ angular.module('owsWalletApp.controllers').controller('ReceiveCtrl', function($r
   }
 
   var setProtocol = function() {
-    $scope.protocol = networkService.getNetworkByURI($scope.wallet.networkURI).protocol;
+    $scope.protocol = networkService.getNetworkByName($scope.wallet.networkName).protocol;
   }
 
   $scope.onWalletSelect = function(wallet) {

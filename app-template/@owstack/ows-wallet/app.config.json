@@ -29,6 +29,51 @@
   "appNavigationScheme": "tabs",
   "appUri": "owswallet",
   "statusBarColor": "#000000",
+  "defaultNetwork": "btc",
+  "walletService": {
+    "name": "OWS Wallet Service",
+    "url": "http://localhost:3232/ws/api",
+    "XXXXurl": "https://ws.owstack.org/ws/api"
+  },
+  "blockchainExplorer": {
+    "bch": {
+      "name": "Explorer",
+      "url": "http://explorer.owstack.org/explorer"
+    },
+    "btc": {
+      "name": "Explorer",
+      "url": "http://explorer.owstack.org/explorer"
+    },
+    "ltc": {
+      "name": "Explorer",
+      "url": "http://explorer.owstack.org/explorer"
+    }
+  },
+  "rateService": {
+    "bch": {
+      "name": "OWS Rate Service",
+      "url": "http://rates.owstack.org/buy/gdax,bitstamp/bchusd/1"
+    },
+    "btc": {
+      "name": "OWS Rate Service",
+      "url": "http://rates.owstack.org/buy/gdax,bitstamp/btcusd/1"
+    },
+    "ltc": {
+      "name": "OWS Rate Service",
+      "url": "http://rates.owstack.org/buy/gdax,bitstamp/ltcusd/1"
+    }
+  },
+  "store": {
+    "production": {
+      "url": ""
+    },
+    "staging": {
+      "url": ""
+    },
+    "local": {
+      "url": ""
+    }
+  },
   "plugins": {
     "@owstack/ows-wallet-applet-hello": "^0.0.22",
     "@owstack/ows-wallet-applet-movies": "^0.0.46",
@@ -40,73 +85,6 @@
       "org.openwalletstack.wallet.theme.default": {
         "default": true
       }
-    }
-  },
-  "networks": {
-    "bch": {
-      "explorer": {
-        "production": {
-          "url": "http://bch.livenet.explorer-api.owstack.org"
-        }
-      },
-      "walletService": {
-        "production": {
-          "url": "http://bch.ws.owstack.org/bchws/api"
-        },
-        "staging": {
-          "url": "http://bch.ws.owstack.org/bchws/api"
-        },
-        "local": {
-          "url": "http://localhost:4232/bchws/api"
-        }
-      }
-    },
-    "btc": {
-      "explorer": {
-        "production": {
-          "url": "http://btc.livenet.explorer-api.owstack.org"
-        }
-      },
-      "walletService": {
-        "production": {
-          "url": "http://btc.ws.owstack.org/btcws/api"
-        },
-        "staging": {
-          "url": "http://btc.ws.owstack.org/btcws/api"
-        },
-        "local": {
-          "url": "http://localhost:3232/btcws/api"
-        }
-      }
-    },
-    "ltc": {
-      "explorer": {
-        "production": {
-          "url": "http://ltc.livenet.explorer-api.owstack.org"
-        }
-      },
-      "walletService": {
-        "production": {
-          "url": "http://ltc.ws.owstack.org/ltcws/api"
-        },
-        "staging": {
-          "url": "http://ltc.ws.owstack.org/ltcws/api"
-        },
-        "local": {
-          "url": "http://localhost:3232/ltcws/api"
-        }
-      }
-    }
-  },
-  "store": {
-    "production": {
-      "url": "http://store.owstack.org:5232/store/api"
-    },
-    "staging": {
-      "url": "http://store.owstack.org:5232/store/api"
-    },
-    "local": {
-      "url": "http://localhost:5232/store/api"
     }
   },
   "features": {

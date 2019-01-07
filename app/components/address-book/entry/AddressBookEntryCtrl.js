@@ -21,12 +21,12 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', fu
     });
   });
 
-  $scope.currencyFor = function(networkURI) {
-    return networkService.parseCurrency(networkURI);
+  $scope.currencyFor = function(networkName) {
+    return networkService.getNetworkByName(networkName).currency;
   };
 
   $scope.addressLabelFor = function(entryAddress) {
-    return entryAddress.label || networkService.getNetworkByURI(entryAddress.networkURI).getFriendlyNetLabel();
+    return entryAddress.label || networkService.getNetworkByName(entryAddress.networkName).shortLabel;
   };
 
   $scope.sendTo = function(index) {
@@ -35,7 +35,7 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEntryCtrl', fu
     
     $timeout(function() {
       $state.transitionTo($rootScope.sref('send.amount'), {
-        networkURI: $scope.addressbookEntry.addresses[index].networkURI,
+        networkName: $scope.addressbookEntry.addresses[index].networkName,
         toAddress: $scope.addressbookEntry.addresses[index].address,
         toName: $scope.addressbookEntry.name + ($scope.addressbookEntry.addresses[index].label ? ' - ' + $scope.addressbookEntry.addresses[index].label : ''),
         toEmail: $scope.addressbookEntry.email,

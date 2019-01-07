@@ -1,226 +1,226 @@
 'use strict';
 
-angular.module('owsWalletApp.services')
-  .factory('ledgerService', function($log, gettext, hwWalletService, platformInfoService, networkService) {
-    var root = {};
-    var LEDGER_CHROME_ID = "kkdpmhnladdopljabkgpacgpliggeeaf";
+angular.module('owsWalletApp.services').factory('ledgerService', function($log, gettext, hwWalletService, platformInfoService, networkService) {
+  var root = {};
+  var LEDGER_CHROME_ID = "kkdpmhnladdopljabkgpacgpliggeeaf";
 
-    root.description = {
-      supported: platformInfoService.supportsLedger,
-      id: 'ledger',
-      name: 'Ledger',
-      longName: 'Ledger Hardware Wallet',
-      isEmbeddedHardware: false
-    };
+  root.description = {
+    supported: platformInfoService.supportsLedger,
+    id: 'ledger',
+    name: 'Ledger',
+    longName: 'Ledger Hardware Wallet',
+    isEmbeddedHardware: false
+  };
 
-    root.callbacks = {};
-    root.hasSession = function() {
-      root._message({
-        command: "has_session"
-      });
-    }
+  root.callbacks = {};
+  root.hasSession = function() {
+    root._message({
+      command: "has_session"
+    });
+  }
 
-    root.getEntropySource = function(isMultisig, account, callback) {
-      root.getXPubKey(hwWalletService.getEntropyPath(root.description.id, isMultisig, account), function(data) {
-        if (!data.success)
-          return callback(hwWalletService._err(data));
+  root.getEntropySource = function(isMultisig, account, callback) {
+    root.getXPubKey(hwWalletService.getEntropyPath(root.description.id, isMultisig, account), function(data) {
+      if (!data.success)
+        return callback(hwWalletService._err(data));
 
-        return callback(null, hwWalletService.pubKeyToEntropySource(data.xpubkey, 'livenet/btc')); // Support only livenet/btc
-      });
-    };
+      return callback(null, hwWalletService.pubKeyToEntropySource(data.xpubkey, 'livenet/btc')); // Support only livenet/btc
+    });
+  };
 
-    root.getXPubKey = function(path, callback) {
-      $log.debug('Ledger deriving xPub path:', path);
-      root.callbacks["get_xpubkey"] = callback;
-      root._messageAfterSession({
-        command: "get_xpubkey",
-        path: path
-      });
-    };
+  root.getXPubKey = function(path, callback) {
+    $log.debug('Ledger deriving xPub path:', path);
+    root.callbacks["get_xpubkey"] = callback;
+    root._messageAfterSession({
+      command: "get_xpubkey",
+      path: path
+    });
+  };
 
-    root.initSource = function(opts, callback) {
-      // No initialization for this hardware source.
-      return callback(opts);
-    };
+  root.initSource = function(opts, callback) {
+    // No initialization for this hardware source.
+    return callback(opts);
+  };
 
-    root.getInfoForNewWallet = function(isMultisig, account, networkURI, callback) {
-      // networkURI not used for this hardware (always livenet/btc)
-      root.getEntropySource(isMultisig, account, function(err, entropySource) {
-        if (err) return callback(err);
+  root.getInfoForNewWallet = function(isMultisig, account, networkName, callback) {
+    // networkName not used for this hardware (always 'btc')
+    root.getEntropySource(isMultisig, account, function(err, entropySource) {
+      if (err) return callback(err);
 
-        var opts = {};
-        opts.entropySource = entropySource;
-        root.getXPubKey(hwWalletService.getAddressPath(root.description.id, isMultisig, account, 'livenet/btc'), function(data) {
-          if (!data.success) {
-            $log.error(data.message);
-            return callback(data);
-          }
-          opts.extendedPublicKey = data.xpubkey;
-          opts.externalSource = root.description.id;
-
-          // Old ledger compat
-          opts.derivationStrategy = opts.account ? 'BIP48' : 'BIP44';
-          return callback(null, opts);
-        });
-      });
-    };
-
-    root._signP2SH = function(txp, account, isMultisig, callback) {
-      root.callbacks["sign_p2sh"] = callback;
-      var redeemScripts = [];
-      var paths = [];
-      var tx = networkService.walletClientFor(txp.network).getUtils().buildTx(txp);
-
-      for (var i = 0; i < tx.inputs.length; i++) {
-        redeemScripts.push(new ByteString(tx.inputs[i].redeemScript.toBuffer().toString('hex'), GP.HEX).toString());
-        paths.push(hwWalletService.getAddressPath(root.description.id, isMultisig, account, txp.network) + txp.inputs[i].path.substring(1));
-      }
-      var splitTransaction = root._splitTransaction(new ByteString(tx.toString(), GP.HEX));
-      var inputs = [];
-      for (var i = 0; i < splitTransaction.inputs.length; i++) {
-        var input = splitTransaction.inputs[i];
-        inputs.push([
-          root._reverseBytestring(input.prevout.bytes(0, 32)).toString(),
-          root._reverseBytestring(input.prevout.bytes(32)).toString()
-        ]);
-      }
-      $log.debug('Ledger signing  paths:', paths);
-      root._messageAfterSession({
-        command: "sign_p2sh",
-        inputs: inputs,
-        scripts: redeemScripts,
-        outputs_number: splitTransaction.outputs.length,
-        outputs_script: splitTransaction.outputScript.toString(),
-        paths: paths
-      });
-    };
-
-    root.signTx = function(txp, account, callback) {
-      var isMultisig = true;
-      if (txp.addressType == 'P2PKH') {
-        var msg = 'P2PKH wallets are not supported with ledger';
-        $log.warn(msg);
-        return callback(msg);
-      } else {
-        root._signP2SH(txp, account, isMultisig, callback);
-      }
-    }
-
-    root._message = function(data) {
-      chrome.runtime.sendMessage(
-        LEDGER_CHROME_ID, {
-          request: data
-        },
-        function(response) {
-          root._callback(response);
+      var opts = {};
+      opts.entropySource = entropySource;
+      root.getXPubKey(hwWalletService.getAddressPath(root.description.id, isMultisig, account, 'btc'), function(data) {
+        if (!data.success) {
+          $log.error(data.message);
+          return callback(data);
         }
-      );
-    }
+        opts.extendedPublicKey = data.xpubkey;
+        opts.externalSource = root.description.id;
 
-    root._messageAfterSession = function(data) {
-      root._after_session = data;
-      root._message({
-        command: "launch"
+        // Old ledger compat
+        opts.derivationStrategy = opts.account ? 'BIP48' : 'BIP44';
+        return callback(null, opts);
       });
-      root._should_poll_session = true;
-      root._do_poll_session();
-    }
+    });
+  };
 
-    root._do_poll_session = function() {
-      root.hasSession();
-      if (root._should_poll_session) {
-        setTimeout(root._do_poll_session, 500);
+  root._signP2SH = function(txp, account, isMultisig, callback) {
+    root.callbacks["sign_p2sh"] = callback;
+    var redeemScripts = [];
+    var paths = [];
+    var network = networkService.getNetworkByName(txp.networkName);
+    var tx = networkService.walletClient({currency: network.currency}).buildTx(txp);
+
+    for (var i = 0; i < tx.inputs.length; i++) {
+      redeemScripts.push(new ByteString(tx.inputs[i].redeemScript.toBuffer().toString('hex'), GP.HEX).toString());
+      paths.push(hwWalletService.getAddressPath(root.description.id, isMultisig, account, txp.network) + txp.inputs[i].path.substring(1));
+    }
+    var splitTransaction = root._splitTransaction(new ByteString(tx.toString(), GP.HEX));
+    var inputs = [];
+    for (var i = 0; i < splitTransaction.inputs.length; i++) {
+      var input = splitTransaction.inputs[i];
+      inputs.push([
+        root._reverseBytestring(input.prevout.bytes(0, 32)).toString(),
+        root._reverseBytestring(input.prevout.bytes(32)).toString()
+      ]);
+    }
+    $log.debug('Ledger signing  paths:', paths);
+    root._messageAfterSession({
+      command: "sign_p2sh",
+      inputs: inputs,
+      scripts: redeemScripts,
+      outputs_number: splitTransaction.outputs.length,
+      outputs_script: splitTransaction.outputScript.toString(),
+      paths: paths
+    });
+  };
+
+  root.signTx = function(txp, account, callback) {
+    var isMultisig = true;
+    if (txp.addressType == 'P2PKH') {
+      var msg = 'P2PKH wallets are not supported with ledger';
+      $log.warn(msg);
+      return callback(msg);
+    } else {
+      root._signP2SH(txp, account, isMultisig, callback);
+    }
+  }
+
+  root._message = function(data) {
+    chrome.runtime.sendMessage(
+      LEDGER_CHROME_ID, {
+        request: data
+      },
+      function(response) {
+        root._callback(response);
       }
-    }
+    );
+  }
 
-    root._callback = function(data) {
-      if (typeof data == "object") {
-        if (data.command == "has_session" && data.success) {
-          root._message(root._after_session);
-          root._after_session = null;
-          root._should_poll_session = false;
-        } else if (typeof root.callbacks[data.command] == "function") {
-          root.callbacks[data.command](data);
-        } else {}
-      } else {
+  root._messageAfterSession = function(data) {
+    root._after_session = data;
+    root._message({
+      command: "launch"
+    });
+    root._should_poll_session = true;
+    root._do_poll_session();
+  }
+
+  root._do_poll_session = function() {
+    root.hasSession();
+    if (root._should_poll_session) {
+      setTimeout(root._do_poll_session, 500);
+    }
+  }
+
+  root._callback = function(data) {
+    if (typeof data == "object") {
+      if (data.command == "has_session" && data.success) {
+        root._message(root._after_session);
+        root._after_session = null;
         root._should_poll_session = false;
-        Object.keys(root.callbacks).forEach(function(key) {
-          root.callbacks[key]({
-            success: false,
-            message: gettext("The Ledger Chrome application is not installed"),
-          });
+      } else if (typeof root.callbacks[data.command] == "function") {
+        root.callbacks[data.command](data);
+      } else {}
+    } else {
+      root._should_poll_session = false;
+      Object.keys(root.callbacks).forEach(function(key) {
+        root.callbacks[key]({
+          success: false,
+          message: gettext("The Ledger Chrome application is not installed"),
         });
-      }
+      });
     }
+  }
 
-    root._splitTransaction = function(transaction) {
-      var result = {};
-      var inputs = [];
-      var outputs = [];
-      var offset = 0;
-      var version = transaction.bytes(offset, 4);
-      offset += 4;
-      var varint = root._getVarint(transaction, offset);
-      var numberInputs = varint[0];
-      offset += varint[1];
-      for (var i = 0; i < numberInputs; i++) {
-        var input = {};
-        input['prevout'] = transaction.bytes(offset, 36);
-        offset += 36;
-        varint = root._getVarint(transaction, offset);
-        offset += varint[1];
-        input['script'] = transaction.bytes(offset, varint[0]);
-        offset += varint[0];
-        input['sequence'] = transaction.bytes(offset, 4);
-        offset += 4;
-        inputs.push(input);
-      }
+  root._splitTransaction = function(transaction) {
+    var result = {};
+    var inputs = [];
+    var outputs = [];
+    var offset = 0;
+    var version = transaction.bytes(offset, 4);
+    offset += 4;
+    var varint = root._getVarint(transaction, offset);
+    var numberInputs = varint[0];
+    offset += varint[1];
+    for (var i = 0; i < numberInputs; i++) {
+      var input = {};
+      input['prevout'] = transaction.bytes(offset, 36);
+      offset += 36;
       varint = root._getVarint(transaction, offset);
-      var numberOutputs = varint[0];
       offset += varint[1];
-      var outputStartOffset = offset;
-      for (var i = 0; i < numberOutputs; i++) {
-        var output = {};
-        output['amount'] = transaction.bytes(offset, 8);
-        offset += 8;
-        varint = root._getVarint(transaction, offset);
-        offset += varint[1];
-        output['script'] = transaction.bytes(offset, varint[0]);
-        offset += varint[0];
-        outputs.push(output);
-      }
-      var locktime = transaction.bytes(offset, 4);
-      result['version'] = version;
-      result['inputs'] = inputs;
-      result['outputs'] = outputs;
-      result['locktime'] = locktime;
-      result['outputScript'] = transaction.bytes(outputStartOffset, offset - outputStartOffset);
-      return result;
+      input['script'] = transaction.bytes(offset, varint[0]);
+      offset += varint[0];
+      input['sequence'] = transaction.bytes(offset, 4);
+      offset += 4;
+      inputs.push(input);
     }
-
-    root._getVarint = function(data, offset) {
-      if (data.byteAt(offset) < 0xfd) {
-        return [data.byteAt(offset), 1];
-      }
-      if (data.byteAt(offset) == 0xfd) {
-        return [((data.byteAt(offset + 2) << 8) + data.byteAt(offset + 1)), 3];
-      }
-      if (data.byteAt(offset) == 0xfe) {
-        return [((data.byteAt(offset + 4) << 24) + (data.byteAt(offset + 3) << 16) +
-          (data.byteAt(offset + 2) << 8) + data.byteAt(offset + 1)), 5];
-      }
+    varint = root._getVarint(transaction, offset);
+    var numberOutputs = varint[0];
+    offset += varint[1];
+    var outputStartOffset = offset;
+    for (var i = 0; i < numberOutputs; i++) {
+      var output = {};
+      output['amount'] = transaction.bytes(offset, 8);
+      offset += 8;
+      varint = root._getVarint(transaction, offset);
+      offset += varint[1];
+      output['script'] = transaction.bytes(offset, varint[0]);
+      offset += varint[0];
+      outputs.push(output);
     }
+    var locktime = transaction.bytes(offset, 4);
+    result['version'] = version;
+    result['inputs'] = inputs;
+    result['outputs'] = outputs;
+    result['locktime'] = locktime;
+    result['outputScript'] = transaction.bytes(outputStartOffset, offset - outputStartOffset);
+    return result;
+  }
 
-    root._reverseBytestring = function(x) {
-      var res = "";
-      for (var i = x.length - 1; i >= 0; i--) {
-        res += Convert.toHexByte(x.byteAt(i));
-      }
-      return new ByteString(res, GP.HEX);
+  root._getVarint = function(data, offset) {
+    if (data.byteAt(offset) < 0xfd) {
+      return [data.byteAt(offset), 1];
     }
+    if (data.byteAt(offset) == 0xfd) {
+      return [((data.byteAt(offset + 2) << 8) + data.byteAt(offset + 1)), 3];
+    }
+    if (data.byteAt(offset) == 0xfe) {
+      return [((data.byteAt(offset + 4) << 24) + (data.byteAt(offset + 3) << 16) +
+        (data.byteAt(offset + 2) << 8) + data.byteAt(offset + 1)), 5];
+    }
+  }
 
-    return root;
-  });
+  root._reverseBytestring = function(x) {
+    var res = "";
+    for (var i = x.length - 1; i >= 0; i--) {
+      res += Convert.toHexByte(x.byteAt(i));
+    }
+    return new ByteString(res, GP.HEX);
+  }
+
+  return root;
+});
 
 var Convert = {};
 

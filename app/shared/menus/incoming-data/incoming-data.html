@@ -45,18 +45,18 @@
       <ion-list>
         <ion-item class="item-icon-left">
           <i class="icon sm-icon left-icon">
-            <img ng-src="img/currency-icons/icon-{{currency}}.svg">
+            <img ng-src="img/currency-icons/icon-{{networkName}}.svg">
           </i>
           <div class="cryptoAddress ellipsis">{{data}}</div>
         </ion-item>
-        <ion-item class="has-click item-icon-left item-icon-right" ng-click="addToAddressBook(networkURI, data)">
+        <ion-item class="has-click item-icon-left item-icon-right" ng-click="addToAddressBook(networkName, data)">
           <i class="icon sm-icon left-icon">
             <img src="img/icon-contacts.svg">
           </i>
           <div translate>Add as a contact</div>
           <i class="icon arrow-right"></i>
         </ion-item>
-        <ion-item class="has-click item-icon-left item-icon-right" ng-click="sendPaymentToAddress(networkURI, data)">
+        <ion-item class="has-click item-icon-left item-icon-right" ng-click="sendPaymentToAddress(networkName, data)">
           <i class="icon sm-icon left-icon">
             <img src="img/icon-send.svg">
           </i>

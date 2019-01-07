@@ -130,18 +130,20 @@ angular.module('owsWalletApp.controllers').controller('BackupCtrl',
 
       $timeout(function() {
         if ($scope.mnemonicHasPassphrase) {
-          var opts = {
-            walletServiceUrl: defaults.currencyNetworks[$scope.wallet.networkURI].walletService.url
-          };
+          var network = networkService.getNetworkByName($scope.wallet.networkName);
 
-          var walletClient = networkService.walletClientFor($scope.wallet.networkURI).getClient(null, opts);
+          var walletClient = networkService.walletClient({
+            currency: network.currency,
+            walletServiceUrl: $scope.wallet.walletService.url
+          });
+
           var separator = $scope.useIdeograms ? '\u3000' : ' ';
           var customSentence = customWordList.join(separator);
           var passphrase = $scope.data.passphrase || '';
 
           try {
             walletClient.seedFromMnemonic(customSentence, {
-              network: $scope.wallet.network,
+              networkName: $scope.wallet.networkName,
               passphrase: passphrase,
               account: $scope.wallet.credentials.account
             });

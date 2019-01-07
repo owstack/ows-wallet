@@ -1,5 +1,5 @@
 'use strict';
-angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($rootScope, $log, $state, $ionicHistory, platformInfoService, lodash, appConfig, profileService, configService, networkService) {
+angular.module('owsWalletApp.services').factory('pushNotificationsService', function pushNotificationsService($rootScope, $log, $state, $ionicHistory, platformInfoService, lodash, appConfig, profileService, configService, networkService, cryptoService) {
   var root = {};
   var isIOS = platformInfoService.isIOS;
   var isAndroid = platformInfoService.isAndroid;
@@ -98,8 +98,7 @@ angular.module('owsWalletApp.services').factory('pushNotificationsService', func
   var _openWallet = function(walletIdHashed) {
     var wallets = profileService.getWallets();
     var wallet = lodash.find(wallets, function(w) {
-      var sjcl = networkService.walletClientFor(w.networkURI).getSJCL();
-      return (lodash.isEqual(walletIdHashed, sjcl.codec.hex.fromBits(sjcl.hash.sha256.hash(w.id))));
+      return (lodash.isEqual(walletIdHashed, cryptoService.hexFromBits(cryptoService.sha256Hash(w.id))));
     });
 
     if (!wallet) {

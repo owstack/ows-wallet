@@ -33,7 +33,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
       return newUri;
     };
 
-    function goSend(networkURI, address, amount, message) {
+    function goSend(networkName, address, amount, message) {
       scannerService.pausePreview();
 
       $state.go($rootScope.sref('send'), {}, {
@@ -48,14 +48,14 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
             toAmount: amount,
             toAddress: address,
             description: message,
-            networkURI: networkURI
+            networkName: networkName
           });
 
         } else {
 
           $state.transitionTo($rootScope.sref('send.amount'), {
             toAddress: address,
-            networkURI: networkURI
+            networkName: networkName
           });
         }
       });
@@ -68,7 +68,7 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
         toAmount: payProDetails.amount,
         toAddress: payProDetails.toAddress,
         description: payProDetails.memo,
-        networkURI: payProDetails.networkURI,
+        networkName: payProDetails.networkName,
         paypro: payProDetails
       };
 
@@ -198,17 +198,17 @@ angular.module('owsWalletApp.services').factory('incomingDataService', function(
           // Otherwise, redirect to the send view.
           if (!result.isPaymentRequest && $state.includes($rootScope.sref('scan'))) {
             // Show menu of options for handling the currency address.
-            var network = networkService.getNetworkByURI(result.networkURI);
+            var network = networkService.getNetworkByName(result.networkName);
             root.showMenu({
-              networkURI: result.networkURI,
+              networkName: result.networkName,
               currency: network.currency,
-              currencyLabel: network.getFriendlyNetLabel(),
+              currencyLabel: network.shortLabel,
               data: data,
               type: 'cryptoAddress'
             });
 
           } else {
-            goSend(result.networkURI, result.address, result.amount, result.message);
+            goSend(result.networkName, result.address, result.amount, result.message);
           }
         }
 

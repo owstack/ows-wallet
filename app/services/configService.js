@@ -24,7 +24,8 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
     walletPreferences: {
     },
 
-    currencyNetworks: networkService.defaultConfig(),
+    networkPreferences: networkService.defaultPreferences(),
+    //
 
     lock: {
       method: null,
@@ -112,11 +113,11 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
         configCache = JSON.parse(localConfig);
 
         // To avoid migration problems...
-        if (!configCache.currencyNetworks) {
-          configCache.currencyNetworks = defaultConfig.currencyNetworks;
+        if (!configCache.networkPreferences) {
+          configCache.networkPreferences = defaultConfig.networkPreferences;
         } else {
-          // Ensures new networks are added
-          lodash.merge(configCache.currencyNetworks, defaultConfig.currencyNetworks);
+          // Ensures new network preferences are added
+          lodash.merge(configCache.networkPreferences, defaultConfig.networkPreferences);
         }
 
         if (!configCache.wallet) {
@@ -196,7 +197,6 @@ angular.module('owsWalletApp.services').factory('configService', function(storag
   root.getDefaults = function() {
     return lodash.clone(defaultConfig);
   };
-
 
   return root;
 });

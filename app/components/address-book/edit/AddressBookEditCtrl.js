@@ -40,7 +40,7 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEditCtrl', fun
           {
             address: data.stateParams.address || '',
             label: '',
-            networkURI: data.stateParams.networkURI || ''
+            networkName: data.stateParams.networkName || ''
           }]
         };
       }
@@ -51,19 +51,19 @@ angular.module('owsWalletApp.controllers').controller('AddressBookEditCtrl', fun
 
   $scope.addressChanged = function(addressEntry) {
     networkService.isValidAddress(addressEntry.address, function(result) {
-      addressEntry.networkURI = result.networkURI;
+      addressEntry.networkName = result.networkName;
     });
   };
 
-  $scope.currencyFor = function(networkURI) {
-    return networkService.parseCurrency(networkURI);
+  $scope.currencyFor = function(networkName) {
+    return networkService.getNetworkByName(networkName).currency;
   };
 
   $scope.addAddress = function() {
     var newAddress = {
       address: '',
       label: '',
-      networkURI: ''
+      networkName: ''
     };
     $scope.addressbookEntry.addresses.push(newAddress);
   };

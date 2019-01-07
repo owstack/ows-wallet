@@ -1,10 +1,8 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($rootScope, $scope, $filter, $timeout, $ionicHistory, gettextCatalog, platformInfoService, lodash, configService, rateService, $stateParams, $window, $state, $log, txFormatService, ongoingProcessService, popupService, profileService, nodeWebkitService, networkService, walletService, $ionicModal) {
-  var atomicUnitToUnit;
-  var atomicUnitDecimals;
-  var unitToAtomicUnit;
-  var unitDecimals;
+  var network;
+
   var SMALL_FONT_SIZE_LIMIT = 10;
   var LENGTH_EXPRESSION_LIMIT = 19;
   var isNW = platformInfoService.isNW;
@@ -14,6 +12,8 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
   });
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
+    var config = configService.getSync();
+
     $scope.isCordova = platformInfoService.isCordova;
     $scope.nextStep = data.stateParams.nextStep;
     $scope.nextStepTitle = data.stateParams.nextStepTitle || null;
@@ -23,7 +23,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     $scope.allowOptionsMenu = $ionicHistory.backView() && $ionicHistory.backView().stateName == $rootScope.sref('send');
     $scope.recipientType = data.stateParams.recipientType || null;
     $scope.walletId = data.stateParams.walletId;
-    $scope.networkURI = data.stateParams.networkURI || configService.getSync().currencyNetworks.default;
+    $scope.networkName = data.stateParams.networkName || config.networkPreferences.defaultNetworkName;
     $scope.toAddress = data.stateParams.toAddress;
     $scope.toName = data.stateParams.toName || gettextCatalog.getString('Digital currency address');
     $scope.toEmail = data.stateParams.toEmail;
@@ -31,6 +31,8 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     $scope.toColor = data.stateParams.toColor;
     $scope.showOptionsMenu = false;
     $scope.useAdvancedKeypad = configService.getSync().advancedKeypad.enabled;
+
+    network = networkService.getNetworkByName($scope.networkName);
 
     if (!$scope.nextStep && !data.stateParams.toAddress) {
       $log.error('Bad params at amount')
@@ -62,24 +64,23 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
       });
     });
 
-    var configNetwork = configService.getSync().currencyNetworks[$scope.networkURI];
-    $scope.unitName = configNetwork.unitName;
-    unitToAtomicUnit = configNetwork.unitToAtomicUnit;
-    unitDecimals = configNetwork.unitDecimals;
-    atomicUnitToUnit = 1 / unitToAtomicUnit;
-    atomicUnitDecimals = networkService.getAtomicUnit($scope.networkURI);
+    var unitName = lodash.find(network.Unit().units, function(u) {
+      return u.code == config.networkPreferences[$scope.networkName].unitCode;
+    }).shortName;
+
+    $scope.unitName = unitName;
 
     if (data.stateParams.currency) {
       $scope.alternativeIsoCode = data.stateParams.currency;
     } else {
-      $scope.alternativeIsoCode = configNetwork.alternativeIsoCode;
+      $scope.alternativeIsoCode = config.networkPreferences[$scope.networkName].alternativeIsoCode;
     }
     $scope.specificAmount = $scope.specificAlternativeAmount = '';
     $scope.resetAmount();
 
-    // in atomicUnit ALWAYS
+    // toAmount is always specified in atomic units.
     if ($stateParams.toAmount) {
-      $scope.amount = (($stateParams.toAmount) * atomicUnitToUnit).toFixed(unitDecimals);
+      $scope.amount = network.Unit($stateParams.toAmount, 'atomic').toStandardUnit();
     }
 
     processAmount();
@@ -193,7 +194,8 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     if (lodash.isNumber(result)) {
       $scope.globalResult = isExpression($scope.amount) ? '= ' + processResult(result) : '';
       $scope.amountResult = $filter('formatFiatAmount')(toFiat(result));
-      $scope.alternativeResult = txFormatService.formatAmount($scope.networkURI, fromFiat(result) * unitToAtomicUnit, true);
+      var amount = network.Unit(fromFiat(result), 'standard').toAtomicUnit();
+      $scope.alternativeResult = txFormatService.formatAmount($scope.networkName, amount, {fullPrecision: true});
     }
   };
 
@@ -201,16 +203,19 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     if ($scope.enterAlternativeAmount) {
       return $filter('formatFiatAmount')(val);
     } else {
-      return txFormatService.formatAmount($scope.networkURI, val.toFixed(unitDecimals) * unitToAtomicUnit, true);
+      val = network.Unit(val, 'standard').toAtomicUnit();
+      return txFormatService.formatAmount($scope.networkName, val, {fullPrecision: true});
     }
   };
 
   function fromFiat(val) {
-    return parseFloat((rateService.fromFiat($scope.networkURI, val, $scope.alternativeIsoCode) * atomicUnitToUnit).toFixed(unitDecimals));
+    var atomicVal = rateService.fromFiat($scope.networkName, val, $scope.alternativeIsoCode);
+    return network.Unit(atomicVal, 'atomic').toStandardUnit();
   };
 
   function toFiat(val) {
-    return parseFloat((rateService.toFiat($scope.networkURI, val * unitToAtomicUnit, $scope.alternativeIsoCode)).toFixed(2));
+    var atomicVal = network.Unit(val, 'standard').toAtomicUnit();
+    return parseFloat(rateService.toFiat($scope.networkName, atomicVal, $scope.alternativeIsoCode));
   };
 
   function evaluate(val) {
@@ -245,7 +250,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
       // Check all wallets.
       wallets = profileService.getWallets({
         onlyComplete: true,
-        networkURI: $scope.networkURI
+        networkName: $scope.networkName
       });
     }
 
@@ -254,7 +259,7 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
     }
 
     // Convert to atomic units.
-    minAmount = (minAmount * unitToAtomicUnit).toFixed(atomicUnitDecimals);
+    minAmount = network.Unit(minAmount, 'standard').toAtomicUnit();
 
     if ($scope.useSendMax) {
       // Detect zero balance when using send max (since actual amounts are not fetched to this point).
@@ -341,9 +346,9 @@ angular.module('owsWalletApp.controllers').controller('AmountCtrl', function($ro
 
           $state.transitionTo($rootScope.sref('send.confirm'), {
             walletId: $scope.walletId,
-            networkURI: $scope.networkURI,
+            networkName: $scope.networkName,
             recipientType: $scope.recipientType,
-            toAmount: $scope.useSendMax ? null : (amount * unitToAtomicUnit).toFixed(atomicUnitDecimals),
+            toAmount: $scope.useSendMax ? null : network.Unit(amount, 'standard').toAtomicUnit(),
             toAddress: $scope.toAddress,
             toName: $scope.toName,
             toEmail: $scope.toEmail,

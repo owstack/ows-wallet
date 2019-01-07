@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.directives')
-.directive('showIfNavTabPay', function($rootScope) {
+angular.module('owsWalletApp.directives').directive('showIfNavTabPay', function($rootScope) {
   return {
     restrict: 'A',
     priority: -1,

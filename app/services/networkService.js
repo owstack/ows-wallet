@@ -1,65 +1,77 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, gettextCatalog, /* networks >> */ bchLivenet, btcLivenet , ltcLivenet) {
+angular.module('owsWalletApp.services').factory('networkService', function($log, lodash, appConfig, networkHelpers, walletClient) {
   var root = {};
 
-  var defaultNetwork;
+  var supportedNetworks = ['LIVENET']; // Support only livenet networks.
+  root.errors = walletClient.errors;
+
+  // A collection of client instances for general purpose operations. These clients should never be
+  // associated with credentials.
+  var clients = lodash.map(Object.keys(walletClient.availableCurrencies), function(currency) {
+    return walletClient.getInstance({
+      currency: currency,
+      walletServiceUrl: appConfig.walletService.url
+    });
+  });
+
   var networks = [];
+  lodash.forEach(clients, function(c) {
+    lodash.forEach(supportedNetworks, function(n) {
+      // Attach required (by the app) general purpose client functions/objects to the network object.
+      c[n].decryptBIP38PrivateKey = c.decryptBIP38PrivateKey.bind(c);
+      c[n].getFeeLevels = c.getFeeLevels.bind(c);
+      c[n].Unit = c.Unit.bind(c);
+      c[n].utils = c.utils;
+      // Service info
+      c[n].explorer = networkHelpers.getExplorer(c[n].name);
+      c[n].feeOptions = networkHelpers.getFeeOptions(c[n].name);
+      c[n].rateService = networkHelpers.getRateService(c[n].name);
+      // Display labels
+      c[n].shortLabel = c[n].description;
+      c[n].longLabel = c[n].description + ' (' + c[n].currency + ')';
 
-  var init = function() {
-    // Add networks to the service
-    addNetwork(bchLivenet);
-    addNetwork(btcLivenet, { default: true });
-    addNetwork(ltcLivenet);
-  };
+      networks.push(c[n]);
+    });
+  });
 
-  var addNetwork = function(network, opts) {
-    opts = opts || {};
-    networks.push(network.definition);
+  var defaultNetwork = lodash.find(networks, function(n) {
+    return n.name == appConfig.defaultNetwork;
+  }) || networks[0].name;
 
-    if (opts.default) {
-      defaultNetwork = networks[networks.length-1];
-    }
-  };
+  // Default network preferences (may be overriden by user)
 
-  // Set up a default persistent user configuration of all available networks
-  root.defaultConfig = function() {
-    var currencyNetworks = {
-      default: defaultNetwork.getURI()
+  root.defaultPreferences = function() {
+    var prefs = {
+      defaultNetworkName: defaultNetwork.name
     };
 
     for (var i = 0; i < networks.length; i++) {
-      currencyNetworks[networks[i].getURI()] = {
-        walletService:      networks[i].walletService.production,
-        unitName:           networks[i].units[0].shortName,
-        unitToAtomicUnit:   networks[i].units[0].value,
-        unitDecimals:       networks[i].units[0].decimals,
-        unitCode:           networks[i].units[0].code,
-        atomicUnitCode:     root.getAtomicUnit(networks[i].getURI()).code,
-        feeLevel:           networks[i].feePolicy.default,
-        alternativeName:    'US Dollar', // Default to using USD for alternative currency
+      prefs[networks[i].name] = {
+        walletService: appConfig.walletService,
+        unitCode: networks[i].Unit().standardsCode(),
+        feeLevel: networks[i].feeOptions.default,
+
+        // Default to USD for alternative currency
+        alternativeName: 'US Dollar',
         alternativeIsoCode: 'USD'
       };
     }
-    return currencyNetworks;
+    return prefs;
   };
 
-  // Wallet Client accessor
+  // Wallet credentials class
 
-  root.walletClientFor = function(networkOrURI) {
-    // Accepts network object or a network URI
-    var network = networkOrURI;
-    if (lodash.isString(networkOrURI)) {
-      network = root.getNetworkByURI(networkOrURI);
-    }
-    return network.walletClient.service;
+  root.Credentials = walletClient.Credentials;
+
+  // Wallet client constructor
+
+  root.walletClient = function(opts) {
+    opts.walletServiceUrl = opts.walletServiceUrl || appConfig.walletService.url;
+    return walletClient.getInstance(opts);
   };
 
   // Network queries
-
-  root.getNetworks = function() {
-    return lodash.sortBy(networks, 'name');
-  };
 
   root.getNetworks = function() {
     return lodash.sortBy(networks, 'name');
@@ -71,59 +83,27 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
     });
   };
 
-  root.getNetworkForCurrencyNet = function(currency, net) {
+  root.getNetworkByName = function(networkName) {
     return lodash.find(networks, function(n) {
-      return (n.currency == currency) && (n.net == net);
-    });
-  };
-
-  root.getNetworkForProtocol = function(protocol) {
-    return lodash.find(root.getNetworks(), function(n) {
-      return n.protocol == protocol;
-    });
-  };
-
-  root.getNetworkByURI = function(networkURI) {
-    return lodash.find(networks, function(n) {
-      return n.getURI() == networkURI;
+      return n.name == networkName;
     });
   };
 
   // @param addrNetwork - an address network object
-  root.getURIForAddrNetwork = function(addrNetwork) {
-    return (addrNetwork.name + '/' + addrNetwork.chainSymbol).toLowerCase();
-  };
-
-  root.getAtomicUnit = function(networkURI) {
-    var n = root.getNetworkByURI(networkURI);
-    var unit = lodash.find(n.units, function(u) {
-      return u.kind == 'atomic';
+  root.getNameForAddrNetwork = function(addrNetwork) {
+    return lodash.find(networks, function(network) {
+      return network.name == addrNetwork.name;
     });
-    if (!unit) {
-      $log.error('No atomic currency unit defined for network \`' + networkURI + '\`');
-    }    
-    return unit;
   };
 
-  root.getStandardUnit = function(networkURI) {
-    var n = root.getNetworkByURI(networkURI);
-    var unit = lodash.find(n.units, function(u) {
-      return u.kind == 'standard';
-    });
-    if (!unit) {
-      $log.error('No standard currency unit defined for network \`' + networkURI + '\`');
-    }    
-    return unit;
-  };
-
-  root.getASUnitRatio = function(networkURI) {
-    var aUnit = root.getAtomicUnit(networkURI);
-    var sUnit = root.getStandardUnit(networkURI);
-    return aUnit.value / sUnit.value;
-  };
-
+  /**
+   * tryResolve()
+   *
+   * Attempt to resolve the specified payment data into its constituents.
+   * This function ensures that all supported networks are checked, see
+   * networkHelpers.tryResolve() for details.
+   **/
   root.tryResolve = function(data, cb) {
-    var networks = root.getNetworks();
     var total = networks.length;
     var count = 0;
     var _result = { match: false };
@@ -142,14 +122,19 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       }
 
       (function(i) {
-        networks[i].tryResolve(data, function(result) {
-          // If mupltiple networks match the data then return the last completed match.
+        var walletClient = root.walletClient({
+          currency: networks[i].currency,
+          walletServiceUrl: root.defaultPreferences()[networks[i].name].walletService.url
+        });
+
+        networkHelpers.tryResolve(data, networks[i], walletClient, function(result) {
+          // If multiple networks match the data then return the last completed match.
           // This can happen when scanning private keys that are valid on multiple networks.
           if (result.match) {
             _result = result;
 
           } else if (result.error) {
-            _noMatches += '[' + networks[i].getURI() + '] ' + result.error + '\n';
+            _noMatches += '[' + networks[i].name + '] ' + result.error + '\n';
           }
 
           count++;
@@ -167,7 +152,7 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
       var isValid = result.match && !result.error && (result.address.length > 0)
       return cb({
         isValid: isValid,
-        networkURI: (isValid ? result.networkURI : undefined)
+        networkName: (isValid ? result.networkName : undefined)
       });
     });
   };
@@ -176,22 +161,9 @@ angular.module('owsWalletApp.services').factory('networkService', function($log,
 
   root.forEachNetwork = function(callback) {
     lodash.forEach(root.getNetworks(), function(n) {
-      var walletClient = root.walletClientFor(n.getURI()).getLib();
-      callback(walletClient, n);
+      callback(n);
     });
   };
-
-  // Parsers
-
-  root.parseCurrency = function(networkURI) {
-    return networkURI.trim().split('/')[1];
-  };
-
-  root.parseNet = function(networkURI) {
-    return networkURI.trim().split('/')[0];
-  };
-
-  init();
 
   return root;
 });

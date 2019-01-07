@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.directives')
-.directive('hideTabs', function($rootScope, $timeout) {
+angular.module('owsWalletApp.directives').directive('hideTabs', function($rootScope, $timeout) {
   return {
     link: function(scope, elem, attrs, ctrl) {
       scope.$on("$ionicView.beforeEnter", function(event, data) {

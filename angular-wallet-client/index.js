@@ -9,18 +9,29 @@ walletClientModule.provider("walletClient", function() {
   provider.$get = function() {
     var service = {};
 
-    service.Client = Client;
+    service.availableCurrencies = Client.currencies;
+    service.Credentials = Client.Credentials;
+    service.errors = Client.errors;
+    service.keyLib = Client.keyLib;
+    service.sjcl = Client.sjcl;
 
-    service.credentialsLib = function() {
-      return Client.credentialsLib;
-    };
+    service.getInstance = function(opts) {
+      opts = opts || {};
 
-    service.keyLib = function() {
-      return Client.keyLib;
-    };
+      if (!opts.currency || !opts.walletServiceUrl) {
+        throw new Error('walletClient: you must specify a currency and walletServiceUrl');
+      }
 
-    service.getErrors = function() {
-      return Client.errors;
+      var instance = new Client.currencies[opts.currency].API({
+        baseUrl: opts.walletServiceUrl,
+        timeout: 100000,
+        logLevel: 'silent'
+      });
+
+      if (opts.credentials) {
+        instance.import(opts.credentials);
+      }
+      return instance;
     };
 
     return service;

@@ -44,7 +44,7 @@
         <span class="input-label" translate>To</span>
         <div class="item item-sub item-icon-left icon-left-md">
           <i class="icon md-icon left-icon">
-            <img ng-src="img/currency-icons/icon-{{wallet.currency}}.svg">
+            <img ng-src="img/currency-icons/icon-{{wallet.networkName}}.svg">
           </i>
           <span ng-if="!tx.hasMultiplesOutputs" class="ellipsis">{{tx.toAddress}}</span>
           <span ng-if="tx.hasMultiplesOutputs" translate>Multiple recipients</span>

@@ -19,7 +19,7 @@ angular.module('owsWalletApp.controllers').controller('AppSettingsCtrl', functio
       $scope.availableNetworks = networkService.getNetworks();
       $scope.pushNotificationsEnabled = config.pushNotificationsEnabled;
 
-      $scope.unitName = config.wallet.settings.unitName;
+      $scope.unitCode = config.wallet.settings.unitCode;
       $scope.selectedAlternative = {
         name: config.wallet.settings.alternativeName,
         isoCode: config.wallet.settings.alternativeIsoCode

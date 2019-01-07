@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.pluginApi').service('forwarder', function(lodash) {
+angular.module('owsWalletApp.pluginApi').service('forwarder', function() {
 
 	var root = {};
 

@@ -1,26 +1,45 @@
 'use strict';
 
-angular.module('owsWalletApp.services').factory('networkHelpers', function($log, payproService) {
+angular.module('owsWalletApp.services').factory('networkHelpers', function($log, lodash, appConfig, cryptoService, gettextCatalog, payproService) {
 	var root = {};
 
-  root.getURI = function(obj) {
-  	return obj.net + '/' + obj.currency;
+  root.getExplorer = function(networkName) {
+    return {
+      name: appConfig.blockchainExplorer[networkName].name,
+      url: appConfig.blockchainExplorer[networkName].url,
+      urlTx: appConfig.blockchainExplorer[networkName].url + '/tx'
+    };
   };
 
-  root.getCurrencyLabel = function(obj) {
-    return obj.currency.toUpperCase();
+  root.getFeeOptions = function(networkName) {
+    // Same fee options for all networks.
+    return {
+      default: 'normal',
+      choices: {
+        urgent: gettextCatalog.getString('Urgent'),
+        priority: gettextCatalog.getString('Priority'),
+        normal: gettextCatalog.getString('Normal'),
+        economy: gettextCatalog.getString('Economy'),
+        superEconomy: gettextCatalog.getString('Super Economy'),
+        custom: gettextCatalog.getString('Custom')
+      },
+      explainer: {
+        heading: gettextCatalog.getString('All transactions include a fee collected by miners on the network.'),
+        description: gettextCatalog.getString('The higher the fee, the greater the incentive a miner has to include the transaction in a block. Current fees are determined based on network load and the selected policy.'),
+        units: gettextCatalog.getString('Fees are expressed in units \'cost per byte\' (of the transaction message size) and estimate the number of blocks (converted to time) it may take to get the transaction included in a block.')
+      }
+    };
   };
 
-  root.getCurrencyLongLabel = function(obj) {
-    return obj.name + ' (' + root.getCurrencyLabel(obj) + ')';
-  };
-
-  root.getNetLabel = function(obj) {
-  	return obj.name + ' (' + obj.net + ')';
-  };
-
-  root.getFriendlyNetLabel = function(obj) {
-  	return obj.name;
+  root.getRateService = function(networkName) {
+    return {
+      label: appConfig.rateService[networkName].label,
+      url: appConfig.rateService[networkName].url,
+      resultSet: '',
+      getCode: function(key, val) { return lodash.get(val, 'code') },
+      getName: function(key, val) { return lodash.get(val, 'name') },
+      getRate: function(key, val) { return lodash.get(val, 'rate') }
+    };
   };
 
   /**
@@ -29,12 +48,13 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
    * Attempt to resolve the specified payment data into its constituents.
    * @param data (String) - a string representing a payment of any form (paypro, url, address...)
    * @param network (Object) - the network to test against.
+   * @param walletClient (Object) - the walletClient matching the network.
    * @param cb (Function) - Callback of with a single param (result).
    *
    * var result = {
    *   match: <boolean>
    *   error: <String or undefined>
-   *   networkURI: <String or undefined>
+   *   networkName: <String or undefined>
    *   address: <String or undefined>
    *   amount: <Number or undefined>
    *   message: <String or undefined>
@@ -45,23 +65,23 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
    * where,
    *
    * match - whether or not the data is for this network.
-   * networkURI - the matching networks URI.
+   * networkName - the matching network name.
    * currency - the network currency code.
    * error - a description of any error that occurred after a match was made.
    * address - the currency pay-to address.
    * amount - the amount to send.
    * message - the payment description or memo.
    * paypro - a payment protocol object.
-   * privateKey - a private key on networkURI.
+   * privateKey - a private key on networkName.
    *
    * If the data resolved to a paypro object then other fields will be set according to the paypro result.
    */
-  root.tryResolve = function(data, network, cb) {
+  root.tryResolve = function(data, network, walletClient, cb) {
     var result = {
       match: false,
       error: undefined,
-      networkURI: network.getURI(),
-      currency: network.getCurrencyLabel(),
+      networkName: network.name,
+      currency: network.currency,
       address: undefined,
       amount: undefined,
       message: undefined,
@@ -69,8 +89,6 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
       paypro: undefined,
       privateKey: undefined
     };
-
-    var lib = network.walletClient.service.getLib();
 
     // BIP72 - Payment Protocol with non-backwards-compatible request.
     var re = new RegExp('^' + network.protocol + '?:\\?r=[\\w+]', 'g');
@@ -85,12 +103,12 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
       return parsePayPro(data, result, cb);
 
     // BIP21 - Backwards compatible URL, may have payment protocol parameter.
-    } else if (lib.URI.isValid(data)) {
+    } else if (walletClient.URI.isValid(data)) {
       result.match = true;
 
       data = sanitizeUri(data);
 
-      var parsed = lib.URI(data);
+      var parsed = new walletClient.URI(data);
       result.isPaymentRequest = data.startsWith(network.protocol + ':');
       result.address = parsed.address ? parsed.address.toString() : '';
       result.amount = parsed.amount ? parsed.amount : '';
@@ -106,11 +124,10 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
             result.error = undefined;
 
             // Validate the address.
-            if (lib.Address.isValid(result.address, network.net)) {
-              addrNetwork = lib.Address(result.address).network;
+            if (walletClient.Address.isValid(result.address, network.alias)) {
+              var addrNetwork = new walletClient.Address(result.address).network;
 
-              var networkURI = getURIForAddrNetwork(addrNetwork);
-              if (networkURI != network.getURI()) {
+              if (addrNetwork.name != network.name) {
                 result.error = 'network URI mismatch';
               }
 
@@ -125,11 +142,10 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
       } else {
 
         // Validate the address.
-        if (lib.Address.isValid(result.address, network.net)) {
-          addrNetwork = lib.Address(result.address).network;
+        if (walletClient.Address.isValid(result.address, network.alias)) {
+          var addrNetwork = new walletClient.Address(result.address).network;
 
-          var networkURI = getURIForAddrNetwork(addrNetwork);
-          if (networkURI != network.getURI()) {
+          if (addrNetwork.name != network.name) {
             result.error = 'network URI mismatch';
           }
 
@@ -148,19 +164,18 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
         // If processed successfully without error then paypro endpoint returned a valid payment instruction.
         if (!result.error) {
           result.match = true;
-          result.networkURI = network.getURI();
+          result.networkName = network.name;
         }
         return cb(result);
       });
 
     // Plain address.
-    } else if (lib.Address.isValid(data, network.net)) {
+    } else if (walletClient.Address.isValid(data, network.alias)) {
       result.match = true;
       result.address = data;
 
-      var addrNetwork = lib.Address(data).network;
-      var networkURI = getURIForAddrNetwork(addrNetwork);
-      if (networkURI != network.getURI()) {
+      var addrNetwork = new walletClient.Address(data).network;
+      if (addrNetwork.name != network.name) {
         result.error = 'network URI mismatch';
       }
 
@@ -195,30 +210,23 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
       return newUri;
     };
 
-    // @param addrNetwork - an address network object
-    function getURIForAddrNetwork(addrNetwork) {
-      return (addrNetwork.name + '/' + addrNetwork.chainSymbol).toLowerCase();
-    };
-
     // Parse a URL that is expected to be a payment protocol endpoint.
     function parsePayPro(data, result, cb) {
-      payproService.getPayProDetails(data, network, function(err, details) {
+      payproService.getPayProDetails(data, network, walletClient, function(err, details) {
         if (err) {
           $log.error('Paypro error: ('+ data + ')' + err);
           result.error = 'Could not resolve payment information.';
         }
 
         if (details) {
-          var addrNetwork;
+          if (walletClient.Address.isValid(details.toAddress, network.alias)) {
+            var addrNetwork = new walletClient.Address(details.toAddress).network;
 
-          if (lib.Address.isValid(details.toAddress, network.net)) {
-            addrNetwork = lib.Address(details.toAddress).network;
-
-            details.networkURI = getURIForAddrNetwork(addrNetwork);
-            if (details.networkURI != network.getURI()) {
+            if (addrNetwork.name != network.name) {
               result.error = 'Network URI mismatch';
             }
 
+            details.networkName = addrNetwork.name;
           } else {
             result.match = false;
           }
@@ -238,7 +246,7 @@ angular.module('owsWalletApp.services').factory('networkHelpers', function($log,
 
     function checkPrivateKey(privateKey) {
       try {
-          lib.PrivateKey(privateKey, network.net);
+          cryptoService.PrivateKey(privateKey, network.name);
       } catch (err) {
         return false;
       }

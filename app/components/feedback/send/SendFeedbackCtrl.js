@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', function($rootScope, $scope, $state, $log, $timeout, $stateParams, $ionicNavBarDelegate, $ionicHistory, $ionicConfig, $window, gettextCatalog, popupService, configService, lodash, feedbackService, ongoingProcessService, platformInfoService, appConfig) {
+angular.module('owsWalletApp.controllers').controller('SendFeedbackCtrl', function($rootScope, $scope, $state, $log, $timeout, $stateParams, $ionicNavBarDelegate, $ionicHistory, $ionicConfig, $window, gettextCatalog, popupService, configService, feedbackService, ongoingProcessService, platformInfoService, appConfig) {
 
   $scope.sendFeedback = function(feedback, goHome) {
 

@@ -77,7 +77,7 @@ angular.module('owsWalletApp.services').factory('tabClassicRoutes', function() {
       'preferences.external':           { stateName: 'tabsClassic.preferences.external',           viewNames: ['tab-settings@tabsClassic'] },
       'preferences.history':            { stateName: 'tabsClassic.preferences.history',            viewNames: ['tab-settings@tabsClassic'] },
       'preferences.information':        { stateName: 'tabsClassic.preferences.information',        viewNames: ['tab-settings@tabsClassic'] },
-      'preferences.wallet-service-url': { stateName: 'tabsClassic.preferences.wallet-service-url', viewNames: ['tab-settings@tabsClassic'] },
+      'preferences.wallet-service':     { stateName: 'tabsClassic.preferences.wallet-service',     viewNames: ['tab-settings@tabsClassic'] },
       'proposals':                      { stateName: 'tabsClassic.proposals',                      viewNames: ['tab-home@tabsClassic'] },
       'rate':                           { stateName: 'tabsClassic.rate',                           viewNames: null }, // Abstract state
       'rate.complete':                  { stateName: 'tabsClassic.rate.complete',                  viewNames: ['tab-home@tabsClassic'] },

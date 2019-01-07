@@ -81,7 +81,7 @@ angular.module('owsWalletApp.services').factory('tabPayRoutes', function() {
       'preferences.external':           { stateName: 'tabsPay.preferences.external',           viewNames: ['tab-more@tabsPay'] },
       'preferences.history':            { stateName: 'tabsPay.preferences.history',            viewNames: ['tab-more@tabsPay'] },
       'preferences.information':        { stateName: 'tabsPay.preferences.information',        viewNames: ['tab-more@tabsPay'] },
-      'preferences.wallet-service-url': { stateName: 'tabsPay.preferences.wallet-service-url', viewNames: ['tab-more@tabsPay'] },
+      'preferences.wallet-service':     { stateName: 'tabsPay.preferences.wallet-service',     viewNames: ['tab-more@tabsPay'] },
       'proposals':                      { stateName: 'tabsPay.proposals',                      viewNames: ['tab-dashboard@tabsPay'] },
       'rate':                           { stateName: 'tabsPay.rate',                           viewNames: null }, // Abstract state
       'rate.complete':                  { stateName: 'tabsPay.rate.complete',                  viewNames: ['tab-dashboard@tabsPay'] },

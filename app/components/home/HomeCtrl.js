@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('owsWalletApp.controllers').controller('HomeCtrl',
-  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfig, startupService, addressBookService, feedbackService, walletClientErrorService, pushNotificationsService, timeService, networkService, uiService, appletService) {
+  function($rootScope, $timeout, $scope, $state, $stateParams, $ionicScrollDelegate, $window, gettextCatalog, lodash, popupService, ongoingProcessService, externalLinkService, latestReleaseService, profileService, walletService, configService, $log, platformInfoService, storageService, txpModalService, appConfig, startupService, addressBookService, feedbackService, errorService, pushNotificationsService, timeService, networkService, uiService, appletService) {
     var wallet;
     var listeners = [];
     var notifications = [];
@@ -292,7 +292,7 @@ angular.module('owsWalletApp.controllers').controller('HomeCtrl',
       lodash.each($scope.wallets, function(wallet) {
         walletService.getStatus(wallet, {}, function(err, status) {
           if (err) {
-            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered.') : walletClientErrorService.msg(err, {clean: true});
+            wallet.error = (err === 'WALLET_NOT_REGISTERED') ? gettextCatalog.getString('Wallet not registered.') : errorService.msg(err, {clean: true});
             $log.error(err);
           } else {
             wallet.error = null;

@@ -3,17 +3,17 @@
 angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsCtrl', function($scope, $timeout, $ionicHistory, $log, lodash, gettextCatalog, configService, feeService, ongoingProcessService, popupService, networkService, helpService) {
 
   $scope.$on("$ionicView.beforeEnter", function(event, data) {
-    $scope.networkURI = data.stateParams.networkURI;
-    if (!$scope.networkURI) {
+    $scope.networkName = data.stateParams.networkName;
+    if (!$scope.networkName) {
       return;
     }
 
-    $scope.network = networkService.getNetworkByURI($scope.networkURI);
-    $scope.feeOpts = feeService.getFeeOpts($scope.networkURI);
-    $scope.currentFeeLevel = $scope.feeLevel || feeService.getCurrentFeeLevel($scope.networkURI);
+    $scope.network = networkService.getNetworkByName($scope.networkName);
+    $scope.feeChoices = feeService.getFeeChoices($scope.networkName);
+    $scope.currentFeeLevel = $scope.feeLevel || feeService.getCurrentFeeLevel($scope.networkName);
     $scope.loadingFee = true;
     
-    feeService.getFeeLevels($scope.networkURI, function(err, levels) {
+    feeService.getFeeLevels($scope.networkName, function(err, levels) {
       $scope.loadingFee = false;
       delete $scope.feeWarning;
 
@@ -28,8 +28,8 @@ angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsC
       $scope.feeLevels = levels;
 
       lodash.forEach($scope.feeLevels, function(feeLevel) {
-        feeLevel.name = $scope.feeOpts[feeLevel.level];
-        feeLevel.atomicUnitCode = networkService.getAtomicUnit($scope.networkURI).shortName;
+        feeLevel.name = $scope.feeChoices[feeLevel.level];
+        feeLevel.atomicUnitName = networkService.getNetworkByName($scope.networkName).Unit().atomicsName();
         feeLevel.feePerAtomicUnitByte = (feeLevel.feePerKb / 1000).toFixed();
         feeLevel.avgConfirmationTime = feeLevel.nbBlocks * 10;
       });
@@ -44,10 +44,10 @@ angular.module('owsWalletApp.controllers').controller('NetworkFeePolicySettingsC
     $scope.currentFeeLevel = newFee;
 
     var opts = {
-      currencyNetworks: {}
+      networkPreferences: {}
     };
 
-    opts.currencyNetworks[$scope.networkURI] = {
+    opts.networkPreferences[$scope.networkName] = {
       feeLevel: newFee
     };
 
